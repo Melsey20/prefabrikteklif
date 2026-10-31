@@ -14,7 +14,7 @@ interface Props {
 }
 const { title, description, noindex = false, jsonLd = [], ogType = 'website', selbar = false, tip = '' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
-const fullTitle = title.includes(SITE.ad) ? title : `${title} | ${SITE.ad}`;
+const fullTitle = title.includes(SITE.ad) || title.length > 52 ? title : `${title} | ${SITE.ad}`;
 const og = new URL('/og.png', SITE.url).href;
 const org = {
   '@context': 'https://schema.org', '@type': 'Organization', name: SITE.ad, url: SITE.url,
