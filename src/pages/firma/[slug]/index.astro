@@ -1,0 +1,102 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Crumbs from '../../../components/Crumbs.astro';
+import ModelList from '../../../components/ModelList.astro';
+import { SITE } from '../../../site.config';
+import { firms, models, TIPLER, meta, kisaTl, sirala, istatistik } from '../../../lib/data';
+export function getStaticPaths() {
+  return firms.map((f) => ({ params: { slug: f.slug }, props: { f } }));
+}
+const { f } = Astro.props;
+const list = sirala(models.filter((m) => m.firma === f.slug));
+const s = istatistik(list);
+const tipler = f.tipler.map((t) => TIPLER[t]?.ad).filter(Boolean);
+const urunler = tipler.length ? tipler.join(', ') : f.urunTipleri.join(', ');
+const desc = `${f.kisaAd}${f.il ? ` (${f.il})` : ''} ${urunler.toLowerCase()} modelleri ve fiyatları${s.min ? `: ${kisaTl(s.min)}’den başlayan ${list.length} model` : ''}. Kapsamı görün, diğer firmalarla kıyaslayın, teklif alın.`;
+const ld = [{
+  '@context': 'https://schema.org', '@type': 'Organization', name: f.kisaAd, legalName: f.ad !== f.kisaAd ? f.ad : undefined,
+  url: f.web || undefined, ...(f.il ? { address: { '@type': 'PostalAddress', addressRegion: f.il, addressCountry: 'TR' } } : {}),
+}];
+---
+<Base title={`${f.kisaAd} Fiyatları ${meta.ay}: ${list.length ? `${list.length} Model` : 'Firma Profili'}`} description={desc} jsonLd={ld} selbar ogType="profile">
+  <div class="wrap">
+    <Crumbs items={[{ ad: 'Firmalar', url: '/firmalar/' }, { ad: f.kisaAd }]} />
+    <div class="cols">
+      <div>
+        <h1 style="margin-bottom:8px">{f.kisaAd}</h1>
+        <p class="muted" style="margin-bottom:10px">{[urunler, f.il].filter(Boolean).join(' · ')}</p>
+        <p><span class="badge">Listelenmiş · firma henüz doğrulanmadı</span></p>
+        {f.sertifikalar.length > 0 && (
+          <>
+            <ul class="kap" aria-label="Belgeler">{f.sertifikalar.map((c) => <li class="h">{c}</li>)}</ul>
+            <p class="small muted" style="margin-top:6px">Belgeler firmanın sitesindeki beyandır; doğrulama sırasında aslı kontrol edilir.</p>
+          </>
+        )}
+        {!f.sertifikalar.length && f.sertifikaNotu && <p class="small muted">{f.sertifikaNotu}</p>}
+      </div>
+      <aside>
+        <div class="box">
+          <a class="btn btn-o btn-block" href={`/teklif-al/?firmalar=${f.slug}${f.tipler[0] ? `&tip=${encodeURIComponent(f.tipler[0])}` : ''}`}>Bu firmadan teklif al</a>
+          {f.web && <p class="small" style="margin:12px 0 0"><a href={f.web} rel="nofollow noopener" target="_blank">Firmanın sitesi</a></p>}
+        </div>
+      </aside>
+    </div>
+
+    <section aria-labelledby="puan">
+      <h2 id="puan">Puanlar ve yorumlar</h2>
+      <div class="grid">
+        <div class="card" id="gpuan">
+          <div class="row"><strong>Google puanı</strong><span class="small muted">Google Haritalar</span></div>
+          <p style="margin:0" id="gpuan-sonuc" hidden><strong class="price" id="gpuan-deger"></strong> <span class="muted" id="gpuan-sayi"></span></p>
+          <button class="btn btn-l" type="button" id="gpuan-btn">Google puanını göster</button>
+          <a class="small" id="gpuan-link" href="#" rel="nofollow noopener" target="_blank" hidden>Google’daki yorumları aç</a>
+          <p class="small muted" id="gpuan-yok" hidden style="margin:0">Bu firma için Google puanı bulunamadı.</p>
+        </div>
+        <div class="card" id="yorumlar">
+          <strong>{SITE.ad} doğrulanmış yorumları</strong>
+          <p class="muted small" id="yorum-bos" style="margin:0">Henüz yorum yok. Yorumu sadece {SITE.ad} üzerinden teklif alıp bu firmayla sözleşme yaptığını belgeleyen müşteri yazabilir.</p>
+          <div id="yorum-liste"></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Modeller ve fiyatlar</h2>
+      {list.length ? <ModelList list={list} firmaGoster={false} /> : <p class="muted">Bu firma sitesinde fiyat yayınlamıyor. Teklif isteyerek güncel fiyat alabilirsiniz.</p>}
+    </section>
+
+    <div class="box" style="margin-top:28px">
+      <h2 style="margin-top:0">Bu firma sizin mi?</h2>
+      <p class="muted">Ücretsiz kayıt olun, fiyatlarınızı kendiniz güncelleyin ve bu sayfaya gelen teklif taleplerini alın.</p>
+      <a class="btn btn-p" href={`/firma-kayit/?firma=${f.slug}`}>Firmamı sahiplen</a>
+    </div>
+  </div>
+  <script is:inline define:vars={{ slug: f.slug }}>
+    (function () {
+      var gb = document.getElementById('gpuan-btn');
+      gb.addEventListener('click', function () {
+        gb.disabled = true; gb.textContent = 'Yükleniyor…';
+        fetch('/api/google-puan?firma=' + encodeURIComponent(slug)).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+          gb.remove();
+          if (!d || !d.rating) { document.getElementById('gpuan-yok').hidden = false; return; }
+          document.getElementById('gpuan-deger').textContent = String(d.rating).replace('.', ',') + ' / 5';
+          document.getElementById('gpuan-sayi').textContent = d.count ? '(' + d.count + ' değerlendirme)' : '';
+          document.getElementById('gpuan-sonuc').hidden = false;
+          if (d.url) { var l = document.getElementById('gpuan-link'); l.href = d.url; l.hidden = false; }
+        }).catch(function () { gb.remove(); document.getElementById('gpuan-yok').hidden = false; });
+      });
+      fetch('/api/yorumlar?firma=' + encodeURIComponent(slug)).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+        if (!d || !d.yorumlar || !d.yorumlar.length) return;
+        var box = document.getElementById('yorum-liste'); document.getElementById('yorum-bos').remove();
+        d.yorumlar.forEach(function (y) {
+          var el = document.createElement('div'); el.className = 'note';
+          var b = document.createElement('strong'); b.textContent = (y.puan ? y.puan + '/5 · ' : '') + (y.ad || 'Doğrulanmış müşteri');
+          var p = document.createElement('p'); p.textContent = y.metin;
+          el.appendChild(b); el.appendChild(p);
+          if (y.cevap) { var c = document.createElement('p'); c.className = 'small'; c.textContent = 'Firma cevabı: ' + y.cevap; el.appendChild(c); }
+          box.appendChild(el);
+        });
+      }).catch(function () {});
+    })();
+  </script>
+</Base>

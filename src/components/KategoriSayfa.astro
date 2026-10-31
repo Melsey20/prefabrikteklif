@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro';
+import Crumbs from './Crumbs.astro';
+import Stats from './Stats.astro';
+import ModelList from './ModelList.astro';
+import Faq from './Faq.astro';
+import { SITE } from '../site.config';
+import { TIPLER, meta, istatistik, odaSayfalari, m2Sayfalari, odaSlug, tl, kisaTl, modelUrl, type Model } from '../lib/data';
+import { TIP_ICERIK } from '../lib/icerik';
+
+interface Props { tip: string; list: Model[]; baslik: string; altBaslik?: string; aktif?: string; crumbs: { ad: string; url?: string }[]; aciklama?: string }
+const { tip, list, baslik, aktif = '', crumbs, aciklama } = Astro.props;
+const T = TIPLER[tip];
+const s = istatistik(list);
+const icerik = TIP_ICERIK[tip];
+const odalar = odaSayfalari(tip);
+const m2ler = m2Sayfalari(tip);
+const h1 = `${baslik} ${meta.ay}`;
+const desc = aciklama ?? `${s.firma} firmanın ${s.model} ${T.kisa} modeli${s.min ? `, ${kisaTl(s.min)}’den başlayan fiyatlarla` : ''}. KDV, nakliye ve montaj dahil mi görün, kıyaslayın, 24 saatte ücretsiz teklif alın.`;
+const priced = list.filter((m) => m.fiyatTuru === 'model' && m.fiyat);
+const ld = [{
+  '@context': 'https://schema.org', '@type': 'ItemList', name: h1, numberOfItems: list.length,
+  itemListElement: priced.slice(0, 30).map((m, i) => ({
+    '@type': 'ListItem', position: i + 1,
+    item: {
+      '@type': 'Product', name: `${m.firmaAd} ${m.ad}`, url: new URL(modelUrl(m), SITE.url).href, category: T.ad,
+      brand: { '@type': 'Brand', name: m.firmaAd },
+      offers: { '@type': 'Offer', price: m.fiyat, priceCurrency: 'TRY', availability: 'https://schema.org/InStock', url: m.kaynak,
+        ...(m.kdv ? { priceSpecification: { '@type': 'PriceSpecification', price: m.fiyat, priceCurrency: 'TRY', valueAddedTaxIncluded: m.kdv === 'dahil' } } : {}) },
+    },
+  })),
+}];
+// firma bazında en ucuz model tablosu
+const firmaEnUcuz = Object.values(priced.reduce((acc, m) => { if (!acc[m.firma] || acc[m.firma].fiyat! > m.fiyat!) acc[m.firma] = m; return acc; }, {} as Record<string, Model>)).sort((a, b) => a.fiyat! - b.fiyat!);
+---
+<Base title={`${h1}: ${s.firma} Firma, ${s.model} Model`} description={desc} jsonLd={ld} selbar tip={tip}>
+  <div class="wrap">
+    <Crumbs items={crumbs} />
+    <h1>{h1}</h1>
+    <p class="muted" style="max-width:760px">{s.firma} firmanın {s.model} modeli · fiyatlar {meta.sonKontrolYazi} tarihinde firma sitelerinden kontrol edildi.</p>
+    <Stats s={s} />
+    <nav aria-label="Filtreler" style="display:flex;flex-direction:column;gap:10px">
+      {odalar.length > 0 && (
+        <ul class="chips">
+          <li><a class={`chip ${!aktif ? 'on' : ''}`} href={`/${T.slug}/`}>Tümü</a></li>
+          {odalar.map((o) => <li><a class={`chip ${aktif === o ? 'on' : ''}`} href={`/${T.slug}/${odaSlug(o)}/`}>{o}</a></li>)}
+        </ul>
+      )}
+      {m2ler.length > 0 && (
+        <ul class="chips">
+          {m2ler.map((h) => <li><a class={`chip ${aktif === `${h}m2` ? 'on' : ''}`} href={`/${T.slug}/${h}-m2/`}>{h} m²</a></li>)}
+        </ul>
+      )}
+    </nav>
+    <ModelList list={list} />
+
+    {firmaEnUcuz.length > 2 && (
+      <section>
+        <h2>Firmalara göre en uygun {T.kisa} fiyatları</h2>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Firma</th><th>Model</th><th class="n">m²</th><th class="n">Fiyat</th></tr></thead>
+            <tbody>
+              {firmaEnUcuz.map((m) => (
+                <tr><td><a href={`/firma/${m.firma}/`}>{m.firmaAd}</a></td><td><a href={modelUrl(m)}>{m.ad}</a></td><td class="n">{m.m2 ?? ''}</td><td class="n">{tl(m.fiyat)}{m.kdv === 'haric' ? ' + KDV' : ''}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )}
+
+    <div class="cols" style="margin-top:8px">
+      <div class="prose">
+        <h2>{T.baslik} hakkında</h2>
+        <p>{icerik.giris}</p>
+        <Faq items={icerik.sss} />
+      </div>
+      <aside class="sticky-side">
+        <div class="box">
+          <h2 style="margin-top:0;font-size:1.15rem">Birden çok firmadan teklif al</h2>
+          <p class="small muted">Bir kez yaz, seçtiğin en fazla {SITE.maksFirma} firmanın teklifi 24 saat içinde tek e-postada gelsin. Ücretsiz.</p>
+          <a class="btn btn-o btn-block" href={`/teklif-al/?tip=${encodeURIComponent(tip)}`}>Teklif al</a>
+          <h3 style="margin-top:18px">Rehberler</h3>
+          <ul class="small" style="padding-left:18px;margin:0">{icerik.rehber.map((r) => <li><a href={r.url}>{r.ad}</a></li>)}</ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</Base>

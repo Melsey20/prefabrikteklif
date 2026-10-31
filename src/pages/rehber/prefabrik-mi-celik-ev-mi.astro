@@ -1,0 +1,29 @@
+---
+import Makale from '../../components/Makale.astro';
+import { meta, sayi, kisaTl } from '../../lib/data';
+const p = meta.istatistik['prefabrik'], c = meta.istatistik['celik'];
+---
+<Makale title="Prefabrik mi, Çelik Ev mi? Fiyat ve Farklar" h1="Prefabrik mi, çelik ev mi?" tarih={meta.sonKontrol}
+  description="Prefabrik ev ile hafif çelik ev arasındaki farklar: yapı sistemi, m² fiyatı, plan esnekliği ve kullanım amacı. Güncel fiyat verileriyle karşılaştırma.">
+  <p>Prefabrik ev ve çelik ev sıkça karıştırılır. İkisi de fabrikada üretilip arsada kurulur; fark taşıyıcı sistem ve duvarların nasıl yapıldığındadır.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th></th><th>Prefabrik ev</th><th>Çelik ev</th></tr></thead>
+      <tbody>
+        <tr><td>Yapı sistemi</td><td>Hazır duvar ve çatı panelleri birleştirilir</td><td>Hafif çelik (LGS) iskelet kurulur, üzerine kaplama yapılır</td></tr>
+        <tr><td>Plan esnekliği</td><td>Katalog modelleri, sınırlı değişiklik</td><td>Projeye göre serbest plan</td></tr>
+        <tr><td>Ortanca fiyat (sitemizde)</td><td>{p.medyan ? kisaTl(p.medyan) : '–'}</td><td>{c.medyan ? kisaTl(c.medyan) : '–'}</td></tr>
+        <tr><td>Ortanca m² fiyatı</td><td>{p.m2Medyan ? `${sayi(p.m2Medyan)} TL` : '–'}</td><td>{c.m2Medyan ? `${sayi(c.m2Medyan)} TL` : '–'}</td></tr>
+        <tr><td>Uygun kullanım</td><td>Bütçe odaklı, hızlı kurulum, bağ evi ve yazlık</td><td>Sürekli oturum, dubleks ve villa tipi evler</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small muted">Ortanca fiyatlar sitemizdeki {p.fiyatli} prefabrik ve {c.fiyatli} çelik ev modelinin firma sitelerindeki fiyatlarından hesaplandı ({meta.sonKontrolYazi}). Fiyatların kapsamı firmadan firmaya değişir.</p>
+  <h2>Hangisini seçmeli?</h2>
+  <ul>
+    <li>Bütçe öncelikliyse ve katalog planı size uyuyorsa prefabrik ev daha ekonomiktir.</li>
+    <li>Sürekli oturum, özel plan ya da iki katlı ev düşünüyorsanız çelik ev daha esnektir.</li>
+    <li>Her iki durumda da zemine sabit olduğu için yapı ruhsatı gerekir.</li>
+  </ul>
+  <p><a href="/prefabrik-ev-fiyatlari/">Prefabrik ev fiyatları</a> · <a href="/celik-ev-fiyatlari/">Çelik ev fiyatları</a></p>
+</Makale>

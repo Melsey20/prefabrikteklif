@@ -1,0 +1,41 @@
+---
+import { type Model, fiyatYazi, sayi, modelUrl, kalemYazi, firmBySlug } from '../lib/data';
+interface Props { m: Model; secim?: boolean; firmaGoster?: boolean }
+const { m, secim = true, firmaGoster = true } = Astro.props;
+const f = firmBySlug(m.firma);
+const kal = (['kdv', 'nakliye', 'montaj', 'zemin'] as const).map((k) => ({ k, v: m[k], ad: kalemYazi[k] }));
+const dahil = kal.filter((x) => x.v === 'dahil');
+const haric = kal.filter((x) => x.v === 'haric');
+const belirsiz = kal.filter((x) => !x.v && (x.k === 'kdv' || x.k === 'nakliye'));
+const detay = [m.m2 ? `${sayi(m.m2)} m²` : '', m.oda, m.kat === 2 ? 'Dubleks' : m.kat === 1.5 ? 'Loftlu' : m.kat === 1 ? 'Tek kat' : ''].filter(Boolean).join(' · ');
+---
+<article class="card" data-fiyat={m.fiyatTuru === 'model' && m.fiyat ? m.fiyat : ''} data-m2fiyat={m.m2Fiyat ?? ''} data-m2={m.m2 ?? ''}>
+  <div class="top">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      {firmaGoster && <a class="firm" href={`/firma/${m.firma}/`}>{m.firmaAd}</a>}
+      <span class="badge">Listelenmiş · doğrulanmadı</span>
+    </div>
+    {f?.il && <span class="small muted">{f.il}</span>}
+  </div>
+  <h3><a href={modelUrl(m)}>{m.ad}</a></h3>
+  {detay && <span class="small muted">{detay}</span>}
+  <div class="row">
+    <strong class="price">{fiyatYazi(m)}</strong>
+    {m.m2Fiyat && <span class="small muted">{sayi(m.m2Fiyat)} TL/m²</span>}
+  </div>
+  {(dahil.length > 0 || haric.length > 0 || belirsiz.length > 0 || m.teslim) && (
+    <ul class="kap" aria-label="Fiyata dahil olanlar">
+      {m.teslim && <li class="h">{m.teslim}</li>}
+      {dahil.map((x) => <li class="d">{x.ad} dahil</li>)}
+      {haric.map((x) => <li class="h">{x.ad} hariç</li>)}
+      {belirsiz.map((x) => <li class="b">{x.ad} belirtilmemiş</li>)}
+    </ul>
+  )}
+  {m.uyari && <p class="warn" style="margin:0">{m.uyari}</p>}
+  <div class="foot">
+    {secim ? (
+      <label class="pick"><input type="checkbox" data-firma={m.firma} /> Bu firmadan teklif iste</label>
+    ) : <span></span>}
+    <a class="small src" href={m.kaynak} rel="nofollow noopener" target="_blank">Kaynak</a>
+  </div>
+</article>

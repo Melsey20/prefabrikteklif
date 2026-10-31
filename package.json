@@ -1,0 +1,17 @@
+{
+  "name": "prefabrikteklif",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "data": "python3 scripts/build_data.py",
+    "dev": "astro dev",
+    "build": "python3 scripts/build_data.py && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource/manrope": "^5.3.0",
+    "astro": "^7.4.4"
+  }
+}

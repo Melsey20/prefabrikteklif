@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import { firms } from '../lib/data';
+const basliklar = [['fiyat', 'Fiyatına sadık kaldı mı?'], ['teslim', 'Teslim süresi'], ['iscilik', 'İşçilik'], ['satisSonrasi', 'Satış sonrası']];
+---
+<Base title="Doğrulanmış yorum yaz" description="Sözleşme yaptığınız firma hakkında doğrulanmış yorum yazın." noindex>
+  <div class="wrap narrow sec">
+    <h1>Doğrulanmış yorum yaz</h1>
+    <p class="muted">Yorumunuz, sözleşme veya fatura belgeniz kontrol edildikten sonra yayınlanır. Olumsuz yorumlar kurallara uygunsa kaldırılmaz.</p>
+    <form class="form" id="y" novalidate>
+      <label class="f">Firma
+        <select name="firma" required><option value="">Seçin</option>{[...firms].sort((a, b) => a.kisaAd.localeCompare(b.kisaAd, 'tr')).map((f) => <option value={f.slug}>{f.kisaAd}</option>)}</select>
+      </label>
+      <fieldset><legend>Aşama</legend>
+        <label class="opt"><input type="radio" name="asama" value="sozlesme" checked /> Sözleşme yaptım, ev henüz teslim edilmedi</label>
+        <label class="opt"><input type="radio" name="asama" value="teslim" /> Ev teslim edildi</label>
+      </fieldset>
+      {basliklar.map(([k, ad]) => (
+        <label class="f">{ad}
+          <select name={k} required><option value="">Puan verin</option><option value="5">5 · Çok iyi</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1 · Çok kötü</option></select>
+        </label>
+      ))}
+      <label class="f">Yorumunuz<textarea name="metin" minlength="30" maxlength="2000" required></textarea></label>
+      <label class="f">Belge (sözleşme veya fatura tarihi ve numarası; belgeyi ayrıca e-postayla isteyeceğiz)<input type="text" name="belge" maxlength="300" /></label>
+      <p class="err" id="hata" role="alert" hidden></p>
+      <button class="btn btn-p btn-block" type="submit">Yorumu gönder</button>
+    </form>
+    <div class="ok" id="tamam" hidden><h2 style="margin-top:0">Teşekkürler</h2><p>Yorumunuz belge kontrolünden sonra yayınlanacak.</p></div>
+  </div>
+  <script is:inline>
+    (function () {
+      var f = document.getElementById('y'), t = new URLSearchParams(location.search).get('t'), h = document.getElementById('hata');
+      if (!t) { h.textContent = 'Yorum yazmak için teklif özeti e-postasındaki bağlantıyı kullanın.'; h.hidden = false; f.hidden = true; return; }
+      f.addEventListener('submit', function (e) {
+        e.preventDefault(); var d = Object.fromEntries(new FormData(f)); d.t = t;
+        if (!d.firma || !d.fiyat || !d.teslim || !d.iscilik || !d.satisSonrasi || (d.metin || '').length < 30) { h.textContent = 'Firma, tüm puanlar ve en az 30 karakterlik yorum gerekli.'; h.hidden = false; return; }
+        fetch('/api/yorum', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) })
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+          .then(function (res) { if (!res.ok) throw new Error(res.j.hata || 'Gönderilemedi.'); f.hidden = true; document.getElementById('tamam').hidden = false; })
+          .catch(function (er) { h.textContent = er.message; h.hidden = false; });
+      });
+    })();
+  </script>
+</Base>

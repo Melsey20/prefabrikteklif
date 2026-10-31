@@ -1,0 +1,16 @@
+---
+import { SITE } from '../site.config';
+interface Props { items: { ad: string; url?: string }[] }
+const { items } = Astro.props;
+const all = [{ ad: 'Ana sayfa', url: '/' }, ...items];
+const ld = {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: all.map((x, i) => ({ '@type': 'ListItem', position: i + 1, name: x.ad, ...(x.url ? { item: new URL(x.url, SITE.url).href } : {}) })),
+};
+---
+<nav class="crumbs" aria-label="Sayfa yolu">
+  <ol>
+    {all.map((x, i) => <li>{x.url && i < all.length - 1 ? <a href={x.url}>{x.ad}</a> : <span aria-current="page">{x.ad}</span>}</li>)}
+  </ol>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(ld)} />

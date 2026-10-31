@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+const yazilar = [
+  { url: '/rehber/prefabrik-ev-fiyatina-neler-dahil/', ad: 'Prefabrik ev fiyatına neler dahil?', ozet: 'KDV, nakliye, montaj, zemin betonu ve iç bitiş: teklifleri karşılaştırmadan önce sorulacak 12 kalem.' },
+  { url: '/rehber/tarlaya-prefabrik-ev-yapilir-mi/', ad: 'Tarlaya prefabrik ev yapılır mı?', ozet: 'Tarım arazisi, köy yerleşik alanı ve imarlı arsada kurallar; 2026 düzenlemeleri.' },
+  { url: '/rehber/tiny-house-ruhsat-o2-belgesi/', ad: 'Tiny house için ruhsat ve O2 belgesi', ozet: 'Tekerlekli ve sabit tiny house arasındaki fark, O2 tip onay, plaka ve tescil.' },
+  { url: '/rehber/prefabrik-mi-celik-ev-mi/', ad: 'Prefabrik mi, çelik ev mi?', ozet: 'Yapı sistemi, m² fiyatı ve kullanım amacına göre hangisi size uygun.' },
+  { url: '/arazim-uygun-mu/', ad: 'Arazim uygun mu? (araç)', ozet: '4 soruda hangi ev tipinin ve izin yolunun size uyduğunu görün.' },
+];
+---
+<Base title="Prefabrik ve Modüler Ev Rehberi" description="Prefabrik ev, tiny house, çelik ev ve bağ evi alırken bilmeniz gerekenler: fiyata neler dahil, ruhsat, O2 belgesi, tarım arazisi kuralları.">
+  <div class="wrap narrow">
+    <Crumbs items={[{ ad: 'Rehber' }]} />
+    <h1>Prefabrik ve modüler ev rehberi</h1>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px">
+      {yazilar.map((y) => <a class="card" href={y.url} style="text-decoration:none;color:inherit"><h2 style="margin:0;font-size:1.15rem;color:var(--green-d)">{y.ad}</h2><span class="muted">{y.ozet}</span></a>)}
+    </div>
+  </div>
+</Base>

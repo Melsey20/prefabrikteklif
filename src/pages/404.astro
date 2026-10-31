@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import { TIPLER, TIP_KEYS } from '../lib/data';
+---
+<Base title="Sayfa bulunamadı" description="Aradığınız sayfa bulunamadı." noindex>
+  <div class="wrap narrow sec">
+    <h1>Sayfa bulunamadı</h1>
+    <p class="muted">Aradığınız sayfa taşınmış veya kaldırılmış olabilir.</p>
+    <ul class="chips">{TIP_KEYS.map((k) => <li><a class="chip" href={`/${TIPLER[k].slug}/`}>{TIPLER[k].baslik}</a></li>)}</ul>
+    <p style="margin-top:20px"><a class="btn btn-p" href="/">Ana sayfa</a></p>
+  </div>
+</Base>

@@ -1,0 +1,88 @@
+---
+import Base from '../layouts/Base.astro';
+import Crumbs from '../components/Crumbs.astro';
+---
+<Base title="Arazim Prefabrik Ev veya Tiny House İçin Uygun mu? 4 Soruda Öğren" description="Arsanız imarlı mı, tarla mı, köy yerleşik alanında mı? Prefabrik ev, tiny house veya bağ evi için hangi izin yolunun size uyduğunu 4 soruda görün.">
+  <div class="wrap narrow">
+    <Crumbs items={[{ ad: 'Arazim uygun mu?' }]} />
+    <h1>Arazim ev kurmaya uygun mu?</h1>
+    <p class="muted">4 soruyu cevapla, hangi ev tipi ve hangi izin yolunun sana uyduğunu gör. Bu araç genel bilgi verir, hukuki görüş değildir; kesin bilgi için belediyenize ve tapu kaydınıza bakın.</p>
+    <form class="form" id="arazi">
+      <fieldset>
+        <legend>1. Arazinin tapudaki niteliği ne?</legend>
+        <label class="opt"><input type="radio" name="nitelik" value="imarli" required /> İmarlı arsa (konut alanı)</label>
+        <label class="opt"><input type="radio" name="nitelik" value="koy" /> Köy yerleşik alanı içinde</label>
+        <label class="opt"><input type="radio" name="nitelik" value="tarla" /> Tarla / tarım arazisi / bağ-bahçe</label>
+        <label class="opt"><input type="radio" name="nitelik" value="bilmiyorum" /> Bilmiyorum</label>
+      </fieldset>
+      <fieldset>
+        <legend>2. Nasıl bir ev düşünüyorsun?</legend>
+        <label class="opt"><input type="radio" name="ev" value="sabit" required /> Zemine sabit ev (prefabrik, çelik, ahşap, konteyner)</label>
+        <label class="opt"><input type="radio" name="ev" value="tekerlekli" /> Tekerlekli tiny house (römorklu)</label>
+      </fieldset>
+      <fieldset>
+        <legend>3. Arazi kaç m²?</legend>
+        <label class="opt"><input type="radio" name="buyukluk" value="kucuk" required /> 5.000 m²’den küçük</label>
+        <label class="opt"><input type="radio" name="buyukluk" value="buyuk" /> 5.000 m² veya daha büyük</label>
+      </fieldset>
+      <fieldset>
+        <legend>4. Araziye resmi bir yoldan ulaşılıyor mu?</legend>
+        <label class="opt"><input type="radio" name="yol" value="var" required /> Evet</label>
+        <label class="opt"><input type="radio" name="yol" value="yok" /> Hayır / emin değilim</label>
+      </fieldset>
+      <button class="btn btn-p btn-block" type="submit">Sonucu göster</button>
+    </form>
+    <section id="sonuc" class="box" style="margin-top:20px" hidden aria-live="polite"></section>
+
+    <section class="prose">
+      <h2>Bilmen gereken temel kurallar</h2>
+      <ul>
+        <li><strong>Zemine sabit her ev bir yapıdır.</strong> Prefabrik, çelik, ahşap ya da konteyner fark etmez; İmar Kanunu’na göre yapı ruhsatı gerekir. Ruhsat için genellikle imarlı arsa ve onaylı proje istenir.</li>
+        <li><strong>Tekerlekli tiny house çekme karavan sayılır.</strong> O2 tip onay belgeli ve plakalı tiny house için kural olarak yapı ruhsatı aranmaz; zemine sabitlenirse yapı sayılabilir.</li>
+        <li><strong>Tarım arazilerinde kurallar 2026’da sertleşti.</strong> 4 Nisan 2026 tarihli yönetmelik ve Haziran 2026’da yasalaşan düzenlemeyle izinsiz prefabrik, konteyner ve tiny house’lara elektrik, su ve doğal gaz aboneliği verilmiyor.</li>
+        <li><strong>Köy yerleşik alanları farklı rejime tabidir.</strong> Köy yerleşik alanı içinde ve çevresinde yapılacak evler için valilik onayı gibi farklı bir süreç işler.</li>
+      </ul>
+      <p>Ayrıntılar için: <a href="/rehber/tarlaya-prefabrik-ev-yapilir-mi/">Tarlaya prefabrik ev yapılır mı?</a> · <a href="/rehber/tiny-house-ruhsat-o2-belgesi/">Tiny house ve O2 belgesi</a></p>
+    </section>
+  </div>
+  <script is:inline>
+    (function () {
+      var f = document.getElementById('arazi'), out = document.getElementById('sonuc');
+      function add(tag, text, cls) { var e = document.createElement(tag); e.textContent = text; if (cls) e.className = cls; out.appendChild(e); return e; }
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var d = Object.fromEntries(new FormData(f));
+        out.innerHTML = ''; var baslik, maddeler = [], tip = 'prefabrik';
+        if (d.ev === 'tekerlekli') {
+          tip = 'tiny house';
+          baslik = 'Tekerlekli tiny house, ruhsat yerine trafik tescili ister.';
+          maddeler.push('Üreticiden O2 tip onay belgesi ve uygunluk belgesi (COC) olan bir model seçin; plaka ve tescil işlemleri noterden yapılır.');
+          maddeler.push('Tiny house’u zemine sabitlemeyin; sabitlenirse yapı sayılıp ruhsat istenebilir.');
+          if (d.nitelik === 'tarla') maddeler.push('Tarım arazisine uzun süreli yerleşimde 2026 düzenlemeleri nedeniyle elektrik, su ve doğal gaz aboneliği alamayabilirsiniz. Belediye ve il tarım müdürlüğüne danışın.');
+        } else if (d.nitelik === 'imarli') {
+          baslik = 'İmarlı arsada prefabrik, çelik veya ahşap ev için yapı ruhsatı alınabilir.';
+          maddeler.push('Belediyeden imar durumu belgesi alın; emsal ve kat sınırına göre ev büyüklüğünü seçin.');
+          maddeler.push('Firmadan mimari ve statik projeyi teklife dahil etmesini isteyin.');
+        } else if (d.nitelik === 'koy') {
+          baslik = 'Köy yerleşik alanında farklı bir izin süreci işler.';
+          maddeler.push('Arazinin köy yerleşik alanı sınırı içinde olup olmadığını il özel idaresi veya valilikten teyit edin.');
+          maddeler.push('Onay süreci tamamlanmadan kuruluma başlamayın.');
+        } else if (d.nitelik === 'tarla') {
+          baslik = 'Tarım arazisine sabit ev yapmak çoğu durumda mümkün değil.';
+          if (d.buyukluk === 'buyuk' && d.yol === 'var') maddeler.push('Araziniz 5.000 m² üzeri ve yolu var: bağ evi için kurul izni başvurusu yapabilirsiniz. 2026 düzenlemesine dair haberlere göre yapı en fazla 30 m² olabiliyor.');
+          else maddeler.push('Bağ evi izni için arazinin en az 5.000 m² olması ve resmi yola cephesi gibi şartlar aranıyor; bu şartlar sağlanmıyor görünüyor.');
+          maddeler.push('Tekerlekli ve O2 belgeli tiny house bir seçenek olabilir, ancak tarım arazisinde uzun süreli yerleşim için abonelik kısıtlarını unutmayın.');
+          tip = 'tiny house';
+        } else {
+          baslik = 'Önce arazinin niteliğini öğrenin.';
+          maddeler.push('Tapudaki niteliğe e-Devlet’ten (Tapu Bilgileri Sorgulama) bakabilir, belediyeden imar durumu isteyebilirsiniz.');
+        }
+        add('h2', baslik).style.marginTop = '0';
+        var ul = document.createElement('ul'); maddeler.forEach(function (m) { var li = document.createElement('li'); li.textContent = m; ul.appendChild(li); }); out.appendChild(ul);
+        add('p', 'Bu sonuç genel bilgidir, hukuki görüş değildir.', 'small muted');
+        var a = document.createElement('a'); a.className = 'btn btn-o'; a.href = '/teklif-al/?tip=' + encodeURIComponent(tip); a.textContent = 'Bu duruma uygun firmalardan teklif al'; out.appendChild(a);
+        out.hidden = false; out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    })();
+  </script>
+</Base>

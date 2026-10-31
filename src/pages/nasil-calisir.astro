@@ -1,0 +1,18 @@
+---
+import Sayfa from '../components/Sayfa.astro';
+import { SITE } from '../site.config';
+import { meta } from '../lib/data';
+---
+<Sayfa title="Nasıl Çalışır?" h1="Nasıl çalışır?" description={`${SITE.ad} ile prefabrik ve modüler ev fiyatlarını nasıl kıyaslar, birden çok firmadan nasıl teklif alırsınız?`}>
+  <h2>Kullanıcılar için</h2>
+  <ol>
+    <li><strong>Kıyasla.</strong> {meta.firmaSayisi} üreticinin {meta.modelSayisi} modelini ev tipi, oda sayısı ve m²’ye göre süz. Her fiyatın yanında KDV, nakliye, montaj ve zemin betonunun dahil olup olmadığı ve kaynağı yazar.</li>
+    <li><strong>Teklif iste.</strong> Beğendiğin en fazla {SITE.maksFirma} firmayı seç ya da seçimi bize bırak. Arazi, bütçe ve istediğin kapsamı bir kez yaz.</li>
+    <li><strong>24 saat içinde tek e-posta.</strong> Firmalar teklifini aynı kapsam başlıklarıyla girer; süre dolunca tüm teklifler tek tabloda e-postana gelir.</li>
+    <li><strong>Yorum yaz.</strong> Bir firmayla sözleşme yaparsan, belgeni yükleyip doğrulanmış yorum yazabilirsin.</li>
+  </ol>
+  <p>Hizmet kullanıcılar için ücretsizdir. Satışı ve sözleşmeyi üretici firma yapar; {SITE.ad} aracı hizmet sağlayıcıdır.</p>
+  <h2>Firmalar için</h2>
+  <p>Fiyatlar başlangıçta firmaların kendi sitelerinden alınır (“listelenmiş”). <a href="/firma-kayit/">Kayıt olan</a> firmalar fiyatlarını kendisi günceller ve kendisine uygun teklif taleplerini alır. Belgeleri kontrol edilen ve fabrikası ziyaret edilen firmalar “doğrulanmış üretici” rozeti alır.</p>
+  <p><a class="btn btn-o" href="/teklif-al/">Teklif al</a></p>
+</Sayfa>

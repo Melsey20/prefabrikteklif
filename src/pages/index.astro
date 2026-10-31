@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import ModelCard from '../components/ModelCard.astro';
+import { SITE } from '../site.config';
+import { TIPLER, TIP_KEYS, meta, kisaTl, tipModelleri, odaSayfalari, m2Sayfalari, odaSlug, firms } from '../lib/data';
+
+const st = meta.istatistik;
+const vitrin = ['prefabrik', 'celik', 'tiny house'].flatMap((t) => {
+  const seen = new Set<string>();
+  return tipModelleri(t).filter((m) => m.fiyatTuru === 'model' && m.fiyat && !m.uyari && !seen.has(m.firma) && seen.add(m.firma)).slice(0, 2);
+});
+const populer = [
+  ...odaSayfalari('prefabrik').map((o) => ({ ad: `${o} prefabrik ev fiyatları`, url: `/prefabrik-ev-fiyatlari/${odaSlug(o)}/` })),
+  ...m2Sayfalari('prefabrik').filter((h) => [60, 80, 100, 120].includes(h)).map((h) => ({ ad: `${h} m² prefabrik ev fiyatları`, url: `/prefabrik-ev-fiyatlari/${h}-m2/` })),
+  { ad: 'Konteyner ev fiyatları', url: '/konteyner-ev-fiyatlari/' },
+  { ad: 'Tiny house fiyatları', url: '/tiny-house-fiyatlari/' },
+].slice(0, 9);
+const ld = [{
+  '@context': 'https://schema.org', '@type': 'WebSite', name: SITE.ad, url: SITE.url, inLanguage: 'tr-TR',
+}];
+---
+<Base title={`Prefabrik Ev Fiyatları ${meta.ay}: ${meta.firmaSayisi} Firma Kıyasla, Teklif Al | ${SITE.ad}`}
+  description={`${meta.firmaSayisi} üreticinin ${meta.modelSayisi} prefabrik, çelik, konteyner, tiny house ve ahşap ev modelini fiyat ve kapsamıyla kıyasla. KDV, nakliye, montaj dahil mi gör; 24 saatte ücretsiz teklif al.`}
+  jsonLd={ld} selbar>
+  <section class="hero">
+    <div class="wrap">
+      <h1>Prefabrik ve modüler ev fiyatlarını firma firma kıyasla</h1>
+      <p class="lead">{meta.firmaSayisi} üreticinin {meta.modelSayisi} modeli tek yerde. Neyin fiyata dahil olduğunu görerek karşılaştır, beğendiğin firmalardan 24 saat içinde teklif al.</p>
+      <ul class="types" aria-label="Ev tipleri">
+        {TIP_KEYS.map((k) => (
+          <li><a href={`/${TIPLER[k].slug}/`}>
+            <strong>{TIPLER[k].ad}</strong>
+            <span>{st[k].model} model{st[k].min ? ` · ${kisaTl(st[k].min)}'den` : ''}</span>
+          </a></li>
+        ))}
+      </ul>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:18px"><a class="btn btn-o" href="/teklif-al/">Ücretsiz teklif al</a><a class="btn btn-l" href="/arazim-uygun-mu/">Arazim uygun mu?</a></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <h2 style="margin-top:0">Nasıl çalışır?</h2>
+      <div class="grid">
+        <div class="card"><h3>1. Kıyasla</h3><p class="muted" style="margin:0">Aynı m² ve oda sayısındaki modelleri fiyat, m² fiyatı ve kapsamıyla yan yana gör.</p></div>
+        <div class="card"><h3>2. Teklif iste</h3><p class="muted" style="margin:0">Beğendiğin en fazla {SITE.maksFirma} firmayı seç, arazi ve bütçe bilgini bir kez yaz.</p></div>
+        <div class="card"><h3>3. 24 saatte tek e-posta</h3><p class="muted" style="margin:0">Firmaların teklifleri aynı kapsam başlıklarıyla tek tabloda e-postana gelir.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <h2 style="margin-top:0">Öne çıkan fiyatlar</h2>
+      <p class="muted">Her tipten en uygun fiyatlı modeller. Fiyatlar {meta.sonKontrolYazi} tarihinde firma sitelerinden kontrol edildi.</p>
+      <div class="grid">{vitrin.map((m) => <ModelCard m={m} />)}</div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="box">
+        <h2 style="margin-top:0">Neden {SITE.ad}?</h2>
+        <div class="grid">
+          <div><h3>Kapsam eşitleme</h3><p class="muted">KDV, nakliye, montaj, zemin betonu dahil mi? Her fiyatın yanında yazıyor, belirtilmeyenler işaretleniyor.</p></div>
+          <div><h3>Kaynaklı fiyatlar</h3><p class="muted">Her fiyat firmanın kendi sayfasından, kaynak linki ve kontrol tarihiyle gösterilir.</p></div>
+          <div><h3>Sadece gerçek müşteri yorumu</h3><p class="muted">Yorumu, firmayla sözleşme yaptığını belgeleyen müşteri yazar; Google puanı ayrı gösterilir.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <h2 style="margin-top:0">Çok aranan fiyat sayfaları</h2>
+      <ul class="chips">{populer.map((p) => <li><a class="chip" href={p.url}>{p.ad}</a></li>)}</ul>
+      <h2>Firmalar</h2>
+      <ul class="chips">{firms.filter((f) => f.modelSayisi > 0).slice(0, 18).map((f) => <li><a class="chip" href={`/firma/${f.slug}/`}>{f.kisaAd}</a></li>)}<li><a class="chip on" href="/firmalar/">Tümü ({firms.length})</a></li></ul>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Teklif ver" description="Firmalar için teklif giriş sayfası." noindex>
+  <div class="wrap narrow sec">
+    <h1>Talebe teklif ver</h1>
+    <div id="talep" class="box" hidden></div>
+    <p class="err" id="hata" role="alert" hidden></p>
+    <form class="form" id="f" hidden novalidate>
+      <label class="f">Toplam fiyat (TL)<input type="number" name="fiyat" inputmode="numeric" min="1000" required /></label>
+      <label class="chk"><input type="checkbox" name="kdvDahil" /> Fiyata KDV dahil</label>
+      <fieldset>
+        <legend>Fiyata dahil olanlar</legend>
+        <label class="chk"><input type="checkbox" name="dahil" value="nakliye" /> Nakliye</label>
+        <label class="chk"><input type="checkbox" name="dahil" value="montaj" /> Montaj</label>
+        <label class="chk"><input type="checkbox" name="dahil" value="vinc" /> Vinç</label>
+        <label class="chk"><input type="checkbox" name="dahil" value="zemin" /> Zemin betonu</label>
+        <label class="chk"><input type="checkbox" name="dahil" value="ic-bitis" /> İç bitiş (parke, fayans)</label>
+        <label class="chk"><input type="checkbox" name="dahil" value="mutfak-vitrifiye" /> Mutfak ve vitrifiye</label>
+        <label class="chk"><input type="checkbox" name="dahil" value="ruhsat" /> Ruhsat ve proje</label>
+      </fieldset>
+      <div class="two">
+        <label class="f">Teslim süresi (gün)<input type="number" name="teslimGun" min="1" max="365" /></label>
+        <label class="f">Garanti (yıl)<input type="number" name="garantiYil" min="0" max="50" /></label>
+      </div>
+      <label class="f">Model / açıklama<textarea name="not" maxlength="1500"></textarea></label>
+      <button class="btn btn-p btn-block" type="submit">Teklifi gönder</button>
+    </form>
+    <div class="ok" id="tamam" hidden><h2 style="margin-top:0">Teklifiniz kaydedildi</h2><p>Talep süresi dolunca müşteriye diğer tekliflerle birlikte iletilecek.</p></div>
+  </div>
+  <script is:inline>
+    (function () {
+      var q = new URLSearchParams(location.search), t = q.get('t'), fr = q.get('f'), hata = document.getElementById('hata');
+      function err(m) { hata.textContent = m; hata.hidden = false; }
+      if (!t || !fr) return err('Bağlantı eksik. E-postadaki bağlantıyı kullanın.');
+      fetch('/api/talep?t=' + encodeURIComponent(t) + '&f=' + encodeURIComponent(fr)).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); }).then(function (res) {
+        if (!res.ok) return err(res.j.hata || 'Talep bulunamadı.');
+        var d = res.j, box = document.getElementById('talep');
+        [['Ev tipi', d.tipAd], ['Oda', d.oda], ['m²', d.m2], ['Yer', [d.il, d.ilce].filter(Boolean).join(' / ')], ['Arazi', d.araziAd], ['Bütçe', d.butce], ['Zaman', d.zaman], ['İstenen kapsam', (d.kapsam || []).join(', ')], ['Not', d.not], ['Son teklif zamanı', d.sonTarih]]
+          .forEach(function (x) { if (!x[1]) return; var p = document.createElement('p'); p.style.margin = '0 0 6px'; var b = document.createElement('strong'); b.textContent = x[0] + ': '; p.appendChild(b); p.appendChild(document.createTextNode(x[1])); box.appendChild(p); });
+        box.hidden = false;
+        if (d.verildi) { document.getElementById('tamam').hidden = false; return; }
+        document.getElementById('f').hidden = false;
+      }).catch(function () { err('Bağlantı hatası.'); });
+      document.getElementById('f').addEventListener('submit', function (e) {
+        e.preventDefault(); var f = e.target, d = { t: t, f: fr, dahil: [] };
+        new FormData(f).forEach(function (v, k) { if (k === 'dahil') d.dahil.push(v); else d[k] = v; });
+        if (!d.fiyat || +d.fiyat < 1000) return err('Toplam fiyat yazın.');
+        fetch('/api/teklif-ver', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) })
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+          .then(function (res) { if (!res.ok) return err(res.j.hata || 'Kaydedilemedi.'); f.hidden = true; document.getElementById('tamam').hidden = false; })
+          .catch(function () { err('Bağlantı hatası.'); });
+      });
+    })();
+  </script>
+</Base>

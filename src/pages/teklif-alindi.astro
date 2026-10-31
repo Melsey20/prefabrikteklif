@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site.config';
+---
+<Base title="Talebin alındı" description="Teklif talebin firmalara iletildi." noindex>
+  <div class="wrap narrow sec">
+    <div class="ok">
+      <h1 style="font-size:1.6rem">Talebin alındı</h1>
+      <p id="n">Firmalar teklifini 24 saat içinde girecek. Gelen tüm teklifler, aynı kapsam başlıklarıyla yan yana, tek e-postada sana gelecek.</p>
+      <ol>
+        <li>Firmalar talebini görür; sorusu olan seni arayabilir.</li>
+        <li>24 saat dolunca karşılaştırma tablosu e-postana gelir.</li>
+        <li>Sözleşme yaparsan, belgeni yükleyip doğrulanmış yorum yazabilirsin.</li>
+      </ol>
+      <p class="small muted">E-posta gelmezse gereksiz (spam) klasörüne bak.</p>
+    </div>
+    <p style="margin-top:20px"><a class="btn btn-l" href="/">Ana sayfaya dön</a></p>
+  </div>
+  <script is:inline>
+    (function () { var n = new URLSearchParams(location.search).get('n'); if (n && +n > 0) document.getElementById('n').textContent = 'Talebin ' + n + ' firmaya iletildi. Firmalar teklifini 24 saat içinde girecek; gelen tüm teklifler aynı kapsam başlıklarıyla tek e-postada sana gelecek.'; })();
+  </script>
+</Base>

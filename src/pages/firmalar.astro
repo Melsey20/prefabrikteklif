@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import Crumbs from '../components/Crumbs.astro';
+import { firms, TIPLER, meta, kisaTl } from '../lib/data';
+const sirali = [...firms].sort((a, b) => b.modelSayisi - a.modelSayisi || a.kisaAd.localeCompare(b.kisaAd, 'tr'));
+---
+<Base title={`Prefabrik Ev Firmaları ${meta.ay}: ${firms.length} Üretici ve Fiyatları`}
+  description={`Türkiye'deki ${firms.length} prefabrik, çelik, konteyner, tiny house ve ahşap ev üreticisi: şehir, ürün tipleri, model sayısı ve başlangıç fiyatları. Firmaları kıyaslayın, teklif alın.`}>
+  <div class="wrap">
+    <Crumbs items={[{ ad: 'Firmalar' }]} />
+    <h1>Prefabrik ve modüler ev firmaları</h1>
+    <p class="muted" style="max-width:760px">{firms.length} üretici. Fiyatlar firmaların kendi sitelerinden alındı; “doğrulanmış” rozeti, belgeleri kontrol edilen ve fabrikası ziyaret edilen firmalara verilir.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Firma</th><th>Şehir</th><th>Ürünler</th><th class="n">Model</th><th class="n">Başlangıç</th></tr></thead>
+        <tbody>
+          {sirali.map((f) => (
+            <tr>
+              <td><a href={`/firma/${f.slug}/`}><strong>{f.kisaAd}</strong></a></td>
+              <td>{f.il}</td>
+              <td class="small">{f.tipler.map((t) => TIPLER[t]?.ad).filter(Boolean).join(', ') || f.urunTipleri.slice(0, 3).join(', ')}</td>
+              <td class="n">{f.modelSayisi || '–'}</td>
+              <td class="n">{f.enDusuk ? kisaTl(f.enDusuk) : f.fiyatYayinliyor ? 'm² / euro' : 'Fiyat yayınlamıyor'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div class="box" style="margin-top:24px">
+      <h2 style="margin-top:0">Firmanız listede yok mu?</h2>
+      <p class="muted">Ücretsiz kayıt olun, fiyatlarınızı kendiniz güncelleyin ve size uygun teklif taleplerini alın.</p>
+      <a class="btn btn-p" href="/firma-kayit/">Firmamı ekle</a>
+    </div>
+  </div>
+</Base>

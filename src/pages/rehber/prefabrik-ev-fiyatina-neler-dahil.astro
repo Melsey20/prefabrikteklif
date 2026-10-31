@@ -1,0 +1,40 @@
+---
+import Makale from '../../components/Makale.astro';
+import { models, meta, sayi } from '../../lib/data';
+const fiyatli = models.filter((m) => m.fiyatTuru === 'model' && m.fiyat);
+const kdvYok = fiyatli.filter((m) => !m.kdv).length;
+const oran = Math.round((kdvYok / fiyatli.length) * 100);
+---
+<Makale title="Prefabrik Ev Fiyatına Neler Dahil? Teklif Öncesi 12 Kalem" h1="Prefabrik ev fiyatına neler dahil?" tarih={meta.sonKontrol}
+  description="Prefabrik, çelik ve konteyner ev fiyatlarında KDV, nakliye, montaj, vinç, zemin betonu ve iç bitiş dahil mi? Teklifleri doğru kıyaslamak için sorulacak 12 kalem.">
+  <p>Aynı metrekaredeki iki prefabrik ev arasında yüzbinlerce liralık fark görmek normal; ama farkın büyük kısmı genellikle evin kendisinden değil, fiyata neyin dahil olduğundan gelir. Bir firma sadece bina fiyatını yazar, diğeri montaj ve tesisat dahil fiyatı. Sitemizdeki {sayi(fiyatli.length)} fiyatlı modelin %{oran}’inde firma KDV’nin dahil olup olmadığını sayfasında belirtmiyor.</p>
+  <h2>Teklif alırken sorulacak 12 kalem</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Kalem</th><th>Neden önemli?</th></tr></thead>
+      <tbody>
+        <tr><td>KDV</td><td>Konutta genellikle %10 veya %20 eklenir; fiyatın %10–20’si kadar fark yaratır.</td></tr>
+        <tr><td>Zemin betonu (radye temel)</td><td>Neredeyse her zaman müşteriye aittir; arazi eğimi ve m²’ye göre ciddi bir maliyettir.</td></tr>
+        <tr><td>Nakliye</td><td>Fabrikaya uzaklığa göre değişir; “fabrika teslim” fiyatta nakliye yoktur.</td></tr>
+        <tr><td>Montaj ve ekip giderleri</td><td>Bazı firmalar montajı dahil eder, bazıları ekip yemek-konaklama bedelini ayrıca ister.</td></tr>
+        <tr><td>Vinç</td><td>Konteyner ve modüler evlerde gereklidir; çoğunlukla ayrı ücretlenir.</td></tr>
+        <tr><td>Panel ve yalıtım kalınlığı</td><td>Aynı m² fiyatında farklı yalıtım, ısınma giderini doğrudan etkiler.</td></tr>
+        <tr><td>Çatı tipi ve kaplaması</td><td>Kiremit, shingle veya sandviç panel farklı fiyat ve ömür demektir.</td></tr>
+        <tr><td>Kapı ve pencere</td><td>PVC/ısıcam standardı ve çelik dış kapı dahil mi?</td></tr>
+        <tr><td>Elektrik ve sıhhi tesisat</td><td>Bina içi tesisat ile şebeke bağlantısı ayrı kalemlerdir.</td></tr>
+        <tr><td>İç bitiş (parke, fayans, boya)</td><td>“İleri kaba teslim” fiyatlarda bunlar yoktur.</td></tr>
+        <tr><td>Mutfak dolabı ve vitrifiye</td><td>Anahtar teslimde bile bazen hariç tutulur.</td></tr>
+        <tr><td>Ruhsat, proje ve teslim süresi</td><td>Mimari-statik proje, belediye harçları ve yazılı teslim tarihi sözleşmede olmalı.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h2>Teslim şekilleri ne anlama gelir?</h2>
+  <ul>
+    <li><strong>Fabrika teslim:</strong> Ev fabrikada teslim edilir; nakliye ve montaj genellikle ayrıdır.</li>
+    <li><strong>İleri kaba teslim:</strong> Duvar, çatı, kapı-pencere ve tesisat altyapısı kurulur; parke, fayans, mutfak gibi iç bitişler müşteriye kalır.</li>
+    <li><strong>Anahtar teslim:</strong> Oturuma hazır teslim anlamına gelir; yine de zemin betonu, nakliye ve ruhsatın dahil olup olmadığını yazılı sorun.</li>
+  </ul>
+  <h2>Teklifleri nasıl kıyaslamalı?</h2>
+  <p>Teklifleri toplam fiyata göre değil, aynı kalemleri içeren toplam maliyete göre kıyaslayın. Teklif formumuz bu yüzden firmalardan fiyatla birlikte yukarıdaki kalemleri tek tek işaretlemelerini istiyor; teklifler size aynı başlıklarla yan yana gelir.</p>
+  <p><a href="/prefabrik-ev-fiyatlari/">Güncel prefabrik ev fiyatları</a> · <a href="/celik-ev-fiyatlari/">Çelik ev fiyatları</a> · <a href="/konteyner-ev-fiyatlari/">Konteyner ev fiyatları</a></p>
+</Makale>

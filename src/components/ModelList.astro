@@ -1,0 +1,37 @@
+---
+import type { Model } from '../lib/data';
+import ModelCard from './ModelCard.astro';
+interface Props { list: Model[]; firmaGoster?: boolean; id?: string }
+const { list, firmaGoster = true, id = 'liste' } = Astro.props;
+---
+<h2 class="sr-only">Modeller ve fiyatlar</h2>
+<div class="toolbar">
+  <span class="small muted">{list.length} model · fiyata göre sıralı, güncelliği şüpheli fiyatlar sonda · firmalar sıralama için ücret ödemez</span>
+  <label>Sırala
+    <select data-sort={id} aria-label="Sıralama">
+      <option value="fiyat">Fiyat (düşükten)</option>
+      <option value="fiyat-desc">Fiyat (yüksekten)</option>
+      <option value="m2fiyat">m² fiyatı</option>
+      <option value="m2">Metrekare</option>
+    </select>
+  </label>
+</div>
+<div class="grid" id={id}>
+  {list.map((m) => <ModelCard m={m} firmaGoster={firmaGoster} />)}
+</div>
+<script is:inline define:vars={{ id }}>
+  (function () {
+    var sel = document.querySelector('select[data-sort="' + id + '"]'), box = document.getElementById(id);
+    if (!sel || !box) return;
+    sel.addEventListener('change', function () {
+      var k = sel.value, desc = k === 'fiyat-desc'; if (desc) k = 'fiyat';
+      var items = Array.prototype.slice.call(box.children);
+      items.sort(function (a, b) {
+        var x = parseFloat(a.dataset[k === 'm2fiyat' ? 'm2fiyat' : k]) || (desc ? -1 : 1e15);
+        var y = parseFloat(b.dataset[k === 'm2fiyat' ? 'm2fiyat' : k]) || (desc ? -1 : 1e15);
+        return desc ? y - x : x - y;
+      });
+      items.forEach(function (i) { box.appendChild(i); });
+    });
+  })();
+</script>

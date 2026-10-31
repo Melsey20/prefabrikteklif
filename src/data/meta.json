@@ -1,0 +1,102 @@
+{
+ "firmaSayisi": 62,
+ "modelSayisi": 422,
+ "fiyatliModel": 401,
+ "sonKontrol": "2026-11-01",
+ "sonKontrolYazi": "1 Kasım 2026",
+ "ay": "Kasım 2026",
+ "tipler": {
+  "prefabrik": {
+   "ad": "Prefabrik ev",
+   "slug": "prefabrik-ev-fiyatlari",
+   "baslik": "Prefabrik Ev Fiyatları",
+   "kisa": "prefabrik ev"
+  },
+  "celik": {
+   "ad": "Çelik ev",
+   "slug": "celik-ev-fiyatlari",
+   "baslik": "Çelik Ev Fiyatları",
+   "kisa": "çelik ev"
+  },
+  "konteyner": {
+   "ad": "Konteyner ev",
+   "slug": "konteyner-ev-fiyatlari",
+   "baslik": "Konteyner Ev Fiyatları",
+   "kisa": "konteyner ev"
+  },
+  "tiny house": {
+   "ad": "Tiny house",
+   "slug": "tiny-house-fiyatlari",
+   "baslik": "Tiny House Fiyatları",
+   "kisa": "tiny house"
+  },
+  "ahsap": {
+   "ad": "Ahşap ev",
+   "slug": "ahsap-ev-fiyatlari",
+   "baslik": "Ahşap Ev Fiyatları",
+   "kisa": "ahşap ev"
+  },
+  "bungalov": {
+   "ad": "Bungalov / bağ evi",
+   "slug": "bungalov-fiyatlari",
+   "baslik": "Bungalov ve Bağ Evi Fiyatları",
+   "kisa": "bungalov"
+  }
+ },
+ "istatistik": {
+  "prefabrik": {
+   "model": 217,
+   "fiyatli": 217,
+   "firma": 24,
+   "min": 225000,
+   "max": 4999999,
+   "medyan": 799376,
+   "m2Medyan": 10236
+  },
+  "celik": {
+   "model": 82,
+   "fiyatli": 82,
+   "firma": 15,
+   "min": 575000,
+   "max": 5375000,
+   "medyan": 1865000,
+   "m2Medyan": 17000
+  },
+  "konteyner": {
+   "model": 35,
+   "fiyatli": 35,
+   "firma": 6,
+   "min": 85000,
+   "max": 890000,
+   "medyan": 182300,
+   "m2Medyan": 7083
+  },
+  "tiny house": {
+   "model": 43,
+   "fiyatli": 22,
+   "firma": 9,
+   "min": 429000,
+   "max": 1900000,
+   "medyan": 1225000,
+   "m2Medyan": 50000
+  },
+  "ahsap": {
+   "model": 29,
+   "fiyatli": 20,
+   "firma": 5,
+   "min": 364700,
+   "max": 3600000,
+   "medyan": 1601250,
+   "m2Medyan": 26100
+  },
+  "bungalov": {
+   "model": 16,
+   "fiyatli": 12,
+   "firma": 6,
+   "min": 162000,
+   "max": 1380000,
+   "medyan": 567500,
+   "m2Medyan": 21000
+  }
+ }
+}

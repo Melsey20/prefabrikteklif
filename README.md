@@ -1,0 +1,100 @@
+# PrefabrikTeklif.com.tr
+
+Prefabrik, çelik, konteyner, tiny house, ahşap ev ve bungalov fiyatlarını kıyaslayan ve kullanıcıya 24 saatte birden çok firmadan teklif toplayan site.
+
+- **Ön yüz:** Astro (statik, sıfıra yakın JavaScript). Lighthouse mobil: 98–100 performans, 94–100 erişilebilirlik, 100 SEO.
+- **Sunucu:** Firebase Cloud Functions (Node 22, `europe-west1`), Firestore.
+- **Veri:** `data/raw/*.csv` → `scripts/build_data.py` → `src/data/*.json` (62 firma, 422 model, 1 Kasım 2026).
+
+## Sayfalar (554 sayfa)
+
+| Sayfa | Adres |
+| --- | --- |
+| Kategori | `/prefabrik-ev-fiyatlari/`, `/celik-ev-fiyatlari/`, `/konteyner-ev-fiyatlari/`, `/tiny-house-fiyatlari/`, `/ahsap-ev-fiyatlari/`, `/bungalov-fiyatlari/` |
+| Oda / m² | `/prefabrik-ev-fiyatlari/2-1/`, `/prefabrik-ev-fiyatlari/100-m2/` … (en az 3 model olanlar otomatik açılır) |
+| Firma | `/firmalar/`, `/firma/{firma}/` |
+| Model | `/firma/{firma}/{model}/` |
+| Formlar | `/teklif-al/`, `/firma-kayit/`, `/teklif-ver/` (firmalar için, e-postadaki bağlantıyla), `/yorum-yaz/` |
+| Rehber | `/rehber/…` (4 yazı), `/arazim-uygun-mu/` (araç) |
+| Yasal | `/kvkk-aydinlatma-metni/`, `/kullanim-kosullari/`, `/cerez-politikasi/`, `/siralama-nasil-yapilir/` |
+
+SEO: her sayfada başlık/açıklama, canonical, Open Graph, `sitemap-index.xml`, `robots.txt`; JSON-LD ile Organization, WebSite, BreadcrumbList, ItemList + Product/Offer, FAQPage, Article.
+
+## 1. Yayına almadan önce doldurun
+
+`src/site.config.ts`: şirket unvanı, adres, e-posta, telefon, WhatsApp, Instagram, Search Console doğrulama kodu. Boş bırakılan alanlar sitede hiç görünmez. KVKK metninde veri sorumlusu olarak şirket unvanı kullanılır, bu yüzden en azından **sirketUnvani** ve **eposta** dolu olmalı. Yasal metinleri bir avukata kontrol ettirin.
+
+## 2. Kurulum
+
+```bash
+npm install
+npm run build        # veriyi JSON'a çevirir ve dist/ klasörünü üretir
+npm run preview      # http://localhost:4321
+```
+
+## 3. Firebase
+
+1. console.firebase.google.com → yeni proje (ör. `prefabrikteklif`). Cloud Functions ve zamanlanmış görev için **Blaze (kullandıkça öde)** planı gerekir; bu trafikte maliyet çok düşüktür.
+2. Firestore'u açın (konum: `europe-west1` veya `eur3`).
+3. Bilgisayarınızda:
+   ```bash
+   npm install -g firebase-tools
+   firebase login
+   firebase use --add            # projeyi seçin
+   cd functions && npm install && cd ..
+   ```
+4. E-posta ve ayarlar. `functions/.env` dosyası oluşturun:
+   ```
+   SMTP_HOST=smtp.hostinger.com
+   SMTP_PORT=465
+   SMTP_USER=info@prefabrikteklif.com.tr
+   MAIL_FROM=PrefabrikTeklif <info@prefabrikteklif.com.tr>
+   ADMIN_EMAIL=sizin@epostaniz.com
+   SITE_URL=https://www.prefabrikteklif.com.tr
+   ```
+   Gizli anahtarlar:
+   ```bash
+   firebase functions:secrets:set SMTP_PASS        # e-posta kutusunun şifresi
+   firebase functions:secrets:set PLACES_API_KEY   # Google Places API (New) anahtarı
+   ```
+   Places anahtarını Google Cloud Console'da sadece "Places API (New)" ile sınırlayın. Google puanı kullanıcı "Google puanını göster" butonuna basınca çekilir; Google kuralları gereği sadece place_id saklanır.
+5. Yayın:
+   ```bash
+   npm run build
+   firebase deploy
+   ```
+
+## 4. Alan adı (METUnic)
+
+Firebase Console → Hosting → **Özel alan adı ekle** → `www.prefabrikteklif.com.tr` (ana) ve `prefabrikteklif.com.tr` (www'ya yönlendir). Firebase'in verdiği TXT ve A kayıtlarını METUnic DNS yönetimine girin. SSL otomatik gelir (birkaç saat sürebilir).
+
+## 5. Google Search Console
+
+Search Console → Mülk ekle → doğrulama kodunu `site.config.ts` içine yazın, yeniden yayınlayın → Site haritaları: `https://www.prefabrikteklif.com.tr/sitemap-index.xml`.
+
+## 6. Teklif akışı nasıl çalışır?
+
+1. Kullanıcı `/teklif-al/` formunu doldurur → `talepler` koleksiyonuna kaydedilir, size (ADMIN_EMAIL) ve kullanıcıya e-posta gider.
+2. Seçilen ve **kayıtlı** firmalara (Firestore `firmalar`) özel "Teklif ver" bağlantısı gönderilir. Kayıtlı olmayan seçili firmalar size gelen e-postada "Elle aranması gereken" olarak listelenir; ilk dönemde bu firmaları arayıp kayıt teklif edin.
+3. Her 30 dakikada çalışan görev, 24 saati dolan talepler için gelen teklifleri tek tabloda kullanıcıya e-postalar.
+
+**Firma aktif etmek:** Firestore → `firmalar` → belge kimliği firmanın slug'ı (ör. `karmod`):
+
+```json
+{ "aktif": true, "eposta": "satis@firma.com", "tipler": ["prefabrik", "celik"], "iller": ["*"] }
+```
+
+`iller` için `["*"]` tüm Türkiye; ya da `["Malatya", "Elazığ"]`. Firma başvuruları `firmaBasvurulari` koleksiyonuna düşer.
+
+**Yorum onayı:** `yorumlar` koleksiyonunda `durum: "bekliyor"` → sözleşme belgesini kontrol edip `"onayli"` yapın. Firma cevabı için `cevap` alanı ekleyin.
+
+## 7. Fiyat güncelleme
+
+CSV'leri `data/raw/` içine koyun (sütunlar: `firma,model_adi,tip,m2,oda,kat,fiyat_tl,fiyat_kapsami,kaynak_url,kontrol_tarihi`), sonra `npm run build && firebase deploy`. İstatistikler, sayfa başlıklarındaki ay ve oda/m² sayfaları otomatik güncellenir. Listeye alınmayan firmalar ve hatalı fiyatlar `scripts/build_data.py` içindeki `HARIC_FIRMALAR` ve `HARIC_MODELLER` ile yönetilir.
+
+## Veri notları (1 Kasım 2026)
+
+- Fiyatlar firmaların sitelerinden alındı; kaynaklar her modelde. Çoğu firma KDV durumunu yazmıyor, bunlar "belirtilmemiş" olarak işaretli.
+- Elenenler: Kartal Prefabrik ve Çelik Evler (Karmod'un sitesi), Prefabriko (Nova ile aynı adres), Mopre (site kapalı), Demo Prefabrik ve Prefabrika (site açılmıyor), Kardeşler'in iki hatalı fiyatı.
+- Uyarıyla gösterilenler: Asia (kampanya tarihi geçmiş), Villa Prefabrik ve Esse (eski liste), Mira (m² başına sabit oranlı fiyatlar), Lider (sosyal medya ilanı). Bu modeller listede sona alınır.
+- 26 firma fiyat yayınlamıyor ya da sadece euro/m² fiyatı veriyor; bunlar firma listesinde var.

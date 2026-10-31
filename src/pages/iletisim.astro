@@ -1,0 +1,16 @@
+---
+import Sayfa from '../components/Sayfa.astro';
+import { SITE } from '../site.config';
+const wa = SITE.whatsapp ? `https://wa.me/${SITE.whatsapp}` : '';
+---
+<Sayfa title="İletişim" h1="İletişim" description={`${SITE.ad} iletişim bilgileri.`}>
+  {SITE.sirketUnvani && <p><strong>{SITE.sirketUnvani}</strong></p>}
+  {SITE.adres && <p>{SITE.adres}</p>}
+  <ul>
+    {SITE.eposta && <li>E-posta: <a href={`mailto:${SITE.eposta}`}>{SITE.eposta}</a></li>}
+    {SITE.telefon && <li>Telefon: <a href={`tel:${SITE.telefon.replace(/\s/g, '')}`}>{SITE.telefon}</a></li>}
+    {wa && <li><a href={wa} rel="noopener">WhatsApp’tan yazın</a></li>}
+    {SITE.instagram && <li>Instagram: <a href={`https://instagram.com/${SITE.instagram}`} rel="noopener">@{SITE.instagram}</a></li>}
+  </ul>
+  <p>Teklif almak için <a href="/teklif-al/">teklif formunu</a>, firmanızı eklemek için <a href="/firma-kayit/">firma kayıt formunu</a> kullanın.</p>
+</Sayfa>

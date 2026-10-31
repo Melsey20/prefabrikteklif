@@ -1,0 +1,10 @@
+---
+import KategoriSayfa from '../../components/KategoriSayfa.astro';
+import { TIPLER, TIP_KEYS, tipModelleri } from '../../lib/data';
+export function getStaticPaths() {
+  return TIP_KEYS.map((k) => ({ params: { tip: TIPLER[k].slug }, props: { key: k } }));
+}
+const { key } = Astro.props;
+const T = TIPLER[key];
+---
+<KategoriSayfa tip={key} list={tipModelleri(key)} baslik={T.baslik} crumbs={[{ ad: T.baslik }]} />

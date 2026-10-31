@@ -1,0 +1,132 @@
+---
+import Base from '../layouts/Base.astro';
+import Crumbs from '../components/Crumbs.astro';
+import { SITE } from '../site.config';
+import { TIPLER, TIP_KEYS, firms } from '../lib/data';
+const ILLER = ['Adana','Adıyaman','Afyonkarahisar','Ağrı','Aksaray','Amasya','Ankara','Antalya','Ardahan','Artvin','Aydın','Balıkesir','Bartın','Batman','Bayburt','Bilecik','Bingöl','Bitlis','Bolu','Burdur','Bursa','Çanakkale','Çankırı','Çorum','Denizli','Diyarbakır','Düzce','Edirne','Elazığ','Erzincan','Erzurum','Eskişehir','Gaziantep','Giresun','Gümüşhane','Hakkari','Hatay','Iğdır','Isparta','İstanbul','İzmir','Kahramanmaraş','Karabük','Karaman','Kars','Kastamonu','Kayseri','Kilis','Kırıkkale','Kırklareli','Kırşehir','Kocaeli','Konya','Kütahya','Malatya','Manisa','Mardin','Mersin','Muğla','Muş','Nevşehir','Niğde','Ordu','Osmaniye','Rize','Sakarya','Samsun','Şanlıurfa','Siirt','Sinop','Sivas','Şırnak','Tekirdağ','Tokat','Trabzon','Tunceli','Uşak','Van','Yalova','Yozgat','Zonguldak'];
+const firmaListe = firms.filter((f) => f.modelSayisi > 0 || f.urunTipleri.length).map((f) => ({ slug: f.slug, ad: f.kisaAd, tipler: f.tipler.join(' ') }));
+---
+<Base title="Ücretsiz Teklif Al: Prefabrik, Çelik, Tiny House" description={`Bir kez yaz, seçtiğin en fazla ${SITE.maksFirma} prefabrik ve modüler ev firmasından 24 saat içinde teklif al. Teklifler aynı kapsam başlıklarıyla tek e-postada gelir. Ücretsiz.`}>
+  <div class="wrap narrow">
+    <Crumbs items={[{ ad: 'Teklif al' }]} />
+    <h1>Birden çok firmadan ücretsiz teklif al</h1>
+    <p class="muted">Bir kez doldur. Firmalar teklifini 24 saat içinde girer; hepsi aynı kapsam başlıklarıyla tek e-postada sana gelir.</p>
+
+    <form class="form" id="teklif" novalidate>
+      <fieldset>
+        <legend>Ev tipi</legend>
+        <div class="two">
+          {TIP_KEYS.map((k, i) => <label class="opt"><input type="radio" name="tip" value={k} checked={i === 0} required /> {TIPLER[k].ad}</label>)}
+        </div>
+      </fieldset>
+      <div class="two">
+        <label class="f">Oda sayısı
+          <select name="oda"><option value="">Fark etmez</option><option>1+0</option><option>1+1</option><option>2+1</option><option>3+1</option><option>4+1</option><option>5+1</option></select>
+        </label>
+        <label class="f">Yaklaşık m²
+          <input type="number" name="m2" inputmode="numeric" min="10" max="1000" placeholder="Ör: 80" />
+        </label>
+      </div>
+
+      <fieldset>
+        <legend>Evin kurulacağı yer</legend>
+        <label class="opt"><input type="radio" name="arazi" value="imarli" checked /> İmarlı arsa</label>
+        <label class="opt"><input type="radio" name="arazi" value="koy" /> Köy yerleşik alanı</label>
+        <label class="opt"><input type="radio" name="arazi" value="tarla" /> Tarla / bağ-bahçe</label>
+        <label class="opt"><input type="radio" name="arazi" value="yok" /> Henüz arazim yok</label>
+        <span class="small muted">Tarım arazisinde sabit eve ruhsat çoğu zaman çıkmaz. <a href="/arazim-uygun-mu/">Arazim uygun mu?</a></span>
+      </fieldset>
+
+      <div class="two">
+        <label class="f">İl
+          <select name="il" required><option value="">Seçin</option>{ILLER.map((il) => <option>{il}</option>)}</select>
+        </label>
+        <label class="f">İlçe
+          <input type="text" name="ilce" autocomplete="address-level2" />
+        </label>
+      </div>
+      <div class="two">
+        <label class="f">Bütçe
+          <select name="butce"><option value="">Belirtmek istemiyorum</option><option>500 bin TL altı</option><option>500 bin – 750 bin TL</option><option>750 bin – 1 milyon TL</option><option>1 – 2 milyon TL</option><option>2 milyon TL üzeri</option></select>
+        </label>
+        <label class="f">Ne zaman?
+          <select name="zaman"><option>3 ay içinde</option><option>3–6 ay</option><option>6 aydan sonra</option><option>Sadece fiyat araştırıyorum</option></select>
+        </label>
+      </div>
+
+      <fieldset>
+        <legend>Teklifte ne olsun?</legend>
+        <label class="chk"><input type="checkbox" name="kapsam" value="anahtar-teslim" checked /> Anahtar teslim fiyat</label>
+        <label class="chk"><input type="checkbox" name="kapsam" value="nakliye-montaj" checked /> Nakliye ve montaj</label>
+        <label class="chk"><input type="checkbox" name="kapsam" value="zemin-betonu" /> Zemin betonu</label>
+        <label class="chk"><input type="checkbox" name="kapsam" value="ruhsat-proje" /> Ruhsat ve proje işleri</label>
+      </fieldset>
+
+      <fieldset id="firmalar-alan">
+        <legend>Teklif istenecek firmalar <span class="small muted">(en fazla {SITE.maksFirma})</span></legend>
+        <span class="small muted" id="firma-bilgi">Seçmezsen ev tipine ve iline uygun firmaları biz seçeriz.</span>
+        <div class="two" id="firma-liste">
+          {firmaListe.map((f) => <label class="chk" data-tipler={f.tipler}><input type="checkbox" name="firmalar" value={f.slug} /> {f.ad}</label>)}
+        </div>
+      </fieldset>
+
+      <label class="f">Eklemek istediğin not
+        <textarea name="not" maxlength="1000" placeholder="Ör: Verandalı olsun, eğimli arazi, ısı yalıtımı önemli"></textarea>
+      </label>
+      <label class="f">Ad soyad<input type="text" name="ad" autocomplete="name" required maxlength="80" /></label>
+      <label class="f">E-posta (teklifler buraya gelir)<input type="email" name="eposta" autocomplete="email" required maxlength="120" /></label>
+      <label class="f">Telefon<input type="tel" name="telefon" autocomplete="tel" required maxlength="20" placeholder="05xx xxx xx xx" /></label>
+      <div class="hp" aria-hidden="true"><label>Web sitesi<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
+
+      <label class="chk"><input type="checkbox" name="riza" required /> <span>Ad, telefon ve talep bilgilerimin teklif vermesi için seçtiğim veya benim için seçilen en fazla {SITE.maksFirma} firmaya aktarılmasına <a href="/kvkk-aydinlatma-metni/#acik-riza" target="_blank">açık rıza</a> veriyorum. <a href="/kvkk-aydinlatma-metni/" target="_blank">Aydınlatma metni</a></span></label>
+      <label class="chk"><input type="checkbox" name="pazarlama" /> <span>Fiyat düşüşü ve yeni modellerden e-postayla haberdar olmak istiyorum (isteğe bağlı).</span></label>
+      <p class="err" id="hata" role="alert" hidden></p>
+      <button class="btn btn-o btn-block" type="submit" id="gonder">Teklifleri iste</button>
+      <p class="small muted" style="text-align:center;margin:0">Ücretsiz. Telefonun sadece teklif verecek firmalara gider.</p>
+    </form>
+  </div>
+  <script is:inline define:vars={{ MAX: SITE.maksFirma }}>
+    (function () {
+      var form = document.getElementById('teklif'), q = new URLSearchParams(location.search);
+      var pre = (q.get('firmalar') || '').split(',').filter(Boolean);
+      if (!pre.length) { try { pre = JSON.parse(localStorage.getItem('pt_sec') || '[]'); } catch (e) {} }
+      if (q.get('tip')) { var r = form.querySelector('input[name=tip][value="' + q.get('tip') + '"]'); if (r) r.checked = true; }
+      if (q.get('oda')) form.oda.value = q.get('oda');
+      if (q.get('m2')) form.m2.value = q.get('m2');
+      pre.slice(0, MAX).forEach(function (s) { var c = form.querySelector('input[name=firmalar][value="' + s + '"]'); if (c) c.checked = true; });
+      function filtre() {
+        var t = form.querySelector('input[name=tip]:checked').value;
+        form.querySelectorAll('#firma-liste label').forEach(function (l) {
+          var ok = !l.dataset.tipler || l.dataset.tipler.split(' ').indexOf(t) > -1 || l.querySelector('input').checked;
+          l.hidden = !ok;
+        });
+      }
+      form.addEventListener('change', function (e) {
+        if (e.target.name === 'tip') filtre();
+        if (e.target.name === 'firmalar') {
+          var n = form.querySelectorAll('input[name=firmalar]:checked').length;
+          if (n > MAX) { e.target.checked = false; }
+        }
+      });
+      filtre();
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var hata = document.getElementById('hata'); hata.hidden = true;
+        var fd = new FormData(form), d = {};
+        fd.forEach(function (v, k) { if (k === 'kapsam' || k === 'firmalar') { (d[k] = d[k] || []).push(v); } else d[k] = v; });
+        var tel = (d.telefon || '').replace(/\D/g, '');
+        var msg = !d.ad ? 'Ad soyad yazın.' : !/^\S+@\S+\.\S+$/.test(d.eposta || '') ? 'Geçerli bir e-posta yazın.' : tel.length < 10 ? 'Geçerli bir telefon yazın.' : !d.il ? 'İl seçin.' : !d.riza ? 'Teklif alabilmek için firmalara aktarım onayı gerekli.' : '';
+        if (msg) { hata.textContent = msg; hata.hidden = false; return; }
+        var btn = document.getElementById('gonder'); btn.disabled = true; btn.textContent = 'Gönderiliyor…';
+        fetch('/api/teklif', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) })
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+          .then(function (res) {
+            if (!res.ok) throw new Error(res.j && res.j.hata || 'Gönderilemedi');
+            try { localStorage.removeItem('pt_sec'); } catch (e) {}
+            location.href = '/teklif-alindi/?n=' + (res.j.firmaSayisi || '');
+          })
+          .catch(function (err) { hata.textContent = err.message + ' Lütfen tekrar deneyin.'; hata.hidden = false; btn.disabled = false; btn.textContent = 'Teklifleri iste'; });
+      });
+    })();
+  </script>
+</Base>

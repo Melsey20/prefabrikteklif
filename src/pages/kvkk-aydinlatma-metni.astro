@@ -1,0 +1,30 @@
+---
+import Sayfa from '../components/Sayfa.astro';
+import { SITE } from '../site.config';
+const sorumlu = SITE.sirketUnvani || `${SITE.ad} (${SITE.alanAdi}) işletmecisi`;
+---
+<Sayfa title="KVKK Aydınlatma Metni ve Açık Rıza" h1="KVKK aydınlatma metni" description={`${SITE.ad} kişisel verilerin korunması aydınlatma metni ve açık rıza metni.`}>
+  <p>6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) uyarınca, veri sorumlusu sıfatıyla {sorumlu}{SITE.adres ? ` (${SITE.adres})` : ''} olarak kişisel verilerinizi aşağıda açıklanan şekilde işliyoruz.</p>
+  <h2>İşlenen veriler</h2>
+  <ul>
+    <li>Kimlik ve iletişim: ad soyad, telefon, e-posta.</li>
+    <li>Talep bilgileri: ev tipi, oda sayısı, m², il-ilçe, arazi durumu, bütçe, zaman ve notlarınız.</li>
+    <li>İşlem güvenliği: IP adresi ve form gönderim zamanı.</li>
+    <li>Firma başvurularında: unvan, vergi numarası, adres, yetkili bilgileri ve belgeler.</li>
+  </ul>
+  <h2>İşleme amaçları ve hukuki sebepler</h2>
+  <ul>
+    <li>Teklif talebinizi almak, size uygun firmaları belirlemek ve tekliflerin size iletilmesi: sözleşmenin kurulması ve ifası (KVKK m.5/2-c).</li>
+    <li>Bilgilerinizin teklif verecek firmalara aktarılması: açık rızanız (KVKK m.5/1, m.8/1).</li>
+    <li>Kötüye kullanımın önlenmesi ve işlem güvenliği: meşru menfaat (KVKK m.5/2-f).</li>
+    <li>Kampanya ve bilgilendirme e-postaları: ayrıca verdiğiniz açık rıza ve ticari elektronik ileti onayı.</li>
+  </ul>
+  <h2>Aktarım</h2>
+  <p>Talep bilgileriniz ve iletişim bilgileriniz, açık rızanıza dayanarak, seçtiğiniz veya talebinize uygun olarak belirlenen en fazla {SITE.maksFirma} üretici firmaya teklif vermeleri amacıyla aktarılır. Verileriniz, hizmetin barındırılması ve e-posta gönderimi için kullandığımız hizmet sağlayıcılarda (ör. Google Firebase) saklanabilir; bu sağlayıcıların sunucuları yurt dışında bulunabilir.</p>
+  <h2>Saklama süresi</h2>
+  <p>Teklif talepleri, talebin tamamlanmasından itibaren en fazla 2 yıl saklanır; sonra silinir veya anonimleştirilir.</p>
+  <h2>Haklarınız</h2>
+  <p>KVKK m.11 uyarınca verilerinizin işlenip işlenmediğini öğrenme, düzeltilmesini veya silinmesini isteme, aktarıldığı üçüncü kişileri öğrenme ve itiraz etme haklarına sahipsiniz.{SITE.eposta ? <> Başvurularınızı <a href={`mailto:${SITE.eposta}`}>{SITE.eposta}</a> adresine iletebilirsiniz.</> : ' Başvurularınızı iletişim sayfasındaki kanallardan iletebilirsiniz.'}</p>
+  <h2 id="acik-riza">Açık rıza metni</h2>
+  <p>Teklif formunda ilgili kutuyu işaretleyerek; ad, telefon, e-posta ve talep bilgilerimin, teklif vermeleri amacıyla seçtiğim veya talebime uygun olarak belirlenen en fazla {SITE.maksFirma} üretici firmaya aktarılmasına açık rıza veriyorum. Rızamı her zaman geri alabileceğimi biliyorum.</p>
+</Sayfa>

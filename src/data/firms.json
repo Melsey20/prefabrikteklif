@@ -1,0 +1,1801 @@
+[
+ {
+  "ad": "Karmod Prefabrik Yapı Teknolojileri",
+  "kisaAd": "Karmod",
+  "slug": "karmod",
+  "web": "https://www.karmod.com",
+  "sehir": "İstanbul (prefabrik fabrikası Orhanlı/Tuzla; şubeler İstanbul Anadolu/Avrupa, Bursa, Antalya, Ankara)",
+  "il": "İstanbul",
+  "telefon": "444 20 35; 0216 392 00 02 (fabrika); WhatsApp 0539 635 58 88",
+  "sertifikalar": [
+   "ISO 9001",
+   "ISO 14001",
+   "ISO 10002",
+   "ISO 45001",
+   "CE (2025)",
+   "CE çelik (2026)",
+   "Yerli Malı Belgesi",
+   "kaynak (welding) belgesi"
+  ],
+  "sertifikaNotu": "ISO 9001; ISO 14001; ISO 10002; ISO 45001; CE (2025); CE çelik (2026); Yerli Malı Belgesi; kaynak (welding) belgesi",
+  "urunTipleri": [
+   "prefabrik ev",
+   "çelik ev",
+   "konteyner",
+   "modüler kabin",
+   "prefabrik yapı (şantiye, ofis, okul, hastane vb.)",
+   "konteyner ev",
+   "prefabrik yapı"
+  ],
+  "kaynak": [
+   "https://www.karmod.com/iletisim/",
+   "https://www.karmod.com/sertifikalar/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 20,
+  "enDusuk": 121200,
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Makro Prefabrik",
+  "kisaAd": "Makro Prefabrik",
+  "slug": "makro-prefabrik",
+  "web": "https://www.makroprefabrik.com",
+  "sehir": "İstanbul (iletişim sayfası: Pendik/İstanbul; Büyükçekmece ofis binası)",
+  "il": "İstanbul",
+  "telefon": "0216 396 32 33; WhatsApp +90 533 304 57 46",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev",
+   "çelik ev",
+   "prefabrik bungalov",
+   "bağ evi",
+   "konteyner",
+   "kabin",
+   "çelik hangar/depo",
+   "prefabrik yapılar"
+  ],
+  "kaynak": [
+   "https://www.makroprefabrik.com/celik-ev-fiyatlari",
+   "https://www.makroprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 12,
+  "enDusuk": 378500,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Nova Prefabrik",
+  "kisaAd": "Nova Prefabrik",
+  "slug": "nova-prefabrik",
+  "web": "https://www.novaprefabrik.com",
+  "sehir": "Gebze / Kocaeli (Balçık Mah. 3225 Sk. No:33/1)",
+  "il": "Kocaeli",
+  "telefon": "0262 744 0 444; WhatsApp +90 533 921 12 85",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev",
+   "konteyner",
+   "prefabrik yapı",
+   "kabin",
+   "prefabrik ofis"
+  ],
+  "kaynak": [
+   "https://www.novaprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 12,
+  "enDusuk": 480000,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "İdeal Ev Prefabrik (Prefabrik Evim / IDEALMOD)",
+  "kisaAd": "Prefabrik Evim (İdeal Ev)",
+  "slug": "prefabrik-evim-ideal-ev",
+  "web": "https://prefabrikevim.com",
+  "sehir": "Gebze / Kocaeli (Cumhuriyet Mah. Güney Yanyol Cad. No:24)",
+  "il": "Kocaeli",
+  "telefon": "+90 216 421 35 10; 0553 905 35 10",
+  "sertifikalar": [
+   "CE (hakkımızda: 'CE belgeli üretim')"
+  ],
+  "sertifikaNotu": "CE (hakkımızda: 'CE belgeli üretim')",
+  "urunTipleri": [
+   "prefabrik ev",
+   "dubleks prefabrik ev",
+   "çelik ev",
+   "dubleks çelik ev",
+   "bungalov",
+   "tiny house",
+   "konteyner",
+   "çelik konstrüksiyon yapılar"
+  ],
+  "kaynak": [
+   "https://prefabrikevim.com/celik-ev-fiyatlari/",
+   "https://prefabrikevim.com/hakkimizda/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 12,
+  "enDusuk": 429000,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "İkranur Prefabrik",
+  "kisaAd": "İkranur Prefabrik",
+  "slug": "ikranur-prefabrik",
+  "web": "https://ikranurprefabrik.com",
+  "sehir": "İstanbul (Çatalca fabrikası)",
+  "il": "İstanbul",
+  "telefon": "444 3 460",
+  "sertifikalar": [
+   "sayfada panellerin 'TS EN standartlarına uygun' üretildiği beyan ediliyor"
+  ],
+  "sertifikaNotu": "Belirli sertifika adı yok; sayfada panellerin 'TS EN standartlarına uygun' üretildiği beyan ediliyor",
+  "urunTipleri": [
+   "prefabrik ev (tek/çift kat)",
+   "çelik ev"
+  ],
+  "kaynak": [
+   "https://ikranurprefabrik.com/prefabrik-ev-fiyatlari-modelleri"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 12,
+  "enDusuk": 580000,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Villa Prefabrik Yapı (prefabrikevfiyatlari.com)",
+  "kisaAd": "Villa Prefabrik Yapı",
+  "slug": "villa-prefabrik-yapi",
+  "web": "https://prefabrikevfiyatlari.com",
+  "sehir": "İstanbul (merkez/showroom İçmeler Mah. Eşiyok Sk. No:3 Tuzla); fabrika Gebze/Darıca, Kocaeli",
+  "il": "İstanbul",
+  "telefon": "+90 216 494 49 49; 0535 025 01 61",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tek katlı prefabrik ev",
+   "dubleks prefabrik ev",
+   "tasarım prefabrik ev",
+   "konteyner/modüler ev",
+   "hafif çelik ve çelik konstrüksiyon yapılar"
+  ],
+  "kaynak": [
+   "https://prefabrikevfiyatlari.com/",
+   "https://prefabrikevfiyatlari.com/pages/hakkimizda"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 8,
+  "enDusuk": 225000,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Limit Prefabrik - Çelik Yapı Sistemleri",
+  "kisaAd": "Limit Prefabrik",
+  "slug": "limit-prefabrik",
+  "web": "https://www.limitprefabrik.com",
+  "sehir": "İstanbul (ofis: Güzelyalı, Sahil Blv. No:109/A Pendik)",
+  "il": "İstanbul",
+  "telefon": "+90 536 348 12 57; +90 543 710 24 12",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tek katlı prefabrik ev",
+   "çift katlı prefabrik ev",
+   "çelik konstrüksiyon"
+  ],
+  "kaynak": [
+   "https://www.limitprefabrik.com/her-sey-dahil-prefabrik-ev-fiyatlari/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 4,
+  "enDusuk": 410000,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Evo Prefabrik",
+  "kisaAd": "Evo Prefabrik",
+  "slug": "evo-prefabrik",
+  "web": "https://www.evoprefabrik.com",
+  "sehir": "İstanbul (merkez: Orta, Alpaslan Sk. No:8/A D:41 Kartal)",
+  "il": "İstanbul",
+  "telefon": "0554 986 50 10",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik yapı (tek/çift kat)",
+   "hafif çelik ev (tek/çift kat)",
+   "tiny house"
+  ],
+  "kaynak": [
+   "https://www.evoprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 12,
+  "enDusuk": 930000,
+  "tipler": [
+   "bungalov",
+   "celik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Aktaş Grup İnşaat",
+  "kisaAd": "Aktaş Grup İnşaat",
+  "slug": "aktas-grup-insaat",
+  "web": "https://www.aktasgrupinsaat.com",
+  "sehir": "İstanbul (Bağlarbaşı Mah. Atatürk Cad. Yücelen Sk. No:1 Maltepe)",
+  "il": "İstanbul",
+  "telefon": "0216 493 88 80; 0532 335 93 34",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "dublex/tek kat çelik ve prefabrik evler",
+   "modern tasarım yapılar",
+   "ağır çelik yapılar",
+   "konteyner ve şantiye yapıları",
+   "betonarme",
+   "altyapı",
+   "peyzaj",
+   "yüzme havuzu"
+  ],
+  "kaynak": [
+   "https://www.aktasgrupinsaat.com/iletisim.html"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 12,
+  "enDusuk": 1360000,
+  "tipler": [
+   "celik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Modüler Evin",
+  "kisaAd": "Modüler Evin",
+  "slug": "moduler-evin",
+  "web": "https://modulerevin.com",
+  "sehir": "İstanbul (Yenişehir, Cumhuriyet Blv. Dumankaya Cadde Sitesi A blok No:12 Pendik)",
+  "il": "İstanbul",
+  "telefon": "+90 555 376 27 27; +90 538 094 57 84",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "hafif çelik ev",
+   "prefabrik ev",
+   "modüler ev",
+   "çelik depo"
+  ],
+  "kaynak": [
+   "https://modulerevin.com/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Oska Çelik Ev A.Ş. (Oska Grup)",
+  "kisaAd": "Oska Çelik Ev",
+  "slug": "oska-celik-ev",
+  "web": "https://www.oskacelikev.com",
+  "sehir": "Gaziantep, Bursa, Kahramanmaraş (satış ofisi/showroom; üretim tesisi şehri sayfada belirtilmemiş)",
+  "il": "Gaziantep",
+  "telefon": "0850 308 21 41",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "modüler ev (ağır çelik iskelet)",
+   "hafif çelik ev",
+   "hafif çelik profil"
+  ],
+  "kaynak": [
+   "https://www.oskacelikev.com/hakkimizda"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Asia Prefabrik A.Ş.",
+  "kisaAd": "Asia Prefabrik",
+  "slug": "asia-prefabrik",
+  "web": "https://www.asiaprefabrik.com.tr",
+  "sehir": "İzmir (fabrika)",
+  "il": "İzmir",
+  "telefon": "444 3 584",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev (tek kat/dubleks)",
+   "konteyner",
+   "çelik ev",
+   "prefabrik yapılar"
+  ],
+  "kaynak": [
+   "https://www.asiaprefabrik.com.tr/prefabrik-evler"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 12,
+  "enDusuk": 442600,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Egeser Prefabrik",
+  "kisaAd": "Egeser Prefabrik",
+  "slug": "egeser-prefabrik",
+  "web": "https://www.egeserprefabrik.com.tr",
+  "sehir": "Kemalpaşa / İzmir (fabrika: Çambel Mah. Ankara Cad. 1558. Sok. No:28)",
+  "il": "İzmir",
+  "telefon": "0531 886 60 90",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tek katlı ve çift katlı prefabrik ev",
+   "prefabrik ofis, yatakhane, yemekhane, şantiye, sosyal tesis, özel proje"
+  ],
+  "kaynak": [
+   "https://www.egeserprefabrik.com.tr/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Aşkar Prefabrik",
+  "kisaAd": "Aşkar Prefabrik",
+  "slug": "askar-prefabrik",
+  "web": "https://askarprefabrik.com",
+  "sehir": "Kemalpaşa / İzmir (12.000 m² tesis)",
+  "il": "İzmir",
+  "telefon": "+90 232 877 07 40; +90 541 230 50 11",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev",
+   "çelik ev (dubleks)",
+   "özel tasarım çelik ev",
+   "konteyner",
+   "çelik konstrüksiyon",
+   "modüler çelik yapı"
+  ],
+  "kaynak": [
+   "https://askarprefabrik.com/",
+   "https://askarprefabrik.com/urunlerimiz/acd-28-114-m2-dubleks-celik-ev/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Alsancak Prefabrik",
+  "kisaAd": "Alsancak Prefabrik",
+  "slug": "alsancak-prefabrik",
+  "web": "https://www.alsancakprefabrik.com.tr",
+  "sehir": "İzmir",
+  "il": "İzmir",
+  "telefon": "+90 532 177 99 20",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev",
+   "çelik ev",
+   "çelik villa",
+   "prefabrik ofis",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://www.alsancakprefabrik.com.tr/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Hibrit House",
+  "kisaAd": "Hibrit House",
+  "slug": "hibrit-house",
+  "web": "https://www.hibrithouse.com",
+  "sehir": "Tekirdağ (Süleymanpaşa, Dumansız Sanayi Bölgesi)",
+  "il": "Tekirdağ",
+  "telefon": "0533 899 80 59",
+  "sertifikalar": [
+   "O2 belgeli römork (tekerlekli modellerde)"
+  ],
+  "sertifikaNotu": "O2 belgeli römork (tekerlekli modellerde)",
+  "urunTipleri": [
+   "tekerlekli tiny house",
+   "modüler tiny house",
+   "mobil tiny kafe"
+  ],
+  "kaynak": [
+   "https://www.hibrithouse.com/tiny-house-fiyatlari/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 2,
+  "enDusuk": 850000,
+  "tipler": [
+   "tiny house"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "ZMT Prefabrik",
+  "kisaAd": "ZMT Prefabrik",
+  "slug": "zmt-prefabrik",
+  "web": "https://zmtprefabrik.com",
+  "sehir": "Kocaeli (Gebze)",
+  "il": "Kocaeli",
+  "telefon": "(0262) 320 01 12",
+  "sertifikalar": [
+   "ISO, TSE ve CE kapsamında süreçler (beyan)",
+   "TS EN 1090 uyumlu çelik imalat"
+  ],
+  "sertifikaNotu": "ISO, TSE ve CE kapsamında süreçler (beyan); TS EN 1090 uyumlu çelik imalat",
+  "urunTipleri": [
+   "prefabrik ev",
+   "hafif çelik ev",
+   "modüler ev",
+   "konteyner",
+   "küçük prefabrik ev (tekerleksiz tiny house)"
+  ],
+  "kaynak": [
+   "https://zmtprefabrik.com/tiny-house-fiyatlari"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 5,
+  "enDusuk": 389520,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Simgesan Konteyner",
+  "kisaAd": "Simgesan Konteyner",
+  "slug": "simgesan-konteyner",
+  "web": "https://www.e-konteyner.net",
+  "sehir": "Kocaeli (Gebze)",
+  "il": "Kocaeli",
+  "telefon": "0552 471 61 05",
+  "sertifikalar": [
+   "O2 belgeli römork şasesi (tiny house)",
+   "TSE standartlarına uygun elektrik tesisatı (beyan)"
+  ],
+  "sertifikaNotu": "O2 belgeli römork şasesi (tiny house); TSE standartlarına uygun elektrik tesisatı (beyan)",
+  "urunTipleri": [
+   "tiny house (tekerlekli ve sabit)",
+   "konteyner ev",
+   "ahşap konteyner",
+   "ofis konteyneri",
+   "cafe konteyneri",
+   "güvenlik kabini"
+  ],
+  "kaynak": [
+   "https://www.e-konteyner.net/tiny-house"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 12,
+  "enDusuk": 335000,
+  "tipler": [
+   "konteyner",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Hane House",
+  "kisaAd": "Hane House",
+  "slug": "hane-house",
+  "web": "https://www.hanehouse.com",
+  "sehir": "İstanbul (Avcılar)",
+  "il": "İstanbul",
+  "telefon": "+90 (212) 422 08 80",
+  "sertifikalar": [
+   "O2 tip onay belgesi (çekme karavan)",
+   "plakalı ve ruhsatlı teslimat"
+  ],
+  "sertifikaNotu": "O2 tip onay belgesi (çekme karavan); plakalı ve ruhsatlı teslimat",
+  "urunTipleri": [
+   "tekerlekli tiny house",
+   "özel üretim tiny house"
+  ],
+  "kaynak": [
+   "https://www.hanehouse.com/hane-house-fiyat-listesi/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 5,
+  "enDusuk": null,
+  "tipler": [
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Zu Tiny House",
+  "kisaAd": "Zu Tiny House",
+  "slug": "zu-tiny-house",
+  "web": "https://www.zutinyhouse.com",
+  "sehir": "İzmir (Urla)",
+  "il": "İzmir",
+  "telefon": "0506 535 43 35",
+  "sertifikalar": [
+   "O2 belgeli, plakalı ve ruhsatlı teslimat"
+  ],
+  "sertifikaNotu": "O2 belgeli, plakalı ve ruhsatlı teslimat",
+  "urunTipleri": [
+   "tekerlekli tiny house"
+  ],
+  "kaynak": [
+   "https://www.zutinyhouse.com/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 4,
+  "enDusuk": null,
+  "tipler": [
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Elbarsco Tiny House",
+  "kisaAd": "Elbarsco Tiny House",
+  "slug": "elbarsco-tiny-house",
+  "web": "https://elbarsco.com",
+  "sehir": "İzmir (Buca)",
+  "il": "İzmir",
+  "telefon": "+90 533 145 95 07",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tiny house (tekerlekli ve sabit)",
+   "çelik yapı villa",
+   "prefabrik ev",
+   "mobil klinik"
+  ],
+  "kaynak": [
+   "https://elbarsco.com/tiny-house-fiyatlari/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 2,
+  "enDusuk": 875000,
+  "tipler": [
+   "tiny house"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Muttiny House",
+  "kisaAd": "Muttiny House",
+  "slug": "muttiny-house",
+  "web": "https://muttinyhouse.com",
+  "sehir": "Ankara (merkez Siteler; fabrika Akyurt)",
+  "il": "Ankara",
+  "telefon": "+90 537 777 68 08",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tiny house",
+   "kapsül ev",
+   "modüler ev",
+   "kabin ev",
+   "çelik ev",
+   "konteyner",
+   "yüzen ev",
+   "bungalov"
+  ],
+  "kaynak": [
+   "https://muttinyhouse.com/kategori/tiny-house-2"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 12,
+  "enDusuk": null,
+  "tipler": [
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Roysal Yapı (Roysal Konteyner)",
+  "kisaAd": "Roysal Yapı",
+  "slug": "roysal-yapi",
+  "web": "https://roysal.com.tr",
+  "sehir": "Çanakkale (Biga)",
+  "il": "Çanakkale",
+  "telefon": "0286 335 88 88",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "konteyner",
+   "konteyner ev",
+   "prefabrik ev",
+   "bungalov"
+  ],
+  "kaynak": [
+   "https://roysal.com.tr/hazir-konteyner-ev/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 5,
+  "enDusuk": 90000,
+  "tipler": [
+   "konteyner"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Esse Konteyner",
+  "kisaAd": "Esse Konteyner",
+  "slug": "esse-konteyner",
+  "web": "https://essekonteyner.com",
+  "sehir": "İstanbul (Tuzla)",
+  "il": "İstanbul",
+  "telefon": "+90 535 319 94 75",
+  "sertifikalar": [
+   "TSE standartlarında malzeme (beyan)"
+  ],
+  "sertifikaNotu": "TSE standartlarında malzeme (beyan)",
+  "urunTipleri": [
+   "konteyner",
+   "konut konteyneri",
+   "panel kabin",
+   "metropol konteyner",
+   "şantiye konteyneri",
+   "WC-duş konteyneri"
+  ],
+  "kaynak": [
+   "https://essekonteyner.com/konut-konteyner"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 8,
+  "enDusuk": 85000,
+  "tipler": [
+   "konteyner"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "3A Prefabrik",
+  "kisaAd": "3A Prefabrik",
+  "slug": "3a-prefabrik",
+  "web": "https://www.konteynervar.com",
+  "sehir": "İstanbul (Pendik)",
+  "il": "İstanbul",
+  "telefon": "0216 378 37 00",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "yaşam konteyneri",
+   "prefabrik ev",
+   "bungalov",
+   "demonte konteyner",
+   "sandviç panel",
+   "şantiye binası"
+  ],
+  "kaynak": [
+   "https://www.konteynervar.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 7,
+  "enDusuk": 92000,
+  "tipler": [
+   "konteyner"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Dost Ahşap",
+  "kisaAd": "Dost Ahşap",
+  "slug": "dost-ahsap",
+  "web": "https://dostahsap.com.tr",
+  "sehir": "Manisa (Şehzadeler)",
+  "il": "Manisa",
+  "telefon": "0532 168 39 45",
+  "sertifikalar": [
+   "ISO 9001:2015",
+   "ISO 14001:2015",
+   "ISO 45001:2018",
+   "ISO 10002:2018",
+   "CE uygunluk beyanı",
+   "TÜRKAK onaylı yapısal ahşap FÜK belgesi (EN 14081-1, onaylı kuruluş 3081)",
+   "marka tescil"
+  ],
+  "sertifikaNotu": "ISO 9001:2015; ISO 14001:2015; ISO 45001:2018; ISO 10002:2018; CE uygunluk beyanı; TÜRKAK onaylı yapısal ahşap FÜK belgesi (EN 14081-1, onaylı kuruluş 3081); marka tescil",
+  "urunTipleri": [
+   "ahşap ev",
+   "kütük ev",
+   "tomruk ev",
+   "bungalov",
+   "tiny house",
+   "üçgen ev",
+   "bahçe yapıları"
+  ],
+  "kaynak": [
+   "https://dostahsap.com.tr/kalite-belgelerimiz-ve-sertifikalarimiz/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 10,
+  "enDusuk": 2610000,
+  "tipler": [
+   "ahsap",
+   "bungalov"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Yılkar Ahşap",
+  "kisaAd": "Yılkar Ahşap",
+  "slug": "yilkar-ahsap",
+  "web": "https://yilkarahsap.com",
+  "sehir": "",
+  "il": "",
+  "telefon": "+90 507 311 95 05",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ahşap ev",
+   "bağ evi",
+   "bungalov",
+   "ahşap tiny house",
+   "bahçe yapıları"
+  ],
+  "kaynak": [
+   "https://yilkarahsap.com/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 12,
+  "enDusuk": 162000,
+  "tipler": [
+   "ahsap",
+   "bungalov",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "San Ahşap",
+  "kisaAd": "San Ahşap",
+  "slug": "san-ahsap",
+  "web": "https://sanahsap.com",
+  "sehir": "İstanbul (Beykoz)",
+  "il": "İstanbul",
+  "telefon": "0507 927 21 40",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ahşap ev",
+   "bungalov",
+   "ahşap villa",
+   "kütük ev",
+   "SIP panel modüler ev",
+   "kış bahçesi"
+  ],
+  "kaynak": [
+   "https://sanahsap.com/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 10,
+  "enDusuk": null,
+  "tipler": [
+   "ahsap",
+   "bungalov"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Azra Ahşap Ev (Sisneli Ahşap Yapılar)",
+  "kisaAd": "Azra Ahşap Ev",
+  "slug": "azra-ahsap-ev",
+  "web": "http://www.ahsapev.net",
+  "sehir": "İstanbul (Ümraniye, Dudullu OSB)",
+  "il": "İstanbul",
+  "telefon": "+90 532 520 25 46",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ahşap ev",
+   "kütük ev",
+   "bungalov",
+   "ahşap karavan/tiny house",
+   "ahşap ofis ve otel"
+  ],
+  "kaynak": [
+   "https://www.ahsapev.net/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 12,
+  "enDusuk": 315000,
+  "tipler": [
+   "ahsap",
+   "bungalov",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Baneva Ahşap Yapılar",
+  "kisaAd": "Baneva Ahşap Yapılar",
+  "slug": "baneva-ahsap-yapilar",
+  "web": "https://baneva.com.tr",
+  "sehir": "İstanbul (Kartal)",
+  "il": "İstanbul",
+  "telefon": "+90 532 179 02 03",
+  "sertifikalar": [
+   "ISO 9001:2000",
+   "ISO 9001:2008",
+   "ISO 14001:2004",
+   "ISO 10002:2014",
+   "ISO 18001:2007",
+   "marka tescil belgesi"
+  ],
+  "sertifikaNotu": "ISO 9001:2000; ISO 9001:2008; ISO 14001:2004; ISO 10002:2014; ISO 18001:2007; marka tescil belgesi",
+  "urunTipleri": [
+   "ahşap ev",
+   "kütük ev",
+   "karkas sistem",
+   "bungalov",
+   "taş ev",
+   "betonarme villa"
+  ],
+  "kaynak": [
+   "https://baneva.com.tr/kurumsal/sertifikalar?lang=tr"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 3,
+  "enDusuk": 400000,
+  "tipler": [
+   "ahsap",
+   "bungalov"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Prefabrik Yapı A.Ş.",
+  "kisaAd": "Prefabrik Yapı A.Ş.",
+  "slug": "prefabrik-yapi-a-s",
+  "web": "https://www.prefabrikyapi.com",
+  "sehir": "İstanbul (merkez ofis Pendik); diğer adresler: Çayırova/Kocaeli, Hendek/Sakarya (2. OSB), Çankaya/Ankara",
+  "il": "İstanbul",
+  "telefon": "444 1 777 (site başlığı); +90 216 392 12 89; +90 216 392 00 64; +90 216 392 21 29; +90 262 658 95 02 (Kocaeli); +90 264 654 58 00 (Sakarya); +90 312 448 11 12 (Ankara)",
+  "sertifikalar": [],
+  "sertifikaNotu": "Konteyner sayfasında yalnızca 'ISO ve CE standartlarına' uygun üretim ifadesi var (belge adı/numarası yok)",
+  "urunTipleri": [
+   "prefabrik ev",
+   "prefabrik yapı",
+   "konteyner",
+   "demonte konteyner",
+   "kabin",
+   "hafif çelik ev/villa",
+   "çelik yapı"
+  ],
+  "kaynak": [
+   "https://www.prefabrikyapi.com/iletisim",
+   "https://www.prefabrikyapi.com/urun-kategori/prefabrik-ev",
+   "https://www.prefabrikyapi.com/urun-kategori/konteyner"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Özge Yapı",
+  "kisaAd": "Özge Yapı",
+  "slug": "ozge-yapi",
+  "web": "https://www.ozgeyapi.com",
+  "sehir": "İstanbul (merkez ofis Pendik; ana sayfa: İstanbul'daki tesisler)",
+  "il": "İstanbul",
+  "telefon": "444 7879; +90 216 392 21 28; +90 216 392 93 08",
+  "sertifikalar": [
+   "ISO 9001:2015",
+   "ISO 14001 (sayfada 'ISO 1400:2015' yazım hatasıyla)",
+   "ISO 45001:2018",
+   "ISO 10002:2018",
+   "ISO 9001 UKAS"
+  ],
+  "sertifikaNotu": "ISO 9001:2015; ISO 14001 (sayfada 'ISO 1400:2015' yazım hatasıyla); ISO 45001:2018; ISO 10002:2018; ISO 9001 UKAS",
+  "urunTipleri": [
+   "prefabrik ev (tek katlı, dubleks)",
+   "prefabrik yapı",
+   "konteyner",
+   "kabin",
+   "hafif çelik yapı/villa",
+   "çelik yapı"
+  ],
+  "kaynak": [
+   "https://www.ozgeyapi.com/iletisim",
+   "https://www.ozgeyapi.com/",
+   "https://www.ozgeyapi.com/urunler/prefabrik-ev/tek-katli-prefabrik-ev"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Mahir Prefabrik",
+  "kisaAd": "Mahir Prefabrik",
+  "slug": "mahir-prefabrik",
+  "web": "https://mahirprefabrik.com",
+  "sehir": "Şanlıurfa (üretim merkezi Eyyübiye); Ankara showroom (Gölbaşı/Karaoğlan)",
+  "il": "Şanlıurfa",
+  "telefon": "+90 533 319 96 63; +90 507 704 04 74",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev",
+   "prefabrik çelik ev",
+   "prefabrik çelik ofis",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://mahirprefabrik.com/bize-ulasin/",
+   "https://mahirprefabrik.com/prefabrik-modelleri/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 15,
+  "enDusuk": 415000,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Yönel Prefabrik",
+  "kisaAd": "Yönel Prefabrik",
+  "slug": "yonel-prefabrik",
+  "web": "https://www.yonelprefabrik.com",
+  "sehir": "Konya (Karatay)",
+  "il": "Konya",
+  "telefon": "+90 332 342 16 15; WhatsApp +90 533 685 60 03",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik ev",
+   "lüks prefabrik ev",
+   "standart prefabrik ev (tek/iki katlı)",
+   "ofis yapıları",
+   "karma yapılar",
+   "modüler ev",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://www.yonelprefabrik.com/",
+   "https://www.yonelprefabrik.com/kategoriler/standart-prefabrik-evler"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Feza Prefabrik",
+  "kisaAd": "Feza Prefabrik",
+  "slug": "feza-prefabrik",
+  "web": "https://www.fezaprefabrik.com",
+  "sehir": "Denizli (merkez ve fabrika Pamukkale)",
+  "il": "Denizli",
+  "telefon": "0258 274 66 66; 0258 274 64 44 (fabrika)",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev",
+   "çelik ev",
+   "prefabrik bina",
+   "konteyner",
+   "kabin",
+   "su deposu"
+  ],
+  "kaynak": [
+   "https://www.fezaprefabrik.com/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Modern Prefabrik",
+  "kisaAd": "Modern Prefabrik",
+  "slug": "modern-prefabrik",
+  "web": "https://www.modernprefabrik.com.tr",
+  "sehir": "İstanbul (Büyükçekmece)",
+  "il": "İstanbul",
+  "telefon": "+90 552 730 09 64; 0212 916 22 25",
+  "sertifikalar": [
+   "ISO 9001",
+   "ISO 14001",
+   "ISO 45001",
+   "CE",
+   "TSE",
+   "EN 1090 (kurumsal sayfa 'Belgelerimiz' bölümü)"
+  ],
+  "sertifikaNotu": "ISO 9001; ISO 14001; ISO 45001; CE; TSE; EN 1090 (kurumsal sayfa 'Belgelerimiz' bölümü)",
+  "urunTipleri": [
+   "prefabrik ev (tek/çift katlı)",
+   "çelik konut (tek/çift katlı, garajlı)",
+   "ofis yapıları",
+   "endüstriyel yapılar",
+   "okul/eğitim yapıları"
+  ],
+  "kaynak": [
+   "https://www.modernprefabrik.com.tr/kurumsal",
+   "https://www.modernprefabrik.com.tr/urunler?kategori=prefabrik"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 15,
+  "enDusuk": 645000,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Evkon Prefabrik",
+  "kisaAd": "Evkon Prefabrik",
+  "slug": "evkon-prefabrik",
+  "web": "https://www.evkonprefabrik.com.tr",
+  "sehir": "Dilovası / Kocaeli",
+  "il": "Kocaeli",
+  "telefon": "+90 262 751 51 47",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev (tek/çift katlı)",
+   "çelik ev",
+   "hafif çelik bungalov",
+   "konteyner (ev, ofis, demonte, yatakhane vb.)",
+   "prefabrik şantiye/ofis/yatakhane/yemekhane",
+   "ağır çelik yapılar"
+  ],
+  "kaynak": [
+   "https://www.evkonprefabrik.com.tr/",
+   "https://www.evkonprefabrik.com.tr/prefabrik-tek-katli"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Erd Villa",
+  "kisaAd": "Erd Villa",
+  "slug": "erd-villa",
+  "web": "https://erdvilla.com",
+  "sehir": "Ankara (Yenimahalle, İvedik)",
+  "il": "Ankara",
+  "telefon": "+90 539 570 83 49 (WhatsApp)",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tek katlı çelik ev",
+   "iki katlı çelik ev",
+   "çelik ofis yapıları",
+   "çelik konstrüksiyon ev",
+   "prefabrik yapılar"
+  ],
+  "kaynak": [
+   "https://erdvilla.com/",
+   "https://erdvilla.com/tek-katli-celik-evler"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Mira Prefabrik",
+  "kisaAd": "Mira Prefabrik",
+  "slug": "mira-prefabrik",
+  "web": "https://miraprefabrik.com",
+  "sehir": "Keşan / Edirne",
+  "il": "Edirne",
+  "telefon": "+90 545 303 55 14; WhatsApp teknik destek +90 545 546 77 44",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tek katlı prefabrik ev",
+   "iki katlı dubleks villa",
+   "çelik konstrüksiyon ev (tek/iki katlı)",
+   "toplu prefabrik konut",
+   "konteyner",
+   "prefabrik havuz",
+   "çelik hangar/depo"
+  ],
+  "kaynak": [
+   "https://miraprefabrik.com/kurumsal",
+   "https://miraprefabrik.com/tek-katli-prefabrik-ev-modelleri"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 15,
+  "enDusuk": 560000,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Prefabrikten",
+  "kisaAd": "Prefabrikten",
+  "slug": "prefabrikten",
+  "web": "https://prefabrikten.com",
+  "sehir": "Dilovası / Kocaeli (Dilovası OSB)",
+  "il": "Kocaeli",
+  "telefon": "0542 645 55 60",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "modüler çelik ev",
+   "bahçe ofisi/stüdyo",
+   "çelik ev (tek katlı/dubleks)",
+   "prefabrik ev (tek katlı/dubleks)",
+   "prefabrik ofis/yatakhane/yemekhane",
+   "modüler satış ofisi",
+   "metropol kabin"
+  ],
+  "kaynak": [
+   "https://prefabrikten.com/iletisim/",
+   "https://prefabrikten.com/",
+   "https://prefabrikten.com/prefabrik-ev-fiyatlari/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 15,
+  "enDusuk": 507130,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Trend Yapı Prefabrik",
+  "kisaAd": "Trend Yapı Prefabrik",
+  "slug": "trend-yapi-prefabrik",
+  "web": "https://www.trendyapiprefabrik.com",
+  "sehir": "İstanbul (Tuzla, Lantana Plaza ofis)",
+  "il": "İstanbul",
+  "telefon": "0532 172 96 52",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev",
+   "hafif çelik ev/villa",
+   "bungalov",
+   "konteyner",
+   "prefabrik ofis/yemekhane/yatakhane",
+   "modern kabin"
+  ],
+  "kaynak": [
+   "https://www.trendyapiprefabrik.com/",
+   "https://www.trendyapiprefabrik.com/hakkimizda/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 15,
+  "enDusuk": 440685,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Kardeşler Çelik Yapı",
+  "kisaAd": "Kardeşler Çelik Yapı",
+  "slug": "kardesler-celik-yapi",
+  "web": "https://www.kardeslercelikyapi.com.tr",
+  "sehir": "Malatya (Gazi Mah. Medeniyet Cad. No:47/1 Yeşilyurt)",
+  "il": "Malatya",
+  "telefon": "0506 306 52 55; 0530 326 44 23 (WhatsApp); 0544 620 19 91",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik ev/hafif çelik yapı",
+   "prefabrik ev",
+   "çelik konstrüksiyon",
+   "konteyner ofis/ev",
+   "mantolama ve çatı izolasyonu"
+  ],
+  "kaynak": [
+   "https://www.kardeslercelikyapi.com.tr/hakkimizda",
+   "https://kardeslercelikyapi.com.tr/urun/tek-katli-prefabrik-2-1-82-m2-k-c-01-44"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 6,
+  "enDusuk": 600000,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Cücemenler Prefabrik",
+  "kisaAd": "Cücemenler Prefabrik",
+  "slug": "cucemenler-prefabrik",
+  "web": "https://cucemenler.com",
+  "sehir": "Malatya (Özalper, Turgut Özal Bl., 44120)",
+  "il": "Malatya",
+  "telefon": "0532 276 27 62",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev (tek/çift katlı)",
+   "çelik ev",
+   "konteyner",
+   "prefabrik okul/ofis/sağlık yapıları"
+  ],
+  "kaynak": [
+   "https://cucemenler.com/hakkimizda/",
+   "https://cucemenler.com/prefabrik-ev-fiyatlari/",
+   "https://cucemenler.com/tek-katli/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "GoldYapı Malatya",
+  "kisaAd": "GoldYapı Malatya",
+  "slug": "goldyapi-malatya",
+  "web": "https://www.goldyapimalatya.com",
+  "sehir": "Malatya (Görgü Mah., Kayseri-Malatya Yolu 11. km, Yeşilyurt)",
+  "il": "Malatya",
+  "telefon": "0506 639 67 47; 0507 063 44 14",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev",
+   "çelik ev",
+   "ahşap ev",
+   "bungalov",
+   "betonarme",
+   "taşınabilir ev",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://www.goldyapimalatya.com",
+   "https://www.goldyapimalatya.com/ileti%C5%9Fim",
+   "https://www.goldyapimalatya.com/hizmetler"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "ifHaus",
+  "kisaAd": "ifHaus",
+  "slug": "ifhaus",
+  "web": "https://ifhaus.com",
+  "sehir": "İstanbul (ofis: Papirus Plaza, Kağıthane; üretim: İstanbul'daki fabrika; Tuzla'da örnek ev)",
+  "il": "İstanbul",
+  "telefon": "0850 532 24 58",
+  "sertifikalar": [
+   "CE (sayfa beyanı: 'CE sertifikalı kompozit yapı sistemi')"
+  ],
+  "sertifikaNotu": "CE (sayfa beyanı: 'CE sertifikalı kompozit yapı sistemi')",
+  "urunTipleri": [
+   "prefabrik/modüler villa (kompozit yapı sistemi)",
+   "arsaya özel tasarım"
+  ],
+  "kaynak": [
+   "https://ifhaus.com/hakkimizda/",
+   "https://ifhaus.com/",
+   "https://ifhaus.com/modeller/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 10,
+  "enDusuk": 999000,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Pramo",
+  "kisaAd": "Pramo",
+  "slug": "pramo",
+  "web": "https://pramo.com.tr",
+  "sehir": "Kocaeli (merkez/üretim: Pelitli Köyü, Gebze; ihracat ofisi: Pendik/İstanbul)",
+  "il": "Kocaeli",
+  "telefon": "+90 216 390 77 66; +90 546 767 75 91 (WhatsApp); +90 533 377 80 73 (ihracat)",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev ve yapılar (idari, okul, şantiye, sosyal)",
+   "hafif çelik ev ve yapılar",
+   "bungalov",
+   "konteyner (monoblok, flatpack, konteyner ev)",
+   "kabin",
+   "modüler yapı/ev",
+   "hibrit yapı/hangar"
+  ],
+  "kaynak": [
+   "https://pramo.com.tr/",
+   "https://pramo.com.tr/sertifikalarimiz/",
+   "https://pramo.com.tr/bize-ulasin/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 15,
+  "enDusuk": 358363,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Aktaş Prefabrik Ev",
+  "kisaAd": "Aktaş Prefabrik Ev",
+  "slug": "aktas-prefabrik-ev",
+  "web": "https://aktasprefabrikev.com",
+  "sehir": "Sakarya (Soğucak Mah. Kervan/1 Sok. No:2/4, Söğütlü; üretim tesisi Söğütlü)",
+  "il": "Sakarya",
+  "telefon": "0533 973 22 54; showroom 0530 583 65 95; WhatsApp 0534 330 16 81",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev (tek/çift katlı)",
+   "çelik ev",
+   "çelik konstrüksiyon",
+   "konteyner",
+   "ofis yapıları"
+  ],
+  "kaynak": [
+   "https://aktasprefabrikev.com/",
+   "https://aktasprefabrikev.com/hakkimizda/",
+   "https://aktasprefabrikev.com/prefabrik-ev-fiyatlari/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 15,
+  "enDusuk": 437500,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Steelev",
+  "kisaAd": "Steelev",
+  "slug": "steelev",
+  "web": "https://www.steelev.com",
+  "sehir": "İstanbul (Tuzla)",
+  "il": "İstanbul",
+  "telefon": "+90 216 392 60 87",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev",
+   "çelik/hafif çelik ev",
+   "konteyner yapılar",
+   "endüstriyel prefabrik",
+   "ofis yapıları"
+  ],
+  "kaynak": [
+   "https://www.steelev.com/",
+   "https://www.steelev.com/hakkimizda/",
+   "https://www.steelev.com/magaza/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 15,
+  "enDusuk": 750000,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Villa Tokat",
+  "kisaAd": "Villa Tokat",
+  "slug": "villa-tokat",
+  "web": "https://villatokat.com",
+  "sehir": "Tokat (Yeniyurt Mah. Vali Zekai Gümüşdiş Bulvarı No:104)",
+  "il": "Tokat",
+  "telefon": "0530 472 53 60",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev (tek katlı, dubleks)",
+   "çelik villa (lüks villa)"
+  ],
+  "kaynak": [
+   "https://villatokat.com/",
+   "https://villatokat.com/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 15,
+  "enDusuk": 450000,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Aksa Prefabrik",
+  "kisaAd": "Aksa Prefabrik",
+  "slug": "aksa-prefabrik",
+  "web": "https://www.aksaprefabrik.com",
+  "sehir": "Fabrika satış şubeleri: Sivas (OSB), Ankara, Sakarya (Pamukova), Erzincan, Yozgat, Bilecik, Kayseri, Bolu, Eskişehir; merkez şehri sitede belirtilmemiş",
+  "il": "Sivas",
+  "telefon": "0543 230 22 82 (Sivas); 0549 888 34 06 (Ankara); 0543 229 91 65 (Sakarya)",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev (tek/çift katlı)",
+   "prefabrik yapılar",
+   "hafif çelik ev ve yapılar",
+   "modüler yapılar",
+   "fibercement cephe sistemleri",
+   "yapı malzemeleri"
+  ],
+  "kaynak": [
+   "https://www.aksaprefabrik.com/",
+   "https://www.aksaprefabrik.com/hakkimizda/",
+   "https://www.aksaprefabrik.com/tek-katli-prefabrik-evler/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "PratikEV",
+  "kisaAd": "PratikEV",
+  "slug": "pratikev",
+  "web": "https://pratikev.tr",
+  "sehir": "Yalova (merkez ofis); üretim: Eskişehir, Aksaray, Kocaeli",
+  "il": "Yalova",
+  "telefon": "+90 532 401 02 77",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev",
+   "hafif çelik ev",
+   "konteyner/modüler yapı",
+   "tiny house",
+   "ahşap yapı",
+   "tel örgü ve panel çit sistemleri"
+  ],
+  "kaynak": [
+   "https://pratikev.tr/",
+   "https://pratikev.tr/hakkimizda",
+   "https://pratikev.tr/modeller",
+   "https://pratikev.tr/sayfa/fiyat-rehberleri"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Prefamod",
+  "kisaAd": "Prefamod",
+  "slug": "prefamod",
+  "web": "https://prefamod.com",
+  "sehir": "Ankara (Mamak)",
+  "il": "Ankara",
+  "telefon": "0507 417 82 45",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "celik",
+   "konteyner",
+   "tiny house"
+  ],
+  "kaynak": [
+   "https://prefamod.com/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 7,
+  "enDusuk": 495000,
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Platin Prefabrik",
+  "kisaAd": "Platin Prefabrik",
+  "slug": "platin-prefabrik",
+  "web": "https://www.platinprefabrik.com",
+  "sehir": "Kocaeli (Gebze) fabrika; Çankırı showroom",
+  "il": "Kocaeli",
+  "telefon": "+90 216 494 18 13",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "celik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://www.platinprefabrik.com/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Sismik Prefabrik",
+  "kisaAd": "Sismik Prefabrik",
+  "slug": "sismik-prefabrik",
+  "web": "https://sismikprefabrik.com",
+  "sehir": "İstanbul (Pendik)",
+  "il": "İstanbul",
+  "telefon": "+90 533 040 23 43",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "celik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://sismikprefabrik.com/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Alyans Prefabrik",
+  "kisaAd": "Alyans Prefabrik",
+  "slug": "alyans-prefabrik",
+  "web": "https://alyansprefabrik.com",
+  "sehir": "İstanbul (Tuzla)",
+  "il": "İstanbul",
+  "telefon": "+90 216 639 40 75",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "celik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://alyansprefabrik.com/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Karınca Prefabrik Çelik Yapı",
+  "kisaAd": "Karınca Prefabrik Çelik Yapı",
+  "slug": "karinca-prefabrik-celik-yapi",
+  "web": "https://www.karincaprefabrik.com",
+  "sehir": "Kocaeli (Dilovası) merkez; İstanbul (Pendik) showroom; Kahramanmaraş (Pazarcık) üretim",
+  "il": "Kocaeli",
+  "telefon": "+90 507 851 58 41",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "celik",
+   "bungalov"
+  ],
+  "kaynak": [
+   "https://www.karincaprefabrik.com/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Vefa Prefabrik",
+  "kisaAd": "Vefa Prefabrik",
+  "slug": "vefa-prefabrik",
+  "web": "https://www.vefa.com/tr",
+  "sehir": "İstanbul (Sultanbeyli); Bilecik fabrika",
+  "il": "İstanbul",
+  "telefon": "+90 216 390 47 77",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "celik"
+  ],
+  "kaynak": [
+   "https://www.vefa.com/tr/iletisim-bilgileri"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ },
+ {
+  "ad": "Ecela Prefabrik",
+  "kisaAd": "Ecela Prefabrik",
+  "slug": "ecela-prefabrik",
+  "web": "https://ecelaprefabrik.com",
+  "sehir": "Antalya (Kepez)",
+  "il": "Antalya",
+  "telefon": "+90 532 396 07 31 (WhatsApp)",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "celik"
+  ],
+  "kaynak": [
+   "https://ecelaprefabrik.com/fiyatlar/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 15,
+  "enDusuk": 416900,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "2A Prefabrik",
+  "kisaAd": "2A Prefabrik",
+  "slug": "2a-prefabrik",
+  "web": "https://prefabrikevfiyatlar.net",
+  "sehir": "Trabzon (Ortahisar)",
+  "il": "Trabzon",
+  "telefon": "+90 462 224 0 224",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "celik"
+  ],
+  "kaynak": [
+   "https://prefabrikevfiyatlar.net/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 12,
+  "enDusuk": 496500,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Lider Prefabrik",
+  "kisaAd": "Lider Prefabrik",
+  "slug": "lider-prefabrik",
+  "web": "https://www.liderprefabrikizmir.com/",
+  "sehir": "İzmir (Menderes)",
+  "il": "İzmir",
+  "telefon": "+90 553 535 61 35",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "celik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://www.liderprefabrikizmir.com/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 3,
+  "enDusuk": 850000,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "Piccola Vita Tiny House",
+  "kisaAd": "Piccola Vita Tiny House",
+  "slug": "piccola-vita-tiny-house",
+  "web": "https://piccolavita.com/",
+  "sehir": "Denizli",
+  "il": "Denizli",
+  "telefon": "+90 532 452 15 22 (WhatsApp)",
+  "sertifikalar": [
+   "ISO 9001",
+   "ISO 14001",
+   "TSE",
+   "O2 tip onayı (2018/858 AB)"
+  ],
+  "sertifikaNotu": "ISO 9001; ISO 14001; TSE; O2 tip onayı (2018/858 AB)",
+  "urunTipleri": [
+   "tiny house"
+  ],
+  "kaynak": [
+   "https://piccolavita.com/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 9,
+  "enDusuk": 1400000,
+  "tipler": [
+   "tiny house"
+  ],
+  "fiyatYayinliyor": true
+ },
+ {
+  "ad": "MB Tiny House",
+  "kisaAd": "MB Tiny House",
+  "slug": "mb-tiny-house",
+  "web": "https://mbtinyhouse.com",
+  "sehir": "",
+  "il": "",
+  "telefon": "+90 538 774 0353 (WhatsApp)",
+  "sertifikalar": [
+   "O2 ve O3 uygunluk belgesi"
+  ],
+  "sertifikaNotu": "O2 ve O3 uygunluk belgesi",
+  "urunTipleri": [
+   "tiny house"
+  ],
+  "kaynak": [
+   "https://mbtinyhouse.com/tiny-house-fiyatlari-2026-rehberi/"
+  ],
+  "seviye": "listelenmis",
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [],
+  "fiyatYayinliyor": false
+ }
+]

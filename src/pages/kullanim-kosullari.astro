@@ -1,0 +1,14 @@
+---
+import Sayfa from '../components/Sayfa.astro';
+import { SITE } from '../site.config';
+---
+<Sayfa title="Kullanım Koşulları" h1="Kullanım koşulları" description={`${SITE.ad} kullanım koşulları.`}>
+  <ol>
+    <li><strong>Hizmetin niteliği.</strong> {SITE.ad}, prefabrik ve modüler ev üreticilerinin fiyatlarını karşılaştırma ve kullanıcıların teklif talebini firmalara iletme hizmeti sunan aracı bir platformdur. Satış, sözleşme, üretim, teslim ve garanti üretici firmanın sorumluluğundadır.</li>
+    <li><strong>Fiyat bilgileri.</strong> Fiyatlar firmaların kendi web sitelerinden alınır veya kayıtlı firmalarca girilir; her fiyatın yanında kaynağı ve son kontrol tarihi yer alır. Fiyatlar firma beyanıdır, değişebilir; KDV ve kapsam için teklif alınmalıdır.</li>
+    <li><strong>Rehber içerikleri.</strong> Ruhsat, imar ve tarım arazisi konusundaki yazılar ve “Arazim uygun mu?” aracı genel bilgi amaçlıdır; hukuki görüş değildir.</li>
+    <li><strong>Yorumlar.</strong> Yorumlar sadece platform üzerinden teklif alıp firmayla sözleşme yaptığını belgeleyen kullanıcılar tarafından yazılabilir. Olumsuz yorumlar, hukuka ve kurallara uygun olduğu sürece kaldırılmaz. Firmalar yorumlara cevap verebilir.</li>
+    <li><strong>Firmalar.</strong> Kayıtlı firmalar verdiği bilgilerin doğruluğundan sorumludur. Doğrulanmış bir şikayet (ödeme alıp teslim etmeme, sözleşme dışı ücret vb.) rozetin kaldırılmasına, tekrarı platformdan çıkarılmaya yol açar.</li>
+    <li><strong>Kötüye kullanım.</strong> Sahte talep, sahte yorum veya otomatik form gönderimi yasaktır.</li>
+  </ol>
+</Sayfa>

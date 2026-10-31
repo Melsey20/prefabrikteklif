@@ -1,0 +1,23 @@
+---
+import KategoriSayfa from '../../components/KategoriSayfa.astro';
+import { TIPLER, TIP_KEYS, tipModelleri, odaSayfalari, m2Sayfalari, m2Modelleri, odaSlug, m2Aralik, kisaTl, istatistik } from '../../lib/data';
+export function getStaticPaths() {
+  const out: any[] = [];
+  for (const k of TIP_KEYS) {
+    for (const o of odaSayfalari(k)) out.push({ params: { tip: TIPLER[k].slug, filtre: odaSlug(o) }, props: { key: k, oda: o } });
+    for (const h of m2Sayfalari(k)) out.push({ params: { tip: TIPLER[k].slug, filtre: `${h}-m2` }, props: { key: k, m2: h } });
+  }
+  return out;
+}
+const { key, oda, m2 } = Astro.props as { key: string; oda?: string; m2?: number };
+const T = TIPLER[key];
+const list = oda ? tipModelleri(key).filter((m) => m.oda === oda) : m2Modelleri(key, m2!);
+const baslik = oda ? `${oda} ${T.baslik}` : `${m2} m² ${T.baslik}`;
+const s = istatistik(list);
+const [a, b] = m2 ? m2Aralik(m2) : [0, 0];
+const aciklama = oda
+  ? `${oda} ${T.kisa} fiyatları: ${s.firma} firmanın ${s.model} modeli${s.min ? `, ${kisaTl(s.min)}’den başlayan fiyatlarla` : ''}. Kapsamı görerek kıyaslayın, 24 saatte teklif alın.`
+  : `${m2} m² ${T.kisa} fiyatları (${a}–${b} m² arası): ${s.firma} firmanın ${s.model} modeli${s.min ? `, ${kisaTl(s.min)}’den başlayan fiyatlarla` : ''}. Kıyaslayın, ücretsiz teklif alın.`;
+---
+<KategoriSayfa tip={key} list={list} baslik={baslik} aktif={oda ?? `${m2}m2`} aciklama={aciklama}
+  crumbs={[{ ad: T.baslik, url: `/${T.slug}/` }, { ad: oda ? oda : `${m2} m²` }]} />

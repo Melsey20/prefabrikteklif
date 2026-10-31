@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /teklif-ver/
+Disallow: /teklif-alindi/
+Disallow: /yorum-yaz/
+
+Sitemap: https://www.prefabrikteklif.com.tr/sitemap-index.xml

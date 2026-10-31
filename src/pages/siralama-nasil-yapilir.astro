@@ -1,0 +1,13 @@
+---
+import Sayfa from '../components/Sayfa.astro';
+import { SITE } from '../site.config';
+---
+<Sayfa title="Sıralama Nasıl Yapılır?" h1="Sıralama nasıl yapılır?" description={`${SITE.ad} listelerinde modeller hangi ölçüte göre sıralanıyor, ücretli öne çıkarma var mı?`}>
+  <p>Fiyat listelerinde modeller varsayılan olarak <strong>toplam fiyata göre, düşükten yükseğe</strong> sıralanır. Fiyatı olmayan, sadece m² birim fiyatı ya da euro fiyatı veren modeller ve firmanın sayfasında güncelliği şüpheli görünen fiyatlar (ör. kampanya tarihi geçmiş) listenin sonunda, uyarıyla gösterilir. Liste üstündeki menüden m² fiyatına veya metrekareye göre de sıralayabilirsiniz.</p>
+  <ul>
+    <li>Firmalar sıralamada üst sıraya çıkmak için ücret ödemez.</li>
+    <li>İleride ücretli öne çıkarma olursa, ilgili ilan “Reklam” etiketiyle açıkça işaretlenir.</li>
+    <li>Fiyatlar firma beyanıdır; her fiyatın yanında kaynağı ve son kontrol tarihi yazar.</li>
+    <li>“Doğrulanmış üretici” rozeti sıralamayı değiştirmez; teklif taleplerinde öncelik sağlar.</li>
+  </ul>
+</Sayfa>

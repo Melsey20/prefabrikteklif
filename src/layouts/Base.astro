@@ -1,0 +1,159 @@
+---
+import '../styles/global.css';
+import { SITE } from '../site.config';
+import { TIPLER, TIP_KEYS, meta } from '../lib/data';
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+  jsonLd?: object[];
+  ogType?: string;
+  selbar?: boolean;
+  tip?: string;
+}
+const { title, description, noindex = false, jsonLd = [], ogType = 'website', selbar = false, tip = '' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+const fullTitle = title.includes(SITE.ad) ? title : `${title} | ${SITE.ad}`;
+const og = new URL('/og.png', SITE.url).href;
+const org = {
+  '@context': 'https://schema.org', '@type': 'Organization', name: SITE.ad, url: SITE.url,
+  logo: new URL('/logo.png', SITE.url).href,
+  ...(SITE.eposta ? { email: SITE.eposta } : {}), ...(SITE.telefon ? { telephone: SITE.telefon } : {}),
+};
+---
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {noindex && <meta name="robots" content="noindex, follow" />}
+  <meta name="theme-color" content="#17663f" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <meta property="og:site_name" content={SITE.ad} />
+  <meta property="og:locale" content="tr_TR" />
+  <meta property="og:type" content={ogType} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={og} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  {SITE.googleDogrulama && <meta name="google-site-verification" content={SITE.googleDogrulama} />}
+  <script type="application/ld+json" set:html={JSON.stringify(org)} />
+  {jsonLd.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
+</head>
+<body data-tip={tip || undefined}>
+  <a class="skip" href="#icerik">İçeriğe geç</a>
+  <header class="hdr">
+    <div class="wrap">
+      <a class="logo" href="/" aria-label={`${SITE.ad} ana sayfa`}>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#17663F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path><path d="M10 20v-5h4v5"></path></svg>
+        <span>Prefabrik<b>Teklif</b></span>
+      </a>
+      <nav class="nav" aria-label="Ana menü">
+        <a class="hide-m" href="/prefabrik-ev-fiyatlari/">Prefabrik</a>
+        <a class="hide-m" href="/celik-ev-fiyatlari/">Çelik ev</a>
+        <a class="hide-m" href="/tiny-house-fiyatlari/">Tiny house</a>
+        <a class="hide-m" href="/firmalar/">Firmalar</a>
+        <a class="hide-m" href="/rehber/">Rehber</a>
+        <a class="cta" href="/teklif-al/">Teklif al</a>
+        <details class="mmenu nav-menu">
+          <summary aria-label="Menüyü aç">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          </summary>
+          <div class="panel">
+            {TIP_KEYS.map((k) => <a href={`/${TIPLER[k].slug}/`}>{TIPLER[k].baslik}</a>)}
+            <a href="/firmalar/">Firmalar</a>
+            <a href="/arazim-uygun-mu/">Arazim uygun mu?</a>
+            <a href="/rehber/">Rehber</a>
+            <a href="/firma-kayit/">Firmanızı ekleyin</a>
+          </div>
+        </details>
+      </nav>
+    </div>
+  </header>
+  <main id="icerik">
+    <slot />
+  </main>
+  <footer class="ftr">
+    <div class="wrap">
+      <div class="cols4">
+        <div>
+          <h2>{SITE.ad}</h2>
+          <p>{meta.firmaSayisi} üreticinin {meta.modelSayisi} modeli. Fiyatlar firmaların kendi sitelerinden alınır; her fiyatın yanında kaynağı ve son kontrol tarihi ({meta.sonKontrolYazi}) yazar.</p>
+          <p class="small">Satışı üretici firma yapar; {SITE.ad} aracı hizmet sağlayıcıdır.</p>
+        </div>
+        <div>
+          <h2>Fiyatlar</h2>
+          <ul>{TIP_KEYS.map((k) => <li><a href={`/${TIPLER[k].slug}/`}>{TIPLER[k].baslik}</a></li>)}</ul>
+        </div>
+        <div>
+          <h2>Rehber</h2>
+          <ul>
+            <li><a href="/arazim-uygun-mu/">Arazim uygun mu?</a></li>
+            <li><a href="/rehber/prefabrik-ev-fiyatina-neler-dahil/">Fiyata neler dahil?</a></li>
+            <li><a href="/rehber/tiny-house-ruhsat-o2-belgesi/">Tiny house ve O2 belgesi</a></li>
+            <li><a href="/rehber/tarlaya-prefabrik-ev-yapilir-mi/">Tarlaya ev yapılır mı?</a></li>
+            <li><a href="/rehber/prefabrik-mi-celik-ev-mi/">Prefabrik mi, çelik ev mi?</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>{SITE.ad}</h2>
+          <ul>
+            <li><a href="/nasil-calisir/">Nasıl çalışır?</a></li>
+            <li><a href="/siralama-nasil-yapilir/">Sıralama nasıl yapılır?</a></li>
+            <li><a href="/firma-kayit/">Firmanızı ekleyin</a></li>
+            <li><a href="/kvkk-aydinlatma-metni/">KVKK aydınlatma metni</a></li>
+            <li><a href="/kullanim-kosullari/">Kullanım koşulları</a></li>
+            <li><a href="/cerez-politikasi/">Çerez politikası</a></li>
+            <li><a href="/iletisim/">İletişim</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+  {selbar && (
+    <div class="selbar" id="selbar" role="region" aria-label="Seçili firmalar">
+      <div class="wrap">
+        <span class="small"><strong id="selcount">0</strong> firma seçili · teklifler 24 saat içinde e-postanda</span>
+        <a class="btn btn-o" id="selgo" href="/teklif-al/">Teklif al</a>
+      </div>
+    </div>
+  )}
+  {selbar && (
+    <script is:inline>
+      (function () {
+        var KEY = 'pt_sec', MAX = 5;
+        function get() { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; } }
+        function set(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {} }
+        function draw() {
+          var s = get(), bar = document.getElementById('selbar');
+          document.querySelectorAll('input[data-firma]').forEach(function (i) { i.checked = s.indexOf(i.dataset.firma) > -1; });
+          document.getElementById('selcount').textContent = s.length;
+          var p = new URLSearchParams(); if (s.length) p.set('firmalar', s.join(','));
+          var t = document.body.dataset.tip; if (t) p.set('tip', t);
+          document.getElementById('selgo').href = '/teklif-al/' + (p.toString() ? '?' + p.toString() : '');
+          bar.classList.toggle('on', s.length > 0);
+        }
+        document.addEventListener('change', function (e) {
+          var i = e.target; if (!i.dataset || !i.dataset.firma) return;
+          var s = get(), f = i.dataset.firma, k = s.indexOf(f);
+          if (i.checked && k < 0) { if (s.length >= MAX) { i.checked = false; alertMax(); return; } s.push(f); }
+          if (!i.checked && k > -1) s.splice(k, 1);
+          set(s); draw();
+        });
+        function alertMax() { var c = document.getElementById('selcount'); c.textContent = MAX + ' (en fazla)'; }
+        draw();
+      })();
+    </script>
+  )}
+</body>
+</html>

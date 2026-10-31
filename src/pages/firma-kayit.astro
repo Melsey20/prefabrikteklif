@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import Crumbs from '../components/Crumbs.astro';
+import { SITE } from '../site.config';
+import { TIPLER, TIP_KEYS, firms } from '../lib/data';
+---
+<Base title="Firma Kaydı: Prefabrik ve Modüler Ev Üreticileri" description={`Prefabrik, çelik, konteyner, tiny house ve ahşap ev üreticileri için ücretsiz kayıt. Fiyatlarınızı güncelleyin, size uygun teklif taleplerini alın. ${SITE.ad}.`}>
+  <div class="wrap narrow">
+    <Crumbs items={[{ ad: 'Firma kaydı' }]} />
+    <h1>Üreticiysen, müşteri talepleri sana gelsin</h1>
+    <p class="muted">Kayıt ücretsiz. Sadece ilini, ev tipini ve bütçeni tutan talepleri görürsün; istediğine teklif verirsin.</p>
+
+    <div class="grid" style="margin:18px 0">
+      <div class="card"><strong>Listelenmiş</strong><span class="small muted">Fiyatlarınız sitenizden alınır. Kayıt yok, teklif talebi gelmez.</span></div>
+      <div class="card"><strong>Kayıtlı firma</strong><span class="small muted">Vergi levhası, sicil kaydı, imza sirküleri ve SMS doğrulaması. Teklif talebi alırsınız, fiyatlarınızı kendiniz güncellersiniz.</span></div>
+      <div class="card" style="border:1.5px solid var(--green)"><strong style="color:var(--green-d)">Doğrulanmış üretici</strong><span class="small muted">Fabrika ziyareti ve tanıtım videosu, üretim belgeleri ve teslim edilmiş 3 proje kontrol edilir. Taleplerde öncelik ve rozet.</span></div>
+    </div>
+
+    <form class="form" id="kayit" novalidate>
+      <label class="f">Ticaret unvanı<input type="text" name="unvan" required maxlength="160" /></label>
+      <div class="two">
+        <label class="f">Marka adı<input type="text" name="marka" maxlength="80" /></label>
+        <label class="f">Vergi numarası<input type="text" name="vergiNo" inputmode="numeric" required maxlength="11" /></label>
+      </div>
+      <label class="f">Listede kayıtlı firmanız varsa seçin
+        <select name="mevcut"><option value="">Listede yok / yeni kayıt</option>{[...firms].sort((a, b) => a.kisaAd.localeCompare(b.kisaAd, 'tr')).map((f) => <option value={f.slug}>{f.kisaAd}</option>)}</select>
+      </label>
+      <label class="f">Fabrika adresi<input type="text" name="adres" required maxlength="240" /></label>
+      <div class="two">
+        <label class="f">Web sitesi<input type="text" name="web" maxlength="160" placeholder="https://" /></label>
+        <label class="f">Yetkili ad soyad<input type="text" name="yetkili" required maxlength="80" /></label>
+      </div>
+      <div class="two">
+        <label class="f">Yetkili cep telefonu<input type="tel" name="telefon" required maxlength="20" /></label>
+        <label class="f">E-posta (talepler buraya gelir)<input type="email" name="eposta" required maxlength="120" /></label>
+      </div>
+      <fieldset>
+        <legend>Ürettiğiniz tipler</legend>
+        <div class="two">{TIP_KEYS.map((k) => <label class="chk"><input type="checkbox" name="tipler" value={k} /> {TIPLER[k].ad}</label>)}</div>
+      </fieldset>
+      <label class="f">Hizmet verdiğiniz iller<input type="text" name="iller" maxlength="400" placeholder="Tüm Türkiye ya da il adları" /></label>
+      <label class="f">Belgeleriniz (TSE, ISO, CE, O2 tip onay vb.)<input type="text" name="belgeler" maxlength="300" /></label>
+      <label class="f">Not<textarea name="not" maxlength="1000"></textarea></label>
+      <div class="hp" aria-hidden="true"><label>Web<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
+      <label class="chk"><input type="checkbox" name="kosul" required /> <span><a href="/kullanim-kosullari/" target="_blank">Kullanım koşullarını</a> ve <a href="/kvkk-aydinlatma-metni/" target="_blank">aydınlatma metnini</a> okudum. Belgelerimi e-postayla göndereceğimi biliyorum.</span></label>
+      <p class="err" id="hata" role="alert" hidden></p>
+      <button class="btn btn-p btn-block" type="submit" id="gonder">Kaydı gönder</button>
+    </form>
+    <div class="ok" id="tamam" hidden>
+      <h2 style="margin-top:0">Başvurunuz alındı</h2>
+      <p>2 iş günü içinde sizi arayıp belgeleri ve panel erişimini ileteceğiz.</p>
+    </div>
+  </div>
+  <script is:inline>
+    (function () {
+      var f = document.getElementById('kayit'), q = new URLSearchParams(location.search);
+      if (q.get('firma')) f.mevcut.value = q.get('firma');
+      f.addEventListener('submit', function (e) {
+        e.preventDefault(); var h = document.getElementById('hata'); h.hidden = true;
+        var d = { tipler: [] }; new FormData(f).forEach(function (v, k) { if (k === 'tipler') d.tipler.push(v); else d[k] = v; });
+        var m = !d.unvan ? 'Ticaret unvanı yazın.' : !/^\d{10,11}$/.test(d.vergiNo || '') ? 'Vergi numarası 10 veya 11 haneli olmalı.' : !d.yetkili ? 'Yetkili adı yazın.' : !/^\S+@\S+\.\S+$/.test(d.eposta || '') ? 'Geçerli e-posta yazın.' : (d.telefon || '').replace(/\D/g, '').length < 10 ? 'Geçerli telefon yazın.' : !d.tipler.length ? 'En az bir ürün tipi seçin.' : !d.kosul ? 'Koşulları onaylayın.' : '';
+        if (m) { h.textContent = m; h.hidden = false; return; }
+        var b = document.getElementById('gonder'); b.disabled = true; b.textContent = 'Gönderiliyor…';
+        fetch('/api/firma-basvuru', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) })
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+          .then(function (res) { if (!res.ok) throw new Error(res.j.hata || 'Gönderilemedi.'); f.hidden = true; document.getElementById('tamam').hidden = false; })
+          .catch(function (er) { h.textContent = er.message; h.hidden = false; b.disabled = false; b.textContent = 'Kaydı gönder'; });
+      });
+    })();
+  </script>
+</Base>

@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import Crumbs from './Crumbs.astro';
+import { SITE } from '../site.config';
+interface Props { title: string; h1: string; description: string; tarih: string; kaynaklar?: { ad: string; url: string }[] }
+const { title, h1, description, tarih, kaynaklar = [] } = Astro.props;
+const ld = [{
+  '@context': 'https://schema.org', '@type': 'Article', headline: h1, description, inLanguage: 'tr-TR',
+  datePublished: tarih, dateModified: tarih, author: { '@type': 'Organization', name: SITE.ad }, publisher: { '@type': 'Organization', name: SITE.ad },
+  mainEntityOfPage: new URL(Astro.url.pathname, SITE.url).href,
+}];
+---
+<Base title={title} description={description} jsonLd={ld} ogType="article">
+  <div class="wrap narrow">
+    <Crumbs items={[{ ad: 'Rehber', url: '/rehber/' }, { ad: h1 }]} />
+    <article class="prose">
+      <h1>{h1}</h1>
+      <p class="small muted">Güncelleme: {new Date(tarih).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })} · Bu yazı genel bilgi verir, hukuki görüş değildir.</p>
+      <slot />
+      {kaynaklar.length > 0 && (
+        <>
+          <h2>Kaynaklar</h2>
+          <ul class="small">{kaynaklar.map((k) => <li><a href={k.url} rel="nofollow noopener" target="_blank">{k.ad}</a></li>)}</ul>
+        </>
+      )}
+    </article>
+    <div class="box" style="margin-top:24px">
+      <h2 style="margin-top:0;font-size:1.2rem">Firmalardan teklif al</h2>
+      <p class="small muted">Seçtiğin en fazla {SITE.maksFirma} firmanın teklifi 24 saat içinde aynı kapsam başlıklarıyla tek e-postada gelsin.</p>
+      <a class="btn btn-o" href="/teklif-al/">Ücretsiz teklif al</a>
+    </div>
+  </div>
+</Base>
