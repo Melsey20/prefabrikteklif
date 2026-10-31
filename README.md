@@ -97,4 +97,4 @@ CSV'leri `data/raw/` içine koyun (sütunlar: `firma,model_adi,tip,m2,oda,kat,fi
 - Fiyatlar firmaların sitelerinden alındı; kaynaklar her modelde. Çoğu firma KDV durumunu yazmıyor, bunlar "belirtilmemiş" olarak işaretli.
 - Elenenler: Kartal Prefabrik ve Çelik Evler (Karmod'un sitesi), Prefabriko (Nova ile aynı adres), Mopre (site kapalı), Demo Prefabrik ve Prefabrika (site açılmıyor), Kardeşler'in iki hatalı fiyatı.
 - Uyarıyla gösterilenler: Asia (kampanya tarihi geçmiş), Villa Prefabrik ve Esse (eski liste), Mira (m² başına sabit oranlı fiyatlar), Lider (sosyal medya ilanı). Bu modeller listede sona alınır.
-- 26 firma fiyat yayınlamıyor ya da sadece euro/m² fiyatı veriyor; bunlar firma listesinde var.
+- 25 firma fiyat yayınlamıyor ya da sadece euro/m² fiyatı veriyor; bunlar firma listesinde var.
