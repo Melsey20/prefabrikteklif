@@ -8,7 +8,7 @@ export default defineConfig({
   compressHTML: true,
   integrations: [
     sitemap({
-      filter: (page) => !/\/(teklif-alindi|teklif-ver|yorum-yaz|404)\//.test(page),
+      filter: (page) => !/\/(teklif-alindi|teklif-ver|yorum-yaz|404|hesabim|firma-paneli|yonetim|giris|model|karsilastir|favorilerim)\//.test(page),
       changefreq: 'weekly',
       i18n: { defaultLocale: 'tr', locales: { tr: 'tr-TR' } },
     }),

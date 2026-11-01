@@ -1,0 +1,14 @@
+---
+import Makale from '../../components/Makale.astro';
+export async function getStaticPaths() {
+  const md = import.meta.glob<any>('../../content/rehber/*.md', { eager: true });
+  return Object.entries(md).map(([p, m]) => ({ params: { slug: p.split('/').pop()!.replace(/\.md$/, '') }, props: { m } }));
+}
+const { m } = Astro.props;
+const f = m.frontmatter;
+const Icerik = m.Content;
+const kelime = String(m.rawContent?.() || '').split(/\s+/).length;
+---
+<Makale title={f.title || f.baslik} h1={f.baslik} description={f.aciklama} tarih={f.tarih} gorsel={f.gorsel} kategori={f.kategori} sss={f.sss || []} kaynaklar={f.kaynaklar || []} sure={Math.max(3, Math.round(kelime / 200))}>
+  <Icerik />
+</Makale>

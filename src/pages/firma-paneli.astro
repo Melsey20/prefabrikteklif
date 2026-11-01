@@ -1,0 +1,222 @@
+---
+import Base from '../layouts/Base.astro';
+import { TIPLER, TIP_SIRA, ILLER } from '../lib/data';
+const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
+---
+<Base title="Firma Paneli" description="Prefabrik ve modüler ev firmaları için panel: ürün ve fiyat yönetimi, teklif talepleri, geri bildirim." noindex>
+  <div class="wrap" id="fp-giris" hidden>
+    <div class="auth" style="max-width:560px">
+      <h1 style="font-size:1.6rem;margin-top:0">Firma paneli</h1>
+      <p class="muted">Ürünlerinizi, fiyatlarınızı ve fotoğraflarınızı güncelleyin; size uygun teklif taleplerini görün, bize istek ve sorunlarınızı iletin.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-p" href="/giris/?geri=/firma-paneli/">Giriş yap</a><a class="btn btn-g" href="/firma-kayit/">Firma başvurusu</a></div>
+      <p class="small muted" id="fp-mesaj" style="margin:14px 0 0">Başvurunuz onaylandıktan sonra başvurudaki e-posta adresiyle giriş yapın.</p>
+    </div>
+  </div>
+  <div class="app" id="fp-app" hidden>
+    <aside class="dk" aria-label="Firma paneli bölümleri" id="sekmeler">
+      <div class="side-x" style="color:#fff;font-weight:800;padding:4px 12px 16px" id="fp-ad">Firma paneli</div>
+      <button type="button" data-sekme="urunler">Ürünlerim <span class="rz" data-rz="bekleyen"></span></button>
+      <button type="button" data-sekme="talepler">Talepler <span class="rz" data-rz="talep"></span></button>
+      <button type="button" data-sekme="geri-bildirim">Geri bildirim <span class="rz" data-rz="gb"></span></button>
+      <button type="button" data-sekme="profil">Profil</button>
+      <a class="ln side-x" href="/" style="margin-top:auto">Siteye dön</a>
+    </aside>
+    <main>
+      <section data-panel="urunler">
+        <div class="ph-h"><div><h1>Ürünlerim</h1><p class="small muted" style="margin:4px 0 0">Fiyat, fotoğraf ve açıklama değişiklikleri onayımızdan sonra yayına girer (genellikle aynı gün).</p></div><button class="btn btn-p btn-s" type="button" id="yeni-urun">+ Ürün ekle</button></div>
+        <div id="p-urunler"></div>
+      </section>
+      <section data-panel="talepler" hidden>
+        <div class="ph-h"><div><h1>Size uygun talepler</h1><p class="small muted" style="margin:4px 0 0">Müşteri bilgileri, fiyat verdiğinizde açılır.</p></div></div>
+        <div id="p-talepler" class="list"></div>
+      </section>
+      <section data-panel="geri-bildirim" hidden>
+        <div class="ph-h"><div><h1>Geri bildirim</h1><p class="small muted" style="margin:4px 0 0">İstek, öneri, hata ya da sorunlarınızı doğrudan ekibimize iletin. Yanıtlarımız burada ve e-postanızda görünür.</p></div></div>
+        <form class="box form" id="gb-form" style="gap:12px;margin-bottom:18px" novalidate>
+          <div class="two">
+            <label class="f">Konu türü<select name="tur"><option value="istek">İstek / öneri</option><option value="hata">Hata bildirimi</option><option value="sorun">Sorun / şikâyet</option><option value="diger">Diğer</option></select></label>
+            <label class="f">Konu<input type="text" name="konu" maxlength="140" required /></label>
+          </div>
+          <label class="f">Mesajınız<textarea name="mesaj" maxlength="3000" required placeholder="Ne istediğinizi ya da hangi sayfada ne sorun yaşadığınızı yazın"></textarea></label>
+          <button class="btn btn-p btn-s" type="submit" style="align-self:flex-start">Gönder</button>
+        </form>
+        <div id="p-gb" class="list"></div>
+      </section>
+      <section data-panel="profil" hidden>
+        <div class="ph-h"><h1>Profil</h1></div>
+        <form class="box form" id="profil-form" style="gap:14px;max-width:720px" novalidate>
+          <div class="two">
+            <label class="f">Talep bildirim e-postası<input type="email" name="eposta" maxlength="120" /></label>
+            <label class="f">Telefon<input type="tel" name="telefon" maxlength="20" /></label>
+          </div>
+          <fieldset><legend>Ürettiğiniz tipler</legend><div class="two">{tipler.map((t) => <label class="chk"><input type="checkbox" name="tipler" value={t.k} /> {t.ad}</label>)}</div></fieldset>
+          <fieldset><legend>Hizmet verdiğiniz iller</legend>
+            <label class="chk"><input type="checkbox" name="tum" /> Tüm Türkiye</label>
+            <select name="iller" multiple size="8" style="min-height:180px">{ILLER.map((il) => <option>{il}</option>)}</select>
+            <span class="xs muted">Birden çok il seçmek için Ctrl / Cmd tuşuna basılı tutun.</span>
+          </fieldset>
+          <button class="btn btn-p btn-s" type="submit" style="align-self:flex-start">Kaydet</button>
+        </form>
+      </section>
+    </main>
+  </div>
+  <script define:vars={{ TIPLER_L: tipler }}>window.__TIPLER = TIPLER_L;</script>
+  <script>
+    import { kullanici, api, oturumAc, ApiHata } from '../scripts/fb';
+    import { h, tl, tarih, kalan, toast, modal, alan, sekmeler, hataGoster } from '../scripts/ui';
+    const TIPLER: { k: string; ad: string }[] = (window as any).__TIPLER;
+    const $ = (id: string) => document.getElementById(id)!;
+    let V: any;
+    const q = new URLSearchParams(location.search);
+    const fq = q.get('firma') ? '?firma=' + encodeURIComponent(q.get('firma')!) : '';
+    const inp = (name: string, at: Record<string, any> = {}) => h('input', { name, ...at }) as HTMLInputElement;
+
+    function urunFormu(m: any | null, onGonder: (veri: any) => Promise<void>) {
+      const f = h('form', { class: 'form', style: { gap: '12px' } }) as HTMLFormElement;
+      const yeni = !m;
+      const ad = inp('ad', { type: 'text', maxlength: 140, value: m?.ad || '', required: true });
+      const tip = h('select', { name: 'tip' }, ...TIPLER.map((t) => h('option', { value: t.k, selected: m?.tip === t.k }, t.ad))) as HTMLSelectElement;
+      const m2 = inp('m2', { type: 'number', min: 5, max: 2000, value: m?.m2 ?? '' });
+      const oda = inp('oda', { type: 'text', maxlength: 10, placeholder: '2+1', value: m?.oda || '' });
+      const fiyat = inp('fiyat', { type: 'number', min: 1000, step: 1, value: m?.fiyat ?? '', inputmode: 'numeric' });
+      const kdv = h('select', { name: 'kdv' }, h('option', { value: '' }, 'Belirtmiyorum'), h('option', { value: 'dahil', selected: m?.kdv === 'dahil' }, 'KDV dahil'), h('option', { value: 'haric', selected: m?.kdv === 'haric' }, 'KDV hariç')) as HTMLSelectElement;
+      const teslim = h('select', { name: 'teslim' }, ...['', 'Anahtar teslim', 'İleri kaba teslim', 'Kaba teslim'].map((x) => h('option', { value: x, selected: (m?.teslim || '') === x }, x || 'Belirtmiyorum'))) as HTMLSelectElement;
+      const kapsam = h('textarea', { name: 'kapsam', maxlength: 800, placeholder: 'Fiyata neler dahil? Ör: nakliye ve montaj dahil, zemin betonu hariç' }, m?.kapsam || '') as HTMLTextAreaElement;
+      const gorsel = h('textarea', { name: 'gorseller', rows: 3, placeholder: 'Her satıra bir fotoğraf adresi (https://…). Kendi sitenizdeki fotoğrafların adresini yapıştırabilirsiniz.' }, (m?.gorseller || []).join('\n')) as HTMLTextAreaElement;
+      const not = inp('not', { type: 'text', maxlength: 500, placeholder: 'Ekibimize not (isteğe bağlı)' });
+      const hata = h('p', { class: 'err', hidden: true, role: 'alert' });
+      f.append(
+        yeni ? alan('Model adı', ad) : h('p', { style: { margin: 0 } }, h('b', {}, m.ad)),
+        yeni ? h('div', { class: 'two' }, alan('Tip', tip), alan('Oda', oda)) : null,
+        yeni ? alan('Alan (m²)', m2) : null,
+        h('div', { class: 'two' }, alan('Fiyat (TL)', fiyat), alan('KDV', kdv)),
+        alan('Teslim şekli', teslim), alan('Fiyata dahil olanlar', kapsam), alan('Fotoğraflar', gorsel),
+        h('p', { class: 'xs muted', style: { margin: 0 } }, 'Yalnızca hakları size ait fotoğrafları ekleyin.'), alan('Not', not), hata,
+        h('button', { class: 'btn btn-p', type: 'submit' }, yeni ? 'Onaya gönder' : 'Değişikliği onaya gönder'));
+      f.addEventListener('submit', async (e) => {
+        e.preventDefault(); hata.hidden = true;
+        const veri = { ad: ad.value.trim(), tip: tip.value, m2: m2.value ? Number(m2.value) : null, oda: oda.value.trim(), fiyat: fiyat.value ? Number(fiyat.value) : null, kdv: kdv.value, teslim: teslim.value, kapsam: kapsam.value.trim(), gorseller: gorsel.value.split(/\s+/).filter((x) => x.startsWith('https://')), not: not.value };
+        if (gorsel.value.trim() && !veri.gorseller.length) { hata.textContent = 'Fotoğraf adresleri https:// ile başlamalı.'; hata.hidden = false; return; }
+        if (veri.fiyat !== null && veri.fiyat < 1000) { hata.textContent = 'Geçerli bir fiyat yazın.'; hata.hidden = false; return; }
+        try { await onGonder(veri); } catch (err: any) { hata.textContent = err.message; hata.hidden = false; }
+      });
+      return f;
+    }
+    function urunlerCiz() {
+      const bekleyen = new Map<string, any>(); V.bekleyen.forEach((b: any) => { if (b.modelId) bekleyen.set(b.modelId, b); });
+      const yeniB = V.bekleyen.filter((b: any) => b.tur === 'yeni');
+      const satirlar = V.modeller.map((m: any) => h('tr', {},
+        h('td', {}, h('b', {}, m.ad), h('div', { class: 'xs muted' }, [TIPLER.find((t) => t.k === m.tip)?.ad, m.teslim].filter(Boolean).join(' · ')), m.yeni ? h('span', { class: 'st-b g' }, 'Panelden eklendi') : null),
+        h('td', { class: 'small' }, [m.m2 ? `${m.m2} m²` : '', m.oda].filter(Boolean).join(' · ')),
+        h('td', { class: 'n' }, h('b', {}, m.fiyat ? tl(m.fiyat) : (m.fiyatTuru === 'm2' ? 'm² fiyatı' : '–')), m.kdv === 'haric' ? h('div', { class: 'xs muted' }, '+ KDV') : null),
+        h('td', {}, m.gizli ? h('span', { class: 'st-b r' }, 'Yayından kaldırıldı') : bekleyen.has(m.id) ? h('span', { class: 'st-b a' }, 'Onay bekliyor') : h('span', { class: 'st-b g' }, 'Yayında'), m.gorseller?.length ? h('div', { class: 'xs muted' }, `${m.gorseller.length} fotoğraf`) : h('div', { class: 'xs muted' }, 'Temsili görsel')),
+        h('td', { style: { textAlign: 'right', whiteSpace: 'nowrap' } },
+          h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => { const k = modal('Ürünü düzenle', urunFormu(m, async (veri) => { await api('/api/firma/urun' + fq, { tur: 'guncelle', modelId: m.id, veri }); k(); toast('Değişiklik onaya gönderildi'); yukle(); })); } }, 'Düzenle'), ' ',
+          !m.gizli ? h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: async () => { if (!confirmModal) return; confirmModal(`“${m.ad}” yayından kaldırılsın mı?`, async () => { await api('/api/firma/urun' + fq, { tur: 'kaldir', modelId: m.id, veri: {} }); toast('Kaldırma talebi onaya gönderildi'); yukle(); }); } }, 'Kaldır') : null)));
+      $('p-urunler').replaceChildren(
+        yeniB.length ? h('p', { class: 'note-a' }, `${yeniB.length} yeni ürününüz onay bekliyor: ${yeniB.map((b: any) => b.veri.ad).join(', ')}`) : null,
+        V.modeller.length ? h('div', { class: 'tbl-wrap' }, h('table', { style: { minWidth: '720px' } }, h('thead', {}, h('tr', {}, h('th', {}, 'Model'), h('th', {}, 'Alan · Oda'), h('th', { class: 'n' }, 'Fiyat'), h('th', {}, 'Durum'), h('th', {}, h('span', { class: 'sr-only' }, 'İşlem')))), h('tbody', {}, ...satirlar)))
+          : h('div', { class: 'empty' }, 'Henüz ürününüz yok. “Ürün ekle” ile ilk modelinizi ekleyin.'));
+    }
+    let confirmModal: ((m: string, ok: () => Promise<void>) => void) | null = (m, ok) => {
+      const k = modal('Onay', h('div', { style: { display: 'flex', flexDirection: 'column', gap: '14px' } }, h('p', { style: { margin: 0 } }, m), h('div', { style: { display: 'flex', gap: '8px' } }, h('button', { class: 'btn btn-p btn-s', type: 'button', onclick: async () => { try { await ok(); } catch (e: any) { toast(e.message); } k(); } }, 'Evet'), h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => k() }, 'Vazgeç'))));
+    };
+    function teklifFormu(t: any) {
+      const f = h('form', { class: 'form', style: { gap: '12px' } }) as HTMLFormElement;
+      const fiyat = inp('fiyat', { type: 'number', min: 1000, required: true, inputmode: 'numeric' });
+      const kdv = inp('kdvDahil', { type: 'checkbox' });
+      const dahil = [['nakliye', 'Nakliye'], ['montaj', 'Montaj'], ['vinc', 'Vinç'], ['zemin', 'Zemin betonu'], ['ic-bitis', 'İç bitiş'], ['mutfak-vitrifiye', 'Mutfak ve vitrifiye'], ['ruhsat', 'Ruhsat ve proje']].map(([v, a]) => h('label', { class: 'chk' }, inp('dahil', { type: 'checkbox', value: v }), ' ' + a));
+      const gun = inp('teslimGun', { type: 'number', min: 1, max: 365 }); const garanti = inp('garantiYil', { type: 'number', min: 0, max: 50 });
+      const not = h('textarea', { name: 'not', maxlength: 1500, placeholder: 'Model, malzeme, ödeme planı vb.' }) as HTMLTextAreaElement;
+      const hata = h('p', { class: 'err', hidden: true, role: 'alert' });
+      f.append(alan('Toplam fiyat (TL)', fiyat), h('label', { class: 'chk' }, kdv, ' Fiyata KDV dahil'), h('fieldset', {}, h('legend', {}, 'Fiyata dahil olanlar'), h('div', { class: 'two' }, ...dahil)), h('div', { class: 'two' }, alan('Teslim süresi (gün)', gun), alan('Garanti (yıl)', garanti)), alan('Açıklama', not), hata,
+        h('p', { class: 'xs muted', style: { margin: 0 } }, 'Fiyat verdiğinizde müşterinin ad, telefon ve e-postası size açılır. Bu bilgileri yalnızca bu talep için kullanın.'),
+        h('button', { class: 'btn btn-p', type: 'submit' }, 'Fiyatı gönder'));
+      f.addEventListener('submit', async (e) => {
+        e.preventDefault(); hata.hidden = true;
+        if (Number(fiyat.value) < 1000) { hata.textContent = 'Toplam fiyat yazın.'; hata.hidden = false; return; }
+        try {
+          const r = await api('/api/firma/teklif' + fq, { talep: t.id, fiyat: Number(fiyat.value), kdvDahil: kdv.checked, dahil: [...f.querySelectorAll<HTMLInputElement>('input[name=dahil]:checked')].map((x) => x.value), teslimGun: gun.value, garantiYil: garanti.value, not: not.value });
+          f.replaceChildren(h('div', { class: 'okmsg' }, h('b', {}, 'Fiyatınız kaydedildi. Müşteri bilgileri:'), h('p', { style: { margin: '8px 0 0' } }, `${r.musteri.ad} · `, h('a', { href: 'tel:' + r.musteri.telefon }, r.musteri.telefon), ' · ', h('a', { href: 'mailto:' + r.musteri.eposta }, r.musteri.eposta))));
+          yukle();
+        } catch (err: any) { hata.textContent = err.message; hata.hidden = false; }
+      });
+      return f;
+    }
+    function taleplerCiz() {
+      const box = $('p-talepler');
+      if (!V.talepler.length) { box.replaceChildren(h('div', { class: 'empty' }, 'Henüz size uygun talep yok. Profilinizde tiplerinizi ve hizmet illerinizi güncel tutun.')); return; }
+      box.replaceChildren(...V.talepler.map((t: any) => {
+        const acik = !t.kapali;
+        const durum = t.teklif ? h('span', { class: 'st-b g' }, `Fiyat verdiniz: ${tl(t.teklif.fiyat)}`) : t.davet === 'red' ? h('span', { class: 'st-b' }, 'İlgilenmiyorum dediniz') : acik ? h('span', { class: 'st-b a' }, kalan(t.sonTarihMs)) : h('span', { class: 'st-b' }, 'Süre doldu');
+        return h('article', { class: 'item' },
+          h('div', { class: 'row' }, h('b', {}, [t.tipAd, t.oda, t.m2 ? `${t.m2} m²` : '', [t.il, t.ilce].filter(Boolean).join(' / ')].filter(Boolean).join(' · ')), durum),
+          h('span', { class: 'small' }, [t.araziAd, t.butce, t.teslim, t.zaman, t.kapsam?.join(', ')].filter(Boolean).join(' · ')),
+          t.model ? h('span', { class: 'small' }, 'İlgilendiği model: ', h('b', {}, t.model)) : null,
+          t.not ? h('span', { class: 'small muted' }, '“' + t.not + '”') : null,
+          t.musteri ? h('div', { class: 'okmsg small', style: { padding: '10px 12px' } }, h('b', {}, t.musteri.ad), ' · ', h('a', { href: 'tel:' + t.musteri.telefon }, t.musteri.telefon), ' · ', h('a', { href: 'mailto:' + t.musteri.eposta }, t.musteri.eposta))
+            : h('span', { class: 'xs muted' }, '🔒 Müşteri bilgileri fiyat verince açılır'),
+          !t.teklif && acik && t.davet !== 'red' ? h('div', { style: { display: 'flex', gap: '8px' } },
+            h('button', { class: 'btn btn-p btn-s', type: 'button', onclick: () => modal('Fiyat ver', teklifFormu(t)) }, 'Fiyat ver'),
+            h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => confirmModal!('Bu talep için “ilgilenmiyorum” denilsin mi?', async () => { await api('/api/firma/red' + fq, { talep: t.id }); toast('Kaydedildi'); yukle(); }) }, 'İlgilenmiyorum')) : null,
+          h('span', { class: 'xs muted' }, tarih(t.olusturma)));
+      }));
+    }
+    function gbCiz() {
+      const box = $('p-gb');
+      if (!V.geriBildirimler.length) { box.replaceChildren(h('p', { class: 'small muted' }, 'Henüz mesajınız yok.')); return; }
+      const TUR: Record<string, string> = { istek: 'İstek / öneri', hata: 'Hata', sorun: 'Sorun', diger: 'Diğer' };
+      box.replaceChildren(...V.geriBildirimler.map((g: any) => {
+        const yanit = h('textarea', { rows: 2, maxlength: 3000, placeholder: 'Yanıt yazın' }) as HTMLTextAreaElement;
+        return h('article', { class: 'item' },
+          h('div', { class: 'row' }, h('b', {}, g.konu), h('span', { class: 'st-b ' + (g.durum === 'cevaplandi' ? 'g' : g.durum === 'kapandi' ? '' : 'a') }, g.durum === 'cevaplandi' ? 'Yanıtlandı' : g.durum === 'kapandi' ? 'Kapandı' : 'Açık')),
+          h('span', { class: 'xs muted' }, `${TUR[g.tur] || ''} · ${tarih(g.zaman)}`), h('p', { style: { margin: 0, whiteSpace: 'pre-line' } }, g.mesaj),
+          ...(g.cevaplar || []).map((c: any) => h('div', { class: 'box ' + (c.kim === 'yonetim' ? 'mint' : ''), style: { padding: '10px 12px' } }, h('span', { class: 'xs muted' }, (c.kim === 'yonetim' ? 'PrefabrikTeklif ekibi' : 'Siz') + ' · ' + tarih(c.zaman)), h('p', { style: { margin: '4px 0 0', whiteSpace: 'pre-line' } }, c.metin))),
+          g.durum !== 'kapandi' ? h('form', { class: 'form', style: { gap: '8px' }, onsubmit: async (e: Event) => { e.preventDefault(); if (yanit.value.trim().length < 2) return; try { await api('/api/firma/geri-bildirim-yanit' + fq, { id: g.id, metin: yanit.value }); toast('Gönderildi'); yukle(); } catch (err: any) { toast(err.message); } } }, yanit, h('button', { class: 'btn btn-g btn-s', type: 'submit', style: { alignSelf: 'flex-start' } }, 'Yanıtla')) : null);
+      }));
+    }
+    function profilDoldur() {
+      const f = $('profil-form') as HTMLFormElement; const p = V.firma;
+      (f.elements.namedItem('eposta') as HTMLInputElement).value = p.eposta || '';
+      (f.elements.namedItem('telefon') as HTMLInputElement).value = p.telefon || '';
+      f.querySelectorAll<HTMLInputElement>('input[name=tipler]').forEach((c) => (c.checked = p.tipler.includes(c.value)));
+      const tum = !p.iller.length || p.iller.includes('*');
+      (f.elements.namedItem('tum') as HTMLInputElement).checked = tum;
+      [...(f.elements.namedItem('iller') as HTMLSelectElement).options].forEach((o) => (o.selected = !tum && p.iller.includes(o.value)));
+    }
+    async function yukle() {
+      V = await api('/api/firma/ozet' + fq);
+      $('fp-ad').textContent = V.firma.ad;
+      document.querySelector('[data-rz=bekleyen]')!.textContent = V.bekleyen.length || '';
+      document.querySelector('[data-rz=talep]')!.textContent = V.talepler.filter((t: any) => !t.kapali && !t.teklif && t.davet !== 'red').length || '';
+      document.querySelector('[data-rz=gb]')!.textContent = V.geriBildirimler.filter((g: any) => g.durum === 'cevaplandi').length || '';
+      urunlerCiz(); taleplerCiz(); gbCiz(); profilDoldur();
+    }
+    $('yeni-urun').addEventListener('click', () => { const k = modal('Yeni ürün ekle', urunFormu(null, async (veri) => { if (!veri.ad) throw new Error('Model adı yazın.'); await api('/api/firma/urun' + fq, { tur: 'yeni', veri }); k(); toast('Yeni ürün onaya gönderildi'); yukle(); })); });
+    $('gb-form').addEventListener('submit', async (e) => {
+      e.preventDefault(); const f = e.target as HTMLFormElement; const fd = Object.fromEntries(new FormData(f)) as any;
+      if (!fd.konu?.trim() || (fd.mesaj || '').trim().length < 5) { toast('Konu ve mesaj yazın'); return; }
+      try { await api('/api/firma/geri-bildirim' + fq, { ...fd, sayfa: document.referrer }); f.reset(); toast('Mesajınız ekibimize iletildi'); yukle(); } catch (err: any) { toast(err.message); }
+    });
+    $('profil-form').addEventListener('submit', async (e) => {
+      e.preventDefault(); const f = e.target as HTMLFormElement;
+      const tum = (f.elements.namedItem('tum') as HTMLInputElement).checked;
+      const iller = tum ? ['*'] : [...(f.elements.namedItem('iller') as HTMLSelectElement).selectedOptions].map((o) => o.value);
+      try { await api('/api/firma/profil' + fq, { eposta: (f.elements.namedItem('eposta') as HTMLInputElement).value, telefon: (f.elements.namedItem('telefon') as HTMLInputElement).value, tipler: [...f.querySelectorAll<HTMLInputElement>('input[name=tipler]:checked')].map((c) => c.value), iller }); toast('Kaydedildi'); yukle(); } catch (err: any) { toast(err.message); }
+    });
+    (async () => {
+      try {
+        const u = await kullanici();
+        if (!u) { $('fp-giris').hidden = false; return; }
+        await oturumAc();
+        await yukle();
+        $('fp-app').hidden = false;
+        sekmeler($('sekmeler'), () => scrollTo(0, 0));
+      } catch (e: any) {
+        $('fp-giris').hidden = false;
+        if (e instanceof ApiHata && e.kod === 403) $('fp-mesaj').textContent = e.message;
+        else $('fp-mesaj').textContent = e?.message || 'Panel yüklenemedi.';
+      }
+    })();
+  </script>
+</Base>

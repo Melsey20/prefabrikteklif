@@ -80,6 +80,7 @@ SMTP_PORT=$SMTPPORT
 SMTP_USER=$SMTPUSER
 MAIL_FROM=PrefabrikTeklif <$SMTPUSER>
 ADMIN_EMAIL=$ADMIN
+YONETICILER=info@mitraajans.com,yusuf4461@gmail.com,$ADMIN
 SITE_URL=https://www.prefabrikteklif.com.tr
 EOF
 echo
@@ -91,6 +92,9 @@ echo "Google puanı için Places API anahtarı (yoksa sadece - yazıp Enter'a ba
 $FB functions:secrets:set PLACES_API_KEY --project "$PROJE" || hata "Anahtar kaydedilemedi."
 
 adim "6/7 Sunucu paketleri kuruluyor"
+APPS=$($FB apps:list WEB --project "$PROJE" --json 2>/dev/null || true)
+ADET=$(node -e 'let d={};try{d=JSON.parse(process.argv[1]||"{}")}catch(e){};console.log((d.result||[]).length)' "$APPS")
+[ "$ADET" = "0" ] && { $FB apps:create WEB "PrefabrikTeklif" --project "$PROJE" || true; }
 (cd functions && npm install --no-audit --no-fund) || hata "Paketler kurulamadı."
 
 adim "7/7 Site ve sunucu yayınlanıyor (birkaç dakika sürer)"

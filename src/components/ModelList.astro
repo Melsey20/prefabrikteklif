@@ -6,7 +6,7 @@ const { list, firmaGoster = true, id = 'liste' } = Astro.props;
 ---
 <h2 class="sr-only">Modeller ve fiyatlar</h2>
 <div class="toolbar">
-  <span class="small muted">{list.length} model · fiyata göre sıralı, güncelliği şüpheli fiyatlar sonda · firmalar sıralama için ücret ödemez</span>
+  <span class="small muted">{list.length} model · ucuzdan pahalıya · firmalar sıralama için ücret ödemez</span>
   <label>Sırala
     <select data-sort={id} aria-label="Sıralama">
       <option value="fiyat">Fiyat (düşükten)</option>
@@ -16,22 +16,22 @@ const { list, firmaGoster = true, id = 'liste' } = Astro.props;
     </select>
   </label>
 </div>
-<div class="grid" id={id}>
-  {list.map((m) => <ModelCard m={m} firmaGoster={firmaGoster} />)}
+<div class="grid" id={id} data-katalog>
+  {list.map((m, i) => <ModelCard m={m} firmaGoster={firmaGoster} eager={i < 2} />)}
 </div>
-<script is:inline define:vars={{ id }}>
-  (function () {
-    var sel = document.querySelector('select[data-sort="' + id + '"]'), box = document.getElementById(id);
-    if (!sel || !box) return;
-    sel.addEventListener('change', function () {
-      var k = sel.value, desc = k === 'fiyat-desc'; if (desc) k = 'fiyat';
-      var items = Array.prototype.slice.call(box.children);
-      items.sort(function (a, b) {
-        var x = parseFloat(a.dataset[k === 'm2fiyat' ? 'm2fiyat' : k]) || (desc ? -1 : 1e15);
-        var y = parseFloat(b.dataset[k === 'm2fiyat' ? 'm2fiyat' : k]) || (desc ? -1 : 1e15);
+<script>
+  import { katalogUygula } from '../scripts/katalog';
+  document.querySelectorAll<HTMLSelectElement>('select[data-sort]').forEach((sel) => {
+    const box = document.getElementById(sel.dataset.sort!); if (!box) return;
+    sel.addEventListener('change', () => {
+      let k = sel.value; const desc = k === 'fiyat-desc'; if (desc) k = 'fiyat';
+      const items = [...box.children] as HTMLElement[];
+      items.sort((a, b) => {
+        const x = parseFloat(a.dataset[k]!) || (desc ? -1 : 1e15), y = parseFloat(b.dataset[k]!) || (desc ? -1 : 1e15);
         return desc ? y - x : x - y;
       });
-      items.forEach(function (i) { box.appendChild(i); });
+      items.forEach((i) => box.appendChild(i));
     });
-  })();
+  });
+  katalogUygula();
 </script>

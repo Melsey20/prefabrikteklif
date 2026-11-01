@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import Crumbs from '../components/Crumbs.astro';
+---
+<Base title="Favorilerim" description="Beğendiğiniz prefabrik ev, tiny house ve çelik ev modelleri." noindex>
+  <div class="wrap">
+    <Crumbs items={[{ ad: 'Favorilerim' }]} />
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <h1 style="margin:0">Favorilerim</h1>
+      <a class="btn btn-l btn-s" href="/giris/?geri=/hesabim/%23favoriler" id="f-giris">Giriş yapın, favorileriniz her cihazda olsun</a>
+    </div>
+    <div class="grid" id="f-liste" style="margin-top:18px"></div>
+  </div>
+  <script>
+    import { modeller, kart } from '../scripts/modeller';
+    import { favs } from '../scripts/site';
+    try { if (localStorage.getItem('pt_user')) document.getElementById('f-giris')!.hidden = true; } catch { /* */ }
+    async function ciz() {
+      const ids = favs(); const all = await modeller(); const list = ids.map((id) => all.find((m) => m.id === id)).filter(Boolean) as any[];
+      const box = document.getElementById('f-liste')!;
+      box.innerHTML = list.length ? list.map(kart).join('') : '<div class="empty" style="grid-column:1/-1">Henüz favori eviniz yok. Kartlardaki kalp simgesiyle ekleyebilirsiniz. <a href="/evini-bul/">Evleri inceleyin</a></div>';
+      window.dispatchEvent(new Event('pt:draw'));
+    }
+    ciz(); window.addEventListener('pt:fav', () => setTimeout(ciz, 50));
+  </script>
+</Base>

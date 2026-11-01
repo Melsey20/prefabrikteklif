@@ -45,6 +45,20 @@
           "arrayConfig": "CONTAINS"
         }
       ]
+    },
+    {
+      "collectionGroup": "urunDegisiklikleri",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "firma",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "durum",
+          "order": "ASCENDING"
+        }
+      ]
     }
   ],
   "fieldOverrides": []

@@ -2,7 +2,17 @@
 import Sayfa from '../components/Sayfa.astro';
 import { SITE } from '../site.config';
 ---
-<Sayfa title="Çerez Politikası" h1="Çerez politikası" description={`${SITE.ad} çerez politikası.`}>
-  <p>{SITE.ad} reklam veya takip çerezi kullanmaz. Tarayıcınızın yerel depolama alanında yalnızca teklif istemek için seçtiğiniz firmaların listesi tutulur; bu bilgi cihazınızdan çıkmaz ve teklif formunu gönderdiğinizde silinir.</p>
-  <p>İleride ziyaret istatistikleri için analiz aracı eklenirse, bu sayfa güncellenecek ve gerekli durumlarda onayınız istenecektir.</p>
+<Sayfa title="Çerez Politikası" h1="Çerez politikası" description={`${SITE.ad} çerez ve yerel depolama politikası.`}>
+  <h2>Zorunlu kayıtlar</h2>
+  <p>{SITE.ad}, sitenin çalışması için tarayıcınızın yerel depolama alanında şu bilgileri tutar: favori evleriniz, karşılaştırma listeniz, çerez tercihiniz ve giriş yaptıysanız oturum bilgisi (Google Firebase Authentication). Bu kayıtlar reklam amacıyla kullanılmaz.</p>
+  <h2>Ziyaret istatistikleri (isteğe bağlı)</h2>
+  <p>Siteyi geliştirmek için Google Analytics 4 kullanıyoruz. Analytics yalnızca çerez bandında <strong>“Kabul et”</strong> dediğinizde yüklenir; IP adresi anonimleştirilir, reklam ve kişiselleştirme izinleri kapalıdır. Onay vermezseniz Analytics hiç çalışmaz.</p>
+  <h2>Tercihinizi değiştirme</h2>
+  <p><button class="btn btn-g btn-s" type="button" id="cerez-sifirla">Çerez tercihimi sıfırla</button></p>
+  <p class="small muted">Sıfırladıktan sonra sayfayı yenilediğinizde çerez bandı yeniden görünür.</p>
+  <h2>Reklam çerezleri</h2>
+  <p>Reklam veya yeniden pazarlama çerezi kullanmıyoruz. Ana sayfadaki “Reklam” etiketli alanlar, firmaların tanıtımıdır ve takip çerezi içermez.</p>
+  <script>
+    document.getElementById('cerez-sifirla')!.addEventListener('click', () => { try { localStorage.removeItem('pt_consent'); } catch { /* */ } location.reload(); });
+  </script>
 </Sayfa>

@@ -1,0 +1,17 @@
+---
+import Sayfa from '../components/Sayfa.astro';
+import { SITE } from '../site.config';
+import { meta } from '../lib/data';
+---
+<Sayfa title="Reklam Ver: Prefabrik ve Modüler Ev Üreticileri İçin" h1="Kampanyanızı ev arayanlara gösterin" description={`${SITE.ad}’te ana sayfa bannerı ve öne çıkan model alanları: prefabrik, tiny house, çelik ve konteyner ev arayan ziyaretçilere ulaşın.`}>
+  <p>{SITE.ad}, Türkiye’de prefabrik ev, tiny house, çelik ev, konteyner ev, ahşap ev ve bungalov arayan kişilerin {meta.firmaSayisi} üreticinin {meta.modelSayisi} modelini karşılaştırdığı platformdur. Kampanyanızı tam da karar aşamasındaki ziyaretçilere gösterebilirsiniz.</p>
+  <h2>Reklam alanları</h2>
+  <ul>
+    <li><strong>Ana sayfa bannerı:</strong> Ana sayfadaki kayan alanda, “Reklam” etiketiyle.</li>
+    <li><strong>Kategori sayfalarında öne çıkan model:</strong> Örneğin “Tiny house fiyatları” sayfasında ayrı ve “Reklam” etiketli alanda.</li>
+    <li><strong>Bülten:</strong> Fiyat düşüşü bildirimine izin veren kullanıcılara giden aylık e-postada.</li>
+  </ul>
+  <p>Reklamlar fiyat sıralamasını etkilemez; listeler her zaman fiyata göre sıralanır. Reklam içeriği yayından önce kontrol edilir; yanıltıcı fiyat ve kampanya beyanları kabul edilmez.</p>
+  <h2>Başvuru</h2>
+  <p>Firma adınızı, tanıtmak istediğiniz kampanyayı ve tarih aralığını <a href={`mailto:${SITE.eposta}?subject=Reklam%20ba%C5%9Fvurusu`}>{SITE.eposta}</a> adresine yazın; size uygun alanları ve fiyatları ileteceğiz. Kayıtlı firmaysanız <a href="/firma-paneli/#geri-bildirim">firma panelindeki geri bildirim</a> bölümünden de yazabilirsiniz.</p>
+</Sayfa>

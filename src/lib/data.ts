@@ -99,3 +99,41 @@ export function benzerler(m: Model, n = 6) {
 }
 
 export const kalemYazi: Record<string, string> = { kdv: 'KDV', nakliye: 'Nakliye', montaj: 'Montaj', zemin: 'Zemin betonu' };
+
+// ---- Görseller ----
+export const TIP_IMG: Record<string, string> = { prefabrik: 'prefabrik', celik: 'celik', konteyner: 'konteyner', 'tiny house': 'tiny-house', ahsap: 'ahsap', bungalov: 'bungalov' };
+export const img = (k: string, w: 480 | 960 | 1344 | 'kare' = 960) => `/img/${k}-${w}.webp`;
+export const tipImg = (tip: string, w: 480 | 960 | 'kare' = 960) => img(TIP_IMG[tip] || 'prefabrik', w);
+// Aynı tipteki kartlarda görsel çeşitliliği: model kimliğine göre 3 varyanttan biri
+export const varyant = (id: string) => ['', '-b', '-c'][[...id].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7) % 3];
+export const modelImg = (m: { tip: string; firma: string; slug: string }, w: 480 | 960) => `/img/${TIP_IMG[m.tip] || 'prefabrik'}${varyant(`${m.firma}/${m.slug}`)}-${w}.webp`;
+export const TIP_ACIKLAMA: Record<string, string> = { prefabrik: 'En geniş seçenek', celik: 'Dayanıklı, villa tipi', konteyner: 'Hızlı ve ekonomik', 'tiny house': 'Tekerlekli, O2 belgeli', ahsap: 'Doğal ve sıcak', bungalov: 'Bağ ve tatil evi' };
+export const TIP_SIRA = ['tiny house', 'prefabrik', 'ahsap', 'bungalov', 'celik', 'konteyner'];
+export const modelId = (m: Model) => `${m.firma}/${m.slug}`;
+export const monogram = (s: string) => s.split(/\s+/).filter((w) => /^[\p{L}\d]/u.test(w)).slice(0, 2).map((w) => w[0]).join('').toLocaleUpperCase('tr');
+export function etiketler(m: Model) {
+  const t: { c: 'd' | 'h' | 'b'; ad: string }[] = [];
+  if (m.teslim) t.push({ c: /anahtar/i.test(m.teslim) ? 'd' : 'b', ad: m.teslim });
+  for (const k of ['nakliye', 'montaj', 'zemin'] as const) {
+    if (m[k] === 'dahil') t.push({ c: 'd', ad: `${kalemYazi[k]} dahil` });
+    if (m[k] === 'haric') t.push({ c: 'h', ad: `${kalemYazi[k]} hariç` });
+  }
+  if (m.kdv === 'dahil') t.push({ c: 'd', ad: 'KDV dahil' });
+  else if (m.kdv === 'haric') t.push({ c: 'h', ad: 'KDV hariç' });
+  else t.push({ c: 'b', ad: 'KDV belirtilmemiş' });
+  return t.slice(0, 4);
+}
+export const katYazi = (m: Model) => (m.kat === 2 ? 'Dubleks' : m.katRaw === 'loft' || m.kat === 1.5 ? 'Loftlu' : m.kat === 1 ? 'Tek kat' : '');
+export const tarihYazi = (iso: string) => new Date(iso).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+export const ILLER = ['Adana','Adıyaman','Afyonkarahisar','Ağrı','Aksaray','Amasya','Ankara','Antalya','Ardahan','Artvin','Aydın','Balıkesir','Bartın','Batman','Bayburt','Bilecik','Bingöl','Bitlis','Bolu','Burdur','Bursa','Çanakkale','Çankırı','Çorum','Denizli','Diyarbakır','Düzce','Edirne','Elazığ','Erzincan','Erzurum','Eskişehir','Gaziantep','Giresun','Gümüşhane','Hakkari','Hatay','Iğdır','Isparta','İstanbul','İzmir','Kahramanmaraş','Karabük','Karaman','Kars','Kastamonu','Kayseri','Kilis','Kırıkkale','Kırklareli','Kırşehir','Kocaeli','Konya','Kütahya','Malatya','Manisa','Mardin','Mersin','Muğla','Muş','Nevşehir','Niğde','Ordu','Osmaniye','Rize','Sakarya','Samsun','Şanlıurfa','Siirt','Sinop','Sivas','Şırnak','Tekirdağ','Tokat','Trabzon','Tunceli','Uşak','Van','Yalova','Yozgat','Zonguldak'];
+export const M2_ARALIK = [
+  { k: '0-40', ad: '40 m² altı', alt: 'Tiny house, bağ evi', a: 0, b: 40 },
+  { k: '40-70', ad: '40–70 m²', alt: '1+1 veya küçük 2+1', a: 40, b: 70 },
+  { k: '70-100', ad: '70–100 m²', alt: 'Aile için 2+1 / 3+1', a: 70, b: 100 },
+  { k: '100-150', ad: '100–150 m²', alt: 'Geniş 3+1, 4+1', a: 100, b: 150 },
+  { k: '150-9999', ad: '150 m² üstü', alt: 'Villa, çift katlı', a: 150, b: 9999 },
+];
+export const ODA_SEC = [
+  { k: '1+0', ad: '1+0 / Stüdyo', alt: 'Tek açık alan' }, { k: '1+1', ad: '1+1', alt: '1 yatak odası' }, { k: '2+1', ad: '2+1', alt: 'En çok tercih edilen' },
+  { k: '3+1', ad: '3+1', alt: 'Kalabalık aile' }, { k: '4+1', ad: '4+1 ve üstü', alt: 'Villa tipi' },
+];

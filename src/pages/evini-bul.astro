@@ -1,0 +1,187 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site.config';
+import { TIPLER, TIP_SIRA, TIP_ACIKLAMA, ILLER, M2_ARALIK, ODA_SEC, meta, tipImg } from '../lib/data';
+const tipler = TIP_SIRA.filter((k) => TIPLER[k]).map((k) => ({ k: k, ad: TIPLER[k].ad, alt: TIP_ACIKLAMA[k], img: tipImg(k, 480) }));
+const I = {
+  cetvel: 'M3 17L17 3l4 4L7 21zM7 13l2 2M10 10l2 2M13 7l2 2',
+  oda: 'M3 18v-6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v6M3 18h18M6 9V6',
+  ev: 'M3 11l9-7 9 7M5 10v10h14V10',
+  tarla: 'M3 20h18M6 20V12M12 20V8M18 20v-6M4 12c2-3 4-3 4 0M10 8c2-3 4-3 4 0M16 14c2-3 4-3 4 0',
+  bag: 'M12 21V11M12 11c-4 0-6-3-6-7 4 0 6 3 6 7zM12 13c4 0 6-3 6-7-4 0-6 3-6 7z',
+  yok: 'M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z',
+  para: 'M12 3v18M17 7H9.5a3 3 0 0 0 0 6h5a3 3 0 0 1 0 6H6',
+  anahtar: 'M15 7a4 4 0 1 1-3.5 6L4 20.5 3.5 17l2-2L7 16l1-2-1.5-1.5L8 11',
+  soru: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5M12 17h.01',
+};
+const sorular = [
+  { k: 'tip', baslik: 'Hangi evi arıyorsunuz?', alt: 'Bir tip seçin; emin değilseniz “Fark etmez” deyin.', resimli: true, opts: tipler.map((t) => ({ v: t.k, ad: t.ad, alt: t.alt, img: t.img })) },
+  { k: 'm2', baslik: 'Kaç metrekare olsun?', alt: 'Yaklaşık bir aralık yeterli.', opts: M2_ARALIK.map((a) => ({ v: a.k, ad: a.ad, alt: a.alt, ic: I.cetvel })) },
+  { k: 'oda', baslik: 'Kaç oda istiyorsunuz?', alt: 'Salon dahil değil.', opts: ODA_SEC.map((o) => ({ v: o.k, ad: o.ad, alt: o.alt, ic: I.oda })) },
+  { k: 'arazi', baslik: 'Evi nereye koyacaksınız?', alt: 'Arsa durumu hangi evin uygun olduğunu belirler.', opts: [
+    { v: 'imarli', ad: 'İmarlı arsam var', alt: 'Ruhsat alınabilir', ic: I.ev }, { v: 'tarla', ad: 'Tarla / tarım arazisi', alt: 'Özel kurallar var', ic: I.tarla },
+    { v: 'bag', ad: 'Bağ – bahçe', alt: 'Bağ evi kuralları', ic: I.bag }, { v: 'koy', ad: 'Köy yerleşik alanı', alt: 'Köy imar kuralları', ic: I.ev }, { v: 'yok', ad: 'Henüz arsam yok', alt: 'Önce evi seçmek istiyorum', ic: I.yok } ] },
+  { k: 'butce', baslik: 'Bütçeniz ne kadar?', alt: 'Ev için, nakliye ve temel hariç, yaklaşık.', opts: [
+    { v: '0-500000', ad: '500 bin TL altı', alt: '', ic: I.para }, { v: '500000-1000000', ad: '500 bin – 1 milyon TL', alt: '', ic: I.para },
+    { v: '1000000-2000000', ad: '1 – 2 milyon TL', alt: '', ic: I.para }, { v: '2000000-999999999', ad: '2 milyon TL üstü', alt: '', ic: I.para } ] },
+  { k: 'teslim', baslik: 'Nasıl teslim olsun?', alt: 'Fiyatları doğru karşılaştırmak için önemli.', opts: [
+    { v: 'anahtar', ad: 'Anahtar teslim', alt: 'Mutfak, banyo, tesisat hazır', ic: I.anahtar }, { v: 'kaba', ad: 'Kaba / ileri kaba', alt: 'İç işleri ben yaptıracağım', ic: I.ev },
+    { v: 'bilmiyorum', ad: 'Emin değilim', alt: 'İkisini de göster', ic: I.soru } ] },
+];
+---
+<Base title="Hangi Evi Arıyorsunuz? Size Uygun Prefabrik Evi Bulun" description={`Tip, metrekare, oda sayısı, arsa durumu ve bütçenizi seçin; ${meta.firmaSayisi} firmanın ${meta.modelSayisi} modeli içinden size uyanları anında görün ve ${SITE.teklifSaat} saatte teklif alın.`}>
+  <div class="wrap">
+    <div class="wz" id="wz" data-sorular={JSON.stringify(sorular)} data-saat={SITE.teklifSaat}>
+      <div id="wz-adim">
+        <div class="wz-top">
+          <button class="hicon" type="button" id="wz-geri" aria-label="Geri"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <div class="wz-bar" aria-hidden="true"><i id="wz-ilerleme" style="width:16%"></i></div>
+          <span class="small muted" id="wz-sayac">1 / 7</span>
+        </div>
+        <h1 id="wz-baslik" tabindex="-1" style="outline:none">Hangi evi arıyorsunuz?</h1>
+        <p class="muted" id="wz-alt" style="margin:0">Bir tip seçin; emin değilseniz “Fark etmez” deyin.</p>
+        <div class="wz-opts img" id="wz-opts" role="group" aria-labelledby="wz-baslik">
+          {tipler.map((t) => <button class="wo im" type="button" aria-pressed="false" data-v={t.k}><img src={t.img} alt="" width="480" height="362" /><span><b>{t.ad}</b><small>{t.alt}</small></span></button>)}
+        </div>
+        <div id="wz-il" hidden style="margin-top:18px">
+          <label class="f" style="display:flex;flex-direction:column;gap:6px;font-weight:800">Evin kurulacağı il
+            <select id="wz-ilsec"><option value="">Henüz belli değil</option>{ILLER.map((il) => <option>{il}</option>)}</select>
+          </label>
+        </div>
+        <div class="note-a" id="wz-not" hidden></div>
+        <div class="wz-foot">
+          <button class="btn btn-g" type="button" id="wz-atla">Fark etmez</button>
+          <button class="btn btn-p" type="button" id="wz-ileri">Devam</button>
+        </div>
+      </div>
+
+      <div id="wz-sonuc" hidden>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px">
+          <div><h1 style="margin:0" id="sn-baslik">Size uygun evler</h1><p class="muted" style="margin:4px 0 0" id="sn-sayi"></p></div>
+          <button class="btn btn-g btn-s" type="button" id="sn-degistir">Kriterleri değiştir</button>
+        </div>
+        <ul class="pills" id="sn-kriter" style="margin-top:12px"></ul>
+        <div class="note-a" id="sn-not" hidden></div>
+        <div class="box dk" style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap">
+          <div><b style="font-size:1.1rem">Bu kriterlerle {SITE.teklifSaat} saatte teklif alın</b><p class="small" style="margin:4px 0 0">Kriterlerinize uyan tüm firmalara gider. Bilgileriniz yalnızca fiyat veren firmayla paylaşılır.</p></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn btn-w" id="sn-teklif" href="/teklif-al/">Teklif al</a><a class="btn" style="border:1.5px solid #5c6f63;color:#fff" id="sn-surec" href="/teklif-al/?mod=surec">Süreci siz yönetin</a></div>
+        </div>
+        <div class="toolbar">
+          <span class="small muted">Firmalar sıralama için ücret ödemez</span>
+          <label>Sırala <select id="sn-sira"><option value="fiyat">En düşük fiyat</option><option value="m2f">En düşük m² fiyatı</option><option value="anahtar">Anahtar teslim önce</option><option value="il">Bulunduğum ile yakın</option></select></label>
+        </div>
+        <div class="grid" id="sn-liste" aria-live="polite"></div>
+        <button class="btn btn-g btn-block" type="button" id="sn-daha" hidden style="margin-top:16px"></button>
+      </div>
+    </div>
+  </div>
+  <script>
+    import { modeller, kart, TIP_AD, type M } from '../scripts/modeller';
+    const root = document.getElementById('wz')!;
+    const S: any[] = JSON.parse(root.dataset.sorular!); const SAAT = root.dataset.saat;
+    const $ = (id: string) => document.getElementById(id)!;
+    const q = new URLSearchParams(location.search);
+    const sec: Record<string, string> = {};
+    for (const k of ['tip', 'm2', 'oda', 'arazi', 'butce', 'teslim', 'il', 'q']) if (q.get(k)) sec[k] = q.get(k)!;
+    const N = S.length + 1; let adim = 0; let goster = 24;
+
+    function cizAdim() {
+      $('wz-adim').hidden = false; $('wz-sonuc').hidden = true;
+      $('wz-ilerleme').style.width = Math.round(((adim + 1) / N) * 100) + '%';
+      $('wz-sayac').textContent = `${adim + 1} / ${N}`;
+      const opts = $('wz-opts'); const il = $('wz-il'); const not = $('wz-not'); not.hidden = true;
+      if (adim === S.length) {
+        $('wz-baslik').textContent = 'Ev hangi ilde kurulacak?'; $('wz-alt').textContent = 'Size yakın firmaları öne alırız; teklif talebinde de kullanılır.';
+        opts.hidden = true; il.hidden = false; ($('wz-ilsec') as HTMLSelectElement).value = sec.il || '';
+        $('wz-ileri').textContent = 'Evleri göster'; $('wz-atla').hidden = true; return;
+      }
+      $('wz-atla').hidden = false; il.hidden = true; opts.hidden = false;
+      const s = S[adim];
+      $('wz-baslik').textContent = s.baslik; $('wz-alt').textContent = s.alt;
+      opts.className = 'wz-opts' + (s.resimli ? ' img' : '');
+      opts.innerHTML = '';
+      for (const o of s.opts) {
+        const b = document.createElement('button'); b.type = 'button'; b.dataset.v = o.v; b.className = 'wo' + (s.resimli ? ' im' : '');
+        b.setAttribute('aria-pressed', String(sec[s.k] === o.v));
+        if (s.resimli) { const im = document.createElement('img'); im.src = o.img; im.alt = ''; im.width = 480; im.height = 362; const sp = document.createElement('span'); sp.innerHTML = '<b></b><small></small>'; sp.querySelector('b')!.textContent = o.ad; sp.querySelector('small')!.textContent = o.alt; b.append(im, sp); }
+        else { b.innerHTML = `<i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#17663F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${o.ic}"/></svg></i><span><b></b><small></small></span>`; b.querySelector('b')!.textContent = o.ad; b.querySelector('small')!.textContent = o.alt; }
+        b.addEventListener('click', () => { sec[s.k] = o.v; opts.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); notGoster(); ileriRenk(); if (!(s.k === 'arazi' && (o.v === 'tarla' || o.v === 'bag'))) setTimeout(ileri, 220); });
+        opts.append(b);
+      }
+      notGoster(); ileriRenk();
+      $('wz-ileri').textContent = 'Devam';
+      if (adim > 0) $('wz-baslik').focus({ preventScroll: true });
+    }
+    function notGoster() {
+      const not = $('wz-not');
+      if (S[adim]?.k === 'arazi' && (sec.arazi === 'tarla' || sec.arazi === 'bag')) {
+        not.innerHTML = 'Tarım arazisinde ruhsatsız yapılara elektrik, su ve doğal gaz aboneliği verilmiyor. Tekerlekli, O2 belgeli tiny house’lar farklı değerlendirilir. <a href="/rehber/tarlaya-prefabrik-ev-yapilir-mi/" target="_blank">Rehberi okuyun</a>';
+        not.hidden = false;
+      } else not.hidden = true;
+    }
+    function ileriRenk() { const s = S[adim]; ($('wz-ileri') as HTMLButtonElement).disabled = !!s && !sec[s.k]; }
+    function ileri() { if (adim < S.length) { adim++; cizAdim(); } else { sec.il = ($('wz-ilsec') as HTMLSelectElement).value; if (!sec.il) delete sec.il; sonuc(); } }
+    $('wz-ileri').addEventListener('click', ileri);
+    $('wz-atla').addEventListener('click', () => { delete sec[S[adim].k]; adim++; cizAdim(); });
+    $('wz-geri').addEventListener('click', () => { if (adim > 0) { adim--; cizAdim(); } else history.length > 1 ? history.back() : (location.href = '/'); });
+    $('sn-degistir').addEventListener('click', () => { adim = 0; cizAdim(); scrollTo(0, 0); });
+    $('sn-sira').addEventListener('change', () => sonuc(false));
+    $('sn-daha').addEventListener('click', () => { goster += 24; sonuc(false); });
+
+    const ETK: Record<string, (v: string) => string> = {
+      tip: (v) => TIP_AD[v] || v, m2: (v) => S[1].opts.find((o: any) => o.v === v)?.ad || v, oda: (v) => v, arazi: (v) => S[3].opts.find((o: any) => o.v === v)?.ad || v,
+      butce: (v) => S[4].opts.find((o: any) => o.v === v)?.ad || v, teslim: (v) => S[5].opts.find((o: any) => o.v === v)?.ad || v, il: (v) => v, q: (v) => `“${v}”`,
+    };
+    function odaUyar(m: M, o: string) { if (!o) return true; if (!m.o) return false; if (o === '4+1') return parseInt(m.o) >= 4; return m.o === o; }
+    function filtre(list: M[], gev = 0) {
+      const [a, b] = (sec.m2 || '').split('-').map(Number); const [pa, pb] = (sec.butce || '').split('-').map(Number);
+      const qq = (sec.q || '').toLocaleLowerCase('tr');
+      return list.filter((m) => (!sec.tip || m.t === sec.tip)
+        && (!sec.m2 || (m.m2 != null && m.m2 >= a * (gev > 1 ? 0.8 : 1) && m.m2 < b * (gev > 1 ? 1.2 : 1)))
+        && (gev > 0 || odaUyar(m, sec.oda))
+        && (!sec.butce || (m.p != null && m.p >= pa && m.p < pb * (gev > 1 ? 1.15 : 1)))
+        && (!qq || `${m.ad} ${m.fa} ${TIP_AD[m.t]}`.toLocaleLowerCase('tr').includes(qq)));
+    }
+    async function sonuc(yeni = true) {
+      if (yeni) goster = 24;
+      $('wz-adim').hidden = true; $('wz-sonuc').hidden = false;
+      const p = new URLSearchParams(); for (const [k, v] of Object.entries(sec)) p.set(k, v);
+      history.replaceState(null, '', '?' + p.toString());
+      const all = await modeller();
+      let list = filtre(all); let gev = 0;
+      if (list.length < 3) { gev = 1; list = filtre(all, 1); }
+      if (list.length < 3) { gev = 2; list = filtre(all, 2); }
+      const not = $('sn-not');
+      not.hidden = !gev; not.textContent = gev ? 'Tam eşleşen model az olduğu için benzer metrekare ve oda sayısındaki evleri de gösteriyoruz.' : '';
+      const sira = ($('sn-sira') as HTMLSelectElement).value;
+      const fiyat = (m: M) => (m.p && !m.u ? m.p : 1e15);
+      list.sort((x, y) => {
+        if (sira === 'anahtar') return (Number(/anahtar/i.test(y.ts)) - Number(/anahtar/i.test(x.ts))) || fiyat(x) - fiyat(y);
+        if (sira === 'il' && sec.il) return (Number(y.il === sec.il) - Number(x.il === sec.il)) || fiyat(x) - fiyat(y);
+        if (sira === 'm2f') return (x.m2f || 1e15) - (y.m2f || 1e15);
+        if (sec.teslim === 'anahtar') return (Number(/anahtar/i.test(y.ts)) - Number(/anahtar/i.test(x.ts))) || fiyat(x) - fiyat(y);
+        return fiyat(x) - fiyat(y);
+      });
+      const firmaS = new Set(list.map((m) => m.f)).size;
+      $('sn-baslik').textContent = sec.tip ? `Size uygun ${(TIP_AD[sec.tip] || '').toLocaleLowerCase('tr')} modelleri` : 'Size uygun evler';
+      $('sn-sayi').textContent = list.length ? `${list.length} model · ${firmaS} firma` : 'Bu kriterlere uyan model bulunamadı.';
+      const kr = $('sn-kriter'); kr.innerHTML = '';
+      for (const [k, v] of Object.entries(sec)) {
+        const li = document.createElement('li'); const b = document.createElement('a'); b.href = '#'; b.className = 'on'; b.textContent = ETK[k]?.(v) + ' ✕'; b.setAttribute('aria-label', `${ETK[k]?.(v)} kriterini kaldır`);
+        b.addEventListener('click', (e) => { e.preventDefault(); delete sec[k]; sonuc(); }); li.append(b); kr.append(li);
+      }
+      const t = new URLSearchParams(); for (const k of ['tip', 'oda', 'arazi', 'butce', 'teslim', 'il']) if (sec[k]) t.set(k, sec[k]);
+      if (sec.m2) { const [a, b] = sec.m2.split('-').map(Number); t.set('m2', String(b > 1000 ? 160 : Math.round((a + b) / 2))); }
+      ($('sn-teklif') as HTMLAnchorElement).href = '/teklif-al/?' + t.toString();
+      ($('sn-surec') as HTMLAnchorElement).href = '/teklif-al/?mod=surec&' + t.toString();
+      $('sn-liste').innerHTML = list.length ? list.slice(0, goster).map(kart).join('') : `<div class="empty" style="grid-column:1/-1">Kriterleri biraz genişletmeyi deneyin ya da <a href="/teklif-al/?${t}">doğrudan teklif isteyin</a>; firmalar size özel fiyat verebilir.</div>`;
+      const d = $('sn-daha'); d.hidden = list.length <= goster; d.textContent = `${Math.min(24, list.length - goster)} model daha göster`;
+      window.dispatchEvent(new Event('pt:draw'));
+      window.gtag?.('event', 'sihirbaz_sonuc', { adet: list.length, tip: sec.tip || '' });
+      if (yeni) scrollTo({ top: 0 });
+    }
+    const anahtarlar = Object.keys(sec);
+    if (anahtarlar.length === 1 && sec.tip) { adim = 1; cizAdim(); }
+    else if (anahtarlar.length) sonuc(); else cizAdim();
+  </script>
+</Base>

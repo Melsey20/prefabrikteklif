@@ -1,56 +1,72 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Teklif ver" description="Firmalar için teklif giriş sayfası." noindex>
-  <div class="wrap narrow sec">
-    <h1>Talebe teklif ver</h1>
-    <div id="talep" class="box" hidden></div>
+<Base title="Talebe fiyat ver" description="Firmalar için fiyat verme sayfası." noindex>
+  <div class="wrap narrow" style="padding-top:24px">
+    <h1 id="tv-baslik">Sitemizde size uygun bir talep var</h1>
+    <p class="muted">Müşteri bilgileri gizlidir. Fiyat vermeyi kabul ederseniz ad, telefon ve e-posta size açılır.</p>
     <p class="err" id="hata" role="alert" hidden></p>
-    <form class="form" id="f" hidden novalidate>
+    <div id="talep" class="box" hidden style="display:flex;flex-direction:column;gap:6px"></div>
+    <div id="musteri" class="okmsg" hidden style="margin-top:14px"></div>
+    <form class="form box" id="f" hidden novalidate style="margin-top:14px">
       <label class="f">Toplam fiyat (TL)<input type="number" name="fiyat" inputmode="numeric" min="1000" required /></label>
       <label class="chk"><input type="checkbox" name="kdvDahil" /> Fiyata KDV dahil</label>
       <fieldset>
         <legend>Fiyata dahil olanlar</legend>
-        <label class="chk"><input type="checkbox" name="dahil" value="nakliye" /> Nakliye</label>
-        <label class="chk"><input type="checkbox" name="dahil" value="montaj" /> Montaj</label>
-        <label class="chk"><input type="checkbox" name="dahil" value="vinc" /> Vinç</label>
-        <label class="chk"><input type="checkbox" name="dahil" value="zemin" /> Zemin betonu</label>
-        <label class="chk"><input type="checkbox" name="dahil" value="ic-bitis" /> İç bitiş (parke, fayans)</label>
-        <label class="chk"><input type="checkbox" name="dahil" value="mutfak-vitrifiye" /> Mutfak ve vitrifiye</label>
-        <label class="chk"><input type="checkbox" name="dahil" value="ruhsat" /> Ruhsat ve proje</label>
+        <div class="two">
+          <label class="chk"><input type="checkbox" name="dahil" value="nakliye" /> Nakliye</label>
+          <label class="chk"><input type="checkbox" name="dahil" value="montaj" /> Montaj</label>
+          <label class="chk"><input type="checkbox" name="dahil" value="vinc" /> Vinç</label>
+          <label class="chk"><input type="checkbox" name="dahil" value="zemin" /> Zemin betonu</label>
+          <label class="chk"><input type="checkbox" name="dahil" value="ic-bitis" /> İç bitiş (parke, fayans)</label>
+          <label class="chk"><input type="checkbox" name="dahil" value="mutfak-vitrifiye" /> Mutfak ve vitrifiye</label>
+          <label class="chk"><input type="checkbox" name="dahil" value="ruhsat" /> Ruhsat ve proje</label>
+        </div>
       </fieldset>
       <div class="two">
         <label class="f">Teslim süresi (gün)<input type="number" name="teslimGun" min="1" max="365" /></label>
         <label class="f">Garanti (yıl)<input type="number" name="garantiYil" min="0" max="50" /></label>
       </div>
-      <label class="f">Model / açıklama<textarea name="not" maxlength="1500"></textarea></label>
-      <button class="btn btn-p btn-block" type="submit">Teklifi gönder</button>
+      <label class="f">Model / açıklama<textarea name="not" maxlength="1500" placeholder="Model, malzeme, ödeme planı vb."></textarea></label>
+      <p class="xs muted" style="margin:0">Fiyat verdiğinizde müşteri bilgileri size açılır; bu bilgileri yalnızca bu talep için kullanmayı kabul edersiniz.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-p" type="submit">Fiyatı gönder</button><button class="btn btn-g" type="button" id="red">İlgilenmiyorum</button></div>
     </form>
-    <div class="ok" id="tamam" hidden><h2 style="margin-top:0">Teklifiniz kaydedildi</h2><p>Talep süresi dolunca müşteriye diğer tekliflerle birlikte iletilecek.</p></div>
+    <div class="ok" id="tamam" hidden style="margin-top:14px"></div>
+    <p class="small muted" style="margin-top:18px">Tüm talepleri <a href="/firma-paneli/">firma panelinden</a> de yönetebilirsiniz. Firmanız kayıtlı değilse <a href="/firma-kayit/">ücretsiz kaydolun</a>.</p>
   </div>
-  <script is:inline>
-    (function () {
-      var q = new URLSearchParams(location.search), t = q.get('t'), fr = q.get('f'), hata = document.getElementById('hata');
-      function err(m) { hata.textContent = m; hata.hidden = false; }
+  <script>
+    import { h, tl } from '../scripts/ui';
+    const q = new URLSearchParams(location.search); const t = q.get('t'); const fr = q.get('f');
+    const $ = (id: string) => document.getElementById(id)!;
+    const err = (m: string) => { $('hata').textContent = m; $('hata').hidden = false; };
+    const musteriGoster = (m: any) => { $('musteri').replaceChildren(h('b', {}, 'Müşteri bilgileri'), h('p', { style: { margin: '6px 0 0' } }, `${m.ad} · `, h('a', { href: 'tel:' + m.telefon }, m.telefon), ' · ', h('a', { href: 'mailto:' + m.eposta }, m.eposta))); $('musteri').hidden = false; };
+    async function post(yol: string, body: any) { const r = await fetch(yol, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); const j = await r.json().catch(() => ({})); if (!r.ok) throw new Error(j.hata || 'Kaydedilemedi.'); return j; }
+    (async () => {
       if (!t || !fr) return err('Bağlantı eksik. E-postadaki bağlantıyı kullanın.');
-      fetch('/api/talep?t=' + encodeURIComponent(t) + '&f=' + encodeURIComponent(fr)).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); }).then(function (res) {
-        if (!res.ok) return err(res.j.hata || 'Talep bulunamadı.');
-        var d = res.j, box = document.getElementById('talep');
-        [['Ev tipi', d.tipAd], ['Oda', d.oda], ['m²', d.m2], ['Yer', [d.il, d.ilce].filter(Boolean).join(' / ')], ['Arazi', d.araziAd], ['Bütçe', d.butce], ['Zaman', d.zaman], ['İstenen kapsam', (d.kapsam || []).join(', ')], ['Not', d.not], ['Son teklif zamanı', d.sonTarih]]
-          .forEach(function (x) { if (!x[1]) return; var p = document.createElement('p'); p.style.margin = '0 0 6px'; var b = document.createElement('strong'); b.textContent = x[0] + ': '; p.appendChild(b); p.appendChild(document.createTextNode(x[1])); box.appendChild(p); });
-        box.hidden = false;
-        if (d.verildi) { document.getElementById('tamam').hidden = false; return; }
-        document.getElementById('f').hidden = false;
-      }).catch(function () { err('Bağlantı hatası.'); });
-      document.getElementById('f').addEventListener('submit', function (e) {
-        e.preventDefault(); var f = e.target, d = { t: t, f: fr, dahil: [] };
-        new FormData(f).forEach(function (v, k) { if (k === 'dahil') d.dahil.push(v); else d[k] = v; });
-        if (!d.fiyat || +d.fiyat < 1000) return err('Toplam fiyat yazın.');
-        fetch('/api/teklif-ver', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) })
-          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
-          .then(function (res) { if (!res.ok) return err(res.j.hata || 'Kaydedilemedi.'); f.hidden = true; document.getElementById('tamam').hidden = false; })
-          .catch(function () { err('Bağlantı hatası.'); });
-      });
+      try {
+        const r = await fetch(`/api/talep?t=${encodeURIComponent(t)}&f=${encodeURIComponent(fr)}`); const d = await r.json();
+        if (!r.ok) return err(d.hata || 'Talep bulunamadı.');
+        $('tv-baslik').textContent = `${d.firmaAd}: size uygun bir talep var`;
+        const satir = (k: string, v: any) => (v ? h('p', { style: { margin: 0 } }, h('b', {}, k + ': '), String(v)) : null);
+        $('talep').replaceChildren(...[satir('Ev tipi', d.tipAd), satir('Oda', d.oda), satir('m²', d.m2), satir('Yer', [d.il, d.ilce].filter(Boolean).join(' / ')), satir('Arazi', d.araziAd), satir('Bütçe', d.butce), satir('Teslim', d.teslim), satir('Zaman', d.zaman), satir('İstenen kapsam', (d.kapsam || []).join(', ')), satir('İlgilendiği model', d.model), satir('Not', d.not), satir('Son fiyat zamanı', d.sonTarih)].filter(Boolean) as Node[]);
+        $('talep').hidden = false;
+        if (d.musteri) musteriGoster(d.musteri);
+        if (d.verildi) { $('tamam').replaceChildren(h('b', {}, 'Bu talebe fiyat verdiniz.')); $('tamam').hidden = false; return; }
+        if (d.red) { $('tamam').replaceChildren(h('b', {}, 'Bu talep için “ilgilenmiyorum” dediniz.')); $('tamam').hidden = false; return; }
+        if (d.kapali) return err('Bu talebin süresi doldu.');
+        $('f').hidden = false;
+      } catch { err('Bağlantı hatası.'); }
     })();
+    $('f').addEventListener('submit', async (e) => {
+      e.preventDefault(); const f = e.target as HTMLFormElement; const d: any = { t, f: fr, dahil: [] };
+      new FormData(f).forEach((v, k) => { if (k === 'dahil') d.dahil.push(v); else d[k] = v; });
+      d.kdvDahil = !!d.kdvDahil;
+      if (!d.fiyat || +d.fiyat < 1000) return err('Toplam fiyat yazın.');
+      try { const j = await post('/api/teklif-ver', d); f.hidden = true; musteriGoster(j.musteri); $('tamam').replaceChildren(h('b', {}, `Fiyatınız (${tl(+d.fiyat)}) kaydedildi.`), h('p', { style: { margin: '6px 0 0' } }, 'Müşteriyi arayıp teklifinizi netleştirebilirsiniz. Süre dolunca tüm teklifler müşteriye tek tabloda iletilecek.')); $('tamam').hidden = false; $('hata').hidden = true; }
+      catch (x: any) { err(x.message); }
+    });
+    $('red').addEventListener('click', async () => {
+      try { await post('/api/teklif-red', { t, f: fr }); ($('f') as HTMLElement).hidden = true; $('tamam').replaceChildren(h('b', {}, 'Teşekkürler, kaydettik.')); $('tamam').hidden = false; } catch (x: any) { err(x.message); }
+    });
   </script>
 </Base>

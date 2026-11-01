@@ -1,0 +1,49 @@
+---
+import Makale from '../../components/Makale.astro';
+import { meta, models, TIPLER, TIP_SIRA, kisaTl, sayi, m2Modelleri, istatistik, tipUrl } from '../../lib/data';
+const fiyatli = models.filter((m) => m.fiyatTuru === 'model' && m.fiyat);
+const pre = models.filter((m) => m.tip === 'prefabrik');
+const hedefler = [40, 50, 60, 70, 80, 90, 100, 120, 150].map((h) => ({ h, s: istatistik(m2Modelleri('prefabrik', h)) })).filter((x) => x.s.fiyatli >= 3);
+const oran = (f: (m: (typeof models)[number]) => boolean, l = fiyatli) => Math.round((l.filter(f).length / Math.max(1, l.length)) * 100);
+const kdvYok = oran((m) => !m.kdv);
+const anahtar = oran((m) => /anahtar/i.test(m.teslim));
+const nakliyeDahil = oran((m) => m.nakliye === 'dahil');
+const sp = meta.istatistik.prefabrik;
+const sss = [
+  { s: `Prefabrik ev fiyatları ${meta.ay} itibarıyla ne kadar?`, c: `Listemizdeki ${sp.fiyatli} fiyatlı prefabrik ev modelinde fiyatlar ${kisaTl(sp.min)} ile ${kisaTl(sp.max)} arasında; ortanca fiyat ${kisaTl(sp.medyan)}, ortanca m² fiyatı ${sayi(sp.m2Medyan || 0)} TL.` },
+  { s: 'Prefabrik ev m² fiyatı neden bu kadar farklı?', c: 'Fiyatlar teslim şekline (kaba / anahtar teslim), malzemeye, yalıtım kalınlığına ve fiyata nakliye, montaj, temel ve KDV’nin dahil olup olmamasına göre değişir. Küçük evlerde m² fiyatı genellikle daha yüksektir.' },
+  { s: '100 m² prefabrik ev kaç para?', c: hedefler.find((x) => x.h === 100) ? `Yaklaşık 88–112 m² arasındaki ${hedefler.find((x) => x.h === 100)!.s.fiyatli} modelin ortanca fiyatı ${kisaTl(hedefler.find((x) => x.h === 100)!.s.medyan)}.` : 'Güncel liste için 100 m² prefabrik ev sayfasına bakın.' },
+];
+---
+<Makale gorsel="prefabrik" kategori="Fiyatlar" title={`Prefabrik Ev Fiyatları ${meta.ay}: m² Maliyeti ve Fiyat Listesi`} h1={`Prefabrik ev fiyatları ${meta.ay}: m² maliyeti ve güncel fiyat aralıkları`} tarih={meta.sonKontrol} sss={sss}
+  description={`${meta.ay} güncel prefabrik ev fiyatları: ${meta.firmaSayisi} firmanın ${meta.modelSayisi} modelinden derlenen ortanca fiyatlar, m² maliyeti, metrekareye göre fiyat tablosu ve fiyata neyin dahil olduğu.`}>
+  <p>Bu yazıdaki rakamlar, {meta.firmaSayisi} üreticinin kendi sitelerinde yayınladığı {meta.modelSayisi} modelin fiyatlarından <strong>{meta.sonKontrolYazi}</strong> tarihinde derlendi ve her ay yenilenir. Rakamlar ilan fiyatlarıdır; kesin fiyat için <a href="/teklif-al/">teklif alın</a>.</p>
+  <h2>Özet: {meta.ay} prefabrik ev fiyatları</h2>
+  <ul>
+    <li><strong>Fiyatlı model:</strong> {sp.fiyatli} prefabrik ev, {sp.firma} firma</li>
+    <li><strong>En düşük:</strong> {kisaTl(sp.min)} · <strong>ortanca:</strong> {kisaTl(sp.medyan)} · <strong>en yüksek:</strong> {kisaTl(sp.max)}</li>
+    <li><strong>Ortanca m² fiyatı:</strong> {sayi(sp.m2Medyan || 0)} TL</li>
+  </ul>
+  <h2>Metrekareye göre prefabrik ev fiyatları</h2>
+  <p>Her satır, hedef metrekarenin ±%12 aralığındaki modelleri kapsar.</p>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Büyüklük</th><th class="n">Model</th><th class="n">En düşük</th><th class="n">Ortanca</th><th class="n">Ortanca m²</th></tr></thead>
+    <tbody>{hedefler.map((x) => <tr><td><a href={`/prefabrik-ev-fiyatlari/${x.h}-m2/`}>{x.h} m²</a></td><td class="n">{x.s.fiyatli}</td><td class="n">{kisaTl(x.s.min)}</td><td class="n">{kisaTl(x.s.medyan)}</td><td class="n">{x.s.m2Medyan ? `${sayi(x.s.m2Medyan)} TL` : '–'}</td></tr>)}</tbody>
+  </table></div>
+  <h2>Ev tiplerine göre fiyatlar</h2>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Tip</th><th class="n">Model</th><th class="n">En düşük</th><th class="n">Ortanca</th><th class="n">Ortanca m²</th></tr></thead>
+    <tbody>{TIP_SIRA.filter((k) => meta.istatistik[k]).map((k) => { const s = meta.istatistik[k]; return <tr><td><a href={tipUrl(k)}>{TIPLER[k].ad}</a></td><td class="n">{s.fiyatli}</td><td class="n">{kisaTl(s.min)}</td><td class="n">{kisaTl(s.medyan)}</td><td class="n">{s.m2Medyan ? `${sayi(s.m2Medyan)} TL` : '–'}</td></tr>; })}</tbody>
+  </table></div>
+  <h2>İlan fiyatına ne dahil?</h2>
+  <p>Fiyatlı modellerin <strong>%{kdvYok}</strong>’inde firma KDV durumunu belirtmiyor. Modellerin <strong>%{anahtar}</strong>’ı anahtar teslim olarak ilan ediliyor ve yalnızca <strong>%{nakliyeDahil}</strong>’inde nakliyenin fiyata dahil olduğu açıkça yazıyor. Bu yüzden iki ilanı yalnızca fiyatına bakarak karşılaştırmak yanıltıcı olabilir. Ayrıntılı liste: <a href="/rehber/prefabrik-ev-fiyatina-neler-dahil/">Prefabrik ev fiyatına neler dahil?</a></p>
+  <h2>Toplam bütçeyi hesaplarken</h2>
+  <ul>
+    <li>Temel (zemin betonu / su basmanı)</li>
+    <li>Nakliye ve vinç</li>
+    <li>Proje, ruhsat ve yapı denetimi</li>
+    <li>Elektrik, su, kanalizasyon bağlantıları</li>
+    <li>KDV (fiyatta belirtilmemişse)</li>
+  </ul>
+  <p>Bu kalemleri her firmaya ayrı ayrı sormak yerine <a href="/teklif-al/">teklif formunu</a> doldurun; firmalar fiyatlarını aynı başlıklarla girer ve teklifler tek tabloda gelir.</p>
+</Makale>

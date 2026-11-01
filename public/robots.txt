@@ -1,8 +1,31 @@
+# PrefabrikTeklif — arama motorları ve yapay zekâ asistanları (ChatGPT, Claude, Perplexity, Gemini, Copilot)
+# içerik sayfalarımızı tarayabilir ve alıntılayabilir. Yalnızca kişisel/panel sayfaları kapalıdır.
 User-agent: *
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot
+User-agent: Applebot-Extended
+User-agent: YandexBot
 Allow: /
 Disallow: /api/
 Disallow: /teklif-ver/
 Disallow: /teklif-alindi/
 Disallow: /yorum-yaz/
+Disallow: /hesabim/
+Disallow: /firma-paneli/
+Disallow: /yonetim/
+Disallow: /giris/
+Disallow: /model/
+Disallow: /karsilastir/
+Disallow: /favorilerim/
 
 Sitemap: https://www.prefabrikteklif.com.tr/sitemap-index.xml

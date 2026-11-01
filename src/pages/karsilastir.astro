@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import Crumbs from '../components/Crumbs.astro';
+import { SITE } from '../site.config';
+---
+<Base title="Evleri Karşılaştır" description="Seçtiğiniz prefabrik ev, tiny house ve çelik ev modellerini fiyat, m² fiyatı, teslim şekli, KDV, nakliye ve montaj durumuna göre yan yana karşılaştırın." noindex bodyClass="no-cbar">
+  <div class="wrap">
+    <Crumbs items={[{ ad: 'Karşılaştır' }]} />
+    <h1>Evleri karşılaştır</h1>
+    <p class="muted" id="k-bilgi">En fazla {SITE.maksSecim} evi yan yana koyun. Kartlardaki “Karşılaştır” kutusuyla ekleyin.</p>
+    <div id="k-alan"></div>
+  </div>
+  <script>
+    import { modeller, tl, esc, TIP_AD, TIP_IMG, fiyatYazi, type M } from '../scripts/modeller';
+    import { cmps, setCmps } from '../scripts/site';
+    const alan = document.getElementById('k-alan')!;
+    const K = (v: string) => (v === 'dahil' ? '<span class="st-b g">Dahil</span>' : v === 'haric' ? '<span class="st-b a">Hariç</span>' : '<span class="st-b">Belirtilmemiş</span>');
+    async function ciz() {
+      const ids = cmps(); const all = await modeller();
+      const list = ids.map((id) => all.find((m) => m.id === id)).filter(Boolean) as M[];
+      if (!list.length) { alan.innerHTML = '<div class="empty">Karşılaştırma listeniz boş. <a href="/evini-bul/">Evleri inceleyin</a> ve “Karşılaştır” kutusunu işaretleyin.</div>'; return; }
+      const enUcuz = Math.min(...list.map((m) => m.p || 1e15));
+      const satir = (ad: string, f: (m: M) => string) => `<tr><th scope="row">${ad}</th>${list.map((m) => `<td>${f(m)}</td>`).join('')}</tr>`;
+      alan.innerHTML = `<div class="tbl-wrap"><table style="min-width:${list.length * 220 + 140}px"><thead><tr><th></th>${list.map((m) => `<th style="white-space:normal;background:#fff"><a href="${esc(m.url)}" style="display:block;text-decoration:none;color:inherit"><img src="${m.foto ? esc(m.foto) : `/img/${TIP_IMG[m.t]}-480.webp`}" alt="" style="width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:12px"><span style="display:block;color:var(--green);font-size:.78rem;margin-top:8px">${esc(m.fa)}</span><b style="display:block;font-size:.95rem;color:var(--ink)">${esc(m.ad)}</b></a><button class="btn btn-g btn-s" type="button" data-cikar="${esc(m.id)}" style="margin-top:8px;min-height:36px">Çıkar</button></th>`).join('')}</tr></thead><tbody>
+      ${satir('Fiyat', (m) => `<b style="font-size:1.1rem">${esc(fiyatYazi(m))}</b>${m.p && m.p === enUcuz && list.length > 1 ? '<br><span class="st-b g">En uygun</span>' : ''}`)}
+      ${satir('m² fiyatı', (m) => (m.m2f ? tl(m.m2f) : '–'))}
+      ${satir('Tip', (m) => esc(TIP_AD[m.t] || m.t))}
+      ${satir('Alan', (m) => (m.m2 ? `${m.m2} m²` : '–'))}
+      ${satir('Oda', (m) => esc(m.o || '–'))}
+      ${satir('Kat', (m) => (m.k === 2 ? 'Dubleks' : m.k === 1 ? 'Tek kat' : '–'))}
+      ${satir('Teslim', (m) => esc(m.ts || 'Belirtilmemiş'))}
+      ${satir('KDV', (m) => K(m.kdv))}
+      ${satir('Nakliye', (m) => K(m.n))}
+      ${satir('Montaj', (m) => K(m.mo))}
+      ${satir('Zemin betonu', (m) => K(m.z))}
+      ${satir('Üretici ili', (m) => esc(m.il || '–'))}
+      </tbody></table></div>
+      <div class="box dk" style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap"><div><b style="font-size:1.1rem">Bu firmalardan güncel teklif alın</b><p class="small" style="margin:4px 0 0">Belirtilmeyen kalemleri firmalara sorarız; teklifler eşit şartlarda tek tabloda gelir.</p></div>
+      <a class="btn btn-w" href="/teklif-al/?firmalar=${encodeURIComponent([...new Set(list.map((m) => m.f))].join(','))}&tip=${encodeURIComponent(list[0].t)}">Teklif al</a></div>`;
+      alan.querySelectorAll<HTMLButtonElement>('[data-cikar]').forEach((b) => b.addEventListener('click', () => { setCmps(cmps().filter((x) => x !== b.dataset.cikar)); ciz(); }));
+    }
+    ciz();
+  </script>
+</Base>

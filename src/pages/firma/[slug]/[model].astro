@@ -2,8 +2,9 @@
 import Base from '../../../layouts/Base.astro';
 import Crumbs from '../../../components/Crumbs.astro';
 import ModelCard from '../../../components/ModelCard.astro';
+import Puanlar from '../../../components/Puanlar.astro';
 import { SITE } from '../../../site.config';
-import { models, firmBySlug, TIPLER, meta, fiyatYazi, sayi, tl, benzerler, kalemYazi, modelUrl } from '../../../lib/data';
+import { models, firmBySlug, TIPLER, meta, fiyatYazi, sayi, benzerler, modelUrl, tipImg, modelImg, modelId, monogram, katYazi, TIP_IMG } from '../../../lib/data';
 export function getStaticPaths() {
   return models.map((m) => ({ params: { slug: m.firma, model: m.slug }, props: { m } }));
 }
@@ -11,56 +12,123 @@ const { m } = Astro.props;
 const f = firmBySlug(m.firma)!;
 const T = TIPLER[m.tip];
 const benzer = benzerler(m);
-const kal = (['kdv', 'nakliye', 'montaj', 'zemin'] as const).map((k) => ({ ad: kalemYazi[k], v: m[k] }));
+const id = modelId(m);
+const kalemler = [
+  { ad: 'KDV', v: m.kdv }, { ad: 'Nakliye', v: m.nakliye }, { ad: 'Montaj', v: m.montaj }, { ad: 'Zemin betonu', v: m.zemin },
+];
+const dahil = kalemler.filter((k) => k.v === 'dahil').map((k) => k.ad);
+const haric = kalemler.filter((k) => k.v === 'haric').map((k) => k.ad);
+const belirsiz = kalemler.filter((k) => !k.v).map((k) => k.ad);
 const detay = [m.m2 ? `${sayi(m.m2)} m²` : '', m.oda].filter(Boolean).join(' ');
+const kat = katYazi(m);
 const title = `${f.kisaAd} ${m.ad}${m.fiyat && m.fiyatTuru === 'model' ? ` Fiyatı ${meta.ay}` : ''}`;
-const desc = `${f.kisaAd} ${m.ad}${detay ? ` (${detay})` : ''}: ${fiyatYazi(m)}. Fiyata neyin dahil olduğu, kaynak ve benzer ${T.kisa} modelleriyle kıyas. Ücretsiz teklif alın.`;
+const desc = `${f.kisaAd} ${m.ad}${detay ? ` (${detay})` : ''}: ${fiyatYazi(m)}. Fiyata neyin dahil olduğu, kaynak ve benzer ${T.kisa} modelleriyle kıyas. ${SITE.teklifSaat} saatte ücretsiz teklif alın.`;
+const url = new URL(modelUrl(m), SITE.url).href;
 const ld = m.fiyat && m.fiyatTuru === 'model' ? [{
-  '@context': 'https://schema.org', '@type': 'Product', name: `${f.kisaAd} ${m.ad}`, category: T.ad,
-  brand: { '@type': 'Brand', name: f.kisaAd }, url: new URL(modelUrl(m), SITE.url).href,
+  '@context': 'https://schema.org', '@type': 'Product', name: `${f.kisaAd} ${m.ad}`, category: T.ad, sku: id,
+  brand: { '@type': 'Brand', name: f.kisaAd }, url,
   description: `${T.ad}${detay ? `, ${detay}` : ''}. ${m.kapsam}`.slice(0, 300),
-  offers: { '@type': 'Offer', price: m.fiyat, priceCurrency: 'TRY', availability: 'https://schema.org/InStock', url: m.kaynak,
+  ...(m.m2 ? { additionalProperty: [{ '@type': 'PropertyValue', name: 'Kullanım alanı', value: m.m2, unitCode: 'MTK' }, ...(m.oda ? [{ '@type': 'PropertyValue', name: 'Oda sayısı', value: m.oda }] : [])] } : {}),
+  offers: { '@type': 'Offer', price: m.fiyat, priceCurrency: 'TRY', availability: 'https://schema.org/InStock', url, priceValidUntil: `${Number(meta.sonKontrol.slice(0, 4)) + (meta.sonKontrol.slice(5, 7) === '12' ? 1 : 0)}-${String((Number(meta.sonKontrol.slice(5, 7)) % 12) + 1).padStart(2, '0')}-28`,
     seller: { '@type': 'Organization', name: f.kisaAd },
     ...(m.kdv ? { priceSpecification: { '@type': 'PriceSpecification', price: m.fiyat, priceCurrency: 'TRY', valueAddedTaxIncluded: m.kdv === 'dahil' } } : {}) },
 }] : [];
+const tq = `tip=${encodeURIComponent(m.tip)}${m.oda ? `&oda=${encodeURIComponent(m.oda)}` : ''}${m.m2 ? `&m2=${m.m2}` : ''}&model=${encodeURIComponent(id)}`;
 ---
-<Base title={title} description={desc} jsonLd={ld} selbar tip={m.tip} ogType="product">
+<Base title={title} description={desc} jsonLd={ld} tip={m.tip} ogType="product" ogImage={`/img/${TIP_IMG[m.tip]}-og.jpg`} bodyClass="has-mbar" preload={modelImg(m, 960)}>
   <div class="wrap">
     <Crumbs items={[{ ad: T.baslik, url: `/${T.slug}/` }, { ad: f.kisaAd, url: `/firma/${f.slug}/` }, { ad: m.ad }]} />
-    <div class="cols">
+    <div class="mhero" data-id={id}>
       <div>
-        <h1 style="margin-bottom:6px">{f.kisaAd} {m.ad}</h1>
-        <p class="muted">{[T.ad, detay, m.kat === 2 ? 'Dubleks' : m.kat === 1 ? 'Tek kat' : m.katRaw === 'loft' ? 'Loftlu' : ''].filter(Boolean).join(' · ')}</p>
-        <p style="margin:0"><strong class="price" style="font-size:2rem;font-weight:800">{fiyatYazi(m)}</strong></p>
-        {m.m2Fiyat && <p class="muted">{sayi(m.m2Fiyat)} TL/m²</p>}
-        {m.uyari && <p class="warn">{m.uyari}</p>}
-        <h2>Fiyata neler dahil?</h2>
-        <div class="tbl-wrap">
-          <table>
-            <tbody>
-              {m.teslim && <tr><th>Teslim şekli</th><td>{m.teslim}</td></tr>}
-              {kal.map((k) => <tr><th>{k.ad}</th><td>{k.v === 'dahil' ? 'Dahil' : k.v === 'haric' ? 'Hariç' : 'Sayfada belirtilmemiş'}</td></tr>)}
-            </tbody>
-          </table>
+        <div class="gal">
+          <img src={modelImg(m, 960)} srcset={`${modelImg(m, 480)} 480w, ${modelImg(m, 960)} 960w`} sizes="(max-width: 900px) 100vw, 680px" alt={`${T.ad} — temsili görsel`} width="960" height="723" fetchpriority="high" data-foto />
+          <span class="tm" data-tm>Temsili görsel · firma fotoğrafı eklenmedi</span>
+          <button class="fav" type="button" data-id={id} aria-label="Favorilere ekle" aria-pressed="false"><svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>
         </div>
-        <p class="note" style="margin-top:10px"><strong>Firma sayfasında yazan:</strong> {m.kapsam}</p>
-        <p class="small muted">Kaynak: <a href={m.kaynak} rel="nofollow noopener" target="_blank">{new URL(m.kaynak).hostname.replace('www.', '')}</a> · son kontrol {meta.sonKontrolYazi}. Fiyat firma beyanıdır; KDV ve kapsam için teklif alın.</p>
+        <div class="thumbs" data-thumbs hidden></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <h1 style="margin:0;font-size:clamp(1.45rem,1.1rem + 1.4vw,2.1rem)">{m.ad}</h1>
+        <a class="fcard" href={`/firma/${f.slug}/`} style="padding:8px 10px">
+          <span class="mono">{monogram(f.kisaAd)}</span>
+          <span style="display:flex;flex-direction:column"><b>{f.kisaAd}</b><span class="small muted">{[f.il, `${f.modelSayisi} model`].filter(Boolean).join(' · ')} · firma profili ›</span></span>
+        </a>
+        <div class="pbox">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><span class="big" data-fiyat-yazi>{fiyatYazi(m)}</span>{m.m2Fiyat && <b class="small">{sayi(m.m2Fiyat)} TL / m²</b>}</div>
+          <ul class="tags">
+            {m.teslim && <li class={/anahtar/i.test(m.teslim) ? 'd' : 'b'}>{m.teslim}</li>}
+            {dahil.map((x) => <li class="d">{x} dahil</li>)}
+            {haric.map((x) => <li class="h">{x} hariç</li>)}
+          </ul>
+          <span class="xs muted">Firmanın sitesinden {meta.sonKontrolYazi}’de kontrol edildi · <a href={m.kaynak} rel="nofollow noopener" target="_blank">kaynağı gör</a></span>
+        </div>
+        {m.uyari && <p class="warn">{m.uyari}</p>}
+        <div class="feat">
+          {m.m2 && <div><b>{sayi(m.m2)} m²</b><span>Alan</span></div>}
+          {m.oda && <div><b>{m.oda}</b><span>Oda</span></div>}
+          {kat && <div><b>{kat}</b><span>Kat</span></div>}
+          <div><b>{T.ad}</b><span>Tip</span></div>
+          {f.il && <div><b>{f.il}</b><span>Üretici ili</span></div>}
+          {m.teslim && <div><b>{m.teslim.replace(' teslim', '')}</b><span>Teslim</span></div>}
+        </div>
+        <div class="hide-m" style="display:flex;flex-direction:column;gap:8px">
+          <a class="btn btn-p" href={`/teklif-al/?${tq}&firmalar=${f.slug}`}>Bu eve {SITE.teklifSaat} saatte teklif al</a>
+          <a class="btn btn-g" href={`/teklif-al/?mod=surec&${tq}&firmalar=${f.slug}`}>Bu evi istiyorum, süreci siz yönetin</a>
+          <label class="cmp" style="align-self:center"><input type="checkbox" data-cmp={id} /> Karşılaştırma listeme ekle</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="cols" style="margin-top:28px">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <section class="box">
+          <h2 style="margin:0 0 12px;font-size:1.15rem">Fiyata neler dahil?</h2>
+          <ul class="checks">
+            {m.teslim && <li>{m.teslim}</li>}
+            {dahil.map((x) => <li>{x}</li>)}
+            {haric.map((x) => <li class="x">{x} hariç</li>)}
+            {belirsiz.map((x) => <li class="q">{x}: firma belirtmemiş</li>)}
+          </ul>
+          <p class="small muted" style="margin:14px 0 0"><b>Firma sayfasında yazan:</b> {m.kapsam}</p>
+          {belirsiz.length > 0 && <p class="small" style="margin:10px 0 0">Teklif isterken belirtilmeyen kalemleri ayrıca sorarız; gelen teklifleri eşit şartlarda karşılaştırırsınız.</p>}
+        </section>
+        <Puanlar slug={f.slug} />
       </div>
       <aside class="sticky-side">
-        <div class="box">
-          <h2 style="margin-top:0;font-size:1.15rem">Bu model için teklif al</h2>
-          <p class="small muted">{f.kisaAd} ve benzer modelleri olan firmalardan 24 saatte teklif al. Ücretsiz.</p>
-          <a class="btn btn-o btn-block" href={`/teklif-al/?firmalar=${[f.slug, ...new Set(benzer.map((b) => b.firma))].slice(0, SITE.maksFirma).join(',')}&tip=${encodeURIComponent(m.tip)}${m.oda ? `&oda=${encodeURIComponent(m.oda)}` : ''}${m.m2 ? `&m2=${m.m2}` : ''}`}>Teklif al</a>
-          <p class="small" style="margin:12px 0 0"><a href={`/firma/${f.slug}/`}>{f.kisaAd} firmasının tüm modelleri</a></p>
+        <div class="box dk">
+          <h2 style="margin-top:0;font-size:1.15rem">Bu modele benzer evlerden de fiyat alın</h2>
+          <p class="small">{f.kisaAd} ve benzer modeli olan firmalar {SITE.teklifSaat} saat içinde fiyat verir. Bilgileriniz yalnızca fiyat veren firmayla paylaşılır.</p>
+          <a class="btn btn-w btn-block" href={`/teklif-al/?${tq}&firmalar=${[f.slug, ...new Set(benzer.map((b) => b.firma))].slice(0, SITE.maksSecim).join(',')}`}>Teklif al</a>
         </div>
       </aside>
     </div>
+
     {benzer.length > 0 && (
-      <section>
-        <h2>Benzer {T.kisa} modelleri, diğer firmalar</h2>
-        <div class="grid">{benzer.map((b) => <ModelCard m={b} />)}</div>
-        <p style="margin-top:14px"><a href={`/${T.slug}/`}>Tüm {T.baslik.toLocaleLowerCase('tr')}</a></p>
+      <section class="sec" style="padding-top:36px" data-katalog>
+        <div class="sec-h"><div><h2>Benzer {T.kisa} modelleri</h2><p>Diğer firmalardan, benzer metrekarede.</p></div><a class="more" href={`/${T.slug}/`}>Tümü</a></div>
+        <div class="hscroll c4">{benzer.map((b) => <ModelCard m={b} />)}</div>
       </section>
     )}
   </div>
+  <div class="mbar">
+    <a class="btn btn-p" style="flex:1" href={`/teklif-al/?${tq}&firmalar=${f.slug}`}>Teklif al</a>
+    <a class="btn btn-g" style="flex:1" href={`/teklif-al/?mod=surec&${tq}&firmalar=${f.slug}`}>Süreci yönetin</a>
+  </div>
+  <script>
+    import { katalog, katalogUygula } from '../../../scripts/katalog';
+    katalogUygula();
+    const hero = document.querySelector<HTMLElement>('.mhero');
+    katalog().then((k) => {
+      const x = k[hero!.dataset.id!]; const g = (x?.gorseller || []).filter((u) => /^https:\/\/[^\s"'<>]+$/i.test(u));
+      if (g.length < 2) return;
+      const th = document.querySelector<HTMLElement>('[data-thumbs]')!; const main = hero!.querySelector<HTMLImageElement>('[data-foto]')!;
+      g.slice(0, 8).forEach((u, i) => {
+        const b = document.createElement('button'); b.type = 'button'; b.className = i ? '' : 'on'; b.setAttribute('aria-label', `${i + 1}. fotoğraf`);
+        const im = document.createElement('img'); im.src = u; im.alt = ''; im.loading = 'lazy'; b.append(im);
+        b.addEventListener('click', () => { main.src = u; th.querySelectorAll('button').forEach((z) => z.classList.toggle('on', z === b)); });
+        th.append(b);
+      });
+      th.hidden = false;
+    });
+  </script>
 </Base>

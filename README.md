@@ -1,12 +1,29 @@
 # PrefabrikTeklif.com.tr
 
-Prefabrik, çelik, konteyner, tiny house, ahşap ev ve bungalov fiyatlarını kıyaslayan ve kullanıcıya 24 saatte birden çok firmadan teklif toplayan site.
+Prefabrik, çelik, konteyner, tiny house, ahşap ev ve bungalov fiyatlarını kıyaslayan ve kullanıcıya 48 saatte birden çok firmadan isimsiz teklif toplayan, istenirse satın alma sürecini baştan sona yöneten platform.
 
 - **Ön yüz:** Astro (statik, sıfıra yakın JavaScript). Lighthouse mobil: 98–100 performans, 94–100 erişilebilirlik, 100 SEO.
 - **Sunucu:** Firebase Cloud Functions (Node 22, `europe-west1`), Firestore.
 - **Veri:** `data/raw/*.csv` → `scripts/build_data.py` → `src/data/*.json` (62 firma, 422 model, 1 Kasım 2026).
 
-## Sayfalar (554 sayfa)
+## Sürüm 2 (Kasım 2026) — yenilikler
+
+- **Yeni tasarım:** fotoğraflı kategori şeridi, kayan banner (yönetimden sponsorlu banner eklenebilir), “Hangi evi arıyorsunuz?” sihirbazı (`/evini-bul/`), favoriler, 5 eve kadar karşılaştırma (`/karsilastir/`).
+- **Gizli teklif akışı:** talep firmalara isimsiz gider; müşteri bilgisi yalnızca fiyat veren firmaya açılır. Süre 48 saat.
+- **Süreci siz yönetin:** `/teklif-al/?mod=surec` → yönetim panelinde sipariş açılır; Ön görüşme → Keşif → Sözleşme → Üretim → Nakliye → Montaj → Teslim aşamaları kullanıcının hesabında görünür.
+- **Hesaplar (Firebase Authentication):** `/giris/` (e-posta/şifre veya Google). `/hesabim/` talepler, gelen teklifler, sipariş takibi, favoriler.
+- **Firma paneli** (`/firma-paneli/`): ürün ekleme/düzenleme/kaldırma, fiyat ve fotoğraf (https adresi) güncelleme — yönetim onayıyla yayına girer; talepler (fiyat ver / ilgilenmiyorum); **geri bildirim** (istek, hata, sorun) ve yanıtlar; profil (iller, tipler, bildirim e-postası).
+- **Yönetim paneli** (`/yonetim/`): onaylar (ürün değişiklikleri, aylık fiyat kontrolü bulguları, firma başvuruları, yorumlar), talepler (kayıtlı olmayan firmaya e-postayla iletme), siparişler (aşama, firma, not, belge, mesaj), firmalar (panel e-postaları), geri bildirimler, bannerlar, fiyat kontrol raporu. Yöneticiler: `functions/.env` → `YONETICILER`.
+- **Aylık fiyat kontrolü:** her ayın 1’i saat 17.00 (İstanbul) firma sayfaları taranır, değişen fiyatlar onaya düşer, özet e-postayla gelir.
+- **SEO / yapay zekâ:** 10 yeni rehber yazısı, `llms.txt`, yapay zekâ botlarına açık `robots.txt`, IndexNow anahtarı, yapısal veri (Organization, WebSite+SearchAction, Product/Offer, FAQPage, Article, BreadcrumbList, ItemList, CollectionPage).
+- **Analytics:** Firebase projesinde Google Analytics bağlanınca ölçüm kimliği otomatik alınır; yalnızca çerez onayı verilirse yüklenir.
+- **Testler:** `cd functions && npm test` (API, sahte veritabanı ile 12 senaryo). Uçtan uca: `node scripts/e2e/sunucu.mjs` + `node scripts/e2e/akis.cjs`.
+
+### Firma hesabı nasıl açılır?
+1. Firma `/firma-kayit/` üzerinden başvurur → yönetim panelinde **Onaylar** → “Onayla, hesabı aç”. Ya da **Firmalar** → “Firma hesabı aç” ile firmanın e-postasını panel e-postası olarak ekleyin.
+2. Firma aynı e-postayla `/giris/` üzerinden kayıt olur (e-postayı doğrular) veya Google ile girer → `/firma-paneli/`.
+
+## Sayfalar
 
 | Sayfa | Adres |
 | --- | --- |

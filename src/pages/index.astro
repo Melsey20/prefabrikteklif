@@ -1,81 +1,203 @@
 ---
 import Base from '../layouts/Base.astro';
 import ModelCard from '../components/ModelCard.astro';
+import Faq from '../components/Faq.astro';
 import { SITE } from '../site.config';
-import { TIPLER, TIP_KEYS, meta, kisaTl, tipModelleri, odaSayfalari, m2Sayfalari, odaSlug, firms } from '../lib/data';
+import { TIPLER, TIP_SIRA, TIP_ACIKLAMA, meta, models, sirala, tipImg, img, kisaTl, tipUrl, ILLER, M2_ARALIK, ODA_SEC } from '../lib/data';
+import { yazilar } from '../lib/rehber';
 
-const st = meta.istatistik;
-const vitrin = ['prefabrik', 'celik', 'tiny house'].flatMap((t) => {
-  const seen = new Set<string>();
-  return tipModelleri(t).filter((m) => m.fiyatTuru === 'model' && m.fiyat && !m.uyari && !seen.has(m.firma) && seen.add(m.firma)).slice(0, 2);
-});
-const populer = [
-  ...odaSayfalari('prefabrik').map((o) => ({ ad: `${o} prefabrik ev fiyatları`, url: `/prefabrik-ev-fiyatlari/${odaSlug(o)}/` })),
-  ...m2Sayfalari('prefabrik').filter((h) => [60, 80, 100, 120].includes(h)).map((h) => ({ ad: `${h} m² prefabrik ev fiyatları`, url: `/prefabrik-ev-fiyatlari/${h}-m2/` })),
+const tipler = TIP_SIRA.filter((k) => TIPLER[k]).map((k) => ({ k, ...TIPLER[k], min: meta.istatistik[k]?.min, n: meta.istatistik[k]?.model }));
+const fiyatli = (m: (typeof models)[number]) => m.fiyatTuru === 'model' && m.fiyat && !m.uyari;
+const ikiArti = sirala(models.filter((m) => m.oda === '2+1' && fiyatli(m))).filter((m, i, a) => a.findIndex((x) => x.firma === m.firma) === i).slice(0, 8);
+const tiny = sirala(models.filter((m) => m.tip === 'tiny house' && fiyatli(m))).filter((m, i, a) => a.findIndex((x) => x.firma === m.firma) === i).slice(0, 8);
+const son = yazilar.slice(0, 3);
+const aramalar = [
+  { ad: '2+1 prefabrik ev fiyatları', url: '/prefabrik-ev-fiyatlari/2-1/' },
+  { ad: '3+1 prefabrik ev', url: '/prefabrik-ev-fiyatlari/3-1/' },
+  { ad: '100 m² prefabrik ev', url: '/prefabrik-ev-fiyatlari/100-m2/' },
+  { ad: '60 m² prefabrik ev', url: '/prefabrik-ev-fiyatlari/60-m2/' },
+  { ad: 'Çelik ev fiyatları', url: '/celik-ev-fiyatlari/' },
+  { ad: 'Bağ evi fiyatları', url: '/bungalov-fiyatlari/' },
   { ad: 'Konteyner ev fiyatları', url: '/konteyner-ev-fiyatlari/' },
-  { ad: 'Tiny house fiyatları', url: '/tiny-house-fiyatlari/' },
-].slice(0, 9);
-const ld = [{
-  '@context': 'https://schema.org', '@type': 'WebSite', name: SITE.ad, url: SITE.url, inLanguage: 'tr-TR',
-}];
+  { ad: 'O2 belgeli tiny house', url: '/rehber/tiny-house-ruhsat-o2-belgesi/' },
+  { ad: 'Tarlaya ev yapılır mı?', url: '/rehber/tarlaya-prefabrik-ev-yapilir-mi/' },
+];
+const sss = [
+  { s: 'PrefabrikTeklif nedir?', c: `Türkiye’deki ${meta.firmaSayisi} prefabrik ev, tiny house, çelik ev, konteyner ev, ahşap ev ve bungalov üreticisinin ${meta.modelSayisi} modelini, firmaların kendi sitelerinde yayınladığı fiyatlarla karşılaştıran ücretsiz bir platformdur. Fiyatlar her ay kontrol edilir; son kontrol ${meta.sonKontrolYazi}.` },
+  { s: 'Prefabrik ev fiyatları ne kadar?', c: `${meta.sonKontrolYazi} itibarıyla listemizdeki prefabrik evler ${kisaTl(meta.istatistik.prefabrik?.min)}’den başlıyor; ortanca fiyat ${kisaTl(meta.istatistik.prefabrik?.medyan)}. Fiyata KDV, nakliye, montaj ve zemin betonunun dahil olup olmadığı firmadan firmaya değişir; her modelin sayfasında ayrıca yazar.` },
+  { s: 'Teklif almak ücretli mi?', c: `Hayır. Bir kez formu doldurursunuz, kriterlerinize uyan firmalar ${SITE.teklifSaat} saat içinde fiyat verir ve teklifler tek tabloda size gelir. Firmalar talebinizi isimsiz görür; adınız ve telefonunuz yalnızca fiyat vermeyi kabul eden firmayla paylaşılır.` },
+  { s: '“Süreci siz yönetin” ne demek?', c: 'Evi seçtikten sonra firmayla siz uğraşmayın diye: firmayı birlikte seçer, sözleşmeyi hazırlar, keşiften teslime kadar üretim, nakliye ve montajı adınıza takip ederiz. Her adımı hesabınızdan görürsünüz.' },
+  { s: 'Firmalar sıralamada üst sıraya çıkmak için ödeme yapıyor mu?', c: 'Hayır. Listeler fiyata göre sıralanır. Reklam alanları ayrıca “Reklam” olarak işaretlenir.' },
+];
+const ld = [
+  { '@context': 'https://schema.org', '@type': 'WebSite', '@id': `${SITE.url}/#site`, name: SITE.ad, url: SITE.url, inLanguage: 'tr-TR', publisher: { '@id': `${SITE.url}/#org` },
+    potentialAction: { '@type': 'SearchAction', target: `${SITE.url}/evini-bul/?q={search_term_string}`, 'query-input': 'required name=search_term_string' } },
+];
+const yollar = [
+  { b: 'Fiyatları karşılaştır', s: 'Aynı m²’de 5 evi yan yana koyun; KDV, nakliye ve teslim farkını görün.', url: '/evini-bul/', ic: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>' },
+  { b: `${SITE.teklifSaat} saatte teklif al`, s: 'Talebiniz isimsiz gider; fiyat veren firma bilgilerinizi ancak o zaman görür.', url: '/teklif-al/', ic: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>' },
+  { b: 'Süreci biz yönetelim', s: 'Firmayı birlikte seçer, sözleşmeden teslime kadar adınıza yerinde takip ederiz.', url: '/teklif-al/?mod=surec', ic: '<path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>', dk: true },
+];
 ---
-<Base title={`Prefabrik Ev Fiyatları ${meta.ay}: ${meta.firmaSayisi} Firma Kıyasla, Teklif Al | ${SITE.ad}`}
-  description={`${meta.firmaSayisi} üreticinin ${meta.modelSayisi} prefabrik, çelik, konteyner, tiny house ve ahşap ev modelini fiyat ve kapsamıyla kıyasla. KDV, nakliye, montaj dahil mi gör; 24 saatte ücretsiz teklif al.`}
-  jsonLd={ld} selbar>
-  <section class="hero">
-    <div class="wrap">
-      <h1>Prefabrik ve modüler ev fiyatlarını firma firma kıyasla</h1>
-      <p class="lead">{meta.firmaSayisi} üreticinin {meta.modelSayisi} modeli tek yerde. Neyin fiyata dahil olduğunu görerek karşılaştır, beğendiğin firmalardan 24 saat içinde teklif al.</p>
-      <ul class="types" aria-label="Ev tipleri">
-        {TIP_KEYS.map((k) => (
-          <li><a href={`/${TIPLER[k].slug}/`}>
-            <strong>{TIPLER[k].ad}</strong>
-            <span>{st[k].model} model{st[k].min ? ` · ${kisaTl(st[k].min)}'den` : ''}</span>
-          </a></li>
-        ))}
-      </ul>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:18px"><a class="btn btn-o" href="/teklif-al/">Ücretsiz teklif al</a><a class="btn btn-l" href="/arazim-uygun-mu/">Arazim uygun mu?</a></div>
+<Base title={`Prefabrik Ev Fiyatları ${meta.ay}: ${meta.firmaSayisi} Firmayı Karşılaştır, ${SITE.teklifSaat} Saatte Teklif Al`} description={`${meta.firmaSayisi} firmanın ${meta.modelSayisi} prefabrik ev, tiny house, çelik ev, konteyner ve bağ evi modeli tek yerde. Güncel fiyatları karşılaştırın, ${SITE.teklifSaat} saatte ücretsiz teklif alın ya da tüm süreci bize bırakın.`} jsonLd={ld} preload="/img/hero-960.webp" ogImage="/img/hero-og.jpg">
+  <div class="wrap">
+    <div class="hero-row">
+      <section class="slider" data-slider aria-roledescription="carousel" aria-label="Öne çıkanlar">
+        <div class="slides" data-banner-slot>
+          <div class="slide" aria-roledescription="slide" aria-label="1 / 3">
+            <img class="bg" src="/img/hero-960.webp" srcset="/img/hero-480.webp 480w, /img/hero-960.webp 960w, /img/hero-1344.webp 1344w" sizes="(max-width: 980px) 100vw, 900px" alt="Kırsalda modern tek katlı prefabrik ev" width="1344" height="752" fetchpriority="high" />
+            <div class="shade"></div>
+            <div class="txt">
+              <h1>Hayalindeki evi 1 dakikada bul</h1>
+              <p>{meta.firmaSayisi} firmanın {meta.modelSayisi} modeli tek yerde. Güncel fiyatları karşılaştır, {SITE.teklifSaat} saatte teklif al ya da tüm süreci bize bırak.</p>
+            </div>
+          </div>
+          <div class="slide" aria-roledescription="slide" aria-label="2 / 3">
+            <img class="bg" src="/img/montaj-960.webp" srcset="/img/montaj-480.webp 480w, /img/montaj-960.webp 960w, /img/montaj-1344.webp 1344w" sizes="(max-width: 980px) 100vw, 900px" alt="Vinçle prefabrik ev modülünün temele yerleştirilmesi" width="1344" height="752" loading="lazy" />
+            <div class="shade"></div>
+            <div class="txt">
+              <span class="tag">Ücretsiz</span>
+              <h2>{SITE.teklifSaat} saatte firmalardan fiyat al</h2>
+              <p>Talebin isimsiz gider. Fiyat veren firma bilgilerini ancak o zaman görür. <a href="/teklif-al/" style="color:#fff;font-weight:800">Teklif al →</a></p>
+            </div>
+          </div>
+          <a class="slide cream" href="/reklam-ver/" aria-roledescription="slide" aria-label="3 / 3" style="text-decoration:none">
+            <div class="txt">
+              <span class="tag">Reklam alanı</span>
+              <h2>Kampanyanızı ev arayanlara gösterin</h2>
+              <p>Prefabrik ve modüler ev üreticileri için ana sayfa bannerı ve öne çıkan model alanları. Bilgi al →</p>
+            </div>
+          </a>
+        </div>
+        <div class="dots" aria-label="Slayt seç">
+          <button class="on" type="button" aria-label="1. slayt" aria-current="true"></button>
+          <button type="button" aria-label="2. slayt"></button>
+          <button type="button" aria-label="3. slayt"></button>
+        </div>
+        <form class="qsearch" action="/evini-bul/" method="get" data-ga="hizli_arama">
+          <label>Ev tipi<select name="tip"><option value="">Hepsi</option>{tipler.map((t) => <option value={t.k}>{t.ad}</option>)}</select></label>
+          <label>Büyüklük<select name="m2"><option value="">Fark etmez</option>{M2_ARALIK.map((a) => <option value={a.k}>{a.ad}</option>)}</select></label>
+          <label>Oda<select name="oda"><option value="">Fark etmez</option>{ODA_SEC.map((o) => <option value={o.k}>{o.ad}</option>)}</select></label>
+          <label>İl<select name="il"><option value="">Tüm Türkiye</option>{ILLER.map((il) => <option>{il}</option>)}</select></label>
+          <button class="btn btn-p" type="submit">Evleri bul <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </form>
+      </section>
+      <a class="side-ad" href="/reklam-ver/">
+        <span class="tag">Reklam alanı</span>
+        <span style="display:flex;flex-direction:column;gap:12px"><b>Kampanyanızı ev arayanlara gösterin</b><span>Ana sayfa bannerı, kategori sayfalarında öne çıkan model ve bülten.</span><span class="btn">Reklam ver</span></span>
+      </a>
     </div>
-  </section>
 
-  <section class="sec">
-    <div class="wrap">
-      <h2 style="margin-top:0">Nasıl çalışır?</h2>
-      <div class="grid">
-        <div class="card"><h3>1. Kıyasla</h3><p class="muted" style="margin:0">Aynı m² ve oda sayısındaki modelleri fiyat, m² fiyatı ve kapsamıyla yan yana gör.</p></div>
-        <div class="card"><h3>2. Teklif iste</h3><p class="muted" style="margin:0">Beğendiğin en fazla {SITE.maksFirma} firmayı seç, arazi ve bütçe bilgini bir kez yaz.</p></div>
-        <div class="card"><h3>3. 24 saatte tek e-posta</h3><p class="muted" style="margin:0">Firmaların teklifleri aynı kapsam başlıklarıyla tek tabloda e-postana gelir.</p></div>
+    <nav class="tipbar" aria-label="Ev tipleri">
+      {tipler.map((t) => (
+        <a href={tipUrl(t.k)}>
+          <img src={tipImg(t.k, 'kare')} alt="" width="64" height="64" decoding="async" />
+          <span><b>{t.ad}</b><span>{t.min ? `${kisaTl(t.min)}’den` : TIP_ACIKLAMA[t.k]}</span></span>
+        </a>
+      ))}
+    </nav>
+
+    <section class="sec">
+      <div class="sec-h">
+        <div><h2>Hangi evi arıyorsunuz?</h2><p>Tipi seçin, 5 soruda size uyan evleri getirelim.</p></div>
+        <a class="btn btn-p" href="/evini-bul/">Sihirbazı başlat</a>
       </div>
-    </div>
-  </section>
+      <div class="tiles">
+        {tipler.map((t) => (
+          <a class="tile" href={`/evini-bul/?tip=${encodeURIComponent(t.k)}`}>
+            <img src={tipImg(t.k, 480)} srcset={`${tipImg(t.k, 480)} 480w, ${tipImg(t.k, 960)} 960w`} sizes="(max-width: 900px) 46vw, 400px" alt={`${t.ad} örneği`} width="480" height="362" loading="lazy" decoding="async" />
+            <span class="tt"><span><b>{t.ad}</b><span>{TIP_ACIKLAMA[t.k]} · {t.n} model</span></span>{t.min && <span class="pr">{kisaTl(t.min)}’den</span>}</span>
+          </a>
+        ))}
+      </div>
+      <a class="btn btn-p btn-block show-m" style="margin-top:12px" href="/evini-bul/">Başla — 1 dakika sürer</a>
+    </section>
 
-  <section class="sec" style="padding-top:0">
-    <div class="wrap">
-      <h2 style="margin-top:0">Öne çıkan fiyatlar</h2>
-      <p class="muted">Her tipten en uygun fiyatlı modeller. Fiyatlar {meta.sonKontrolYazi} tarihinde firma sitelerinden kontrol edildi.</p>
-      <div class="grid">{vitrin.map((m) => <ModelCard m={m} />)}</div>
-    </div>
-  </section>
+    <section class="sec" style="padding-top:30px">
+      <h2 class="small" style="margin:0 0 10px;color:var(--ink-2)">Sık arananlar</h2>
+      <ul class="pills">{aramalar.map((a) => <li><a href={a.url}>{a.ad}</a></li>)}</ul>
+    </section>
 
-  <section class="sec" style="padding-top:0">
-    <div class="wrap">
-      <div class="box">
-        <h2 style="margin-top:0">Neden {SITE.ad}?</h2>
-        <div class="grid">
-          <div><h3>Kapsam eşitleme</h3><p class="muted">KDV, nakliye, montaj, zemin betonu dahil mi? Her fiyatın yanında yazıyor, belirtilmeyenler işaretleniyor.</p></div>
-          <div><h3>Kaynaklı fiyatlar</h3><p class="muted">Her fiyat firmanın kendi sayfasından, kaynak linki ve kontrol tarihiyle gösterilir.</p></div>
-          <div><h3>Sadece gerçek müşteri yorumu</h3><p class="muted">Yorumu, firmayla sözleşme yaptığını belgeleyen müşteri yazar; Google puanı ayrı gösterilir.</p></div>
+    <section class="sec">
+      <div class="sec-h"><div><h2>Size nasıl yardımcı olalım?</h2></div></div>
+      <div class="ways">
+        {yollar.map((y) => (
+          <a class={`way ${y.dk ? 'dk' : ''}`} href={y.url}>
+            <i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={y.dk ? '#9FD4B2' : '#17663F'} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={y.ic} /></i>
+            <span style="display:flex;flex-direction:column;gap:4px;color:inherit"><b>{y.b}</b><span>{y.s}</span></span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="sec" data-katalog>
+      <div class="sec-h"><div><h2>Uygun fiyatlı 2+1 evler</h2><p>Her firmanın en uygun 2+1 modeli, ucuzdan pahalıya.</p></div><a class="more" href="/prefabrik-ev-fiyatlari/2-1/">Tümünü gör</a></div>
+      <div class="hscroll c4">{ikiArti.map((m) => <ModelCard m={m} />)}</div>
+    </section>
+
+    <section class="sec">
+      <div class="how">
+        <img src="/img/montaj-960.webp" srcset="/img/montaj-480.webp 480w, /img/montaj-960.webp 960w" sizes="(max-width: 860px) 100vw, 600px" alt="Prefabrik ev modülü vinçle temele yerleştiriliyor" width="960" height="537" loading="lazy" decoding="async" />
+        <div class="st">
+          <h2>Nasıl çalışır?</h2>
+          <div class="step"><i>1</i><span><b>Evinizi tarif edin</b><span>Tip, m², oda sayısı, arsa durumu ve bütçe. 1 dakika.</span></span></div>
+          <div class="step"><i>2</i><span><b>Uyan evleri karşılaştırın</b><span>Güncel fiyatlar, teslim şekli ve KDV durumu tek ekranda.</span></span></div>
+          <div class="step"><i>3</i><span><b>Teklif alın ya da bize bırakın</b><span>{SITE.teklifSaat} saatte firmalardan fiyat gelir; isterseniz tüm süreci biz yönetiriz.</span></span></div>
+          <a class="btn btn-p" href="/evini-bul/" style="align-self:flex-start">Evimi bul</a>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="sec" style="padding-top:0">
-    <div class="wrap">
-      <h2 style="margin-top:0">Çok aranan fiyat sayfaları</h2>
-      <ul class="chips">{populer.map((p) => <li><a class="chip" href={p.url}>{p.ad}</a></li>)}</ul>
-      <h2>Firmalar</h2>
-      <ul class="chips">{firms.filter((f) => f.modelSayisi > 0).slice(0, 18).map((f) => <li><a class="chip" href={`/firma/${f.slug}/`}>{f.kisaAd}</a></li>)}<li><a class="chip on" href="/firmalar/">Tümü ({firms.length})</a></li></ul>
-    </div>
-  </section>
+    {tiny.length > 3 && (
+      <section class="sec" data-katalog>
+        <div class="sec-h"><div><h2>Tiny house modelleri</h2><p>Tekerlekli ve sabit modeller; O2 belgeli olanlar sayfasında yazar.</p></div><a class="more" href="/tiny-house-fiyatlari/">Tümünü gör</a></div>
+        <div class="hscroll c4">{tiny.map((m) => <ModelCard m={m} />)}</div>
+      </section>
+    )}
+
+    {son.length > 0 && (
+      <section class="sec">
+        <div class="sec-h"><div><h2>Almadan önce okuyun</h2><p>Fiyat, ruhsat, arsa ve kurulum hakkında sade rehberler.</p></div><a class="more" href="/rehber/">Rehbere git</a></div>
+        <div class="g3">
+          {son.map((y) => (
+            <a class="bcard" href={y.url}>
+              <img src={img(y.gorsel, 480)} srcset={`${img(y.gorsel, 480)} 480w, ${img(y.gorsel, 960)} 960w`} sizes="(max-width: 900px) 92vw, 400px" alt="" width="480" height="270" loading="lazy" decoding="async" />
+              <span class="bd"><em>{y.kategori}</em><b>{y.baslik}</b><span>{y.aciklama}</span></span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section class="sec">
+      <div class="band">
+        <div><h2>Prefabrik firması mısınız?</h2><p>Ücretsiz kaydolun, ürünlerinizi ve fiyatlarınızı kendiniz güncelleyin, size uygun talepleri e-postanızda görün.</p></div>
+        <div class="btns"><a class="btn btn-w" href="/firma-kayit/">Firma başvurusu</a><a class="btn btn-o2" href="/firma-paneli/">Firma girişi</a></div>
+      </div>
+    </section>
+
+    <section class="sec narrow" style="margin:0 auto">
+      <Faq items={sss} />
+    </section>
+  </div>
+  <script>
+    import { katalogUygula } from '../scripts/katalog';
+    katalogUygula();
+    // Yönetimden eklenen sponsorlu bannerlar
+    fetch('/api/bannerlar').then((r) => (r.ok ? r.json() : null)).then((j) => {
+      const b = (j?.bannerlar || []).filter((x: any) => /^https:\/\//.test(x.gorsel || '') && /^(https:\/\/|\/)/.test(x.link || ''));
+      if (!b.length) return;
+      const slot = document.querySelector('[data-banner-slot]'); const cream = slot?.querySelector('.slide.cream');
+      if (!slot || !cream) return;
+      const x = b[0];
+      const a = document.createElement('a'); a.className = 'slide'; a.href = x.link; a.rel = 'sponsored noopener';
+      const im = document.createElement('img'); im.className = 'bg'; im.src = x.gorsel; im.alt = x.baslik || ''; im.loading = 'lazy';
+      const sh = document.createElement('div'); sh.className = 'shade';
+      const t = document.createElement('div'); t.className = 'txt';
+      const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = 'Reklam';
+      const h = document.createElement('h2'); h.textContent = x.baslik || '';
+      const p = document.createElement('p'); p.textContent = x.metin || '';
+      t.append(tag, h, p); a.append(im, sh, t); cream.replaceWith(a);
+    }).catch(() => {});
+  </script>
 </Base>

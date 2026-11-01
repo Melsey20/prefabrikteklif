@@ -2,21 +2,34 @@
 import Base from '../layouts/Base.astro';
 import { SITE } from '../site.config';
 ---
-<Base title="Talebin alındı" description="Teklif talebin firmalara iletildi." noindex>
-  <div class="wrap narrow sec">
-    <div class="ok">
-      <h1 style="font-size:1.6rem">Talebin alındı</h1>
-      <p id="n">Firmalar teklifini 24 saat içinde girecek. Gelen tüm teklifler, aynı kapsam başlıklarıyla yan yana, tek e-postada sana gelecek.</p>
-      <ol>
-        <li>Firmalar talebini görür; sorusu olan seni arayabilir.</li>
-        <li>24 saat dolunca karşılaştırma tablosu e-postana gelir.</li>
-        <li>Sözleşme yaparsan, belgeni yükleyip doğrulanmış yorum yazabilirsin.</li>
-      </ol>
-      <p class="small muted">E-posta gelmezse gereksiz (spam) klasörüne bak.</p>
+<Base title="Talebiniz alındı" description="Teklif talebiniz alındı." noindex>
+  <div class="wrap narrow" style="padding-top:36px">
+    <div class="okmsg" style="display:flex;flex-direction:column;gap:12px">
+      <span style="width:56px;height:56px;border-radius:18px;background:var(--green);display:flex;align-items:center;justify-content:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></span>
+      <h1 style="margin:0;font-size:1.7rem">Talebiniz alındı</h1>
+      <div data-m="teklif">
+        <p id="n">Talebiniz kriterlerinize uyan firmalara isimsiz olarak iletildi. Firmalar {SITE.teklifSaat} saat içinde fiyat verecek; gelen teklifler tek tabloda e-postanıza gelecek.</p>
+        <ol class="numlist">
+          <li><span>Fiyat vermeyi kabul eden firma, iletişim bilgilerinizi görür ve sizi arayabilir.</span></li>
+          <li><span>{SITE.teklifSaat} saat dolunca karşılaştırma tablosu e-postanıza gelir.</span></li>
+          <li><span>İsterseniz “süreci siz yönetin” deyin; firmayla sözleşmeden teslime kadar biz takip edelim.</span></li>
+        </ol>
+      </div>
+      <div data-m="surec" hidden>
+        <p>Ön görüşme talebiniz ekibimize ulaştı. En geç 1 iş günü içinde sizi arayıp ihtiyacınızı dinleyeceğiz. Süreç başladığında her adımı hesabınızdan takip edebilirsiniz.</p>
+      </div>
+      <p class="small muted" style="margin:0">E-posta gelmezse gereksiz (spam) klasörüne bakın.</p>
     </div>
-    <p style="margin-top:20px"><a class="btn btn-l" href="/">Ana sayfaya dön</a></p>
+    <div class="box" style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap" id="hesap-oner">
+      <div><b>Talebinizi hesabınızdan takip edin</b><p class="small muted" style="margin:4px 0 0">Aynı e-postayla giriş yapın; talepleriniz, gelen teklifler ve favorileriniz tek yerde olsun.</p></div>
+      <a class="btn btn-p" href="/giris/?geri=/hesabim/">Giriş yap / kayıt ol</a>
+    </div>
+    <p style="margin-top:18px"><a class="btn btn-g" href="/">Ana sayfaya dön</a></p>
   </div>
-  <script is:inline>
-    (function () { var n = new URLSearchParams(location.search).get('n'); if (n && +n > 0) document.getElementById('n').textContent = 'Talebin ' + n + ' firmaya iletildi. Firmalar teklifini 24 saat içinde girecek; gelen tüm teklifler aynı kapsam başlıklarıyla tek e-postada sana gelecek.'; })();
+  <script>
+    const q = new URLSearchParams(location.search); const mod = q.get('mod') === 'surec' ? 'surec' : 'teklif';
+    document.querySelectorAll<HTMLElement>('[data-m]').forEach((e) => (e.hidden = e.dataset.m !== mod));
+    const n = Number(q.get('n')); if (mod === 'teklif' && n > 0) document.getElementById('n')!.textContent = `Talebiniz ${n} firmaya isimsiz olarak iletildi. Firmalar fiyat verdikçe size haber vereceğiz; süre dolunca teklifler tek tabloda e-postanıza gelecek.`;
+    try { if (localStorage.getItem('pt_user')) document.getElementById('hesap-oner')!.hidden = true; } catch { /* */ }
   </script>
 </Base>

@@ -9,22 +9,26 @@ const sorumlu = SITE.sirketUnvani || `${SITE.ad} (${SITE.alanAdi}) işletmecisi`
   <ul>
     <li>Kimlik ve iletişim: ad soyad, telefon, e-posta.</li>
     <li>Talep bilgileri: ev tipi, oda sayısı, m², il-ilçe, arazi durumu, bütçe, zaman ve notlarınız.</li>
+    <li>Hesap bilgileri: üye olursanız e-posta, ad, giriş yöntemi (e-posta/şifre veya Google), favori evleriniz, talepleriniz ve süreç yönetimi kayıtlarınız.</li>
+    <li>Süreç yönetimi hizmetinde: sipariş aşamaları, notlar, sözleşme ve teslim belgeleri, ekibimizle yazışmalarınız.</li>
     <li>İşlem güvenliği: IP adresi ve form gönderim zamanı.</li>
+    <li>Ziyaret istatistikleri: yalnızca çerez onayı verirseniz, Google Analytics aracılığıyla anonimleştirilmiş kullanım verileri.</li>
     <li>Firma başvurularında: unvan, vergi numarası, adres, yetkili bilgileri ve belgeler.</li>
   </ul>
   <h2>İşleme amaçları ve hukuki sebepler</h2>
   <ul>
     <li>Teklif talebinizi almak, size uygun firmaları belirlemek ve tekliflerin size iletilmesi: sözleşmenin kurulması ve ifası (KVKK m.5/2-c).</li>
-    <li>Bilgilerinizin teklif verecek firmalara aktarılması: açık rızanız (KVKK m.5/1, m.8/1).</li>
+    <li>İletişim bilgilerinizin, talebinize fiyat vermeyi kabul eden firmalara aktarılması ve süreç yönetiminde seçilen firmayla paylaşılması: açık rızanız (KVKK m.5/1, m.8/1).</li>
+    <li>Üyelik hesabınızın yönetimi, favorilerin ve taleplerin saklanması: sözleşmenin ifası (KVKK m.5/2-c).</li>
     <li>Kötüye kullanımın önlenmesi ve işlem güvenliği: meşru menfaat (KVKK m.5/2-f).</li>
     <li>Kampanya ve bilgilendirme e-postaları: ayrıca verdiğiniz açık rıza ve ticari elektronik ileti onayı.</li>
   </ul>
   <h2>Aktarım</h2>
-  <p>Talep bilgileriniz ve iletişim bilgileriniz, açık rızanıza dayanarak, seçtiğiniz veya talebinize uygun olarak belirlenen en fazla {SITE.maksFirma} üretici firmaya teklif vermeleri amacıyla aktarılır. Verileriniz, hizmetin barındırılması ve e-posta gönderimi için kullandığımız hizmet sağlayıcılarda (ör. Google Firebase) saklanabilir; bu sağlayıcıların sunucuları yurt dışında bulunabilir.</p>
+  <p>Talebinizin içeriği (ev tipi, büyüklük, il, arazi durumu, bütçe, notlarınız) kriterlerinize uyan kayıtlı üretici firmalara <strong>adınız ve iletişim bilgileriniz olmadan</strong> gönderilir. Ad, telefon ve e-postanız, açık rızanıza dayanarak yalnızca talebinize <strong>fiyat vermeyi kabul eden</strong> firmalarla, teklif sürecini yürütmeleri amacıyla paylaşılır. “Süreci siz yönetin” hizmetinde bilgileriniz, sizinle birlikte seçtiğimiz firmayla paylaşılır. Verileriniz, hizmetin barındırılması ve e-posta gönderimi için kullandığımız hizmet sağlayıcılarda (ör. Google Firebase) saklanabilir; bu sağlayıcıların sunucuları yurt dışında bulunabilir.</p>
   <h2>Saklama süresi</h2>
   <p>Teklif talepleri, talebin tamamlanmasından itibaren en fazla 2 yıl saklanır; sonra silinir veya anonimleştirilir.</p>
   <h2>Haklarınız</h2>
   <p>KVKK m.11 uyarınca verilerinizin işlenip işlenmediğini öğrenme, düzeltilmesini veya silinmesini isteme, aktarıldığı üçüncü kişileri öğrenme ve itiraz etme haklarına sahipsiniz.{SITE.eposta ? <> Başvurularınızı <a href={`mailto:${SITE.eposta}`}>{SITE.eposta}</a> adresine iletebilirsiniz.</> : ' Başvurularınızı iletişim sayfasındaki kanallardan iletebilirsiniz.'}</p>
   <h2 id="acik-riza">Açık rıza metni</h2>
-  <p>Teklif formunda ilgili kutuyu işaretleyerek; ad, telefon, e-posta ve talep bilgilerimin, teklif vermeleri amacıyla seçtiğim veya talebime uygun olarak belirlenen en fazla {SITE.maksFirma} üretici firmaya aktarılmasına açık rıza veriyorum. Rızamı her zaman geri alabileceğimi biliyorum.</p>
+  <p>Teklif formunda ilgili kutuyu işaretleyerek; talep bilgilerimin kriterlerime uyan üretici firmalara isimsiz gönderilmesini, ad, telefon ve e-posta bilgilerimin ise yalnızca talebime fiyat vermeyi kabul eden firmalarla paylaşılmasını kabul ediyor, bu aktarım için açık rıza veriyorum. “Süreci siz yönetin” hizmetini seçtiğimde bilgilerimin {SITE.ad} ekibi ve birlikte seçeceğimiz firma ile paylaşılmasına açık rıza veriyorum. Rızamı her zaman geri alabileceğimi biliyorum.</p>
 </Sayfa>

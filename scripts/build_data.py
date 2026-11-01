@@ -282,4 +282,8 @@ FN = os.path.join(ROOT, 'functions')
 if os.path.isdir(FN):
     json.dump([{'slug': f['slug'], 'kisaAd': f['kisaAd'], 'il': f['il'], 'tipler': f['tipler']} for f in firms],
               open(os.path.join(FN, 'firms.json'), 'w', encoding='utf-8'), ensure_ascii=False)
+    # Firma paneli ve aylık fiyat kontrolü için model listesi
+    json.dump([{'id': f"{m['firma']}/{m['slug']}", 'firma': m['firma'], 'ad': m['ad'], 'tip': m['tip'], 'm2': m['m2'], 'oda': m['oda'],
+                'fiyat': m['fiyat'], 'fiyatTuru': m['fiyatTuru'], 'kdv': m['kdv'], 'teslim': m['teslim'], 'kapsam': m['kapsam'], 'kaynak': m['kaynak']} for m in models],
+              open(os.path.join(FN, 'models.json'), 'w', encoding='utf-8'), ensure_ascii=False)
 print(f"{len(firms)} firma, {len(models)} model -> src/data")

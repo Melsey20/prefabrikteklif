@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Model" description="Firmanın panelden eklediği model." noindex>
+  <div class="wrap" id="m-alan" style="padding-top:20px"><div class="empty">Yükleniyor…</div></div>
+  <script>
+    import { katalog } from '../scripts/katalog';
+    import { h, tl } from '../scripts/ui';
+    import { TIP_AD, TIP_IMG } from '../scripts/modeller';
+    const id = new URLSearchParams(location.search).get('id') || '';
+    katalog().then((k) => {
+      const x = k[id]; const box = document.getElementById('m-alan')!;
+      if (!x || !x.yeni) { box.replaceChildren(h('div', { class: 'empty' }, 'Model bulunamadı. ', h('a', { href: '/evini-bul/' }, 'Evleri inceleyin'))); return; }
+      document.title = `${x.firmaAd} ${x.ad} | PrefabrikTeklif`;
+      const g = (x.gorseller || []).filter((u) => /^https:\/\//.test(u));
+      const ana = h('img', { src: g[0] || `/img/${TIP_IMG[x.tip!] || 'prefabrik'}-960.webp`, alt: '' }) as HTMLImageElement;
+      box.replaceChildren(h('div', { class: 'mhero' },
+        h('div', {}, h('div', { class: 'gal' }, ana, g.length ? null : h('span', { class: 'tm' }, 'Temsili görsel'), h('button', { class: 'fav', type: 'button', 'data-id': x.id, 'aria-label': 'Favorilere ekle' }, '♥')),
+          g.length > 1 ? h('div', { class: 'thumbs' }, ...g.map((u) => h('button', { type: 'button', onclick: () => (ana.src = u) }, h('img', { src: u, alt: '' })))) : null),
+        h('div', { style: { display: 'flex', flexDirection: 'column', gap: '14px' } },
+          h('h1', { style: { margin: 0, fontSize: '1.8rem' } }, x.ad || ''),
+          h('a', { class: 'fcard', href: `/firma/${x.firma}/` }, h('b', {}, x.firmaAd || x.firma), h('span', { class: 'small muted' }, 'firma profili ›')),
+          h('div', { class: 'pbox' }, h('span', { class: 'big' }, x.fiyat ? tl(x.fiyat) + (x.kdv === 'haric' ? ' + KDV' : '') : 'Fiyat için teklif alın'), x.teslim ? h('ul', { class: 'tags' }, h('li', { class: 'd' }, x.teslim)) : null, h('span', { class: 'xs muted' }, 'Fiyat firmanın panelden girdiği ve ekibimizin onayladığı bilgidir.')),
+          h('div', { class: 'feat' }, x.m2 ? h('div', {}, h('b', {}, `${x.m2} m²`), h('span', {}, 'Alan')) : null, x.oda ? h('div', {}, h('b', {}, x.oda), h('span', {}, 'Oda')) : null, h('div', {}, h('b', {}, TIP_AD[x.tip!] || ''), h('span', {}, 'Tip'))),
+          x.kapsam ? h('p', { class: 'small' }, h('b', {}, 'Fiyata dahil: '), x.kapsam) : null,
+          h('a', { class: 'btn btn-p', href: `/teklif-al/?firmalar=${encodeURIComponent(x.firma!)}&tip=${encodeURIComponent(x.tip || '')}${x.m2 ? '&m2=' + x.m2 : ''}` }, 'Bu eve teklif al'),
+          h('a', { class: 'btn btn-g', href: `/teklif-al/?mod=surec&firmalar=${encodeURIComponent(x.firma!)}&tip=${encodeURIComponent(x.tip || '')}` }, 'Süreci siz yönetin'))));
+      window.dispatchEvent(new Event('pt:draw'));
+    });
+  </script>
+</Base>

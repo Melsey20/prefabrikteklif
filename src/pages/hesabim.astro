@@ -1,0 +1,96 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Hesabım" description="Talepleriniz, gelen teklifler, favori evleriniz ve süreç takibiniz." noindex>
+  <div class="app">
+    <aside aria-label="Hesap bölümleri" id="sekmeler">
+      <button type="button" data-sekme="siparis">Siparişim <span class="rz" data-rz="siparis"></span></button>
+      <button type="button" data-sekme="talepler">Taleplerim <span class="rz" data-rz="talepler"></span></button>
+      <button type="button" data-sekme="favoriler">Favorilerim</button>
+      <button type="button" data-sekme="ayarlar">Hesap</button>
+    </aside>
+    <main>
+      <div class="ph-h"><h1 id="h-baslik">Hesabım</h1><a class="btn btn-p btn-s" href="/teklif-al/">Yeni teklif al</a></div>
+      <div id="h-uyari"></div>
+      <section data-panel="siparis" id="p-siparis"><div class="empty">Yükleniyor…</div></section>
+      <section data-panel="talepler" id="p-talepler" hidden></section>
+      <section data-panel="favoriler" id="p-favoriler" hidden><div class="grid" id="fav-liste"></div></section>
+      <section data-panel="ayarlar" id="p-ayarlar" hidden></section>
+    </main>
+  </div>
+  <script>
+    import { kullanici, api, oturumAc, cikis, dogrulamaGonder, hataYazi } from '../scripts/fb';
+    import { h, tl, tarih, kalan, toast, sekmeler, hataGoster } from '../scripts/ui';
+    import { modeller, kart, TIP_IMG } from '../scripts/modeller';
+    const $ = (id: string) => document.getElementById(id)!;
+    let veri: any;
+
+    function siparisCiz() {
+      const box = $('p-siparis');
+      if (!veri.siparisler.length) { box.replaceChildren(h('div', { class: 'empty' }, h('b', {}, 'Henüz yönettiğimiz bir siparişiniz yok.'), h('p', { class: 'small', style: { margin: '6px 0 12px' } }, 'Evi seçtiyseniz “Süreci siz yönetin” deyin; firmayı birlikte seçip sözleşmeden teslime kadar takip edelim.'), h('a', { class: 'btn btn-p btn-s', href: '/teklif-al/?mod=surec' }, 'Süreci siz yönetin'))); return; }
+      box.replaceChildren(...veri.siparisler.map((s: any) => {
+        const not = (i: number) => s.notlar.filter((n: any) => n.asama === i).map((n: any) => n.metin).join(' · ');
+        const mesajKutu = h('textarea', { rows: 2, placeholder: 'Proje sorumlunuza mesaj yazın', maxlength: 1500 }) as HTMLTextAreaElement;
+        return h('article', { class: 'box', style: { display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '14px' } },
+          h('div', { style: { display: 'flex', gap: '12px', alignItems: 'center' } },
+            h('img', { src: `/img/${TIP_IMG[s.tip] || 'prefabrik'}-kare.webp`, alt: '', width: 64, height: 64, style: { borderRadius: '14px' } }),
+            h('span', {}, h('span', { class: 'xs', style: { fontWeight: 800, color: 'var(--green)' } }, 'SÜRECİ BİZ YÖNETİYORUZ'), h('b', { style: { display: 'block' } }, s.model || [s.tipAd, s.m2 ? `${s.m2} m²` : '', s.oda].filter(Boolean).join(' · ')), h('span', { class: 'small muted' }, [s.firma, s.il].filter(Boolean).join(' · ') || 'Firma seçimi devam ediyor'))),
+          h('ol', { class: 'steps' }, ...s.asamalar.map((a: string, i: number) => h('li', { class: i < s.asama ? 'ok' : i === s.asama ? 'now' : '' }, h('span', {}, h('b', {}, a), h('span', {}, not(i) || (i === s.asama ? 'Şu an bu aşamadayız' : '')))))),
+          s.belgeler.length ? h('div', { style: { display: 'flex', flexDirection: 'column', gap: '6px' } }, h('b', { class: 'small' }, 'Belgeler'), ...s.belgeler.map((b: any) => h('a', { class: 'pill', href: b.url, target: '_blank', rel: 'noopener' }, b.ad))) : null,
+          s.mesajlar.length ? h('div', { class: 'list' }, ...s.mesajlar.map((m: any) => h('div', { class: 'item', style: m.kim === 'musteri' ? { background: 'var(--green-ll)' } : {} }, h('span', { class: 'xs muted' }, (m.kim === 'musteri' ? 'Siz' : 'Proje sorumlusu') + ' · ' + tarih(m.zaman)), h('span', {}, m.metin)))) : null,
+          h('form', { class: 'form', style: { gap: '8px' }, onsubmit: async (e: Event) => { e.preventDefault(); if (mesajKutu.value.trim().length < 2) return; try { await api('/api/siparis-mesaj', { siparis: s.id, metin: mesajKutu.value }); toast('Mesajınız iletildi'); yukle(); } catch (err: any) { toast(err.message); } } }, mesajKutu, h('button', { class: 'btn btn-p btn-s', type: 'submit', style: { alignSelf: 'flex-start' } }, 'Proje sorumluma yaz')));
+      }));
+    }
+    function talepCiz() {
+      const box = $('p-talepler');
+      if (!veri.talepler.length) { box.replaceChildren(h('div', { class: 'empty' }, 'Henüz teklif talebiniz yok. ', h('a', { href: '/teklif-al/' }, 'Teklif alın'))); return; }
+      box.replaceChildren(h('div', { class: 'list' }, ...veri.talepler.map((t: any) => {
+        const acik = t.durum === 'acik';
+        return h('article', { class: 'item' },
+          h('div', { class: 'row' }, h('b', {}, [t.tipAd, t.oda, t.m2 ? `${t.m2} m²` : '', t.il].filter(Boolean).join(' · ')), h('span', { class: 'st-b ' + (acik ? 'a' : 'g') }, acik ? `Teklif bekleniyor · ${kalan(t.sonTarihMs)}` : 'Karşılaştırma gönderildi')),
+          h('span', { class: 'xs muted' }, tarih(t.olusturma)),
+          t.teklifler.length
+            ? h('div', { class: 'tbl-wrap' }, h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, 'Firma'), h('th', { class: 'n' }, 'Fiyat'), h('th', {}, 'Dahil'), h('th', {}, 'Teslim'))),
+                h('tbody', {}, ...t.teklifler.map((x: any, i: number) => h('tr', {}, h('td', {}, h('a', { href: `/firma/${x.firmaSlug}/` }, x.firma), i === 0 && t.teklifler.length > 1 ? h('span', { class: 'st-b g', style: { marginLeft: '6px' } }, 'En uygun') : null, x.not ? h('div', { class: 'xs muted' }, x.not) : null), h('td', { class: 'n' }, h('b', {}, tl(x.fiyat)), h('div', { class: 'xs muted' }, x.kdvDahil ? 'KDV dahil' : 'KDV hariç')), h('td', { class: 'small' }, x.dahil.join(', ') || '–'), h('td', { class: 'small' }, x.teslimGun ? `${x.teslimGun} gün` : '–'))))))
+            : h('span', { class: 'small muted' }, acik ? 'Firmalar fiyat verdikçe burada görünecek.' : 'Bu talebe sistem üzerinden teklif girilmedi; ekibimiz sizinle iletişime geçecek.'),
+          t.teklifler.length ? h('a', { class: 'btn btn-l btn-s', style: { alignSelf: 'flex-start' }, href: `/teklif-al/?mod=surec&tip=${encodeURIComponent(t.tipAd || '')}` }, 'Süreci siz yönetin') : null);
+      })));
+    }
+    async function favCiz() {
+      const ids: string[] = JSON.parse(localStorage.getItem('pt_fav') || '[]'); const all = await modeller();
+      const list = ids.map((id) => all.find((m) => m.id === id)).filter(Boolean) as any[];
+      $('fav-liste').innerHTML = list.length ? list.map(kart).join('') : '<div class="empty" style="grid-column:1/-1">Favori eviniz yok. Kartlardaki kalp simgesiyle ekleyin.</div>';
+      window.dispatchEvent(new Event('pt:draw'));
+    }
+    function ayarCiz() {
+      const b = veri.ben;
+      $('p-ayarlar').replaceChildren(h('div', { class: 'box', style: { display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '520px' } },
+        h('b', {}, b.eposta), h('span', { class: 'small ' + (b.dogrulandi ? 'muted' : '') }, b.dogrulandi ? 'E-posta adresiniz doğrulandı.' : 'E-posta adresiniz doğrulanmadı. Doğrulamadan eski talepleriniz hesabınıza bağlanmaz.'),
+        !b.dogrulandi ? h('button', { class: 'btn btn-l btn-s', type: 'button', onclick: async () => { try { await dogrulamaGonder(); toast('Doğrulama e-postası gönderildi'); } catch (e) { toast(hataYazi(e)); } } }, 'Doğrulama e-postası gönder') : null,
+        b.rol === 'firma' ? h('a', { class: 'btn btn-p btn-s', href: '/firma-paneli/' }, 'Firma paneline git') : null,
+        b.rol === 'admin' ? h('a', { class: 'btn btn-d btn-s', href: '/yonetim/' }, 'Yönetim paneli') : null,
+        h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: async () => { await cikis(); location.href = '/'; } }, 'Çıkış yap')));
+    }
+    async function yukle() {
+      veri = await api('/api/hesap');
+      const yerel: string[] = JSON.parse(localStorage.getItem('pt_fav') || '[]');
+      if (veri.favoriler?.length) { localStorage.setItem('pt_fav', JSON.stringify([...new Set([...yerel, ...veri.favoriler])])); }
+      $('h-baslik').textContent = veri.ben.ad ? `Merhaba ${veri.ben.ad.split(' ')[0]}` : 'Hesabım';
+      document.querySelector('[data-rz=siparis]')!.textContent = veri.siparisler.length ? String(veri.siparisler.length) : '';
+      document.querySelector('[data-rz=talepler]')!.textContent = veri.talepler.filter((t: any) => t.durum === 'acik').length || '';
+      siparisCiz(); talepCiz(); ayarCiz(); favCiz();
+    }
+    (async () => {
+      try {
+        const u = await kullanici();
+        if (!u) { location.href = '/giris/?geri=' + encodeURIComponent(location.pathname + location.hash); return; }
+        const ben = await oturumAc();
+        if (ben && !ben.dogrulandi) $('h-uyari').replaceChildren(h('p', { class: 'note-a', style: { marginTop: 0 } }, 'E-posta adresinizi doğrulayın; böylece daha önce bu e-postayla gönderdiğiniz talepler de burada görünür.'));
+        await yukle();
+        sekmeler($('sekmeler'), () => {});
+        if (!veri.siparisler.length && !location.hash) document.querySelector<HTMLButtonElement>('[data-sekme=talepler]')!.click();
+      } catch (e) { hataGoster($('p-siparis'), e); }
+    })();
+    window.addEventListener('pt:fav', () => { api('/api/favoriler', { favoriler: JSON.parse(localStorage.getItem('pt_fav') || '[]'), degistir: true }).catch(() => {}); setTimeout(favCiz, 50); });
+  </script>
+</Base>

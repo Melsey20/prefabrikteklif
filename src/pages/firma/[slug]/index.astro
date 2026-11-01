@@ -2,8 +2,10 @@
 import Base from '../../../layouts/Base.astro';
 import Crumbs from '../../../components/Crumbs.astro';
 import ModelList from '../../../components/ModelList.astro';
+import Puanlar from '../../../components/Puanlar.astro';
+import Stats from '../../../components/Stats.astro';
 import { SITE } from '../../../site.config';
-import { firms, models, TIPLER, meta, kisaTl, sirala, istatistik } from '../../../lib/data';
+import { firms, models, TIPLER, meta, kisaTl, sirala, istatistik, monogram, tipImg } from '../../../lib/data';
 export function getStaticPaths() {
   return firms.map((f) => ({ params: { slug: f.slug }, props: { f } }));
 }
@@ -12,91 +14,76 @@ const list = sirala(models.filter((m) => m.firma === f.slug));
 const s = istatistik(list);
 const tipler = f.tipler.map((t) => TIPLER[t]?.ad).filter(Boolean);
 const urunler = tipler.length ? tipler.join(', ') : f.urunTipleri.join(', ');
-const desc = `${f.kisaAd}${f.il ? ` (${f.il})` : ''} ${urunler.toLowerCase()} modelleri ve fiyatları${s.min ? `: ${kisaTl(s.min)}’den başlayan ${list.length} model` : ''}. Kapsamı görün, diğer firmalarla kıyaslayın, teklif alın.`;
+const desc = `${f.kisaAd}${f.il ? ` (${f.il})` : ''} ${urunler.toLocaleLowerCase('tr')} modelleri ve fiyatları${s.min ? `: ${kisaTl(s.min)}’den başlayan ${list.length} model` : ''}. Fiyata neyin dahil olduğunu görün, diğer firmalarla kıyaslayın, teklif alın.`;
 const ld = [{
   '@context': 'https://schema.org', '@type': 'Organization', name: f.kisaAd, legalName: f.ad !== f.kisaAd ? f.ad : undefined,
   url: f.web || undefined, ...(f.il ? { address: { '@type': 'PostalAddress', addressRegion: f.il, addressCountry: 'TR' } } : {}),
+  ...(list.length ? { makesOffer: list.filter((m) => m.fiyat && m.fiyatTuru === 'model').slice(0, 20).map((m) => ({ '@type': 'Offer', price: m.fiyat, priceCurrency: 'TRY', itemOffered: { '@type': 'Product', name: m.ad } })) } : {}),
 }];
+const ana = f.tipler[0] || 'prefabrik';
 ---
-<Base title={`${f.kisaAd} Fiyatları ${meta.ay}: ${list.length ? `${list.length} Model` : 'Firma Profili'}`} description={desc} jsonLd={ld} selbar ogType="profile">
+<Base title={`${f.kisaAd} Fiyatları ${meta.ay}: ${list.length ? `${list.length} Model` : 'Firma Profili'}`} description={desc} jsonLd={ld} ogType="profile">
   <div class="wrap">
+    <div class="phead" style="min-height:200px">
+      <img src={tipImg(ana, 960)} alt="" width="960" height="723" fetchpriority="high" />
+      <div class="in" style="display:flex;gap:16px;align-items:flex-end">
+        <span class="mono" style="width:64px;height:64px;border-radius:18px;font-size:1.3rem;background:#fff;color:var(--ink)">{monogram(f.kisaAd)}</span>
+        <span><h1 style="margin:0 0 4px">{f.kisaAd}</h1><p>{[urunler, f.il].filter(Boolean).join(' · ')}</p></span>
+      </div>
+    </div>
     <Crumbs items={[{ ad: 'Firmalar', url: '/firmalar/' }, { ad: f.kisaAd }]} />
     <div class="cols">
-      <div>
-        <h1 style="margin-bottom:8px">{f.kisaAd}</h1>
-        <p class="muted" style="margin-bottom:10px">{[urunler, f.il].filter(Boolean).join(' · ')}</p>
-        <p><span class="badge">Listelenmiş · firma henüz doğrulanmadı</span></p>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <p style="margin:0"><span class="st-b">Listelenmiş · firma henüz doğrulanmadı</span></p>
         {f.sertifikalar.length > 0 && (
           <>
-            <ul class="kap" aria-label="Belgeler">{f.sertifikalar.map((c) => <li class="h">{c}</li>)}</ul>
-            <p class="small muted" style="margin-top:6px">Belgeler firmanın sitesindeki beyandır; doğrulama sırasında aslı kontrol edilir.</p>
+            <ul class="tags" aria-label="Belgeler">{f.sertifikalar.map((c) => <li class="b">{c}</li>)}</ul>
+            <p class="small muted" style="margin:0">Belgeler firmanın sitesindeki beyandır; doğrulamada aslı kontrol edilir.</p>
           </>
         )}
-        {!f.sertifikalar.length && f.sertifikaNotu && <p class="small muted">{f.sertifikaNotu}</p>}
+        {!f.sertifikalar.length && f.sertifikaNotu && <p class="small muted" style="margin:0">{f.sertifikaNotu}</p>}
+        {list.length > 0 && <Stats s={s} />}
       </div>
       <aside>
-        <div class="box">
-          <a class="btn btn-o btn-block" href={`/teklif-al/?firmalar=${f.slug}${f.tipler[0] ? `&tip=${encodeURIComponent(f.tipler[0])}` : ''}`}>Bu firmadan teklif al</a>
-          {f.web && <p class="small" style="margin:12px 0 0"><a href={f.web} rel="nofollow noopener" target="_blank">Firmanın sitesi</a></p>}
+        <div class="box dk">
+          <a class="btn btn-w btn-block" href={`/teklif-al/?firmalar=${f.slug}&tip=${encodeURIComponent(ana)}`}>Bu firmadan teklif al</a>
+          <p class="small" style="margin:10px 0 0">Bilgileriniz yalnızca fiyat vermeyi kabul ederse firmayla paylaşılır.</p>
+          {f.web && <p class="small" style="margin:8px 0 0"><a style="color:#fff" href={f.web} rel="nofollow noopener" target="_blank">Firmanın sitesi ↗</a></p>}
         </div>
       </aside>
     </div>
 
-    <section aria-labelledby="puan">
-      <h2 id="puan">Puanlar ve yorumlar</h2>
-      <div class="grid">
-        <div class="card" id="gpuan">
-          <div class="row"><strong>Google puanı</strong><span class="small muted">Google Haritalar</span></div>
-          <p style="margin:0" id="gpuan-sonuc" hidden><strong class="price" id="gpuan-deger"></strong> <span class="muted" id="gpuan-sayi"></span></p>
-          <button class="btn btn-l" type="button" id="gpuan-btn">Google puanını göster</button>
-          <a class="small" id="gpuan-link" href="#" rel="nofollow noopener" target="_blank" hidden>Google’daki yorumları aç</a>
-          <p class="small muted" id="gpuan-yok" hidden style="margin:0">Bu firma için Google puanı bulunamadı.</p>
-        </div>
-        <div class="card" id="yorumlar">
-          <strong>{SITE.ad} doğrulanmış yorumları</strong>
-          <p class="muted small" id="yorum-bos" style="margin:0">Henüz yorum yok. Yorumu sadece {SITE.ad} üzerinden teklif alıp bu firmayla sözleşme yaptığını belgeleyen müşteri yazabilir.</p>
-          <div id="yorum-liste"></div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Modeller ve fiyatlar</h2>
+    <section class="sec" style="padding-top:28px">
+      <h2 style="margin-top:0">Modeller ve fiyatlar</h2>
+      <div class="grid" data-yeni={f.slug} hidden style="margin-bottom:16px"></div>
       {list.length ? <ModelList list={list} firmaGoster={false} /> : <p class="muted">Bu firma sitesinde fiyat yayınlamıyor. Teklif isteyerek güncel fiyat alabilirsiniz.</p>}
     </section>
 
-    <div class="box" style="margin-top:28px">
-      <h2 style="margin-top:0">Bu firma sizin mi?</h2>
-      <p class="muted">Ücretsiz kayıt olun, fiyatlarınızı kendiniz güncelleyin ve bu sayfaya gelen teklif taleplerini alın.</p>
-      <a class="btn btn-p" href={`/firma-kayit/?firma=${f.slug}`}>Firmamı sahiplen</a>
+    <section class="sec" style="padding-top:28px"><Puanlar slug={f.slug} /></section>
+
+    <div class="band" style="margin-top:28px">
+      <div><h2>Bu firma sizin mi?</h2><p>Ücretsiz kaydolun; fiyatlarınızı ve fotoğraflarınızı kendiniz güncelleyin, bu sayfaya gelen talepleri alın.</p></div>
+      <div class="btns"><a class="btn btn-w" href={`/firma-kayit/?firma=${f.slug}`}>Firmamı sahiplen</a></div>
     </div>
   </div>
-  <script is:inline define:vars={{ slug: f.slug }}>
-    (function () {
-      var gb = document.getElementById('gpuan-btn');
-      gb.addEventListener('click', function () {
-        gb.disabled = true; gb.textContent = 'Yükleniyor…';
-        fetch('/api/google-puan?firma=' + encodeURIComponent(slug)).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
-          gb.remove();
-          if (!d || !d.rating) { document.getElementById('gpuan-yok').hidden = false; return; }
-          document.getElementById('gpuan-deger').textContent = String(d.rating).replace('.', ',') + ' / 5';
-          document.getElementById('gpuan-sayi').textContent = d.count ? '(' + d.count + ' değerlendirme)' : '';
-          document.getElementById('gpuan-sonuc').hidden = false;
-          if (d.url) { var l = document.getElementById('gpuan-link'); l.href = d.url; l.hidden = false; }
-        }).catch(function () { gb.remove(); document.getElementById('gpuan-yok').hidden = false; });
-      });
-      fetch('/api/yorumlar?firma=' + encodeURIComponent(slug)).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
-        if (!d || !d.yorumlar || !d.yorumlar.length) return;
-        var box = document.getElementById('yorum-liste'); document.getElementById('yorum-bos').remove();
-        d.yorumlar.forEach(function (y) {
-          var el = document.createElement('div'); el.className = 'note';
-          var b = document.createElement('strong'); b.textContent = (y.puan ? y.puan + '/5 · ' : '') + (y.ad || 'Doğrulanmış müşteri');
-          var p = document.createElement('p'); p.textContent = y.metin;
-          el.appendChild(b); el.appendChild(p);
-          if (y.cevap) { var c = document.createElement('p'); c.className = 'small'; c.textContent = 'Firma cevabı: ' + y.cevap; el.appendChild(c); }
-          box.appendChild(el);
-        });
-      }).catch(function () {});
-    })();
+  <script>
+    import { katalog } from '../../../scripts/katalog';
+    const box = document.querySelector<HTMLElement>('[data-yeni]');
+    katalog().then((k) => {
+      const yeni = Object.values(k).filter((x) => x.yeni && x.firma === box?.dataset.yeni);
+      if (!box || !yeni.length) return;
+      for (const x of yeni) {
+        const a = document.createElement('a'); a.className = 'mcard'; a.href = `/model/?id=${encodeURIComponent(x.id)}`; a.style.textDecoration = 'none'; a.style.color = 'inherit';
+        const ph = document.createElement('span'); ph.className = 'ph';
+        const g = (x.gorseller || []).find((u) => /^https:\/\//.test(u));
+        if (g) { const im = document.createElement('img'); im.src = g; im.alt = ''; im.loading = 'lazy'; ph.append(im); }
+        const bd = document.createElement('span'); bd.className = 'bd';
+        const fr = document.createElement('span'); fr.className = 'fr'; fr.textContent = 'Yeni eklendi';
+        const h = document.createElement('b'); h.textContent = x.ad || '';
+        const p = document.createElement('strong'); p.textContent = x.fiyat ? new Intl.NumberFormat('tr-TR').format(x.fiyat) + ' TL' : 'Fiyat için teklif alın';
+        bd.append(fr, h, p); a.append(ph, bd); box.append(a);
+      }
+      box.hidden = false;
+    });
   </script>
 </Base>

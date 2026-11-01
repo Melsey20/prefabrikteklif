@@ -16,7 +16,7 @@ const baslik = oda ? `${oda} ${T.baslik}` : `${m2} m² ${T.baslik}`;
 const s = istatistik(list);
 const [a, b] = m2 ? m2Aralik(m2) : [0, 0];
 const aciklama = oda
-  ? `${oda} ${T.kisa} fiyatları: ${s.firma} firmanın ${s.model} modeli${s.min ? `, ${kisaTl(s.min)}’den başlayan fiyatlarla` : ''}. Kapsamı görerek kıyaslayın, 24 saatte teklif alın.`
+  ? `${oda} ${T.kisa} fiyatları: ${s.firma} firmanın ${s.model} modeli${s.min ? `, ${kisaTl(s.min)}’den başlayan fiyatlarla` : ''}. Kapsamı görerek kıyaslayın, 48 saatte teklif alın.`
   : `${m2} m² ${T.kisa} fiyatları (${a}–${b} m² arası): ${s.firma} firmanın ${s.model} modeli${s.min ? `, ${kisaTl(s.min)}’den başlayan fiyatlarla` : ''}. Kıyaslayın, ücretsiz teklif alın.`;
 ---
 <KategoriSayfa tip={key} list={list} baslik={baslik} aktif={oda ?? `${m2}m2`} aciklama={aciklama}

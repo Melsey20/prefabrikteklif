@@ -80,7 +80,7 @@ import Crumbs from '../components/Crumbs.astro';
         add('h2', baslik).style.marginTop = '0';
         var ul = document.createElement('ul'); maddeler.forEach(function (m) { var li = document.createElement('li'); li.textContent = m; ul.appendChild(li); }); out.appendChild(ul);
         add('p', 'Bu sonuç genel bilgidir, hukuki görüş değildir.', 'small muted');
-        var a = document.createElement('a'); a.className = 'btn btn-o'; a.href = '/teklif-al/?tip=' + encodeURIComponent(tip); a.textContent = 'Bu duruma uygun firmalardan teklif al'; out.appendChild(a);
+        var a = document.createElement('a'); a.className = 'btn btn-p'; a.href = '/teklif-al/?tip=' + encodeURIComponent(tip); a.textContent = 'Bu duruma uygun firmalardan teklif al'; out.appendChild(a);
         out.hidden = false; out.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     })();

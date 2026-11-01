@@ -1,0 +1,77 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site.config';
+---
+<Base title="Giriş Yap veya Kayıt Ol" description={`${SITE.ad} hesabınızla taleplerinizi, gelen teklifleri, favori evlerinizi ve süreç takibinizi tek yerden yönetin.`} noindex>
+  <div class="wrap">
+    <div class="auth">
+      <h1 style="font-size:1.6rem;margin:0 0 6px" id="g-baslik">Giriş yapın</h1>
+      <p class="muted small" id="g-alt" style="margin:0 0 18px">Talepleriniz, teklifler ve favorileriniz her cihazda.</p>
+      <div class="seg" role="tablist" aria-label="Giriş veya kayıt" style="margin-bottom:16px">
+        <button type="button" role="tab" aria-selected="true" data-g="giris">Giriş yap</button>
+        <button type="button" role="tab" aria-selected="false" data-g="kayit">Kayıt ol</button>
+      </div>
+      <button class="gbtn" type="button" id="g-google"><svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Google ile devam et</button>
+      <div class="or">veya e-posta ile</div>
+      <form class="form" id="g-form" novalidate style="gap:12px">
+        <label class="f" data-k hidden>Ad soyad<input type="text" name="ad" autocomplete="name" maxlength="80" /></label>
+        <label class="f">E-posta<input type="email" name="eposta" autocomplete="email" required maxlength="120" /></label>
+        <label class="f">Şifre<input type="password" name="sifre" autocomplete="current-password" required minlength="6" /></label>
+        <p class="err" id="g-hata" role="alert" hidden></p>
+        <p class="okmsg small" id="g-ok" role="status" hidden style="margin:0"></p>
+        <button class="btn btn-p btn-block" type="submit" id="g-btn">Giriş yap</button>
+        <button class="btn btn-g btn-s" type="button" id="g-sifre" style="align-self:center;border:0">Şifremi unuttum</button>
+      </form>
+      <p class="xs muted" style="margin:14px 0 0">Devam ederek <a href="/kullanim-kosullari/">kullanım koşullarını</a> ve <a href="/kvkk-aydinlatma-metni/">aydınlatma metnini</a> kabul etmiş olursunuz.</p>
+    </div>
+    <p class="small muted" style="text-align:center">Firma mısınız? Başvurunuz onaylandıktan sonra başvurudaki e-postayla giriş yapın. <a href="/firma-kayit/">Firma başvurusu</a></p>
+  </div>
+  <script>
+    import { googleGiris, epostaGiris, kayitOl, sifreSifirla, oturumAc, hedefSayfa, hataYazi, kullanici } from '../scripts/fb';
+    const q = new URLSearchParams(location.search);
+    const geri = (q.get('geri') || '').startsWith('/') && !q.get('geri')!.startsWith('//') ? q.get('geri')! : '';
+    const form = document.getElementById('g-form') as HTMLFormElement;
+    const $ = (id: string) => document.getElementById(id)!;
+    let mod = 'giris';
+    const hataG = (m: string) => { $('g-hata').textContent = m; $('g-hata').hidden = false; $('g-ok').hidden = true; };
+    const okG = (m: string) => { $('g-ok').textContent = m; $('g-ok').hidden = false; $('g-hata').hidden = true; };
+    function modSec(m: string) {
+      mod = m;
+      document.querySelectorAll<HTMLButtonElement>('[data-g]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.g === m)));
+      document.querySelectorAll<HTMLElement>('[data-k]').forEach((e) => (e.hidden = m !== 'kayit'));
+      $('g-baslik').textContent = m === 'kayit' ? 'Hesap oluşturun' : 'Giriş yapın';
+      $('g-btn').textContent = m === 'kayit' ? 'Kayıt ol' : 'Giriş yap';
+      (form.elements.namedItem('sifre') as HTMLInputElement).autocomplete = m === 'kayit' ? 'new-password' : 'current-password';
+      $('g-sifre').hidden = m === 'kayit';
+    }
+    document.querySelectorAll<HTMLButtonElement>('[data-g]').forEach((b) => b.addEventListener('click', () => modSec(b.dataset.g!)));
+    if (q.get('kayit')) modSec('kayit');
+    if (q.get('dogrulandi')) okG('E-posta adresiniz doğrulandı. Giriş yapabilirsiniz.');
+
+    async function bitir() {
+      try {
+        const ben = await oturumAc(); if (!ben) return;
+        (window as any).gtag?.('event', 'login');
+        location.href = geri || hedefSayfa(ben);
+      } catch (e: any) { hataG(e.message || 'Giriş yapılamadı.'); }
+    }
+    kullanici().then((u) => { if (u && !q.get('dogrulandi')) bitir(); }).catch(() => hataG('Giriş sistemi şu an kullanılamıyor.'));
+    $('g-google').addEventListener('click', async () => { try { const u = await googleGiris(); if (u) await bitir(); } catch (e) { hataG(hataYazi(e)); } });
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const ep = (form.elements.namedItem('eposta') as HTMLInputElement).value.trim(); const s = (form.elements.namedItem('sifre') as HTMLInputElement).value;
+      if (!/^\S+@\S+\.\S+$/.test(ep)) return hataG('Geçerli bir e-posta yazın.');
+      if (s.length < 6) return hataG('Şifre en az 6 karakter olmalı.');
+      const btn = $('g-btn') as HTMLButtonElement; btn.disabled = true;
+      try {
+        if (mod === 'kayit') { await kayitOl(ep, s, (form.elements.namedItem('ad') as HTMLInputElement).value.trim()); okG('Hesabınız oluşturuldu. E-postanıza gelen bağlantıyla adresinizi doğrulayın.'); await bitir(); }
+        else { await epostaGiris(ep, s); await bitir(); }
+      } catch (err) { hataG(hataYazi(err)); } finally { btn.disabled = false; }
+    });
+    $('g-sifre').addEventListener('click', async () => {
+      const ep = (form.elements.namedItem('eposta') as HTMLInputElement).value.trim();
+      if (!/^\S+@\S+\.\S+$/.test(ep)) return hataG('Önce e-posta adresinizi yazın.');
+      try { await sifreSifirla(ep); okG('Şifre sıfırlama bağlantısı e-postanıza gönderildi.'); } catch (err) { hataG(hataYazi(err)); }
+    });
+  </script>
+</Base>

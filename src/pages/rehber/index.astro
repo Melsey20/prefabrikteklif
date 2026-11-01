@@ -1,20 +1,47 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Crumbs from '../../components/Crumbs.astro';
-const yazilar = [
-  { url: '/rehber/prefabrik-ev-fiyatina-neler-dahil/', ad: 'Prefabrik ev fiyatına neler dahil?', ozet: 'KDV, nakliye, montaj, zemin betonu ve iç bitiş: teklifleri karşılaştırmadan önce sorulacak 12 kalem.' },
-  { url: '/rehber/tarlaya-prefabrik-ev-yapilir-mi/', ad: 'Tarlaya prefabrik ev yapılır mı?', ozet: 'Tarım arazisi, köy yerleşik alanı ve imarlı arsada kurallar; 2026 düzenlemeleri.' },
-  { url: '/rehber/tiny-house-ruhsat-o2-belgesi/', ad: 'Tiny house için ruhsat ve O2 belgesi', ozet: 'Tekerlekli ve sabit tiny house arasındaki fark, O2 tip onay, plaka ve tescil.' },
-  { url: '/rehber/prefabrik-mi-celik-ev-mi/', ad: 'Prefabrik mi, çelik ev mi?', ozet: 'Yapı sistemi, m² fiyatı ve kullanım amacına göre hangisi size uygun.' },
-  { url: '/arazim-uygun-mu/', ad: 'Arazim uygun mu? (araç)', ozet: '4 soruda hangi ev tipinin ve izin yolunun size uyduğunu görün.' },
-];
+import { yazilar, KATEGORILER } from '../../lib/rehber';
+import { img, tarihYazi } from '../../lib/data';
+const [one, ...diger] = yazilar;
+const katlar = KATEGORILER.filter((k) => yazilar.some((y) => y.kategori === k));
+const ld = [{ '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Prefabrik ve modüler ev rehberi', hasPart: yazilar.map((y) => ({ '@type': 'Article', headline: y.baslik, url: `https://www.prefabrikteklif.com.tr${y.url}`, datePublished: y.tarih })) }];
 ---
-<Base title="Prefabrik ve Modüler Ev Rehberi" description="Prefabrik ev, tiny house, çelik ev ve bağ evi alırken bilmeniz gerekenler: fiyata neler dahil, ruhsat, O2 belgesi, tarım arazisi kuralları.">
-  <div class="wrap narrow">
+<Base title="Prefabrik, Tiny House ve Bağ Evi Rehberi" description="Prefabrik ev, tiny house, çelik ev ve bağ evi alırken bilmeniz gerekenler: fiyatlar, ruhsat, O2 belgesi, tarım arazisi kuralları, kredi, deprem ve kurulum süresi." jsonLd={ld}>
+  <div class="wrap">
     <Crumbs items={[{ ad: 'Rehber' }]} />
-    <h1>Prefabrik ve modüler ev rehberi</h1>
-    <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px">
-      {yazilar.map((y) => <a class="card" href={y.url} style="text-decoration:none;color:inherit"><h2 style="margin:0;font-size:1.15rem;color:var(--green-d)">{y.ad}</h2><span class="muted">{y.ozet}</span></a>)}
+    <h1 style="margin-bottom:6px">Rehber</h1>
+    <p class="muted" style="max-width:720px">Fiyat, ruhsat, arsa ve kurulum: almadan önce bilmeniz gerekenler, sade bir dille.</p>
+    <ul class="pills" id="rkat" style="margin:14px 0 18px">
+      <li><a href="#" class="on" data-k="">Tümü</a></li>
+      {katlar.map((k) => <li><a href="#" data-k={k}>{k}</a></li>)}
+    </ul>
+    <a class="bcard" href={one.url} style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)" data-kat={one.kategori} id="one-cikan">
+      <img src={img(one.gorsel, 960)} srcset={`${img(one.gorsel, 480)} 480w, ${img(one.gorsel, 960)} 960w`} sizes="(max-width: 800px) 100vw, 700px" alt="" width="960" height="540" fetchpriority="high" style="height:100%;aspect-ratio:auto;min-height:240px" />
+      <span class="bd" style="justify-content:center"><em>{one.kategori}</em><b style="font-size:1.5rem">{one.baslik}</b><span>{one.aciklama}</span><span class="xs muted">{tarihYazi(one.tarih)} · {one.sure} dk okuma</span></span>
+    </a>
+    <div class="g3" style="margin-top:16px" id="rliste">
+      {diger.map((y) => (
+        <a class="bcard" href={y.url} data-kat={y.kategori}>
+          <img src={img(y.gorsel, 480)} srcset={`${img(y.gorsel, 480)} 480w, ${img(y.gorsel, 960)} 960w`} sizes="(max-width: 900px) 92vw, 400px" alt="" width="480" height="270" loading="lazy" decoding="async" />
+          <span class="bd"><em>{y.kategori}</em><b>{y.baslik}</b><span>{y.aciklama}</span><span class="xs muted">{y.sure} dk okuma</span></span>
+        </a>
+      ))}
     </div>
+    <section class="sec" style="padding-top:36px">
+      <h2 style="margin-top:0">Ücretsiz araçlar</h2>
+      <div class="ways">
+        <a class="way dk" href="/evini-bul/"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9FD4B2" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></i><span style="display:flex;flex-direction:column;gap:4px;color:inherit"><b>Hangi evi arıyorsunuz?</b><span>5 soruda size uyan evleri bulun.</span></span></a>
+        <a class="way" href="/arazim-uygun-mu/"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#17663F" stroke-width="2" aria-hidden="true"><path d="M12 21s7-6 7-12a7 7 0 1 0-14 0c0 6 7 12 7 12z"/><path d="M9 9l2 2 4-4"/></svg></i><span style="display:flex;flex-direction:column;gap:4px;color:inherit"><b>Arazim uygun mu?</b><span>Arsanıza hangi ev tipi uyar?</span></span></a>
+        <a class="way" href="/karsilastir/"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#17663F" stroke-width="2" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></i><span style="display:flex;flex-direction:column;gap:4px;color:inherit"><b>Karşılaştırma</b><span>5 evi yan yana koyun.</span></span></a>
+      </div>
+    </section>
   </div>
+  <script>
+    document.getElementById('rkat')!.addEventListener('click', (e) => {
+      const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-k]'); if (!a) return; e.preventDefault();
+      const k = a.dataset.k!; document.querySelectorAll('#rkat a').forEach((x) => x.classList.toggle('on', x === a));
+      document.querySelectorAll<HTMLElement>('[data-kat]').forEach((c) => (c.hidden = !!k && c.dataset.kat !== k));
+    });
+  </script>
 </Base>

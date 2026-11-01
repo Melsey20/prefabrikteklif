@@ -1,22 +1,31 @@
 ---
 import Base from '../layouts/Base.astro';
 import Crumbs from './Crumbs.astro';
+import Faq from './Faq.astro';
 import { SITE } from '../site.config';
-interface Props { title: string; h1: string; description: string; tarih: string; kaynaklar?: { ad: string; url: string }[] }
-const { title, h1, description, tarih, kaynaklar = [] } = Astro.props;
+import { img, tarihYazi } from '../lib/data';
+import { yazilar } from '../lib/rehber';
+interface Props { title: string; h1: string; description: string; tarih: string; kaynaklar?: { ad: string; url: string }[]; gorsel?: string; kategori?: string; sss?: { s: string; c: string }[]; slug?: string; sure?: number }
+const { title, h1, description, tarih, kaynaklar = [], gorsel = 'prefabrik', kategori = 'Rehber', sss = [], sure } = Astro.props;
+const slug = Astro.props.slug || Astro.url.pathname.split('/').filter(Boolean).pop();
+const url = new URL(Astro.url.pathname, SITE.url).href;
 const ld = [{
-  '@context': 'https://schema.org', '@type': 'Article', headline: h1, description, inLanguage: 'tr-TR',
-  datePublished: tarih, dateModified: tarih, author: { '@type': 'Organization', name: SITE.ad }, publisher: { '@type': 'Organization', name: SITE.ad },
-  mainEntityOfPage: new URL(Astro.url.pathname, SITE.url).href,
+  '@context': 'https://schema.org', '@type': 'Article', headline: h1, description, inLanguage: 'tr-TR', image: new URL(`/img/${gorsel}-og.jpg`, SITE.url).href,
+  datePublished: tarih, dateModified: tarih, author: { '@type': 'Organization', name: `${SITE.ad} Rehber Ekibi`, url: SITE.url }, publisher: { '@id': `${SITE.url}/#org` },
+  mainEntityOfPage: url, articleSection: kategori,
 }];
+const ilgili = yazilar.filter((y) => y.slug !== slug).sort((a, b) => Number(b.kategori === kategori) - Number(a.kategori === kategori)).slice(0, 3);
 ---
-<Base title={title} description={description} jsonLd={ld} ogType="article">
+<Base title={title} description={description} jsonLd={ld} ogType="article" ogImage={`/img/${gorsel}-og.jpg`} preload={img(gorsel, 960)}>
   <div class="wrap narrow">
     <Crumbs items={[{ ad: 'Rehber', url: '/rehber/' }, { ad: h1 }]} />
     <article class="prose">
+      <p class="xs" style="margin:0 0 6px;font-weight:800;color:var(--green);text-transform:uppercase">{kategori}</p>
       <h1>{h1}</h1>
-      <p class="small muted">Güncelleme: {new Date(tarih).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })} · Bu yazı genel bilgi verir, hukuki görüş değildir.</p>
+      <p class="small muted">Güncelleme: {tarihYazi(tarih)}{sure ? ` · ${sure} dk okuma` : ''} · {SITE.ad} Rehber Ekibi · Bu yazı genel bilgi verir, hukuki veya mali görüş değildir.</p>
+      <img src={img(gorsel, 960)} srcset={`${img(gorsel, 480)} 480w, ${img(gorsel, 960)} 960w`} sizes="(max-width: 800px) 100vw, 740px" alt="" width="960" height="540" fetchpriority="high" style="width:100%;aspect-ratio:16/9;object-fit:cover;margin:6px 0 18px" />
       <slot />
+      {sss.length > 0 && <Faq items={sss} />}
       {kaynaklar.length > 0 && (
         <>
           <h2>Kaynaklar</h2>
@@ -24,10 +33,16 @@ const ld = [{
         </>
       )}
     </article>
-    <div class="box" style="margin-top:24px">
-      <h2 style="margin-top:0;font-size:1.2rem">Firmalardan teklif al</h2>
-      <p class="small muted">Seçtiğin en fazla {SITE.maksFirma} firmanın teklifi 24 saat içinde aynı kapsam başlıklarıyla tek e-postada gelsin.</p>
-      <a class="btn btn-o" href="/teklif-al/">Ücretsiz teklif al</a>
+    <div class="box dk" style="margin-top:24px">
+      <h2 style="margin-top:0;font-size:1.2rem">Firmalardan {SITE.teklifSaat} saatte teklif alın</h2>
+      <p class="small">Kriterlerinize uyan firmalar fiyat versin; teklifler tek tabloda gelsin. Bilgileriniz yalnızca fiyat veren firmayla paylaşılır.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn btn-w" href="/teklif-al/">Ücretsiz teklif al</a><a class="btn" style="border:1.5px solid #5c6f63;color:#fff" href="/evini-bul/">Size uygun evi bulun</a></div>
     </div>
+    {ilgili.length > 0 && (
+      <section class="sec" style="padding-top:30px">
+        <h2 style="margin-top:0">İlgili yazılar</h2>
+        <div class="list">{ilgili.map((y) => <a class="acard" href={y.url}><img src={img(y.gorsel, 480)} alt="" width="96" height="78" loading="lazy" decoding="async" /><span><em>{y.kategori}</em><b>{y.baslik}</b></span></a>)}</div>
+      </section>
+    )}
   </div>
 </Base>

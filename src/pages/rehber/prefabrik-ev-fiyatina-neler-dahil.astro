@@ -5,7 +5,7 @@ const fiyatli = models.filter((m) => m.fiyatTuru === 'model' && m.fiyat);
 const kdvYok = fiyatli.filter((m) => !m.kdv).length;
 const oran = Math.round((kdvYok / fiyatli.length) * 100);
 ---
-<Makale title="Prefabrik Ev Fiyatına Neler Dahil? Teklif Öncesi 12 Kalem" h1="Prefabrik ev fiyatına neler dahil?" tarih={meta.sonKontrol}
+<Makale gorsel="montaj" kategori="Fiyatlar" title="Prefabrik Ev Fiyatına Neler Dahil? Teklif Öncesi 12 Kalem" h1="Prefabrik ev fiyatına neler dahil?" tarih={meta.sonKontrol}
   description="Prefabrik, çelik ve konteyner ev fiyatlarında KDV, nakliye, montaj, vinç, zemin betonu ve iç bitiş dahil mi? Teklifleri doğru kıyaslamak için sorulacak 12 kalem.">
   <p>Aynı metrekaredeki iki prefabrik ev arasında yüzbinlerce liralık fark görmek normal; ama farkın büyük kısmı genellikle evin kendisinden değil, fiyata neyin dahil olduğundan gelir. Bir firma sadece bina fiyatını yazar, diğeri montaj ve tesisat dahil fiyatı. Sitemizdeki {sayi(fiyatli.length)} fiyatlı modelin %{oran}’inde firma KDV’nin dahil olup olmadığını sayfasında belirtmiyor.</p>
   <h2>Teklif alırken sorulacak 12 kalem</h2>

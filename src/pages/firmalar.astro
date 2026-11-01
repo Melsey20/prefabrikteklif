@@ -1,35 +1,45 @@
 ---
 import Base from '../layouts/Base.astro';
 import Crumbs from '../components/Crumbs.astro';
-import { firms, TIPLER, meta, kisaTl } from '../lib/data';
+import { firms, TIPLER, TIP_SIRA, meta, kisaTl, monogram } from '../lib/data';
 const sirali = [...firms].sort((a, b) => b.modelSayisi - a.modelSayisi || a.kisaAd.localeCompare(b.kisaAd, 'tr'));
+const ld = [{ '@context': 'https://schema.org', '@type': 'ItemList', name: 'Prefabrik ve modüler ev firmaları', numberOfItems: firms.length,
+  itemListElement: sirali.map((f, i) => ({ '@type': 'ListItem', position: i + 1, url: `https://www.prefabrikteklif.com.tr/firma/${f.slug}/`, name: f.kisaAd })) }];
 ---
-<Base title={`Prefabrik Ev Firmaları ${meta.ay}: ${firms.length} Üretici ve Fiyatları`}
+<Base title={`Prefabrik Ev Firmaları ${meta.ay}: ${firms.length} Üretici ve Fiyatları`} jsonLd={ld}
   description={`Türkiye'deki ${firms.length} prefabrik, çelik, konteyner, tiny house ve ahşap ev üreticisi: şehir, ürün tipleri, model sayısı ve başlangıç fiyatları. Firmaları kıyaslayın, teklif alın.`}>
   <div class="wrap">
     <Crumbs items={[{ ad: 'Firmalar' }]} />
     <h1>Prefabrik ve modüler ev firmaları</h1>
-    <p class="muted" style="max-width:760px">{firms.length} üretici. Fiyatlar firmaların kendi sitelerinden alındı; “doğrulanmış” rozeti, belgeleri kontrol edilen ve fabrikası ziyaret edilen firmalara verilir.</p>
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr><th>Firma</th><th>Şehir</th><th>Ürünler</th><th class="n">Model</th><th class="n">Başlangıç</th></tr></thead>
-        <tbody>
-          {sirali.map((f) => (
-            <tr>
-              <td><a href={`/firma/${f.slug}/`}><strong>{f.kisaAd}</strong></a></td>
-              <td>{f.il}</td>
-              <td class="small">{f.tipler.map((t) => TIPLER[t]?.ad).filter(Boolean).join(', ') || f.urunTipleri.slice(0, 3).join(', ')}</td>
-              <td class="n">{f.modelSayisi || '–'}</td>
-              <td class="n">{f.enDusuk ? kisaTl(f.enDusuk) : f.fiyatYayinliyor ? 'm² / euro' : 'Fiyat yayınlamıyor'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <p class="muted" style="max-width:760px">{firms.length} üretici. Fiyatlar firmaların kendi sitelerinden alınır. “Doğrulanmış” rozeti, belgeleri kontrol edilen firmalara verilir.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0">
+      <label style="flex:1;min-width:220px"><span class="sr-only">Firma ara</span><input type="search" id="fara" placeholder="Firma veya il ara" /></label>
+      <ul class="pills" id="ftip">
+        <li><a href="#" class="on" data-t="">Tümü</a></li>
+        {TIP_SIRA.map((k) => <li><a href="#" data-t={k}>{TIPLER[k].ad}</a></li>)}
+      </ul>
     </div>
-    <div class="box" style="margin-top:24px">
-      <h2 style="margin-top:0">Firmanız listede yok mu?</h2>
-      <p class="muted">Ücretsiz kayıt olun, fiyatlarınızı kendiniz güncelleyin ve size uygun teklif taleplerini alın.</p>
-      <a class="btn btn-p" href="/firma-kayit/">Firmamı ekle</a>
+    <div class="grid" id="flist">
+      {sirali.map((f) => (
+        <a class="fcard" href={`/firma/${f.slug}/`} data-ara={`${f.kisaAd} ${f.il}`.toLocaleLowerCase('tr')} data-tip={f.tipler.join('|')}>
+          <span class="mono">{monogram(f.kisaAd)}</span>
+          <span style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0">
+            <b>{f.kisaAd}</b>
+            <span class="small muted">{[f.il, f.tipler.map((t) => TIPLER[t]?.ad).filter(Boolean).join(', ') || f.urunTipleri.slice(0, 2).join(', ')].filter(Boolean).join(' · ')}</span>
+            <span class="small"><b>{f.modelSayisi || 0} model</b>{f.enDusuk ? ` · ${kisaTl(f.enDusuk)}’den` : f.fiyatYayinliyor ? '' : ' · fiyat yayınlamıyor'}</span>
+          </span>
+        </a>
+      ))}
+    </div>
+    <div class="band" style="margin-top:28px">
+      <div><h2>Firmanız listede yok mu?</h2><p>Ücretsiz kayıt olun, fiyatlarınızı kendiniz güncelleyin ve size uygun teklif taleplerini alın.</p></div>
+      <div class="btns"><a class="btn btn-w" href="/firma-kayit/">Firmamı ekle</a></div>
     </div>
   </div>
+  <script>
+    const ara = document.getElementById('fara') as HTMLInputElement; let tip = '';
+    const uygula = () => { const q = ara.value.trim().toLocaleLowerCase('tr'); document.querySelectorAll<HTMLElement>('#flist > a').forEach((a) => { a.hidden = !(a.dataset.ara!.includes(q) && (!tip || a.dataset.tip!.split('|').includes(tip))); }); };
+    ara.addEventListener('input', uygula);
+    document.getElementById('ftip')!.addEventListener('click', (e) => { const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-t]'); if (!a) return; e.preventDefault(); tip = a.dataset.t!; document.querySelectorAll('#ftip a').forEach((x) => x.classList.toggle('on', x === a)); uygula(); });
+  </script>
 </Base>
