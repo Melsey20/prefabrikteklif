@@ -3,6 +3,12 @@
 # Çift tıklayın. Açılmazsa: sağ tık → Aç.
 set -e
 cd "$(dirname "$0")"
+# Site klasörünü bul (dosya İndirilenler'den çalıştırılsa bile)
+if [ ! -d functions ] || [ ! -f firebase.json ]; then
+  for d in "./site" "$HOME/Downloads/site" "$HOME/Downloads/prefabrikteklif/site" "$HOME/Desktop/site" "$HOME/Desktop/prefabrikteklif/site"; do
+    if [ -d "$d/functions" ] && [ -f "$d/firebase.json" ]; then cd "$d"; break; fi
+  done
+fi
 YESIL='\033[1;32m'; KIRMIZI='\033[1;31m'; NORMAL='\033[0m'
 adim() { echo; echo -e "${YESIL}▶ $1${NORMAL}"; }
 hata() { echo -e "${KIRMIZI}✖ $1${NORMAL}"; echo; read -r -p "Kapatmak için Enter'a basın (başka bir şey yazmayın)..." _; exit 1; }
@@ -10,6 +16,12 @@ hata() { echo -e "${KIRMIZI}✖ $1${NORMAL}"; echo; read -r -p "Kapatmak için E
 echo "=============================================="
 echo "  PrefabrikTeklif kurulumu"
 echo "=============================================="
+
+if [ ! -d functions ] || [ ! -f firebase.json ]; then
+  echo "Site klasörü bulunamadı. prefabrikteklif.zip'i İndirilenler'de açın; içinden çıkan 'site' klasörü orada olmalı."
+  read -r -p "Kapatmak için Enter'a basın..." _; exit 1
+fi
+echo "Klasör: $(pwd)"
 
 adim "1/7 Node.js kontrol ediliyor"
 if ! command -v node >/dev/null 2>&1; then
