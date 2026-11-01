@@ -1,0 +1,32 @@
+# main dalına her gönderimde siteyi derleyip Firebase Hosting'e yayınlar.
+# Gerekli gizli anahtar: FIREBASE_SERVICE_ACCOUNT_PREFABRIKTEKLIF (GITHUB-BAGLA.command otomatik ekler)
+name: Yayınla
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['README.md', '**/*.command']
+  workflow_dispatch:
+jobs:
+  yayinla:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: 'npm' }
+      - run: npm ci
+      - run: (cd functions && npm ci && npm test)
+      - run: npm run build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PREFABRIKTEKLIF }}
+          projectId: prefabrikteklif
+          channelId: live
+      - name: IndexNow bildirimi
+        run: |
+          node -e '
+          const fs=require("fs");const x=fs.readdirSync("dist").filter(f=>/^sitemap-\d+\.xml$/.test(f)).map(f=>fs.readFileSync("dist/"+f,"utf8")).join("");
+          const urls=[...x.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]).slice(0,10000);
+          fetch("https://api.indexnow.org/indexnow",{method:"POST",headers:{"Content-Type":"application/json; charset=utf-8"},body:JSON.stringify({host:"www.prefabrikteklif.com.tr",key:"c7f4e2a91b6d4f0e8a3b5d2c1e9f7a64",keyLocation:"https://www.prefabrikteklif.com.tr/c7f4e2a91b6d4f0e8a3b5d2c1e9f7a64.txt",urlList:urls})}).then(r=>console.log("IndexNow",r.status)).catch(e=>console.log("IndexNow atlandı",e.message));'
