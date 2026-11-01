@@ -14,7 +14,7 @@ const firmaAd = Object.fromEntries(firms.map((f) => [f.slug, f.kisaAd]));
       <button type="button" role="tab" aria-selected="false" data-mod="surec">Süreci siz yönetin</button>
     </div>
     <p class="muted" data-mtxt="teklif">Bir kez doldurun. Kriterlerinize uyan firmalar {SITE.teklifSaat} saat içinde fiyat verir; teklifler aynı kapsam başlıklarıyla tek tabloda size gelir. Ücretsiz.</p>
-    <p class="muted" data-mtxt="surec" hidden>Evi seçmenize yardım edelim, firmayı birlikte belirleyelim; sözleşmeden teslime kadar üretim, nakliye ve montajı adınıza yerinde takip edelim. Siz firmayla uğraşmazsınız. Ön görüşme ücretsizdir.</p>
+    <p class="muted" data-mtxt="surec" hidden>Evi seçmenize yardım edelim, firmayı birlikte belirleyelim; sözleşmeden teslime kadar üretim, nakliye ve montajı adınıza yerinde takip edelim. Siz firmayla uğraşmazsınız. Ön görüşme ücretsizdir; süreç yönetimi için yalnızca ev bedelinin <b>%{SITE.komisyon}</b>’i kadar hizmet bedeli alırız, gizli ücret yoktur.</p>
 
     <form class="form" id="teklif" novalidate data-ga="teklif_gonder">
       <input type="hidden" name="mod" value="teklif" />
@@ -111,6 +111,7 @@ const firmaAd = Object.fromEntries(firms.map((f) => [f.slug, f.kisaAd]));
         <li><span><b style="color:#fff">Firma seçimi ve sözleşme.</b> Teklifleri birlikte değerlendirir, sözleşmeyi kontrol ederiz.</span></li>
         <li><span><b style="color:#fff">Üretim, nakliye, montaj, teslim.</b> Her adımı yerinde takip eder, hesabınızda güncelleriz.</span></li>
       </ol>
+      <p style="margin:12px 0 0;color:#e3ece6"><b style="color:#fff">Şeffaf ücret: %{SITE.komisyon}.</b> Hizmet bedelimiz anlaştığınız ev bedelinin %{SITE.komisyon}’idir ve sözleşmeden önce tutar olarak yazılı bildirilir. Ev bedelini doğrudan firmaya ödersiniz; sitede ödeme alınmaz.</p>
     </section>
   </div>
   <script define:vars={{ FIRMA_AD: firmaAd }}>

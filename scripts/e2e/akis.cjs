@@ -144,6 +144,67 @@ async function giris(p, eposta, hedef) {
   adim('Kullanıcı hesabı: sipariş aşaması ve gelen teklif görünüyor');
   await ctx.close();
 
+  // 7) Firma başvurusu (499 TL üyelik + referans), onay ve ödeme bağlantısı; reklam talebi; reklam alanları ana sayfada
+  ({ ctx, p } = await yeniSayfa(390));
+  await p.goto(B + '/firma-kayit/');
+  assert.ok((await p.locator('main, body').first().textContent()).includes('499 TL'));
+  const fk = p.locator('#kayit');
+  await fk.locator('[name=unvan]').fill('Deneme Yapı Ltd.'); await fk.locator('[name=marka]').fill('Deneme Prefabrik'); await fk.locator('[name=vergiNo]').fill('1234567890');
+  await fk.locator('[name=adres]').fill('Malatya OSB'); await fk.locator('[name=yetkili]').fill('Ayşe Yılmaz'); await fk.locator('[name=telefon]').fill('05321112233'); await fk.locator('[name=eposta]').fill('yeni@deneme.com');
+  await fk.locator('[name=tipler][value=prefabrik]').check(); await fk.locator('[name=kosul]').check();
+  await p.click('#gonder'); assert.ok((await p.locator('#hata').textContent()).includes('referans'), 'referanssız gönderilemez');
+  await fk.locator('[name=referanslar]').fill('Malatya 2025 · 90 m² 2+1 · Mehmet Bey 0532 000 00 00');
+  await p.click('#gonder'); assert.ok((await p.locator('#hata').textContent()).includes('üyelik'), 'üyelik onayı zorunlu');
+  await fk.locator('[name=abonelik]').check(); await fk.locator('[name=sozlesme]').check();
+  await p.click('#gonder'); await p.waitForSelector('#tamam:not([hidden])');
+  adim('Firma başvurusu: referans ve 499 TL üyelik onayı zorunlu, başvuru alındı');
+  await ctx.close();
+  ({ ctx, p } = await yeniSayfa(1280));
+  await giris(p, 'info@mitraajans.com', '/yonetim/');
+  await p.waitForSelector('#p-onaylar .item');
+  const bas = p.locator('#p-onaylar .item', { hasText: 'Deneme Prefabrik' });
+  assert.ok((await bas.textContent()).includes('Mehmet Bey'));
+  await bas.locator('input[name=odeme]').fill('https://odeme.example/deneme');
+  await bas.getByRole('button', { name: 'Onayla, hesabı aç' }).click();
+  await p.waitForFunction(() => !document.querySelector('#p-onaylar')?.textContent?.includes('Deneme Prefabrik'));
+  const mailler = await (await p.request.get(B + '/__mails')).json();
+  assert.ok(mailler.some((m) => m.to === 'yeni@deneme.com' && m.html.includes('https://odeme.example/deneme')), 'onay e-postasında ödeme bağlantısı');
+  adim('Yönetim başvuruyu onayladı, ödeme bağlantısı firmaya gitti');
+  await p.click('[data-sekme="bannerlar"]');
+  const reklamEkle = async (konum, alanlar) => {
+    await p.click('#banner-ekle'); const d = p.locator('.dlg');
+    await d.locator('select').first().selectOption(konum);
+    for (const [ad, v] of Object.entries(alanlar)) await d.locator(`input[name=${ad}]`).fill(v);
+    await d.getByRole('button', { name: 'Kaydet' }).click(); await p.waitForSelector('.dlg', { state: 'detached', timeout: 5000 }).catch(async (e) => { console.log('TOAST', await p.locator('.toast').allTextContents(), await d.locator('form').evaluate((f) => [...f.elements].filter((x) => !x.checkValidity()).map((x) => x.name + ':' + x.validationMessage))); throw e; });
+  };
+  await reklamEkle('ana', { baslik: 'Kış kampanyası', metin: '%10 indirim', gorsel: 'https://cdn.example/a.jpg', link: '/firma/kardesler-celik-yapi/' });
+  await reklamEkle('yan', { baslik: 'Yan reklam', gorsel: 'https://cdn.example/y.jpg', link: '/firma/kardesler-celik-yapi/' });
+  await reklamEkle('liste', { model: 'kardesler-celik-yapi/tek-katli-prefabrik-2-1-82-m2-k-c-01' });
+  await p.waitForFunction(() => document.querySelector('#p-doluluk')?.textContent?.includes('1 / 6'));
+  adim('Yönetim: ana, yan ve öne çıkan reklam eklendi (doluluk 1/6)');
+  await ctx.close();
+  ({ ctx, p } = await yeniSayfa(1440));
+  await p.goto(B + '/');
+  await p.waitForSelector('[data-banner-slot] .slide .tag:text("Reklam")');
+  await p.waitForSelector('.side-slider.fotolu .side-ad');
+  await p.waitForSelector('[data-one-cikan]:not([hidden]) .mcard .sp');
+  assert.equal(await p.locator('[data-banner-slot] .slide.cream').count(), 0);
+  assert.ok(await p.locator('.site-note').textContent().then((t) => t.includes('teyit')));
+  assert.ok((await p.locator('.hscroll').nth(1).locator('.mcard').count()) <= 10);
+  await p.screenshot({ path: '/tmp/e2e-reklamli-ana.png' });
+  adim('Ana sayfa: sponsorlu ana banner, kaydırmalı yan banner, öne çıkan listeleme ve alt bilgi notu');
+  await ctx.close();
+  ({ ctx, p } = await yeniSayfa(390));
+  await giris(p, 'satis@kardesler.com', '/firma-paneli/');
+  await p.click('[data-sekme="reklam"]'); await p.waitForSelector('#p-paketler > div');
+  assert.ok((await p.locator('#p-paketler').textContent()).includes('45.000 TL'));
+  await p.locator('#p-paketler > div', { hasText: 'Ana + yan' }).getByRole('button', { name: 'Talep et' }).click();
+  await p.getByRole('button', { name: 'Evet' }).click();
+  await p.waitForSelector('#p-reklamlar .item');
+  await p.screenshot({ path: '/tmp/e2e-firma-reklam.png', fullPage: true });
+  adim('Firma paneli: üyelik kartı ve reklam talebi (45.000 TL)');
+  await ctx.close();
+
   await br.close();
   if (hatalar.length) { console.log('Konsol hataları:\n' + hatalar.join('\n')); process.exit(1); }
   console.log('Tüm uçtan uca testler geçti.');

@@ -1,0 +1,25 @@
+---
+import Sayfa from '../components/Sayfa.astro';
+import { SITE } from '../site.config';
+const tl = (n: number) => new Intl.NumberFormat('tr-TR').format(n) + ' TL';
+---
+<Sayfa title="Firma Üyelik Sözleşmesi" h1="Firma üyelik sözleşmesi" description={`${SITE.ad} firma üyeliği: aylık ${SITE.abonelik} TL üyelik, reklam paketleri, ödeme, iade ve sorumluluk koşulları.`}>
+  <p class="small muted">Sürüm: Kasım 2026. Firma başvuru formundaki onay kutusunu işaretleyen firma bu sözleşmeyi kabul etmiş sayılır.</p>
+  <ol>
+    <li><strong>Taraflar ve konu.</strong> Bu sözleşme, {SITE.sirketUnvani} (“{SITE.ad}” veya “Platform”) ile Platform’a firma olarak başvuran ve onaylanan üretici/satıcı (“Firma”) arasında; Firma’nın Platform’da listelenmesi, teklif taleplerini alması ve isteğe bağlı reklam hizmetlerinden yararlanması koşullarını düzenler.</li>
+    <li><strong>Platformun niteliği.</strong> {SITE.ad} yalnızca kullanıcılar ile firmaları buluşturan bir aracı platformdur. Satış, sözleşme, fiyat, üretim, nakliye, montaj, teslim, ruhsat ve garanti dahil tüm edimler yalnızca Firma ile müşteri arasındadır. {SITE.ad}, Firma ile müşteri arasındaki ilişkinin tarafı değildir ve bu ilişkiden doğan hiçbir yükümlülükten sorumlu tutulamaz.</li>
+    <li><strong>Kabul şartları.</strong> Firma; vergi levhası, ticaret sicil kaydı, imza sirküleri ve ürettiği evlere ait belgeleri ile daha önce teslim ettiği işlere ait doğrulanabilir referanslarını sunar. Referans göstermeyen veya belgeleri doğrulanamayan firmalar kabul edilmez. Platform, gerekçe göstermeksizin başvuruyu reddetme hakkını saklı tutar.</li>
+    <li><strong>Üyelik bedeli.</strong> Firma üyeliği aylık <strong>{tl(SITE.abonelik)}</strong>’dir. Başvuru onaylandığında ödeme bağlantısı Firma’nın e-posta adresine gönderilir; Firma ödemeyi her ay düzenli olarak yapar. Ödemesi süresinde yapılmayan üyelik askıya alınabilir; bu süre içinde Firma’ya talep iletilmez.</li>
+    <li><strong>Reklam paketleri.</strong> Reklam hizmetleri üyelik bedeline ektir ve aylıktır:
+      <ul>{SITE.reklam.map((p) => <li>{p.ad}: {tl(p.fiyat)} / ay</li>)}</ul>
+      Ana banner ve yan banner alanlarının her birinde aynı anda en fazla {SITE.bannerSiniri} reklam yayınlanır. Reklam içerikleri yayından önce kontrol edilir; Platform yanıltıcı veya hukuka aykırı bulduğu içeriği yayınlamama ya da yayından kaldırma hakkına sahiptir.</li>
+    <li><strong>İade yapılmaz.</strong> Ödenen üyelik ve reklam bedelleri, üyeliğin askıya alınması, sona ermesi veya Firma’nın kaydının silinmesi dahil hiçbir durumda iade edilmez. Firma, ödemeyi bu koşulu bilerek yapar.</li>
+    <li><strong>Firmanın sorumluluğu.</strong> Firma; Platform’a girdiği fiyat, ürün, fotoğraf ve belge bilgilerinin doğru ve güncel olduğunu, müşteriye verdiği teklif ve sözleşmeye uyacağını kabul eder. Müşteriye karşı doğabilecek her türlü zarar, gecikme, eksik veya ayıplı ifa, iade ve tazminat taleplerinden <strong>yalnızca Firma sorumludur</strong>. Platform’a bu nedenlerle bir talep yöneltilirse Firma, Platform’un uğrayacağı her türlü zararı ve masrafı karşılar.</li>
+    <li><strong>Müşterinin mağdur edilmesi.</strong> Firma’nın müşteriyi mağdur ettiği (ödeme alıp teslim etmeme, sözleşme dışı ücret talep etme, yanıltıcı bilgi verme ve benzeri) kanaatine varılırsa Platform, Firma’nın kaydını ve tüm ilanlarını bildirimde bulunmaksızın yayından kaldırabilir ve silebilir. Bu durumda ödenmiş bedeller iade edilmez.</li>
+    <li><strong>Müşteri bilgileri.</strong> Müşteri iletişim bilgileri Firma’ya yalnızca fiyat vermeyi kabul ettiğinde ve sadece o talebe teklif vermek amacıyla açılır. Firma bu bilgileri 6698 sayılı KVKK’ya uygun işler, üçüncü kişilerle paylaşmaz ve başka amaçla kullanmaz.</li>
+    <li><strong>Sorumluluğun sınırı.</strong> Platform; Firma’nın kazanç kaybı, müşteri bulamaması, teklif sayısı, sıralama veya erişim kesintileri nedeniyle sorumlu tutulamaz. Listeler fiyata göre sıralanır; ödeme yapılması sıralamayı değiştirmez.</li>
+    <li><strong>Süre ve fesih.</strong> Üyelik aylık olarak yenilenir. Firma dilediği zaman bir sonraki ay için ödeme yapmayarak üyeliğini sonlandırabilir. Platform, bu sözleşmeye aykırılık halinde üyeliği derhal sona erdirebilir.</li>
+    <li><strong>Değişiklik ve uyuşmazlık.</strong> Platform bu sözleşmeyi güncelleyebilir; güncel metin bu sayfada yayınlanır. Uyuşmazlıklarda Türk hukuku uygulanır.</li>
+  </ol>
+  <p>Sorularınız için: <a href={`mailto:${SITE.eposta}`}>{SITE.eposta}</a></p>
+</Sayfa>

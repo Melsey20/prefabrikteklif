@@ -23,6 +23,17 @@ Prefabrik, çelik, konteyner, tiny house, ahşap ev ve bungalov fiyatlarını k�
 1. Firma `/firma-kayit/` üzerinden başvurur → yönetim panelinde **Onaylar** → “Onayla, hesabı aç”. Ya da **Firmalar** → “Firma hesabı aç” ile firmanın e-postasını panel e-postası olarak ekleyin.
 2. Firma aynı e-postayla `/giris/` üzerinden kayıt olur (e-postayı doğrular) veya Google ile girer → `/firma-paneli/`.
 
+## Sürüm 2.1 — üyelik, reklam ve sorumluluk
+
+- **Süreci biz yönetelim:** ev bedelinin %5'i hizmet bedeli (`src/site.config.ts` → `komisyon`). Teklif alma kullanıcıya ücretsiz.
+- **Firma üyeliği:** aylık 499 TL (`abonelik`). Başvuruda referans, üyelik bedeli ve [firma üyelik sözleşmesi](/firma-uyelik-sozlesmesi/) onayı zorunlu. Yönetim → Onaylar'da başvuruyu onaylarken ödeme bağlantısını (iyzico/PayTR/banka linki) yapıştırın; onay e-postasıyla firmaya gider ve firma panelinde durur. Yönetim → Firmalar → **Üyelik** ile durum (Ödeme bekleniyor / Aktif / Gecikti / İptal), son ve sonraki ödeme tarihi girilir, bağlantı tekrar gönderilir.
+- **Reklam paketleri (aylık, üyeliğe ek):** ana banner 25.000 TL, yan banner 25.000 TL, ikisi 45.000 TL, ana sayfada öne çıkan listeleme 15.000 TL. Firmalar panelde **Üyelik ve reklam** sekmesinden talep eder; Yönetim → **Reklam alanları**'nda ödeme bağlantısı gönderilir, ödeme sonrası reklam eklenir. Ana ve yan alanlarda en fazla 6, öne çıkan listelemede en fazla 10 aktif reklam (API zorlar).
+- **Ana sayfa model sıraları** en fazla 10 ev (`anasayfaModel`).
+- **Yayından kaldırma:** Yönetim → Firmalar → **Yayından kaldır**: firmanın tüm kartları sitede gizlenir, talep almaz. Statik firma sayfasının tamamen silinmesi için firmayı `src/data/firms.json`'dan çıkarıp yeniden yayınlayın.
+- Alt bilgide "Lütfen hizmet aldığınız firmayı teyit ediniz" notu; kullanım koşullarında sorumluluk ve %5 maddesi.
+
+> Sözleşme ve koşul metinleri taslaktır; yayından önce bir avukata okutun.
+
 ## Sayfalar
 
 | Sayfa | Adres |

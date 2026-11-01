@@ -18,10 +18,12 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       <button type="button" data-sekme="urunler">Ürünlerim <span class="rz" data-rz="bekleyen"></span></button>
       <button type="button" data-sekme="talepler">Talepler <span class="rz" data-rz="talep"></span></button>
       <button type="button" data-sekme="geri-bildirim">Geri bildirim <span class="rz" data-rz="gb"></span></button>
+      <button type="button" data-sekme="reklam">Üyelik ve reklam <span class="rz" data-rz="uyelik"></span></button>
       <button type="button" data-sekme="profil">Profil</button>
       <a class="ln side-x" href="/" style="margin-top:auto">Siteye dön</a>
     </aside>
     <main>
+      <div id="uyelik-uyari"></div>
       <section data-panel="urunler">
         <div class="ph-h"><div><h1>Ürünlerim</h1><p class="small muted" style="margin:4px 0 0">Fiyat, fotoğraf ve açıklama değişiklikleri onayımızdan sonra yayına girer (genellikle aynı gün).</p></div><button class="btn btn-p btn-s" type="button" id="yeni-urun">+ Ürün ekle</button></div>
         <div id="p-urunler"></div>
@@ -41,6 +43,15 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
           <button class="btn btn-p btn-s" type="submit" style="align-self:flex-start">Gönder</button>
         </form>
         <div id="p-gb" class="list"></div>
+      </section>
+      <section data-panel="reklam" hidden>
+        <div class="ph-h"><div><h1>Üyelik ve reklam</h1><p class="small muted" style="margin:4px 0 0">Ödemeler e-postanıza ve buraya gelen bağlantıyla yapılır; sitede kart bilgisi istenmez. Ödenen bedeller iade edilmez (<a href="/firma-uyelik-sozlesmesi/" target="_blank">sözleşme</a>).</p></div></div>
+        <div id="p-uyelik"></div>
+        <h2 style="font-size:1.15rem;margin:26px 0 6px">Reklam paketleri</h2>
+        <p class="small muted" style="margin:0 0 12px">Aylık üyeliğinize ektir. Ana ve yan banner alanlarında aynı anda en fazla 6 reklam yayınlanır; yer doluysa sıraya alınırsınız.</p>
+        <div id="p-paketler" class="paket"></div>
+        <h2 style="font-size:1.15rem;margin:26px 0 10px">Reklam talepleriniz</h2>
+        <div id="p-reklamlar" class="list"></div>
       </section>
       <section data-panel="profil" hidden>
         <div class="ph-h"><h1>Profil</h1></div>
@@ -175,6 +186,28 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
           g.durum !== 'kapandi' ? h('form', { class: 'form', style: { gap: '8px' }, onsubmit: async (e: Event) => { e.preventDefault(); if (yanit.value.trim().length < 2) return; try { await api('/api/firma/geri-bildirim-yanit' + fq, { id: g.id, metin: yanit.value }); toast('Gönderildi'); yukle(); } catch (err: any) { toast(err.message); } } }, yanit, h('button', { class: 'btn btn-g btn-s', type: 'submit', style: { alignSelf: 'flex-start' } }, 'Yanıtla')) : null);
       }));
     }
+    const RDURUM: Record<string, [string, string]> = { bekliyor: ['İnceleniyor', 'a'], 'odeme-bekliyor': ['Ödeme bekleniyor', 'a'], yayinda: ['Yayında', 'g'], bitti: ['Süresi doldu', ''], red: ['Yer yok', 'r'] };
+    function uyelikCiz() {
+      const a = V.abonelik; const odenmedi = a.durum !== 'aktif';
+      const kart = h('div', { class: 'box', style: { display: 'flex', gap: '14px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' } },
+        h('div', {}, h('b', { style: { fontSize: '1.05rem' } }, `Firma üyeliği · ${tl(a.tutar)} / ay`), ' ', h('span', { class: 'st-b ' + (a.durum === 'aktif' ? 'g' : a.durum === 'gecikti' || a.durum === 'iptal' ? 'r' : 'a') }, a.durumAd),
+          h('div', { class: 'small muted', style: { marginTop: '4px' } }, [a.sonOdeme ? `Son ödeme: ${a.sonOdeme}` : '', a.sonrakiOdeme ? `Sonraki ödeme: ${a.sonrakiOdeme}` : ''].filter(Boolean).join(' · ') || 'Ödemeyi her ay düzenli yapmanız yeterli.')),
+        a.odemeLinki ? h('a', { class: 'btn btn-p btn-s', href: a.odemeLinki, target: '_blank', rel: 'noopener' }, odenmedi ? 'Ödemeyi yap' : 'Ödeme bağlantısı') : h('span', { class: 'small muted' }, 'Ödeme bağlantısı e-postanıza gönderilecek.'));
+      $('p-uyelik').replaceChildren(kart);
+      $('uyelik-uyari').replaceChildren(odenmedi && a.odemeLinki ? h('p', { class: 'note-a', style: { marginTop: 0 } }, `Aylık ${tl(a.tutar)} üyelik ödemeniz bekleniyor. `, h('a', { href: a.odemeLinki, target: '_blank', rel: 'noopener' }, 'Şimdi öde →')) : '');
+      document.querySelector('[data-rz=uyelik]')!.textContent = odenmedi ? '!' : '';
+      const modeller = V.modeller.filter((m: any) => !m.gizli);
+      $('p-paketler').replaceChildren(...Object.entries(V.reklamPaketleri).map(([k, p]: [string, any]) => {
+        const sec = k === 'liste' ? h('select', { 'aria-label': 'Öne çıkarılacak model' }, ...modeller.map((m: any) => h('option', { value: m.id }, m.ad))) as HTMLSelectElement : null;
+        const not = h('input', { type: 'text', maxlength: 300, placeholder: 'Kampanya / tarih notu (isteğe bağlı)', 'aria-label': 'Not' }) as HTMLInputElement;
+        return h('div', { class: k === 'ikisi' ? 'on' : '' }, h('strong', {}, p.ad), h('b', { class: 'fy' }, tl(p.fiyat), h('small', { style: { fontSize: '.9rem' } }, ' / ay')), sec, not,
+          h('button', { class: 'btn btn-p btn-s', type: 'button', onclick: () => confirmModal!(`${p.ad} için aylık ${tl(p.fiyat)} reklam talebi gönderilsin mi? Uygunluğu kontrol edip ödeme bağlantısını ileteceğiz.`, async () => { await api('/api/firma/reklam' + fq, { paket: k, modelId: sec?.value || '', not: not.value }); toast('Reklam talebiniz alındı'); yukle(); }) }, 'Talep et'));
+      }));
+      $('p-reklamlar').replaceChildren(...(V.reklamlar.length ? V.reklamlar.map((r: any) => h('article', { class: 'item' },
+        h('div', { class: 'row' }, h('b', {}, `${r.paketAd} · ${tl(r.fiyat)} / ay`), h('span', { class: 'st-b ' + (RDURUM[r.durum]?.[1] || '') }, RDURUM[r.durum]?.[0] || r.durum)),
+        h('span', { class: 'xs muted' }, tarih(r.zaman)),
+        r.odemeLinki && r.durum === 'odeme-bekliyor' ? h('a', { class: 'btn btn-p btn-s', href: r.odemeLinki, target: '_blank', rel: 'noopener', style: { alignSelf: 'flex-start' } }, 'Ödemeyi yap') : null)) : [h('p', { class: 'small muted' }, 'Henüz reklam talebiniz yok.')]));
+    }
     function profilDoldur() {
       const f = $('profil-form') as HTMLFormElement; const p = V.firma;
       (f.elements.namedItem('eposta') as HTMLInputElement).value = p.eposta || '';
@@ -190,7 +223,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       document.querySelector('[data-rz=bekleyen]')!.textContent = V.bekleyen.length || '';
       document.querySelector('[data-rz=talep]')!.textContent = V.talepler.filter((t: any) => !t.kapali && !t.teklif && t.davet !== 'red').length || '';
       document.querySelector('[data-rz=gb]')!.textContent = V.geriBildirimler.filter((g: any) => g.durum === 'cevaplandi').length || '';
-      urunlerCiz(); taleplerCiz(); gbCiz(); profilDoldur();
+      urunlerCiz(); taleplerCiz(); gbCiz(); uyelikCiz(); profilDoldur();
     }
     $('yeni-urun').addEventListener('click', () => { const k = modal('Yeni ürün ekle', urunFormu(null, async (veri) => { if (!veri.ad) throw new Error('Model adı yazın.'); await api('/api/firma/urun' + fq, { tur: 'yeni', veri }); k(); toast('Yeni ürün onaya gönderildi'); yukle(); })); });
     $('gb-form').addEventListener('submit', async (e) => {

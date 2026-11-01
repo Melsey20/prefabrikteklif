@@ -8,8 +8,8 @@ import { yazilar } from '../lib/rehber';
 
 const tipler = TIP_SIRA.filter((k) => TIPLER[k]).map((k) => ({ k, ...TIPLER[k], min: meta.istatistik[k]?.min, n: meta.istatistik[k]?.model }));
 const fiyatli = (m: (typeof models)[number]) => m.fiyatTuru === 'model' && m.fiyat && !m.uyari;
-const ikiArti = sirala(models.filter((m) => m.oda === '2+1' && fiyatli(m))).filter((m, i, a) => a.findIndex((x) => x.firma === m.firma) === i).slice(0, 8);
-const tiny = sirala(models.filter((m) => m.tip === 'tiny house' && fiyatli(m))).filter((m, i, a) => a.findIndex((x) => x.firma === m.firma) === i).slice(0, 8);
+const ikiArti = sirala(models.filter((m) => m.oda === '2+1' && fiyatli(m))).filter((m, i, a) => a.findIndex((x) => x.firma === m.firma) === i).slice(0, SITE.anasayfaModel);
+const tiny = sirala(models.filter((m) => m.tip === 'tiny house' && fiyatli(m))).filter((m, i, a) => a.findIndex((x) => x.firma === m.firma) === i).slice(0, SITE.anasayfaModel);
 const son = yazilar.slice(0, 3);
 const aramalar = [
   { ad: '2+1 prefabrik ev fiyatları', url: '/prefabrik-ev-fiyatlari/2-1/' },
@@ -23,10 +23,11 @@ const aramalar = [
   { ad: 'Tarlaya ev yapılır mı?', url: '/rehber/tarlaya-prefabrik-ev-yapilir-mi/' },
 ];
 const sss = [
-  { s: 'PrefabrikTeklif nedir?', c: `Türkiye’deki ${meta.firmaSayisi} prefabrik ev, tiny house, çelik ev, konteyner ev, ahşap ev ve bungalov üreticisinin ${meta.modelSayisi} modelini, firmaların kendi sitelerinde yayınladığı fiyatlarla karşılaştıran ücretsiz bir platformdur. Fiyatlar her ay kontrol edilir; son kontrol ${meta.sonKontrolYazi}.` },
+  { s: 'PrefabrikTeklif nedir?', c: `Türkiye’deki ${meta.firmaSayisi} prefabrik ev, tiny house, çelik ev, konteyner ev, ahşap ev ve bungalov üreticisinin ${meta.modelSayisi} modelini, firmaların kendi sitelerinde yayınladığı fiyatlarla karşılaştıran, kullanıcılar için ücretsiz bir platformdur. Fiyatlar her ay kontrol edilir; son kontrol ${meta.sonKontrolYazi}.` },
   { s: 'Prefabrik ev fiyatları ne kadar?', c: `${meta.sonKontrolYazi} itibarıyla listemizdeki prefabrik evler ${kisaTl(meta.istatistik.prefabrik?.min)}’den başlıyor; ortanca fiyat ${kisaTl(meta.istatistik.prefabrik?.medyan)}. Fiyata KDV, nakliye, montaj ve zemin betonunun dahil olup olmadığı firmadan firmaya değişir; her modelin sayfasında ayrıca yazar.` },
   { s: 'Teklif almak ücretli mi?', c: `Hayır. Bir kez formu doldurursunuz, kriterlerinize uyan firmalar ${SITE.teklifSaat} saat içinde fiyat verir ve teklifler tek tabloda size gelir. Firmalar talebinizi isimsiz görür; adınız ve telefonunuz yalnızca fiyat vermeyi kabul eden firmayla paylaşılır.` },
-  { s: '“Süreci siz yönetin” ne demek?', c: 'Evi seçtikten sonra firmayla siz uğraşmayın diye: firmayı birlikte seçer, sözleşmeyi hazırlar, keşiften teslime kadar üretim, nakliye ve montajı adınıza takip ederiz. Her adımı hesabınızdan görürsünüz.' },
+  { s: '“Süreci siz yönetin” ne demek, ücreti ne?', c: `Evi seçtikten sonra firmayla siz uğraşmayın diye: firmayı birlikte seçer, sözleşmeyi hazırlar, keşiften teslime kadar üretim, nakliye ve montajı adınıza takip ederiz. Her adımı hesabınızdan görürsünüz. Hizmet bedelimiz yalnızca ev bedelinin %${SITE.komisyon}’idir; tutar baştan yazılı olarak bildirilir, gizli ücret yoktur. Ön görüşme ve teklif toplama ücretsizdir.` },
+  { s: 'Sitedeki firmalar nasıl seçiliyor?', c: 'Firmaları vergi levhası, ticaret sicil kaydı ve imza sirküleri gibi resmi evraklarıyla ve daha önce ev teslim ettikleri referanslarıyla birlikte kabul ediyoruz; referansı olmayan firmayı kaydetmiyoruz. Yine de sözleşme imzalamadan önce firmayı kendiniz de teyit etmenizi öneririz.' },
   { s: 'Firmalar sıralamada üst sıraya çıkmak için ödeme yapıyor mu?', c: 'Hayır. Listeler fiyata göre sıralanır. Reklam alanları ayrıca “Reklam” olarak işaretlenir.' },
 ];
 const ld = [
@@ -36,7 +37,7 @@ const ld = [
 const yollar = [
   { b: 'Fiyatları karşılaştır', s: 'Aynı m²’de 5 evi yan yana koyun; KDV, nakliye ve teslim farkını görün.', url: '/evini-bul/', ic: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>' },
   { b: `${SITE.teklifSaat} saatte teklif al`, s: 'Talebiniz isimsiz gider; fiyat veren firma bilgilerinizi ancak o zaman görür.', url: '/teklif-al/', ic: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>' },
-  { b: 'Süreci biz yönetelim', s: 'Firmayı birlikte seçer, sözleşmeden teslime kadar adınıza yerinde takip ederiz.', url: '/teklif-al/?mod=surec', ic: '<path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>', dk: true },
+  { b: 'Süreci biz yönetelim', s: `Sadece %${SITE.komisyon} hizmet bedeliyle: firmayı birlikte seçer, sözleşmeden teslime kadar her adımı şeffafça takip ederiz.`, url: '/teklif-al/?mod=surec', ic: '<path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>', dk: true },
 ];
 ---
 <Base title={`Prefabrik Ev Fiyatları ${meta.ay}: ${meta.firmaSayisi} Firmayı Karşılaştır, ${SITE.teklifSaat} Saatte Teklif Al`} description={`${meta.firmaSayisi} firmanın ${meta.modelSayisi} prefabrik ev, tiny house, çelik ev, konteyner ve bağ evi modeli tek yerde. Güncel fiyatları karşılaştırın, ${SITE.teklifSaat} saatte ücretsiz teklif alın ya da tüm süreci bize bırakın.`} jsonLd={ld} preload="/img/hero-960.webp" ogImage="/img/hero-og.jpg">
@@ -65,15 +66,11 @@ const yollar = [
             <div class="txt">
               <span class="tag">Reklam alanı</span>
               <h2>Kampanyanızı ev arayanlara gösterin</h2>
-              <p>Prefabrik ve modüler ev üreticileri için ana sayfa bannerı ve öne çıkan model alanları. Bilgi al →</p>
+              <p>Ana banner, yan banner ve öne çıkan listeleme. Aylık paketler, sınırlı alan. Fiyatları gör →</p>
             </div>
           </a>
         </div>
-        <div class="dots" aria-label="Slayt seç">
-          <button class="on" type="button" aria-label="1. slayt" aria-current="true"></button>
-          <button type="button" aria-label="2. slayt"></button>
-          <button type="button" aria-label="3. slayt"></button>
-        </div>
+        <div class="dots" aria-label="Slayt seç"></div>
         <form class="qsearch" action="/evini-bul/" method="get" data-ga="hizli_arama">
           <label>Ev tipi<select name="tip"><option value="">Hepsi</option>{tipler.map((t) => <option value={t.k}>{t.ad}</option>)}</select></label>
           <label>Büyüklük<select name="m2"><option value="">Fark etmez</option>{M2_ARALIK.map((a) => <option value={a.k}>{a.ad}</option>)}</select></label>
@@ -82,10 +79,15 @@ const yollar = [
           <button class="btn btn-p" type="submit">Evleri bul <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </form>
       </section>
-      <a class="side-ad" href="/reklam-ver/">
-        <span class="tag">Reklam alanı</span>
-        <span style="display:flex;flex-direction:column;gap:12px"><b>Kampanyanızı ev arayanlara gösterin</b><span>Ana sayfa bannerı, kategori sayfalarında öne çıkan model ve bülten.</span><span class="btn">Reklam ver</span></span>
-      </a>
+      <div class="side-slider" data-slider data-sure="5000" aria-roledescription="carousel" aria-label="Reklamlar">
+        <div class="slides" data-yan-slot>
+          <a class="side-ad" href="/reklam-ver/" aria-roledescription="slide">
+            <span class="tag">Reklam alanı</span>
+            <span style="display:flex;flex-direction:column;gap:12px"><b>Kampanyanızı ev arayanlara gösterin</b><span>Ana sayfa bannerı, yan banner ve öne çıkan listeleme. Her alanda en fazla {SITE.bannerSiniri} reklam.</span><span class="btn">Reklam ver</span></span>
+          </a>
+        </div>
+        <div class="dots" aria-label="Reklam seç"></div>
+      </div>
     </div>
 
     <nav class="tipbar" aria-label="Ev tipleri">
@@ -130,6 +132,11 @@ const yollar = [
       </div>
     </section>
 
+    <section class="sec" data-one-cikan hidden>
+      <div class="sec-h"><div><h2>Öne çıkan evler</h2><p>Firmaların öne çıkardığı modeller. <a href="/reklam-ver/">Reklam</a> olarak işaretlidir.</p></div></div>
+      <div class="hscroll c4" data-one-cikan-liste></div>
+    </section>
+
     <section class="sec" data-katalog>
       <div class="sec-h"><div><h2>Uygun fiyatlı 2+1 evler</h2><p>Her firmanın en uygun 2+1 modeli, ucuzdan pahalıya.</p></div><a class="more" href="/prefabrik-ev-fiyatlari/2-1/">Tümünü gör</a></div>
       <div class="hscroll c4">{ikiArti.map((m) => <ModelCard m={m} />)}</div>
@@ -171,7 +178,7 @@ const yollar = [
 
     <section class="sec">
       <div class="band">
-        <div><h2>Prefabrik firması mısınız?</h2><p>Ücretsiz kaydolun, ürünlerinizi ve fiyatlarınızı kendiniz güncelleyin, size uygun talepleri e-postanızda görün.</p></div>
+        <div><h2>Prefabrik firması mısınız?</h2><p>Aylık {SITE.abonelik} TL üyelikle ürünlerinizi ve fiyatlarınızı kendiniz güncelleyin, size uygun talepleri e-postanızda görün.</p></div>
         <div class="btns"><a class="btn btn-w" href="/firma-kayit/">Firma başvurusu</a><a class="btn btn-o2" href="/firma-paneli/">Firma girişi</a></div>
       </div>
     </section>
@@ -183,21 +190,51 @@ const yollar = [
   <script>
     import { katalogUygula } from '../scripts/katalog';
     katalogUygula();
-    // Yönetimden eklenen sponsorlu bannerlar
-    fetch('/api/bannerlar').then((r) => (r.ok ? r.json() : null)).then((j) => {
-      const b = (j?.bannerlar || []).filter((x: any) => /^https:\/\//.test(x.gorsel || '') && /^(https:\/\/|\/)/.test(x.link || ''));
-      if (!b.length) return;
-      const slot = document.querySelector('[data-banner-slot]'); const cream = slot?.querySelector('.slide.cream');
-      if (!slot || !cream) return;
-      const x = b[0];
-      const a = document.createElement('a'); a.className = 'slide'; a.href = x.link; a.rel = 'sponsored noopener';
-      const im = document.createElement('img'); im.className = 'bg'; im.src = x.gorsel; im.alt = x.baslik || ''; im.loading = 'lazy';
-      const sh = document.createElement('div'); sh.className = 'shade';
-      const t = document.createElement('div'); t.className = 'txt';
-      const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = 'Reklam';
-      const h = document.createElement('h2'); h.textContent = x.baslik || '';
-      const p = document.createElement('p'); p.textContent = x.metin || '';
-      t.append(tag, h, p); a.append(im, sh, t); cream.replaceWith(a);
+    import { modeller, kart } from '../scripts/modeller';
+    // Yönetimden eklenen sponsorlu alanlar: ana banner, yan banner ve öne çıkan listeleme (her biri en fazla 6)
+    const gecerli = (x: any) => /^https:\/\//.test(x.gorsel || '') && /^(https:\/\/|\/)/.test(x.link || '');
+    const el = <K extends keyof HTMLElementTagNameMap>(t: K, c = '', txt = '') => { const e = document.createElement(t); if (c) e.className = c; if (txt) e.textContent = txt; return e; };
+    const reklamLink = (x: any, c: string) => { const a = el('a', c); a.href = x.link; a.rel = 'sponsored noopener'; a.setAttribute('aria-roledescription', 'slide'); if (/^https:/.test(x.link)) a.target = '_blank'; return a; };
+    fetch('/api/bannerlar').then((r) => (r.ok ? r.json() : null)).then(async (j) => {
+      const hepsi: any[] = j?.bannerlar || [];
+      const ana = hepsi.filter((x) => (x.konum || 'ana') === 'ana' && gecerli(x)).slice(0, 6);
+      const yan = hepsi.filter((x) => x.konum === 'yan' && gecerli(x)).slice(0, 6);
+      const liste = hepsi.filter((x) => x.konum === 'liste' && x.modelId).slice(0, 10);
+      const slot = document.querySelector('[data-banner-slot]');
+      if (ana.length && slot) {
+        const ilk = slot.firstElementChild;
+        const yeni = ana.map((x) => {
+          const a = reklamLink(x, 'slide');
+          const im = el('img', 'bg'); im.src = x.gorsel; im.alt = x.baslik || ''; im.loading = 'lazy';
+          const t = el('div', 'txt'); t.append(el('span', 'tag', 'Reklam'), el('h2', '', x.baslik || ''), el('p', '', x.metin || ''));
+          a.append(im, el('div', 'shade'), t); return a;
+        });
+        ilk?.after(...yeni); slot.querySelector('.slide.cream')?.remove();
+        slot.closest('[data-slider]')?.dispatchEvent(new Event('pt:yenile'));
+      }
+      const yslot = document.querySelector('[data-yan-slot]');
+      if (yan.length && yslot) {
+        yslot.replaceChildren(...yan.map((x) => {
+          const a = reklamLink(x, 'side-ad foto');
+          const im = el('img'); im.src = x.gorsel; im.alt = ''; im.loading = 'lazy';
+          const ic = el('span'); ic.style.cssText = 'display:flex;flex-direction:column;gap:8px';
+          ic.append(el('span', 'tag', 'Reklam'), el('b', '', x.baslik || ''), el('span', '', x.metin || ''));
+          a.append(im, ic); return a;
+        }));
+        yslot.closest('.side-slider')?.classList.add('fotolu');
+        yslot.closest('[data-slider]')?.dispatchEvent(new Event('pt:yenile'));
+      }
+      if (liste.length) {
+        const ms = await modeller(); const byId = new Map(ms.map((m) => [m.id, m]));
+        const secili = liste.map((x) => byId.get(x.modelId)).filter(Boolean) as any[];
+        const kutu = document.querySelector<HTMLElement>('[data-one-cikan-liste]');
+        if (secili.length && kutu) {
+          kutu.innerHTML = secili.map(kart).join('');
+          kutu.querySelectorAll('.mcard').forEach((c) => c.prepend(el('span', 'sp', 'Reklam')));
+          kutu.closest<HTMLElement>('[data-one-cikan]')!.hidden = false;
+          window.dispatchEvent(new Event('pt:draw'));
+        }
+      }
     }).catch(() => {});
   </script>
 </Base>

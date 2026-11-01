@@ -1,5 +1,5 @@
 // Firmaların panelden güncellediği ve yönetimin onayladığı fiyat/fotoğrafları statik sayfalara canlı uygular.
-export interface KatalogKayit { id: string; fiyat?: number | null; kdv?: string; gorseller?: string[]; ad?: string; firma?: string; firmaAd?: string; tip?: string; m2?: number | null; oda?: string; slug?: string; yeni?: boolean; teslim?: string; kapsam?: string }
+export interface KatalogKayit { id: string; gizli?: boolean; fiyat?: number | null; kdv?: string; gorseller?: string[]; ad?: string; firma?: string; firmaAd?: string; tip?: string; m2?: number | null; oda?: string; slug?: string; yeni?: boolean; teslim?: string; kapsam?: string }
 let _k: Promise<Record<string, KatalogKayit>> | null = null;
 export function katalog() {
   if (!_k) _k = fetch('/api/katalog').then((r) => (r.ok ? r.json() : { kayitlar: [] })).then((j) => Object.fromEntries((j.kayitlar || []).map((x: KatalogKayit) => [x.id, x]))).catch(() => ({}));
@@ -11,7 +11,10 @@ export async function katalogUygula(root: ParentNode = document) {
   const k = await katalog();
   root.querySelectorAll<HTMLElement>('[data-id]').forEach((el) => {
     if (el.tagName === 'BUTTON') return;
-    const x = k[el.dataset.id!]; if (!x) return;
+    const id = el.dataset.id!;
+    // Yayından kaldırılan model ya da firma (ör. üyelik sözleşmesine aykırılık): kartı gizle
+    if (k[id]?.gizli || k['firma:' + id.split('/')[0]]?.gizli) { if (el.classList.contains('mcard') || el.tagName === 'TR' || el.tagName === 'LI') el.hidden = true; return; }
+    const x = k[id]; if (!x) return;
     if (x.fiyat) { const p = el.querySelector('[data-fiyat-yazi]'); if (p) p.textContent = tl(x.fiyat) + (x.kdv === 'haric' ? ' + KDV' : ''); el.dataset.fiyat = String(x.fiyat); }
     const g = x.gorseller?.find(guvenli);
     if (g) { const im = el.querySelector<HTMLImageElement>('[data-foto]'); if (im) { im.removeAttribute('srcset'); im.src = g; } el.querySelector('[data-tm]')?.remove(); }

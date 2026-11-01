@@ -16,6 +16,20 @@ export const SITE = {
   // Kullanıcının elle seçebileceği en fazla firma / karşılaştırılabilecek en fazla ev
   maksSecim: 5,
   teklifSaat: 48,
+  // "Süreci biz yönetelim" hizmet bedeli (ev bedelinin yüzdesi)
+  komisyon: 5,
+  // Firma üyeliği (aylık, TL) ve reklam paketleri (aylık, TL; üyeliğe ektir)
+  abonelik: 499,
+  reklam: [
+    { k: 'ana', ad: 'Ana banner', fiyat: 25000, aciklama: 'Ana sayfanın en üstündeki büyük, kaydırmalı alanda tam genişlik görsel.' },
+    { k: 'yan', ad: 'Yan banner', fiyat: 25000, aciklama: 'Ana sayfada büyük bannerın yanındaki kaydırmalı alan (mobilde hemen altında).' },
+    { k: 'ikisi', ad: 'Ana + yan banner', fiyat: 45000, aciklama: 'İki alanda birden; ayrı ayrı almaktan 5.000 TL daha uygun.' },
+    { k: 'liste', ad: 'Ana sayfada öne çıkan listeleme', fiyat: 15000, aciklama: 'Modeliniz ana sayfadaki “Öne çıkan evler” sırasında, “Reklam” etiketiyle.' },
+  ],
+  // Ana ve yan banner alanlarının her birinde aynı anda en fazla kaç reklam yayınlanır
+  bannerSiniri: 6,
+  // Ana sayfadaki model sıralarında en fazla kaç ev gösterilir
+  anasayfaModel: 10,
   // Google Search Console doğrulama kodu (meta etiketi içeriği)
   googleDogrulama: '',
   // Bing Webmaster Tools doğrulama kodu (ChatGPT arama sonuçları Bing dizinini kullanır)

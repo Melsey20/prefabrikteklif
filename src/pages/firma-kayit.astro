@@ -4,15 +4,19 @@ import Crumbs from '../components/Crumbs.astro';
 import { SITE } from '../site.config';
 import { TIPLER, TIP_KEYS, firms } from '../lib/data';
 ---
-<Base title="Firma Kaydı: Prefabrik ve Modüler Ev Üreticileri" description={`Prefabrik, çelik, konteyner, tiny house ve ahşap ev üreticileri için ücretsiz kayıt. Fiyatlarınızı güncelleyin, size uygun teklif taleplerini alın. ${SITE.ad}.`}>
+<Base title="Firma Kaydı: Prefabrik ve Modüler Ev Üreticileri" description={`Prefabrik, çelik, konteyner, tiny house ve ahşap ev üreticileri için aylık ${SITE.abonelik} TL firma üyeliği. Fiyatlarınızı güncelleyin, size uygun teklif taleplerini alın. ${SITE.ad}.`}>
   <div class="wrap narrow">
     <Crumbs items={[{ ad: 'Firma kaydı' }]} />
     <h1>Üreticiyseniz, müşteri talepleri size gelsin</h1>
-    <p class="muted">Kayıt ücretsiz. Sadece ilinize ve ürettiğiniz ev tipine uyan talepler gelir; müşteri bilgisi, fiyat vermeyi kabul ettiğinizde açılır.</p>
+    <p class="muted">Sadece ilinize ve ürettiğiniz ev tipine uyan talepler gelir; müşteri bilgisi, fiyat vermeyi kabul ettiğinizde açılır.</p>
+    <div class="card" style="margin:16px 0;display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:var(--green-ll);border-color:#cfe4d6">
+      <div style="flex:1;min-width:220px"><strong style="font-size:1.05rem">Firma üyeliği: aylık {SITE.abonelik} TL</strong><span class="small muted" style="display:block;margin-top:4px">Başvurunuzu inceleyip onaylarız, ödeme bağlantısını e-postanıza göndeririz. Ödemeyi her ay düzenli yaparsınız; sitede kart bilgisi istemeyiz. Reklam paketleri isteğe bağlıdır ve üyeliğe ektir: <a href="/reklam-ver/">fiyatlar</a>.</span></div>
+    </div>
+    <p class="small muted">Sitemizdeki her firmayı resmi evraklarıyla ve teslim ettiği işlerin referanslarıyla kabul ediyoruz; referansı olmayan firmayı kaydetmiyoruz. Ev arayanların bize güvenmesinin sebebi bu 🙂</p>
 
     <div class="grid" style="margin:18px 0">
       <div class="card"><strong>Listelenmiş</strong><span class="small muted">Fiyatlarınız sitenizden alınır. Kayıt yok, teklif talebi gelmez.</span></div>
-      <div class="card"><strong>Kayıtlı firma</strong><span class="small muted">Vergi levhası, sicil kaydı ve imza sirküleri kontrol edilir. Firma panelinden ürün, fiyat ve fotoğraflarınızı yönetir, size uygun talepleri alır, bize geri bildirim gönderirsiniz.</span></div>
+      <div class="card"><strong>Kayıtlı firma</strong><span class="small muted">Aylık {SITE.abonelik} TL. Vergi levhası, sicil kaydı, imza sirküleri ve referanslar kontrol edilir. Firma panelinden ürün, fiyat ve fotoğraflarınızı yönetir, size uygun talepleri alır, bize geri bildirim gönderirsiniz.</span></div>
       <div class="card" style="border:1.5px solid var(--green)"><strong style="color:var(--green-d)">Doğrulanmış üretici</strong><span class="small muted">Fabrika ziyareti ve tanıtım videosu, üretim belgeleri ve teslim edilmiş 3 proje kontrol edilir. Taleplerde öncelik ve rozet.</span></div>
     </div>
 
@@ -40,15 +44,18 @@ import { TIPLER, TIP_KEYS, firms } from '../lib/data';
       </fieldset>
       <label class="f">Hizmet verdiğiniz iller<input type="text" name="iller" maxlength="400" placeholder="Tüm Türkiye ya da il adları" /></label>
       <label class="f">Belgeleriniz (TSE, ISO, CE, O2 tip onay vb.)<input type="text" name="belgeler" maxlength="300" /></label>
+      <label class="f">Referanslarınız (zorunlu)<textarea name="referanslar" required maxlength="1500" placeholder="Teslim ettiğiniz en az 1–3 iş: il, yıl, ev tipi ve teyit için müşteri ya da yüklenici iletişim bilgisi"></textarea></label>
       <label class="f">Not<textarea name="not" maxlength="1000"></textarea></label>
       <div class="hp" aria-hidden="true"><label>Web<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
+      <label class="chk"><input type="checkbox" name="abonelik" required /> <span>Aylık <b>{SITE.abonelik} TL</b> üyelik bedelini, onaydan sonra gönderilecek bağlantıdan her ay düzenli ödeyeceğimi; ödenen üyelik ve reklam bedellerinin iade edilmediğini biliyorum.</span></label>
+      <label class="chk"><input type="checkbox" name="sozlesme" required /> <span><a href="/firma-uyelik-sozlesmesi/" target="_blank">Firma üyelik sözleşmesini</a> okudum ve kabul ediyorum. Müşteriye karşı tüm sorumluluğun firmamda olduğunu, müşteriyi mağdur etmem halinde kaydımın silineceğini biliyorum.</span></label>
       <label class="chk"><input type="checkbox" name="kosul" required /> <span><a href="/kullanim-kosullari/" target="_blank">Kullanım koşullarını</a> ve <a href="/kvkk-aydinlatma-metni/" target="_blank">aydınlatma metnini</a> okudum. Belgelerimi e-postayla göndereceğimi biliyorum.</span></label>
       <p class="err" id="hata" role="alert" hidden></p>
       <button class="btn btn-p btn-block" type="submit" id="gonder">Kaydı gönder</button>
     </form>
     <div class="ok" id="tamam" hidden>
       <h2 style="margin-top:0">Başvurunuz alındı</h2>
-      <p>2 iş günü içinde sizi arayacağız. Başvurunuz onaylanınca bu e-posta adresiyle <a href="/firma-paneli/">firma paneline</a> giriş yapabilirsiniz.</p>
+      <p>Belgelerinizi ve referanslarınızı kontrol edip 2 iş günü içinde sizi arayacağız. Onaylanınca aylık üyelik ödeme bağlantısı e-postanıza gelir ve bu adresle <a href="/firma-paneli/">firma paneline</a> giriş yapabilirsiniz.</p>
     </div>
   </div>
   <script is:inline>
@@ -58,7 +65,8 @@ import { TIPLER, TIP_KEYS, firms } from '../lib/data';
       f.addEventListener('submit', function (e) {
         e.preventDefault(); var h = document.getElementById('hata'); h.hidden = true;
         var d = { tipler: [] }; new FormData(f).forEach(function (v, k) { if (k === 'tipler') d.tipler.push(v); else d[k] = v; });
-        var m = !d.unvan ? 'Ticaret unvanı yazın.' : !/^\d{10,11}$/.test(d.vergiNo || '') ? 'Vergi numarası 10 veya 11 haneli olmalı.' : !d.yetkili ? 'Yetkili adı yazın.' : !/^\S+@\S+\.\S+$/.test(d.eposta || '') ? 'Geçerli e-posta yazın.' : (d.telefon || '').replace(/\D/g, '').length < 10 ? 'Geçerli telefon yazın.' : !d.tipler.length ? 'En az bir ürün tipi seçin.' : !d.kosul ? 'Koşulları onaylayın.' : '';
+        var m = !d.unvan ? 'Ticaret unvanı yazın.' : !/^\d{10,11}$/.test(d.vergiNo || '') ? 'Vergi numarası 10 veya 11 haneli olmalı.' : !d.yetkili ? 'Yetkili adı yazın.' : !/^\S+@\S+\.\S+$/.test(d.eposta || '') ? 'Geçerli e-posta yazın.' : (d.telefon || '').replace(/\D/g, '').length < 10 ? 'Geçerli telefon yazın.' : !d.tipler.length ? 'En az bir ürün tipi seçin.' : (d.referanslar || '').trim().length < 10 ? 'En az bir referans yazın; referanssız kayıt almıyoruz.' : !d.abonelik ? 'Aylık üyelik bedelini onaylayın.' : !d.sozlesme ? 'Firma üyelik sözleşmesini onaylayın.' : !d.kosul ? 'Koşulları onaylayın.' : '';
+        d.abonelikOnay = !!d.abonelik; d.sozlesmeOnay = !!d.sozlesme; delete d.abonelik; delete d.sozlesme;
         if (m) { h.textContent = m; h.hidden = false; return; }
         var b = document.getElementById('gonder'); b.disabled = true; b.textContent = 'Gönderiliyor…';
         fetch('/api/firma-basvuru', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) })

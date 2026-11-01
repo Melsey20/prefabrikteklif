@@ -4,8 +4,8 @@ export interface M { id: string; f: string; fa: string; il: string; ad: string; 
 let _m: Promise<M[]> | null = null;
 export function modeller(): Promise<M[]> {
   if (!_m) _m = Promise.all([fetch('/data/modeller.json').then((r) => r.json()), katalog()]).then(([rows, k]: [M[], Record<string, any>]) => {
-    const out = rows.map((m) => { const x = k[m.id]; if (!x) return m; return { ...m, p: x.fiyat ?? m.p, kdv: x.kdv ?? m.kdv, foto: (x.gorseller || []).find((u: string) => /^https:\/\//.test(u)) }; });
-    for (const x of Object.values(k)) if (x.yeni) out.push({ id: x.id, f: x.firma, fa: x.firmaAd || x.firma, il: '', ad: x.ad, t: x.tip, m2: x.m2 ?? null, o: x.oda || '', k: null, p: x.fiyat ?? null, pt: x.fiyat ? 'model' : 'yok', pm: null, m2f: x.fiyat && x.m2 ? Math.round(x.fiyat / x.m2) : null, kdv: x.kdv || '', n: '', mo: '', z: '', ts: x.teslim || '', u: 0, url: `/model/?id=${encodeURIComponent(x.id)}`, foto: (x.gorseller || []).find((u: string) => /^https:\/\//.test(u)) });
+    const out = rows.filter((m) => !k[m.id]?.gizli && !k['firma:' + m.f]?.gizli).map((m) => { const x = k[m.id]; if (!x) return m; return { ...m, p: x.fiyat ?? m.p, kdv: x.kdv ?? m.kdv, foto: (x.gorseller || []).find((u: string) => /^https:\/\//.test(u)) }; });
+    for (const x of Object.values(k)) if (x.yeni && !x.gizli && !k['firma:' + x.firma]?.gizli) out.push({ id: x.id, f: x.firma, fa: x.firmaAd || x.firma, il: '', ad: x.ad, t: x.tip, m2: x.m2 ?? null, o: x.oda || '', k: null, p: x.fiyat ?? null, pt: x.fiyat ? 'model' : 'yok', pm: null, m2f: x.fiyat && x.m2 ? Math.round(x.fiyat / x.m2) : null, kdv: x.kdv || '', n: '', mo: '', z: '', ts: x.teslim || '', u: 0, url: `/model/?id=${encodeURIComponent(x.id)}`, foto: (x.gorseller || []).find((u: string) => /^https:\/\//.test(u)) });
     return out;
   });
   return _m;

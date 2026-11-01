@@ -1,10 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
 import Crumbs from './Crumbs.astro';
-interface Props { title: string; h1: string; description: string; noindex?: boolean }
-const { title, h1, description, noindex = false } = Astro.props;
+interface Props { title: string; h1: string; description: string; noindex?: boolean; jsonLd?: any }
+const { title, h1, description, noindex = false, jsonLd } = Astro.props;
 ---
-<Base title={title} description={description} noindex={noindex}>
+<Base title={title} description={description} noindex={noindex} jsonLd={jsonLd}>
   <div class="wrap narrow">
     <Crumbs items={[{ ad: h1 }]} />
     <article class="prose"><h1>{h1}</h1><slot /></article>

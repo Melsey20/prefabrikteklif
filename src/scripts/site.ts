@@ -76,16 +76,29 @@ document.querySelectorAll<HTMLAnchorElement>('[data-hesap]').forEach((a) => {
 });
 
 // ---- Slider ----
+// Slaytlar sonradan eklenebilir (sponsorlu bannerlar): elemana 'pt:yenile' olayı gönderilince noktalar yeniden kurulur.
 document.querySelectorAll<HTMLElement>('[data-slider]').forEach((s) => {
-  const track = s.querySelector<HTMLElement>('.slides')!; const dots = [...s.querySelectorAll<HTMLButtonElement>('.dots button')];
-  const n = dots.length; let i = 0; let timer: number | undefined;
-  const go = (k: number) => { i = (k + n) % n; track.scrollTo({ left: track.clientWidth * i, behavior: 'smooth' }); };
-  dots.forEach((d, k) => d.addEventListener('click', () => { go(k); stop(); }));
-  track.addEventListener('scroll', () => { const k = Math.round(track.scrollLeft / track.clientWidth); dots.forEach((d, j) => { d.classList.toggle('on', j === k); d.setAttribute('aria-current', String(j === k)); }); i = k; }, { passive: true });
+  const track = s.querySelector<HTMLElement>('.slides')!; const dotBox = s.querySelector<HTMLElement>('.dots');
+  let dots: HTMLButtonElement[] = []; let n = 0; let i = 0; let timer: number | undefined; let durdu = false;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const stop = () => { if (timer) clearInterval(timer); timer = undefined; };
-  if (!reduce && n > 1) timer = window.setInterval(() => { if (!document.hidden) go(i + 1); }, 6500);
+  const isaretle = (k: number) => dots.forEach((d, j) => { d.classList.toggle('on', j === k); d.setAttribute('aria-current', String(j === k)); });
+  const go = (k: number) => { if (!n) return; i = (k + n) % n; track.scrollTo({ left: track.clientWidth * i, behavior: 'smooth' }); };
+  const stop = () => { durdu = true; if (timer) clearInterval(timer); timer = undefined; };
+  const kur = () => {
+    const sl = [...track.children] as HTMLElement[]; n = sl.length;
+    sl.forEach((x, k) => x.setAttribute('aria-label', `${k + 1} / ${n}`));
+    if (dotBox) {
+      dotBox.replaceChildren(...sl.map((_, k) => { const b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', `${k + 1}. slayt`); b.addEventListener('click', () => { go(k); stop(); }); return b; }));
+      dotBox.hidden = n < 2; dots = [...dotBox.querySelectorAll('button')];
+    }
+    i = Math.min(i, n - 1); isaretle(i);
+    if (timer) clearInterval(timer); timer = undefined;
+    if (!reduce && !durdu && n > 1) timer = window.setInterval(() => { if (!document.hidden) go(i + 1); }, Number(s.dataset.sure) || 6500);
+  };
+  track.addEventListener('scroll', () => { const k = Math.round(track.scrollLeft / track.clientWidth); isaretle(k); i = k; }, { passive: true });
   s.addEventListener('pointerdown', stop); s.addEventListener('focusin', stop);
+  s.addEventListener('pt:yenile', kur);
+  kur();
 });
 
 // ---- Çerez onayı + Google Analytics 4 (ölçüm kimliği Firebase'den gelir) ----

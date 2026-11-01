@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Crumbs from '../components/Crumbs.astro';
 import { firms, TIPLER, TIP_SIRA, meta, kisaTl, monogram } from '../lib/data';
+import { SITE } from '../site.config';
 const sirali = [...firms].sort((a, b) => b.modelSayisi - a.modelSayisi || a.kisaAd.localeCompare(b.kisaAd, 'tr'));
 const ld = [{ '@context': 'https://schema.org', '@type': 'ItemList', name: 'Prefabrik ve modüler ev firmaları', numberOfItems: firms.length,
   itemListElement: sirali.map((f, i) => ({ '@type': 'ListItem', position: i + 1, url: `https://www.prefabrikteklif.com.tr/firma/${f.slug}/`, name: f.kisaAd })) }];
@@ -32,7 +33,7 @@ const ld = [{ '@context': 'https://schema.org', '@type': 'ItemList', name: 'Pref
       ))}
     </div>
     <div class="band" style="margin-top:28px">
-      <div><h2>Firmanız listede yok mu?</h2><p>Ücretsiz kayıt olun, fiyatlarınızı kendiniz güncelleyin ve size uygun teklif taleplerini alın.</p></div>
+      <div><h2>Firmanız listede yok mu?</h2><p>Aylık {SITE.abonelik} TL üyelikle fiyatlarınızı kendiniz güncelleyin ve size uygun teklif taleplerini alın.</p></div>
       <div class="btns"><a class="btn btn-w" href="/firma-kayit/">Firmamı ekle</a></div>
     </div>
   </div>
