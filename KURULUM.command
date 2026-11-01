@@ -5,7 +5,7 @@ set -e
 cd "$(dirname "$0")"
 YESIL='\033[1;32m'; KIRMIZI='\033[1;31m'; NORMAL='\033[0m'
 adim() { echo; echo -e "${YESIL}▶ $1${NORMAL}"; }
-hata() { echo -e "${KIRMIZI}✖ $1${NORMAL}"; echo; read -r -p "Kapatmak için Enter'a basın..." _; exit 1; }
+hata() { echo -e "${KIRMIZI}✖ $1${NORMAL}"; echo; read -r -p "Kapatmak için Enter'a basın (başka bir şey yazmayın)..." _; exit 1; }
 
 echo "=============================================="
 echo "  PrefabrikTeklif kurulumu"
@@ -42,10 +42,20 @@ echo
 echo "ÖNEMLİ: Cloud Functions için projenin Blaze (kullandıkça öde) planında olması gerekir."
 echo "Henüz yükseltmediyseniz şu sayfa açılacak: Upgrade → Blaze → kartınızı ekleyin."
 open "https://console.firebase.google.com/project/$PROJE/usage/details" 2>/dev/null || true
-read -r -p "Blaze planına geçtiyseniz Enter'a basın..." _
+read -r -p "Blaze planına geçtiyseniz Enter'a basın (şifre DEĞİL, sadece Enter)..." _
 
-adim "4/7 Firestore veritabanı oluşturuluyor (Avrupa)"
-$FB firestore:databases:create "(default)" --location=eur3 --project "$PROJE" 2>/dev/null && echo "Veritabanı oluşturuldu." || echo "Veritabanı zaten var, devam."
+adim "4/7 Firestore veritabanı"
+if $FB firestore:databases:list --project "$PROJE" 2>/dev/null | grep -q "(default)"; then
+  echo "Veritabanı mevcut, devam."
+elif $FB firestore:databases:create "(default)" --location=eur3 --project "$PROJE"; then
+  echo "Veritabanı oluşturuldu."
+else
+  echo
+  echo "Veritabanını konsoldan oluşturmanız gerekiyor. Açılacak sayfada:"
+  echo "  'Create database' → konum: eur3 (Europe) → 'Start in production mode' → Create"
+  open "https://console.firebase.google.com/project/$PROJE/firestore" 2>/dev/null || true
+  read -r -p "Veritabanı oluşunca Enter'a basın..." _
+fi
 
 adim "5/7 E-posta ayarları"
 read -r -p "Bildirimlerin gönderileceği e-posta [info@mitraajans.com]: " SMTPUSER; SMTPUSER=${SMTPUSER:-info@mitraajans.com}
@@ -61,8 +71,9 @@ ADMIN_EMAIL=$ADMIN
 SITE_URL=https://www.prefabrikteklif.com.tr
 EOF
 echo
-echo "Şimdi $SMTPUSER e-posta kutusunun ŞİFRESİ istenecek (yazarken görünmez)."
-$FB functions:secrets:set SMTP_PASS --project "$PROJE" || hata "Şifre kaydedilemedi. Blaze planına geçtiğinizden emin olun."
+echo "Şimdi $SMTPUSER e-posta kutusunun ŞİFRESİ istenecek."
+echo "'Enter a value for SMTP_PASS' yazısını görünce şifreyi yazın; ekranda hiçbir şey görünmez, bu normal."
+$FB functions:secrets:set SMTP_PASS --project "$PROJE" || hata "Şifre kaydedilemedi. Faturalandırma birkaç dakikada aktif olur; 5 dakika sonra bu dosyayı tekrar çalıştırın."
 echo
 echo "Google puanı için Places API anahtarı (yoksa sadece - yazıp Enter'a basın, sonra eklenebilir):"
 $FB functions:secrets:set PLACES_API_KEY --project "$PROJE" || hata "Anahtar kaydedilemedi."
