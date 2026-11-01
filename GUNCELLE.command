@@ -4,7 +4,7 @@
 set -e
 cd "$(dirname "$0")"
 if [ ! -d functions ] || [ ! -f firebase.json ]; then
-  for d in "./site" "$HOME/Downloads/prefabrikteklif-v2/site" "$HOME/Downloads/site" "$HOME/Desktop/prefabrikteklif-v2/site"; do
+  for d in "./site" "$HOME/Downloads/prefabrikteklif-v2.1/site" "$HOME/Downloads/prefabrikteklif-v2/site" "$HOME/Downloads/site" "$HOME/Desktop/prefabrikteklif-v2/site"; do
     if [ -d "$d/functions" ] && [ -f "$d/firebase.json" ]; then cd "$d"; break; fi
   done
 fi
