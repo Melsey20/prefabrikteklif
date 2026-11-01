@@ -22,7 +22,7 @@ SEO: her sayfada başlık/açıklama, canonical, Open Graph, `sitemap-index.xml`
 
 ## 1. Yayına almadan önce doldurun
 
-`src/site.config.ts`: şirket unvanı, adres, e-posta, telefon, WhatsApp, Instagram, Search Console doğrulama kodu. Boş bırakılan alanlar sitede hiç görünmez. KVKK metninde veri sorumlusu olarak şirket unvanı kullanılır, bu yüzden en azından **sirketUnvani** ve **eposta** dolu olmalı. Yasal metinleri bir avukata kontrol ettirin.
+`src/site.config.ts`: şirket unvanı (Mitra Grup) ve e-posta (info@mitraajans.com) dolduruldu; adres, telefon, WhatsApp, Instagram, Search Console doğrulama kodu. Boş bırakılan alanlar sitede hiç görünmez. KVKK metninde veri sorumlusu olarak şirket unvanı kullanılır, bu yüzden en azından **sirketUnvani** ve **eposta** dolu olmalı. Yasal metinleri bir avukata kontrol ettirin.
 
 ## 2. Kurulum
 
@@ -33,6 +33,8 @@ npm run preview      # http://localhost:4321
 ```
 
 ## 3. Firebase
+
+**Kısa yol (macOS):** `KURULUM.command` dosyasına çift tıklayın (açılmazsa sağ tık → Aç). Giriş, proje seçimi, Firestore, e-posta ayarları, şifreler ve yayın adım adım yapılır. Elle yapmak isterseniz:
 
 1. console.firebase.google.com → yeni proje (ör. `prefabrikteklif`). Cloud Functions ve zamanlanmış görev için **Blaze (kullandıkça öde)** planı gerekir; bu trafikte maliyet çok düşüktür.
 2. Firestore'u açın (konum: `europe-west1` veya `eur3`).

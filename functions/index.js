@@ -53,7 +53,7 @@ function mailer() {
   return _tx;
 }
 async function mail(to, subject, html) {
-  if (!to || !SMTP_USER.value()) { console.warn('E-posta ayarı eksik, gönderilmedi:', subject); return; }
+  if (!to || !SMTP_USER.value() || (SMTP_PASS.value() || '').length < 2) { console.warn('E-posta ayarı eksik, gönderilmedi:', subject); return; }
   await mailer().sendMail({ from: MAIL_FROM.value() || SMTP_USER.value(), to, subject, html });
 }
 const kart = (rows) => `<table style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px">${rows.filter((r) => r[1]).map((r) => `<tr><td style="padding:4px 12px 4px 0;color:#4a5751"><b>${esc(r[0])}</b></td><td style="padding:4px 0">${esc(r[1])}</td></tr>`).join('')}</table>`;
@@ -188,7 +188,7 @@ async function googlePuan(req, res) {
   const slug = str(req.query.firma, 80);
   const f = FIRMS.find((x) => x.slug === slug);
   const key = PLACES_API_KEY.value();
-  if (!f || !key) return json(res, 404, {});
+  if (!f || !key || key.length < 20) return json(res, 404, {});
   const pref = db.collection('placeIds').doc(slug);
   let pid = (await pref.get()).data()?.id;
   if (!pid) {

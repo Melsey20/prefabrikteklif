@@ -1,10 +1,51 @@
 {
   "indexes": [
-    { "collectionGroup": "talepler", "queryScope": "COLLECTION", "fields": [ { "fieldPath": "durum", "order": "ASCENDING" }, { "fieldPath": "sonTarih", "order": "ASCENDING" } ] },
-    { "collectionGroup": "yorumlar", "queryScope": "COLLECTION", "fields": [ { "fieldPath": "firma", "order": "ASCENDING" }, { "fieldPath": "durum", "order": "ASCENDING" }, { "fieldPath": "zaman", "order": "DESCENDING" } ] },
-    { "collectionGroup": "firmalar", "queryScope": "COLLECTION", "fields": [ { "fieldPath": "aktif", "order": "ASCENDING" }, { "fieldPath": "tipler", "arrayConfig": "CONTAINS" } ] }
+    {
+      "collectionGroup": "talepler",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "durum",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "sonTarih",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "yorumlar",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "firma",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "durum",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "zaman",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "firmalar",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "aktif",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "tipler",
+          "arrayConfig": "CONTAINS"
+        }
+      ]
+    }
   ],
-  "fieldOverrides": [
-    { "collectionGroup": "_rate", "fieldPath": "exp", "ttl": true, "indexes": [] }
-  ]
+  "fieldOverrides": []
 }

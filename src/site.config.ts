@@ -5,9 +5,9 @@ export const SITE = {
   url: 'https://www.prefabrikteklif.com.tr',
   slogan: 'Prefabrik, tiny house ve modüler ev fiyatlarını kıyasla, 24 saatte teklif al',
   // Aşağıdakileri doldurun (KVKK ve iletişim sayfalarında kullanılır):
-  sirketUnvani: '', // Ör: "Mitra Ajans Reklam ... Ltd. Şti."
+  sirketUnvani: 'Mitra Grup',
   adres: '',
-  eposta: '', // Ör: "info@prefabrikteklif.com.tr"
+  eposta: 'info@mitraajans.com',
   telefon: '',
   whatsapp: '', // Ör: "905xxxxxxxxx"
   instagram: '', // Ör: "prefabrikteklif"
