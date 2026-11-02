@@ -1,0 +1,16 @@
+{
+  "name": "PrefabrikTeklif — Ev Karşılaştırma Platformu",
+  "short_name": "PrefabrikTeklif",
+  "description": "Prefabrik, tiny house ve modüler ev fiyatlarını karşılaştırın, 48 saatte firmalardan teklif alın.",
+  "lang": "tr",
+  "start_url": "/?utm_source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f6f7f3",
+  "theme_color": "#17663f",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

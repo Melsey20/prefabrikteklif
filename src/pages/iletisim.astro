@@ -3,7 +3,7 @@ import Sayfa from '../components/Sayfa.astro';
 import { SITE } from '../site.config';
 const wa = SITE.whatsapp ? `https://wa.me/${SITE.whatsapp}` : '';
 ---
-<Sayfa title="İletişim" h1="İletişim" description={`${SITE.ad} iletişim bilgileri.`}>
+<Sayfa title="İletişim" h1="İletişim" description={`${SITE.ad} iletişim: prefabrik, tiny house ve modüler ev teklifleri, firma üyeliği ve reklam için bize e-postayla ulaşın.`}>
   {SITE.sirketUnvani && <p><strong>{SITE.sirketUnvani}</strong></p>}
   {SITE.adres && <p>{SITE.adres}</p>}
   <ul>

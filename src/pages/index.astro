@@ -40,7 +40,7 @@ const yollar = [
   { b: 'Süreci biz yönetelim', s: `Sadece %${SITE.komisyon} hizmet bedeliyle: firmayı birlikte seçer, sözleşmeden teslime kadar her adımı şeffafça takip ederiz.`, url: '/teklif-al/?mod=surec', ic: '<path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>', dk: true },
 ];
 ---
-<Base title={`Prefabrik Ev Fiyatları ${meta.ay}: ${meta.firmaSayisi} Firmayı Karşılaştır, ${SITE.teklifSaat} Saatte Teklif Al`} description={`${meta.firmaSayisi} firmanın ${meta.modelSayisi} prefabrik ev, tiny house, çelik ev, konteyner ve bağ evi modeli tek yerde. Güncel fiyatları karşılaştırın, ${SITE.teklifSaat} saatte ücretsiz teklif alın ya da tüm süreci bize bırakın.`} jsonLd={ld} preload="/img/hero-960.webp" ogImage="/img/hero-og.jpg">
+<Base title={`Prefabrik Ev Fiyatları ${meta.ay.split(' ').pop()}: ${meta.firmaSayisi} Firmayı Karşılaştır, Teklif Al`} description={`${meta.firmaSayisi} firmanın ${meta.modelSayisi} prefabrik ev, tiny house, çelik ev, konteyner ve bağ evi modeli tek yerde. Güncel fiyatları karşılaştırın, ${SITE.teklifSaat} saatte ücretsiz teklif alın ya da tüm süreci bize bırakın.`} jsonLd={ld} preload="/img/hero-960.webp" ogImage="/img/hero-og.jpg">
   <div class="wrap">
     <div class="hero-row">
       <section class="slider" data-slider aria-roledescription="carousel" aria-label="Öne çıkanlar">
@@ -62,6 +62,33 @@ const yollar = [
               <p>Talebin isimsiz gider. Fiyat veren firma bilgilerini ancak o zaman görür. <a href="/teklif-al/" style="color:#fff;font-weight:800">Teklif al →</a></p>
             </div>
           </div>
+          <a class="slide" href="/teklif-al/?mod=surec" aria-roledescription="slide" style="text-decoration:none">
+            <img class="bg" src="/img/ic-mekan-960.webp" srcset="/img/ic-mekan-480.webp 480w, /img/ic-mekan-960.webp 960w" sizes="(max-width: 980px) 100vw, 900px" alt="Aydınlık prefabrik ev iç mekânı" width="960" height="537" loading="lazy" decoding="async" />
+            <div class="shade"></div>
+            <div class="txt">
+              <span class="tag">Sadece %{SITE.komisyon}</span>
+              <h2>Süreci biz yönetelim, siz evinize bakın</h2>
+              <p>Firmayı birlikte seçer, sözleşmeden anahtar teslime kadar her adımı şeffafça takip ederiz. <span style="color:#fff;font-weight:800">Ön görüşme ücretsiz →</span></p>
+            </div>
+          </a>
+          <a class="slide" href="/tiny-house-fiyatlari/" aria-roledescription="slide" style="text-decoration:none">
+            <img class="bg" src="/img/tiny-house-b-960.webp" srcset="/img/tiny-house-b-480.webp 480w, /img/tiny-house-b-960.webp 960w" sizes="(max-width: 980px) 100vw, 900px" alt="Doğa içinde ahşap kaplamalı tiny house" width="960" height="537" loading="lazy" decoding="async" />
+            <div class="shade"></div>
+            <div class="txt">
+              <span class="tag">Tiny house</span>
+              <h2>Tiny house arıyorsanız doğru yerdesiniz</h2>
+              <p>Tekerlekli ve sabit modeller, O2 belgeli seçenekler ve güncel fiyatlar tek sayfada. <span style="color:#fff;font-weight:800">Modelleri gör →</span></p>
+            </div>
+          </a>
+          <a class="slide" href="/firma-kayit/" aria-roledescription="slide" style="text-decoration:none">
+            <img class="bg" src="/img/prefabrik-b-960.webp" srcset="/img/prefabrik-b-480.webp 480w, /img/prefabrik-b-960.webp 960w" sizes="(max-width: 980px) 100vw, 900px" alt="Modern tek katlı prefabrik ev" width="960" height="537" loading="lazy" decoding="async" />
+            <div class="shade"></div>
+            <div class="txt">
+              <span class="tag">Firmalar için</span>
+              <h2>Prefabrik ev mi üretiyorsunuz? Müşteri size gelsin</h2>
+              <p>İlinize ve ürettiğiniz ev tipine uyan teklif talepleri doğrudan e-postanıza düşsün. <span style="color:#fff;font-weight:800">Firmanızı ekleyin →</span></p>
+            </div>
+          </a>
           <a class="slide cream" href="/reklam-ver/" aria-roledescription="slide" aria-label="3 / 3" style="text-decoration:none">
             <div class="txt">
               <span class="tag">Reklam alanı</span>
@@ -79,8 +106,20 @@ const yollar = [
           <button class="btn btn-p" type="submit">Evleri bul <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </form>
       </section>
-      <div class="side-slider" data-slider data-sure="5000" aria-roledescription="carousel" aria-label="Reklamlar">
+      <div class="side-slider fotolu" data-slider data-sure="5000" aria-roledescription="carousel" aria-label="Reklamlar">
         <div class="slides" data-yan-slot>
+          <a class="side-ad foto" href="/arazim-uygun-mu/" aria-roledescription="slide">
+            <img src="/img/bungalov-b-480.webp" alt="" width="480" height="362" loading="lazy" decoding="async" />
+            <span style="display:flex;flex-direction:column;gap:10px"><span class="tag">Ücretsiz araç</span><b>Arazim prefabrik eve uygun mu?</b><span>Tarla, bağ, köy ya da imarlı arsa: 1 dakikada öğrenin.</span><span class="btn btn-w btn-s" style="align-self:flex-start">Hemen öğren</span></span>
+          </a>
+          <a class="side-ad foto" href="/teklif-al/" aria-roledescription="slide">
+            <img src="/img/montaj-480.webp" alt="" width="480" height="362" loading="lazy" decoding="async" />
+            <span style="display:flex;flex-direction:column;gap:10px"><span class="tag">48 saatte teklif</span><b>Tek form, tüm firmalardan fiyat</b><span>Bilgileriniz yalnızca fiyat veren firmayla paylaşılır.</span><span class="btn btn-w btn-s" style="align-self:flex-start">Teklif al</span></span>
+          </a>
+          <a class="side-ad foto" href="/firma-kayit/" aria-roledescription="slide">
+            <img src="/img/celik-b-480.webp" alt="" width="480" height="362" loading="lazy" decoding="async" />
+            <span style="display:flex;flex-direction:column;gap:10px"><span class="tag">Firmalar için</span><b>Firmanızı ekleyin, talepler size gelsin</b><span>Resmî evrak ve referansla kabul, aylık {SITE.abonelik} TL.</span><span class="btn btn-w btn-s" style="align-self:flex-start">Başvur</span></span>
+          </a>
           <a class="side-ad" href="/reklam-ver/" aria-roledescription="slide">
             <span class="tag">Reklam alanı</span>
             <span style="display:flex;flex-direction:column;gap:12px"><b>Kampanyanızı ev arayanlara gösterin</b><span>Ana sayfa bannerı, yan banner ve öne çıkan listeleme. Her alanda en fazla {SITE.bannerSiniri} reklam.</span><span class="btn">Reklam ver</span></span>

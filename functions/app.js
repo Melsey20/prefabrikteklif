@@ -29,7 +29,7 @@ const sayi = (v, min, max) => { const n = Number(v); return Number.isFinite(n) &
 
 export const kart = (rows) => `<table style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px">${rows.filter((r) => r[1] !== undefined && r[1] !== null && r[1] !== '').map((r) => `<tr><td style="padding:4px 12px 4px 0;color:#4a5751;vertical-align:top"><b>${esc(r[0])}</b></td><td style="padding:4px 0">${esc(r[1])}</td></tr>`).join('')}</table>`;
 export const buton = (url, yazi) => `<p><a href="${esc(url)}" style="background:#17663f;color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none;font-weight:bold;display:inline-block">${esc(yazi)}</a></p>`;
-export const sablon = (baslik, icerik) => `<div style="font-family:Arial,sans-serif;max-width:640px;margin:auto;color:#15201b"><h2 style="color:#17663f">${esc(baslik)}</h2>${icerik}<p style="color:#4a5751;font-size:12px;margin-top:24px">PrefabrikTeklif · prefabrikteklif.com.tr</p></div>`;
+export const sablon = (baslik, icerik) => `<div style="font-family:Arial,sans-serif;max-width:640px;margin:auto;color:#15201b"><p style="margin:0 0 12px"><img src="https://www.prefabrikteklif.com.tr/logo-yatay.png" width="200" height="41" alt="PrefabrikTeklif" style="display:block;border:0"></p><h2 style="color:#17663f">${esc(baslik)}</h2>${icerik}<p style="color:#4a5751;font-size:12px;margin-top:24px">PrefabrikTeklif · prefabrikteklif.com.tr</p></div>`;
 
 export class HttpHata extends Error { constructor(kod, mesaj) { super(mesaj); this.kod = kod; } }
 const hata = (kod, mesaj) => { throw new HttpHata(kod, mesaj); };
