@@ -32,7 +32,14 @@ async function mail(to, subject, html) {
   const pass = SMTP_PASS.value() || '';
   if (!to || !SMTP_USER.value() || pass.length < 2) { console.warn('E-posta ayarı eksik, gönderilmedi:', subject); return; }
   if (!_tx) _tx = nodemailer.createTransport({ host: SMTP_HOST.value(), port: Number(SMTP_PORT.value()), secure: Number(SMTP_PORT.value()) === 465, auth: { user: SMTP_USER.value(), pass } });
-  await _tx.sendMail({ from: MAIL_FROM.value() || SMTP_USER.value(), to, subject, html });
+  // E-posta bildirim amaçlıdır: gönderilemezse ziyaretçinin işlemi asla hata vermez; kayıt yönetim panelinde görünür.
+  try {
+    await _tx.sendMail({ from: MAIL_FROM.value() || SMTP_USER.value(), to, subject, html });
+  } catch (e) {
+    console.error('E-posta gönderilemedi:', subject, e?.code || '', e?.message || e);
+    if (e?.code === 'EAUTH') _tx = undefined;
+    await db.collection('epostaHatalari').add({ to: String(to).slice(0, 200), konu: String(subject).slice(0, 200), hata: String(e?.response || e?.message || e).slice(0, 300), kod: e?.code || '', zaman: FieldValue.serverTimestamp() }).catch(() => {});
+  }
 }
 const ayar = () => ({
   site: SITE_URL.value(), admin: ADMIN_EMAIL.value(), placesKey: PLACES_API_KEY.value() || '',

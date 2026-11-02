@@ -19,6 +19,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       <button type="button" data-sekme="fiyat">Fiyat kontrolü</button>
     </aside>
     <main>
+      <div id="eposta-uyari" class="box" hidden style="border-color:#c0392b;background:#fdecea;margin-bottom:16px"></div>
       <section data-panel="onaylar"><div class="ph-h"><h1>Onay bekleyenler</h1></div><div id="p-onaylar" class="list"></div></section>
       <section data-panel="talepler" hidden><div class="ph-h"><h1>Teklif talepleri</h1></div><div id="p-talepler"></div></section>
       <section data-panel="siparisler" hidden><div class="ph-h"><h1>Yönettiğimiz siparişler</h1></div><div id="p-kanban" class="kanban" style="margin-bottom:18px"></div><div id="p-siparisler" class="list"></div></section>
@@ -229,6 +230,10 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       document.querySelector('[data-rz=onay]')!.textContent = String(V.degisiklikler.length + V.basvurular.length + V.yorumlar.length || '');
       document.querySelector('[data-rz=siparis]')!.textContent = V.siparisler.length || '';
       document.querySelector('[data-rz=gb]')!.textContent = V.geriBildirimler.filter((g: any) => g.durum === 'acik').length || '';
+      const eh = (V.epostaHatalari || []).filter((x: any) => Date.now() - x.zaman < 3 * 86400000);
+      const uy = $('eposta-uyari');
+      uy.hidden = !eh.length;
+      if (eh.length) uy.replaceChildren(h('b', {}, `E-posta gönderilemiyor (son 3 günde ${eh.length} bildirim)`), h('p', { class: 'small', style: { margin: '4px 0 0' } }, `Son hata: ${eh[0].hata} — ${tarih(eh[0].zaman)}. Ziyaretçi işlemleri kaydedildi; yalnızca bildirim e-postaları gitmedi. E-posta şifresi değiştiyse GUNCELLE dosyasını çalıştırıp yeni şifreyi girin.`));
       onaylarCiz(); taleplerCiz(); siparislerCiz(); firmalarCiz(); gbCiz(); iletisimCiz(); bannerlarCiz(); fiyatCiz();
     }
     $('firma-ekle').addEventListener('click', () => firmaFormu(null));

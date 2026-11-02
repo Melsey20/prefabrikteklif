@@ -490,7 +490,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     await yonetici(req);
     const al = async (q, dön = (d) => ({ id: d.id, ...d.data() })) => (await q.get()).docs.map(dön);
     const ms = (x) => x?.toMillis?.() || 0;
-    const [degisiklik, basvuru, yorumB, geri, talep, siparis, firma, banner, kontrol, reklamT, iletisimM] = await Promise.all([
+    const [degisiklik, basvuru, yorumB, geri, talep, siparis, firma, banner, kontrol, reklamT, iletisimM, epostaH] = await Promise.all([
       al(db.collection('urunDegisiklikleri').where('durum', '==', 'bekliyor').limit(100)),
       al(db.collection('firmaBasvurulari').where('durum', '==', 'bekliyor').limit(50)),
       al(db.collection('yorumlar').where('durum', '==', 'bekliyor').limit(50)),
@@ -502,6 +502,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       al(db.collection('fiyatKontrol').orderBy('zaman', 'desc').limit(1)),
       al(db.collection('reklamTalepleri').limit(100)),
       al(db.collection('iletisimMesajlari').orderBy('zaman', 'desc').limit(50)),
+      al(db.collection('epostaHatalari').orderBy('zaman', 'desc').limit(20)),
     ]);
     const z = (x) => ({ ...x, zaman: ms(x.zaman), olusturma: ms(x.olusturma), guncelleme: ms(x.guncelleme), sonTarih: ms(x.sonTarih), rizaZamani: undefined });
     for (const t of talep) {
@@ -519,6 +520,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       asamalar: ASAMALAR, statikFirmalar: FIRMS.map((f) => ({ slug: f.slug, ad: f.kisaAd })),
       reklamTalepleri: reklamT.map((r) => ({ ...z(r), firmaAd: firmAd(r.firma), paketAd: REKLAM_PAKET[r.paket]?.ad || r.paket, modelAd: r.modelId ? (modelBul(r.modelId)?.ad || r.modelId) : '' })).sort((a, b) => (a.durum === 'bitti' || a.durum === 'red') - (b.durum === 'bitti' || b.durum === 'red') || b.zaman - a.zaman),
       iletisim: iletisimM.map((m) => ({ ...z(m), konuAd: ILETISIM_KONU[m.konu] || m.konu })),
+      epostaHatalari: epostaH.map(z),
       abonelik: ABONELIK_TL, reklamPaketleri: REKLAM_PAKET, konumSiniri: KONUM_SINIRI, abonelikDurumlari: ABONELIK_DURUM,
     };
   }
@@ -714,7 +716,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       if (!fn) return send(404, { hata: 'Bulunamadı' });
       try { const out = await fn(req, res); return send(200, out); } catch (e) {
         if (e instanceof HttpHata) return send(e.kod, { hata: e.message });
-        console.error(e); return send(500, { hata: 'Sunucu hatası.' });
+        console.error(e); return send(500, { hata: 'İşleminizi şu an tamamlayamadık. Lütfen birkaç dakika sonra tekrar deneyin.' });
       }
     },
   };

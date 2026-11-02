@@ -52,6 +52,13 @@ ENV
 fi
 grep -q YONETICILER functions/.env || echo "YONETICILER=info@mitraajans.com,yusuf4461@gmail.com" >> functions/.env
 echo "Yönetici e-postaları: $(grep YONETICILER functions/.env | cut -d= -f2)"
+echo
+echo "Sitenin e-posta gönderdiği hesap: $(grep SMTP_USER functions/.env | cut -d= -f2)"
+read -r -p "Bu e-posta hesabının şifresi değişti mi / güncellemek ister misiniz? (e/h): " SIFRE_YENI
+if [ "$SIFRE_YENI" = "e" ] || [ "$SIFRE_YENI" = "E" ]; then
+  echo "Şimdi e-posta şifresini yazın (yazarken görünmez), Enter'a basın:"
+  $FB functions:secrets:set SMTP_PASS --project "$PROJE" --force || hata "Şifre kaydedilemedi."
+fi
 (cd functions && npm install --no-audit --no-fund) || hata "Paketler kurulamadı."
 
 adim "4/6 Giriş yöntemlerini açın (bir kez)"
