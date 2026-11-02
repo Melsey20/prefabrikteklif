@@ -522,3 +522,4 @@ textarea { padding: 12px 14px; min-height: 110px; resize: vertical; }
 .side-ad .btn-w { background: #fff; color: var(--ink) !important; min-height: 40px; }
 .side-slider.fotolu .dots button::before { box-shadow: 0 0 0 1px rgba(0,0,0,.18); }
 @media (max-width: 1360px) { .logo .lt small { display: none; } }
+.ftr a.sosyal { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--green-d); text-decoration: none; }
