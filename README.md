@@ -1,6 +1,6 @@
-# PrefabrikTeklif.com.tr
+# [PrefabrikTeklif.com.tr](https://www.prefabrikteklif.com.tr/)
 
-Prefabrik, çelik, konteyner, tiny house, ahşap ev ve bungalov fiyatlarını kıyaslayan ve kullanıcıya 48 saatte birden çok firmadan isimsiz teklif toplayan, istenirse satın alma sürecini baştan sona yöneten platform.
+[Prefabrik ev](https://www.prefabrikteklif.com.tr/prefabrik-ev-fiyatlari/), [çelik ev](https://www.prefabrikteklif.com.tr/celik-ev-fiyatlari/), [konteyner ev](https://www.prefabrikteklif.com.tr/konteyner-ev-fiyatlari/), [tiny house](https://www.prefabrikteklif.com.tr/tiny-house-fiyatlari/), [ahşap ev](https://www.prefabrikteklif.com.tr/ahsap-ev-fiyatlari/) ve [bungalov](https://www.prefabrikteklif.com.tr/bungalov-fiyatlari/) fiyatlarını kıyaslayan ve kullanıcıya 48 saatte birden çok firmadan isimsiz teklif toplayan, istenirse satın alma sürecini baştan sona yöneten platform.
 
 - **Ön yüz:** Astro (statik, sıfıra yakın JavaScript). Lighthouse mobil: 98–100 performans, 94–100 erişilebilirlik, 100 SEO.
 - **Sunucu:** Firebase Cloud Functions (Node 22, `europe-west1`), Firestore.
