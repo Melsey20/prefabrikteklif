@@ -163,18 +163,20 @@ input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visib
 .side-slider { position: relative; border-radius: 28px; overflow: hidden; background: var(--amber-bg); min-height: 500px; }
 .side-slider .slides { height: 100%; }
 .side-slider .side-ad { flex: 0 0 100%; scroll-snap-align: start; border-radius: 0; padding-bottom: 54px; }
-.side-ad.foto { position: relative; background: var(--dark); justify-content: flex-end; overflow: hidden; }
-.side-ad.foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.side-ad.foto::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,26,17,0) 30%, rgba(10,26,17,.85) 100%); }
-.side-ad.foto > span { position: relative; z-index: 1; }
-.side-ad.foto b { color: #fff; }
-.side-ad.foto span span { color: #e3ece6; }
-.side-ad.foto .tag { background: rgba(255,255,255,.2); color: #fff; }
+.side-ad.foto { position: relative; background: #fff; border: 1px solid var(--line); padding: 14px 14px 56px; justify-content: flex-start; gap: 16px; }
+.side-ad.foto img { width: 100%; height: 230px; border-radius: 18px; object-fit: cover; display: block; flex: none; }
+.side-ad.foto > span { padding: 0 8px; }
+.side-ad.foto b { color: var(--ink); font-size: 1.35rem; }
+.side-ad.foto span span { color: var(--muted); }
+.side-ad.foto .tag { background: var(--green-l); color: var(--green-d); }
+.side-ad.foto .btn-w { background: var(--green); color: #fff !important; }
 .side-slider .dots { left: 16px; bottom: 12px; }
 .side-slider .dots button::before { background: rgba(59,29,6,.3); }
 .side-slider .dots button.on::before { background: #3b1d06; }
-.side-slider.fotolu .dots button::before { background: rgba(255,255,255,.55); }
-.side-slider.fotolu .dots button.on::before { background: #fff; }
+.side-slider.fotolu { background: #fff; border: 1px solid var(--line); }
+.side-slider.fotolu .side-ad.foto { border: 0; }
+.side-slider.fotolu .dots button::before { background: rgba(19,32,26,.22); }
+.side-slider.fotolu .dots button.on::before { background: var(--green); }
 .mcard .sp { position: absolute; top: 10px; left: 10px; z-index: 2; font-size: .7rem; font-weight: 800; color: #8a3b07; background: #fbddbf; border-radius: 999px; padding: 3px 9px; }
 .site-note { margin-top: 26px; padding: 14px 16px; border-radius: 16px; background: var(--green-ll); font-size: .82rem; line-height: 1.55; color: var(--ink-2); display: flex; gap: 12px; align-items: flex-start; }
 .site-note svg { flex: none; margin-top: 1px; }
@@ -187,6 +189,9 @@ input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visib
 @media (max-width: 980px) {
   .hero-row { grid-template-columns: 1fr; }
   .side-slider, .side-slider .side-ad { min-height: 210px; }
+  .side-ad.foto { flex-direction: row; align-items: stretch; padding: 12px 12px 44px; }
+  .side-ad.foto img { width: 42%; height: auto; min-height: 170px; }
+  .side-ad.foto > span { padding: 4px 0; }
   .side-ad b { font-size: 1.25rem; }
 }
 @media (max-width: 700px) {
@@ -519,7 +524,12 @@ textarea { padding: 12px 14px; min-height: 110px; resize: vertical; }
 @media (max-width: 800px) { #one-cikan { grid-template-columns: 1fr !important; } #one-cikan img { min-height: 0 !important; aspect-ratio: 16 / 9 !important; } }
 .ftr p a { text-decoration: underline; }
 .box ul.small li { padding: 5px 0; }
-.side-ad .btn-w { background: #fff; color: var(--ink) !important; min-height: 40px; }
-.side-slider.fotolu .dots button::before { box-shadow: 0 0 0 1px rgba(0,0,0,.18); }
+.side-ad .btn-w { min-height: 40px; }
 @media (max-width: 1360px) { .logo .lt small { display: none; } }
 .ftr a.sosyal { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--green-d); text-decoration: none; }
+.il-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 2px 12px; max-height: 260px; overflow: auto; border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; background: #fff; }
+.il-grid .chk { font-size: .9rem; min-height: 34px; }
+.bize-yazin { margin-top: 30px; padding: 22px; border: 1px solid var(--line); border-radius: 20px; background: var(--bg); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 22px; }
+.bize-yazin h2 { font-size: 1.15rem; margin: 0 0 6px; }
+.bize-yazin form { display: flex; flex-direction: column; gap: 10px; }
+@media (max-width: 760px) { .bize-yazin { grid-template-columns: 1fr; padding: 16px; } }

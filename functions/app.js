@@ -225,9 +225,9 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const d = {
       unvan: str(b.unvan, 160), marka: str(b.marka, 80), vergiNo: str(b.vergiNo, 11), mevcut: str(b.mevcut, 80), adres: str(b.adres, 240),
       web: str(b.web, 160), yetkili: str(b.yetkili, 80), telefon: str(b.telefon, 20), eposta: str(b.eposta, 120).toLowerCase(),
-      tipler: arr(b.tipler).filter((t) => TIP_AD[t]), iller: str(b.iller, 400), belgeler: str(b.belgeler, 300), referanslar: str(b.referanslar, 1500), not: str(b.not, 1000),
+      tipler: arr(b.tipler).filter((t) => TIP_AD[t]), iller: str(b.iller, 1500), belgeler: str(b.belgeler, 300), referanslar: str(b.referanslar, 1500), not: str(b.not, 1000),
     };
-    if (!d.unvan || !/^\d{10,11}$/.test(d.vergiNo) || !d.yetkili || !epostaMi(d.eposta) || !d.tipler.length) hata(400, 'Lütfen zorunlu alanları doldurun.');
+    if (!d.unvan || !/^\d{10,11}$/.test(d.vergiNo) || !d.yetkili || !epostaMi(d.eposta) || !d.tipler.length || !d.iller) hata(400, 'Lütfen zorunlu alanları doldurun (hizmet verdiğiniz iller dahil).');
     if (d.referanslar.length < 10) hata(400, 'En az bir referans (teslim ettiğiniz bir proje ve iletişim bilgisi) yazın; referanssız kayıt almıyoruz.');
     if (b.sozlesmeOnay !== true || b.abonelikOnay !== true) hata(400, `Firma üyelik sözleşmesini ve aylık ${ABONELIK_TL} TL üyelik bedelini onaylayın.`);
     d.sozlesme = { surum: '2026-11', abonelikTl: ABONELIK_TL, onayZamani: now() };
@@ -238,6 +238,19 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       mail(a.admin, `Firma başvurusu: ${d.marka || d.unvan}`, sablon('Yeni firma başvurusu', kart(Object.entries({ Unvan: d.unvan, Marka: d.marka, 'Vergi no': d.vergiNo, 'Listedeki kaydı': d.mevcut, Adres: d.adres, Web: d.web, Yetkili: d.yetkili, Telefon: d.telefon, 'E-posta': d.eposta, Tipler: d.tipler.map((t) => TIP_AD[t]).join(', '), İller: d.iller, Belgeler: d.belgeler, Referanslar: d.referanslar, Not: d.not, Üyelik: `Aylık ${ABONELIK_TL} TL ve üyelik sözleşmesi onaylandı` })) + buton(`${a.site}/yonetim/#onaylar`, 'Onaylamak için yönetim paneli') + `<p>Başvuru no: ${ref.id}</p>`)),
       mail(d.eposta, 'Başvurunuz alındı', sablon('Başvurunuz alındı', `<p>Sayın ${esc(d.yetkili)},</p><p>PrefabrikTeklif firma başvurunuz alındı. Vergi levhası, Ticaret Sicil Gazetesi ve imza sirkülerinizi bu e-postaya yanıt olarak gönderebilirsiniz; referanslarınızı da kontrol edeceğiz.</p><p>Başvurunuz onaylandığında aylık <b>${ABONELIK_TL} TL</b> üyelik bedeli için ödeme bağlantısını e-postayla ileteceğiz. Ardından <b>${esc(d.eposta)}</b> adresiyle <a href="${esc(a.site)}/firma-paneli/">firma paneline</a> giriş yapıp ürün ve fiyatlarınızı yönetebileceksiniz.</p><p style="font-size:12px;color:#4a5751">Onayladığınız sözleşme: <a href="${esc(a.site)}/firma-uyelik-sozlesmesi/">Firma üyelik sözleşmesi</a></p>`)),
     ]);
+    return { ok: true };
+  }
+
+  // ---- POST /api/iletisim (sitenin alt kısmındaki "Bize yazın" formu) ----
+  const ILETISIM_KONU = { oneri: 'Öneri', soru: 'Soru', sikayet: 'Şikâyet', isbirligi: 'İş birliği', reklam: 'Reklam', diger: 'Diğer' };
+  async function iletisim(req) {
+    const b = req.body || {};
+    if (str(b.website)) return { ok: true };
+    const d = { ad: str(b.ad, 80), eposta: str(b.eposta, 120).toLowerCase(), konu: ILETISIM_KONU[b.konu] ? b.konu : 'diger', mesaj: str(b.mesaj, 3000), sayfa: str(b.sayfa, 200) };
+    if (!d.ad || !epostaMi(d.eposta) || d.mesaj.length < 5) hata(400, 'Adınızı, e-postanızı ve mesajınızı yazın.');
+    if (!(await rateLimit(req, 'iletisim', 5))) hata(429, 'Çok fazla mesaj gönderildi, biraz sonra tekrar deneyin.');
+    await db.collection('iletisimMesajlari').add({ ...d, durum: 'yeni', zaman: FieldValue.serverTimestamp() });
+    await mail(ayar().admin, `Siteden mesaj (${ILETISIM_KONU[d.konu]}): ${d.ad}`, sablon('Siteden yeni mesaj', kart([['Ad', d.ad], ['E-posta', d.eposta], ['Konu', ILETISIM_KONU[d.konu]], ['Mesaj', d.mesaj], ['Sayfa', d.sayfa]])));
     return { ok: true };
   }
 
@@ -293,6 +306,9 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     res.set?.('Cache-Control', 'public, max-age=300, s-maxage=600');
     const kayitlar = q.docs.map((d) => d.data()).map((x) => (x.gizli ? { id: x.id, gizli: true } : x));
     for (const f of fq.docs) kayitlar.push({ id: `firma:${f.id}`, gizli: true });
+    // Üye firmalar: firma sayfasındaki "bilgi amaçlı listelendi" uyarısı bunlarda gizlenir
+    const uq = await db.collection('firmalar').where('aktif', '==', true).get();
+    for (const f of uq.docs) if (!f.data().kaldirildi) kayitlar.push({ id: `uye:${f.id}`, uye: true });
     return { kayitlar };
   }
   async function bannerlar(req, res) {
@@ -474,7 +490,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     await yonetici(req);
     const al = async (q, dön = (d) => ({ id: d.id, ...d.data() })) => (await q.get()).docs.map(dön);
     const ms = (x) => x?.toMillis?.() || 0;
-    const [degisiklik, basvuru, yorumB, geri, talep, siparis, firma, banner, kontrol, reklamT] = await Promise.all([
+    const [degisiklik, basvuru, yorumB, geri, talep, siparis, firma, banner, kontrol, reklamT, iletisimM] = await Promise.all([
       al(db.collection('urunDegisiklikleri').where('durum', '==', 'bekliyor').limit(100)),
       al(db.collection('firmaBasvurulari').where('durum', '==', 'bekliyor').limit(50)),
       al(db.collection('yorumlar').where('durum', '==', 'bekliyor').limit(50)),
@@ -485,6 +501,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       al(db.collection('bannerlar')),
       al(db.collection('fiyatKontrol').orderBy('zaman', 'desc').limit(1)),
       al(db.collection('reklamTalepleri').limit(100)),
+      al(db.collection('iletisimMesajlari').orderBy('zaman', 'desc').limit(50)),
     ]);
     const z = (x) => ({ ...x, zaman: ms(x.zaman), olusturma: ms(x.olusturma), guncelleme: ms(x.guncelleme), sonTarih: ms(x.sonTarih), rizaZamani: undefined });
     for (const t of talep) {
@@ -501,6 +518,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       firmalar: firma.map((f) => ({ ...z(f), ad: firmAd(f.id) })), bannerlar: banner.map(z), sonKontrol: kontrol[0] ? z(kontrol[0]) : null,
       asamalar: ASAMALAR, statikFirmalar: FIRMS.map((f) => ({ slug: f.slug, ad: f.kisaAd })),
       reklamTalepleri: reklamT.map((r) => ({ ...z(r), firmaAd: firmAd(r.firma), paketAd: REKLAM_PAKET[r.paket]?.ad || r.paket, modelAd: r.modelId ? (modelBul(r.modelId)?.ad || r.modelId) : '' })).sort((a, b) => (a.durum === 'bitti' || a.durum === 'red') - (b.durum === 'bitti' || b.durum === 'red') || b.zaman - a.zaman),
+      iletisim: iletisimM.map((m) => ({ ...z(m), konuAd: ILETISIM_KONU[m.konu] || m.konu })),
       abonelik: ABONELIK_TL, reklamPaketleri: REKLAM_PAKET, konumSiniri: KONUM_SINIRI, abonelikDurumlari: ABONELIK_DURUM,
     };
   }
@@ -673,7 +691,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     await ref.collection('davetler').doc(slug).set({ kod, eposta, durum: 'bekliyor', gonderim: FieldValue.serverTimestamp(), elle: true });
     await ref.update({ firmalar: FieldValue.arrayUnion(slug) });
     const link = `${ayar().site}/teklif-ver/?t=${ref.id}.${d.token}&f=${slug}.${kod}`;
-    await mail(eposta, `Yeni talep: ${TIP_AD[d.tip]}, ${d.il}`, sablon('Sitemizde size uygun bir talep var', `<p>PrefabrikTeklif’te ürünlerinize uyan bir müşteri talebi var. <b>Müşteri bilgileri gizlidir;</b> fiyat vermeyi kabul ederseniz sizinle paylaşılır.</p>${kart(talepOzeti(d))}${buton(link, 'Fiyat ver')}<p style="font-size:12px;color:#4a5751">Firmanızı kaydederek (aylık ${ABONELIK_TL} TL) tüm talepleri panelden görebilirsiniz: ${esc(ayar().site)}/firma-kayit/</p>`));
+    await mail(eposta, `Yeni talep: ${TIP_AD[d.tip]}, ${d.il}`, sablon('Sitemizde size uygun bir talep var', `<p>PrefabrikTeklif’te ürünlerinize uyan bir müşteri talebi var. <b>Müşteri bilgileri gizlidir;</b> fiyat vermeyi kabul ederseniz sizinle paylaşılır.</p>${kart(talepOzeti(d))}${buton(link, 'Fiyat ver')}<p style="font-size:12px;color:#4a5751">Firmanız sitemizde, kendi sitenizde herkese açık yayınladığınız bilgilerle bilgi amaçlı listelenmiştir. Firma üyeliği başlatılmazsa sayfanız ay sonunda sitemizden kaldırılır. Üye olarak (aylık ${ABONELIK_TL} TL) tüm talepleri panelden görebilir, bilgilerinizi kendiniz güncelleyebilirsiniz: ${esc(ayar().site)}/firma-kayit/</p>`));
     return { ok: true };
   }
 
@@ -681,7 +699,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     rateLimit, kim,
     routes: {
       'POST /api/teklif': teklif, 'GET /api/talep': talep, 'POST /api/teklif-ver': teklifVer, 'POST /api/teklif-red': teklifRed,
-      'POST /api/firma-basvuru': firmaBasvuru, 'GET /api/google-puan': googlePuan, 'GET /api/yorumlar': yorumlar, 'POST /api/yorum': yorum,
+      'POST /api/firma-basvuru': firmaBasvuru, 'POST /api/iletisim': iletisim, 'GET /api/google-puan': googlePuan, 'GET /api/yorumlar': yorumlar, 'POST /api/yorum': yorum,
       'GET /api/katalog': katalog, 'GET /api/bannerlar': bannerlar,
       'GET /api/ben': ben, 'GET /api/hesap': hesap, 'POST /api/favoriler': favoriler, 'POST /api/siparis-mesaj': siparisMesaj,
       'GET /api/firma/ozet': firmaOzet, 'POST /api/firma/urun': firmaUrun, 'POST /api/firma/teklif': firmaTeklif, 'POST /api/firma/red': firmaRed,

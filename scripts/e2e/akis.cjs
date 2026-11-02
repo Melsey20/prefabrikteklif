@@ -152,6 +152,9 @@ async function giris(p, eposta, hedef) {
   await fk.locator('[name=unvan]').fill('Deneme Yapı Ltd.'); await fk.locator('[name=marka]').fill('Deneme Prefabrik'); await fk.locator('[name=vergiNo]').fill('1234567890');
   await fk.locator('[name=adres]').fill('Malatya OSB'); await fk.locator('[name=yetkili]').fill('Ayşe Yılmaz'); await fk.locator('[name=telefon]').fill('05321112233'); await fk.locator('[name=eposta]').fill('yeni@deneme.com');
   await fk.locator('[name=tipler][value=prefabrik]').check(); await fk.locator('[name=kosul]').check();
+  await fk.locator('[name=kapsam][value=secili]').check(); await p.click('#gonder');
+  assert.ok((await p.locator('#hata').textContent()).includes('il'), 'belirli il seçilip hiç il işaretlenmezse uyarı');
+  await p.fill('#il-ara', 'malat'); await fk.locator('[name=il][value=Malatya]').check(); await fk.locator('[name=il][value=Elazığ]').check({ force: true }).catch(() => {});
   await p.click('#gonder'); assert.ok((await p.locator('#hata').textContent()).includes('referans'), 'referanssız gönderilemez');
   await fk.locator('[name=referanslar]').fill('Malatya 2025 · 90 m² 2+1 · Mehmet Bey 0532 000 00 00');
   await p.click('#gonder'); assert.ok((await p.locator('#hata').textContent()).includes('üyelik'), 'üyelik onayı zorunlu');
@@ -203,6 +206,17 @@ async function giris(p, eposta, hedef) {
   await p.waitForSelector('#p-reklamlar .item');
   await p.screenshot({ path: '/tmp/e2e-firma-reklam.png', fullPage: true });
   adim('Firma paneli: üyelik kartı ve reklam talebi (45.000 TL)');
+  await ctx.close();
+  // 8) Alt bilgideki "Bize yazın" formu
+  ({ ctx, p } = await yeniSayfa(390));
+  await p.goto(B + '/rehber/');
+  const bf = p.locator('#by-form');
+  await bf.locator('[name=ad]').fill('Deniz'); await bf.locator('[name=eposta]').fill('deniz@ornek.com'); await bf.locator('[name=mesaj]').fill('Bungalov için Rize taraflarında firma var mı?');
+  await bf.locator('button[type=submit]').click(); await p.waitForSelector('#by-durum:not([hidden])');
+  assert.ok((await p.locator('#by-durum').textContent()).includes('Teşekkürler'));
+  const m2 = await (await p.request.get(B + '/__mails')).json();
+  assert.ok(m2.some((m) => m.subject.startsWith('Siteden mesaj') && m.html.includes('Rize')));
+  adim('Alt bilgi: Bize yazın formu yönetime ulaştı');
   await ctx.close();
 
   await br.close();

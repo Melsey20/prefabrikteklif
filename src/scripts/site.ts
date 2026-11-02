@@ -127,3 +127,19 @@ document.addEventListener('submit', (e) => { const f = e.target as HTMLFormEleme
 
 window.addEventListener('pt:draw', draw);
 draw();
+
+// ---- Alt bilgideki "Bize yazın" formu ----
+document.getElementById('by-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = e.target as HTMLFormElement; const durum = document.getElementById('by-durum')!;
+  const d = Object.fromEntries(new FormData(f)) as Record<string, string>;
+  const goster = (m: string, ok = false) => { durum.textContent = m; durum.hidden = false; durum.style.color = ok ? 'var(--green-d)' : 'var(--red)'; };
+  if (!d.ad?.trim() || !/^\S+@\S+\.\S+$/.test(d.eposta || '') || (d.mesaj || '').trim().length < 5) return goster('Adınızı, e-postanızı ve mesajınızı yazın.');
+  const btn = f.querySelector('button')!; btn.disabled = true;
+  try {
+    const r = await fetch('/api/iletisim', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...d, sayfa: location.pathname }) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.hata || 'Gönderilemedi, lütfen tekrar deneyin.');
+    f.reset(); goster('Teşekkürler, mesajınız ekibimize ulaştı.', true);
+  } catch (err: any) { goster(err.message); } finally { btn.disabled = false; }
+});

@@ -14,6 +14,11 @@ hata() { echo -e "${KIRMIZI}✖ $1${NORMAL}"; echo; read -r -p "Kapatmak için E
 echo "=============================================="
 echo "  PrefabrikTeklif — yeni sürüm yayını"
 echo "=============================================="
+# En güncel kodu GitHub'dan al (bu klasör yalnızca yayın kopyasıdır; functions/.env korunur)
+if [ -d .git ] && command -v git >/dev/null; then
+  adim "En güncel sürüm GitHub'dan alınıyor"
+  git fetch -q origin main && git reset -q --hard origin/main && echo "Sürüm: $(git log -1 --format='%h %s')" || echo "GitHub'a ulaşılamadı, mevcut kodla devam ediliyor."
+fi
 [ -d functions ] && [ -f firebase.json ] || { echo "Site klasörü bulunamadı. Zip'i İndirilenler'de açın."; read -r -p "Enter..." _; exit 1; }
 echo "Klasör: $(pwd)"
 command -v node >/dev/null 2>&1 || { open "https://nodejs.org/tr/download"; hata "Node.js gerekli."; }

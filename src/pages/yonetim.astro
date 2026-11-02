@@ -23,7 +23,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       <section data-panel="talepler" hidden><div class="ph-h"><h1>Teklif talepleri</h1></div><div id="p-talepler"></div></section>
       <section data-panel="siparisler" hidden><div class="ph-h"><h1>Yönettiğimiz siparişler</h1></div><div id="p-kanban" class="kanban" style="margin-bottom:18px"></div><div id="p-siparisler" class="list"></div></section>
       <section data-panel="firmalar" hidden><div class="ph-h"><div><h1>Kayıtlı firmalar</h1><p class="small muted" style="margin:4px 0 0">Talepler yalnızca aktif ve e-postası olan firmalara gider. Panel e-postaları firma paneline giriş yapabilir.</p></div><button class="btn btn-p btn-s" type="button" id="firma-ekle">+ Firma hesabı aç</button></div><div id="p-firmalar"></div></section>
-      <section data-panel="geri-bildirim" hidden><div class="ph-h"><h1>Firma geri bildirimleri</h1></div><div id="p-gb" class="list"></div></section>
+      <section data-panel="geri-bildirim" hidden><div class="ph-h"><h1>Firma geri bildirimleri</h1></div><div id="p-gb" class="list"></div><h2 style="font-size:1.15rem;margin:26px 0 10px">Siteden gelen mesajlar (Bize yazın)</h2><div id="p-iletisim" class="list"></div></section>
       <section data-panel="bannerlar" hidden><div class="ph-h"><div><h1>Reklam alanları</h1><p class="small muted" style="margin:4px 0 0">Ana banner ve yan banner alanlarında en fazla 6, öne çıkan listelemede en fazla 10 aktif reklam olabilir. Hepsi “Reklam” etiketiyle gösterilir.</p></div><button class="btn btn-p btn-s" type="button" id="banner-ekle">+ Reklam ekle</button></div><div id="p-doluluk" class="stats" style="margin-bottom:14px"></div><h2 style="font-size:1.1rem;margin:0 0 10px">Reklam talepleri</h2><div id="p-reklamt" class="list" style="margin-bottom:22px"></div><h2 style="font-size:1.1rem;margin:0 0 10px">Yayındaki ve pasif reklamlar</h2><div id="p-bannerlar" class="list"></div></section>
       <section data-panel="fiyat" hidden><div class="ph-h"><div><h1>Aylık fiyat kontrolü</h1><p class="small muted" style="margin:4px 0 0">Her ayın 1’i saat 17.00’de firma sayfaları otomatik taranır; değişmiş görünen fiyatlar “Onaylar” sekmesine düşer.</p></div></div><div id="p-fiyat"></div></section>
     </main>
@@ -172,6 +172,12 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
           metin, h('div', { style: { display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' } }, durum, h('button', { class: 'btn btn-p btn-s', type: 'button', onclick: () => yap('/api/yonetim/geri-bildirim', { id: g.id, metin: metin.value, durum: metin.value.trim() && durum.value === 'acik' ? 'cevaplandi' : durum.value }, 'Kaydedildi') }, 'Gönder / kaydet')));
       }));
     }
+    function iletisimCiz() {
+      $('p-iletisim').replaceChildren(...((V.iletisim || []).length ? V.iletisim.map((m: any) => h('article', { class: 'item' },
+        h('div', { class: 'row' }, h('b', {}, `${m.konuAd} · ${m.ad}`), h('span', { class: 'xs muted' }, tarih(m.zaman))),
+        h('p', { style: { margin: 0, whiteSpace: 'pre-line' } }, m.mesaj),
+        h('span', { class: 'small' }, h('a', { href: `mailto:${m.eposta}?subject=${encodeURIComponent('PrefabrikTeklif: ' + m.konuAd)}` }, m.eposta), m.sayfa ? ` · ${m.sayfa}` : ''))) : [h('p', { class: 'small muted' }, 'Henüz mesaj yok.')]));
+    }
     function bannerFormu(b: any | null) {
       const baslik = inp('baslik', { type: 'text', maxlength: 120, value: b?.baslik || '', required: true });
       const metin = inp('metin', { type: 'text', maxlength: 240, value: b?.metin || '' });
@@ -223,7 +229,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       document.querySelector('[data-rz=onay]')!.textContent = String(V.degisiklikler.length + V.basvurular.length + V.yorumlar.length || '');
       document.querySelector('[data-rz=siparis]')!.textContent = V.siparisler.length || '';
       document.querySelector('[data-rz=gb]')!.textContent = V.geriBildirimler.filter((g: any) => g.durum === 'acik').length || '';
-      onaylarCiz(); taleplerCiz(); siparislerCiz(); firmalarCiz(); gbCiz(); bannerlarCiz(); fiyatCiz();
+      onaylarCiz(); taleplerCiz(); siparislerCiz(); firmalarCiz(); gbCiz(); iletisimCiz(); bannerlarCiz(); fiyatCiz();
     }
     $('firma-ekle').addEventListener('click', () => firmaFormu(null));
     $('banner-ekle').addEventListener('click', () => bannerFormu(null));

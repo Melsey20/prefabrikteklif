@@ -202,6 +202,23 @@ const ic = {
           </ul>
         </div>
       </div>
+      <section class="bize-yazin" aria-labelledby="by-baslik">
+        <div>
+          <h2 id="by-baslik">Bize yazın</h2>
+          <p class="small muted">Öneri, soru, şikâyet ya da iş birliği: mesajınız doğrudan ekibimize gelir, en geç 1 iş günü içinde e-postayla dönüyoruz.</p>
+        </div>
+        <form id="by-form" novalidate>
+          <div class="two">
+            <label class="f">Adınız<input type="text" name="ad" maxlength="80" required autocomplete="name" /></label>
+            <label class="f">E-posta<input type="email" name="eposta" maxlength="120" required autocomplete="email" /></label>
+          </div>
+          <label class="f">Konu<select name="konu"><option value="soru">Soru</option><option value="oneri">Öneri</option><option value="sikayet">Şikâyet</option><option value="isbirligi">İş birliği</option><option value="reklam">Reklam</option><option value="diger">Diğer</option></select></label>
+          <label class="f">Mesajınız<textarea name="mesaj" maxlength="3000" rows="3" required></textarea></label>
+          <div class="hp" aria-hidden="true"><label>Web<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="btn btn-p btn-s" type="submit">Gönder</button><span class="xs muted">Bilgileriniz yalnızca size dönüş yapmak için kullanılır. <a href="/kvkk-aydinlatma-metni/">Aydınlatma metni</a></span></div>
+          <p class="small" id="by-durum" role="status" hidden></p>
+        </form>
+      </section>
       <p class="site-note">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#17663F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
         <span><b>Küçük bir rica:</b> Lütfen hizmet aldığınız firmayı sözleşmeden önce siz de teyit edin. Firmaları resmi evraklarıyla ve referanslarıyla kabul ediyor, referansı olmayanı kaydetmiyoruz; yine de satış, üretim, teslim ve garanti üretici firmanın sorumluluğundadır, {SITE.ad} aracı platform olarak bu süreçlerden sorumlu tutulamaz. <a href="/kullanim-kosullari/">Ayrıntılar</a></span>

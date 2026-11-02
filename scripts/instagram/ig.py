@@ -4,7 +4,7 @@
 Kullanım (depo kökünden):
   python3 scripts/instagram/ig.py tasarim scripts/instagram/icerik/2026-11-02.json  çıktı_klasörü
   python3 scripts/instagram/ig.py reels   scripts/instagram/icerik/2026-11-02.json  çıktı_klasörü
-Fontlar: node_modules/@fontsource/{manrope,fraunces} (yoksa FONT_DIR ortam değişkeni).
+Fontlar: node_modules/@fontsource/{manrope,playfair-display} (yoksa FONT_DIR ortam değişkeni).
 Görseller: public/img. Logo: scripts/instagram/marka.
 Tasarımlar PNG (1080×1350), reels için kare kare HTML (reels.cjs ile çekilir).
 """
@@ -26,7 +26,7 @@ def b64(p):
 
 def fonts():
     css = ''
-    for fam, name, weights, styles in (('S', 'fraunces', (400, 500), ('normal', 'italic')), ('M', 'manrope', (500, 600, 700, 800), ('normal',))):
+    for fam, name, weights, styles in (('S', 'playfair-display', (500, 600), ('normal', 'italic')), ('M', 'manrope', (500, 600, 700, 800), ('normal',))):
         for w in weights:
             for st in styles:
                 for sub, rng in (('latin', LAT), ('latin-ext', EXT)):
@@ -45,22 +45,22 @@ GRAIN = ("url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' 
          "<feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .06 0'/>"
          "</filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")")
 BASE = f'''*{{box-sizing:border-box;margin:0;padding:0}}
-body{{font-family:M,sans-serif;-webkit-font-smoothing:antialiased;color:{C['ink']}}}
+body{{font-family:M,sans-serif;-webkit-font-smoothing:antialiased;color:{C['ink']};font-variant-ligatures:none;font-feature-settings:'liga' 0,'dlig' 0}}
 .cv{{position:relative;overflow:hidden;background:{C['ivory']}}}
 .cv::after{{content:'';position:absolute;inset:0;background-image:{GRAIN};pointer-events:none;mix-blend-mode:multiply}}
 .cv.dk{{background:{C['forest']};color:{C['ivory']}}} .cv.dk::after{{opacity:.6;mix-blend-mode:screen}}
 .fr{{position:absolute;inset:0;padding:68px 72px 64px;display:flex;flex-direction:column}}
 .top{{display:flex;justify-content:space-between;align-items:center;flex:none}}
 .lbl{{font:700 20px M;letter-spacing:.22em;text-transform:uppercase;color:{C['muted']}}} .dk .lbl{{color:{C['sage2']}}}
-.ser{{font-family:S;font-weight:500;letter-spacing:-.025em;line-height:1.02}}
-.ser em{{font-style:italic;font-weight:400;color:{C['green']}}} .dk .ser em{{color:{C['sage2']}}}
+.ser{{font-family:S;font-weight:600;letter-spacing:-.015em;line-height:1.06}}
+.ser em{{font-style:italic;font-weight:500;color:{C['green']}}} .dk .ser em{{color:{C['sage2']}}}
 .body{{font:500 32px/1.42 M;color:{C['ink2']}}} .dk .body{{color:#D9E2DB}}
 .ph{{border-radius:34px;overflow:hidden;position:relative;background:{C['sand']}}} .ph img{{width:100%;height:100%;object-fit:cover;display:block}}
 .chip{{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:12px 22px;font:700 24px M;background:{C['sage']};color:{C['forest']}}}
 .dk .chip{{background:rgba(255,255,255,.08);color:{C['ivory']};border:1.5px solid rgba(255,255,255,.18)}}
 .foot{{flex:none;margin-top:auto;padding-top:22px;border-top:1.5px solid {C['line']};display:flex;justify-content:space-between;align-items:center;font:700 22px M;color:{C['ink2']};letter-spacing:.02em}}
 .dk .foot{{border-color:rgba(255,255,255,.18);color:#D9E2DB}}
-.num{{font-family:S;font-weight:500;font-size:30px;color:{C['clay']}}}
+.num{{font-family:S;font-weight:600;font-size:30px;color:{C['clay']}}}
 '''
 _F = None
 def page(body, css='', w=1080, h=1350):
@@ -118,8 +118,8 @@ SABLON = dict(kapak=t_kapak, liste=t_liste, kontrol=t_kontrol, cta=t_cta, ucfoto
 RCSS = f'''.sc{{position:absolute;inset:0;opacity:0}}
 .lg{{position:absolute;left:0;right:0;top:120px;display:flex;justify-content:center;z-index:9}}
 .hd{{position:absolute;left:84px;right:84px;top:300px}}
-.hd h1{{font-family:S;font-weight:500;font-size:122px;line-height:1.02;letter-spacing:-.03em}}
-.hd h1 em{{font-style:italic;font-weight:400;color:{C['green']}}}
+.hd h1{{font-family:S;font-weight:600;font-size:116px;line-height:1.06;letter-spacing:-.02em}}
+.hd h1 em{{font-style:italic;font-weight:500;color:{C['green']}}}
 .hd p{{margin-top:28px;font:500 40px/1.35 M;color:{C['ink2']}}}
 .w{{display:inline-block;opacity:0}}
 .rph{{position:absolute;left:72px;right:72px;top:880px;height:700px;border-radius:44px;overflow:hidden;background:{C['sand']};box-shadow:0 30px 70px rgba(21,33,27,.18)}}
@@ -128,9 +128,9 @@ RCSS = f'''.sc{{position:absolute;inset:0;opacity:0}}
 .grid div{{border-radius:30px;overflow:hidden;opacity:0}} .grid img{{width:100%;height:100%;object-fit:cover}}
 .chips{{position:absolute;left:72px;right:72px;top:1620px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center}}
 .rchip{{font:700 34px M;padding:16px 28px;border-radius:999px;background:{C['sage']};color:{C['forest']};opacity:0}}
-.big{{font-family:S;font-weight:500;font-size:230px;line-height:.9;color:{C['green']};letter-spacing:-.04em}}
+.big{{font-family:S;font-weight:600;font-size:230px;line-height:.9;color:{C['green']};letter-spacing:-.04em}}
 .son{{position:absolute;inset:0;background:{C['forest']};color:{C['ivory']};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:48px;text-align:center;padding:0 80px}}
-.son h1{{font-family:S;font-weight:500;font-size:100px;line-height:1.04;letter-spacing:-.03em}} .son h1 em{{font-style:italic;font-weight:400;color:{C['sage2']}}}
+.son h1{{font-family:S;font-weight:600;font-size:96px;line-height:1.08;letter-spacing:-.02em}} .son h1 em{{font-style:italic;font-weight:500;color:{C['sage2']}}}
 .url{{font:800 46px M;background:{C['ivory']};color:{C['forest']};padding:24px 44px;border-radius:999px}}
 .son p{{font:600 36px M;color:#D9E2DB}}'''
 RJS = '''const cl=x=>Math.min(Math.max(x,0),1); const e=x=>1-Math.pow(1-cl(x),3);

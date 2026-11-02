@@ -61,6 +61,10 @@ const ana = f.tipler[0] || 'prefabrik';
 
     <section class="sec" style="padding-top:28px"><Puanlar slug={f.slug} /></section>
 
+    <aside class="note-a" data-liste-uyari={f.slug} style="margin-top:28px;display:flex;gap:12px;align-items:flex-start">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="flex:none;margin-top:2px"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg>
+      <span><b>Bilgilendirme:</b> {f.kisaAd}, ev arayanlar fiyatları karşılaştırabilsin diye firmanın kendi sitesinde herkese açık yayınladığı bilgilerle listelenmiştir; {SITE.ad} ile bir üyelik ilişkisi yoktur. <b>Firma sahibiyseniz:</b> firma üyeliği başlatılmazsa bu sayfa ay sonunda sitemizden kaldırılır. Bilgilerinizi güncel tutmak ve taleplere fiyat vermek için <a href={`/firma-kayit/?firma=${f.slug}`}>firmanızı sahiplenin</a>.</span>
+    </aside>
     <div class="band" style="margin-top:28px">
       <div><h2>Bu firma sizin mi?</h2><p>Aylık {SITE.abonelik} TL üyelikle fiyatlarınızı ve fotoğraflarınızı kendiniz güncelleyin, bu sayfaya gelen talepleri alın.</p></div>
       <div class="btns"><a class="btn btn-w" href={`/firma-kayit/?firma=${f.slug}`}>Firmamı sahiplen</a></div>
@@ -70,6 +74,9 @@ const ana = f.tipler[0] || 'prefabrik';
     import { katalog } from '../../../scripts/katalog';
     const box = document.querySelector<HTMLElement>('[data-yeni]');
     katalog().then((k) => {
+      // Üye (ödeme yapan) firmalarda "listelenmiş" uyarısını gizle
+      const uyari = document.querySelector<HTMLElement>('[data-liste-uyari]');
+      if (uyari && (k as any)['uye:' + uyari.dataset.listeUyari]) uyari.hidden = true;
       const yeni = Object.values(k).filter((x) => x.yeni && x.firma === box?.dataset.yeni);
       if (!box || !yeni.length) return;
       for (const x of yeni) {

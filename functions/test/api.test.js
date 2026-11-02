@@ -117,10 +117,10 @@ test('firma ürün değişikliği onaydan sonra katalogda; başka firmanın mode
   assert.equal((await call('POST', '/api/firma/urun', { tok: 'tok-firma', body: { tur: 'guncelle', modelId: 'pramo/p78', veri: { fiyat: 1 } } })).statusCode, 404);
   const u = await call('POST', '/api/firma/urun', { tok: 'tok-firma', body: { tur: 'guncelle', modelId: 'kardesler/k82', veri: { fiyat: 650000, gorseller: ['https://k.example/a.jpg', 'javascript:alert(1)', 'http://k.example/b.jpg'] } } });
   assert.equal(u.statusCode, 200, JSON.stringify(u.body));
-  assert.equal((await call('GET', '/api/katalog')).body.kayitlar.length, 0, 'onaysız yayına girmez');
+  assert.equal((await call('GET', '/api/katalog')).body.kayitlar.filter((x) => !x.uye).length, 0, 'onaysız yayına girmez');
   const o = await call('POST', '/api/yonetim/degisiklik', { tok: 'tok-admin', body: { id: u.body.id, karar: 'onay' } });
   assert.equal(o.statusCode, 200, JSON.stringify(o.body));
-  const k = (await call('GET', '/api/katalog')).body.kayitlar;
+  const k = (await call('GET', '/api/katalog')).body.kayitlar.filter((x) => !x.uye);
   assert.equal(k.length, 1); assert.equal(k[0].fiyat, 650000); assert.deepEqual(k[0].gorseller, ['https://k.example/a.jpg']);
   assert.ok(mails.some((m) => m.to === 'satis@kardesler.com' && m.subject === 'Değişikliğiniz yayında'));
   assert.equal((await call('POST', '/api/yonetim/degisiklik', { tok: 'tok-admin', body: { id: u.body.id, karar: 'onay' } })).statusCode, 409);
@@ -223,6 +223,7 @@ test('firma reklam talebi, ödeme bağlantısı ve sözleşmeye aykırılıkta y
   await call('POST', '/api/yonetim/firma', { tok: 'tok-admin', body: { slug: 'kardesler', sadeceAbonelik: true, yayindanKaldir: true, neden: 'Müşteri şikâyeti' } });
   const k = (await call('GET', '/api/katalog')).body.kayitlar;
   assert.ok(k.some((x) => x.id === 'firma:kardesler' && x.gizli));
+  assert.ok(!k.some((x) => x.id === 'uye:kardesler'), 'kaldırılan firma üye sayılmaz');
   const t = await call('POST', '/api/teklif', { body: TALEP });
   assert.equal(t.body.firmaSayisi, 0, 'kaldırılan firmaya talep gitmez');
 });

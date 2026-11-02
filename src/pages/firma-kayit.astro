@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Crumbs from '../components/Crumbs.astro';
 import { SITE } from '../site.config';
-import { TIPLER, TIP_KEYS, firms } from '../lib/data';
+import { TIPLER, TIP_KEYS, firms, ILLER } from '../lib/data';
 ---
 <Base title="Firma Kaydı: Prefabrik ve Modüler Ev Üreticileri" description={`Prefabrik, çelik, konteyner, tiny house ve ahşap ev üreticileri için aylık ${SITE.abonelik} TL firma üyeliği. Fiyatlarınızı güncelleyin, size uygun teklif taleplerini alın. ${SITE.ad}.`}>
   <div class="wrap narrow">
@@ -15,7 +15,7 @@ import { TIPLER, TIP_KEYS, firms } from '../lib/data';
     <p class="small muted">Sitemizdeki her firmayı resmi evraklarıyla ve teslim ettiği işlerin referanslarıyla kabul ediyoruz; referansı olmayan firmayı kaydetmiyoruz. Ev arayanların bize güvenmesinin sebebi bu 🙂</p>
 
     <div class="grid" style="margin:18px 0">
-      <div class="card"><strong>Listelenmiş</strong><span class="small muted">Fiyatlarınız sitenizden alınır. Kayıt yok, teklif talebi gelmez.</span></div>
+      <div class="card"><strong>Listelenmiş</strong><span class="small muted">Fiyatlarınız bilgi amaçlı sitenizden alınır; teklif talebi gelmez. Üyelik başlatılmazsa sayfanız ay sonunda sitemizden kaldırılır.</span></div>
       <div class="card"><strong>Kayıtlı firma</strong><span class="small muted">Aylık {SITE.abonelik} TL. Vergi levhası, sicil kaydı, imza sirküleri ve referanslar kontrol edilir. Firma panelinden ürün, fiyat ve fotoğraflarınızı yönetir, size uygun talepleri alır, bize geri bildirim gönderirsiniz.</span></div>
       <div class="card" style="border:1.5px solid var(--green)"><strong style="color:var(--green-d)">Doğrulanmış üretici</strong><span class="small muted">Fabrika ziyareti ve tanıtım videosu, üretim belgeleri ve teslim edilmiş 3 proje kontrol edilir. Taleplerde öncelik ve rozet.</span></div>
     </div>
@@ -42,7 +42,18 @@ import { TIPLER, TIP_KEYS, firms } from '../lib/data';
         <legend>Ürettiğiniz tipler</legend>
         <div class="two">{TIP_KEYS.map((k) => <label class="chk"><input type="checkbox" name="tipler" value={k} /> {TIPLER[k].ad}</label>)}</div>
       </fieldset>
-      <label class="f">Hizmet verdiğiniz iller<input type="text" name="iller" maxlength="400" placeholder="Tüm Türkiye ya da il adları" /></label>
+      <fieldset>
+        <legend>Hangi illere hizmet veriyorsunuz?</legend>
+        <div style="display:flex;gap:18px;flex-wrap:wrap">
+          <label class="chk"><input type="radio" name="kapsam" value="tum" checked /> Tüm Türkiye</label>
+          <label class="chk"><input type="radio" name="kapsam" value="secili" /> Belirli iller</label>
+        </div>
+        <div id="il-sec" hidden style="margin-top:10px">
+          <input type="search" id="il-ara" placeholder="İl ara (ör. Malatya)" aria-label="İl ara" style="margin-bottom:10px" />
+          <div class="il-grid">{ILLER.map((il) => <label class="chk"><input type="checkbox" name="il" value={il} /> {il}</label>)}</div>
+          <span class="xs muted" id="il-say">Henüz il seçilmedi. Talepler yalnızca seçtiğiniz illerden gelir.</span>
+        </div>
+      </fieldset>
       <label class="f">Belgeleriniz (TSE, ISO, CE, O2 tip onay vb.)<input type="text" name="belgeler" maxlength="300" /></label>
       <label class="f">Referanslarınız (zorunlu)<textarea name="referanslar" required maxlength="1500" placeholder="Teslim ettiğiniz en az 1–3 iş: il, yıl, ev tipi ve teyit için müşteri ya da yüklenici iletişim bilgisi"></textarea></label>
       <label class="f">Not<textarea name="not" maxlength="1000"></textarea></label>
@@ -62,10 +73,15 @@ import { TIPLER, TIP_KEYS, firms } from '../lib/data';
     (function () {
       var f = document.getElementById('kayit'), q = new URLSearchParams(location.search);
       if (q.get('firma')) f.mevcut.value = q.get('firma');
+      var sec = document.getElementById('il-sec'), say = document.getElementById('il-say');
+      f.querySelectorAll('input[name=kapsam]').forEach(function (r) { r.addEventListener('change', function () { sec.hidden = f.kapsam.value !== 'secili'; }); });
+      f.addEventListener('change', function (e) { if (e.target.name !== 'il') return; var n = f.querySelectorAll('input[name=il]:checked'); say.textContent = n.length ? n.length + ' il seçildi: ' + [].map.call(n, function (x) { return x.value; }).join(', ') : 'Henüz il seçilmedi. Talepler yalnızca seçtiğiniz illerden gelir.'; });
+      document.getElementById('il-ara').addEventListener('input', function (e) { var q = e.target.value.toLocaleLowerCase('tr'); f.querySelectorAll('.il-grid label').forEach(function (l) { l.hidden = q && l.textContent.toLocaleLowerCase('tr').indexOf(q) < 0; }); });
       f.addEventListener('submit', function (e) {
         e.preventDefault(); var h = document.getElementById('hata'); h.hidden = true;
-        var d = { tipler: [] }; new FormData(f).forEach(function (v, k) { if (k === 'tipler') d.tipler.push(v); else d[k] = v; });
-        var m = !d.unvan ? 'Ticaret unvanı yazın.' : !/^\d{10,11}$/.test(d.vergiNo || '') ? 'Vergi numarası 10 veya 11 haneli olmalı.' : !d.yetkili ? 'Yetkili adı yazın.' : !/^\S+@\S+\.\S+$/.test(d.eposta || '') ? 'Geçerli e-posta yazın.' : (d.telefon || '').replace(/\D/g, '').length < 10 ? 'Geçerli telefon yazın.' : !d.tipler.length ? 'En az bir ürün tipi seçin.' : (d.referanslar || '').trim().length < 10 ? 'En az bir referans yazın; referanssız kayıt almıyoruz.' : !d.abonelik ? 'Aylık üyelik bedelini onaylayın.' : !d.sozlesme ? 'Firma üyelik sözleşmesini onaylayın.' : !d.kosul ? 'Koşulları onaylayın.' : '';
+        var d = { tipler: [] }, il = []; new FormData(f).forEach(function (v, k) { if (k === 'tipler') d.tipler.push(v); else if (k === 'il') il.push(v); else d[k] = v; });
+        d.iller = d.kapsam === 'secili' ? il.join(', ') : 'Tüm Türkiye'; delete d.kapsam;
+        var m = !d.unvan ? 'Ticaret unvanı yazın.' : !/^\d{10,11}$/.test(d.vergiNo || '') ? 'Vergi numarası 10 veya 11 haneli olmalı.' : !d.yetkili ? 'Yetkili adı yazın.' : !/^\S+@\S+\.\S+$/.test(d.eposta || '') ? 'Geçerli e-posta yazın.' : (d.telefon || '').replace(/\D/g, '').length < 10 ? 'Geçerli telefon yazın.' : !d.tipler.length ? 'En az bir ürün tipi seçin.' : !d.iller ? 'Hizmet verdiğiniz illeri seçin ya da Tüm Türkiye’yi işaretleyin.' : (d.referanslar || '').trim().length < 10 ? 'En az bir referans yazın; referanssız kayıt almıyoruz.' : !d.abonelik ? 'Aylık üyelik bedelini onaylayın.' : !d.sozlesme ? 'Firma üyelik sözleşmesini onaylayın.' : !d.kosul ? 'Koşulları onaylayın.' : '';
         d.abonelikOnay = !!d.abonelik; d.sozlesmeOnay = !!d.sozlesme; delete d.abonelik; delete d.sozlesme;
         if (m) { h.textContent = m; h.hidden = false; return; }
         var b = document.getElementById('gonder'); b.disabled = true; b.textContent = 'Gönderiliyor…';
