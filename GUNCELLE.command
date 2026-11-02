@@ -62,11 +62,12 @@ echo "  • Settings → Authorized domains: prefabrikteklif.com.tr ve www.prefa
 open "https://console.firebase.google.com/project/$PROJE/authentication/providers" 2>/dev/null || true
 read -r -p "Bitince Enter'a basın (sadece Enter)..." _
 
-adim "5/6 Site, sunucu ve veritabanı kuralları yayınlanıyor (birkaç dakika)"
-$FB deploy --only hosting,functions,firestore --project "$PROJE" --force || hata "Yayın sırasında hata oluştu. Bu pencerenin ekran görüntüsünü Claude'a gönderin."
+adim "5/6 Sunucu ve veritabanı kuralları yayınlanıyor (birkaç dakika)"
+# Site (hosting) GitHub Actions ile otomatik yayınlanır; burada eski bir dist yüklenmesin diye yalnızca sunucu tarafı yayınlanır.
+$FB deploy --only functions,firestore --project "$PROJE" --force || hata "Yayın sırasında hata oluştu. Bu pencerenin ekran görüntüsünü Claude'a gönderin."
 
 adim "6/6 Arama motorlarına bildirim (IndexNow: Bing, Yandex vb.)"
-node -e '
+[ -d dist ] && node -e '
 const fs=require("fs");const x=fs.readdirSync("dist").filter(f=>/^sitemap-\d+\.xml$/.test(f)).map(f=>fs.readFileSync("dist/"+f,"utf8")).join("");
 const urls=[...x.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]).slice(0,10000);
 fetch("https://api.indexnow.org/indexnow",{method:"POST",headers:{"Content-Type":"application/json; charset=utf-8"},body:JSON.stringify({host:"www.prefabrikteklif.com.tr",key:"c7f4e2a91b6d4f0e8a3b5d2c1e9f7a64",keyLocation:"https://www.prefabrikteklif.com.tr/c7f4e2a91b6d4f0e8a3b5d2c1e9f7a64.txt",urlList:urls})})
