@@ -7,4 +7,4 @@ export function getStaticPaths() {
 const { key } = Astro.props;
 const T = TIPLER[key];
 ---
-<KategoriSayfa tip={key} list={tipModelleri(key)} baslik={T.baslik} crumbs={[{ ad: T.baslik }]} />
+<KategoriSayfa tip={key} list={tipModelleri(key)} baslik={T.baslik.length <= 24 ? `${T.baslik} ve Modelleri` : T.baslik} crumbs={[{ ad: T.baslik }]} />

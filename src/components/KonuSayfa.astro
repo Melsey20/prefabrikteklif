@@ -1,0 +1,136 @@
+---
+// Arama hacmi yüksek konu sayfaları (tek katlı, dubleks, anahtar teslim, villa, bahçe evi, hazır ev, m² fiyatları)
+import Base from '../layouts/Base.astro';
+import Crumbs from './Crumbs.astro';
+import Stats from './Stats.astro';
+import ModelList from './ModelList.astro';
+import Faq from './Faq.astro';
+import { SITE } from '../site.config';
+import { TIPLER, meta, istatistik, tl, sayi, kisaTl, modelUrl, tipImg, tipUrl, TIP_IMG, type Model } from '../lib/data';
+import { konuBul, konuModelleri, tipOzet, KONULAR } from '../lib/konular';
+
+interface Props { slug: string; limit?: number; ozet?: 'tip' | 'm2' }
+const { slug, limit, ozet } = Astro.props;
+const k = konuBul(slug);
+const tum = konuModelleri(k);
+const s = istatistik(tum);
+const liste = ozet === 'm2'
+  ? [...tum].sort((a, b) => (a.m2Fiyat ?? 9e9) - (b.m2Fiyat ?? 9e9)).slice(0, limit ?? tum.length)
+  : tum.slice(0, limit ?? tum.length);
+const h1 = `${k.baslik} ${meta.ay}`;
+const desc = `${k.baslik}: ${s.firma} firmanın ${s.model} modeli${s.min ? `, ${kisaTl(s.min)}’den başlayan fiyatlarla` : ''}. Neyin dahil olduğunu görün, kıyaslayın, ${SITE.teklifSaat} saatte ücretsiz teklif alın.`;
+const tablo = ozet ? tipOzet(tum) : [];
+const priced = tum.filter((m) => m.fiyatTuru === 'model' && m.fiyat);
+const ld = [{
+  '@context': 'https://schema.org', '@type': 'ItemList', name: h1, numberOfItems: tum.length,
+  itemListElement: priced.slice(0, 30).map((m, i) => ({
+    '@type': 'ListItem', position: i + 1,
+    item: {
+      '@type': 'Product', name: `${m.firmaAd} ${m.ad}`, url: new URL(modelUrl(m), SITE.url).href, category: TIPLER[m.tip]?.ad,
+      brand: { '@type': 'Brand', name: m.firmaAd },
+      offers: { '@type': 'Offer', price: m.fiyat, priceCurrency: 'TRY', availability: 'https://schema.org/InStock', url: m.kaynak },
+    },
+  })),
+}];
+const firmaEnUcuz = Object.values(priced.reduce((acc, m) => { if (!acc[m.firma] || acc[m.firma].fiyat! > m.fiyat!) acc[m.firma] = m; return acc; }, {} as Record<string, Model>)).sort((a, b) => a.fiyat! - b.fiyat!);
+const M2_ORNEK = [50, 80, 100, 120, 150];
+const diger = KONULAR.filter((x) => x.slug !== slug);
+---
+<Base title={`${h1}: ${s.firma} Firma, ${s.model} Model`} description={desc} jsonLd={ld} tip={k.tip} ogImage={`/img/${TIP_IMG[k.tip]}-og.jpg`} preload={tipImg(k.tip, 960)}>
+  <div class="wrap">
+    <div class="phead">
+      <img src={tipImg(k.tip, 960)} srcset={`${tipImg(k.tip, 480)} 480w, ${tipImg(k.tip, 960)} 960w`} sizes="100vw" alt="" width="960" height="723" fetchpriority="high" />
+      <div class="in">
+        <h1>{h1}</h1>
+        <p>{s.firma} firmanın {s.model} modeli · fiyatlar {meta.sonKontrolYazi}’de firma sitelerinden kontrol edildi.</p>
+      </div>
+    </div>
+    <Crumbs items={[{ ad: k.baslik }]} />
+    <Stats s={s} />
+    <p style="max-width:860px;font-size:1.05rem;line-height:1.6;margin:14px 0 6px">{k.giris(s, tum)}</p>
+
+    {ozet === 'tip' && (
+      <section>
+        <h2>Tiplere göre {k.kisa} fiyatları</h2>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Ev tipi</th><th class="n">Firma</th><th class="n">Model</th><th class="n">En düşük</th><th class="n">Ortanca</th><th class="n">Ortanca m²</th></tr></thead>
+            <tbody>
+              {tablo.map((r) => (
+                <tr><td><a href={tipUrl(r.tip)}>{TIPLER[r.tip].ad}</a></td><td class="n">{r.s.firma}</td><td class="n">{r.s.model}</td><td class="n">{tl(r.s.min)}</td><td class="n">{tl(r.s.medyan)}</td><td class="n">{r.s.m2Medyan ? `${sayi(r.s.m2Medyan)} TL` : ''}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )}
+
+    {ozet === 'm2' && (
+      <section>
+        <h2>Ev tiplerine göre m² fiyatları</h2>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Ev tipi</th><th class="n">Model</th><th class="n">En düşük m²</th><th class="n">Ortanca m²</th><th class="n">En yüksek m²</th></tr></thead>
+            <tbody>
+              {tablo.map((r) => (
+                <tr><td><a href={tipUrl(r.tip)}>{TIPLER[r.tip].ad}</a></td><td class="n">{r.s.model}</td><td class="n">{r.m2Min ? `${sayi(r.m2Min)} TL` : ''}</td><td class="n">{r.s.m2Medyan ? `${sayi(r.s.m2Medyan)} TL` : ''}</td><td class="n">{r.m2Max ? `${sayi(r.m2Max)} TL` : ''}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <h2>Ortanca m² fiyatıyla yaklaşık bina maliyeti</h2>
+        <p class="small muted">Tahmini hesap: tipin ortanca m² fiyatı × metrekare. Zemin betonu, nakliye, ruhsat ve altyapı bağlantıları dahil değildir.</p>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Ev tipi</th>{M2_ORNEK.map((h) => <th class="n">{h} m²</th>)}</tr></thead>
+            <tbody>
+              {tablo.filter((r) => r.s.m2Medyan && ['prefabrik', 'celik', 'ahsap'].includes(r.tip)).map((r) => (
+                <tr><td>{TIPLER[r.tip].ad}</td>{M2_ORNEK.map((h) => <td class="n">{kisaTl(Math.round((r.s.m2Medyan! * h) / 10000) * 10000)}</td>)}</tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )}
+
+    <ModelList list={liste} />
+    {limit && tum.length > limit && <p class="small muted">En uygun {liste.length} model gösteriliyor. Tüm modeller için tip sayfalarına geçin: {Object.keys(TIPLER).map((t, i) => <>{i ? ', ' : ''}<a href={tipUrl(t)}>{TIPLER[t].kisa}</a></>)}.</p>}
+
+    {!ozet && firmaEnUcuz.length > 2 && (
+      <section>
+        <h2>Firmalara göre en uygun {k.kisa} fiyatları</h2>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Firma</th><th>Model</th><th class="n">m²</th><th class="n">Fiyat</th></tr></thead>
+            <tbody>
+              {firmaEnUcuz.map((m) => (
+                <tr><td><a href={`/firma/${m.firma}/`}>{m.firmaAd}</a></td><td><a href={modelUrl(m)}>{m.ad}</a></td><td class="n">{m.m2 ?? ''}</td><td class="n">{tl(m.fiyat)}{m.kdv === 'haric' ? ' + KDV' : ''}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )}
+
+    <div class="cols" style="margin-top:8px">
+      <div class="prose">
+        <Faq items={k.sss(s, tum)} />
+      </div>
+      <aside class="sticky-side">
+        <div class="box dk">
+          <h2 style="margin-top:0;font-size:1.2rem">{SITE.teklifSaat} saatte teklif al</h2>
+          <p class="small">Bir kez yazın; kriterlerinize uyan firmalar fiyat versin. Bilgileriniz yalnızca fiyat veren firmayla paylaşılır. Ücretsiz.</p>
+          <a class="btn btn-w btn-block" href={`/teklif-al/?tip=${encodeURIComponent(k.tip)}`}>Teklif al</a>
+        </div>
+        <div class="box" style="margin-top:12px">
+          <h3 style="margin-top:0">İlgili sayfalar</h3>
+          <ul class="small" style="padding-left:18px;margin:0">{k.ilgili.map((r) => <li><a href={r.url}>{r.ad}</a></li>)}</ul>
+        </div>
+        <div class="box" style="margin-top:12px">
+          <h3 style="margin-top:0">Çok arananlar</h3>
+          <ul class="small" style="padding-left:18px;margin:0">{diger.map((r) => <li><a href={`/${r.slug}/`}>{r.baslik}</a></li>)}</ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</Base>

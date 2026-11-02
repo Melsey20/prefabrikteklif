@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { SITE } from '../site.config';
 import { TIPLER, TIP_SIRA, TIP_ACIKLAMA, meta, tipImg, kisaTl, tipUrl } from '../lib/data';
+import { KONULAR } from '../lib/konular';
 
 interface Props {
   title: string;
@@ -179,6 +180,8 @@ const ic = {
         <div>
           <h2>Fiyatlar</h2>
           <ul>{tipler.map((t) => <li><a href={tipUrl(t.k)}>{t.baslik}</a></li>)}</ul>
+          <h2 style="margin-top:18px">Çok arananlar</h2>
+          <ul>{KONULAR.map((k) => <li><a href={`/${k.slug}/`}>{k.baslik}</a></li>)}</ul>
         </div>
         <div>
           <h2>Rehber ve araçlar</h2>
