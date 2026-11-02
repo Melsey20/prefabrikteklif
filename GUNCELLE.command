@@ -41,7 +41,7 @@ if [ "$ADET" != "0" ] && [ -n "$ADET" ]; then echo "Web uygulaması mevcut."; el
 adim "3/6 Sunucu ayarları"
 if [ ! -f functions/.env ]; then
 cat > functions/.env <<ENV
-SMTP_HOST=smtp.hostinger.com
+SMTP_HOST=oden.veridyen.com
 SMTP_PORT=465
 SMTP_USER=info@mitraajans.com
 MAIL_FROM=PrefabrikTeklif <info@mitraajans.com>
@@ -50,6 +50,8 @@ YONETICILER=info@mitraajans.com,yusuf4461@gmail.com
 SITE_URL=https://www.prefabrikteklif.com.tr
 ENV
 fi
+# mitraajans.com e-postaları Veridyen sunucusunda (MX: oden.veridyen.com); eski Hostinger ayarını düzelt
+if grep -q "SMTP_HOST=smtp.hostinger.com" functions/.env; then sed -i '' 's/SMTP_HOST=smtp.hostinger.com/SMTP_HOST=oden.veridyen.com/' functions/.env; echo "E-posta sunucusu oden.veridyen.com olarak düzeltildi."; fi
 grep -q YONETICILER functions/.env || echo "YONETICILER=info@mitraajans.com,yusuf4461@gmail.com" >> functions/.env
 echo "Yönetici e-postaları: $(grep YONETICILER functions/.env | cut -d= -f2)"
 echo

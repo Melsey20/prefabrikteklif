@@ -16,7 +16,7 @@ const REGION = 'europe-west1';
 
 const SMTP_PASS = defineSecret('SMTP_PASS');
 const PLACES_API_KEY = defineSecret('PLACES_API_KEY');
-const SMTP_HOST = defineString('SMTP_HOST', { default: 'smtp.hostinger.com' });
+const SMTP_HOST = defineString('SMTP_HOST', { default: 'oden.veridyen.com' });
 const SMTP_PORT = defineString('SMTP_PORT', { default: '465' });
 const SMTP_USER = defineString('SMTP_USER', { default: '' });
 const MAIL_FROM = defineString('MAIL_FROM', { default: '' });
