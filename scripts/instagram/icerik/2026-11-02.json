@@ -1,0 +1,36 @@
+{
+  "tarih": "2026-11-02",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Prefabrik ev yaptırmadan önce firmaları yan yana koyun 👇\n\nAynı m²'de fiyat da, fiyata dahil olanlar da firmadan firmaya değişiyor. PrefabrikTeklif'te 62 firmanın 422 modelini tek yerde karşılaştırın; KDV, nakliye, montaj ve zemin betonu dahil mi tek bakışta görün.\n\nTek form doldurun, 48 saatte teklifler gelsin. Talebiniz isimsiz gider; numaranız yalnızca fiyat veren firmaya açılır.\n\n📌 Kaydedin, ev bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevfiyatları #tinyhouse #çelikev #konteynerev #ahşapev #bungalov #bağevi #modülerev #evyaptırmak",
+      "kartlar": [
+        {"sablon": "kapak", "etiket": "Rehber", "h": "Prefabrik ev yaptırmadan önce firmaları <em>yan yana</em> koyun.", "p": "Aynı m²’de fiyat da, fiyata dahil olanlar da firmadan firmaya değişiyor.", "img": "hero-1344.webp"},
+        {"sablon": "liste", "etiket": "2 / 4", "h": "Neden <em>karşılaştırmalı?</em>", "maddeler": [["Fiyat farkı", "1 Kasım 2026 itibarıyla listemizde prefabrik evler 225.000 TL’den başlıyor; ortanca fiyat 799.376 TL."], ["Kapsam farkı", "Bir firmanın fiyatında nakliye ve montaj varken diğerinde yok. Rakamı değil, kapsamı karşılaştırın."], ["Teslim ve garanti", "Anahtar teslim mi, kaba teslim mi? Teslim süresi ve garanti yılı teklifin parçası olmalı."]]},
+        {"sablon": "kontrol", "etiket": "3 / 4", "h": "“Bu fiyata <em>ne dahil?</em>”", "p": "Her modelin sayfasında bu kalemlerin fiyata dahil olup olmadığı ayrı ayrı yazar.", "maddeler": ["KDV", "Nakliye", "Montaj", "Vinç", "Zemin betonu", "İç bitiş"], "img": "ic-mekan-1344.webp"},
+        {"sablon": "cta", "etiket": "4 / 4", "h": "Tek form doldurun, <em>48 saatte</em> teklifler gelsin.", "p": "Talebiniz firmalara isimsiz gider; numaranız yalnızca fiyat veren firmaya açılır.", "img": "montaj-1344.webp", "cipler": ["Ücretsiz", "62 firma", "422 model"]}
+      ]
+    },
+    {
+      "ad": "B",
+      "aciklama": "Prefabrik, tiny house ya da ahşap ev mi üretiyorsunuz? 📣\n\nMüşteri aramayın; ilinize ve ürettiğiniz ev tipine uyan talepler size gelsin. Fiyat verdiğiniz an müşterinin iletişim bilgileri açılır. Ürünlerinizi ve fiyatlarınızı firma panelinden kendiniz yönetirsiniz.\n\nHer firmayı resmî evrakları ve referanslarıyla kabul ediyoruz. Üyelik aylık 499 TL.\n\n👉 Başvuru: prefabrikteklif.com.tr/firma-kayit (bağlantı profilde)\n\n#prefabrikfirmaları #prefabrikevüreticisi #tinyhouse #çelikyapı #ahşapev #modülerev #inşaat",
+      "kartlar": [
+        {"sablon": "ucfoto", "etiket": "Firmalar için", "h": "Prefabrik, tiny house ya da ahşap ev mi <em>üretiyorsunuz?</em>", "p": "Müşteri aramayın. İlinize ve ürettiğiniz ev tipine uyan talepler size gelsin; fiyat verdiğiniz an müşterinin iletişim bilgileri açılsın.", "imgs": ["prefabrik-b-960.webp", "tiny-house-960.webp", "ahsap-960.webp"], "cipler": ["Aylık 499 TL", "Resmî evrak + referans", "Firma paneli"], "alt_sol": "prefabrikteklif.com.tr/firma-kayit", "alt_sag": "Başvuru →"}
+      ]
+    }
+  ],
+  "reels": {
+    "seslendirme": "Prefabrik ev mi yaptıracaksınız? Firma firma gezmeyin. Altmış iki firmanın, dört yüz yirmi iki modeli, tek sitede. Fiyata ne dahil, tek bakışta görün. Tek form doldurun, kırk sekiz saatte teklifler gelsin. Prefabrik Teklif. Bağlantı profilde.",
+    "ses": {"model": "text2speech_v2", "variant": "elevenlabs", "voice_type": "preset", "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d", "tempo": 1.1},
+    "aciklama": "Prefabrik ev yaptırmadan önce bunu bilin 👇\n\n62 firmanın 422 modeli tek sitede. Fiyata neyin dahil olduğunu görün, tek formla 48 saatte teklif alın.\n\n📌 Kaydedin, ev bakarken lazım olacak.\n🔗 prefabrikteklif.com.tr\n\n#prefabrikev #tinyhouse #prefabrikevfiyatları #bağevi #modülerev #evfiyatları",
+    "sure": 15.3,
+    "sahneler": [
+      {"t": 0, "tur": "foto", "img": "hero-1344.webp", "h": "Prefabrik ev mi <em>yaptıracaksınız?</em>"},
+      {"t": 2.25, "tur": "grid", "imgs": ["prefabrik-b-960.webp", "tiny-house-960.webp", "celik-b-960.webp", "ahsap-960.webp"], "h": "Firma firma <em>gezmeyin.</em>"},
+      {"t": 3.67, "tur": "sayi", "n": 422, "birim": "model · 62 firma", "h": "62 firmanın 422 modeli <em>tek sitede.</em>"},
+      {"t": 7.0, "tur": "foto", "img": "ic-mekan-1344.webp", "h": "Fiyata ne dahil, <em>tek bakışta.</em>", "cipler": ["✓ KDV", "✓ Nakliye", "✓ Montaj"]},
+      {"t": 9.49, "tur": "foto", "img": "montaj-1344.webp", "h": "Tek form, <em>48 saatte</em> teklif.", "cipler": ["Ücretsiz", "İsimsiz talep"]},
+      {"t": 12.71, "tur": "son", "h": "Evinizi bulmanın <em>en kolay yolu.</em>", "p": "Bağlantı profilde"}
+    ]
+  }
+}

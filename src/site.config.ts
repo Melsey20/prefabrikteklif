@@ -10,7 +10,7 @@ export const SITE = {
   eposta: 'info@mitraajans.com',
   telefon: '',
   whatsapp: '', // Ör: "905xxxxxxxxx"
-  instagram: '', // Ör: "prefabrikteklif"
+  instagram: 'prefabrik.teklif',
   // Teklif talebi kriterlere uyan tüm kayıtlı firmalara gider (güvenlik sınırı)
   maksFirma: 20,
   // Kullanıcının elle seçebileceği en fazla firma / karşılaştırılabilecek en fazla ev

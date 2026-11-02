@@ -14,5 +14,8 @@
     "@fontsource/manrope": "^5.3.0",
     "astro": "^7.4.4",
     "firebase": "^12.19.0"
+  },
+  "devDependencies": {
+    "@fontsource/fraunces": "^5.3.0"
   }
 }
