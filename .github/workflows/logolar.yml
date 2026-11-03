@@ -1,0 +1,38 @@
+# Firma logolarını verilen zip adresinden indirip public/img/firma/ altına koyar ve depoya işler.
+# Elle çalıştırılır: Actions → Firma logoları → Run workflow (zip adresi).
+name: Firma logoları
+on:
+  workflow_dispatch:
+    inputs:
+      zip:
+        description: 'logolar.zip adresi (https)'
+        required: true
+permissions:
+  contents: write
+jobs:
+  logolar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: İndir ve aç
+        env:
+          ZIP_URL: ${{ inputs.zip }}
+        run: |
+          case "$ZIP_URL" in https://*) ;; *) echo "https adresi gerekli"; exit 1;; esac
+          curl -fsSL "$ZIP_URL" -o /tmp/logolar.zip
+          rm -rf /tmp/l && mkdir -p /tmp/l && unzip -q /tmp/logolar.zip -d /tmp/l
+          mkdir -p public/img/firma
+          find /tmp/l -type f -name '*.png' | while read f; do
+            ad=$(basename "$f")
+            case "$ad" in *[!a-z0-9.-]*) echo "atlandı: $ad"; continue;; esac
+            cp "$f" "public/img/firma/$ad"
+          done
+          ls -la public/img/firma | head -80
+      - name: Depoya işle
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/img/firma
+          git diff --cached --quiet && { echo "Değişiklik yok"; exit 0; }
+          git commit -m "Firma logoları (firmaların kendi sitelerinden)"
+          git push
