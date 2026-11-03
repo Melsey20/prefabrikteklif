@@ -102,6 +102,17 @@ input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visib
   .msearch .hsearch { display: flex; max-width: none; height: 46px; }
 }
 @media (min-width: 861px) { .msearch { display: none; } }
+@media (max-width: 430px) {
+  .hdr .wrap { gap: 2px; }
+  .hicons { gap: 0; min-width: 0; }
+  .hicon, .hlogin { width: 40px; height: 40px; }
+  .logo { font-size: 1.04rem; gap: 7px; min-width: 0; }
+  .hdr .logo .lm { width: 30px; height: 29px; }
+  .lt > span { white-space: nowrap; }
+}
+@media (max-width: 350px) { .hicon, .hlogin { width: 36px; } .logo { font-size: .96rem; } }
+.hdr { overflow-x: clip; }
+
 .drawer { position: fixed; inset: 0; z-index: 80; background: rgba(19,32,26,.45); display: none; }
 .drawer.open { display: block; }
 .drawer .in { position: absolute; right: 0; top: 0; bottom: 0; width: min(380px, 100%); background: #fff; overflow-y: auto; padding: 14px 16px 30px; display: flex; flex-direction: column; gap: 14px; }
