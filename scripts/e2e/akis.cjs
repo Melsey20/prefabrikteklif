@@ -104,6 +104,7 @@ async function giris(p, eposta, hedef) {
   await giris(p, 'satis@kardesler.com', '/firma-paneli/');
   await p.waitForSelector('#fp-app:not([hidden])');
   assert.ok((await p.locator('#p-urunler tbody tr').count()) >= 6);
+  assert.ok(!/(^|\s)(null|undefined)(\s|$)/.test(await p.locator('#fp-app').innerText()), 'panelde null/undefined yazısı yok');
   await p.locator('#p-urunler tbody tr').first().getByRole('button', { name: 'Düzenle' }).click();
   await p.fill('.dlg input[name=fiyat]', '615000'); await p.fill('.dlg input[name=foto-link]', 'https://ornek.com/foto1.jpg'); await p.press('.dlg input[name=foto-link]', 'Enter');
   await p.waitForSelector('.dlg .fp-galeri figure');

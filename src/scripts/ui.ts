@@ -1,3 +1,10 @@
+// replaceChildren/append'e verilen null/false (koşullu öğeler) ekrana "null" yazısı olarak düşmesin
+for (const P of [Element.prototype, DocumentFragment.prototype] as any[]) {
+  for (const ad of ['replaceChildren', 'append', 'prepend'] as const) {
+    const asil = P[ad];
+    if (asil && !asil.__temiz) { const f = function (this: any, ...k: any[]) { return asil.apply(this, k.flat().filter((x: any) => x != null && x !== false)); }; (f as any).__temiz = true; P[ad] = f; }
+  }
+}
 // Panellerde kullanılan küçük DOM yardımcıları (innerHTML yerine güvenli oluşturma)
 type Kid = Node | string | number | null | undefined | false | Kid[];
 export function h<K extends keyof HTMLElementTagNameMap>(tag: K, at: Record<string, any> = {}, ...kids: Kid[]): HTMLElementTagNameMap[K] {
