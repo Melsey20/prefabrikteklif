@@ -76,7 +76,7 @@
     }
   ],
   "reels": {
-    "seslendirme": "Bütçeniz belli ama hangi ev? Konteyner ev seksen beş bin liradan, bungalov yüz altmış iki bin liradan, prefabrik ev iki yüz yirmi beş bin liradan başlıyor. Tek form doldurun, kırk sekiz saatte teklif gelsin. Bağlantı profilde.",
+    "seslendirme": "Bütçeniz belli. Peki ev tipi? Konteyner ev seksen beş bin liradan, bungalov yüz altmış iki bin liradan, prefabrik ev iki yüz yirmi beş bin liradan başlıyor. Tek form doldurun, kırk sekiz saatte teklif gelsin. Bağlantı profilde.",
     "ses": {
       "model": "text2speech_v2",
       "variant": "elevenlabs",
@@ -84,18 +84,17 @@
       "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
       "tempo": 1.1
     },
-    "zamanlama_notu": "t değerleri TAHMİNİ (Higgsfield 3 Kasım'da bağlanamadı; seslendirme üretilemedi). Seslendirme gelince faster-whisper ile güncelleyin.",
-    "aciklama": "Bütçeniz belli ama hangi ev tipi? 👇\n\n1 Kasım 2026 itibarıyla listemizde konteyner ev 85.000 TL'den, bungalov 162.000 TL'den, prefabrik ev 225.000 TL'den başlıyor.\n\nBütçenizi yazın, tek formla 48 saatte teklif alın.\n\n📌 Kaydedin, ev bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #konteynerev #bungalov #bağevi #tinyhouse #evfiyatları #prefabrikevfiyatları",
-    "sure": 15.2,
+    "aciklama": "Bütçeniz belli. Peki ev tipi? 👇\n\n1 Kasım 2026 itibarıyla listemizde konteyner ev 85.000 TL'den, bungalov 162.000 TL'den, prefabrik ev 225.000 TL'den başlıyor.\n\nBütçenizi yazın, tek formla 48 saatte teklif alın.\n\n📌 Kaydedin, ev bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #konteynerev #bungalov #bağevi #tinyhouse #evfiyatları #prefabrikevfiyatları",
+    "sure": 13.93,
     "sahneler": [
       {
         "t": 0,
         "tur": "foto",
         "img": "hero-1344.webp",
-        "h": "Bütçeniz belli, <em>ev tipi?</em>"
+        "h": "Bütçeniz Belli<br><em>Peki Ev Tipi?</em>"
       },
       {
-        "t": 2.1,
+        "t": 2.76,
         "tur": "sayi",
         "n": 85,
         "birim": "bin TL’den · konteyner ev",
@@ -103,21 +102,21 @@
         "p": "1 Kasım 2026 itibarıyla listemizde"
       },
       {
-        "t": 4.5,
+        "t": 4.78,
         "tur": "sayi",
         "n": 162,
         "birim": "bin TL’den · bungalov",
         "h": "Bungalov <em>162.000 TL’den.</em>"
       },
       {
-        "t": 6.9,
+        "t": 6.56,
         "tur": "sayi",
         "n": 225,
         "birim": "bin TL’den · prefabrik ev",
         "h": "Prefabrik ev <em>225.000 TL’den.</em>"
       },
       {
-        "t": 10.5,
+        "t": 9.6,
         "tur": "foto",
         "img": "montaj-1344.webp",
         "h": "Tek form, <em>48 saatte</em> teklif.",
@@ -127,11 +126,12 @@
         ]
       },
       {
-        "t": 13.7,
+        "t": 12.51,
         "tur": "son",
         "h": "Bütçenize uygun <em>evi bulun.</em>",
         "p": "Bağlantı profilde"
       }
-    ]
+    ],
+    "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261103_061123_a23cb475-95d3-46ce-89da-4a2612f64298.mp3"
   }
 }

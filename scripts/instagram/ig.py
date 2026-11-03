@@ -151,9 +151,9 @@ window.setT=(t)=>{ const n=T.length-1; let last=0; for(let i=0;i<n;i++) if(t>=T[
 
 def kelimeler(h):
     out = []
-    for part in h.replace('<em>', ' <em> ').replace('</em>', ' </em> ').split():
-        out.append(part if part in ('<em>', '</em>') else f'<span class="w">{part}</span>')
-    return ' '.join(out).replace('<em> ', '<em>').replace(' </em>', '</em>')
+    for part in h.replace('<br>', ' <br> ').replace('<em>', ' <em> ').replace('</em>', ' </em> ').split():
+        out.append(part if part in ('<em>', '</em>', '<br>') else f'<span class="w">{part}</span>')
+    return ' '.join(out).replace('<em> ', '<em>').replace(' </em>', '</em>').replace(' <br> ', '<br>')
 
 def reels_html(r):
     S = r['sahneler']; html = f'<div class="cv"><div class="lg" id="lg">{logo(False, 470)}</div>'
