@@ -1,0 +1,137 @@
+{
+  "tarih": "2026-11-03",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Tiny house arıyorsanız önce bu karşılaştırmayı görün 👇\n\nPrefabrikTeklif'te 9 firmanın 43 tiny house modeli tek yerde. 1 Kasım 2026 itibarıyla listemizde tiny house fiyatları 429.000 TL'den başlıyor; ortanca fiyat 1.225.000 TL.\n\nAynı ölçüde bile fiyata dahil olanlar değişiyor: şasi, nakliye, montaj, iç bitiş… Teklif almadan önce kapsamı sorun.\n\nTek form doldurun, 48 saatte teklifler gelsin. Talebiniz isimsiz gider; numaranız yalnızca fiyat veren firmaya açılır.\n\n📌 Kaydedin, tiny house bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tinyhouse #tinyhousefiyatları #tinyhouseturkiye #mobilev #bağevi #prefabrikev #modülerev #evyaptırmak",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Tiny house",
+          "h": "Tiny house arıyorsanız <em>önce burayı</em> görün.",
+          "p": "9 firmanın 43 tiny house modeli tek yerde; fiyatlar ve fiyata dahil olanlar yan yana.",
+          "img": "tiny-house-b-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Rakamlarla <em>tiny house</em>",
+          "maddeler": [
+            [
+              "Başlangıç fiyatı",
+              "1 Kasım 2026 itibarıyla listemizde tiny house modelleri 429.000 TL’den başlıyor."
+            ],
+            [
+              "Ortanca fiyat",
+              "Listedeki tiny house modellerinin ortanca fiyatı 1.225.000 TL."
+            ],
+            [
+              "Seçenek",
+              "9 firmanın 43 modeli; ölçü, plan ve donanım modelden modele değişiyor."
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Teklif almadan önce <em>sorun:</em>",
+          "p": "Bu kalemler fiyata dahil mi? Firmadan firmaya değişir.",
+          "maddeler": [
+            "Şasi / römork",
+            "Nakliye",
+            "Montaj",
+            "İç bitiş",
+            "Mutfak & banyo",
+            "KDV"
+          ],
+          "img": "tiny-house-c-960.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Tek form, <em>48 saatte</em> tiny house teklifleri.",
+          "p": "Talebiniz firmalara isimsiz gider; numaranız yalnızca fiyat veren firmaya açılır.",
+          "img": "tiny-house-960.webp",
+          "cipler": [
+            "Ücretsiz",
+            "9 firma",
+            "43 model"
+          ]
+        }
+      ]
+    },
+    {
+      "ad": "B",
+      "aciklama": "Bağ evi ya da bungalov için bütçeniz ne kadar olmalı? 🏡\n\n1 Kasım 2026 itibarıyla PrefabrikTeklif listesinde bungalov ve bağ evi modelleri 162.000 TL'den başlıyor; ortanca fiyat 567.500 TL. 6 firmanın 16 modelini fiyatı ve kapsamıyla yan yana görün.\n\nBütçenizi yazın, size uyan firmalardan 48 saatte teklif gelsin.\n\n📌 Kaydedin, bağ evi planlarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#bağevi #bungalov #bungalovev #prefabrikev #hobibahçesi #tinyhouse #evfiyatları",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Bağ evi",
+          "h": "Bağ evi için <em>bütçeniz</em> ne kadar olmalı?",
+          "p": "1 Kasım 2026 itibarıyla listemizde bungalovlar 162.000 TL’den başlıyor; ortanca fiyat 567.500 TL.",
+          "img": "bungalov-b-960.webp",
+          "alt_sag": "Bağlantı profilde"
+        }
+      ]
+    }
+  ],
+  "reels": {
+    "seslendirme": "Bütçeniz belli ama hangi ev? Konteyner ev seksen beş bin liradan, bungalov yüz altmış iki bin liradan, prefabrik ev iki yüz yirmi beş bin liradan başlıyor. Tek form doldurun, kırk sekiz saatte teklif gelsin. Bağlantı profilde.",
+    "ses": {
+      "model": "text2speech_v2",
+      "variant": "elevenlabs",
+      "voice_type": "preset",
+      "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+      "tempo": 1.1
+    },
+    "zamanlama_notu": "t değerleri TAHMİNİ (Higgsfield 3 Kasım'da bağlanamadı; seslendirme üretilemedi). Seslendirme gelince faster-whisper ile güncelleyin.",
+    "aciklama": "Bütçeniz belli ama hangi ev tipi? 👇\n\n1 Kasım 2026 itibarıyla listemizde konteyner ev 85.000 TL'den, bungalov 162.000 TL'den, prefabrik ev 225.000 TL'den başlıyor.\n\nBütçenizi yazın, tek formla 48 saatte teklif alın.\n\n📌 Kaydedin, ev bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #konteynerev #bungalov #bağevi #tinyhouse #evfiyatları #prefabrikevfiyatları",
+    "sure": 15.2,
+    "sahneler": [
+      {
+        "t": 0,
+        "tur": "foto",
+        "img": "hero-1344.webp",
+        "h": "Bütçeniz belli, <em>ev tipi?</em>"
+      },
+      {
+        "t": 2.1,
+        "tur": "sayi",
+        "n": 85,
+        "birim": "bin TL’den · konteyner ev",
+        "h": "Konteyner ev <em>85.000 TL’den.</em>",
+        "p": "1 Kasım 2026 itibarıyla listemizde"
+      },
+      {
+        "t": 4.5,
+        "tur": "sayi",
+        "n": 162,
+        "birim": "bin TL’den · bungalov",
+        "h": "Bungalov <em>162.000 TL’den.</em>"
+      },
+      {
+        "t": 6.9,
+        "tur": "sayi",
+        "n": 225,
+        "birim": "bin TL’den · prefabrik ev",
+        "h": "Prefabrik ev <em>225.000 TL’den.</em>"
+      },
+      {
+        "t": 10.5,
+        "tur": "foto",
+        "img": "montaj-1344.webp",
+        "h": "Tek form, <em>48 saatte</em> teklif.",
+        "cipler": [
+          "Ücretsiz",
+          "İsimsiz talep"
+        ]
+      },
+      {
+        "t": 13.7,
+        "tur": "son",
+        "h": "Bütçenize uygun <em>evi bulun.</em>",
+        "p": "Bağlantı profilde"
+      }
+    ]
+  }
+}

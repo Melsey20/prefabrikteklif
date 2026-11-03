@@ -164,7 +164,7 @@ def reels_html(r):
         vis = ''
         if s['tur'] == 'foto': vis = f'<div class="rph"><img src="{img(s["img"])}"></div>'
         elif s['tur'] == 'grid': vis = '<div class="grid">' + ''.join(f'<div><img src="{img(x)}"></div>' for x in s['imgs'][:4]) + '</div>'
-        elif s['tur'] == 'sayi': vis = f'<div class="rph" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:{C["sage"]}"><span class="big" data-n="{s["n"]}">0</span><span style="font:700 40px M;color:{C["forest"]}">{s.get("birim","")}</span></div>'
+        elif s['tur'] == 'sayi': vis = f'<div class="rph" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:44px;background:{C["sage"]}"><span class="big" data-n="{s["n"]}">0</span><span style="font:700 40px M;color:{C["forest"]}">{s.get("birim","")}</span></div>'
         chips = ''.join(f'<span class="rchip">{c}</span>' for c in s.get('cipler', []))
         p = f'<p>{s["p"]}</p>' if s.get('p') else ''
         html += f'<div class="sc" id="s{i}"><div class="hd"><h1>{kelimeler(s["h"])}</h1>{p}</div>{vis}<div class="chips">{chips}</div></div>'
