@@ -1,9 +1,9 @@
 {
  "firmaSayisi": 62,
- "modelSayisi": 422,
- "fiyatliModel": 401,
- "sonKontrol": "2026-11-01",
- "sonKontrolYazi": "1 Kasım 2026",
+ "modelSayisi": 430,
+ "fiyatliModel": 409,
+ "sonKontrol": "2026-11-03",
+ "sonKontrolYazi": "3 Kasım 2026",
  "ay": "Kasım 2026",
  "tipler": {
   "prefabrik": {
@@ -45,13 +45,13 @@
  },
  "istatistik": {
   "prefabrik": {
-   "model": 217,
-   "fiyatli": 217,
+   "model": 225,
+   "fiyatli": 225,
    "firma": 24,
    "min": 225000,
    "max": 4999999,
-   "medyan": 799376,
-   "m2Medyan": 10236
+   "medyan": 791062,
+   "m2Medyan": 10280
   },
   "celik": {
    "model": 82,
