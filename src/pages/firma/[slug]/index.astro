@@ -19,7 +19,6 @@ const desc = `${f.kisaAd}${f.il ? ` (${f.il})` : ''} ${urunler.toLocaleLowerCase
 const ld = [{
   '@context': 'https://schema.org', '@type': 'Organization', name: f.kisaAd, legalName: f.ad !== f.kisaAd ? f.ad : undefined,
   url: f.web || undefined, ...(f.il ? { address: { '@type': 'PostalAddress', addressRegion: f.il, addressCountry: 'TR' } } : {}),
-  ...(list.length ? { makesOffer: list.filter((m) => m.fiyat && m.fiyatTuru === 'model').slice(0, 20).map((m) => ({ '@type': 'Offer', price: m.fiyat, priceCurrency: 'TRY', itemOffered: { '@type': 'Product', name: m.ad } })) } : {}),
 }];
 const ana = f.tipler[0] || 'prefabrik';
 ---

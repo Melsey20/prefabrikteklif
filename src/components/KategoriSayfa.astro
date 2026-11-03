@@ -22,12 +22,7 @@ const ld = [{
   '@context': 'https://schema.org', '@type': 'ItemList', name: h1, numberOfItems: list.length,
   itemListElement: priced.slice(0, 30).map((m, i) => ({
     '@type': 'ListItem', position: i + 1,
-    item: {
-      '@type': 'Product', name: `${m.firmaAd} ${m.ad}`, url: new URL(modelUrl(m), SITE.url).href, category: T.ad,
-      brand: { '@type': 'Brand', name: m.firmaAd },
-      offers: { '@type': 'Offer', price: m.fiyat, priceCurrency: 'TRY', availability: 'https://schema.org/InStock', url: m.kaynak,
-        ...(m.kdv ? { priceSpecification: { '@type': 'PriceSpecification', price: m.fiyat, priceCurrency: 'TRY', valueAddedTaxIncluded: m.kdv === 'dahil' } } : {}) },
-    },
+    url: new URL(modelUrl(m), SITE.url).href, name: `${m.firmaAd} ${m.ad}`,
   })),
 }];
 // firma bazında en ucuz model tablosu
