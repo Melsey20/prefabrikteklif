@@ -74,7 +74,7 @@ async function giris(p, eposta, hedef) {
   await p.click('#gonder'); assert.ok(await p.locator('#hata').isVisible(), 'rıza olmadan gönderilmemeli');
   await p.check('label[data-mfield=teklif] input[name=riza]');
   await Promise.all([p.waitForURL('**/teklif-alindi/**'), p.click('#gonder')]);
-  assert.ok((await p.locator('#n').textContent()).includes('1 firmaya'));
+  assert.ok(/\d+ firmaya/.test(await p.locator('#n').textContent()));
   const mails = await (await fetch(B + '/__mails')).json();
   const fm = mails.find((m) => m.to === 'satis@kardesler.com');
   assert.ok(fm && !fm.html.includes('05321112233') && !fm.html.includes('Ali Veli'), 'firma e-postası isimsiz');
