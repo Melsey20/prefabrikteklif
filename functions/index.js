@@ -40,7 +40,7 @@ async function mail(to, subject, html, o = {}) {
     const yanit = ADMIN_EMAIL.value() || SMTP_USER.value();
     const headers = { 'X-Entity-Ref-ID': `pt-${Date.now()}` };
     if (o.iptal || o.tur === 'davet') headers['List-Unsubscribe'] = `<mailto:${yanit}?subject=bildirim-iptal>${o.iptal ? `, <${o.iptal}>` : ''}`;
-    await _tx.sendMail({ from, to, subject, html, text: duzMetin(html), replyTo: yanit, headers });
+    await _tx.sendMail({ from, to, subject: String(subject).replace(/[\r\n]+/g, ' ').slice(0, 200), html, text: duzMetin(html), replyTo: yanit, headers });
   } catch (e) {
     console.error('E-posta gönderilemedi:', subject, e?.code || '', e?.message || e);
     if (e?.code === 'EAUTH') _tx = undefined;
@@ -55,7 +55,7 @@ const ortak = { db, mail, ayar, FieldValue, Timestamp, FIRMS, MODELS };
 let _app;
 const app = () => (_app ||= createApp({ ...ortak, auth: getAuth() }));
 
-export const api = onRequest({ region: REGION, secrets: [SMTP_PASS, PLACES_API_KEY], memory: '512MiB', maxInstances: 10, concurrency: 40 }, (req, res) => app().handle(req, res));
+export const api = onRequest({ region: REGION, secrets: [SMTP_PASS, PLACES_API_KEY], memory: '512MiB', minInstances: 1, maxInstances: 10, concurrency: 40, timeoutSeconds: 120 }, (req, res) => app().handle(req, res));
 
 export const teklifOzeti = onSchedule({ schedule: 'every 30 minutes', region: REGION, timeZone: 'Europe/Istanbul', secrets: [SMTP_PASS] }, async () => {
   await teklifOzetleri(ortak);

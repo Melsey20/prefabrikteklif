@@ -25,23 +25,40 @@ import { TIPLER, TIP_KEYS, firms, ILLER } from '../lib/data';
     </div>
 
     <form class="form" id="kayit" novalidate>
-      <label class="f">Ticaret unvanı<input type="text" name="unvan" required maxlength="160" /></label>
+      <h2 class="kf-b">1. Firma bilgileri</h2>
+      <label class="f">Ticaret unvanı (vergi levhasındaki gibi) *<input type="text" name="unvan" required maxlength="160" autocomplete="organization" /></label>
       <div class="two">
         <label class="f">Marka adı<input type="text" name="marka" maxlength="80" /></label>
-        <label class="f">Vergi numarası<input type="text" name="vergiNo" inputmode="numeric" required maxlength="11" /></label>
+        <label class="f">Vergi dairesi *<input type="text" name="vergiDairesi" required maxlength="80" /></label>
+      </div>
+      <div class="two">
+        <label class="f">Vergi / TC kimlik numarası *<input type="text" name="vergiNo" inputmode="numeric" required maxlength="11" pattern="\d{10,11}" /></label>
+        <label class="f">Firmanın bulunduğu il *<select name="merkezIl" required><option value="">Seçin</option>{ILLER.map((il) => <option>{il}</option>)}</select></label>
       </div>
       <label class="f">Listede kayıtlı firmanız varsa seçin
         <select name="mevcut"><option value="">Listede yok / yeni kayıt</option>{[...firms].sort((a, b) => a.kisaAd.localeCompare(b.kisaAd, 'tr')).map((f) => <option value={f.slug}>{f.kisaAd}</option>)}</select>
       </label>
-      <label class="f">Fabrika adresi<input type="text" name="adres" required maxlength="240" /></label>
+      <label class="f">Fabrika / merkez açık adresi *<input type="text" name="adres" required maxlength="240" autocomplete="street-address" /></label>
+      <label class="f">Web sitesi<input type="url" name="web" maxlength="160" placeholder="https://" /></label>
+      <h2 class="kf-b">2. Yetkili</h2>
       <div class="two">
-        <label class="f">Web sitesi<input type="text" name="web" maxlength="160" placeholder="https://" /></label>
-        <label class="f">Yetkili ad soyad<input type="text" name="yetkili" required maxlength="80" /></label>
+        <label class="f">Yetkili ad soyad *<input type="text" name="yetkili" required maxlength="80" autocomplete="name" /></label>
+        <label class="f">Görevi<input type="text" name="yetkiliUnvan" maxlength="60" placeholder="Ör. Satış müdürü" /></label>
       </div>
       <div class="two">
-        <label class="f">Yetkili cep telefonu<input type="tel" name="telefon" required maxlength="20" /></label>
-        <label class="f">E-posta (talepler buraya gelir)<input type="email" name="eposta" required maxlength="120" /></label>
+        <label class="f">Yetkili cep telefonu *<input type="tel" name="telefon" required maxlength="20" autocomplete="tel" /></label>
+        <label class="f">E-posta (talepler ve panel girişi) *<input type="email" name="eposta" required maxlength="120" autocomplete="email" /></label>
       </div>
+      <h2 class="kf-b">3. Doğrulama belgeleri</h2>
+      <p class="small muted" style="margin:-4px 0 0">PDF, PNG, JPEG ya da HEIC; dosya başına en fazla 10 MB. Belgeleriniz yalnızca doğrulama için ekibimizce görülür, sitede yayınlanmaz.</p>
+      <div class="evrak" id="evrak">
+        <div class="ev-s" data-tur="vergi-levhasi"><span><b>Vergi levhası *</b><small>Güncel yıla ait</small></span><label class="btn btn-g btn-s">Dosya seç<input type="file" accept=".pdf,.png,.jpg,.jpeg,.heic,.heif,application/pdf,image/png,image/jpeg,image/heic,image/heif" hidden /></label><em></em></div>
+        <div class="ev-s" data-tur="faaliyet"><span><b>Faaliyet belgesi *</b><small>veya aşağıdaki Ticaret Sicil Gazetesi</small></span><label class="btn btn-g btn-s">Dosya seç<input type="file" accept=".pdf,.png,.jpg,.jpeg,.heic,.heif,application/pdf,image/png,image/jpeg,image/heic,image/heif" hidden /></label><em></em></div>
+        <div class="ev-s" data-tur="sicil-gazetesi"><span><b>Ticaret Sicil Gazetesi</b><small>Faaliyet belgesi yoksa zorunlu</small></span><label class="btn btn-g btn-s">Dosya seç<input type="file" accept=".pdf,.png,.jpg,.jpeg,.heic,.heif,application/pdf,image/png,image/jpeg,image/heic,image/heif" hidden /></label><em></em></div>
+        <div class="ev-s" data-tur="imza-sirkuleri"><span><b>İmza sirküleri</b><small>İsteğe bağlı</small></span><label class="btn btn-g btn-s">Dosya seç<input type="file" accept=".pdf,.png,.jpg,.jpeg,.heic,.heif,application/pdf,image/png,image/jpeg,image/heic,image/heif" hidden /></label><em></em></div>
+        <div class="ev-s" data-tur="diger"><span><b>Diğer (TSE, ISO, CE, O2 vb.)</b><small>İsteğe bağlı</small></span><label class="btn btn-g btn-s">Dosya seç<input type="file" accept=".pdf,.png,.jpg,.jpeg,.heic,.heif,application/pdf,image/png,image/jpeg,image/heic,image/heif" hidden /></label><em></em></div>
+      </div>
+      <h2 class="kf-b">4. Ürünler ve hizmet bölgesi</h2>
       <fieldset>
         <legend>Ürettiğiniz tipler</legend>
         <div class="two">{TIP_KEYS.map((k) => <label class="chk"><input type="checkbox" name="tipler" value={k} /> {TIPLER[k].ad}</label>)}</div>
@@ -58,13 +75,13 @@ import { TIPLER, TIP_KEYS, firms, ILLER } from '../lib/data';
           <span class="xs muted" id="il-say">Henüz il seçilmedi. Talepler yalnızca seçtiğiniz illerden gelir.</span>
         </div>
       </fieldset>
-      <label class="f">Belgeleriniz (TSE, ISO, CE, O2 tip onay vb.)<input type="text" name="belgeler" maxlength="300" /></label>
+      <label class="f">Sahip olduğunuz belgeler (yazıyla)<input type="text" name="belgeler" maxlength="300" placeholder="Ör. TSE, ISO 9001, CE, O2 tip onay" /></label>
       <label class="f">Referanslarınız (zorunlu)<textarea name="referanslar" required maxlength="1500" placeholder="Teslim ettiğiniz en az 1–3 iş: il, yıl, ev tipi ve teyit için müşteri ya da yüklenici iletişim bilgisi"></textarea></label>
       <label class="f">Not<textarea name="not" maxlength="1000"></textarea></label>
       <div class="hp" aria-hidden="true"><label>Web<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
       <label class="chk"><input type="checkbox" name="abonelik" required /> <span>Aylık <b>{SITE.abonelik} TL</b> üyelik bedelini, onaydan sonra gönderilecek bağlantıdan her ay düzenli ödeyeceğimi; ödenen üyelik ve reklam bedellerinin iade edilmediğini biliyorum.</span></label>
       <label class="chk"><input type="checkbox" name="sozlesme" required /> <span><a href="/firma-uyelik-sozlesmesi/" target="_blank">Firma üyelik sözleşmesini</a> okudum ve kabul ediyorum. Müşteriye karşı tüm sorumluluğun firmamda olduğunu, müşteriyi mağdur etmem halinde kaydımın silineceğini biliyorum.</span></label>
-      <label class="chk"><input type="checkbox" name="kosul" required /> <span><a href="/kullanim-kosullari/" target="_blank">Kullanım koşullarını</a> ve <a href="/kvkk-aydinlatma-metni/" target="_blank">aydınlatma metnini</a> okudum. Belgelerimi e-postayla göndereceğimi biliyorum.</span></label>
+      <label class="chk"><input type="checkbox" name="kosul" required /> <span><a href="/kullanim-kosullari/" target="_blank">Kullanım koşullarını</a> ve <a href="/kvkk-aydinlatma-metni/" target="_blank">aydınlatma metnini</a> okudum. Verdiğim bilgilerin ve belgelerin doğru olduğunu beyan ederim.</span></label>
       <p class="err" id="hata" role="alert" hidden></p>
       <button class="btn btn-p btn-block" type="submit" id="gonder">Kaydı gönder</button>
     </form>
@@ -82,7 +99,30 @@ import { TIPLER, TIP_KEYS, firms, ILLER } from '../lib/data';
   <script is:inline>
     (function () {
       var f = document.getElementById('kayit'), q = new URLSearchParams(location.search);
-      if (q.get('firma')) f.mevcut.value = q.get('firma');
+      if (q.get('firma')) { f.mevcut.value = q.get('firma'); var hb = document.querySelector('h1'); if (hb && f.mevcut.value) hb.textContent = 'Firmanızı doğrulayın'; }
+      // Evrak: seçilen dosya 900 KB'lık parçalarla yüklenir; yalnızca PDF/PNG/JPEG/HEIC, en fazla 10 MB
+      var evrak = {}, yukleniyor = 0, MAKS = 10 * 1024 * 1024;
+      function b64(ab) { var s = '', u = new Uint8Array(ab); for (var i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); }
+      function post(d) { return fetch('/api/belge', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) }).then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) throw new Error(j.hata || 'Yüklenemedi.'); return j; }); }); }
+      document.querySelectorAll('#evrak .ev-s').forEach(function (sat) {
+        var inp = sat.querySelector('input'), em = sat.querySelector('em'), tur = sat.dataset.tur;
+        inp.addEventListener('change', async function () {
+          var d = inp.files && inp.files[0]; inp.value = ''; if (!d) return;
+          sat.classList.remove('ok', 'hata'); delete evrak[tur];
+          if (!/\.(pdf|png|jpe?g|heic|heif)$/i.test(d.name)) { sat.classList.add('hata'); em.textContent = 'Yalnızca PDF, PNG, JPEG ya da HEIC.'; return; }
+          if (d.size > MAKS) { sat.classList.add('hata'); em.textContent = 'Dosya 10 MB’tan büyük (' + (d.size / 1048576).toFixed(1) + ' MB).'; return; }
+          if (!d.size) { sat.classList.add('hata'); em.textContent = 'Dosya boş.'; return; }
+          yukleniyor++;
+          try {
+            var b = await post({ islem: 'baslat', ad: d.name, tur: tur, boyut: d.size });
+            var n = Math.ceil(d.size / b.parcaBoyut);
+            for (var i = 0; i < n; i++) { em.textContent = 'Yükleniyor %' + Math.round((i / n) * 100); var parca = await d.slice(i * b.parcaBoyut, (i + 1) * b.parcaBoyut).arrayBuffer(); await post({ islem: 'parca', id: b.id, anahtar: b.anahtar, i: i, veri: b64(parca) }); }
+            await post({ islem: 'bitir', id: b.id, anahtar: b.anahtar });
+            evrak[tur] = { id: b.id, anahtar: b.anahtar }; sat.classList.add('ok'); em.textContent = '✓ ' + d.name + ' (' + (d.size / 1048576).toFixed(1) + ' MB)';
+          } catch (er) { sat.classList.add('hata'); em.textContent = er.message; }
+          finally { yukleniyor--; }
+        });
+      });
       var davet = q.get('davet') || ''; if (davet) document.getElementById('davet-bilgi').hidden = false;
       var sec = document.getElementById('il-sec'), say = document.getElementById('il-say');
       f.querySelectorAll('input[name=kapsam]').forEach(function (r) { r.addEventListener('change', function () { sec.hidden = f.kapsam.value !== 'secili'; }); });
@@ -92,8 +132,9 @@ import { TIPLER, TIP_KEYS, firms, ILLER } from '../lib/data';
         e.preventDefault(); var h = document.getElementById('hata'); h.hidden = true;
         var d = { tipler: [] }, il = []; new FormData(f).forEach(function (v, k) { if (k === 'tipler') d.tipler.push(v); else if (k === 'il') il.push(v); else d[k] = v; });
         d.iller = d.kapsam === 'secili' ? il.join(', ') : 'Tüm Türkiye'; delete d.kapsam;
-        var m = !d.unvan ? 'Ticaret unvanı yazın.' : !/^\d{10,11}$/.test(d.vergiNo || '') ? 'Vergi numarası 10 veya 11 haneli olmalı.' : !d.yetkili ? 'Yetkili adı yazın.' : !/^\S+@\S+\.\S+$/.test(d.eposta || '') ? 'Geçerli e-posta yazın.' : (d.telefon || '').replace(/\D/g, '').length < 10 ? 'Geçerli telefon yazın.' : !d.tipler.length ? 'En az bir ürün tipi seçin.' : !d.iller ? 'Hizmet verdiğiniz illeri seçin ya da Tüm Türkiye’yi işaretleyin.' : (d.referanslar || '').trim().length < 10 ? 'En az bir referans yazın; referanssız kayıt almıyoruz.' : !d.abonelik ? 'Aylık üyelik bedelini onaylayın.' : !d.sozlesme ? 'Firma üyelik sözleşmesini onaylayın.' : !d.kosul ? 'Koşulları onaylayın.' : '';
+        var m = !d.unvan ? 'Ticaret unvanı yazın.' : !d.vergiDairesi ? 'Vergi dairesini yazın.' : !/^\d{10,11}$/.test(d.vergiNo || '') ? 'Vergi numarası 10 veya 11 haneli olmalı.' : !d.merkezIl ? 'Firmanın bulunduğu ili seçin.' : (d.adres || '').trim().length < 10 ? 'Açık adresi yazın.' : !d.yetkili ? 'Yetkili adı yazın.' : !/^\S+@\S+\.\S+$/.test(d.eposta || '') ? 'Geçerli e-posta yazın.' : (d.telefon || '').replace(/\D/g, '').length < 10 ? 'Geçerli telefon yazın.' : !d.tipler.length ? 'En az bir ürün tipi seçin.' : !d.iller ? 'Hizmet verdiğiniz illeri seçin ya da Tüm Türkiye’yi işaretleyin.' : (d.referanslar || '').trim().length < 10 ? 'En az bir referans yazın; referanssız kayıt almıyoruz.' : !d.abonelik ? 'Aylık üyelik bedelini onaylayın.' : !d.sozlesme ? 'Firma üyelik sözleşmesini onaylayın.' : !d.kosul ? 'Koşulları onaylayın.' : yukleniyor ? 'Belgeleriniz yükleniyor, birkaç saniye bekleyin.' : !evrak['vergi-levhasi'] ? 'Vergi levhanızı yükleyin (3. bölüm).' : !evrak.faaliyet && !evrak['sicil-gazetesi'] ? 'Faaliyet belgesi ya da Ticaret Sicil Gazetesi yükleyin (3. bölüm).' : '';
         if (davet) d.davet = davet;
+        d.evrak = Object.keys(evrak).map(function (k) { return evrak[k]; });
         d.abonelikOnay = !!d.abonelik; d.sozlesmeOnay = !!d.sozlesme; delete d.abonelik; delete d.sozlesme;
         if (m) { h.textContent = m; h.hidden = false; return; }
         var b = document.getElementById('gonder'); b.disabled = true; b.textContent = 'Gönderiliyor…';

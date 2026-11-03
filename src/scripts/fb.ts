@@ -50,9 +50,10 @@ export async function kayitOl(e: string, s: string, ad: string) {
   await sendEmailVerification(u, { url: location.origin + '/giris/?dogrulandi=1' });
   return u;
 }
+export async function adGuncelle(ad: string) { const u = await kullanici(); if (u) { await updateProfile(u, { displayName: ad }); await u.getIdToken(true); } }
 export async function dogrulamaGonder() { const u = await kullanici(); if (u) await sendEmailVerification(u, { url: location.origin + '/giris/?dogrulandi=1' }); }
 export async function sifreSifirla(e: string) { await sendPasswordResetEmail(await auth(), e, { url: location.origin + '/giris/' }); }
-export async function cikis() { await signOut(await auth()); try { localStorage.removeItem('pt_user'); } catch { /* */ } }
+export async function cikis() { await signOut(await auth()); try { localStorage.removeItem('pt_user'); Object.keys(localStorage).filter((k) => k.startsWith('pt_hesap_')).forEach((k) => localStorage.removeItem(k)); } catch { /* */ } }
 
 export interface Ben { uid: string; eposta: string; dogrulandi: boolean; ad: string; rol: 'kullanici' | 'firma' | 'admin'; firma: string | null }
 // Girişten sonra: rolü al, favorileri hesapla birleştir

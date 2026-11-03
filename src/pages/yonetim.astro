@@ -31,7 +31,18 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
   </div>
   <script define:vars={{ TIPLER_L: tipler }}>window.__TIPLER = TIPLER_L;</script>
   <script>
-    import { kullanici, api, oturumAc, ApiHata } from '../scripts/fb';
+    import { kullanici, api, oturumAc, ApiHata, token } from '../scripts/fb';
+    const EVRAK: Record<string, string> = { 'vergi-levhasi': 'Vergi levhası', faaliyet: 'Faaliyet belgesi', 'sicil-gazetesi': 'Ticaret Sicil Gazetesi', 'imza-sirkuleri': 'İmza sirküleri', diger: 'Diğer belge' };
+    // Evrakı yetkili istekle indirip yeni sekmede açar (bağlantı paylaşılamaz)
+    async function belgeAc(id: string) {
+      const w = window.open('', '_blank');
+      try {
+        const r = await fetch('/api/yonetim/belge?id=' + encodeURIComponent(id), { headers: { Authorization: 'Bearer ' + (await token()) } });
+        if (!r.ok) throw new Error((await r.json().catch(() => ({}))).hata || 'Belge açılamadı.');
+        const url = URL.createObjectURL(await r.blob());
+        if (w) w.location.href = url; else location.href = url;
+      } catch (e: any) { w?.close(); toast(e.message); }
+    }
     import { h, tl, tarih, kalan, toast, modal, alan, sekmeler } from '../scripts/ui';
     const TIPLER: { k: string; ad: string }[] = (window as any).__TIPLER;
     const TIP = Object.fromEntries(TIPLER.map((t) => [t.k, t.ad]));
@@ -67,7 +78,8 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
         const slug = h('select', { style: { maxWidth: '320px' } }, h('option', { value: '' }, 'Yeni firma (koddan otomatik)'), ...V.statikFirmalar.map((f: any) => h('option', { value: f.slug, selected: f.slug === b.mevcut }, f.ad))) as HTMLSelectElement;
         els.push(h('article', { class: 'item' },
           h('div', { class: 'row' }, h('b', {}, `Firma başvurusu · ${b.marka || b.unvan}`), h('span', { class: 'st-b a' }, tarih(b.zaman))),
-          satir('Unvan', b.unvan), satir('Vergi no', b.vergiNo), satir('Yetkili', `${b.yetkili} · ${b.telefon} · ${b.eposta}`), satir('Adres', b.adres), satir('Web', b.web),
+          satir('Unvan', b.unvan), satir('Vergi', [b.vergiDairesi, b.vergiNo].filter(Boolean).join(' · ')), satir('Yetkili', `${b.yetkili}${b.yetkiliUnvan ? ` (${b.yetkiliUnvan})` : ''} · ${b.telefon} · ${b.eposta}`), satir('Adres', [b.adres, b.merkezIl].filter(Boolean).join(' · ')), satir('Web', b.web),
+          (b.evrak || []).length ? h('div', { style: { display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' } }, h('b', { class: 'small' }, 'Evrak:'), ...(b.evrak || []).map((e: any) => h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => belgeAc(e.id) }, `${EVRAK[e.tur] || e.tur} · ${(e.boyut / 1048576).toFixed(1)} MB`))) : satir('Evrak', 'Yüklenmemiş (eski başvuru)'),
           satir('Tipler', (b.tipler || []).map((t: string) => TIP[t]).join(', ')), satir('İller', b.iller), satir('Belgeler', b.belgeler), satir('Referanslar', b.referanslar), satir('Not', b.not),
           satir('Üyelik', b.sozlesme ? `Aylık ${b.sozlesme.abonelikTl} TL ve sözleşme onaylandı (${tarih(b.sozlesme.onayZamani)})` : 'Eski başvuru: sözleşme onayı yok'),
           h('label', { class: 'small', style: { display: 'flex', flexDirection: 'column', gap: '4px', fontWeight: 700 } }, 'Listedeki firma kaydı', slug),

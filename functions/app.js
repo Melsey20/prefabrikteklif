@@ -19,6 +19,19 @@ export const DAVET_ARALIK_SAAT = 72;
 // Doğrulanmış (üyeliği aktif) firma: taleplere fiyat verebilir
 export const uyeAktif = (fd) => !!fd && fd.aktif !== false && !fd.kaldirildi && fd.abonelik?.durum === 'aktif';
 export const ABONELIK_DURUM = { 'odeme-bekliyor': 'Ödeme bekleniyor', aktif: 'Aktif', gecikti: 'Ödeme gecikti', iptal: 'İptal' };
+// Firma doğrulama evrakı: yalnızca PDF, PNG, JPEG, HEIC; dosya başına en fazla 10 MB; 900 KB'lık parçalarla yüklenir
+export const EVRAK_TUR = { 'vergi-levhasi': 'Vergi levhası', faaliyet: 'Faaliyet belgesi', 'sicil-gazetesi': 'Ticaret Sicil Gazetesi', 'imza-sirkuleri': 'İmza sirküleri', diger: 'Diğer belge' };
+export const EVRAK_MAKS = 10 * 1024 * 1024;
+export const EVRAK_PARCA = 900 * 1024;
+export const dosyaTuru = (b) => {
+  if (!b || b.length < 12) return '';
+  if (b.slice(0, 4).toString('latin1') === '%PDF') return 'application/pdf';
+  if (b[0] === 0x89 && b.slice(1, 4).toString('latin1') === 'PNG') return 'image/png';
+  if (b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff) return 'image/jpeg';
+  const ftyp = b.slice(4, 12).toString('latin1');
+  if (/^ftyp(heic|heix|hevc|hevx|heim|heis|mif1|msf1)/.test(ftyp)) return 'image/heic';
+  return '';
+};
 export const GB_TUR = { istek: 'İstek / öneri', hata: 'Hata bildirimi', sorun: 'Sorun / şikâyet', diger: 'Diğer' };
 
 export const str = (v, n = 200) => (typeof v === 'string' ? v.trim().slice(0, n) : typeof v === 'number' ? String(v).slice(0, n) : '');
@@ -204,7 +217,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     return { ref, talep: s.data(), slug, davet: dv.data(), davetRef: ref.collection('davetler').doc(slug) };
   }
   const anonim = (d) => ({
-    tipAd: TIP_AD[d.tip], oda: d.oda, m2: d.m2, il: d.il, ilce: d.ilce, araziAd: ARAZI_AD[d.arazi], butce: BUTCE_AD[d.butce] || d.butce, teslim: TESLIM_AD[d.teslim] || '',
+    tip: d.tip, tipAd: TIP_AD[d.tip], oda: d.oda, m2: d.m2, il: d.il, ilce: d.ilce, araziAd: ARAZI_AD[d.arazi], butce: BUTCE_AD[d.butce] || d.butce, teslim: TESLIM_AD[d.teslim] || '',
     zaman: d.zaman, kapsam: (d.kapsam || []).map((k) => KAPSAM_AD[k]), not: d.not, model: d.model ? (modelBul(d.model)?.ad || '') : '',
     sonTarih: d.sonTarih?.toDate ? tarihYazi(d.sonTarih.toDate()) : '', kapali: d.durum !== 'acik',
   });
@@ -257,27 +270,86 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     return { ok: true };
   }
 
+  // ---- POST /api/belge: firma doğrulama evrakı (başlat / parça / bitir) ----
+  async function belge(req) {
+    const b = req.body || {};
+    const islem = str(b.islem, 10);
+    if (islem === 'baslat') {
+      const ad = str(b.ad, 120).replace(/[^\p{L}\p{N} ._()-]/gu, '_');
+      const boyut = Math.floor(Number(b.boyut));
+      if (!EVRAK_TUR[b.tur]) hata(400, 'Belge türü seçin.');
+      if (!/\.(pdf|png|jpe?g|heic|heif)$/i.test(ad)) hata(415, 'Yalnızca PDF, PNG, JPEG ya da HEIC dosyası yükleyebilirsiniz.');
+      if (!(boyut > 0)) hata(400, 'Dosya boş.');
+      if (boyut > EVRAK_MAKS) hata(413, 'Dosya en fazla 10 MB olabilir.');
+      if (!(await rateLimit(req, 'belge', 30))) hata(429, 'Çok fazla dosya yüklendi, biraz sonra tekrar deneyin.');
+      const ref = db.collection('belgeler').doc();
+      const anahtar = token();
+      await ref.set({ tur: b.tur, ad, boyut, parca: Math.ceil(boyut / EVRAK_PARCA), anahtar, durum: 'yukleniyor', mime: '', zaman: FieldValue.serverTimestamp(), olusturma: now() });
+      return { id: ref.id, anahtar, parcaBoyut: EVRAK_PARCA };
+    }
+    const ref = db.collection('belgeler').doc(str(b.id, 40)); const sn = await ref.get();
+    if (!sn.exists || sn.data().anahtar !== str(b.anahtar, 40)) hata(404, 'Yükleme bulunamadı.');
+    const d = sn.data();
+    if (d.durum !== 'yukleniyor') hata(409, 'Bu yükleme tamamlandı.');
+    if (now() - (d.olusturma || 0) > 3600000) hata(410, 'Yükleme süresi doldu, dosyayı yeniden seçin.');
+    if (islem === 'parca') {
+      const i = Math.floor(Number(b.i));
+      if (!(i >= 0 && i < d.parca)) hata(400, 'Geçersiz parça.');
+      if (!/^[A-Za-z0-9+/=]+$/.test(String(b.veri || ''))) hata(400, 'Geçersiz veri.');
+      const buf = Buffer.from(String(b.veri), 'base64');
+      const beklenen = i < d.parca - 1 ? EVRAK_PARCA : d.boyut - EVRAK_PARCA * (d.parca - 1);
+      if (buf.length !== beklenen) hata(400, 'Parça boyutu hatalı.');
+      if (i === 0) {
+        const mime = dosyaTuru(buf);
+        if (!mime) { await ref.set({ durum: 'red' }, { merge: true }); hata(415, 'Dosya içeriği PDF, PNG, JPEG ya da HEIC değil.'); }
+        await ref.set({ mime }, { merge: true });
+      }
+      await ref.collection('parcalar').doc(String(i).padStart(3, '0')).set({ i, veri: buf });
+      return { ok: true };
+    }
+    if (islem === 'bitir') {
+      const ps = await ref.collection('parcalar').get();
+      const toplam = ps.docs.reduce((a, x) => a + (x.data().veri?.length || 0), 0);
+      if (ps.size !== d.parca || toplam !== d.boyut || !d.mime) hata(400, 'Dosya eksik yüklendi, yeniden deneyin.');
+      await ref.set({ durum: 'gecici' }, { merge: true });
+      return { ok: true, id: ref.id };
+    }
+    hata(400, 'Geçersiz işlem.');
+  }
+
   // ---- POST /api/firma-basvuru ----
   async function firmaBasvuru(req) {
     const b = req.body || {};
     if (str(b.website)) return { ok: true };
     const d = {
-      unvan: str(b.unvan, 160), marka: str(b.marka, 80), vergiNo: str(b.vergiNo, 11), mevcut: str(b.mevcut, 80), adres: str(b.adres, 240),
+      unvan: str(b.unvan, 160), marka: str(b.marka, 80), vergiDairesi: str(b.vergiDairesi, 80), vergiNo: str(b.vergiNo, 11), mevcut: str(b.mevcut, 80), adres: str(b.adres, 240), merkezIl: str(b.merkezIl, 40), yetkiliUnvan: str(b.yetkiliUnvan, 60),
       web: str(b.web, 160), yetkili: str(b.yetkili, 80), telefon: str(b.telefon, 20), eposta: str(b.eposta, 120).toLowerCase(),
       tipler: arr(b.tipler).filter((t) => TIP_AD[t]), iller: str(b.iller, 1500), belgeler: str(b.belgeler, 300), referanslar: str(b.referanslar, 1500), not: str(b.not, 1000),
       davet: /^[A-Za-z0-9_-]{6,40}\.[A-Za-z0-9_-]{10,40}$/.test(str(b.davet, 90)) ? str(b.davet, 90) : '',
     };
     if (d.mevcut && !FIRMS.some((f) => f.slug === d.mevcut)) d.mevcut = '';
     if (!d.unvan || !/^\d{10,11}$/.test(d.vergiNo) || !d.yetkili || !epostaMi(d.eposta) || !d.tipler.length || !d.iller) hata(400, 'Lütfen zorunlu alanları doldurun (hizmet verdiğiniz iller dahil).');
+    if (!d.vergiDairesi || d.adres.length < 10 || !d.merkezIl || d.telefon.replace(/\D/g, '').length < 10) hata(400, 'Vergi dairesi, açık adres, firmanın bulunduğu il ve telefon zorunlu.');
+    // Doğrulama evrakı: vergi levhası + (faaliyet belgesi ya da Ticaret Sicil Gazetesi)
+    const evrakGiris = (Array.isArray(b.evrak) ? b.evrak : []).slice(0, 8).map((x) => ({ id: str(x?.id, 40), anahtar: str(x?.anahtar, 40) })).filter((x) => x.id && x.anahtar);
+    const evrak = [];
+    for (const x of evrakGiris) {
+      const sn = await db.collection('belgeler').doc(x.id).get();
+      if (sn.exists && sn.data().anahtar === x.anahtar && sn.data().durum === 'gecici') evrak.push({ id: x.id, tur: sn.data().tur, ad: sn.data().ad, boyut: sn.data().boyut, mime: sn.data().mime });
+    }
+    if (!evrak.some((e) => e.tur === 'vergi-levhasi')) hata(400, 'Vergi levhanızı yükleyin.');
+    if (!evrak.some((e) => e.tur === 'faaliyet' || e.tur === 'sicil-gazetesi')) hata(400, 'Faaliyet belgenizi ya da Ticaret Sicil Gazetesini yükleyin.');
+    d.evrak = evrak;
     if (d.referanslar.length < 10) hata(400, 'En az bir referans (teslim ettiğiniz bir proje ve iletişim bilgisi) yazın; referanssız kayıt almıyoruz.');
     if (b.sozlesmeOnay !== true || b.abonelikOnay !== true) hata(400, `Firma üyelik sözleşmesini ve aylık ${ABONELIK_TL} TL üyelik bedelini onaylayın.`);
     d.sozlesme = { surum: '2026-11', abonelikTl: ABONELIK_TL, onayZamani: now() };
     if (!(await rateLimit(req, 'basvuru', 3))) hata(429, 'Çok fazla deneme, sonra tekrar deneyin.');
     const ref = await db.collection('firmaBasvurulari').add({ ...d, durum: 'bekliyor', zaman: FieldValue.serverTimestamp() });
+    for (const e of evrak) await db.collection('belgeler').doc(e.id).set({ durum: 'basvuru', basvuru: ref.id }, { merge: true });
     const a = ayar();
     await Promise.allSettled([
-      mail(a.admin, `Firma başvurusu: ${d.marka || d.unvan}`, sablon('Yeni firma başvurusu', kart(Object.entries({ Unvan: d.unvan, Marka: d.marka, 'Vergi no': d.vergiNo, 'Listedeki kaydı': d.mevcut, 'Talep davetinden': d.davet ? 'Evet' : '', Adres: d.adres, Web: d.web, Yetkili: d.yetkili, Telefon: d.telefon, 'E-posta': d.eposta, Tipler: d.tipler.map((t) => TIP_AD[t]).join(', '), İller: d.iller, Belgeler: d.belgeler, Referanslar: d.referanslar, Not: d.not, Üyelik: `Aylık ${ABONELIK_TL} TL ve üyelik sözleşmesi onaylandı` })) + buton(`${a.site}/yonetim/#onaylar`, 'Onaylamak için yönetim paneli') + `<p>Başvuru no: ${ref.id}</p>`)),
-      mail(d.eposta, 'Başvurunuz alındı', sablon('Başvurunuz alındı', `<p>Sayın ${esc(d.yetkili)},</p><p>PrefabrikTeklif firma başvurunuz alındı. Vergi levhası, Ticaret Sicil Gazetesi ve imza sirkülerinizi bu e-postaya yanıt olarak gönderebilirsiniz; referanslarınızı da kontrol edeceğiz.</p><p>Başvurunuz onaylandığında aylık <b>${ABONELIK_TL} TL</b> üyelik bedeli için ödeme bağlantısını e-postayla ileteceğiz. Ödeme sonrası firmanız “doğrulanmış” olarak görünür ve size gelen taleplere fiyat verebilirsiniz.${d.davet ? ' Sizi davet eden talep de panelinizde olacak.' : ''} Ardından <b>${esc(d.eposta)}</b> adresiyle <a href="${esc(a.site)}/firma-paneli/">firma paneline</a> giriş yapıp ürün ve fiyatlarınızı yönetebileceksiniz.</p><p style="font-size:12px;color:#4a5751">Onayladığınız sözleşme: <a href="${esc(a.site)}/firma-uyelik-sozlesmesi/">Firma üyelik sözleşmesi</a></p>`)),
+      mail(a.admin, `Firma başvurusu: ${d.marka || d.unvan}`, sablon('Yeni firma başvurusu', kart(Object.entries({ Unvan: d.unvan, Marka: d.marka, 'Vergi dairesi': d.vergiDairesi, 'Vergi no': d.vergiNo, 'Merkez il': d.merkezIl, Evrak: evrak.map((e) => `${EVRAK_TUR[e.tur]} (${e.ad})`).join(', '), 'Listedeki kaydı': d.mevcut, 'Talep davetinden': d.davet ? 'Evet' : '', Adres: d.adres, Web: d.web, Yetkili: d.yetkili, Telefon: d.telefon, 'E-posta': d.eposta, Tipler: d.tipler.map((t) => TIP_AD[t]).join(', '), İller: d.iller, Belgeler: d.belgeler, Referanslar: d.referanslar, Not: d.not, Üyelik: `Aylık ${ABONELIK_TL} TL ve üyelik sözleşmesi onaylandı` })) + buton(`${a.site}/yonetim/#onaylar`, 'Onaylamak için yönetim paneli') + `<p>Başvuru no: ${ref.id}</p>`)),
+      mail(d.eposta, 'Başvurunuz alındı', sablon('Başvurunuz alındı', `<p>Sayın ${esc(d.yetkili)},</p><p>PrefabrikTeklif firma başvurunuz ve yüklediğiniz belgeler (${evrak.map((e) => esc(EVRAK_TUR[e.tur])).join(', ')}) alındı. Belgelerinizi ve referanslarınızı kontrol edeceğiz.</p><p>Başvurunuz onaylandığında aylık <b>${ABONELIK_TL} TL</b> üyelik bedeli için ödeme bağlantısını e-postayla ileteceğiz. Ödeme sonrası firmanız “doğrulanmış” olarak görünür ve size gelen taleplere fiyat verebilirsiniz.${d.davet ? ' Sizi davet eden talep de panelinizde olacak.' : ''} Ardından <b>${esc(d.eposta)}</b> adresiyle <a href="${esc(a.site)}/firma-paneli/">firma paneline</a> giriş yapıp ürün ve fiyatlarınızı yönetebileceksiniz.</p><p style="font-size:12px;color:#4a5751">Onayladığınız sözleşme: <a href="${esc(a.site)}/firma-uyelik-sozlesmesi/">Firma üyelik sözleşmesi</a></p>`)),
     ]);
     return { ok: true };
   }
@@ -403,10 +475,11 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const docs = new Map();
     for (const q of await Promise.all(qs)) for (const d of q.docs) docs.set(d.id, d);
     const talepler = [];
+    const tkler = new Map(await Promise.all([...docs.values()].filter((d) => d.data().mod !== 'surec').map(async (d) => [d.id, await d.ref.collection('teklifler').get()])));
     for (const d of docs.values()) {
       const t = d.data();
       if (t.mod === 'surec') continue;
-      const tk = (await d.ref.collection('teklifler').get()).docs.map((x) => { const y = x.data(); return { firma: firmAd(y.firma), firmaSlug: y.firma, fiyat: y.fiyat, kdvDahil: y.kdvDahil, dahil: (y.dahil || []).map((k) => DAHIL_AD[k]), teslimGun: y.teslimGun, garantiYil: y.garantiYil, not: y.not }; }).sort((a, b) => a.fiyat - b.fiyat);
+      const tk = tkler.get(d.id).docs.map((x) => { const y = x.data(); return { firma: firmAd(y.firma), firmaSlug: y.firma, fiyat: y.fiyat, kdvDahil: y.kdvDahil, dahil: (y.dahil || []).map((k) => DAHIL_AD[k]), teslimGun: y.teslimGun, garantiYil: y.garantiYil, not: y.not }; }).sort((a, b) => a.fiyat - b.fiyat);
       talepler.push({ id: d.id, ...anonim(t), durum: t.durum, olusturma: t.olusturma?.toMillis?.() || 0, sonTarihMs: t.sonTarih?.toMillis?.() || 0, teklifler: tk });
     }
     talepler.sort((a, b) => b.olusturma - a.olusturma);
@@ -453,9 +526,10 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const bekleyen = dq.docs.map((d) => ({ id: d.id, ...d.data(), zaman: d.data().zaman?.toMillis?.() || 0 }));
     const tq = await db.collection('talepler').where('firmalar', 'array-contains', slug).limit(60).get();
     const talepler = [];
-    for (const d of tq.docs) {
+    const ekler = await Promise.all(tq.docs.map((d) => Promise.all([d.ref.collection('davetler').doc(slug).get(), d.ref.collection('teklifler').doc(slug).get()])));
+    for (const [n, d] of tq.docs.entries()) {
       const t = d.data();
-      const [dv, tk] = await Promise.all([d.ref.collection('davetler').doc(slug).get(), d.ref.collection('teklifler').doc(slug).get()]);
+      const [dv, tk] = ekler[n];
       talepler.push({ id: d.id, ...anonim(t), davetTur: dv.exists ? dv.data().tur || '' : '', olusturma: t.olusturma?.toMillis?.() || 0, sonTarihMs: t.sonTarih?.toMillis?.() || 0, davet: dv.exists ? dv.data().durum : 'yok', teklif: tk.exists ? { fiyat: tk.data().fiyat, kdvDahil: tk.data().kdvDahil } : null, ...(tk.exists ? { musteri: musteri(t) } : {}) });
     }
     talepler.sort((a, b) => b.olusturma - a.olusturma);
@@ -660,6 +734,18 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     await ref.update({ durum: karar === 'onay' ? 'onayli' : 'red', slug: slug || '', kararZamani: FieldValue.serverTimestamp() });
     return { ok: true, slug };
   }
+  async function yonetimBelge(req, res) {
+    await yonetici(req);
+    const ref = db.collection('belgeler').doc(str(req.query?.id, 40)); const sn = await ref.get();
+    if (!sn.exists || sn.data().durum === 'yukleniyor') hata(404, 'Belge bulunamadı.');
+    const d = sn.data();
+    const ps = (await ref.collection('parcalar').get()).docs.map((x) => x.data()).sort((a, b) => a.i - b.i);
+    const buf = Buffer.concat(ps.map((x) => Buffer.from(x.veri)));
+    res.set?.('Content-Type', d.mime); res.set?.('Content-Disposition', `inline; filename="${encodeURIComponent(d.ad)}"`); res.set?.('Cache-Control', 'private, no-store'); res.set?.('X-Content-Type-Options', 'nosniff');
+    res.status(200);
+    if (res.send) { res.send(buf); return undefined; }
+    return { boyut: buf.length, mime: d.mime };
+  }
   async function yonetimFirma(req) {
     await yonetici(req);
     const b = req.body || {};
@@ -792,7 +878,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     rateLimit, kim,
     routes: {
       'POST /api/teklif': teklif, 'GET /api/talep': talep, 'POST /api/teklif-ver': teklifVer, 'POST /api/teklif-red': teklifRed,
-      'POST /api/firma-basvuru': firmaBasvuru, 'POST /api/bildirim-iptal': bildirimIptal, 'POST /api/firma/gorsel': firmaGorsel, 'POST /api/iletisim': iletisim, 'GET /api/google-puan': googlePuan, 'GET /api/yorumlar': yorumlar, 'POST /api/yorum': yorum,
+      'POST /api/firma-basvuru': firmaBasvuru, 'POST /api/belge': belge, 'GET /api/yonetim/belge': yonetimBelge, 'POST /api/bildirim-iptal': bildirimIptal, 'POST /api/firma/gorsel': firmaGorsel, 'POST /api/iletisim': iletisim, 'GET /api/google-puan': googlePuan, 'GET /api/yorumlar': yorumlar, 'POST /api/yorum': yorum,
       'GET /api/katalog': katalog, 'GET /api/bannerlar': bannerlar,
       'GET /api/ben': ben, 'GET /api/hesap': hesap, 'POST /api/favoriler': favoriler, 'POST /api/siparis-mesaj': siparisMesaj,
       'GET /api/firma/ozet': firmaOzet, 'POST /api/firma/urun': firmaUrun, 'POST /api/firma/teklif': firmaTeklif, 'POST /api/firma/red': firmaRed,
@@ -813,7 +899,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       const fn = this.routes[`${req.method} ${String(req.path || '').replace(/\/$/, '')}`];
       const send = (code, body) => { res.status(code); if (!res.getHeader?.('Cache-Control')) res.set?.('Cache-Control', 'no-store'); return res.json(body); };
       if (!fn) return send(404, { hata: 'Bulunamadı' });
-      try { const out = await fn(req, res); return send(200, out); } catch (e) {
+      try { const out = await fn(req, res); if (fn === yonetimBelge && out === undefined) return undefined; return send(200, out); } catch (e) {
         if (e instanceof HttpHata) return send(e.kod, { hata: e.message });
         console.error(e); return send(500, { hata: 'İşleminizi şu an tamamlayamadık. Lütfen birkaç dakika sonra tekrar deneyin.' });
       }

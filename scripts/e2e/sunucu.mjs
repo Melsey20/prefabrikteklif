@@ -21,7 +21,7 @@ http.createServer(async (req, res) => {
   if (u.pathname === '/__/firebase/init.json') { res.setHeader('Content-Type', 'application/json'); return res.end(JSON.stringify({ apiKey: 'test-key', authDomain: 'localhost', projectId: 'prefabrikteklif', appId: '1:1:web:1' })); }
   if (u.pathname.startsWith('/api/')) {
     let body = ''; for await (const c of req) body += c;
-    const r = { statusCode: 200, h: {}, status(c) { this.statusCode = c; return this; }, set(k, v) { this.h[k.toLowerCase()] = v; return this; }, getHeader(k) { return this.h[k.toLowerCase()]; }, json(b) { res.writeHead(this.statusCode, { 'Content-Type': 'application/json', ...this.h }); res.end(JSON.stringify(b)); } };
+    const r = { statusCode: 200, h: {}, status(c) { this.statusCode = c; return this; }, set(k, v) { this.h[k.toLowerCase()] = v; return this; }, getHeader(k) { return this.h[k.toLowerCase()]; }, json(b) { res.writeHead(this.statusCode, { 'Content-Type': 'application/json', ...this.h }); res.end(JSON.stringify(b)); }, send(b) { res.writeHead(this.statusCode, this.h); res.end(b); } };
     return app.handle({ method: req.method, path: u.pathname, query: Object.fromEntries(u.searchParams), body: body ? JSON.parse(body) : {}, headers: req.headers }, r);
   }
   let p = path.join(ROOT, decodeURIComponent(u.pathname));

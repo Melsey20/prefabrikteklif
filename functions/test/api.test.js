@@ -21,6 +21,21 @@ function kur() {
   const call = async (method, path, { body, query, tok } = {}) => { const r = res(); await app.handle({ method, path, body, query: query || {}, headers: { 'x-forwarded-for': '1.2.3.' + Math.floor(Math.random() * 250), ...(tok ? { authorization: 'Bearer ' + tok } : {}) } }, r); return r; };
   return { db, mails, call, app };
 }
+
+// Evrak yükleme yardımcısı (PDF içerikli küçük dosya, isteğe bağlı çok parçalı)
+async function evrakYukle(call, tur, boyut = 2000, ad = 'belge.pdf', bas = '%PDF-1.7\n') {
+  const buf = Buffer.alloc(boyut, 65); Buffer.from(bas, 'latin1').copy(buf);
+  const b = await call('POST', '/api/belge', { body: { islem: 'baslat', ad, tur, boyut } });
+  if (b.statusCode !== 200) return b;
+  const { id, anahtar, parcaBoyut } = b.body;
+  for (let i = 0; i * parcaBoyut < boyut; i++) {
+    const r = await call('POST', '/api/belge', { body: { islem: 'parca', id, anahtar, i, veri: buf.subarray(i * parcaBoyut, (i + 1) * parcaBoyut).toString('base64') } });
+    if (r.statusCode !== 200) return r;
+  }
+  const s = await call('POST', '/api/belge', { body: { islem: 'bitir', id, anahtar } });
+  return s.statusCode === 200 ? { statusCode: 200, body: { id, anahtar } } : s;
+}
+const TAM = { vergiDairesi: 'Malatya VD', adres: 'Organize Sanayi Bölgesi 3. Cadde No:12', merkezIl: 'Malatya', telefon: '05320000000' };
 const TALEP = { tip: 'prefabrik', oda: '2+1', m2: 80, arazi: 'imarli', il: 'Malatya', butce: '500000-1000000', teslim: 'anahtar', ad: 'Ali Veli', eposta: 'ali@ornek.com', telefon: '0532 111 22 33', riza: true, kapsam: ['anahtar-teslim'] };
 
 test('teklif: talep isimsiz gider, fiyat veren firmaya müşteri bilgisi açılır', async () => {
@@ -158,8 +173,14 @@ test('firma başvurusu onayı firma hesabını açar', async () => {
   assert.equal(refsiz.statusCode, 400, 'referanssız kayıt alınmaz');
   const onaysiz = await call('POST', '/api/firma-basvuru', { body: { ...temel, referanslar: 'Malatya Yeşilyurt 2025, 90 m² ev, Mehmet Bey 0532...' } });
   assert.equal(onaysiz.statusCode, 400, 'sözleşme ve 499 TL üyelik onayı zorunlu');
-  const b = await call('POST', '/api/firma-basvuru', { body: { ...temel, referanslar: 'Malatya Yeşilyurt 2025, 90 m² ev, Mehmet Bey 0532...', sozlesmeOnay: true, abonelikOnay: true } });
+  const evraksiz = await call('POST', '/api/firma-basvuru', { body: { ...temel, ...TAM, referanslar: 'Malatya Yeşilyurt 2025, 90 m² ev, Mehmet Bey 0532...', sozlesmeOnay: true, abonelikOnay: true } });
+  assert.equal(evraksiz.statusCode, 400, 'evraksız başvuru alınmaz'); assert.match(evraksiz.body.hata, /Vergi levha/);
+  const v = await evrakYukle(call, 'vergi-levhasi'); const f = await evrakYukle(call, 'sicil-gazetesi', 2_000_000, 'gazete.pdf');
+  assert.equal(v.statusCode, 200, JSON.stringify(v.body)); assert.equal(f.statusCode, 200, JSON.stringify(f.body));
+  const b = await call('POST', '/api/firma-basvuru', { body: { ...temel, ...TAM, evrak: [v.body, f.body], referanslar: 'Malatya Yeşilyurt 2025, 90 m² ev, Mehmet Bey 0532...', sozlesmeOnay: true, abonelikOnay: true } });
   assert.equal(b.statusCode, 200, JSON.stringify(b.body));
+  // Aynı evrak ikinci başvuruda kullanılamaz
+  assert.equal((await call('POST', '/api/firma-basvuru', { body: { ...temel, ...TAM, evrak: [v.body, f.body], referanslar: 'Malatya Yeşilyurt 2025, 90 m² ev, Mehmet Bey 0532...', sozlesmeOnay: true, abonelikOnay: true } })).statusCode, 400);
   assert.ok(mails.some((m) => m.subject === 'Başvurunuz alındı' && m.html.includes('499 TL')));
   const oz = await call('GET', '/api/yonetim/ozet', { tok: 'tok-admin' });
   const id = oz.body.basvurular[0].id;
@@ -289,7 +310,8 @@ test('üye olmayan firmalar davet alır, ödeme yapmayan fiyat veremez, panelden
   assert.ok((await call2('GET', '/api/katalog')).body.kayitlar.some((x) => x.id === 'uye:kardesler'));
   // Davet bağlantısıyla başvuru, sonra bildirim iptali; ikinci talepte davet gitmez
   const kod = decodeURIComponent(davet.html.match(/davet=([^"&]+)/)[1]);
-  const bas = await call2('POST', '/api/firma-basvuru', { body: { unvan: 'Pramo A.Ş.', vergiNo: '1234567890', yetkili: 'Ayşe', eposta: 'info@pramo.example', tipler: ['prefabrik'], iller: 'Tüm Türkiye', referanslar: 'Bursa 2025 teslim: Mehmet Bey 0555', sozlesmeOnay: true, abonelikOnay: true, mevcut: 'pramo', davet: kod } });
+  const ev1 = await evrakYukle(call2, 'vergi-levhasi'); const ev2 = await evrakYukle(call2, 'faaliyet', 3000, 'faaliyet.jpg', '\xff\xd8\xff\xe0');
+  const bas = await call2('POST', '/api/firma-basvuru', { body: { ...TAM, evrak: [ev1.body, ev2.body], unvan: 'Pramo A.Ş.', vergiNo: '1234567890', yetkili: 'Ayşe', eposta: 'info@pramo.example', tipler: ['prefabrik'], iller: 'Tüm Türkiye', referanslar: 'Bursa 2025 teslim: Mehmet Bey 0555', sozlesmeOnay: true, abonelikOnay: true, mevcut: 'pramo', davet: kod } });
   assert.equal(bas.statusCode, 200, JSON.stringify(bas.body));
   const iptal = decodeURIComponent(davet.html.match(/bildirim-iptal\/\?f=([^"&]+)/)[1]);
   assert.equal((await call2('POST', '/api/bildirim-iptal', { body: { f: 'pramo.yanlis' } })).statusCode, 404);
@@ -333,4 +355,24 @@ test('firma fotoğraf yükler, sitemizden sunulur', async () => {
   // aynı veritabanı üzerinden okunur
   const r2 = await call('GET', '/api/gorsel/' + id);
   assert.equal(r2.statusCode, 200); assert.equal(r2.h['content-type'], 'image/webp'); assert.match(r2.h['cache-control'], /immutable/);
+});
+
+
+test('evrak yükleme: tür, boyut, içerik denetimi ve yönetimden indirme', async () => {
+  const { call, db } = kur();
+  assert.equal((await call('POST', '/api/belge', { body: { islem: 'baslat', ad: 'virus.exe', tur: 'vergi-levhasi', boyut: 100 } })).statusCode, 415);
+  assert.equal((await call('POST', '/api/belge', { body: { islem: 'baslat', ad: 'buyuk.pdf', tur: 'vergi-levhasi', boyut: 11 * 1024 * 1024 } })).statusCode, 413);
+  assert.equal((await call('POST', '/api/belge', { body: { islem: 'baslat', ad: 'a.pdf', tur: 'yok', boyut: 100 } })).statusCode, 400);
+  const sahte = await evrakYukle(call, 'vergi-levhasi', 500, 'sahte.pdf', '<html><script>');
+  assert.equal(sahte.statusCode, 415, 'uzantısı pdf ama içeriği değilse reddedilir');
+  const heic = await evrakYukle(call, 'faaliyet', 1500, 'foto.heic', '\0\0\0\x18ftypheic');
+  assert.equal(heic.statusCode, 200, JSON.stringify(heic.body));
+  const b = await call('POST', '/api/belge', { body: { islem: 'baslat', ad: 'x.pdf', tur: 'diger', boyut: 1000 } });
+  assert.equal((await call('POST', '/api/belge', { body: { islem: 'parca', id: b.body.id, anahtar: 'yanlis', i: 0, veri: 'AAAA' } })).statusCode, 404, 'anahtarsız parça eklenemez');
+  assert.equal((await call('POST', '/api/belge', { body: { islem: 'bitir', id: b.body.id, anahtar: b.body.anahtar } })).statusCode, 400, 'eksik dosya tamamlanamaz');
+  const pdf = await evrakYukle(call, 'vergi-levhasi', 2_500_000);
+  assert.equal(pdf.statusCode, 200);
+  assert.equal((await call('GET', '/api/yonetim/belge', { query: { id: pdf.body.id }, tok: 'tok-user' })).statusCode, 403, 'yalnızca yönetici indirir');
+  const ind = await call('GET', '/api/yonetim/belge', { query: { id: pdf.body.id }, tok: 'tok-admin' });
+  assert.equal(ind.statusCode, 200); assert.equal(ind.body.boyut, 2_500_000); assert.equal(ind.body.mime, 'application/pdf');
 });

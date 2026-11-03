@@ -74,7 +74,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
   </div>
   <script define:vars={{ TIPLER_L: tipler }}>window.__TIPLER = TIPLER_L;</script>
   <script>
-    import { kullanici, api, oturumAc, ApiHata } from '../scripts/fb';
+    import { kullanici, api, oturumAc, ApiHata, cikis, dogrulamaGonder } from '../scripts/fb';
     import { h, tl, tarih, kalan, toast, modal, alan, sekmeler, hataGoster } from '../scripts/ui';
     const TIPLER: { k: string; ad: string }[] = (window as any).__TIPLER;
     const $ = (id: string) => document.getElementById(id)!;
@@ -303,8 +303,19 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
         sekmeler($('sekmeler'), () => scrollTo(0, 0));
       } catch (e: any) {
         $('fp-giris').hidden = false;
-        if (e instanceof ApiHata && e.kod === 403) $('fp-mesaj').textContent = e.message;
-        else $('fp-mesaj').textContent = e?.message || 'Panel yüklenemedi.';
+        const u = await kullanici().catch(() => null);
+        if (e instanceof ApiHata && e.kod === 403 && u) {
+          // Giriş yapılmış ama bu e-posta bir firmaya bağlı değil: hesap değiştirme ve firma kaydı seçenekleri
+          const kutu = document.querySelector('#fp-giris .auth')!;
+          kutu.replaceChildren(
+            h('h1', { style: { fontSize: '1.6rem', marginTop: 0 } }, 'Firma paneli'),
+            h('p', { class: 'note-a', style: { margin: 0 } }, h('b', {}, u.email || 'Bu hesap'), ' ile giriş yaptınız. ', e.message),
+            h('p', { class: 'small muted', style: { margin: '12px 0' } }, 'Firma paneline, firma başvurusunda yazdığınız ya da size tanımlanan e-posta adresiyle girilir.'),
+            h('div', { style: { display: 'flex', gap: '10px', flexWrap: 'wrap' } },
+              h('button', { class: 'btn btn-p', type: 'button', onclick: async () => { await cikis(); location.href = '/giris/?geri=/firma-paneli/'; } }, 'Firma e-postasıyla giriş yap'),
+              h('a', { class: 'btn btn-g', href: '/firma-kayit/' }, 'Firmamı kaydet / doğrula'),
+              ...(e.message.includes('doğrulayın') ? [h('button', { class: 'btn btn-g', type: 'button', onclick: async () => { await dogrulamaGonder(); toast('Doğrulama e-postası gönderildi'); } }, 'Doğrulama e-postası gönder')] : [])));
+        } else $('fp-mesaj').textContent = e?.message || 'Panel yüklenemedi. Sayfayı yenileyin.';
       }
     })();
   </script>

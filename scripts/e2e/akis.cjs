@@ -156,9 +156,10 @@ async function giris(p, eposta, hedef) {
   // 6) Kullanıcı hesabı
   ({ ctx, p } = await yeniSayfa(390));
   await giris(p, 'ali@ornek.com', '/hesabim/');
-  await p.waitForSelector('#p-siparis article');
-  assert.ok((await p.locator('#p-siparis').textContent()).includes('Sözleşme hazırlandı'));
-  await p.click('[data-sekme="talepler"]'); await p.waitForSelector('#p-talepler table');
+  await p.waitForSelector('#p-genel .hs-surec-mini');
+  await p.click('.hs-sek [data-p=surec]'); await p.waitForSelector('#p-surec .steps');
+  assert.ok((await p.locator('#p-surec').textContent()).includes('Sözleşme hazırlandı'));
+  await p.click('.hs-sek [data-p=talepler]'); await p.waitForSelector('#p-talepler .hs-tk');
   assert.ok((await p.locator('#p-talepler').textContent()).includes('595.000'));
   adim('Kullanıcı hesabı: sipariş aşaması ve gelen teklif görünüyor');
   await ctx.close();
@@ -169,7 +170,7 @@ async function giris(p, eposta, hedef) {
   assert.ok((await p.locator('main, body').first().textContent()).includes('499 TL'));
   const fk = p.locator('#kayit');
   await fk.locator('[name=unvan]').fill('Deneme Yapı Ltd.'); await fk.locator('[name=marka]').fill('Deneme Prefabrik'); await fk.locator('[name=vergiNo]').fill('1234567890');
-  await fk.locator('[name=adres]').fill('Malatya OSB'); await fk.locator('[name=yetkili]').fill('Ayşe Yılmaz'); await fk.locator('[name=telefon]').fill('05321112233'); await fk.locator('[name=eposta]').fill('yeni@deneme.com');
+  await fk.locator('[name=adres]').fill('Malatya OSB 2. Cadde No: 14'); await fk.locator('[name=vergiDairesi]').fill('Malatya VD'); await fk.locator('[name=merkezIl]').selectOption('Malatya'); await fk.locator('[name=yetkili]').fill('Ayşe Yılmaz'); await fk.locator('[name=telefon]').fill('05321112233'); await fk.locator('[name=eposta]').fill('yeni@deneme.com');
   await fk.locator('[name=tipler][value=prefabrik]').check(); await fk.locator('[name=kosul]').check();
   await fk.locator('[name=kapsam][value=secili]').check(); await p.click('#gonder');
   assert.ok((await p.locator('#hata').textContent()).includes('il'), 'belirli il seçilip hiç il işaretlenmezse uyarı');
@@ -178,6 +179,20 @@ async function giris(p, eposta, hedef) {
   await fk.locator('[name=referanslar]').fill('Malatya 2025 · 90 m² 2+1 · Mehmet Bey 0532 000 00 00');
   await p.click('#gonder'); assert.ok((await p.locator('#hata').textContent()).includes('üyelik'), 'üyelik onayı zorunlu');
   await fk.locator('[name=abonelik]').check(); await fk.locator('[name=sozlesme]').check();
+  await p.click('#gonder'); assert.ok((await p.locator('#hata').textContent()).includes('Vergi levha'), 'evraksız başvuru gönderilemez');
+  // Evrak: yanlış tür ve büyük dosya reddedilir; PDF ve JPEG yüklenir
+  const ev = (tur) => p.locator(`#evrak [data-tur="${tur}"] input[type=file]`);
+  await ev('vergi-levhasi').setInputFiles({ name: 'zararli.exe', mimeType: 'application/octet-stream', buffer: Buffer.from('MZ') });
+  await p.waitForSelector('#evrak [data-tur="vergi-levhasi"].hata'); assert.ok((await p.locator('#evrak [data-tur="vergi-levhasi"] em').textContent()).includes('PDF'));
+  await ev('vergi-levhasi').setInputFiles({ name: 'buyuk.pdf', mimeType: 'application/pdf', buffer: Buffer.alloc(11 * 1024 * 1024, 37) });
+  assert.ok((await p.locator('#evrak [data-tur="vergi-levhasi"] em').textContent()).includes('10 MB'));
+  await ev('vergi-levhasi').setInputFiles({ name: 'sahte.pdf', mimeType: 'application/pdf', buffer: Buffer.from('<html>bu pdf degil</html>') });
+  await p.waitForFunction(() => /PDF, PNG/.test(document.querySelector('#evrak [data-tur="vergi-levhasi"] em')?.textContent || ''));
+  const pdf = Buffer.alloc(1_500_000, 65); Buffer.from('%PDF-1.7\n').copy(pdf);
+  await ev('vergi-levhasi').setInputFiles({ name: 'vergi-levhasi.pdf', mimeType: 'application/pdf', buffer: pdf });
+  await p.waitForSelector('#evrak [data-tur="vergi-levhasi"].ok', { timeout: 20000 });
+  await ev('faaliyet').setInputFiles({ name: 'faaliyet.jpg', mimeType: 'image/jpeg', buffer: require('node:fs').readFileSync('dist/img/hero-og.jpg') });
+  await p.waitForSelector('#evrak [data-tur="faaliyet"].ok', { timeout: 20000 });
   await p.click('#gonder'); await p.waitForSelector('#tamam:not([hidden])');
   adim('Firma başvurusu: referans ve 499 TL üyelik onayı zorunlu, başvuru alındı');
   await ctx.close();
@@ -186,6 +201,12 @@ async function giris(p, eposta, hedef) {
   await p.waitForSelector('#p-onaylar .item');
   const bas = p.locator('#p-onaylar .item', { hasText: 'Deneme Prefabrik' });
   assert.ok((await bas.textContent()).includes('Mehmet Bey'));
+  assert.equal(await bas.locator('button', { hasText: 'Vergi levhası' }).count(), 1, 'yönetim evrakı görür');
+  const evrakYanit = p.waitForResponse((r) => r.url().includes('/api/yonetim/belge'));
+  const yeniSekme = p.context().waitForEvent('page');
+  await bas.locator('button', { hasText: 'Vergi levhası' }).click();
+  const er = await evrakYanit; assert.equal(er.status(), 200); assert.equal(er.headers()['content-type'], 'application/pdf');
+  await (await yeniSekme).close();
   await bas.locator('input[name=odeme]').fill('https://odeme.example/deneme');
   await bas.getByRole('button', { name: 'Onayla, hesabı aç' }).click();
   await p.waitForFunction(() => !document.querySelector('#p-onaylar')?.textContent?.includes('Deneme Prefabrik'));
@@ -287,6 +308,26 @@ async function giris(p, eposta, hedef) {
   await p.click('[data-sekme="talepler"]');
   await p.waitForSelector('#teklif-uyelik a[href="https://odeme.example/deneme"]');
   adim('Ödeme bekleyen firma: fiyat verme kilitli, ödeme bağlantısı gösteriliyor');
+  await ctx.close();
+  // 13) Firma olmayan hesapla firma paneli: açık mesaj ve hesap değiştirme
+  ({ ctx, p } = await yeniSayfa(390));
+  await giris(p, 'ali@ornek.com', '/firma-paneli/');
+  await p.waitForSelector('#fp-giris:not([hidden]) .note-a');
+  assert.ok((await p.locator('#fp-giris').textContent()).includes('ali@ornek.com'));
+  assert.equal(await p.getByRole('button', { name: 'Firma e-postasıyla giriş yap' }).count(), 1);
+  adim('Firma olmayan hesap: firma panelinde açık uyarı ve hesap değiştirme');
+  // 14) Hesabım: özet, sekmeler, teklifler, ayarlar
+  await p.goto(B + '/hesabim/');
+  await p.waitForFunction(() => document.querySelector('[data-say=teklif]')?.textContent !== '–');
+  assert.equal(await p.locator('[data-say=teklif]').textContent(), '1');
+  await p.click('.hs-sek [data-p=talepler]'); await p.waitForSelector('#p-talepler .hs-tk');
+  assert.ok((await p.locator('#p-talepler').textContent()).includes('595.000'));
+  assert.equal(await p.locator('#p-talepler .hs-tk a', { hasText: 'Bu firmayla ilerle' }).count() >= 1, true);
+  await p.click('.hs-sek [data-p=surec]'); await p.waitForSelector('#p-surec .steps');
+  await p.click('.hs-sek [data-p=ayarlar]'); await p.waitForSelector('#p-ayarlar .hs-ayar');
+  await p.screenshot({ path: '/tmp/e2e-hesap.png', fullPage: true });
+  await p.reload(); await p.waitForSelector('#p-ayarlar:not([hidden]) .hs-ayar', { timeout: 3000 });
+  adim('Hesabım: özet sayıları, teklif kartları, süreç ve ayarlar; yenilemede anında açılıyor');
   await ctx.close();
 
   await br.close();
