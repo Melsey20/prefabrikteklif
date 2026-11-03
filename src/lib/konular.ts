@@ -1,6 +1,6 @@
 // Arama hacmi yüksek, tip sayfalarının karşılamadığı sorgular için konu sayfaları.
 // Kaynak: Google Ads Anahtar Kelime Planlayıcı (Türkiye, Türkçe, Kasım 2026). Tüm rakamlar sitedeki gerçek model verisinden hesaplanır.
-import { models, sirala, istatistik, kisaTl, sayi, TIPLER, type Model } from './data';
+import { models, firms, sirala, istatistik, kisaTl, sayi, TIPLER, type Model } from './data';
 
 type S = ReturnType<typeof istatistik>;
 export interface Konu {
@@ -12,6 +12,7 @@ export interface Konu {
   giris: (s: S, list: Model[]) => string;
   sss: (s: S, list: Model[]) => { s: string; c: string }[];
   ilgili: { ad: string; url: string }[];
+  sehir?: string; // şehir sayfası (alt bilgideki “Çok arananlar” listesinde gösterilmez)
 }
 
 const tipSay = (list: Model[]) => {
@@ -22,6 +23,26 @@ const tipSay = (list: Model[]) => {
 const aralik = (s: S) => (s.min && s.max ? `${kisaTl(s.min)} ile ${kisaTl(s.max)} arasında` : '');
 const RUHSAT = { s: 'Ruhsat gerekir mi?', c: 'Zemine sabitlenen ve sürekli oturulan her ev yapı sayılır; imarlı arsa, onaylı proje ve yapı ruhsatı gerekir. Tarım arazisinde ve hobi bahçesinde yapılaşma ayrıca izne tabidir. Kurulumdan önce belediyenize ya da il müdürlüğüne danışın.' };
 const DAHIL = { s: 'Liste fiyatına neler dahil?', c: 'Firmaya göre değişir. Çoğu fiyat bina ve montajı kapsar; zemin betonu, nakliye, vinç, ruhsat ve iç bitişler çoğunlukla ayrıdır. Her kartta dahil/hariç kalemler ayrıca işaretlenir; teklif alırken bunları yazılı isteyin.' };
+
+
+const metin = (m: Model) => `${m.ad} ${m.kapsam}`.toLocaleLowerCase('tr');
+const FIRMA_IL = new Map(firms.map((f) => [f.slug, f.il]));
+function sehirKonu(il: string, slug: string): Konu {
+  return {
+    slug, sehir: il,
+    baslik: `${il} Prefabrik Ev Fiyatları ve Firmaları`,
+    kisa: `${il} prefabrik ev`,
+    tip: 'prefabrik',
+    filtre: (m) => FIRMA_IL.get(m.firma) === il,
+    giris: (s, l) => `Merkezi ${il}’de bulunan ${s.firma} üreticinin ${s.model} modeli bu sayfada (${tipSay(l)}); fiyatlar ${aralik(s)}, ortanca fiyat ${kisaTl(s.medyan)}. Prefabrik ev üreticilerinin çoğu Türkiye’nin her yerine teslim ve montaj yapar; bu yüzden ${il} dışındaki firmaları da kıyaslamanızı öneririz. Teklif formunda kurulum ilini seçtiğinizde talebiniz o ile hizmet veren firmalara gider.`,
+    sss: (s) => [
+      { s: `${il} prefabrik ev fiyatları ne kadar?`, c: `Merkezi ${il}’de olan firmaların listemizdeki modellerinde fiyatlar ${aralik(s)}; ortanca fiyat ${kisaTl(s.medyan)}${s.m2Medyan ? `, ortanca m² fiyatı ${sayi(s.m2Medyan)} TL` : ''}. Nakliye mesafesi kısaldıkça nakliye ve montaj maliyeti genellikle düşer.` },
+      { s: `${il} dışındaki bir firmadan ev alabilir miyim?`, c: 'Evet. Firmaların çoğu Türkiye geneline teslim yapar; nakliye ve montaj fiyata dahil mi, ayrı mı, teklifte mutlaka yazılı olsun. Aynı kapsamla birkaç firmadan fiyat alıp kıyaslayın.' },
+      DAHIL, RUHSAT,
+    ],
+    ilgili: [{ ad: 'Tüm prefabrik ev fiyatları', url: '/prefabrik-ev-fiyatlari/' }, { ad: 'Prefabrik ev firmaları', url: '/firmalar/' }, { ad: 'Prefabrik ev ruhsatı nasıl alınır?', url: '/rehber/prefabrik-ev-ruhsati-nasil-alinir/' }, { ad: 'Arazim uygun mu?', url: '/arazim-uygun-mu/' }],
+  };
+}
 
 export const KONULAR: Konu[] = [
   {
@@ -121,8 +142,72 @@ export const KONULAR: Konu[] = [
       { s: '100 m² prefabrik ev kaça mal olur?', c: 'Tablodaki ortanca m² fiyatıyla 100 m² için yaklaşık bina maliyetini görebilirsiniz. Zemin betonu, nakliye, ruhsat ve altyapı bağlantıları buna eklenir; kesin rakam için firmalardan teklif alın.' },
       DAHIL,
     ],
-    ilgili: [{ ad: '100 m² prefabrik ev', url: '/prefabrik-ev-fiyatlari/100-m2/' }, { ad: '80 m² prefabrik ev', url: '/prefabrik-ev-fiyatlari/80-m2/' }, { ad: 'Hazır ev fiyatları', url: '/hazir-ev-fiyatlari/' }, { ad: 'Prefabrik ev fiyatına neler dahil?', url: '/rehber/prefabrik-ev-fiyatina-neler-dahil/' }],
+    ilgili: [{ ad: 'Maliyet hesaplama aracı', url: '/prefabrik-ev-maliyet-hesaplama/' }, { ad: '100 m² prefabrik ev', url: '/prefabrik-ev-fiyatlari/100-m2/' }, { ad: '80 m² prefabrik ev', url: '/prefabrik-ev-fiyatlari/80-m2/' }, { ad: 'Hazır ev fiyatları', url: '/hazir-ev-fiyatlari/' }, { ad: 'Prefabrik ev fiyatına neler dahil?', url: '/rehber/prefabrik-ev-fiyatina-neler-dahil/' }],
   },
+  {
+    slug: 'celik-konstruksiyon-ev-fiyatlari',
+    baslik: 'Çelik Konstrüksiyon (Hafif Çelik) Ev Fiyatları',
+    kisa: 'çelik konstrüksiyon ev',
+    tip: 'celik',
+    filtre: (m) => m.tip === 'celik' && /hafif çelik|konstrüksiyon|lgs|galvaniz/.test(metin(m)),
+    giris: (s, l) => `Çelik konstrüksiyon evlerde taşıyıcı sistem çelik profillerden oluşur. Konutlarda en yaygın olanı galvanizli ince profillerle kurulan hafif çelik (LGS), büyük açıklıklı yapılarda ise ağır çelik kullanılır. Listede ${s.firma} firmanın ${s.model} hafif çelik / çelik konstrüksiyon modeli var; fiyatlar ${aralik(s)}, ortanca fiyat ${kisaTl(s.medyan)}${s.m2Medyan ? `, ortanca m² fiyatı ${sayi(s.m2Medyan)} TL` : ''}.`,
+    sss: (s) => [
+      { s: 'Çelik konstrüksiyon ev fiyatları ne kadar?', c: `Listemizdeki hafif çelik ve çelik konstrüksiyon modellerde fiyatlar ${aralik(s)}; ortanca fiyat ${kisaTl(s.medyan)}${s.m2Medyan ? `, ortanca m² fiyatı ${sayi(s.m2Medyan)} TL` : ''}. Fiyat; metrekare, kat sayısı, dış cephe ve iç bitiş seviyesine göre değişir.` },
+      { s: 'Hafif çelik ile ağır çelik ev arasındaki fark nedir?', c: 'Hafif çelik (LGS) 1–3 mm kalınlıkta galvanizli soğuk şekillendirilmiş profillerle kurulur; hafif, hızlı ve konutlarda yaygındır. Ağır çelik ise sıcak haddelenmiş kalın profillerle (I, H kesitler) yapılır; büyük açıklıklar ve çok katlı yapılar için tercih edilir, maliyeti genellikle daha yüksektir.' },
+      { s: 'Çelik ev depreme dayanıklı mı?', c: 'Çelik sünek bir malzemedir ve hafif yapı ağırlığı deprem yükünü azaltır. Yine de dayanıklılık statik projeye, bağlantı detaylarına ve zemine bağlıdır; firmadan Türkiye Bina Deprem Yönetmeliği’ne uygun statik projeyi isteyin.' },
+      DAHIL, RUHSAT,
+    ],
+    ilgili: [{ ad: 'Çelik ev fiyatları', url: '/celik-ev-fiyatlari/' }, { ad: 'Prefabrik villa fiyatları', url: '/prefabrik-villa-fiyatlari/' }, { ad: 'Prefabrik mi, çelik ev mi?', url: '/rehber/prefabrik-mi-celik-ev-mi/' }, { ad: 'Prefabrik ev depreme dayanıklı mı?', url: '/rehber/prefabrik-ev-depreme-dayanikli-mi/' }],
+  },
+  {
+    slug: 'kutuk-ev-fiyatlari',
+    baslik: 'Kütük Ev Fiyatları',
+    kisa: 'kütük ev',
+    tip: 'ahsap',
+    filtre: (m) => /kütük/.test(metin(m)),
+    giris: (s, l) => `Kütük evler, yuvarlak ya da kare kesitli masif ağaç kütüklerin üst üste geçmeli olarak dizilmesiyle yapılır; masif duvar doğal yalıtım sağlar ve sıcak bir görünüm sunar. Listede ${s.firma} firmanın ${s.model} kütük ev modeli var; fiyatlar ${aralik(s)}. Daha fazla seçenek için ahşap ev ve bungalov modellerine de bakın.`,
+    sss: (s) => [
+      { s: 'Kütük ev fiyatları ne kadar?', c: `Listemizdeki kütük ev modellerinde fiyatlar ${aralik(s)}; ortanca fiyat ${kisaTl(s.medyan)}. Fiyat kütük çapına, ağaç türüne (çam, ladin, sedir), metrekareye ve iç bitişe göre büyük ölçüde değişir.` },
+      { s: 'Kütük ev ile ahşap prefabrik ev arasındaki fark nedir?', c: 'Kütük evde duvarın kendisi masif ağaçtır. Ahşap prefabrik evde ise ahşap karkasın arasına yalıtım konur ve iki yüzü kaplanır. Kütük ev daha masif ve doğal; ahşap prefabrik ev ise genellikle daha hafif, hızlı ve ekonomiktir.' },
+      { s: 'Kütük evin bakımı nasıl yapılır?', c: 'Dış yüzeyde nem ve UV koruması için ahşap koruyucu ve vernik birkaç yılda bir yenilenir; kütükler zamanla oturduğu için ilk yıllarda derz ve kapı-pencere ayarı kontrol edilir.' },
+      DAHIL, RUHSAT,
+    ],
+    ilgili: [{ ad: 'Ahşap ev fiyatları', url: '/ahsap-ev-fiyatlari/' }, { ad: 'Bungalov ev fiyatları', url: '/bungalov-fiyatlari/' }, { ad: 'Bahçe evi ve bağ evi', url: '/bahce-evi-fiyatlari/' }],
+  },
+  {
+    slug: 'tekerlekli-tiny-house-fiyatlari',
+    baslik: 'Tekerlekli Tiny House Fiyatları',
+    kisa: 'tekerlekli tiny house',
+    tip: 'tiny house',
+    filtre: (m) => m.tip === 'tiny house' && /tekerlek|römork|plaka|o2|şasi/.test(metin(m)),
+    giris: (s, l) => `Tekerlekli tiny house, şasi üzerine kurulan ve römork olarak çekilebilen küçük evdir; O2 tip onay belgesi ve plakayla trafiğe çıkabilir. Listede ${s.firma} firmanın ${s.model} tekerlekli/şasili modeli var; fiyatlar ${aralik(s)}, ortanca fiyat ${kisaTl(s.medyan)}.`,
+    sss: (s) => [
+      { s: 'Tekerlekli tiny house fiyatları ne kadar?', c: `Listemizdeki tekerlekli ve şasili modellerde fiyatlar ${aralik(s)}; ortanca fiyat ${kisaTl(s.medyan)}. Uzunluk, çatı katı (loft), banyo-mutfak donanımı ve şasi kalitesi fiyatı belirler.` },
+      { s: 'Tekerlekli tiny house için ruhsat gerekir mi?', c: 'O2 tip onaylı ve plakalı tiny house araç sayılır; yapı ruhsatı gerekmez. Ancak bir arazide sürekli konaklama, sabitleme ve altyapı bağlantısı yerel kurallara tabidir. Ayrıntılar “Tiny house için ruhsat ve O2 belgesi” yazımızda.' },
+      { s: 'Tiny house çekmek için hangi ehliyet gerekir?', c: 'Römorkun azami yüklü ağırlığına göre değişir; ağır tiny house’lar için çoğunlukla BE sınıfı ehliyet gerekir. Firmadan aracın ağırlık bilgisini ve ruhsat belgesini isteyin.' },
+      DAHIL,
+    ],
+    ilgili: [{ ad: 'Tiny house fiyatları', url: '/tiny-house-fiyatlari/' }, { ad: 'Tiny house ruhsat ve O2 belgesi', url: '/rehber/tiny-house-ruhsat-o2-belgesi/' }, { ad: 'Tiny house nedir?', url: '/rehber/tiny-house-nedir/' }, { ad: '2+1 tiny house', url: '/tiny-house-fiyatlari/2-1/' }],
+  },
+  {
+    slug: 'deprem-konteyneri-fiyatlari',
+    baslik: 'Deprem Konteyneri ve Küçük Konteyner Ev Fiyatları',
+    kisa: 'deprem konteyneri',
+    tip: 'konteyner',
+    filtre: (m) => m.tip === 'konteyner' && !!m.m2 && m.m2 <= 30,
+    giris: (s, l) => `Deprem konteyneri olarak da bilinen 30 m²’ye kadar konteynerler hızlı kurulumu, düşük maliyeti ve taşınabilirliği nedeniyle geçici barınma, şantiye, bahçe ve depo amaçlı tercih ediliyor. Listede ${s.firma} firmanın ${s.model} küçük konteyner modeli var; fiyatlar ${aralik(s)}, ortanca fiyat ${kisaTl(s.medyan)}.`,
+    sss: (s) => [
+      { s: 'Deprem konteyneri fiyatları ne kadar?', c: `Listemizdeki 30 m²’ye kadar konteynerlerde fiyatlar ${aralik(s)}; ortanca fiyat ${kisaTl(s.medyan)}. WC-duş, mutfak tezgâhı, elektrik tesisatı ve yalıtım kalınlığı fiyatı değiştirir.` },
+      { s: 'Deprem konteynerinde sürekli yaşanır mı?', c: 'Yalıtımlı, ıslak hacimli modeller kısa ve orta süreli yaşam için uygundur. Uzun süreli kullanımda yalıtım kalınlığına, yoğuşma önlemine ve havalandırmaya dikkat edin; sürekli konut olarak kullanmak ruhsat kurallarına tabidir.' },
+      DAHIL, RUHSAT,
+    ],
+    ilgili: [{ ad: 'Konteyner ev fiyatları', url: '/konteyner-ev-fiyatlari/' }, { ad: '1+0 konteyner ev', url: '/konteyner-ev-fiyatlari/1-0/' }, { ad: 'Konteyner ev mi prefabrik ev mi?', url: '/rehber/konteyner-ev-mi-prefabrik-ev-mi/' }],
+  },
+  sehirKonu('İstanbul', 'istanbul-prefabrik-ev-fiyatlari'),
+  sehirKonu('İzmir', 'izmir-prefabrik-ev-fiyatlari'),
+  sehirKonu('Kocaeli', 'kocaeli-prefabrik-ev-fiyatlari'),
+  sehirKonu('Ankara', 'ankara-prefabrik-ev-fiyatlari'),
+  sehirKonu('Malatya', 'malatya-prefabrik-ev-fiyatlari'),
 ];
 
 export const konuBul = (slug: string) => KONULAR.find((k) => k.slug === slug)!;

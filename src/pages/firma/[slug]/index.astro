@@ -15,6 +15,14 @@ const list = sirala(models.filter((m) => m.firma === f.slug));
 const s = istatistik(list);
 const tipler = f.tipler.map((t) => TIPLER[t]?.ad).filter(Boolean);
 const urunler = tipler.length ? tipler.join(', ') : f.urunTipleri.join(', ');
+// Başlık: "Karmod Prefabrik Ev Fiyatları", "Asia Prefabrik Ev Fiyatları", "Elbarsco Tiny House Fiyatları" (marka araması + ürün)
+// Birden çok tip üreten ya da prefabrik üreten firmada genel terim "Prefabrik Ev" (marka aramaları: "karmod prefabrik")
+const anaTipKey = f.tipler.length === 1 ? f.tipler[0] : 'prefabrik';
+const urunAd = (TIPLER[anaTipKey]?.baslik || 'Prefabrik Ev Fiyatları').replace(/ Fiyatları$/, '');
+const ilk = urunAd.split(' ')[0];
+const kk = f.kisaAd.toLocaleLowerCase('tr');
+const urunEki = kk.includes(urunAd.toLocaleLowerCase('tr')) ? '' : kk.includes(ilk.toLocaleLowerCase('tr')) ? urunAd.split(' ').slice(1).join(' ') : urunAd;
+const sayfaBaslik = `${f.kisaAd}${urunEki ? ' ' + urunEki : ''} Fiyatları ${meta.ay}${list.length ? `: ${list.length} Model` : ''}`;
 const desc = `${f.kisaAd}${f.il ? ` (${f.il})` : ''} ${urunler.toLocaleLowerCase('tr')} modelleri ve fiyatları${s.min ? `: ${kisaTl(s.min)}’den başlayan ${list.length} model` : ''}. Fiyata neyin dahil olduğunu görün, diğer firmalarla kıyaslayın, teklif alın.`;
 const ld = [{
   '@context': 'https://schema.org', '@type': 'Organization', name: f.kisaAd, legalName: f.ad !== f.kisaAd ? f.ad : undefined,
@@ -22,7 +30,7 @@ const ld = [{
 }];
 const ana = f.tipler[0] || 'prefabrik';
 ---
-<Base title={`${f.kisaAd} Fiyatları ${meta.ay}: ${list.length ? `${list.length} Model` : 'Firma Profili'}`} description={desc} jsonLd={ld} ogType="profile">
+<Base title={sayfaBaslik} description={desc} jsonLd={ld} ogType="profile">
   <div class="wrap">
     <div class="phead" style="min-height:200px">
       <img src={tipImg(ana, 960)} alt="" width="960" height="723" fetchpriority="high" />

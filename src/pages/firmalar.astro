@@ -4,6 +4,8 @@ import Base from '../layouts/Base.astro';
 import Crumbs from '../components/Crumbs.astro';
 import { firms, TIPLER, TIP_SIRA, meta, kisaTl, monogram } from '../lib/data';
 import { SITE } from '../site.config';
+import { KONULAR } from '../lib/konular';
+const sehirler = KONULAR.filter((k) => k.sehir);
 const sirali = [...firms].sort((a, b) => b.modelSayisi - a.modelSayisi || a.kisaAd.localeCompare(b.kisaAd, 'tr'));
 const ld = [{ '@context': 'https://schema.org', '@type': 'ItemList', name: 'Prefabrik ve modüler ev firmaları', numberOfItems: firms.length,
   itemListElement: sirali.map((f, i) => ({ '@type': 'ListItem', position: i + 1, url: `https://www.prefabrikteklif.com.tr/firma/${f.slug}/`, name: f.kisaAd })) }];
@@ -14,6 +16,7 @@ const ld = [{ '@context': 'https://schema.org', '@type': 'ItemList', name: 'Pref
     <Crumbs items={[{ ad: 'Firmalar' }]} />
     <h1>Prefabrik ve modüler ev firmaları</h1>
     <p class="muted" style="max-width:760px">{firms.length} üretici. Fiyatlar firmaların kendi sitelerinden alınır. “Doğrulanmış” rozeti, belgeleri kontrol edilen firmalara verilir.</p>
+    <p class="small" style="margin:10px 0 0"><b>Şehre göre:</b> {sehirler.map((k, i) => <>{i ? ' · ' : ''}<a href={`/${k.slug}/`}>{k.sehir} prefabrik ev firmaları</a></>)}</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0">
       <label style="flex:1;min-width:220px"><span class="sr-only">Firma ara</span><input type="search" id="fara" placeholder="Firma veya il ara" /></label>
       <ul class="pills" id="ftip">

@@ -20,7 +20,7 @@ TIP = {
     'konteyner': {'ad': 'Konteyner ev', 'slug': 'konteyner-ev-fiyatlari', 'baslik': 'Konteyner Ev Fiyatları', 'kisa': 'konteyner ev'},
     'tiny house': {'ad': 'Tiny house', 'slug': 'tiny-house-fiyatlari', 'baslik': 'Tiny House Fiyatları', 'kisa': 'tiny house'},
     'ahsap': {'ad': 'Ahşap ev', 'slug': 'ahsap-ev-fiyatlari', 'baslik': 'Ahşap Ev Fiyatları', 'kisa': 'ahşap ev'},
-    'bungalov': {'ad': 'Bungalov / bağ evi', 'slug': 'bungalov-fiyatlari', 'baslik': 'Bungalov ve Bağ Evi Fiyatları', 'kisa': 'bungalov'},
+    'bungalov': {'ad': 'Bungalov / bağ evi', 'slug': 'bungalov-fiyatlari', 'baslik': 'Bungalov Ev Fiyatları', 'kisa': 'bungalov'},
 }
 TIP_KEY = {'prefabrik': 'prefabrik', 'celik': 'celik', 'çelik': 'celik', 'konteyner': 'konteyner', 'tiny house': 'tiny house', 'tiny': 'tiny house', 'ahsap': 'ahsap', 'ahşap': 'ahsap', 'bungalov': 'bungalov', 'bağ evi': 'bungalov'}
 

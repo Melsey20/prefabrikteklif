@@ -1,0 +1,77 @@
+---
+import Base from '../layouts/Base.astro';
+import Crumbs from '../components/Crumbs.astro';
+import Faq from '../components/Faq.astro';
+import { models, TIPLER, TIP_SIRA, meta, sayi, modelUrl } from '../lib/data';
+
+// Her tip için sitedeki gerçek m² fiyatlarından çeyrekler (alt %25, ortanca, üst %25)
+const ceyrek = (a: number[], q: number) => { const i = (a.length - 1) * q; const l = Math.floor(i); return Math.round(a[l] + (a[Math.ceil(i)] - a[l]) * (i - l)); };
+const tipVeri = TIP_SIRA.map((k) => {
+  const m2 = models.filter((m) => m.tip === k && m.m2Fiyat).map((m) => m.m2Fiyat!).sort((a, b) => a - b);
+  return { k, ad: TIPLER[k].ad, n: m2.length, alt: m2.length ? ceyrek(m2, 0.25) : 0, orta: m2.length ? ceyrek(m2, 0.5) : 0, ust: m2.length ? ceyrek(m2, 0.75) : 0 };
+}).filter((t) => t.n >= 5);
+// Benzer modelleri göstermek için küçük veri (tip, m², fiyat, ad, adres)
+const ornek = models.filter((m) => m.fiyatTuru === 'model' && m.fiyat && m.m2).map((m) => [m.tip, m.m2, m.fiyat, `${m.firmaAd} ${m.ad}`.slice(0, 70), modelUrl(m)]);
+const pre = tipVeri.find((t) => t.k === 'prefabrik');
+const sss = [
+  { s: '100 m² prefabrik ev kaça mal olur?', c: pre ? `Sitedeki prefabrik ev modellerinin ortanca m² fiyatı ${sayi(pre.orta)} TL; buna göre 100 m² bir evin bina maliyeti yaklaşık ${sayi(pre.orta * 100)} TL. Modellerin yarısı ${sayi(pre.alt * 100)} – ${sayi(pre.ust * 100)} TL aralığında. Zemin betonu, nakliye, ruhsat ve altyapı bağlantıları buna eklenir.` : 'Hesaplayıcıyla m²’ye göre tahmini maliyeti görebilirsiniz.' },
+  { s: 'Hesaplamaya neler dahil değil?', c: 'Hesap yalnızca firmaların yayınladığı ev fiyatlarına dayanır. Arsa, zemin etüdü, zemin betonu, ruhsat ve proje, nakliye, vinç, elektrik-su-kanalizasyon bağlantıları ve iç bitiş farkları firmaya göre ayrıca fiyatlanabilir.' },
+  { s: 'Küçük evde m² fiyatı neden daha yüksek?', c: 'Mutfak, banyo, tesisat ve montaj gibi sabit maliyetler küçük alana bölündüğü için 20–40 m² evlerde m² fiyatı genellikle büyük evlerden yüksek çıkar.' },
+  { s: 'Kesin fiyatı nasıl öğrenirim?', c: 'Tip, metrekare, oda sayısı ve kurulum ilini yazarak ücretsiz teklif isteyin; uygun firmalar 48 saat içinde fiyatlarını iletir ve fiyata neyin dahil olduğunu yazar.' },
+];
+const ld = [{ '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Prefabrik ev maliyet hesaplama', applicationCategory: 'UtilitiesApplication', operatingSystem: 'Web', url: 'https://www.prefabrikteklif.com.tr/prefabrik-ev-maliyet-hesaplama/', offers: { '@type': 'Offer', price: 0, priceCurrency: 'TRY' } }];
+---
+<Base title={`Prefabrik Ev Maliyet Hesaplama ${meta.ay}: m²’ye Göre Fiyat Hesapla`} description={`Prefabrik, çelik, konteyner, ahşap ev ve tiny house için m²’ye göre tahmini maliyet: ${meta.fiyatliModel} modelin gerçek fiyatlarından hesaplanan alt, ortanca ve üst m² fiyatları ve benzer modeller.`} jsonLd={ld}>
+  <div class="wrap narrow">
+    <Crumbs items={[{ ad: 'Maliyet hesaplama' }]} />
+    <h1>Prefabrik ev maliyet hesaplama</h1>
+    <p class="muted">Ev tipini ve metrekareyi seçin. Tahmin, sitemizdeki {meta.fiyatliModel} modelin firmaların yayınladığı fiyatlarından hesaplanan m² fiyatlarına dayanır ({meta.sonKontrolYazi} itibarıyla). Kesin fiyat için teklif alın.</p>
+    <form class="form" id="hes" onsubmit="return false">
+      <div class="two">
+        <label class="f">Ev tipi
+          <select name="tip">{tipVeri.map((t) => <option value={t.k} selected={t.k === 'prefabrik'}>{t.ad}</option>)}</select>
+        </label>
+        <label class="f">Kullanım alanı (m²)
+          <input name="m2" type="number" inputmode="numeric" min="15" max="400" step="1" value="90" />
+        </label>
+      </div>
+    </form>
+    <div class="box" id="sonuc" aria-live="polite" style="margin-top:16px">
+      <p class="small muted" style="margin:0">Tahmini bina maliyeti</p>
+      <p style="font-size:2rem;font-weight:800;margin:4px 0" id="s-orta">–</p>
+      <p style="margin:0" id="s-aralik"></p>
+      <p class="small muted" style="margin:10px 0 0" id="s-m2"></p>
+    </div>
+    <h2 style="margin-top:28px">Bu büyüklükte örnek modeller</h2>
+    <div id="ornek" class="list"></div>
+    <p style="margin-top:18px"><a class="btn btn-p" id="teklif" href="/teklif-al/?tip=prefabrik&m2=90">Bu ev için ücretsiz teklif al</a></p>
+    <h2 style="margin-top:28px">Tiplere göre m² fiyatları</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Ev tipi</th><th class="n">Alt (%25)</th><th class="n">Ortanca</th><th class="n">Üst (%25)</th><th class="n">Model</th></tr></thead>
+      <tbody>{tipVeri.map((t) => <tr><td><a href={`/${TIPLER[t.k].slug}/`}>{t.ad}</a></td><td class="n">{sayi(t.alt)} TL</td><td class="n"><b>{sayi(t.orta)} TL</b></td><td class="n">{sayi(t.ust)} TL</td><td class="n">{t.n}</td></tr>)}</tbody>
+    </table></div>
+    <p class="small muted">m² fiyatı, fiyatı ve kullanım alanı yayınlanmış modellerden hesaplanır. Fiyata dahil kalemler firmadan firmaya değişir; ayrıntılar için <a href="/rehber/prefabrik-ev-fiyatina-neler-dahil/">prefabrik ev fiyatına neler dahil?</a></p>
+    <Faq items={sss} />
+  </div>
+  <script type="application/json" id="hes-veri" set:html={JSON.stringify({ tip: Object.fromEntries(tipVeri.map((t) => [t.k, t])), ornek })} />
+  <script>
+    const V = JSON.parse(document.getElementById('hes-veri')!.textContent || '{}');
+    const nf = new Intl.NumberFormat('tr-TR');
+    const yuvar = (n: number) => Math.round(n / 5000) * 5000;
+    const f = document.getElementById('hes') as HTMLFormElement;
+    const $ = (id: string) => document.getElementById(id)!;
+    function ciz() {
+      const tip = (f.elements.namedItem('tip') as HTMLSelectElement).value;
+      const m2 = Math.min(400, Math.max(15, Number((f.elements.namedItem('m2') as HTMLInputElement).value) || 0));
+      const t = V.tip[tip]; if (!t || !m2) return;
+      $('s-orta').textContent = `${nf.format(yuvar(t.orta * m2))} TL`;
+      $('s-aralik').textContent = `Modellerin yarısı ${nf.format(yuvar(t.alt * m2))} – ${nf.format(yuvar(t.ust * m2))} TL arasında`;
+      $('s-m2').textContent = `${t.ad} ortanca m² fiyatı ${nf.format(t.orta)} TL × ${m2} m². Arsa, zemin betonu, ruhsat, nakliye ve altyapı bağlantıları dahil değildir.`;
+      const yakin = V.ornek.filter((o: any[]) => o[0] === tip && Math.abs(o[1] - m2) <= Math.max(10, m2 * 0.15)).sort((a: any[], b: any[]) => Math.abs(a[1] - m2) - Math.abs(b[1] - m2)).slice(0, 6);
+      const kutu = $('ornek');
+      kutu.replaceChildren(...(yakin.length ? yakin.map((o: any[]) => { const a = document.createElement('a'); a.className = 'item'; a.href = o[4]; a.style.textDecoration = 'none'; a.innerHTML = '<span class="row"><b></b><b></b></span><span class="small muted"></span>'; const b = a.querySelectorAll('b'); b[0].textContent = o[3]; b[1].textContent = `${nf.format(o[2])} TL`; (a.querySelector('.small') as HTMLElement).textContent = `${o[1]} m²`; return a; }) : [Object.assign(document.createElement('p'), { className: 'small muted', textContent: 'Bu büyüklükte fiyatı yayınlanmış model yok; teklif alarak firmalardan fiyat isteyebilirsiniz.' })]));
+      ($('teklif') as HTMLAnchorElement).href = `/teklif-al/?tip=${encodeURIComponent(tip)}&m2=${m2}`;
+    }
+    f.addEventListener('input', ciz); ciz();
+  </script>
+</Base>
