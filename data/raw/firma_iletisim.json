@@ -1,0 +1,374 @@
+[
+ {
+  "slug": "karmod",
+  "eposta": "info@karmod.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "makro-prefabrik",
+  "eposta": "info@makroprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "nova-prefabrik",
+  "eposta": "info@novaprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "prefabrik-evim-ideal-ev",
+  "eposta": "bilgi@prefabrikevim.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "ikranur-prefabrik",
+  "eposta": "info@ikranurprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "villa-prefabrik-yapi",
+  "eposta": "info@villayapi.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "limit-prefabrik",
+  "eposta": "info@limitprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "evo-prefabrik",
+  "eposta": "info@evoprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "aktas-grup-insaat",
+  "eposta": "info@aktasgrupinsaat.com",
+  "acik": true,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "moduler-evin",
+  "eposta": "info@modulerevin.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "oska-celik-ev",
+  "eposta": "bilgi@oskacelikev.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "asia-prefabrik",
+  "eposta": "info@asiaprefabrik.com.tr",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "egeser-prefabrik",
+  "eposta": "web@egeserprefabrik.com.tr",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "askar-prefabrik",
+  "eposta": "info@askarprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "alsancak-prefabrik",
+  "eposta": "info@alsancakprefabrik.com.tr",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "hibrit-house",
+  "eposta": "info@hibrithouse.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "zmt-prefabrik",
+  "eposta": "info@zmtprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "simgesan-konteyner",
+  "eposta": "abdullah@simgesan.com.tr",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "hane-house",
+  "eposta": "info@hanehouse.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "zu-tiny-house",
+  "eposta": "info@zutinyhouse.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "elbarsco-tiny-house",
+  "eposta": "info@elbarsco.com",
+  "acik": true,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "muttiny-house",
+  "eposta": "info@muttinyhouse.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "roysal-yapi",
+  "eposta": "satis@roysal.com.tr",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "esse-konteyner",
+  "eposta": "info@essekonteyner.com",
+  "acik": true,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "3a-prefabrik",
+  "eposta": "3aprefabrik@gmail.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "dost-ahsap",
+  "eposta": "info@dostahsap.com.tr",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "yilkar-ahsap",
+  "eposta": "e.yilmaz1186@gmail.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "san-ahsap",
+  "eposta": "proje@sanahsap.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "azra-ahsap-ev",
+  "eposta": "info@ahsapev.net",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "baneva-ahsap-yapilar",
+  "eposta": "",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "prefabrik-yapi-a-s",
+  "eposta": "info@prefabrikyapi.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "ozge-yapi",
+  "eposta": "info@ozgeyapi.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "mahir-prefabrik",
+  "eposta": "",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "yonel-prefabrik",
+  "eposta": "bilgi@yonelprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "feza-prefabrik",
+  "eposta": "info@fezaprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "modern-prefabrik",
+  "eposta": "info@modernprefabrik.com.tr",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "evkon-prefabrik",
+  "eposta": "info@evkonprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "erd-villa",
+  "eposta": "info@erdvilla.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "mira-prefabrik",
+  "eposta": "info@miraprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "prefabrikten",
+  "eposta": "info@prefabrikten.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "trend-yapi-prefabrik",
+  "eposta": "info@trendyapiprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "kardesler-celik-yapi",
+  "eposta": "info@kardeslercelikyapi.com.tr",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "cucemenler-prefabrik",
+  "eposta": "info@cucemenler.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "goldyapi-malatya",
+  "eposta": "goldprefab@gmail.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "ifhaus",
+  "eposta": "info@ifhaus.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "pramo",
+  "eposta": "info@pramo.com.tr",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "aktas-prefabrik-ev",
+  "eposta": "info@aktasprefabrikev.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "steelev",
+  "eposta": "info@steelev.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "villa-tokat",
+  "eposta": "info@villatokat.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "aksa-prefabrik",
+  "eposta": "info@aksaprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "pratikev",
+  "eposta": "info@pratikev.tr",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "prefamod",
+  "eposta": "info@prefamod.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "platin-prefabrik",
+  "eposta": "info@platinprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "sismik-prefabrik",
+  "eposta": "info@sismikprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "alyans-prefabrik",
+  "eposta": "info@alyansprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "karinca-prefabrik-celik-yapi",
+  "eposta": "info@karincaprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "vefa-prefabrik",
+  "eposta": "vefa@vefa.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "ecela-prefabrik",
+  "eposta": "ecela@ecelaprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "2a-prefabrik",
+  "eposta": "info@2aprefabrik.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "lider-prefabrik",
+  "eposta": "info@liderprefabrikizmir.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "piccola-vita-tiny-house",
+  "eposta": "info@piccolavita.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ },
+ {
+  "slug": "mb-tiny-house",
+  "eposta": "info@mbtinyhouse.com",
+  "acik": false,
+  "kaynak": "firmanın kendi web sitesi (Kasım 2026)"
+ }
+]
