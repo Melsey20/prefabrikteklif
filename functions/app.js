@@ -287,7 +287,10 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       await ref.set({ tur: b.tur, ad, boyut, parca: Math.ceil(boyut / EVRAK_PARCA), anahtar, durum: 'yukleniyor', mime: '', zaman: FieldValue.serverTimestamp(), olusturma: now() });
       return { id: ref.id, anahtar, parcaBoyut: EVRAK_PARCA };
     }
-    const ref = db.collection('belgeler').doc(str(b.id, 40)); const sn = await ref.get();
+    if (islem !== 'parca' && islem !== 'bitir') hata(400, 'Geçersiz işlem.');
+    const bid = str(b.id, 40);
+    if (!/^[A-Za-z0-9]{10,40}$/.test(bid)) hata(404, 'Yükleme bulunamadı.');
+    const ref = db.collection('belgeler').doc(bid); const sn = await ref.get();
     if (!sn.exists || sn.data().anahtar !== str(b.anahtar, 40)) hata(404, 'Yükleme bulunamadı.');
     const d = sn.data();
     if (d.durum !== 'yukleniyor') hata(409, 'Bu yükleme tamamlandı.');
@@ -901,6 +904,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       if (!fn) return send(404, { hata: 'Bulunamadı' });
       try { const out = await fn(req, res); if (fn === yonetimBelge && out === undefined) return undefined; return send(200, out); } catch (e) {
         if (e instanceof HttpHata) return send(e.kod, { hata: e.message });
+        if (/documentPath|resource path|document path|collectionPath/i.test(String(e?.message || ''))) return send(404, { hata: 'Kayıt bulunamadı veya bağlantı geçersiz.' });
         console.error(e); return send(500, { hata: 'İşleminizi şu an tamamlayamadık. Lütfen birkaç dakika sonra tekrar deneyin.' });
       }
     },

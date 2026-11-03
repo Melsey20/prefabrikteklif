@@ -376,3 +376,20 @@ test('evrak yükleme: tür, boyut, içerik denetimi ve yönetimden indirme', asy
   const ind = await call('GET', '/api/yonetim/belge', { query: { id: pdf.body.id }, tok: 'tok-admin' });
   assert.equal(ind.statusCode, 200); assert.equal(ind.body.boyut, 2_500_000); assert.equal(ind.body.mime, 'application/pdf');
 });
+
+test('hiçbir uç bozuk girdide 500 vermez (boş/garip kimlik, eksik gövde)', async () => {
+  const { call, app } = kur();
+  const kotu = ['', '/', 'a/b', '..', ' ', 'x'.repeat(500), '__x__'];
+  const sorunlu = [];
+  for (const anahtar of Object.keys(app.routes)) {
+    const [method, path] = anahtar.split(' ');
+    for (const v of kotu) {
+      const govde = { id: v, talep: v, firma: v, slug: v, t: v, kod: v, islem: v, anahtar: v, ad: v, eposta: v };
+      for (const tok of [undefined, 'tok-user', 'tok-firma', 'tok-admin']) {
+        const r = await call(method, path, { body: method === 'GET' ? undefined : govde, query: method === 'GET' ? govde : {}, tok });
+        if (r.statusCode >= 500) sorunlu.push(`${anahtar} [${JSON.stringify(v).slice(0, 12)}] ${tok || '-'} → ${r.statusCode}`);
+      }
+    }
+  }
+  assert.deepEqual(sorunlu, []);
+});

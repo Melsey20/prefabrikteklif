@@ -48,7 +48,7 @@ class Query {
 }
 class Coll extends Query {
   constructor(db, path) { super(db, path); }
-  doc(id) { return new Doc(this.db, `${this.path}/${id || 'ID' + String(++this.db.n).padStart(6, '0') + Math.random().toString(36).slice(2, 8)}`); }
+  doc(id) { if (id !== undefined && (typeof id !== 'string' || !id || id.includes('/'))) throw new Error('Value for argument "documentPath" is not a valid resource path.'); return new Doc(this.db, `${this.path}/${id || 'ID' + String(++this.db.n).padStart(6, '0') + Math.random().toString(36).slice(2, 8)}`); }
   async add(d) { const r = this.doc(); await r.set(d); return r; }
 }
 export function res() {
