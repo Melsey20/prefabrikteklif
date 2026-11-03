@@ -181,3 +181,9 @@ document.getElementById('by-form')?.addEventListener('submit', async (e) => {
     void t;
   });
 })();
+
+// Form gönderildikten sonra teşekkür kutusu görünür olunca ekrana kaydır (uzun formlarda kullanıcı alt kısımda kalıyordu)
+{
+  const tm = document.getElementById('tamam');
+  if (tm) new MutationObserver(() => { if (!tm.hidden) requestAnimationFrame(() => tm.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' })); }).observe(tm, { attributes: true, attributeFilter: ['hidden'] });
+}

@@ -92,6 +92,11 @@ async function giris(p, eposta, hedef) {
   await p.check('label[data-mfield=surec] input[name=rizaSurec]');
   await Promise.all([p.waitForURL('**/teklif-alindi/?mod=surec**'), p.click('#gonder')]);
   adim('Süreç yönetimi talebi');
+  // İkinci teklif talebi (firma panelinden fiyat + not verilecek)
+  await p.goto(B + '/teklif-al/?tip=prefabrik&oda=3%2B1&m2=110&il=Malatya&firmalar=kardesler-celik-yapi');
+  await p.fill('input[name=ad]', 'Ali Veli'); await p.fill('input[name=telefon]', '05337778899'); await p.fill('input[name=eposta]', 'ali@ornek.com');
+  await p.check('label[data-mfield=teklif] input[name=riza]');
+  await Promise.all([p.waitForURL('**/teklif-alindi/**'), p.click('#gonder')]);
   await ctx.close();
 
   // 4) Firma paneli
@@ -119,10 +124,19 @@ async function giris(p, eposta, hedef) {
   await p.waitForSelector('#p-urunler .note-a');
   await p.click('[data-sekme="talepler"]'); await p.waitForSelector('#p-talepler .item');
   assert.ok((await p.locator('#p-talepler').textContent()).includes('05321112233'), 'fiyat verilen talepte müşteri görünür');
+  // Teklif bekleyenler: üye firma panelden fiyat + not verir, müşteri bilgisi açılır
+  assert.ok(!(await p.locator('#p-talepler').textContent()).includes('05337778899'), 'fiyat vermeden müşteri gizli');
+  await p.locator('#p-talepler button', { hasText: 'Fiyat ver' }).first().click();
+  await p.fill('.dlg input[name=fiyat]', '820000'); await p.check('.dlg input[name=dahil][value=montaj]');
+  await p.fill('.dlg textarea[name=not]', 'Arsa eğimliyse zemin betonu +40.000 TL. Nakliye 300 km’ye kadar dahil.');
+  await p.click('.dlg button[type=submit]'); await p.waitForSelector('.dlg .okmsg');
+  assert.ok((await p.locator('.dlg .okmsg').textContent()).includes('05337778899'), 'fiyat sonrası müşteri bilgisi');
+  await p.keyboard.press('Escape'); await p.waitForSelector('.dlg', { state: 'detached' }).catch(() => {});
+  await p.waitForFunction(() => (document.querySelector('#p-talepler')?.textContent || '').includes('820.000'));
   await p.click('[data-sekme="geri-bildirim"]');
   await p.selectOption('#gb-form select[name=tur]', 'hata'); await p.fill('#gb-form input[name=konu]', 'Fotoğraf yükleme'); await p.fill('#gb-form textarea[name=mesaj]', 'Telefondan fotoğraf eklemek istiyoruz.');
   await p.click('#gb-form button[type=submit]'); await p.waitForSelector('#p-gb .item');
-  adim('Firma paneli: ürün güncelleme ve fotoğraflı yeni ürün onaya gitti, talepte müşteri görünür, geri bildirim gönderildi');
+  adim('Firma paneli: Teklif bekleyenler’den fiyat + not verildi; ürün güncelleme ve fotoğraflı yeni ürün onaya gitti, talepte müşteri görünür, geri bildirim gönderildi');
   await ctx.close();
 
   // 5) Yönetim paneli
@@ -161,6 +175,8 @@ async function giris(p, eposta, hedef) {
   assert.ok((await p.locator('#p-surec').textContent()).includes('Sözleşme hazırlandı'));
   await p.click('.hs-sek [data-p=talepler]'); await p.waitForSelector('#p-talepler .hs-tk');
   assert.ok((await p.locator('#p-talepler').textContent()).includes('595.000'));
+  await p.locator('#p-talepler summary', { hasText: 'Firmanın notu' }).first().click();
+  assert.ok((await p.locator('#p-talepler').textContent()).includes('zemin betonu'), 'kullanıcı firmanın teklif notunu görür');
   adim('Kullanıcı hesabı: sipariş aşaması ve gelen teklif görünüyor');
   await ctx.close();
 
@@ -319,7 +335,7 @@ async function giris(p, eposta, hedef) {
   // 14) Hesabım: özet, sekmeler, teklifler, ayarlar
   await p.goto(B + '/hesabim/');
   await p.waitForFunction(() => document.querySelector('[data-say=teklif]')?.textContent !== '–');
-  assert.equal(await p.locator('[data-say=teklif]').textContent(), '1');
+  assert.equal(await p.locator('[data-say=teklif]').textContent(), '2');
   await p.click('.hs-sek [data-p=talepler]'); await p.waitForSelector('#p-talepler .hs-tk');
   assert.ok((await p.locator('#p-talepler').textContent()).includes('595.000'));
   assert.equal(await p.locator('#p-talepler .hs-tk a', { hasText: 'Bu firmayla ilerle' }).count() >= 1, true);
