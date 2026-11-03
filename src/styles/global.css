@@ -475,6 +475,11 @@ textarea { padding: 12px 14px; min-height: 110px; resize: vertical; }
 .app aside.dk button[aria-selected=true] { background: var(--dark-2); color: #fff; }
 .app aside .rz { font-size: .72rem; font-weight: 800; color: #fff; background: var(--green); border-radius: 999px; padding: 1px 8px; }
 .app aside .rz:empty { display: none; }
+.app aside button { justify-content: flex-start; }
+.app aside button .pt { flex: 1; min-width: 0; }
+.app aside .pik { flex: none; opacity: .8; }
+.app aside button[aria-selected=true] .pik { opacity: 1; }
+@media (max-width: 860px) { .app aside .pik { width: 18px; height: 18px; } }
 .app main { padding: 26px 30px 60px; min-width: 0; }
 .app .ph-h { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
 .app .ph-h h1 { margin: 0; font-size: 1.7rem; }
@@ -658,3 +663,6 @@ textarea { padding: 12px 14px; min-height: 110px; resize: vertical; }
   .hs-sek { top: 56px; }
   .hs-ilerle li span { font-size: .72rem; }
 }
+.spin { width: 34px; height: 34px; margin: 0 auto; border-radius: 50%; border: 3px solid var(--line); border-top-color: var(--green); animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spin { animation-duration: 2.4s; } }

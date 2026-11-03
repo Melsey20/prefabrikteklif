@@ -1,9 +1,11 @@
 ---
+import { ik } from '../lib/panelIkon';
 import Base from '../layouts/Base.astro';
 import { TIPLER, TIP_SIRA, ILLER } from '../lib/data';
 const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
 ---
 <Base title="Firma Paneli" description="Prefabrik ve modüler ev firmaları için panel: ürün ve fiyat yönetimi, teklif talepleri, geri bildirim." noindex>
+  <div class="wrap" id="fp-yukleniyor" style="padding:60px 0;text-align:center"><div class="spin" aria-hidden="true"></div><p class="muted" style="margin-top:14px">Firma paneli açılıyor…</p></div>
   <div class="wrap" id="fp-giris" hidden>
     <div class="auth" style="max-width:560px">
       <h1 style="font-size:1.6rem;margin-top:0">Firma paneli</h1>
@@ -15,11 +17,11 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
   <div class="app" id="fp-app" hidden>
     <aside class="dk" aria-label="Firma paneli bölümleri" id="sekmeler">
       <div class="side-x" style="color:#fff;font-weight:800;padding:4px 12px 16px" id="fp-ad">Firma paneli</div>
-      <button type="button" data-sekme="urunler">Ürünlerim <span class="rz" data-rz="bekleyen"></span></button>
-      <button type="button" data-sekme="talepler">Teklif bekleyenler <span class="rz" data-rz="talep"></span></button>
-      <button type="button" data-sekme="geri-bildirim">Geri bildirim <span class="rz" data-rz="gb"></span></button>
-      <button type="button" data-sekme="reklam">Üyelik ve reklam <span class="rz" data-rz="uyelik"></span></button>
-      <button type="button" data-sekme="profil">Profil</button>
+      <button type="button" data-sekme="urunler"><Fragment set:html={ik('urun')} /><span class="pt">Ürünlerim</span><span class="rz" data-rz="bekleyen"></span></button>
+      <button type="button" data-sekme="talepler"><Fragment set:html={ik('talep')} /><span class="pt">Teklif bekleyenler</span><span class="rz" data-rz="talep"></span></button>
+      <button type="button" data-sekme="geri-bildirim"><Fragment set:html={ik('mesaj')} /><span class="pt">Geri bildirim</span><span class="rz" data-rz="gb"></span></button>
+      <button type="button" data-sekme="reklam"><Fragment set:html={ik('uyelik')} /><span class="pt">Üyelik ve reklam</span><span class="rz" data-rz="uyelik"></span></button>
+      <button type="button" data-sekme="profil"><Fragment set:html={ik('profil')} /><span class="pt">Profil</span></button>
       <a class="ln side-x" href="/" style="margin-top:auto">Siteye dön</a>
     </aside>
     <main>
@@ -296,13 +298,14 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
     (async () => {
       try {
         const u = await kullanici();
-        if (!u) { $('fp-giris').hidden = false; return; }
-        await oturumAc();
-        await yukle();
+        if (!u) { $('fp-yukleniyor').hidden = true; $('fp-giris').hidden = false; return; }
+        const [, veri] = await Promise.all([oturumAc().catch(() => null), yukle().then(() => true).catch((e) => e)]);
+        if (veri !== true) throw veri;
+        $('fp-yukleniyor').hidden = true;
         $('fp-app').hidden = false;
         sekmeler($('sekmeler'), () => scrollTo(0, 0));
       } catch (e: any) {
-        $('fp-giris').hidden = false;
+        $('fp-yukleniyor').hidden = true; $('fp-giris').hidden = false;
         const u = await kullanici().catch(() => null);
         if (e instanceof ApiHata && e.kod === 403 && u) {
           // Giriş yapılmış ama bu e-posta bir firmaya bağlı değil: hesap değiştirme ve firma kaydı seçenekleri

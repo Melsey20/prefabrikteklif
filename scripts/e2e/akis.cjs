@@ -103,6 +103,7 @@ async function giris(p, eposta, hedef) {
   ({ ctx, p } = await yeniSayfa(1280));
   await giris(p, 'satis@kardesler.com', '/firma-paneli/');
   await p.waitForSelector('#fp-app:not([hidden])');
+  await p.screenshot({ path: '/tmp/e2e-firma.png' });
   assert.ok((await p.locator('#p-urunler tbody tr').count()) >= 6);
   assert.ok(!/(^|\s)(null|undefined)(\s|$)/.test(await p.locator('#fp-app').innerText()), 'panelde null/undefined yazısı yok');
   await p.locator('#p-urunler tbody tr').first().getByRole('button', { name: 'Düzenle' }).click();
@@ -145,6 +146,7 @@ async function giris(p, eposta, hedef) {
   await giris(p, 'info@mitraajans.com', '/yonetim/');
   await p.waitForSelector('#y-app:not([hidden])');
   await p.waitForSelector('#p-onaylar .item');
+  await p.screenshot({ path: '/tmp/e2e-yonetim.png' });
   for (let i = 0; i < 2; i++) {
     const n = await p.locator('#p-onaylar .item').count();
     await p.locator('#p-onaylar .item').first().getByRole('button', { name: 'Onayla ve yayınla' }).click();

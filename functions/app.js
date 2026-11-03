@@ -672,12 +672,12 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       db.collection('sistem').doc('eposta').get().then((d) => d.data() || {}).catch(() => ({})),
     ]);
     const z = (x) => ({ ...x, zaman: ms(x.zaman), olusturma: ms(x.olusturma), guncelleme: ms(x.guncelleme), sonTarih: ms(x.sonTarih), rizaZamani: undefined });
-    for (const t of talep) {
+    await Promise.all(talep.map(async (t) => {
       const ref = db.collection('talepler').doc(t.id);
       const [dv, tk] = await Promise.all([ref.collection('davetler').get(), ref.collection('teklifler').get()]);
       t.davetler = dv.docs.map((d) => ({ firma: d.id, durum: d.data().durum }));
       t.teklifSayisi = tk.size; delete t.token;
-    }
+    }));
     return {
       degisiklikler: degisiklik.map((d) => ({ ...z(d), firmaAd: firmAd(d.firma), model: d.modelId ? (modelBul(d.modelId) || null) : null })),
       basvurular: basvuru.map(z), yorumlar: yorumB.map((y) => ({ ...z(y), firmaAd: firmAd(y.firma) })),

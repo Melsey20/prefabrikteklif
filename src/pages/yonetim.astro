@@ -1,22 +1,24 @@
 ---
+import { ik } from '../lib/panelIkon';
 import Base from '../layouts/Base.astro';
 import { TIPLER, TIP_SIRA } from '../lib/data';
 const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
 ---
 <Base title="Yönetim Paneli" description="PrefabrikTeklif yönetim paneli." noindex>
+  <div class="wrap" id="y-yukleniyor" style="padding:60px 0;text-align:center"><div class="spin" aria-hidden="true"></div><p class="muted" style="margin-top:14px">Yönetim paneli açılıyor…</p></div>
   <div class="wrap" id="y-giris" hidden>
     <div class="auth"><h1 style="font-size:1.5rem;margin-top:0">Yönetim paneli</h1><p class="muted" id="y-mesaj">Yönetici hesabıyla giriş yapın.</p><a class="btn btn-p" id="y-giris-btn" href="/giris/?geri=/yonetim/">Giriş yap</a></div>
   </div>
   <div class="app" id="y-app" hidden>
     <aside aria-label="Yönetim bölümleri" id="sekmeler">
       <div class="side-x" style="font-weight:800;padding:4px 12px 16px">Yönetim</div>
-      <button type="button" data-sekme="onaylar">Onaylar <span class="rz" data-rz="onay"></span></button>
-      <button type="button" data-sekme="talepler">Talepler</button>
-      <button type="button" data-sekme="siparisler">Siparişler <span class="rz" data-rz="siparis"></span></button>
-      <button type="button" data-sekme="firmalar">Firmalar</button>
-      <button type="button" data-sekme="geri-bildirim">Geri bildirim <span class="rz" data-rz="gb"></span></button>
-      <button type="button" data-sekme="bannerlar">Reklam alanları <span class="rz" data-rz="reklam"></span></button>
-      <button type="button" data-sekme="fiyat">Fiyat kontrolü</button>
+      <button type="button" data-sekme="onaylar"><Fragment set:html={ik('onay')} /><span class="pt">Onaylar</span><span class="rz" data-rz="onay"></span></button>
+      <button type="button" data-sekme="talepler"><Fragment set:html={ik('talep')} /><span class="pt">Talepler</span></button>
+      <button type="button" data-sekme="siparisler"><Fragment set:html={ik('siparis')} /><span class="pt">Siparişler</span><span class="rz" data-rz="siparis"></span></button>
+      <button type="button" data-sekme="firmalar"><Fragment set:html={ik('firma')} /><span class="pt">Firmalar</span></button>
+      <button type="button" data-sekme="geri-bildirim"><Fragment set:html={ik('mesaj')} /><span class="pt">Geri bildirim</span><span class="rz" data-rz="gb"></span></button>
+      <button type="button" data-sekme="bannerlar"><Fragment set:html={ik('reklam')} /><span class="pt">Reklam alanları</span><span class="rz" data-rz="reklam"></span></button>
+      <button type="button" data-sekme="fiyat"><Fragment set:html={ik('fiyat')} /><span class="pt">Fiyat kontrolü</span></button>
     </aside>
     <main>
       <div id="eposta-uyari" class="box" hidden style="border-color:#c0392b;background:#fdecea;margin-bottom:16px"></div>
@@ -254,17 +256,20 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
     $('banner-ekle').addEventListener('click', () => bannerFormu(null));
     (async () => {
       try {
-        const u = await kullanici(); if (!u) { $('y-giris').hidden = false; return; }
-        const ben = await oturumAc();
-        if (ben?.rol !== 'admin') {
+        const u = await kullanici(); if (!u) { $('y-yukleniyor').hidden = true; $('y-giris').hidden = false; return; }
+        // Oturum ve panel verisi aynı anda istenir (sırayla beklemek paneli geciktiriyordu)
+        const [ben, veri] = await Promise.all([oturumAc().catch(() => null), yukle().then(() => true).catch((e) => e)]);
+        $('y-yukleniyor').hidden = true;
+        if (veri !== true && !(veri instanceof ApiHata && veri.kod === 403)) throw veri;
+        if (ben?.rol !== 'admin' || veri !== true) {
           $('y-giris').hidden = false;
           $('y-mesaj').textContent = `Şu an ${u.email || 'bu hesap'} ile giriş yaptınız; bu hesap yönetici değil. Çıkış yapıp yönetici hesabıyla (Google ile prefabrikteklif@gmail.com) giriş yapın.`;
           const b = $('y-giris-btn') as HTMLAnchorElement; b.textContent = 'Çıkış yap ve yönetici hesabıyla gir';
           b.addEventListener('click', async (e) => { e.preventDefault(); await cikis(); location.href = '/giris/?geri=/yonetim/'; });
           return;
         }
-        await yukle(); $('y-app').hidden = false; sekmeler($('sekmeler'), () => scrollTo(0, 0));
-      } catch (e: any) { $('y-giris').hidden = false; $('y-mesaj').textContent = e instanceof ApiHata ? e.message : 'Panel yüklenemedi.'; }
+        $('y-app').hidden = false; sekmeler($('sekmeler'), () => scrollTo(0, 0));
+      } catch (e: any) { $('y-yukleniyor').hidden = true; $('y-giris').hidden = false; $('y-mesaj').textContent = e instanceof ApiHata ? e.message : 'Panel yüklenemedi.'; }
     })();
   </script>
 </Base>
