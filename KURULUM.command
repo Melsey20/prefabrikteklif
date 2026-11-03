@@ -73,7 +73,7 @@ adim "5/7 E-posta ayarları"
 read -r -p "Bildirimlerin gönderileceği e-posta [info@mitraajans.com]: " SMTPUSER; SMTPUSER=${SMTPUSER:-info@mitraajans.com}
 read -r -p "SMTP sunucusu [smtp.hostinger.com]: " SMTPHOST; SMTPHOST=${SMTPHOST:-smtp.hostinger.com}
 read -r -p "SMTP portu [465]: " SMTPPORT; SMTPPORT=${SMTPPORT:-465}
-read -r -p "Yeni taleplerin geleceği yönetici e-postası [info@mitraajans.com]: " ADMIN; ADMIN=${ADMIN:-info@mitraajans.com}
+read -r -p "Yeni taleplerin geleceği yönetici e-postası [prefabrikteklif@gmail.com]: " ADMIN; ADMIN=${ADMIN:-prefabrikteklif@gmail.com}
 cat > functions/.env <<EOF
 SMTP_HOST=$SMTPHOST
 SMTP_PORT=$SMTPPORT

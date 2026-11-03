@@ -7,7 +7,7 @@ export const SITE = {
   // Aşağıdakileri doldurun (KVKK ve iletişim sayfalarında kullanılır):
   sirketUnvani: 'Mitra Grup',
   adres: '',
-  eposta: 'info@mitraajans.com',
+  eposta: 'prefabrikteklif@gmail.com',
   telefon: '',
   whatsapp: '', // Ör: "905xxxxxxxxx"
   instagram: 'prefabrik.teklif',

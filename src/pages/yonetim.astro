@@ -5,7 +5,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
 ---
 <Base title="Yönetim Paneli" description="PrefabrikTeklif yönetim paneli." noindex>
   <div class="wrap" id="y-giris" hidden>
-    <div class="auth"><h1 style="font-size:1.5rem;margin-top:0">Yönetim paneli</h1><p class="muted" id="y-mesaj">Yönetici hesabıyla giriş yapın.</p><a class="btn btn-p" href="/giris/?geri=/yonetim/">Giriş yap</a></div>
+    <div class="auth"><h1 style="font-size:1.5rem;margin-top:0">Yönetim paneli</h1><p class="muted" id="y-mesaj">Yönetici hesabıyla giriş yapın.</p><a class="btn btn-p" id="y-giris-btn" href="/giris/?geri=/yonetim/">Giriş yap</a></div>
   </div>
   <div class="app" id="y-app" hidden>
     <aside aria-label="Yönetim bölümleri" id="sekmeler">
@@ -31,7 +31,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
   </div>
   <script define:vars={{ TIPLER_L: tipler }}>window.__TIPLER = TIPLER_L;</script>
   <script>
-    import { kullanici, api, oturumAc, ApiHata, token } from '../scripts/fb';
+    import { kullanici, api, oturumAc, ApiHata, token, cikis } from '../scripts/fb';
     const EVRAK: Record<string, string> = { 'vergi-levhasi': 'Vergi levhası', faaliyet: 'Faaliyet belgesi', 'sicil-gazetesi': 'Ticaret Sicil Gazetesi', 'imza-sirkuleri': 'İmza sirküleri', diger: 'Diğer belge' };
     // Evrakı yetkili istekle indirip yeni sekmede açar (bağlantı paylaşılamaz)
     async function belgeAc(id: string) {
@@ -255,7 +255,13 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       try {
         const u = await kullanici(); if (!u) { $('y-giris').hidden = false; return; }
         const ben = await oturumAc();
-        if (ben?.rol !== 'admin') { $('y-giris').hidden = false; $('y-mesaj').textContent = 'Bu hesap yönetici değil. Yönetici e-postasıyla (doğrulanmış) giriş yapın.'; return; }
+        if (ben?.rol !== 'admin') {
+          $('y-giris').hidden = false;
+          $('y-mesaj').textContent = `Şu an ${u.email || 'bu hesap'} ile giriş yaptınız; bu hesap yönetici değil. Çıkış yapıp yönetici hesabıyla (Google ile prefabrikteklif@gmail.com) giriş yapın.`;
+          const b = $('y-giris-btn') as HTMLAnchorElement; b.textContent = 'Çıkış yap ve yönetici hesabıyla gir';
+          b.addEventListener('click', async (e) => { e.preventDefault(); await cikis(); location.href = '/giris/?geri=/yonetim/'; });
+          return;
+        }
         await yukle(); $('y-app').hidden = false; sekmeler($('sekmeler'), () => scrollTo(0, 0));
       } catch (e: any) { $('y-giris').hidden = false; $('y-mesaj').textContent = e instanceof ApiHata ? e.message : 'Panel yüklenemedi.'; }
     })();

@@ -45,14 +45,18 @@ SMTP_HOST=oden.veridyen.com
 SMTP_PORT=465
 SMTP_USER=info@mitraajans.com
 MAIL_FROM=PrefabrikTeklif <info@mitraajans.com>
-ADMIN_EMAIL=info@mitraajans.com
-YONETICILER=info@mitraajans.com,yusuf4461@gmail.com
+ADMIN_EMAIL=prefabrikteklif@gmail.com
+YONETICILER=prefabrikteklif@gmail.com,info@mitraajans.com,yusuf4461@gmail.com
 SITE_URL=https://www.prefabrikteklif.com.tr
 ENV
 fi
 # mitraajans.com e-postaları Veridyen sunucusunda (MX: oden.veridyen.com); eski Hostinger ayarını düzelt
 if grep -q "SMTP_HOST=smtp.hostinger.com" functions/.env; then sed -i '' 's/SMTP_HOST=smtp.hostinger.com/SMTP_HOST=oden.veridyen.com/' functions/.env; echo "E-posta sunucusu oden.veridyen.com olarak düzeltildi."; fi
 grep -q YONETICILER functions/.env || echo "YONETICILER=info@mitraajans.com,yusuf4461@gmail.com" >> functions/.env
+# Bildirimler ve yönetici girişi: prefabrikteklif@gmail.com
+if grep -q "^ADMIN_EMAIL=" functions/.env; then sed -i '' 's/^ADMIN_EMAIL=.*/ADMIN_EMAIL=prefabrikteklif@gmail.com/' functions/.env; else echo "ADMIN_EMAIL=prefabrikteklif@gmail.com" >> functions/.env; fi
+grep "^YONETICILER=" functions/.env | grep -q "prefabrikteklif@gmail.com" || sed -i '' 's/^YONETICILER=/YONETICILER=prefabrikteklif@gmail.com,/' functions/.env
+echo "Bildirimlerin geleceği adres: $(grep ^ADMIN_EMAIL functions/.env | cut -d= -f2)"
 echo "Yönetici e-postaları: $(grep YONETICILER functions/.env | cut -d= -f2)"
 echo
 echo "Sitenin e-posta gönderdiği hesap: $(grep SMTP_USER functions/.env | cut -d= -f2)"

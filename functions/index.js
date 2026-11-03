@@ -20,8 +20,8 @@ const SMTP_HOST = defineString('SMTP_HOST', { default: 'oden.veridyen.com' });
 const SMTP_PORT = defineString('SMTP_PORT', { default: '465' });
 const SMTP_USER = defineString('SMTP_USER', { default: '' });
 const MAIL_FROM = defineString('MAIL_FROM', { default: '' });
-const ADMIN_EMAIL = defineString('ADMIN_EMAIL', { default: '' });
-const YONETICILER = defineString('YONETICILER', { default: 'info@mitraajans.com,yusuf4461@gmail.com' });
+const ADMIN_EMAIL = defineString('ADMIN_EMAIL', { default: 'prefabrikteklif@gmail.com' });
+const YONETICILER = defineString('YONETICILER', { default: 'prefabrikteklif@gmail.com,info@mitraajans.com,yusuf4461@gmail.com' });
 const SITE_URL = defineString('SITE_URL', { default: 'https://www.prefabrikteklif.com.tr' });
 
 const FIRMS = JSON.parse(readFileSync(new URL('./firms.json', import.meta.url), 'utf8'));
