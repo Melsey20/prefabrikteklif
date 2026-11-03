@@ -41,6 +41,7 @@ async function mail(to, subject, html, o = {}) {
     const headers = { 'X-Entity-Ref-ID': `pt-${Date.now()}` };
     if (o.iptal || o.tur === 'davet') headers['List-Unsubscribe'] = `<mailto:${yanit}?subject=bildirim-iptal>${o.iptal ? `, <${o.iptal}>` : ''}`;
     await _tx.sendMail({ from, to, subject: String(subject).replace(/[\r\n]+/g, ' ').slice(0, 200), html, text: duzMetin(html), replyTo: yanit, headers });
+    db.collection('sistem').doc('eposta').set({ sonBasari: FieldValue.serverTimestamp() }, { merge: true }).catch(() => {});
   } catch (e) {
     console.error('E-posta gönderilemedi:', subject, e?.code || '', e?.message || e);
     if (e?.code === 'EAUTH') _tx = undefined;

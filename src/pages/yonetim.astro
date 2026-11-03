@@ -40,7 +40,8 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
         const r = await fetch('/api/yonetim/belge?id=' + encodeURIComponent(id), { headers: { Authorization: 'Bearer ' + (await token()) } });
         if (!r.ok) throw new Error((await r.json().catch(() => ({}))).hata || 'Belge açılamadı.');
         const url = URL.createObjectURL(await r.blob());
-        if (w) w.location.href = url; else location.href = url;
+        if (w) w.location.href = url;
+        else { const a = document.createElement('a'); a.href = url; a.download = (r.headers.get('Content-Disposition')?.match(/filename\*?=(?:UTF-8'')?"?([^";]+)/)?.[1] && decodeURIComponent(r.headers.get('Content-Disposition')!.match(/filename\*?=(?:UTF-8'')?"?([^";]+)/)![1])) || 'belge'; document.body.append(a); a.click(); a.remove(); toast('Tarayıcı yeni pencereyi engelledi; belge indirildi.'); }
       } catch (e: any) { w?.close(); toast(e.message); }
     }
     import { h, tl, tarih, kalan, toast, modal, alan, sekmeler } from '../scripts/ui';
@@ -243,7 +244,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       document.querySelector('[data-rz=onay]')!.textContent = String(V.degisiklikler.length + V.basvurular.length + V.yorumlar.length || '');
       document.querySelector('[data-rz=siparis]')!.textContent = V.siparisler.length || '';
       document.querySelector('[data-rz=gb]')!.textContent = V.geriBildirimler.filter((g: any) => g.durum === 'acik').length || '';
-      const eh = (V.epostaHatalari || []).filter((x: any) => Date.now() - x.zaman < 3 * 86400000);
+      const eh = (V.epostaHatalari || []).filter((x: any) => Date.now() - x.zaman < 3 * 86400000 && x.zaman > (V.epostaSonBasari || 0));
       const uy = $('eposta-uyari');
       uy.hidden = !eh.length;
       if (eh.length) uy.replaceChildren(h('b', {}, `E-posta gönderilemiyor (son 3 günde ${eh.length} bildirim)`), h('p', { class: 'small', style: { margin: '4px 0 0' } }, `Son hata: ${eh[0].hata} — ${tarih(eh[0].zaman)}. Ziyaretçi işlemleri kaydedildi; yalnızca bildirim e-postaları gitmedi. E-posta şifresi değiştiyse GUNCELLE dosyasını çalıştırıp yeni şifreyi girin.`));
