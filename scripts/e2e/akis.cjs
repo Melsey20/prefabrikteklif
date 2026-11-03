@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const B = 'http://localhost:4400';
 const b64 = (o) => Buffer.from(JSON.stringify(o)).toString('base64url');
 const jwt = (u) => { const t = Math.floor(Date.now() / 1000); return `${b64({ alg: 'none', typ: 'JWT' })}.${b64({ iss: 'https://securetoken.google.com/prefabrikteklif', aud: 'prefabrikteklif', auth_time: t, user_id: u.uid, sub: u.uid, iat: t, exp: t + 3600, email: u.email, email_verified: true, name: u.ad, firebase: { identities: { email: [u.email] }, sign_in_provider: 'password' } })}.imza`; };
-const KUL = { 'satis@kardesler.com': { uid: 'f1', ad: 'Kardeşler Satış' }, 'info@mitraajans.com': { uid: 'a1', ad: 'Yusuf' }, 'ali@ornek.com': { uid: 'u1', ad: 'Ali Veli' } };
+const KUL = { 'yeni@deneme.com': { uid: 'f2', ad: 'Ayşe Yılmaz' }, 'satis@kardesler.com': { uid: 'f1', ad: 'Kardeşler Satış' }, 'info@mitraajans.com': { uid: 'a1', ad: 'Yusuf' }, 'ali@ornek.com': { uid: 'u1', ad: 'Ali Veli' } };
 async function sahteAuth(ctx) {
   await ctx.route('**/identitytoolkit.googleapis.com/**', async (r) => {
     const url = r.request().url(); const body = r.request().postDataJSON() || {};
@@ -100,15 +100,29 @@ async function giris(p, eposta, hedef) {
   await p.waitForSelector('#fp-app:not([hidden])');
   assert.ok((await p.locator('#p-urunler tbody tr').count()) >= 6);
   await p.locator('#p-urunler tbody tr').first().getByRole('button', { name: 'Düzenle' }).click();
-  await p.fill('.dlg input[name=fiyat]', '615000'); await p.fill('.dlg textarea[name=gorseller]', 'https://ornek.com/foto1.jpg');
+  await p.fill('.dlg input[name=fiyat]', '615000'); await p.fill('.dlg input[name=foto-link]', 'https://ornek.com/foto1.jpg'); await p.press('.dlg input[name=foto-link]', 'Enter');
+  await p.waitForSelector('.dlg .fp-galeri figure');
   await p.click('.dlg button[type=submit]'); await p.waitForSelector('.dlg', { state: 'detached' });
   await p.waitForSelector('#p-urunler .st-b.a');
+  // Yeni ürün: tüm alanlar + bilgisayardan fotoğraf yükleme
+  const PNG = require('node:fs').readFileSync('dist/img/hero-480.webp');
+  await p.click('#yeni-urun'); await p.waitForSelector('.dlg form');
+  await p.fill('.dlg input[name=ad]', 'E2E 95 m² Dubleks'); await p.selectOption('.dlg select[name=tip]', 'prefabrik'); await p.fill('.dlg input[name=m2]', '95');
+  await p.selectOption('.dlg select[name=oda]', '3+1'); await p.selectOption('.dlg select[name=kat]', '2'); await p.fill('.dlg input[name=fiyat]', '1250000');
+  await p.selectOption('.dlg select[name=nakliye]', 'dahil'); await p.fill('.dlg textarea[name=aciklama]', 'Çift katlı, 10 cm yalıtım');
+  await p.click('.dlg button[type=submit]'); await p.waitForSelector('.dlg .err:not([hidden])');
+  assert.ok((await p.textContent('.dlg .err')).includes('fotoğraf'), 'yeni üründe fotoğraf zorunlu uyarısı');
+  await p.setInputFiles('.dlg input[type=file]', { name: 'ev.webp', mimeType: 'image/webp', buffer: PNG });
+  await p.waitForFunction(() => /fotoğraf/.test(document.querySelector('.dlg .fp-galeri + div .muted')?.textContent || ''), null, { timeout: 10000 }).catch(async (e) => { console.log('FOTO', await p.locator('.dlg .err').textContent(), await p.locator('.dlg').innerHTML().then((h) => h.slice(-600))); throw e; });
+  await p.fill('.dlg input[name=foto-link]', 'https://ornek.com/foto2.jpg'); await p.press('.dlg input[name=foto-link]', 'Enter');
+  await p.click('.dlg button[type=submit]'); await p.waitForSelector('.dlg', { state: 'detached' });
+  await p.waitForSelector('#p-urunler .note-a');
   await p.click('[data-sekme="talepler"]'); await p.waitForSelector('#p-talepler .item');
   assert.ok((await p.locator('#p-talepler').textContent()).includes('05321112233'), 'fiyat verilen talepte müşteri görünür');
   await p.click('[data-sekme="geri-bildirim"]');
   await p.selectOption('#gb-form select[name=tur]', 'hata'); await p.fill('#gb-form input[name=konu]', 'Fotoğraf yükleme'); await p.fill('#gb-form textarea[name=mesaj]', 'Telefondan fotoğraf eklemek istiyoruz.');
   await p.click('#gb-form button[type=submit]'); await p.waitForSelector('#p-gb .item');
-  adim('Firma paneli: ürün güncelleme onaya gitti, talepte müşteri görünür, geri bildirim gönderildi');
+  adim('Firma paneli: ürün güncelleme ve fotoğraflı yeni ürün onaya gitti, talepte müşteri görünür, geri bildirim gönderildi');
   await ctx.close();
 
   // 5) Yönetim paneli
@@ -116,10 +130,15 @@ async function giris(p, eposta, hedef) {
   await giris(p, 'info@mitraajans.com', '/yonetim/');
   await p.waitForSelector('#y-app:not([hidden])');
   await p.waitForSelector('#p-onaylar .item');
-  await p.locator('#p-onaylar .item').first().getByRole('button', { name: 'Onayla ve yayınla' }).click();
-  await p.waitForFunction(() => !document.querySelector('#p-onaylar .item button'));
+  for (let i = 0; i < 2; i++) {
+    const n = await p.locator('#p-onaylar .item').count();
+    await p.locator('#p-onaylar .item').first().getByRole('button', { name: 'Onayla ve yayınla' }).click();
+    await p.waitForFunction((n) => document.querySelectorAll('#p-onaylar .item').length < n, n);
+  }
   const kat = await (await fetch(B + '/api/katalog')).json();
-  assert.equal(kat.kayitlar[0].fiyat, 615000);
+  assert.ok(kat.kayitlar.some((x) => x.fiyat === 615000), 'fiyat güncellemesi katalogda');
+  const yeniK = kat.kayitlar.find((x) => x.yeni && x.ad === 'E2E 95 m² Dubleks');
+  assert.ok(yeniK && yeniK.kat === 2 && yeniK.nakliye === 'dahil' && yeniK.gorseller.length >= 1, 'yeni ürün tüm alanlarıyla katalogda');
   await p.click('[data-sekme="geri-bildirim"]'); await p.fill('#p-gb textarea', 'Yakında ekliyoruz, teşekkürler.'); await p.locator('#p-gb').getByRole('button', { name: 'Gönder / kaydet' }).click();
   await p.waitForSelector('#p-gb .box.mint');
   await p.click('[data-sekme="siparisler"]'); await p.waitForSelector('#p-siparisler .item');
@@ -183,6 +202,7 @@ async function giris(p, eposta, hedef) {
   await reklamEkle('ana', { baslik: 'Kış kampanyası', metin: '%10 indirim', gorsel: 'https://cdn.example/a.jpg', link: '/firma/kardesler-celik-yapi/' });
   await reklamEkle('yan', { baslik: 'Yan reklam', gorsel: 'https://cdn.example/y.jpg', link: '/firma/kardesler-celik-yapi/' });
   await reklamEkle('liste', { model: 'kardesler-celik-yapi/tek-katli-prefabrik-2-1-82-m2-k-c-01' });
+  await reklamEkle('ara', { baslik: 'Ara banner kampanyası', metin: 'Bahar fırsatı', gorsel: 'https://cdn.example/ara.jpg', link: '/firma/kardesler-celik-yapi/' });
   await p.waitForFunction(() => document.querySelector('#p-doluluk')?.textContent?.includes('1 / 6'));
   adim('Yönetim: ana, yan ve öne çıkan reklam eklendi (doluluk 1/6)');
   await ctx.close();
@@ -217,6 +237,56 @@ async function giris(p, eposta, hedef) {
   const m2 = await (await p.request.get(B + '/__mails')).json();
   assert.ok(m2.some((m) => m.subject.startsWith('Siteden mesaj') && m.html.includes('Rize')));
   adim('Alt bilgi: Bize yazın formu yönetime ulaştı');
+  await ctx.close();
+
+  // 9) Ana sayfa: ara reklam alanı, sıralarda oklar ve otomatik kayma
+  ({ ctx, p } = await yeniSayfa(1280));
+  await p.goto(B + '/');
+  await p.waitForSelector('[data-ara-slot] .ara-banner .tag:text("Reklam")');
+  const ok = p.locator('.hs-kap', { has: p.locator('.hscroll .mcard') }).nth(0);
+  await ok.scrollIntoViewIfNeeded();
+  const sl0 = await ok.locator('.hscroll').evaluate((e) => e.scrollLeft);
+  await ok.locator('.hs-ok.sag').click(); await p.waitForTimeout(700);
+  const sl1 = await ok.locator('.hscroll').evaluate((e) => e.scrollLeft);
+  assert.ok(sl1 > sl0, 'sağ ok kaydırır');
+  await ok.locator('.hs-ok.sol').click(); await p.waitForTimeout(700);
+  assert.ok((await ok.locator('.hscroll').evaluate((e) => e.scrollLeft)) < sl1, 'sol ok geri kaydırır');
+  const iki = p.locator('.hs-kap', { has: p.locator('.hscroll .mcard') }).nth(1); await iki.scrollIntoViewIfNeeded();
+  const a0 = await iki.locator('.hscroll').evaluate((e) => e.scrollLeft); await p.mouse.move(5, 5); await p.waitForTimeout(5200);
+  assert.ok((await iki.locator('.hscroll').evaluate((e) => e.scrollLeft)) !== a0, 'sıra kendiliğinden kayar');
+  adim('Ana sayfa: ara reklam alanı, oklarla ve kendiliğinden kayan sıralar');
+  await ctx.close();
+
+  // 10) Firma sayfası: doğrulanmamış firmada sahiplenme çağrısı, üyeliği aktif firmada doğrulanmış rozeti
+  ({ ctx, p } = await yeniSayfa(390));
+  await p.goto(B + '/firma/karmod/');
+  assert.ok(await p.locator('.claim-bar').isVisible(), 'doğrulanmamış firmada "Bu firma size mi ait?" çağrısı');
+  assert.ok((await p.locator('.claim-bar').getAttribute('href')).includes('/firma-kayit/?firma=karmod'));
+  await p.goto(B + '/firma/kardesler-celik-yapi/');
+  await p.waitForSelector('[data-dg-var]:not([hidden])');
+  assert.equal(await p.locator('.claim-bar').isVisible(), false);
+  adim('Firma sayfası: sahiplenme çağrısı ve doğrulanmış rozet');
+  // 11) Üye kullanıcı yorumu (satın almadı)
+  await p.goto(B + '/yorum-yaz/?firma=karmod');
+  await p.waitForSelector('#giris-gerek:not([hidden])');
+  await ctx.close();
+  ({ ctx, p } = await yeniSayfa(390));
+  await giris(p, 'ali@ornek.com', '/yorum-yaz/?firma=karmod');
+  await p.waitForSelector('#y:not([hidden])');
+  await p.check('input[name=satinAldi][value=hayir]'); await p.selectOption('select[name=puan]', '4');
+  await p.fill('textarea[name=metin]', 'Teklif aldım, iletişim hızlı ve açıktı; fiyat bütçemin biraz üstünde kaldı.');
+  await p.click('#y button[type=submit]'); await p.waitForSelector('#tamam:not([hidden])');
+  const m3 = await (await p.request.get(B + '/__mails')).json();
+  assert.ok(m3.some((m) => m.subject.startsWith('Onay bekleyen yorum') && m.html.includes('Hayır')));
+  adim('Üye kullanıcı yorumu gönderildi (satın almadı olarak), onaya düştü');
+  await ctx.close();
+  // 12) Ödeme yapmamış firma: Teklif bekleyenler kilitli, ödeme bağlantısı görünür
+  ({ ctx, p } = await yeniSayfa(390));
+  await giris(p, 'yeni@deneme.com', '/firma-paneli/');
+  await p.waitForSelector('#fp-app:not([hidden])');
+  await p.click('[data-sekme="talepler"]');
+  await p.waitForSelector('#teklif-uyelik a[href="https://odeme.example/deneme"]');
+  adim('Ödeme bekleyen firma: fiyat verme kilitli, ödeme bağlantısı gösteriliyor');
   await ctx.close();
 
   await br.close();

@@ -27,11 +27,12 @@ import Base from '../layouts/Base.astro';
         <label class="f">Teslim süresi (gün)<input type="number" name="teslimGun" min="1" max="365" /></label>
         <label class="f">Garanti (yıl)<input type="number" name="garantiYil" min="0" max="50" /></label>
       </div>
-      <label class="f">Model / açıklama<textarea name="not" maxlength="1500" placeholder="Model, malzeme, ödeme planı vb."></textarea></label>
+      <label class="f">Teklif notu (koşullar, açıklamalar)<textarea name="not" maxlength="2000" rows="4" placeholder="Önerdiğiniz model, malzeme, ödeme planı; “arsa eğimliyse zemin betonu +40.000 TL” gibi koşullar…"></textarea></label>
       <p class="xs muted" style="margin:0">Fiyat verdiğinizde müşteri bilgileri size açılır; bu bilgileri yalnızca bu talep için kullanmayı kabul edersiniz.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-p" type="submit">Fiyatı gönder</button><button class="btn btn-g" type="button" id="red">İlgilenmiyorum</button></div>
     </form>
     <div class="ok" id="tamam" hidden style="margin-top:14px"></div>
+    <div class="box mint" id="uyelik" hidden style="margin-top:14px;display:flex;flex-direction:column;gap:10px"></div>
     <p class="small muted" style="margin-top:18px">Tüm talepleri <a href="/firma-paneli/">firma panelinden</a> de yönetebilirsiniz. Firmanız kayıtlı değilse <a href="/firma-kayit/">firma üyeliği için başvurun</a>.</p>
   </div>
   <script>
@@ -54,6 +55,17 @@ import Base from '../layouts/Base.astro';
         if (d.verildi) { $('tamam').replaceChildren(h('b', {}, 'Bu talebe fiyat verdiniz.')); $('tamam').hidden = false; return; }
         if (d.red) { $('tamam').replaceChildren(h('b', {}, 'Bu talep için “ilgilenmiyorum” dediniz.')); $('tamam').hidden = false; return; }
         if (d.kapali) return err('Bu talebin süresi doldu.');
+        // Fiyat yalnızca üyeliği aktif (doğrulanmış) firmalar verebilir
+        if (d.uyeDurum !== 'aktif') {
+          const u = $('uyelik');
+          u.replaceChildren(...(d.uyeDurum === 'odeme'
+            ? [h('b', {}, 'Fiyat verebilmek için üyelik ödemenizi tamamlayın'), h('span', { class: 'small' }, 'Ödemeniz onaylandığında bu talep firma panelinizdeki “Teklif bekleyenler” bölümünde fiyat vermeye açılır.'),
+               d.odemeLinki ? h('a', { class: 'btn btn-p', href: d.odemeLinki, target: '_blank', rel: 'noopener', style: { alignSelf: 'flex-start' } }, 'Üyelik ödemesini yap') : null,
+               h('a', { class: 'btn btn-g', href: '/firma-paneli/#talepler', style: { alignSelf: 'flex-start' } }, 'Firma panelime git')].filter(Boolean) as Node[]
+            : [h('b', {}, 'Bu talebe teklif vermek için firmanızı kaydedin'), h('span', { class: 'small' }, 'Kayıt birkaç dakika sürer. Üyeliğiniz onaylanıp aylık üyelik ödemesi yapıldığında bu talebe ve size uyan yeni taleplere panelinizden fiyat verebilirsiniz.'),
+               h('a', { class: 'btn btn-p', href: d.kayitLink, style: { alignSelf: 'flex-start' } }, 'Firmamı kaydet')]));
+          u.hidden = false; return;
+        }
         $('f').hidden = false;
       } catch { err('Bağlantı hatası.'); }
     })();

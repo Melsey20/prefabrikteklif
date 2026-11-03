@@ -39,7 +39,9 @@
    "konteyner",
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Makro Prefabrik",
@@ -72,7 +74,9 @@
    "celik",
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Nova Prefabrik",
@@ -100,7 +104,9 @@
   "tipler": [
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "İdeal Ev Prefabrik (Prefabrik Evim / IDEALMOD)",
@@ -135,7 +141,9 @@
    "celik",
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "İkranur Prefabrik",
@@ -162,7 +170,9 @@
   "tipler": [
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Villa Prefabrik Yapı (prefabrikevfiyatlari.com)",
@@ -191,7 +201,9 @@
   "tipler": [
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Limit Prefabrik - Çelik Yapı Sistemleri",
@@ -217,7 +229,9 @@
   "tipler": [
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Evo Prefabrik",
@@ -244,7 +258,9 @@
    "bungalov",
    "celik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Aktaş Grup İnşaat",
@@ -275,7 +291,9 @@
   "tipler": [
    "celik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Modüler Evin",
@@ -300,7 +318,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Oska Çelik Ev A.Ş. (Oska Grup)",
@@ -324,7 +344,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Asia Prefabrik A.Ş.",
@@ -351,7 +373,9 @@
   "tipler": [
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Egeser Prefabrik",
@@ -374,7 +398,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Aşkar Prefabrik",
@@ -402,7 +428,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Alsancak Prefabrik",
@@ -428,7 +456,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Hibrit House",
@@ -456,7 +486,9 @@
   "tipler": [
    "tiny house"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "ZMT Prefabrik",
@@ -487,7 +519,9 @@
   "tipler": [
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Simgesan Konteyner",
@@ -520,7 +554,9 @@
    "konteyner",
    "tiny house"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Hane House",
@@ -548,7 +584,9 @@
   "tipler": [
    "tiny house"
   ],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Zu Tiny House",
@@ -574,7 +612,9 @@
   "tipler": [
    "tiny house"
   ],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Elbarsco Tiny House",
@@ -601,7 +641,9 @@
   "tipler": [
    "tiny house"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Muttiny House",
@@ -632,7 +674,9 @@
   "tipler": [
    "tiny house"
   ],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Roysal Yapı (Roysal Konteyner)",
@@ -659,7 +703,9 @@
   "tipler": [
    "konteyner"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Esse Konteyner",
@@ -690,7 +736,9 @@
   "tipler": [
    "konteyner"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "3A Prefabrik",
@@ -719,7 +767,9 @@
   "tipler": [
    "konteyner"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Dost Ahşap",
@@ -758,7 +808,9 @@
    "ahsap",
    "bungalov"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Yılkar Ahşap",
@@ -788,7 +840,9 @@
    "bungalov",
    "tiny house"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "San Ahşap",
@@ -818,7 +872,9 @@
    "ahsap",
    "bungalov"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Azra Ahşap Ev (Sisneli Ahşap Yapılar)",
@@ -848,7 +904,9 @@
    "bungalov",
    "tiny house"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Baneva Ahşap Yapılar",
@@ -885,7 +943,9 @@
    "ahsap",
    "bungalov"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Prefabrik Yapı A.Ş.",
@@ -915,7 +975,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Özge Yapı",
@@ -950,7 +1012,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Mahir Prefabrik",
@@ -979,7 +1043,9 @@
    "celik",
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Yönel Prefabrik",
@@ -1008,7 +1074,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Feza Prefabrik",
@@ -1035,7 +1103,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Modern Prefabrik",
@@ -1072,7 +1142,9 @@
    "celik",
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Evkon Prefabrik",
@@ -1100,7 +1172,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Erd Villa",
@@ -1127,7 +1201,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Mira Prefabrik",
@@ -1158,7 +1234,9 @@
   "tipler": [
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Prefabrikten",
@@ -1191,7 +1269,9 @@
    "celik",
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Trend Yapı Prefabrik",
@@ -1221,7 +1301,9 @@
   "tipler": [
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Kardeşler Çelik Yapı",
@@ -1251,7 +1333,9 @@
    "celik",
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Cücemenler Prefabrik",
@@ -1278,7 +1362,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "GoldYapı Malatya",
@@ -1308,7 +1394,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "ifHaus",
@@ -1337,7 +1425,9 @@
   "tipler": [
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Pramo",
@@ -1370,7 +1460,9 @@
    "celik",
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Aktaş Prefabrik Ev",
@@ -1400,7 +1492,9 @@
   "tipler": [
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Steelev",
@@ -1431,7 +1525,9 @@
    "celik",
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Villa Tokat",
@@ -1458,7 +1554,9 @@
    "celik",
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Aksa Prefabrik",
@@ -1487,7 +1585,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "PratikEV",
@@ -1517,7 +1617,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Prefamod",
@@ -1546,7 +1648,9 @@
    "konteyner",
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Platin Prefabrik",
@@ -1570,7 +1674,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Sismik Prefabrik",
@@ -1594,7 +1700,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Alyans Prefabrik",
@@ -1618,7 +1726,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Karınca Prefabrik Çelik Yapı",
@@ -1642,7 +1752,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Vefa Prefabrik",
@@ -1665,7 +1777,9 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Ecela Prefabrik",
@@ -1691,7 +1805,9 @@
    "celik",
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "2A Prefabrik",
@@ -1716,7 +1832,9 @@
   "tipler": [
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Lider Prefabrik",
@@ -1743,7 +1861,9 @@
    "celik",
    "prefabrik"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "Piccola Vita Tiny House",
@@ -1772,7 +1892,9 @@
   "tipler": [
    "tiny house"
   ],
-  "fiyatYayinliyor": true
+  "fiyatYayinliyor": true,
+  "logo": "",
+  "logoAcik": false
  },
  {
   "ad": "MB Tiny House",
@@ -1796,6 +1918,8 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [],
-  "fiyatYayinliyor": false
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  }
 ]

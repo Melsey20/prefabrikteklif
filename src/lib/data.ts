@@ -6,7 +6,7 @@ export type Kalem = 'dahil' | 'haric' | '';
 export interface Firm {
   ad: string; kisaAd: string; slug: string; web: string; sehir: string; il: string; telefon: string;
   sertifikalar: string[]; sertifikaNotu: string; urunTipleri: string[]; kaynak: string[]; seviye: string;
-  modelSayisi: number; enDusuk: number | null; tipler: string[]; fiyatYayinliyor: boolean;
+  modelSayisi: number; enDusuk: number | null; tipler: string[]; fiyatYayinliyor: boolean; logo?: string; logoAcik?: boolean;
 }
 export interface Model {
   firma: string; firmaAd: string; ad: string; slug: string; tip: string; m2: number | null; oda: string;

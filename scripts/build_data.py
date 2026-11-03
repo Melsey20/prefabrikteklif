@@ -274,13 +274,24 @@ meta = {
     'sonKontrol': son, 'sonKontrolYazi': f'{d.day} {AYLAR[d.month - 1]} {d.year}', 'ay': f'{AYLAR[d.month - 1]} {d.year}',
     'tipler': TIP, 'istatistik': stats,
 }
+# Firma iletişim e-postaları (firmaların kendi sitelerinden) ve logolar (public/img/firma/<slug>.png)
+ILETISIM = {}
+_il = os.path.join(ROOT, 'data', 'raw', 'firma_iletisim.json')
+if os.path.exists(_il):
+    ILETISIM = {x['slug']: x for x in json.load(open(_il, encoding='utf-8'))}
+LOGO_DIR = os.path.join(ROOT, 'public', 'img', 'firma')
+for f in firms:
+    lg = os.path.join(LOGO_DIR, f"{f['slug']}.png")
+    f['logo'] = f"/img/firma/{f['slug']}.png" if os.path.exists(lg) else ''
+    f['logoAcik'] = bool(ILETISIM.get(f['slug'], {}).get('acik')) if f['logo'] else False
 json.dump(firms, open(os.path.join(OUT, 'firms.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 json.dump(models, open(os.path.join(OUT, 'models.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 json.dump(meta, open(os.path.join(OUT, 'meta.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 # Cloud Functions için küçük firma listesi
 FN = os.path.join(ROOT, 'functions')
 if os.path.isdir(FN):
-    json.dump([{'slug': f['slug'], 'kisaAd': f['kisaAd'], 'il': f['il'], 'tipler': f['tipler']} for f in firms],
+    json.dump([{'slug': f['slug'], 'kisaAd': f['kisaAd'], 'il': f['il'], 'tipler': f['tipler'], 'modelSayisi': f['modelSayisi'],
+                **({'eposta': ILETISIM[f['slug']]['eposta']} if ILETISIM.get(f['slug'], {}).get('eposta') else {})} for f in firms],
               open(os.path.join(FN, 'firms.json'), 'w', encoding='utf-8'), ensure_ascii=False)
     # Firma paneli ve aylık fiyat kontrolü için model listesi
     json.dump([{'id': f"{m['firma']}/{m['slug']}", 'firma': m['firma'], 'ad': m['ad'], 'tip': m['tip'], 'm2': m['m2'], 'oda': m['oda'],

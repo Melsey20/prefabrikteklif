@@ -1,4 +1,5 @@
 ---
+import FirmaLogo from '../../../components/FirmaLogo.astro';
 import Base from '../../../layouts/Base.astro';
 import Crumbs from '../../../components/Crumbs.astro';
 import ModelCard from '../../../components/ModelCard.astro';
@@ -50,7 +51,7 @@ const tq = `tip=${encodeURIComponent(m.tip)}${m.oda ? `&oda=${encodeURIComponent
       <div style="display:flex;flex-direction:column;gap:14px">
         <h1 style="margin:0;font-size:clamp(1.45rem,1.1rem + 1.4vw,2.1rem)">{m.ad}</h1>
         <a class="fcard" href={`/firma/${f.slug}/`} style="padding:8px 10px">
-          <span class="mono">{monogram(f.kisaAd)}</span>
+          <FirmaLogo f={f} />
           <span style="display:flex;flex-direction:column"><b>{f.kisaAd}</b><span class="small muted">{[f.il, `${f.modelSayisi} model`].filter(Boolean).join(' · ')} · firma profili ›</span></span>
         </a>
         <div class="pbox">

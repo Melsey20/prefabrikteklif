@@ -4,13 +4,13 @@ interface Props { slug: string; baslik?: string }
 const { slug, baslik = 'Puanlar ve yorumlar' } = Astro.props;
 ---
 <section class="box" data-puan={slug} style="display:flex;flex-direction:column;gap:12px">
-  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h2 style="margin:0;font-size:1.15rem">{baslik}</h2></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h2 style="margin:0;font-size:1.15rem">{baslik} <span class="small muted" data-yort></span></h2><a class="btn btn-p btn-s" href={`/yorum-yaz/?firma=${slug}`}>Yorum yaz</a></div>
   <button class="btn btn-g btn-s" type="button" data-gbtn><svg width="18" height="18" viewBox="0 0 24 24" fill="#E3A008" stroke="#B7800A" stroke-width="1.2" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg>Firmanın Google puanını göster</button>
   <p data-gsonuc hidden style="margin:0"><strong style="font-size:1.4rem" data-gdeger></strong> <span class="muted" data-gsayi></span> <a class="small" data-glink href="#" rel="nofollow noopener" target="_blank" hidden>Google’da aç</a><br><span class="xs muted">Kaynak: Google Haritalar</span></p>
   <p class="small muted" data-gyok hidden style="margin:0">Bu firma için Google puanı bulunamadı.</p>
   <div class="box mint" style="padding:14px;display:flex;gap:12px;align-items:flex-start" data-ybos>
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#17663F" stroke-width="2" aria-hidden="true" style="flex:none"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
-    <span class="small">Burada yalnızca {SITE.ad} üzerinden bu firmadan <b>gerçekten ev almış</b> kişilerin yorumları yayınlanır; satın alma belgeyle doğrulanır. Henüz yorum yok.</span>
+    <span class="small">Yorumları {SITE.ad} üyeleri yazar; her yorumda yazanın bu firmadan <b>ev satın alıp almadığı</b> belirtilir, belge gönderenlerde “belgeyle doğrulandı” yazar. Yorumlar yayından önce kontrol edilir. Henüz yorum yok; ilk yorumu siz yazın.</span>
   </div>
   <div data-yliste style="display:flex;flex-direction:column;gap:10px"></div>
 </section>
@@ -35,11 +35,18 @@ const { slug, baslik = 'Puanlar ve yorumlar' } = Astro.props;
       if (!d?.yorumlar?.length) return;
       q('[data-ybos]').remove();
       const box2 = q('[data-yliste]');
+      const ps = d.yorumlar.map((y: any) => Number(y.puan)).filter(Boolean);
+      if (ps.length) q('[data-yort]').textContent = `· ${(ps.reduce((a: number, c: number) => a + c, 0) / ps.length).toFixed(1).replace('.', ',')} / 5 (${ps.length} yorum)`;
       for (const y of d.yorumlar) {
         const el = document.createElement('div'); el.className = 'item';
-        const b = document.createElement('strong'); b.textContent = `${y.puan ? y.puan + '/5 · ' : ''}${y.ad || 'Doğrulanmış alıcı'}`;
+        const ust = document.createElement('div'); ust.style.cssText = 'display:flex;gap:8px;align-items:center;flex-wrap:wrap';
+        const b = document.createElement('strong'); b.textContent = `${y.puan ? '★ ' + y.puan + '/5 · ' : ''}${y.ad || 'Üye'}`;
+        const rz = document.createElement('span'); rz.className = 'st-b ' + (y.satinAldi ? 'g' : '');
+        rz.textContent = y.satinAldi ? (y.belgeli ? '✓ Satın aldı · belgeyle doğrulandı' : 'Satın aldı') : 'Satın almadı · görüşme / teklif deneyimi';
+        ust.append(b, rz);
+        if (y.tarih) { const t = document.createElement('span'); t.className = 'xs muted'; t.textContent = y.tarih; ust.append(t); }
         const p = document.createElement('p'); p.style.margin = '0'; p.textContent = y.metin;
-        el.append(b, p);
+        el.append(ust, p);
         if (y.cevap) { const c = document.createElement('p'); c.className = 'small muted'; c.style.margin = '0'; c.textContent = 'Firma cevabı: ' + y.cevap; el.append(c); }
         box2.append(el);
       }

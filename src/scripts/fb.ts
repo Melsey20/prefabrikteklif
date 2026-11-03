@@ -1,11 +1,15 @@
 // Firebase istemcisi: yapılandırma Hosting'in /__/firebase/init.json adresinden gelir.
 import { initializeApp, type FirebaseApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, signInWithPopup, signInWithRedirect, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, updateProfile, signOut, type User, type Auth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, updateProfile, signOut, type User, type Auth } from 'firebase/auth';
 
 let _app: Promise<FirebaseApp> | null = null;
 let _auth: Auth | null = null;
 async function fbApp() {
-  if (!_app) _app = fetch('/__/firebase/init.json').then((r) => { if (!r.ok) throw new Error('Yapılandırma alınamadı'); return r.json(); }).then((c) => initializeApp(c));
+  if (!_app) _app = fetch('/__/firebase/init.json').then((r) => { if (!r.ok) throw new Error('Yapılandırma alınamadı'); return r.json(); }).then((c) => {
+    // Giriş penceresi sitenin kendi alan adından açılsın (Safari/iOS ve üçüncü taraf çerez engelinde Google girişi böyle sorunsuz çalışır)
+    if (/(^|\.)prefabrikteklif\.com\.tr$/.test(location.hostname)) c.authDomain = location.hostname;
+    return initializeApp(c);
+  });
   return _app;
 }
 export async function auth() { if (!_auth) { _auth = getAuth(await fbApp()); _auth.languageCode = 'tr'; } return _auth; }
@@ -37,6 +41,8 @@ export async function googleGiris() {
   const a = await auth(); const p = new GoogleAuthProvider(); p.setCustomParameters({ prompt: 'select_account' });
   try { return (await signInWithPopup(a, p)).user; } catch (e: any) { if (e?.code === 'auth/popup-blocked') { await signInWithRedirect(a, p); return null; } throw e; }
 }
+// Yönlendirmeli girişten dönüşte sonucu/hatayı al
+export async function yonlendirmeSonucu() { try { return (await getRedirectResult(await auth()))?.user ?? null; } catch (e) { throw e; } }
 export async function epostaGiris(e: string, s: string) { return (await signInWithEmailAndPassword(await auth(), e, s)).user; }
 export async function kayitOl(e: string, s: string, ad: string) {
   const u = (await createUserWithEmailAndPassword(await auth(), e, s)).user;

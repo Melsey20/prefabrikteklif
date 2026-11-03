@@ -25,7 +25,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       <section data-panel="siparisler" hidden><div class="ph-h"><h1>Yönettiğimiz siparişler</h1></div><div id="p-kanban" class="kanban" style="margin-bottom:18px"></div><div id="p-siparisler" class="list"></div></section>
       <section data-panel="firmalar" hidden><div class="ph-h"><div><h1>Kayıtlı firmalar</h1><p class="small muted" style="margin:4px 0 0">Talepler yalnızca aktif ve e-postası olan firmalara gider. Panel e-postaları firma paneline giriş yapabilir.</p></div><button class="btn btn-p btn-s" type="button" id="firma-ekle">+ Firma hesabı aç</button></div><div id="p-firmalar"></div></section>
       <section data-panel="geri-bildirim" hidden><div class="ph-h"><h1>Firma geri bildirimleri</h1></div><div id="p-gb" class="list"></div><h2 style="font-size:1.15rem;margin:26px 0 10px">Siteden gelen mesajlar (Bize yazın)</h2><div id="p-iletisim" class="list"></div></section>
-      <section data-panel="bannerlar" hidden><div class="ph-h"><div><h1>Reklam alanları</h1><p class="small muted" style="margin:4px 0 0">Ana banner ve yan banner alanlarında en fazla 6, öne çıkan listelemede en fazla 10 aktif reklam olabilir. Hepsi “Reklam” etiketiyle gösterilir.</p></div><button class="btn btn-p btn-s" type="button" id="banner-ekle">+ Reklam ekle</button></div><div id="p-doluluk" class="stats" style="margin-bottom:14px"></div><h2 style="font-size:1.1rem;margin:0 0 10px">Reklam talepleri</h2><div id="p-reklamt" class="list" style="margin-bottom:22px"></div><h2 style="font-size:1.1rem;margin:0 0 10px">Yayındaki ve pasif reklamlar</h2><div id="p-bannerlar" class="list"></div></section>
+      <section data-panel="bannerlar" hidden><div class="ph-h"><div><h1>Reklam alanları</h1><p class="small muted" style="margin:4px 0 0">Ana, yan ve ara banner alanlarında en fazla 6, öne çıkan listelemede en fazla 10 aktif reklam olabilir. Hepsi “Reklam” etiketiyle gösterilir.</p></div><button class="btn btn-p btn-s" type="button" id="banner-ekle">+ Reklam ekle</button></div><div id="p-doluluk" class="stats" style="margin-bottom:14px"></div><h2 style="font-size:1.1rem;margin:0 0 10px">Reklam talepleri</h2><div id="p-reklamt" class="list" style="margin-bottom:22px"></div><h2 style="font-size:1.1rem;margin:0 0 10px">Yayındaki ve pasif reklamlar</h2><div id="p-bannerlar" class="list"></div></section>
       <section data-panel="fiyat" hidden><div class="ph-h"><div><h1>Aylık fiyat kontrolü</h1><p class="small muted" style="margin:4px 0 0">Her ayın 1’i saat 17.00’de firma sayfaları otomatik taranır; değişmiş görünen fiyatlar “Onaylar” sekmesine düşer.</p></div></div><div id="p-fiyat"></div></section>
     </main>
   </div>
@@ -79,9 +79,10 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       for (const y of V.yorumlar) {
         els.push(h('article', { class: 'item' },
           h('div', { class: 'row' }, h('b', {}, `Yorum · ${y.firmaAd} · ${y.puan}/5`), h('span', { class: 'st-b a' }, tarih(y.zaman))),
-          h('p', { style: { margin: 0 } }, y.metin), satir('Belge notu', y.belgeNotu), satir('Aşama', y.asama),
-          h('div', { style: { display: 'flex', gap: '8px' } },
-            h('button', { class: 'btn btn-p btn-s', type: 'button', onclick: () => yap('/api/yonetim/yorum', { id: y.id, karar: 'onay' }, 'Yorum yayında') }, 'Belgeyi kontrol ettim, yayınla'),
+          h('p', { style: { margin: 0 } }, y.metin), satir('Yazan', [y.adGoster, y.eposta].filter(Boolean).join(' · ')), satir('Satın aldı mı?', y.satinAldi === false ? 'Hayır (görüşme / teklif)' : 'Evet'), satir('Belge notu', y.belgeNotu), satir('Aşama', y.asama),
+          h('div', { style: { display: 'flex', gap: '8px', flexWrap: 'wrap' } },
+            h('button', { class: 'btn btn-p btn-s', type: 'button', onclick: () => yap('/api/yonetim/yorum', { id: y.id, karar: 'onay' }, 'Yorum yayında') }, 'Yayınla'),
+            y.satinAldi !== false ? h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => yap('/api/yonetim/yorum', { id: y.id, karar: 'onay', belge: true }, 'Yorum “belgeyle doğrulandı” olarak yayında') }, 'Belgeyi gördüm, doğrulanmış yayınla') : null,
             h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => yap('/api/yonetim/yorum', { id: y.id, karar: 'red' }, 'Reddedildi') }, 'Reddet'))));
       }
       $('p-onaylar').replaceChildren(...(els.length ? els : [h('div', { class: 'empty' }, 'Onay bekleyen bir şey yok.')]));
@@ -188,7 +189,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       const bitis = inp('bitis', { type: 'date', value: b?.bitis || '' });
       const firma = h('select', {}, h('option', { value: '' }, 'Kendi bannerımız'), ...V.statikFirmalar.map((f: any) => h('option', { value: f.slug, selected: f.slug === b?.firma }, f.ad))) as HTMLSelectElement;
       const aktif = inp('aktif', { type: 'checkbox', checked: b ? b.aktif !== false : true });
-      const konum = h('select', {}, ...[['ana', 'Ana banner (büyük slayt)'], ['yan', 'Yan banner (kaydırmalı)'], ['liste', 'Öne çıkan listeleme (model)']].map(([v, a]) => h('option', { value: v, selected: (b?.konum || 'ana') === v }, a))) as HTMLSelectElement;
+      const konum = h('select', {}, ...[['ana', 'Ana banner (büyük slayt)'], ['yan', 'Yan banner (kaydırmalı)'], ['ara', 'Ara banner (2+1 evler ile Nasıl çalışır arası)'], ['liste', 'Öne çıkan listeleme (model)']].map(([v, a]) => h('option', { value: v, selected: (b?.konum || 'ana') === v }, a))) as HTMLSelectElement;
       const model = inp('model', { type: 'text', value: b?.modelId || '', placeholder: 'Model kodu, ör: firma-kodu/model-kodu (firma panelinde Ürünlerim)' });
       const gizle = () => { const l = konum.value === 'liste'; [baslik, metin, gorsel, link].forEach((x) => (x.closest('label')!.hidden = l)); baslik.required = !l; model.required = l; model.closest('label')!.hidden = !l; };
       konum.addEventListener('change', gizle);
@@ -197,7 +198,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
         alan('Alan', konum), alan('Model kodu', model), alan('Başlık', baslik), alan('Kısa metin', metin), alan('Görsel adresi', gorsel), alan('Bağlantı', link), h('div', { class: 'two' }, alan('Sıra', sira), alan('Bitiş tarihi', bitis)), alan('Reklam veren', firma), h('label', { class: 'chk' }, aktif, ' Aktif'), h('button', { class: 'btn btn-p', type: 'submit' }, 'Kaydet'));
       k = modal(b ? 'Reklamı düzenle' : 'Reklam ekle', form); gizle();
     }
-    const KONUM: Record<string, string> = { ana: 'Ana banner', yan: 'Yan banner', liste: 'Öne çıkan listeleme' };
+    const KONUM: Record<string, string> = { ana: 'Ana banner', yan: 'Yan banner', ara: 'Ara banner', liste: 'Öne çıkan listeleme' };
     const RD: Record<string, string> = { bekliyor: 'Yeni', 'odeme-bekliyor': 'Ödeme bekleniyor', yayinda: 'Yayında', bitti: 'Bitti', red: 'Yer yok / red' };
     function bannerlarCiz() {
       const bugun = Date.now();

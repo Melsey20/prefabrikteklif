@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Talep bildirimlerini durdur" description="Firmalar için talep bildirimi e-postalarını durdurma." noindex>
+  <div class="wrap narrow sec">
+    <h1>Talep bildirimlerini durdur</h1>
+    <p class="muted" id="aciklama">Firmanıza uygun müşteri taleplerini e-postayla bildirmeyi bırakacağız.</p>
+    <p class="err" id="hata" role="alert" hidden></p>
+    <button class="btn btn-p" id="durdur" type="button">Bildirimleri durdur</button>
+    <div class="ok" id="tamam" hidden><b>Tamam, bildirimleri durdurduk.</b><p style="margin:6px 0 0">Fikrinizi değiştirirseniz <a href="/firma-kayit/">firmanızı kaydederek</a> talepleri panelinizden takip edebilirsiniz.</p></div>
+  </div>
+  <script>
+    const f = new URLSearchParams(location.search).get('f') || '';
+    const $ = (id: string) => document.getElementById(id)!;
+    if (!f) { $('hata').textContent = 'Bağlantı eksik. E-postadaki bağlantıyı kullanın.'; $('hata').hidden = false; ($('durdur') as HTMLButtonElement).hidden = true; }
+    $('durdur').addEventListener('click', async () => {
+      const r = await fetch('/api/bildirim-iptal', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ f }) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) { $('hata').textContent = j.hata || 'İşlem yapılamadı.'; $('hata').hidden = false; return; }
+      ($('durdur') as HTMLButtonElement).hidden = true; $('tamam').hidden = false;
+    });
+  </script>
+</Base>

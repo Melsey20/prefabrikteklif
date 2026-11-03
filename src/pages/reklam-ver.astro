@@ -5,7 +5,7 @@ import { meta } from '../lib/data';
 const tl = (n: number) => new Intl.NumberFormat('tr-TR').format(n) + ' TL';
 const ld = { '@context': 'https://schema.org', '@type': 'OfferCatalog', name: `${SITE.ad} reklam paketleri`, itemListElement: SITE.reklam.map((p) => ({ '@type': 'Offer', name: p.ad, description: p.aciklama, price: p.fiyat, priceCurrency: 'TRY', priceSpecification: { '@type': 'UnitPriceSpecification', price: p.fiyat, priceCurrency: 'TRY', unitText: 'ay' } })) };
 ---
-<Sayfa title="Reklam Ver: Prefabrik ve Modüler Ev Üreticileri İçin Fiyatlar" h1="Kampanyanızı ev arayanlara gösterin" description={`${SITE.ad} reklam fiyatları: ana banner ${tl(25000)}, yan banner ${tl(25000)}, ikisi birlikte ${tl(45000)}, ana sayfada öne çıkan listeleme ${tl(15000)} / ay. Her alanda en fazla ${SITE.bannerSiniri} reklam.`} jsonLd={[ld]}>
+<Sayfa title="Reklam Ver: Prefabrik ve Modüler Ev Üreticileri İçin Fiyatlar" h1="Kampanyanızı ev arayanlara gösterin" description={`${SITE.ad} reklam fiyatları: ana banner ${tl(25000)}, yan banner ${tl(25000)}, ikisi birlikte ${tl(45000)}, ara banner ${tl(25000)}, ana sayfada öne çıkan listeleme ${tl(15000)} / ay. Her alanda en fazla ${SITE.bannerSiniri} reklam.`} jsonLd={[ld]}>
   <p>{SITE.ad}, Türkiye’de prefabrik ev, tiny house, çelik ev, konteyner ev, ahşap ev ve bungalov arayan kişilerin {meta.firmaSayisi} üreticinin {meta.modelSayisi} modelini karşılaştırdığı platformdur. Kampanyanızı tam da karar aşamasındaki ziyaretçilere gösterebilirsiniz.</p>
   <h2>Aylık reklam paketleri</h2>
   <div class="paket" style="margin:14px 0 8px">
@@ -17,7 +17,7 @@ const ld = { '@context': 'https://schema.org', '@type': 'OfferCatalog', name: `$
       </div>
     ))}
   </div>
-  <p class="small muted">Reklam paketleri, aylık {SITE.abonelik} TL <a href="/firma-kayit/">firma üyeliğine</a> ektir; reklam vermek için kayıtlı ve onaylı firma olmanız gerekir. Ana banner ve yan banner alanlarının her birinde aynı anda en fazla <b>{SITE.bannerSiniri}</b> reklam yayınlanır; yer doluysa sıraya alınırsınız.</p>
+  <p class="small muted">Reklam paketleri, aylık {SITE.abonelik} TL <a href="/firma-kayit/">firma üyeliğine</a> ektir; reklam vermek için kayıtlı ve onaylı firma olmanız gerekir. Ana, yan ve ara banner alanlarının her birinde aynı anda en fazla <b>{SITE.bannerSiniri}</b> reklam yayınlanır; yer doluysa sıraya alınırsınız.</p>
   <h2>Kurallar</h2>
   <ul>
     <li>Reklamlar “Reklam” etiketiyle gösterilir ve fiyat sıralamasını etkilemez; listeler her zaman fiyata göre sıralanır.</li>

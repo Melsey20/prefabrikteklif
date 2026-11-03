@@ -1,0 +1,9 @@
+---
+// Firmanın kendi sitesinden alınan logo; yoksa baş harfler
+import { monogram, type Firm } from '../lib/data';
+interface Props { f: Pick<Firm, 'kisaAd' | 'logo' | 'logoAcik'>; boyut?: number; style?: string }
+const { f, boyut = 44, style = '' } = Astro.props;
+---
+{f.logo
+  ? <span class={`flogo${f.logoAcik ? ' koyu' : ''}`} style={`width:${Math.round(boyut * 1.9)}px;height:${boyut}px;${style}`}><img src={f.logo} alt={`${f.kisaAd} logosu`} loading="lazy" decoding="async" /></span>
+  : <span class="mono" style={`width:${boyut}px;height:${boyut}px;${style}`}>{monogram(f.kisaAd)}</span>}

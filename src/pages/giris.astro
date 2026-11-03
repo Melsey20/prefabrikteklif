@@ -27,7 +27,7 @@ import { SITE } from '../site.config';
     <p class="small muted" style="text-align:center">Firma mısınız? Başvurunuz onaylandıktan sonra başvurudaki e-postayla giriş yapın. <a href="/firma-kayit/">Firma başvurusu</a></p>
   </div>
   <script>
-    import { googleGiris, epostaGiris, kayitOl, sifreSifirla, oturumAc, hedefSayfa, hataYazi, kullanici } from '../scripts/fb';
+    import { googleGiris, yonlendirmeSonucu, epostaGiris, kayitOl, sifreSifirla, oturumAc, hedefSayfa, hataYazi, kullanici } from '../scripts/fb';
     const q = new URLSearchParams(location.search);
     const geri = (q.get('geri') || '').startsWith('/') && !q.get('geri')!.startsWith('//') ? q.get('geri')! : '';
     const form = document.getElementById('g-form') as HTMLFormElement;
@@ -55,6 +55,7 @@ import { SITE } from '../site.config';
         location.href = geri || hedefSayfa(ben);
       } catch (e: any) { hataG(e.message || 'Giriş yapılamadı.'); }
     }
+    yonlendirmeSonucu().then((u) => { if (u) bitir(); }).catch((e) => hataG(hataYazi(e)));
     kullanici().then((u) => { if (u && !q.get('dogrulandi')) bitir(); }).catch(() => hataG('Giriş sistemi şu an kullanılamıyor.'));
     $('g-google').addEventListener('click', async () => { try { const u = await googleGiris(); if (u) await bitir(); } catch (e) { hataG(hataYazi(e)); } });
     form.addEventListener('submit', async (e) => {

@@ -54,7 +54,7 @@ const yollar = [
             </div>
           </div>
           <div class="slide" aria-roledescription="slide" aria-label="2 / 3">
-            <img class="bg" src="/img/montaj-960.webp" srcset="/img/montaj-480.webp 480w, /img/montaj-960.webp 960w, /img/montaj-1344.webp 1344w" sizes="(max-width: 980px) 100vw, 900px" alt="Vinçle prefabrik ev modülünün temele yerleştirilmesi" width="1344" height="752" loading="lazy" />
+            <img class="bg" src="/img/hero-960.webp" srcset="/img/hero-480.webp 480w, /img/hero-960.webp 960w, /img/hero-1344.webp 1344w" sizes="(max-width: 980px) 100vw, 900px" alt="Vinçle prefabrik ev modülünün temele yerleştirilmesi" width="1344" height="752" loading="lazy" />
             <div class="shade"></div>
             <div class="txt">
               <span class="tag">Ücretsiz</span>
@@ -181,6 +181,15 @@ const yollar = [
       <div class="hscroll c4">{ikiArti.map((m) => <ModelCard m={m} />)}</div>
     </section>
 
+    <section class="sec" style="padding-top:8px" data-ara-slot>
+      <a class="ara-banner" href="/teklif-al/" data-ara-ev>
+        <img class="bg" src="/img/hero-960.webp" srcset="/img/hero-480.webp 480w, /img/hero-960.webp 960w, /img/hero-1344.webp 1344w" sizes="(max-width: 1200px) 100vw, 1200px" alt="" width="1344" height="752" loading="lazy" decoding="async" />
+        <span class="shade"></span>
+        <span class="txt"><h2>Tek form doldurun, firmalar size fiyat versin</h2><p>Talebiniz uygun firmalara isimsiz gider; {SITE.teklifSaat} saat içinde teklifler tek tabloda gelir. Ücretsiz.</p><span class="btn btn-w">Ücretsiz teklif al</span></span>
+      </a>
+      <div class="ara-alt"><a href="/reklam-ver/">Bu alanda reklam verin</a></div>
+    </section>
+
     <section class="sec">
       <div class="how">
         <img src="/img/montaj-960.webp" srcset="/img/montaj-480.webp 480w, /img/montaj-960.webp 960w" sizes="(max-width: 860px) 100vw, 600px" alt="Prefabrik ev modülü vinçle temele yerleştiriliyor" width="960" height="537" loading="lazy" decoding="async" />
@@ -239,6 +248,18 @@ const yollar = [
       const ana = hepsi.filter((x) => (x.konum || 'ana') === 'ana' && gecerli(x)).slice(0, 6);
       const yan = hepsi.filter((x) => x.konum === 'yan' && gecerli(x)).slice(0, 6);
       const liste = hepsi.filter((x) => x.konum === 'liste' && x.modelId).slice(0, 10);
+      const ara = hepsi.filter((x) => x.konum === 'ara' && gecerli(x)).slice(0, 6);
+      const aslot = document.querySelector('[data-ara-slot]');
+      if (ara.length && aslot) {
+        const kartlar = ara.map((x, i) => {
+          const a = reklamLink(x, 'ara-banner'); if (i) a.hidden = true;
+          const im = el('img', 'bg'); im.src = x.gorsel; im.alt = x.baslik || ''; im.loading = 'lazy';
+          const t = el('span', 'txt'); t.append(el('span', 'tag', 'Reklam'), el('h2', '', x.baslik || ''), el('p', '', x.metin || ''));
+          a.append(im, el('span', 'shade'), t); return a;
+        });
+        aslot.querySelector('[data-ara-ev]')?.replaceWith(...kartlar);
+        if (kartlar.length > 1) { let i = 0; setInterval(() => { kartlar[i].hidden = true; i = (i + 1) % kartlar.length; kartlar[i].hidden = false; }, 7000); }
+      }
       const slot = document.querySelector('[data-banner-slot]');
       if (ana.length && slot) {
         const ilk = slot.firstElementChild;

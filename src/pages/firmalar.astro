@@ -1,4 +1,5 @@
 ---
+import FirmaLogo from '../components/FirmaLogo.astro';
 import Base from '../layouts/Base.astro';
 import Crumbs from '../components/Crumbs.astro';
 import { firms, TIPLER, TIP_SIRA, meta, kisaTl, monogram } from '../lib/data';
@@ -23,7 +24,7 @@ const ld = [{ '@context': 'https://schema.org', '@type': 'ItemList', name: 'Pref
     <div class="grid" id="flist">
       {sirali.map((f) => (
         <a class="fcard" href={`/firma/${f.slug}/`} data-ara={`${f.kisaAd} ${f.il}`.toLocaleLowerCase('tr')} data-tip={f.tipler.join('|')}>
-          <span class="mono">{monogram(f.kisaAd)}</span>
+          <FirmaLogo f={f} />
           <span style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0">
             <b>{f.kisaAd}</b>
             <span class="small muted">{[f.il, f.tipler.map((t) => TIPLER[t]?.ad).filter(Boolean).join(', ') || f.urunTipleri.slice(0, 2).join(', ')].filter(Boolean).join(' · ')}</span>

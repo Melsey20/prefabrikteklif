@@ -143,3 +143,41 @@ document.getElementById('by-form')?.addEventListener('submit', async (e) => {
     f.reset(); goster('Teşekkürler, mesajınız ekibimize ulaştı.', true);
   } catch (err: any) { goster(err.message); } finally { btn.disabled = false; }
 });
+
+// ---- Yatay kaydırmalı sıralar: sağ/sol oklar ve yavaş otomatik kayma ----
+(() => {
+  const azHareket = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLElement>('.hscroll').forEach((sc) => {
+    if (sc.dataset.oklu || sc.children.length < 2) return;
+    sc.dataset.oklu = '1';
+    const kap = document.createElement('div'); kap.className = 'hs-kap';
+    sc.parentNode!.insertBefore(kap, sc); kap.append(sc);
+    let bekle = 0;
+    const dur = (ms: number) => { bekle = Date.now() + ms; };
+    const ok = (yon: -1 | 1) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'hs-ok ' + (yon < 0 ? 'sol' : 'sag');
+      b.setAttribute('aria-label', yon < 0 ? 'Önceki' : 'Sonraki');
+      b.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="${yon < 0 ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7'}"/></svg>`;
+      b.addEventListener('click', () => { kaydir(yon); dur(8000); });
+      kap.append(b); return b;
+    };
+    const adim = () => { const c = sc.children[0] as HTMLElement; return c ? c.getBoundingClientRect().width + parseFloat(getComputedStyle(sc).columnGap || '16') : sc.clientWidth; };
+    const sonda = () => sc.scrollLeft + sc.clientWidth >= sc.scrollWidth - 8;
+    const kaydir = (yon: number) => {
+      if (yon > 0 && sonda()) sc.scrollTo({ left: 0, behavior: 'smooth' });
+      else if (yon < 0 && sc.scrollLeft <= 4) sc.scrollTo({ left: sc.scrollWidth, behavior: 'smooth' });
+      else sc.scrollBy({ left: yon * adim(), behavior: 'smooth' });
+    };
+    const sol = ok(-1), sag = ok(1);
+    const guncelle = () => { const tasar = sc.scrollWidth > sc.clientWidth + 8; sol.hidden = sag.hidden = !tasar; };
+    guncelle(); addEventListener('resize', guncelle);
+    // Otomatik kayma: görünürken, fare/odak/dokunma yokken birer kart ilerler
+    if (azHareket) return;
+    let gorunur = false, t: number | undefined;
+    ['pointerenter', 'focusin', 'touchstart'].forEach((e) => kap.addEventListener(e, () => dur(1e9), { passive: true }));
+    ['pointerleave', 'focusout', 'touchend'].forEach((e) => kap.addEventListener(e, () => dur(4000), { passive: true }));
+    new IntersectionObserver((g) => { gorunur = g[0].isIntersecting; }, { threshold: 0.4 }).observe(sc);
+    t = window.setInterval(() => { if (gorunur && !document.hidden && Date.now() > bekle && sc.scrollWidth > sc.clientWidth + 8) kaydir(1); }, 4500);
+    void t;
+  });
+})();

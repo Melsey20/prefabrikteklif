@@ -25,8 +25,8 @@ const TALEP = { tip: 'prefabrik', oda: '2+1', m2: 80, arazi: 'imarli', il: 'Mala
 
 test('teklif: talep isimsiz gider, fiyat veren firmaya müşteri bilgisi açılır', async () => {
   const { db, mails, call } = kur();
-  await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', tipler: ['prefabrik'], iller: ['*'], panelEpostalari: ['satis@kardesler.com'] });
-  await db.collection('firmalar').doc('pramo').set({ aktif: true, eposta: 'info@pramo.com', tipler: ['prefabrik'], iller: ['Kocaeli'] });
+  await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', tipler: ['prefabrik'], iller: ['*'], panelEpostalari: ['satis@kardesler.com'], abonelik: { durum: 'aktif' } });
+  await db.collection('firmalar').doc('pramo').set({ aktif: true, eposta: 'info@pramo.com', tipler: ['prefabrik'], iller: ['Kocaeli'], abonelik: { durum: 'aktif' } });
   const r = await call('POST', '/api/teklif', { body: TALEP });
   assert.equal(r.statusCode, 200, JSON.stringify(r.body));
   assert.equal(r.body.firmaSayisi, 1, 'il filtresi: sadece tüm Türkiye\'ye hizmet veren firma');
@@ -75,7 +75,7 @@ test('teklif: zorunlu alanlar, rıza ve bot tuzağı', async () => {
 
 test('firma talebi reddedebilir, sonra fiyat veremez', async () => {
   const { db, mails, call } = kur();
-  await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', tipler: ['prefabrik'], iller: ['Malatya'] });
+  await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', tipler: ['prefabrik'], iller: ['Malatya'], abonelik: { durum: 'aktif' } });
   await call('POST', '/api/teklif', { body: TALEP });
   const m = mails.find((x) => x.to === 'satis@kardesler.com'); const l = m.html.match(/t=([^&"]+)&(?:amp;)?f=([^"&]+)/);
   assert.equal((await call('POST', '/api/teklif-red', { body: { t: l[1], f: l[2] } })).statusCode, 200);
@@ -124,10 +124,11 @@ test('firma ürün değişikliği onaydan sonra katalogda; başka firmanın mode
   assert.equal(k.length, 1); assert.equal(k[0].fiyat, 650000); assert.deepEqual(k[0].gorseller, ['https://k.example/a.jpg']);
   assert.ok(mails.some((m) => m.to === 'satis@kardesler.com' && m.subject === 'Değişikliğiniz yayında'));
   assert.equal((await call('POST', '/api/yonetim/degisiklik', { tok: 'tok-admin', body: { id: u.body.id, karar: 'onay' } })).statusCode, 409);
-  const yeni = await call('POST', '/api/firma/urun', { tok: 'tok-firma', body: { tur: 'yeni', veri: { ad: 'Yeni 120 m²', tip: 'prefabrik', m2: 120, fiyat: 900000 } } });
+  assert.equal((await call('POST', '/api/firma/urun', { tok: 'tok-firma', body: { tur: 'yeni', veri: { ad: 'Fotoğrafsız', tip: 'prefabrik' } } })).statusCode, 400, 'yeni üründe fotoğraf zorunlu');
+  const yeni = await call('POST', '/api/firma/urun', { tok: 'tok-firma', body: { tur: 'yeni', veri: { ad: 'Yeni 120 m²', tip: 'prefabrik', m2: 120, kat: 2, nakliye: 'dahil', aciklama: 'Çift katlı, 4+1', fiyat: 900000, gorseller: ['https://k.example/y.jpg'] } } });
   await call('POST', '/api/yonetim/degisiklik', { tok: 'tok-admin', body: { id: yeni.body.id, karar: 'onay' } });
   const k2 = (await call('GET', '/api/katalog')).body.kayitlar;
-  assert.ok(k2.some((x) => x.yeni && x.ad === 'Yeni 120 m²' && x.id.startsWith('kardesler/')));
+  assert.ok(k2.some((x) => x.yeni && x.ad === 'Yeni 120 m²' && x.id.startsWith('kardesler/') && x.kat === 2 && x.nakliye === 'dahil' && x.aciklama === 'Çift katlı, 4+1'));
   const oz = await call('GET', '/api/firma/ozet', { tok: 'tok-firma' });
   assert.equal(oz.body.modeller.find((m) => m.id === 'kardesler/k82').fiyat, 650000);
   assert.ok(oz.body.modeller.some((m) => m.ad === 'Yeni 120 m²'));
@@ -251,4 +252,85 @@ test('aylık fiyat kontrolü: aynı, değişmiş, ulaşılamayan', async () => {
 test('yardımcılar', () => {
   assert.deepEqual(fiyatAdaylari(sayfaMetni('<span>Fiyat</span> <b>1.250.000</b> TL; telefon 0532 123 45 67; 2026 yılı')), [1250000]);
   assert.equal(katalogId('a/b'), 'a__b');
+});
+
+
+test('üye olmayan firmalar davet alır, ödeme yapmayan fiyat veremez, panelden fiyat + not', async () => {
+  const { db, mails, call } = kur();
+  // FIRMS'e e-posta ekle (sitelerinden alınmış adres)
+  const F2 = [{ slug: 'kardesler', kisaAd: 'Kardeşler', il: 'Malatya', tipler: ['prefabrik'] }, { slug: 'pramo', kisaAd: 'Pramo', il: 'Kocaeli', tipler: ['prefabrik'], eposta: 'info@pramo.example' }];
+  const { FakeDb: FD } = await import('./fakeDb.js');
+  const db2 = new FD(); const mails2 = [];
+  const app2 = createApp({ db: db2, FieldValue, Timestamp, FIRMS: F2, MODELS, saat: 48, simdi: zaman.simdi,
+    auth: { verifyIdToken: async (t) => { if (!KULLANICI[t]) throw new Error('bad'); return KULLANICI[t]; } },
+    mail: async (to, subject, html, o) => { mails2.push({ to, subject, html, o }); },
+    ayar: () => ({ site: 'https://www.prefabrikteklif.com.tr', admin: 'info@mitraajans.com', yoneticiler: ['info@mitraajans.com'], placesKey: '' }) });
+  const call2 = async (method, path, { body, query, tok } = {}) => { const r = res(); await app2.handle({ method, path, body, query: query || {}, headers: { 'x-forwarded-for': '9.9.9.' + Math.floor(Math.random() * 250), ...(tok ? { authorization: 'Bearer ' + tok } : {}) } }, r); return r; };
+  // Kardeşler kayıtlı ama ödeme yapmamış; Pramo yalnızca listelenmiş
+  await db2.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik'], iller: ['*'], abonelik: { durum: 'odeme-bekliyor', odemeLinki: 'https://odeme.example/1' } });
+  const r = await call2('POST', '/api/teklif', { body: TALEP });
+  assert.equal(r.statusCode, 200, JSON.stringify(r.body)); assert.equal(r.body.firmaSayisi, 2);
+  const davet = mails2.find((m) => m.to === 'info@pramo.example');
+  assert.ok(davet && davet.html.includes('/firma-kayit/?firma=pramo&amp;davet=') && davet.o?.iptal, 'listelenmiş firmaya kayıt daveti ve bildirim iptali');
+  assert.ok(!davet.html.includes('Ali Veli') && !davet.html.includes('0532'), 'davette müşteri bilgisi yok');
+  const odeme = mails2.find((m) => m.to === 'satis@kardesler.com');
+  assert.ok(odeme && odeme.html.includes('https://odeme.example/1'), 'ödeme bekleyen firmaya ödeme bağlantısı');
+  // Ödeme yapmayan firma panelden fiyat veremez
+  const oz = await call2('GET', '/api/firma/ozet', { tok: 'tok-firma' });
+  assert.equal(oz.body.uye, false); assert.equal(oz.body.talepler.length, 1);
+  const tid = oz.body.talepler[0].id;
+  assert.equal((await call2('POST', '/api/firma/teklif', { tok: 'tok-firma', body: { talep: tid, fiyat: 600000 } })).statusCode, 402);
+  // Yönetim üyeliği aktif yapınca firma e-posta alır ve fiyat + not verir
+  assert.equal((await call2('POST', '/api/yonetim/firma', { tok: 'tok-admin', body: { slug: 'kardesler', sadeceAbonelik: true, abonelik: { durum: 'aktif' } } })).statusCode, 200);
+  assert.ok(mails2.some((m) => m.to === 'satis@kardesler.com' && m.subject.startsWith('Üyeliğiniz aktif')));
+  const t = await call2('POST', '/api/firma/teklif', { tok: 'tok-firma', body: { talep: tid, fiyat: 600000, not: 'Arsa eğimliyse zemin betonu +40.000 TL' } });
+  assert.equal(t.statusCode, 200, JSON.stringify(t.body)); assert.equal(t.body.musteri.telefon, '0532 111 22 33');
+  // Doğrulanmış firma katalogda işaretlenir
+  assert.ok((await call2('GET', '/api/katalog')).body.kayitlar.some((x) => x.id === 'uye:kardesler'));
+  // Davet bağlantısıyla başvuru, sonra bildirim iptali; ikinci talepte davet gitmez
+  const kod = decodeURIComponent(davet.html.match(/davet=([^"&]+)/)[1]);
+  const bas = await call2('POST', '/api/firma-basvuru', { body: { unvan: 'Pramo A.Ş.', vergiNo: '1234567890', yetkili: 'Ayşe', eposta: 'info@pramo.example', tipler: ['prefabrik'], iller: 'Tüm Türkiye', referanslar: 'Bursa 2025 teslim: Mehmet Bey 0555', sozlesmeOnay: true, abonelikOnay: true, mevcut: 'pramo', davet: kod } });
+  assert.equal(bas.statusCode, 200, JSON.stringify(bas.body));
+  const iptal = decodeURIComponent(davet.html.match(/bildirim-iptal\/\?f=([^"&]+)/)[1]);
+  assert.equal((await call2('POST', '/api/bildirim-iptal', { body: { f: 'pramo.yanlis' } })).statusCode, 404);
+  assert.equal((await call2('POST', '/api/bildirim-iptal', { body: { f: iptal } })).statusCode, 200);
+  mails2.length = 0;
+  await call2('POST', '/api/teklif', { body: { ...TALEP, eposta: 'b@ornek.com' } });
+  assert.ok(!mails2.some((m) => m.to === 'info@pramo.example'), 'iptal eden firmaya davet gitmez');
+});
+
+test('üye kullanıcı yorumu: satın aldı/almadı, onay, belge', async () => {
+  const { db, call } = kur();
+  assert.equal((await call('POST', '/api/yorum', { body: { firma: 'pramo', puan: 4, metin: 'x'.repeat(40) } })).statusCode, 401);
+  assert.equal((await call('POST', '/api/yorum', { tok: 'tok-user', body: { firma: 'pramo', puan: 4, metin: 'kısa' } })).statusCode, 400);
+  const y = await call('POST', '/api/yorum', { tok: 'tok-user', body: { firma: 'pramo', puan: 4, satinAldi: 'evet', fiyat: 5, teslim: 3, metin: 'Teslim biraz gecikti ama ev beklediğimiz gibi çıktı, memnunuz.' } });
+  assert.equal(y.statusCode, 200, JSON.stringify(y.body));
+  await call('POST', '/api/yorum', { tok: 'tok-user', body: { firma: 'kardesler', puan: 3, satinAldi: 'hayir', metin: 'Teklif aldım, iletişim hızlıydı ama fiyat bütçemi aştı.' } });
+  assert.equal((await call('GET', '/api/yorumlar', { query: { firma: 'pramo' } })).body.yorumlar.length, 0, 'onaysız görünmez');
+  const oz = await call('GET', '/api/yonetim/ozet', { tok: 'tok-admin' });
+  const yp = oz.body.yorumlar.find((x) => x.firma === 'pramo');
+  assert.equal((await call('POST', '/api/yonetim/yorum', { tok: 'tok-admin', body: { id: yp.id, karar: 'onay', belge: true } })).statusCode, 200);
+  const yk = oz.body.yorumlar.find((x) => x.firma === 'kardesler');
+  await call('POST', '/api/yonetim/yorum', { tok: 'tok-admin', body: { id: yk.id, karar: 'onay' } });
+  const lp = (await call('GET', '/api/yorumlar', { query: { firma: 'pramo' } })).body.yorumlar;
+  assert.equal(lp.length, 1); assert.equal(lp[0].satinAldi, true); assert.equal(lp[0].belgeli, true); assert.equal(lp[0].puan, 4);
+  const lk = (await call('GET', '/api/yorumlar', { query: { firma: 'kardesler' } })).body.yorumlar;
+  assert.equal(lk[0].satinAldi, false);
+  // Firma kendi firmasına yorum yazamaz
+  await db.collection('firmalar').doc('kardesler').set({ aktif: true, panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik'] });
+  assert.equal((await call('POST', '/api/yorum', { tok: 'tok-firma', body: { firma: 'kardesler', puan: 5, metin: 'x'.repeat(40) } })).statusCode, 403);
+});
+
+test('firma fotoğraf yükler, sitemizden sunulur', async () => {
+  const { db, call } = kur();
+  await db.collection('firmalar').doc('kardesler').set({ aktif: true, panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik'] });
+  assert.equal((await call('POST', '/api/firma/gorsel', { tok: 'tok-firma', body: { veri: 'data:text/html;base64,PGI+' } })).statusCode, 400);
+  const g = await call('POST', '/api/firma/gorsel', { tok: 'tok-firma', body: { veri: 'data:image/webp;base64,' + Buffer.from('RIFFxxxxWEBP').toString('base64') } });
+  assert.equal(g.statusCode, 200, JSON.stringify(g.body)); assert.ok(g.body.url.startsWith('https://www.prefabrikteklif.com.tr/api/gorsel/'));
+  const id = g.body.url.split('/').pop();
+  const r = res(); r.send = function (b) { this.body = b; return this; };
+  const { app } = kur();
+  // aynı veritabanı üzerinden okunur
+  const r2 = await call('GET', '/api/gorsel/' + id);
+  assert.equal(r2.statusCode, 200); assert.equal(r2.h['content-type'], 'image/webp'); assert.match(r2.h['cache-control'], /immutable/);
 });

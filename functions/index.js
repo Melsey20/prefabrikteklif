@@ -28,13 +28,19 @@ const FIRMS = JSON.parse(readFileSync(new URL('./firms.json', import.meta.url), 
 const MODELS = JSON.parse(readFileSync(new URL('./models.json', import.meta.url), 'utf8'));
 
 let _tx;
-async function mail(to, subject, html) {
+// HTML'den düz metin sürümü (spam filtreleri yalnızca HTML içeren e-postaları sevmez)
+const duzMetin = (html) => html.replace(/<a [^>]*href="([^"]+)"[^>]*>([^<]*)<\/a>/g, '$2 ($1)').replace(/<\/(p|h2|tr|div)>/g, '\n').replace(/<br\s*\/?>/g, '\n').replace(/<td[^>]*>/g, ' ').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/[ \t]+/g, ' ').replace(/\n\s*\n+/g, '\n\n').trim();
+async function mail(to, subject, html, o = {}) {
   const pass = SMTP_PASS.value() || '';
   if (!to || !SMTP_USER.value() || pass.length < 2) { console.warn('E-posta ayarı eksik, gönderilmedi:', subject); return; }
   if (!_tx) _tx = nodemailer.createTransport({ host: SMTP_HOST.value(), port: Number(SMTP_PORT.value()), secure: Number(SMTP_PORT.value()) === 465, auth: { user: SMTP_USER.value(), pass } });
   // E-posta bildirim amaçlıdır: gönderilemezse ziyaretçinin işlemi asla hata vermez; kayıt yönetim panelinde görünür.
   try {
-    await _tx.sendMail({ from: MAIL_FROM.value() || SMTP_USER.value(), to, subject, html });
+    const from = MAIL_FROM.value() || SMTP_USER.value();
+    const yanit = ADMIN_EMAIL.value() || SMTP_USER.value();
+    const headers = { 'X-Entity-Ref-ID': `pt-${Date.now()}` };
+    if (o.iptal || o.tur === 'davet') headers['List-Unsubscribe'] = `<mailto:${yanit}?subject=bildirim-iptal>${o.iptal ? `, <${o.iptal}>` : ''}`;
+    await _tx.sendMail({ from, to, subject, html, text: duzMetin(html), replyTo: yanit, headers });
   } catch (e) {
     console.error('E-posta gönderilemedi:', subject, e?.code || '', e?.message || e);
     if (e?.code === 'EAUTH') _tx = undefined;

@@ -9,9 +9,9 @@ const ROOT = path.resolve('dist');
 const FIRMS = JSON.parse(await readFile('functions/firms.json', 'utf8'));
 const MODELS = JSON.parse(await readFile('functions/models.json', 'utf8'));
 const db = new FakeDb(); const mails = [];
-await db.collection('firmalar').doc('kardesler-celik-yapi').set({ aktif: true, eposta: 'satis@kardesler.com', panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik', 'celik'], iller: ['*'] });
+await db.collection('firmalar').doc('kardesler-celik-yapi').set({ aktif: true, eposta: 'satis@kardesler.com', panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik', 'celik'], iller: ['*'], abonelik: { durum: 'aktif' } });
 const jwt = (t) => { try { return JSON.parse(Buffer.from(t.split('.')[1], 'base64url').toString()); } catch { throw new Error('bad'); } };
-const app = createApp({ db, FieldValue, Timestamp, FIRMS, MODELS, mail: async (to, subject, html) => { mails.push({ to, subject, html }); },
+const app = createApp({ db, FieldValue, Timestamp, FIRMS, MODELS, mail: async (to, subject, html, o) => { mails.push({ to, subject, html, o }); },
   auth: { verifyIdToken: async (t) => { const p = jwt(t); return { uid: p.user_id, email: p.email, email_verified: p.email_verified, name: p.name }; } },
   ayar: () => ({ site: 'http://localhost:4400', admin: 'info@mitraajans.com', yoneticiler: ['info@mitraajans.com'], placesKey: '' }) });
 const TIP = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.png': 'image/png', '.svg': 'image/svg+xml', '.txt': 'text/plain; charset=utf-8', '.xml': 'application/xml', '.woff2': 'font/woff2' };
