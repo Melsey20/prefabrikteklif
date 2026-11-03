@@ -95,7 +95,7 @@
       "tempo": 1.1
     },
     "aciklama": "Prefabrik ev yaptırmadan önce bunu bilin 👇\n\n62 firmanın 422 modeli tek sitede. Fiyata neyin dahil olduğunu görün, tek formla 48 saatte teklif alın.\n\n📌 Kaydedin, ev bakarken lazım olacak.\n🔗 prefabrikteklif.com.tr\n\n#prefabrikev #tinyhouse #prefabrikevfiyatları #bağevi #modülerev #evfiyatları",
-    "sure": 15.3,
+    "sure": 15.27,
     "sahneler": [
       {
         "t": 0,
@@ -104,7 +104,7 @@
         "h": "Prefabrik ev mi <em>yaptıracaksınız?</em>"
       },
       {
-        "t": 2.25,
+        "t": 2.42,
         "tur": "grid",
         "imgs": [
           "prefabrik-b-960.webp",
@@ -115,14 +115,14 @@
         "h": "Firma firma <em>gezmeyin.</em>"
       },
       {
-        "t": 3.67,
+        "t": 3.78,
         "tur": "sayi",
         "n": 422,
         "birim": "model · 62 firma",
         "h": "62 firmanın 422 modeli <em>tek sitede.</em>"
       },
       {
-        "t": 7.0,
+        "t": 7.38,
         "tur": "foto",
         "img": "ic-mekan-1344.webp",
         "h": "Fiyata ne dahil, <em>tek bakışta.</em>",
@@ -133,7 +133,7 @@
         ]
       },
       {
-        "t": 9.49,
+        "t": 9.6,
         "tur": "foto",
         "img": "montaj-1344.webp",
         "h": "Tek form, <em>48 saatte</em> teklif.",
@@ -143,11 +143,12 @@
         ]
       },
       {
-        "t": 12.71,
+        "t": 12.67,
         "tur": "son",
         "h": "Evinizi bulmanın <em>en kolay yolu.</em>",
         "p": "Bağlantı profilde"
       }
-    ]
+    ],
+    "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261103_065241_56244a95-ef42-45ac-b3f2-a244a9e007c5.mp3"
   }
 }
