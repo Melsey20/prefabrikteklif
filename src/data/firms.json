@@ -40,7 +40,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/karmod.png",
   "logoAcik": false
  },
  {
@@ -75,7 +75,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/makro-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -105,7 +105,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/nova-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -142,7 +142,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/prefabrik-evim-ideal-ev.png",
   "logoAcik": false
  },
  {
@@ -171,7 +171,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/ikranur-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -202,7 +202,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/villa-prefabrik-yapi.png",
   "logoAcik": false
  },
  {
@@ -230,7 +230,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/limit-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -259,7 +259,7 @@
    "celik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/evo-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -292,8 +292,8 @@
    "celik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
-  "logoAcik": false
+  "logo": "/img/firma/aktas-grup-insaat.png",
+  "logoAcik": true
  },
  {
   "ad": "Modüler Evin",
@@ -319,7 +319,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/moduler-evin.png",
   "logoAcik": false
  },
  {
@@ -345,7 +345,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/oska-celik-ev.png",
   "logoAcik": false
  },
  {
@@ -374,7 +374,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/asia-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -399,7 +399,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/egeser-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -429,7 +429,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/askar-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -457,7 +457,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/alsancak-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -487,7 +487,7 @@
    "tiny house"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/hibrit-house.png",
   "logoAcik": false
  },
  {
@@ -520,7 +520,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/zmt-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -555,7 +555,7 @@
    "tiny house"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/simgesan-konteyner.png",
   "logoAcik": false
  },
  {
@@ -585,7 +585,7 @@
    "tiny house"
   ],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/hane-house.png",
   "logoAcik": false
  },
  {
@@ -613,7 +613,7 @@
    "tiny house"
   ],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/zu-tiny-house.png",
   "logoAcik": false
  },
  {
@@ -642,8 +642,8 @@
    "tiny house"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
-  "logoAcik": false
+  "logo": "/img/firma/elbarsco-tiny-house.png",
+  "logoAcik": true
  },
  {
   "ad": "Muttiny House",
@@ -675,7 +675,7 @@
    "tiny house"
   ],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/muttiny-house.png",
   "logoAcik": false
  },
  {
@@ -704,7 +704,7 @@
    "konteyner"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/roysal-yapi.png",
   "logoAcik": false
  },
  {
@@ -737,8 +737,8 @@
    "konteyner"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
-  "logoAcik": false
+  "logo": "/img/firma/esse-konteyner.png",
+  "logoAcik": true
  },
  {
   "ad": "3A Prefabrik",
@@ -768,7 +768,7 @@
    "konteyner"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/3a-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -809,7 +809,7 @@
    "bungalov"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/dost-ahsap.png",
   "logoAcik": false
  },
  {
@@ -841,7 +841,7 @@
    "tiny house"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/yilkar-ahsap.png",
   "logoAcik": false
  },
  {
@@ -873,7 +873,7 @@
    "bungalov"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/san-ahsap.png",
   "logoAcik": false
  },
  {
@@ -905,7 +905,7 @@
    "tiny house"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/azra-ahsap-ev.png",
   "logoAcik": false
  },
  {
@@ -976,7 +976,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/prefabrik-yapi-a-s.png",
   "logoAcik": false
  },
  {
@@ -1013,7 +1013,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/ozge-yapi.png",
   "logoAcik": false
  },
  {
@@ -1044,7 +1044,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/mahir-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -1075,7 +1075,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/yonel-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -1104,7 +1104,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/feza-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -1143,7 +1143,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/modern-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -1173,7 +1173,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/evkon-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -1202,7 +1202,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/erd-villa.png",
   "logoAcik": false
  },
  {
@@ -1235,7 +1235,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/mira-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -1270,7 +1270,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/prefabrikten.png",
   "logoAcik": false
  },
  {
@@ -1302,7 +1302,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/trend-yapi-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -1334,7 +1334,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/kardesler-celik-yapi.png",
   "logoAcik": false
  },
  {
@@ -1363,7 +1363,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/cucemenler-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -1395,7 +1395,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/goldyapi-malatya.png",
   "logoAcik": false
  },
  {
@@ -1426,7 +1426,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/ifhaus.png",
   "logoAcik": false
  },
  {
@@ -1461,7 +1461,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/pramo.png",
   "logoAcik": false
  },
  {
@@ -1493,7 +1493,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/aktas-prefabrik-ev.png",
   "logoAcik": false
  },
  {
@@ -1555,7 +1555,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/villa-tokat.png",
   "logoAcik": false
  },
  {
@@ -1586,7 +1586,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/aksa-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -1618,7 +1618,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/pratikev.png",
   "logoAcik": false
  },
  {
@@ -1649,7 +1649,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/prefamod.png",
   "logoAcik": false
  },
  {
@@ -1675,7 +1675,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/platin-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -1701,7 +1701,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/sismik-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -1727,7 +1727,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/alyans-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -1753,7 +1753,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/karinca-prefabrik-celik-yapi.png",
   "logoAcik": false
  },
  {
@@ -1778,7 +1778,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/vefa-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -1806,7 +1806,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/ecela-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -1833,7 +1833,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/2a-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -1862,7 +1862,7 @@
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
-  "logo": "",
+  "logo": "/img/firma/lider-prefabrik.png",
   "logoAcik": false
  },
  {
@@ -1919,7 +1919,7 @@
   "enDusuk": null,
   "tipler": [],
   "fiyatYayinliyor": false,
-  "logo": "",
+  "logo": "/img/firma/mb-tiny-house.png",
   "logoAcik": false
  }
 ]
