@@ -2,24 +2,29 @@
 # PrefabrikTeklif — yeni sürümü yayınla (macOS). Çift tıklayın; açılmazsa sağ tık → Aç.
 # İlk kurulumu (KURULUM.command) daha önce yaptıysanız bunu kullanın: şifre sormaz.
 set -e
-cd "$(dirname "$0")"
-if [ ! -d functions ] || [ ! -f firebase.json ]; then
-  for d in "./site" "$HOME/Downloads/prefabrikteklif-v2.1/site" "$HOME/Downloads/prefabrikteklif-v2/site" "$HOME/Downloads/site" "$HOME/Desktop/prefabrikteklif-v2/site"; do
-    if [ -d "$d/functions" ] && [ -f "$d/firebase.json" ]; then cd "$d"; break; fi
-  done
-fi
 YESIL='\033[1;32m'; KIRMIZI='\033[1;31m'; NORMAL='\033[0m'
 adim() { echo; echo -e "${YESIL}▶ $1${NORMAL}"; }
 hata() { echo -e "${KIRMIZI}✖ $1${NORMAL}"; echo; read -r -p "Kapatmak için Enter'a basın..." _; exit 1; }
 echo "=============================================="
 echo "  PrefabrikTeklif — yeni sürüm yayını"
 echo "=============================================="
-# En güncel kodu GitHub'dan al (bu klasör yalnızca yayın kopyasıdır; functions/.env korunur)
-if [ -d .git ] && command -v git >/dev/null; then
-  adim "En güncel sürüm GitHub'dan alınıyor"
-  git fetch -q origin main && git reset -q --hard origin/main && echo "Sürüm: $(git log -1 --format='%h %s')" || echo "GitHub'a ulaşılamadı, mevcut kodla devam ediliyor."
-fi
-[ -d functions ] && [ -f firebase.json ] || { echo "Site klasörü bulunamadı. Zip'i İndirilenler'de açın."; read -r -p "Enter..." _; exit 1; }
+# Her çalıştırmada en güncel kod GitHub'dan indirilir ve her zaman aynı klasörden yayınlanır.
+# (Eski bir zip/klasörden yanlışlıkla eski sürüm yayınlanmasın.)
+CALISMA="$HOME/PrefabrikTeklif-yayin"
+ENV_YEDEK="$(mktemp)"; rm -f "$ENV_YEDEK"
+for d in "$CALISMA" "$(dirname "$0")" "$(dirname "$0")/site" "$HOME/Downloads/prefabrikteklif-v2.1/site" "$HOME/Downloads/prefabrikteklif-v2/site" "$HOME/Downloads/site" "$HOME/Desktop/prefabrikteklif-v2/site" "$HOME/Desktop/site"; do
+  if [ -f "$d/functions/.env" ]; then cp "$d/functions/.env" "$ENV_YEDEK"; echo "Sunucu ayarları bulundu: $d/functions/.env"; break; fi
+done
+adim "En güncel sürüm GitHub'dan indiriliyor"
+GECICI="$(mktemp -d)"
+curl -fsSL "https://codeload.github.com/Melsey20/prefabrikteklif/tar.gz/refs/heads/main" | tar -xz -C "$GECICI" || hata "GitHub'dan indirilemedi. İnternet bağlantınızı kontrol edip tekrar deneyin."
+YENI="$(find "$GECICI" -maxdepth 1 -mindepth 1 -type d | head -1)"
+[ -f "$YENI/firebase.json" ] && [ -d "$YENI/functions" ] || hata "İndirilen kod eksik."
+rm -rf "$CALISMA"; mv "$YENI" "$CALISMA"; rm -rf "$GECICI"
+cd "$CALISMA"
+[ -f "$ENV_YEDEK" ] && cp "$ENV_YEDEK" functions/.env && rm -f "$ENV_YEDEK"
+SURUM=$(curl -fsSL "https://api.github.com/repos/Melsey20/prefabrikteklif/commits/main" 2>/dev/null | grep -m1 '"message"' | cut -d'"' -f4 | head -c 90)
+echo "Sürüm: ${SURUM:-en güncel}"
 echo "Klasör: $(pwd)"
 command -v node >/dev/null 2>&1 || { open "https://nodejs.org/tr/download"; hata "Node.js gerekli."; }
 FB="npx -y firebase-tools@latest"
@@ -86,6 +91,11 @@ const urls=[...x.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]).slice(0,10000);
 fetch("https://api.indexnow.org/indexnow",{method:"POST",headers:{"Content-Type":"application/json; charset=utf-8"},body:JSON.stringify({host:"www.prefabrikteklif.com.tr",key:"c7f4e2a91b6d4f0e8a3b5d2c1e9f7a64",keyLocation:"https://www.prefabrikteklif.com.tr/c7f4e2a91b6d4f0e8a3b5d2c1e9f7a64.txt",urlList:urls})})
 .then(r=>console.log("IndexNow:",r.status,urls.length+" adres")).catch(e=>console.log("IndexNow atlandı:",e.message));' || true
 
+adim "Kontrol: canlı sunucu yeni sürümde mi?"
+sleep 5
+KOD=$(curl -s -o /dev/null -w '%{http_code}' "https://www.prefabrikteklif.com.tr/api/ben" || true)
+if [ "$KOD" = "404" ]; then hata "Sunucu hâlâ eski sürümde görünüyor (kod $KOD). Bu pencerenin ekran görüntüsünü Claude'a gönderin."; fi
+echo "Sunucu yanıtı: $KOD (yeni sürüm)"
 echo
 echo -e "${YESIL}✔ Yeni sürüm yayında!${NORMAL}"
 echo "Adres: https://$PROJE.web.app  (alan adı bağlıysa https://www.prefabrikteklif.com.tr)"
