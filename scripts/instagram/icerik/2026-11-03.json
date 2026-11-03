@@ -3,7 +3,7 @@
   "tasarimlar": [
     {
       "ad": "A",
-      "aciklama": "Tiny house arıyorsanız önce bu karşılaştırmayı görün 👇\n\nPrefabrikTeklif'te 9 firmanın 43 tiny house modeli tek yerde. 1 Kasım 2026 itibarıyla listemizde tiny house fiyatları 429.000 TL'den başlıyor; ortanca fiyat 1.225.000 TL.\n\nAynı ölçüde bile fiyata dahil olanlar değişiyor: şasi, nakliye, montaj, iç bitiş… Teklif almadan önce kapsamı sorun.\n\nTek form doldurun, 48 saatte teklifler gelsin. Talebiniz isimsiz gider; numaranız yalnızca fiyat veren firmaya açılır.\n\n📌 Kaydedin, tiny house bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tinyhouse #tinyhousefiyatları #tinyhouseturkiye #mobilev #bağevi #prefabrikev #modülerev #evyaptırmak",
+      "aciklama": "Tiny house fiyatları ve modelleri: almadan önce bu karşılaştırmayı görün 👇\n\nTiny house arıyorsanız 9 firmanın 43 tiny house modelini PrefabrikTeklif'te tek yerde karşılaştırın. 1 Kasım 2026 itibarıyla listemizde tiny house fiyatları 429.000 TL'den başlıyor; ortanca fiyat 1.225.000 TL.\n\nAynı ölçüde bile fiyata dahil olanlar değişiyor: şasi, nakliye, montaj, iç bitiş, mutfak ve banyo. Tiny house teklifi almadan önce kapsamı mutlaka sorun.\n\nTek form doldurun, 48 saatte tiny house teklifleri gelsin. Talebiniz isimsiz gider; numaranız yalnızca fiyat veren firmaya açılır.\n\n📌 Kaydedin, tiny house bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tinyhouse #tinyhousefiyatları #mobilev #tinyhouseturkiye #prefabrikev",
       "kartlar": [
         {
           "sablon": "kapak",
@@ -62,7 +62,7 @@
     },
     {
       "ad": "B",
-      "aciklama": "Bağ evi ya da bungalov için bütçeniz ne kadar olmalı? 🏡\n\n1 Kasım 2026 itibarıyla PrefabrikTeklif listesinde bungalov ve bağ evi modelleri 162.000 TL'den başlıyor; ortanca fiyat 567.500 TL. 6 firmanın 16 modelini fiyatı ve kapsamıyla yan yana görün.\n\nBütçenizi yazın, size uyan firmalardan 48 saatte teklif gelsin.\n\n📌 Kaydedin, bağ evi planlarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#bağevi #bungalov #bungalovev #prefabrikev #hobibahçesi #tinyhouse #evfiyatları",
+      "aciklama": "Bağ evi ve bungalov fiyatları: bütçeniz ne kadar olmalı? 🏡\n\nBağ evi, hobi bahçesi evi ya da bungalov düşünüyorsanız önce fiyat aralığını bilin. 1 Kasım 2026 itibarıyla PrefabrikTeklif listesinde bungalov ve bağ evi modelleri 162.000 TL'den başlıyor; ortanca fiyat 567.500 TL. 6 firmanın 16 bungalov modelini fiyatı ve kapsamıyla yan yana görün.\n\nBütçenizi yazın, size uyan firmalardan 48 saatte teklif gelsin.\n\n📌 Kaydedin, bağ evi planlarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#bağevi #bungalov #bungalovfiyatları #hobibahçesi #prefabrikev",
       "kartlar": [
         {
           "sablon": "kapak",
@@ -84,7 +84,7 @@
       "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
       "tempo": 1.1
     },
-    "aciklama": "Bütçeniz belli. Peki ev tipi? 👇\n\n1 Kasım 2026 itibarıyla listemizde konteyner ev 85.000 TL'den, bungalov 162.000 TL'den, prefabrik ev 225.000 TL'den başlıyor.\n\nBütçenizi yazın, tek formla 48 saatte teklif alın.\n\n📌 Kaydedin, ev bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #konteynerev #bungalov #bağevi #tinyhouse #evfiyatları #prefabrikevfiyatları",
+    "aciklama": "Konteyner ev, bungalov ve prefabrik ev fiyatları: bütçeniz belli, peki ev tipi? 👇\n\n1 Kasım 2026 itibarıyla listemizde konteyner ev 85.000 TL'den, bungalov 162.000 TL'den, prefabrik ev 225.000 TL'den başlıyor. Bütçenize uygun ev tipini seçin, modelleri fiyata dahil olanlarla birlikte karşılaştırın.\n\nBütçenizi yazın, tek formla 48 saatte teklif alın.\n\n📌 Kaydedin, ev bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#konteynerev #prefabrikev #bungalov #evfiyatları #prefabrikevfiyatları",
     "sure": 13.93,
     "sahneler": [
       {
@@ -133,5 +133,9 @@
       }
     ],
     "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261103_061123_a23cb475-95d3-46ce-89da-4a2612f64298.mp3"
+  },
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "zamanlandı (Supermetrics)"
   }
 }

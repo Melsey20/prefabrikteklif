@@ -3,7 +3,7 @@
   "tasarimlar": [
     {
       "ad": "A",
-      "aciklama": "Prefabrik ev yaptırmadan önce firmaları yan yana koyun 👇\n\nAynı m²'de fiyat da, fiyata dahil olanlar da firmadan firmaya değişiyor. PrefabrikTeklif'te 62 firmanın 422 modelini tek yerde karşılaştırın; KDV, nakliye, montaj ve zemin betonu dahil mi tek bakışta görün.\n\nTek form doldurun, 48 saatte teklifler gelsin. Talebiniz isimsiz gider; numaranız yalnızca fiyat veren firmaya açılır.\n\n📌 Kaydedin, ev bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevfiyatları #tinyhouse #çelikev #konteynerev #ahşapev #bungalov #bağevi #modülerev #evyaptırmak",
+      "aciklama": "Prefabrik ev fiyatları firmadan firmaya neden bu kadar değişiyor? 👇\n\nPrefabrik ev yaptırmadan önce firmaları yan yana koyun. Aynı m²'de hem fiyat hem de fiyata dahil olanlar değişiyor. PrefabrikTeklif'te 62 firmanın 422 prefabrik ev, tiny house, çelik ev, konteyner ev ve ahşap ev modelini tek yerde karşılaştırın; KDV, nakliye, montaj ve zemin betonu dahil mi tek bakışta görün.\n\n1 Kasım 2026 itibarıyla listemizde prefabrik evler 225.000 TL'den başlıyor; ortanca fiyat 799.376 TL.\n\nTek form doldurun, 48 saatte teklifler gelsin. Talebiniz isimsiz gider; numaranız yalnızca fiyat veren firmaya açılır.\n\n📌 Kaydedin, ev bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevfiyatları #tinyhouse #çelikev #konteynerev",
       "kartlar": [
         {
           "sablon": "kapak",
@@ -62,7 +62,7 @@
     },
     {
       "ad": "B",
-      "aciklama": "Prefabrik, tiny house ya da ahşap ev mi üretiyorsunuz? 📣\n\nMüşteri aramayın; ilinize ve ürettiğiniz ev tipine uyan talepler size gelsin. Fiyat verdiğiniz an müşterinin iletişim bilgileri açılır. Ürünlerinizi ve fiyatlarınızı firma panelinden kendiniz yönetirsiniz.\n\nHer firmayı resmî evrakları ve referanslarıyla kabul ediyoruz.\n\n👉 Başvuru: prefabrikteklif.com.tr/firma-kayit (bağlantı profilde)\n\n#prefabrikfirmaları #prefabrikevüreticisi #tinyhouse #çelikyapı #ahşapev #modülerev #inşaat",
+      "aciklama": "Prefabrik ev firmaları ve tiny house, ahşap ev üreticileri: müşteri aramayın, talepler size gelsin 📣\n\nPrefabrik ev, tiny house, çelik ev, konteyner ev ya da ahşap ev mi üretiyorsunuz? PrefabrikTeklif'te ilinize ve ürettiğiniz ev tipine uyan talepler size gelir. Fiyat verdiğiniz an müşterinin iletişim bilgileri açılır; ürünlerinizi ve fiyatlarınızı firma panelinden kendiniz yönetirsiniz.\n\nHer firmayı resmî evrakları ve referanslarıyla kabul ediyoruz.\n\n👉 Başvuru: prefabrikteklif.com.tr/firma-kayit (bağlantı profilde)\n\n#prefabrikfirmaları #prefabrikevüreticisi #tinyhouse #ahşapev #çelikyapı",
       "kartlar": [
         {
           "sablon": "ucfoto",
@@ -94,7 +94,7 @@
       "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
       "tempo": 1.1
     },
-    "aciklama": "Prefabrik ev yaptırmadan önce bunu bilin 👇\n\n62 firmanın 422 modeli tek sitede. Fiyata neyin dahil olduğunu görün, tek formla 48 saatte teklif alın.\n\n📌 Kaydedin, ev bakarken lazım olacak.\n🔗 prefabrikteklif.com.tr\n\n#prefabrikev #tinyhouse #prefabrikevfiyatları #bağevi #modülerev #evfiyatları",
+    "aciklama": "Prefabrik ev fiyatları: firma firma gezmeden karşılaştırın 👇\n\nPrefabrik ev mi yaptıracaksınız? 62 firmanın 422 modeli tek sitede. Fiyata KDV, nakliye ve montajın dahil olup olmadığını görün; tek formla 48 saatte teklif alın.\n\n📌 Kaydedin, ev bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevfiyatları #tinyhouse #modülerev #evfiyatları",
     "sure": 15.27,
     "sahneler": [
       {
@@ -150,5 +150,9 @@
       }
     ],
     "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261103_065241_56244a95-ef42-45ac-b3f2-a244a9e007c5.mp3"
+  },
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "zamanlandı (Supermetrics)"
   }
 }
