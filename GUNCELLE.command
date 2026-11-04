@@ -2,9 +2,11 @@
 # PrefabrikTeklif — yeni sürümü yayınla (macOS). Çift tıklayın; açılmazsa sağ tık → Aç.
 # İlk kurulumu (KURULUM.command) daha önce yaptıysanız bunu kullanın: şifre sormaz.
 set -e
+# Dosya adında OTOMATIK geçiyorsa hiçbir soru sormadan çalışır (varsayılan cevaplarla)
+case "$(basename "$0")" in *OTOMATIK*) OTO=1;; *) OTO=;; esac
 YESIL='\033[1;32m'; KIRMIZI='\033[1;31m'; NORMAL='\033[0m'
 adim() { echo; echo -e "${YESIL}▶ $1${NORMAL}"; }
-hata() { echo -e "${KIRMIZI}✖ $1${NORMAL}"; echo; read -r -p "Kapatmak için Enter'a basın..." _; exit 1; }
+hata() { echo -e "${KIRMIZI}✖ $1${NORMAL}"; echo; [ -n "$OTO" ] || read -r -p "Kapatmak için Enter'a basın..." _; exit 1; }
 echo "=============================================="
 echo "  PrefabrikTeklif — yeni sürüm yayını"
 echo "=============================================="
@@ -65,7 +67,7 @@ echo "Bildirimlerin geleceği adres: $(grep ^ADMIN_EMAIL functions/.env | cut -d
 echo "Yönetici e-postaları: $(grep YONETICILER functions/.env | cut -d= -f2)"
 echo
 echo "Sitenin e-posta gönderdiği hesap: $(grep SMTP_USER functions/.env | cut -d= -f2)"
-read -r -p "Bu e-posta hesabının şifresi değişti mi / güncellemek ister misiniz? (e/h): " SIFRE_YENI
+if [ -n "$OTO" ]; then SIFRE_YENI=h; else read -r -p "Bu e-posta hesabının şifresi değişti mi / güncellemek ister misiniz? (e/h): " SIFRE_YENI; fi
 if [ "$SIFRE_YENI" = "e" ] || [ "$SIFRE_YENI" = "E" ]; then
   echo "Şimdi e-posta şifresini yazın (yazarken görünmez), Enter'a basın:"
   $FB functions:secrets:set SMTP_PASS --project "$PROJE" --force || hata "Şifre kaydedilemedi."
@@ -77,8 +79,7 @@ echo "Açılacak sayfada: 'Get started' (varsa) → Sign-in method sekmesi:"
 echo "  • Email/Password → Enable → Save"
 echo "  • Google → Enable → destek e-postası seçin → Save"
 echo "  • Settings → Authorized domains: prefabrikteklif.com.tr ve www.prefabrikteklif.com.tr ekli değilse 'Add domain' ile ekleyin"
-open "https://console.firebase.google.com/project/$PROJE/authentication/providers" 2>/dev/null || true
-read -r -p "Bitince Enter'a basın (sadece Enter)..." _
+if [ -z "$OTO" ]; then open "https://console.firebase.google.com/project/$PROJE/authentication/providers" 2>/dev/null || true; read -r -p "Bitince Enter'a basın (sadece Enter)..." _; else echo "(Otomatik mod: atlandı, giriş yöntemleri zaten açık.)"; fi
 
 adim "5/6 Sunucu ve veritabanı kuralları yayınlanıyor (birkaç dakika)"
 # Site (hosting) GitHub Actions ile otomatik yayınlanır; burada eski bir dist yüklenmesin diye yalnızca sunucu tarafı yayınlanır.
@@ -100,4 +101,4 @@ echo
 echo -e "${YESIL}✔ Yeni sürüm yayında!${NORMAL}"
 echo "Adres: https://$PROJE.web.app  (alan adı bağlıysa https://www.prefabrikteklif.com.tr)"
 echo "Yönetim paneli: /yonetim/   Firma paneli: /firma-paneli/"
-read -r -p "Kapatmak için Enter'a basın..." _
+[ -n "$OTO" ] || read -r -p "Kapatmak için Enter'a basın..." _
