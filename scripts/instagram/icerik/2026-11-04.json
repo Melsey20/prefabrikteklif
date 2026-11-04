@@ -1,0 +1,146 @@
+{
+  "tarih": "2026-11-04",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Çelik ev mi prefabrik ev mi? Çelik ev fiyatları ve prefabrik ev fiyatları rakamlarla yan yana 👇\n\nÇelik ev ile prefabrik ev arasında kararsızsanız önce fiyat farkını görün. 3 Kasım 2026 itibarıyla listemizde prefabrik ev 225.000 TL'den, çelik ev 575.000 TL'den başlıyor. Ortanca fiyat prefabrik evde 791.062 TL, çelik evde 1.865.000 TL; m² başına ortanca fiyat ise 10.280 TL'ye karşı 17.000 TL.\n\nFark yalnızca fiyatta değil: taşıyıcı sistem, duvar ve yalıtım, anahtar teslim kapsamı, nakliye-montaj, teslim süresi ve garanti iki teklifte de aynı şekilde karşılaştırılmalı.\n\nTek form doldurun, iki ev tipinden de 48 saatte teklif gelsin. Talebiniz isimsiz gider; numaranız yalnızca fiyat veren firmaya açılır.\n\n📌 Kaydedin, ev tipine karar verirken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#çelikev #çelikevfiyatları #prefabrikev #prefabrikevfiyatları #çelikkonstrüksiyon",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Karşılaştırma",
+          "h": "Çelik ev mi, <em>prefabrik ev mi?</em>",
+          "p": "İki ev tipini fiyat, m² fiyatı ve seçenek sayısıyla yan yana koyduk.",
+          "img": "celik-b-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Rakamlarla <em>karşılaştırma</em>",
+          "boy": 84,
+          "maddeler": [
+            [
+              "Başlangıç fiyatı",
+              "3 Kasım 2026 itibarıyla listemizde prefabrik ev 225.000 TL’den, çelik ev 575.000 TL’den başlıyor."
+            ],
+            [
+              "Ortanca fiyat",
+              "Prefabrik evde 791.062 TL, çelik evde 1.865.000 TL."
+            ],
+            [
+              "m² başına ortanca",
+              "Prefabrik evde 10.280 TL, çelik evde 17.000 TL."
+            ],
+            [
+              "Seçenek",
+              "Prefabrikte 24 firmanın 225 modeli, çelikte 15 firmanın 82 modeli."
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Karar vermeden önce <em>sorun:</em>",
+          "p": "Fark yalnızca fiyatta değil. Bu kalemleri iki teklifte de karşılaştırın.",
+          "maddeler": [
+            "Taşıyıcı sistem",
+            "Duvar & yalıtım",
+            "Anahtar teslim mi?",
+            "Nakliye & montaj",
+            "Teslim süresi",
+            "Garanti"
+          ],
+          "img": "prefabrik-c-960.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "İki tipten de <em>48 saatte</em> teklif alın.",
+          "p": "Talebiniz firmalara isimsiz gider; numaranız yalnızca fiyat veren firmaya açılır.",
+          "img": "celik-c-960.webp",
+          "cipler": [
+            "Ücretsiz",
+            "62 firma",
+            "430 model"
+          ]
+        }
+      ]
+    },
+    {
+      "ad": "B",
+      "aciklama": "Prefabrik ev firmaları, tiny house ve ahşap ev üreticileri: bu sisteme kaydolmalısınız 📣\n\nPrefabrik ev, tiny house, ahşap ev, çelik ev ya da konteyner ev mi satıyorsunuz? PrefabrikTeklif'te hizmet verdiğiniz illerden ve ürettiğiniz ev tipinden gelen talepler doğrudan firma panelinize düşer. Fiyat verdiğiniz an müşterinin iletişim bilgileri açılır; modellerinizi ve fiyatlarınızı panelden kendiniz güncellersiniz.\n\nHer firmayı resmî evrakları ve referanslarıyla kabul ediyoruz.\n\n👉 Başvuru: prefabrikteklif.com.tr/firma-kayit (bağlantı profilde)\n\n#prefabrikevfirmaları #prefabrikevüreticisi #tinyhouseüreticisi #ahşapev #prefabrikteklif",
+      "alt_text": "Koyu yeşil zeminde büyük serif başlık: “Prefabrik, tiny house ya da ahşap ev satıyorsanız bu sisteme kaydolun.” Altında kısa açıklama ve firma başvuru adresi prefabrikteklif.com.tr/firma-kayit; üstte PrefabrikTeklif logosu.",
+      "kartlar": [
+        {
+          "sablon": "alinti",
+          "koyu": true,
+          "etiket": "Firmalar için",
+          "boy": 88,
+          "h": "Prefabrik, tiny house ya da ahşap ev satıyorsanız <em>bu sisteme kaydolun.</em>",
+          "p": "Hizmet verdiğiniz illerden ve ürettiğiniz ev tipinden gelen talepler doğrudan firma panelinize düşer. Resmî evrak ve referansla başvurun.",
+          "alt_sol": "prefabrikteklif.com.tr/firma-kayit",
+          "alt_sag": "Başvuru →"
+        }
+      ]
+    }
+  ],
+  "reels": {
+    "seslendirme": "Ahşap ev mi? Peki fiyatı? Listemizde ahşap ev, yaklaşık üç yüz altmış beş bin liradan başlıyor. Beş firmanın yirmi dokuz modeli tek sitede. Tek form doldurun, kırk sekiz saatte teklif gelsin. Bağlantı profilde.",
+    "ses": {
+      "model": "text2speech_v2",
+      "variant": "elevenlabs",
+      "voice_type": "preset",
+      "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+      "tempo": 1.1
+    },
+    "aciklama": "Ahşap ev fiyatları: ahşap ev mi istiyorsunuz, peki fiyatı ne kadar? 👇\n\n3 Kasım 2026 itibarıyla listemizde ahşap ev modelleri 364.700 TL'den başlıyor; ortanca fiyat 1.601.250 TL. 5 firmanın 29 ahşap ev modelini ölçüsü, planı ve fiyata dahil olanlarla birlikte tek sitede karşılaştırın. Ahşap bağ evi, kütük ev ya da hobi bahçesi evi arıyorsanız da bakmaya değer.\n\nTek form doldurun, 48 saatte ahşap ev teklifleri gelsin.\n\n📌 Kaydedin, ahşap ev bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#ahşapev #ahşapevfiyatları #kütükev #ahşapbağevi #prefabrikev",
+    "sure": 13.36,
+    "sahneler": [
+      {
+        "t": 0,
+        "tur": "foto",
+        "img": "ahsap-960.webp",
+        "h": "Ahşap Ev mi?<br><em>Peki Fiyatı?</em>"
+      },
+      {
+        "t": 2.31,
+        "tur": "sayi",
+        "n": 365,
+        "birim": "bin TL’den · ahşap ev",
+        "h": "Ahşap ev <em>364.700 TL’den.</em>",
+        "p": "3 Kasım 2026 itibarıyla listemizde"
+      },
+      {
+        "t": 6.64,
+        "tur": "grid",
+        "imgs": [
+          "ahsap-b-960.webp",
+          "ahsap-c-960.webp",
+          "bungalov-c-960.webp",
+          "ahsap-960.webp"
+        ],
+        "h": "5 firmanın 29 modeli <em>tek sitede.</em>"
+      },
+      {
+        "t": 9.16,
+        "tur": "foto",
+        "img": "montaj-1344.webp",
+        "h": "Tek form, <em>48 saatte</em> teklif.",
+        "cipler": [
+          "Ücretsiz",
+          "İsimsiz talep"
+        ]
+      },
+      {
+        "t": 11.98,
+        "tur": "son",
+        "h": "Ahşap evinizi <em>bulun.</em>",
+        "p": "Bağlantı profilde"
+      }
+    ],
+    "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261104_054911_20223660-ca81-4411-9302-19117d951041.mp3"
+  },
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "hazırlanıyor"
+  }
+}
