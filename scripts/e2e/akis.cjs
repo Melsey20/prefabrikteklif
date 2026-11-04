@@ -45,6 +45,10 @@ async function giris(p, eposta, hedef) {
   await p.goto(B + '/');
   await p.click('[data-drawer-open]'); assert.ok(await p.locator('#drawer').isVisible()); await p.click('[data-drawer-close]');
   await p.goto(B + '/evini-bul/');
+  for (let i = 0; i < 6; i++) { await p.click('#wz-atla'); await p.waitForTimeout(150); }
+  await p.click('#wz-ileri', { timeout: 3000 }); await p.waitForSelector('#sn-liste .mcard');
+  adim('Sihirbaz: tüm adımlar “Fark etmez” → sonuçlar açılıyor');
+  await p.goto(B + '/evini-bul/');
   await p.click('#wz-opts button[data-v="prefabrik"]'); await p.waitForTimeout(350);
   await p.click('#wz-opts button[data-v="70-100"]'); await p.waitForTimeout(350);
   await p.click('#wz-opts button[data-v="2+1"]'); await p.waitForTimeout(350);

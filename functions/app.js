@@ -131,6 +131,9 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     };
     if (!d.ad || !epostaMi(d.eposta) || d.telefon.replace(/\D/g, '').length < 10 || !d.il) hata(400, 'Lütfen zorunlu alanları doldurun.');
     if (!b.riza) hata(400, 'Devam etmek için açık rıza gerekli.');
+    // Test talebi: yalnızca yönetici gönderebilir; yalnızca üyeliği aktif firmalara gider, listelenmiş firmalara davet gitmez
+    const test = !!b.test && u?.rol === 'admin';
+    if (test) d.test = true;
     if (!(await rateLimit(req, 'teklif', 5))) hata(429, 'Çok fazla talep gönderildi, bir saat sonra tekrar deneyin.');
 
     const a = ayar();
@@ -164,10 +167,10 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     };
     const hedef = [];
     const ekle = (slug) => { if (hedef.length < maksFirma && !hedef.includes(slug)) hedef.push(slug); };
-    for (const slug of secilen) { const g = grup(slug); if (g === 'uye' || g === 'odeme' || (g === 'liste' && davetEdilebilir(slug, true))) ekle(slug); }
+    for (const slug of secilen) { const g = grup(slug); if (g === 'uye' || (!test && (g === 'odeme' || (g === 'liste' && davetEdilebilir(slug, true))))) ekle(slug); }
     for (const [slug, f] of fdocs) if (grup(slug) === 'uye' && tipUyar(slug, f) && ilUyar(f)) ekle(slug);
-    for (const [slug, f] of fdocs) if (grup(slug) === 'odeme' && tipUyar(slug, f) && ilUyar(f)) ekle(slug);
-    const listeAday = FIRMS.filter((f) => grup(f.slug) === 'liste' && f.tipler?.includes(d.tip) && davetEdilebilir(f.slug, false))
+    if (!test) for (const [slug, f] of fdocs) if (grup(slug) === 'odeme' && tipUyar(slug, f) && ilUyar(f)) ekle(slug);
+    const listeAday = test ? [] : FIRMS.filter((f) => grup(f.slug) === 'liste' && f.tipler?.includes(d.tip) && davetEdilebilir(f.slug, false))
       .sort((x, y) => (y.il === d.il) - (x.il === d.il) || (y.modelSayisi || 0) - (x.modelSayisi || 0));
     let listeSay = hedef.filter((x) => grup(x) === 'liste').length;
     for (const f of listeAday) { if (listeSay >= DAVET_SINIRI) break; if (!hedef.includes(f.slug)) { ekle(f.slug); listeSay++; } }
@@ -189,7 +192,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     }
     const ozet = kart(talepOzeti(d));
     const son = tarihYazi(new Date(t0 + saat * 3600000));
-    const baslikEk = `${TIP_AD[d.tip]}${d.oda ? ` ${d.oda}` : ''}${d.m2 ? `, ${d.m2} m²` : ''}, ${d.il}`;
+    const baslikEk = `${test ? '[TEST] ' : ''}${TIP_AD[d.tip]}${d.oda ? ` ${d.oda}` : ''}${d.m2 ? `, ${d.m2} m²` : ''}, ${d.il}`;
     const davetMail = (v) => {
       if (v.tur === 'uye') return mail(v.eposta, `Yeni talep: ${baslikEk}`, sablon('Size uygun yeni bir talep var', `<p>Merhaba,</p><p>PrefabrikTeklif’te kriterlerinize uyan yeni bir müşteri talebi var. <b>Müşterinin iletişim bilgileri gizlidir;</b> fiyat verdiğinizde ad, telefon ve e-posta size açılır.</p>${ozet}<p>Fiyatınızı <b>${esc(son)}</b> tarihine kadar girin. Süre dolunca tüm teklifler müşteriye tek tabloda iletilir.</p>${buton(v.link, 'Fiyat ver')}<p style="font-size:13px;color:#4a5751">Bu talebi ve diğerlerini <a href="${esc(a.site)}/firma-paneli/#talepler">firma panelinizdeki “Teklif bekleyenler”</a> bölümünde de görebilir, fiyatınıza not ekleyebilirsiniz.</p>`), { tur: 'davet' });
       if (v.tur === 'odeme') return mail(v.eposta, `Size uygun bir talep var: ${baslikEk}`, sablon('Size uygun bir talep var', `<p>Merhaba,</p><p>PrefabrikTeklif’te firmanıza uyan bir müşteri talebi var. Bu talebe ve sonraki taleplere fiyat verebilmek için <b>aylık ${ABONELIK_TL} TL üyelik ödemenizi</b> tamamlamanız yeterli; ödeme onaylandığında talep panelinizde fiyat vermeye açılır.</p>${ozet}${v.odemeLinki ? buton(v.odemeLinki, 'Üyelik ödemesini yap') : ''}${buton(`${a.site}/firma-paneli/#talepler`, 'Firma panelime git')}<p style="font-size:13px;color:#4a5751">Talep süresi: ${esc(son)}.</p>`), { tur: 'davet' });
@@ -201,7 +204,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     await Promise.allSettled([
       ...davetler.map(davetMail),
       mail(d.eposta, 'Teklif talebiniz alındı', sablon('Talebiniz alındı', `<p>Merhaba ${esc(d.ad)},</p><p>Talebiniz ${davetler.length ? `${davetler.length} firmaya` : 'uygun firmalara'} <b>isimsiz</b> olarak iletildi. Bilgileriniz yalnızca fiyat veren firmalarla paylaşılır. Gelen teklifler <b>${esc(son)}</b> civarında tek tabloda e-postanıza gelecek.</p>${ozet}${buton(`${a.site}/hesabim/`, 'Talebimi takip et')}`)),
-      mail(a.admin, `Yeni talep: ${TIP_AD[d.tip]} ${d.il} (${uyeSay} üye, ${davetler.length - uyeSay} davet)`, sablon('Yeni talep', `${ozet}${kart([['Müşteri', d.ad], ['E-posta', d.eposta], ['Telefon', d.telefon], ['Öncelikli firmalar', secilen.map(firmAd).join(', ')], ['Fiyat verebilecek üyeler', davetler.filter((v) => v.tur === 'uye').map((v) => firmAd(v.slug)).join(', ') || 'Yok'], ['Ödeme bekleyen kayıtlı firmalar', davetler.filter((v) => v.tur === 'odeme').map((v) => firmAd(v.slug)).join(', ') || 'Yok'], ['Üye olmaya davet edilenler', davetler.filter((v) => v.tur === 'liste').map((v) => firmAd(v.slug)).join(', ') || 'Yok'], ['E-postası olmayan seçili firmalar (elle iletin)', elle.map(firmAd).join(', ')]])}${buton(`${a.site}/yonetim/#talepler`, 'Yönetim panelinde aç')}<p>Talep no: ${ref.id}</p>`)),
+      mail(a.admin, `Yeni talep: ${test ? '[TEST] ' : ''}${TIP_AD[d.tip]} ${d.il} (${uyeSay} üye, ${davetler.length - uyeSay} davet)`, sablon('Yeni talep', `${ozet}${kart([['Müşteri', d.ad], ['E-posta', d.eposta], ['Telefon', d.telefon], ['Öncelikli firmalar', secilen.map(firmAd).join(', ')], ['Fiyat verebilecek üyeler', davetler.filter((v) => v.tur === 'uye').map((v) => firmAd(v.slug)).join(', ') || 'Yok'], ['Ödeme bekleyen kayıtlı firmalar', davetler.filter((v) => v.tur === 'odeme').map((v) => firmAd(v.slug)).join(', ') || 'Yok'], ['Üye olmaya davet edilenler', davetler.filter((v) => v.tur === 'liste').map((v) => firmAd(v.slug)).join(', ') || 'Yok'], ['E-postası olmayan seçili firmalar (elle iletin)', elle.map(firmAd).join(', ')]])}${buton(`${a.site}/yonetim/#talepler`, 'Yönetim panelinde aç')}<p>Talep no: ${ref.id}</p>`)),
     ]);
     return { ok: true, firmaSayisi: davetler.length };
   }
@@ -330,6 +333,10 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       tipler: arr(b.tipler).filter((t) => TIP_AD[t]), iller: str(b.iller, 1500), belgeler: str(b.belgeler, 300), referanslar: str(b.referanslar, 1500), not: str(b.not, 1000),
       davet: /^[A-Za-z0-9_-]{6,40}\.[A-Za-z0-9_-]{10,40}$/.test(str(b.davet, 90)) ? str(b.davet, 90) : '',
     };
+    // İsteğe bağlı: "Firmanız daha ön planda dursun mu?" — seçilen reklam paketleri (ana+yan birlikte seçildiyse indirimli "ikisi" paketi)
+    let rk = [...new Set(arr(b.reklam).map((x) => str(x, 10)).filter((x) => REKLAM_PAKET[x]))];
+    if (rk.includes('ikisi') || (rk.includes('ana') && rk.includes('yan'))) rk = ['ikisi', ...rk.filter((x) => !['ana', 'yan', 'ikisi'].includes(x))];
+    d.reklam = rk.slice(0, 4);
     if (d.mevcut && !FIRMS.some((f) => f.slug === d.mevcut)) d.mevcut = '';
     if (!d.unvan || !/^\d{10,11}$/.test(d.vergiNo) || !d.yetkili || !epostaMi(d.eposta) || !d.tipler.length || !d.iller) hata(400, 'Lütfen zorunlu alanları doldurun (hizmet verdiğiniz iller dahil).');
     if (!d.vergiDairesi || d.adres.length < 10 || !d.merkezIl || d.telefon.replace(/\D/g, '').length < 10) hata(400, 'Vergi dairesi, açık adres, firmanın bulunduğu il ve telefon zorunlu.');
@@ -351,8 +358,8 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     for (const e of evrak) await db.collection('belgeler').doc(e.id).set({ durum: 'basvuru', basvuru: ref.id }, { merge: true });
     const a = ayar();
     await Promise.allSettled([
-      mail(a.admin, `Firma başvurusu: ${d.marka || d.unvan}`, sablon('Yeni firma başvurusu', kart(Object.entries({ Unvan: d.unvan, Marka: d.marka, 'Vergi dairesi': d.vergiDairesi, 'Vergi no': d.vergiNo, 'Merkez il': d.merkezIl, Evrak: evrak.map((e) => `${EVRAK_TUR[e.tur]} (${e.ad})`).join(', '), 'Listedeki kaydı': d.mevcut, 'Talep davetinden': d.davet ? 'Evet' : '', Adres: d.adres, Web: d.web, Yetkili: d.yetkili, Telefon: d.telefon, 'E-posta': d.eposta, Tipler: d.tipler.map((t) => TIP_AD[t]).join(', '), İller: d.iller, Belgeler: d.belgeler, Referanslar: d.referanslar, Not: d.not, Üyelik: `Aylık ${ABONELIK_TL} TL ve üyelik sözleşmesi onaylandı` })) + buton(`${a.site}/yonetim/#onaylar`, 'Onaylamak için yönetim paneli') + `<p>Başvuru no: ${ref.id}</p>`)),
-      mail(d.eposta, 'Başvurunuz alındı', sablon('Başvurunuz alındı', `<p>Sayın ${esc(d.yetkili)},</p><p>PrefabrikTeklif firma başvurunuz ve yüklediğiniz belgeler (${evrak.map((e) => esc(EVRAK_TUR[e.tur])).join(', ')}) alındı. Belgelerinizi ve referanslarınızı kontrol edeceğiz.</p><p>Başvurunuz onaylandığında aylık <b>${ABONELIK_TL} TL</b> üyelik bedeli için ödeme bağlantısını e-postayla ileteceğiz. Ödeme sonrası firmanız “doğrulanmış” olarak görünür ve size gelen taleplere fiyat verebilirsiniz.${d.davet ? ' Sizi davet eden talep de panelinizde olacak.' : ''} Ardından <b>${esc(d.eposta)}</b> adresiyle <a href="${esc(a.site)}/firma-paneli/">firma paneline</a> giriş yapıp ürün ve fiyatlarınızı yönetebileceksiniz.</p><p style="font-size:12px;color:#4a5751">Onayladığınız sözleşme: <a href="${esc(a.site)}/firma-uyelik-sozlesmesi/">Firma üyelik sözleşmesi</a></p>`)),
+      mail(a.admin, `Firma başvurusu: ${d.marka || d.unvan}`, sablon('Yeni firma başvurusu', kart(Object.entries({ Unvan: d.unvan, Marka: d.marka, 'Vergi dairesi': d.vergiDairesi, 'Vergi no': d.vergiNo, 'Merkez il': d.merkezIl, Evrak: evrak.map((e) => `${EVRAK_TUR[e.tur]} (${e.ad})`).join(', '), 'Listedeki kaydı': d.mevcut, 'Talep davetinden': d.davet ? 'Evet' : '', 'Reklam isteği': d.reklam.length ? `${d.reklam.map((k) => REKLAM_PAKET[k].ad).join(', ')} (aylık ${tl(d.reklam.reduce((t, k) => t + REKLAM_PAKET[k].fiyat, 0))}, üyeliğe ek)` : '', Adres: d.adres, Web: d.web, Yetkili: d.yetkili, Telefon: d.telefon, 'E-posta': d.eposta, Tipler: d.tipler.map((t) => TIP_AD[t]).join(', '), İller: d.iller, Belgeler: d.belgeler, Referanslar: d.referanslar, Not: d.not, Üyelik: `Aylık ${ABONELIK_TL} TL ve üyelik sözleşmesi onaylandı` })) + buton(`${a.site}/yonetim/#onaylar`, 'Onaylamak için yönetim paneli') + `<p>Başvuru no: ${ref.id}</p>`)),
+      mail(d.eposta, 'Başvurunuz alındı', sablon('Başvurunuz alındı', `<p>Sayın ${esc(d.yetkili)},</p><p>PrefabrikTeklif firma başvurunuz ve yüklediğiniz belgeler (${evrak.map((e) => esc(EVRAK_TUR[e.tur])).join(', ')}) alındı. Belgelerinizi ve referanslarınızı kontrol edeceğiz.</p><p>Başvurunuz onaylandığında aylık <b>${ABONELIK_TL} TL</b> üyelik bedeli için ödeme bağlantısını e-postayla ileteceğiz. Ödeme sonrası firmanız “doğrulanmış” olarak görünür ve size gelen taleplere fiyat verebilirsiniz.${d.davet ? ' Sizi davet eden talep de panelinizde olacak.' : ''}${d.reklam.length ? ` Seçtiğiniz reklam alanları (${esc(d.reklam.map((k) => REKLAM_PAKET[k].ad).join(', '))}) için uygunluğu kontrol edip ayrıca dönüş yapacağız.` : ''} Ardından <b>${esc(d.eposta)}</b> adresiyle <a href="${esc(a.site)}/firma-paneli/">firma paneline</a> giriş yapıp ürün ve fiyatlarınızı yönetebileceksiniz.</p><p style="font-size:12px;color:#4a5751">Onayladığınız sözleşme: <a href="${esc(a.site)}/firma-uyelik-sozlesmesi/">Firma üyelik sözleşmesi</a></p>`)),
     ]);
     return { ok: true };
   }
@@ -735,6 +742,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       await db.collection('firmalar').doc(slug).set({ aktif: true, ad: d.marka || d.unvan, eposta: d.eposta, panelEpostalari: FieldValue.arrayUnion(d.eposta), tipler: d.tipler, iller, telefon: d.telefon, basvuru: id, abonelik: { tutar: ABONELIK_TL, durum: 'odeme-bekliyor', odemeLinki, baslangic: now() }, guncelleme: FieldValue.serverTimestamp() }, { merge: true });
       await mail(d.eposta, 'Firma hesabınız açıldı', sablon('Hoş geldiniz', `<p>Sayın ${esc(d.yetkili)},</p><p>Başvurunuz onaylandı. <b>${esc(d.eposta)}</b> adresiyle firma paneline giriş yaparak (ilk kez giriyorsanız “Kayıt ol” ile şifre belirleyin ya da Google ile girin) ürünlerinizi, fiyatlarınızı ve fotoğraflarınızı yönetebilir, size uygun talepleri görebilirsiniz.</p><p>Aylık üyelik bedeli <b>${ABONELIK_TL} TL</b>’dir. ${odemeLinki ? 'Ödemeyi aşağıdaki bağlantıdan yapabilirsiniz; bağlantı firma panelinizde de durur.' : 'Ödeme bağlantısını ayrıca ileteceğiz.'}</p>${odemeLinki ? buton(odemeLinki, `${ABONELIK_TL} TL üyelik ödemesini yap`) : ''}${buton(`${ayar().site}/firma-paneli/`, 'Firma paneline git')}<p style="font-size:12px;color:#4a5751">Ödenen üyelik bedelleri iade edilmez. Ayrıntılar: <a href="${esc(ayar().site)}/firma-uyelik-sozlesmesi/">firma üyelik sözleşmesi</a>.</p>`));
     }
+    if (karar === 'onay') for (const paket of (d.reklam || []).filter((k) => REKLAM_PAKET[k])) await db.collection('reklamTalepleri').add({ firma: slug, uid: '', eposta: d.eposta, paket, fiyat: REKLAM_PAKET[paket].fiyat, modelId: '', not: 'Firma başvurusunda seçildi', durum: 'bekliyor', kaynak: 'basvuru', zaman: FieldValue.serverTimestamp() });
     await ref.update({ durum: karar === 'onay' ? 'onayli' : 'red', slug: slug || '', kararZamani: FieldValue.serverTimestamp() });
     return { ok: true, slug };
   }

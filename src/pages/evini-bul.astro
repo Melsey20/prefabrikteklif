@@ -93,7 +93,7 @@ const sorular = [
       if (adim === S.length) {
         $('wz-baslik').textContent = 'Ev hangi ilde kurulacak?'; $('wz-alt').textContent = 'Size yakın firmaları öne alırız; teklif talebinde de kullanılır.';
         opts.hidden = true; il.hidden = false; ($('wz-ilsec') as HTMLSelectElement).value = sec.il || '';
-        $('wz-ileri').textContent = 'Evleri göster'; $('wz-atla').hidden = true; return;
+        $('wz-ileri').textContent = 'Evleri göster'; ($('wz-ileri') as HTMLButtonElement).disabled = false; $('wz-atla').hidden = true; return;
       }
       $('wz-atla').hidden = false; il.hidden = true; opts.hidden = false;
       const s = S[adim];

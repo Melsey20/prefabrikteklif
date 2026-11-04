@@ -13,10 +13,20 @@ async function fbApp() {
   return _app;
 }
 export async function auth() { if (!_auth) { _auth = getAuth(await fbApp()); _auth.languageCode = 'tr'; } return _auth; }
+let _tazelendi: Promise<void> | null = null;
+// E-posta başka sekmede/telefonda doğrulandıysa oturumdaki bilgi eski kalır: sayfa başına bir kez yenile, doğrulandıysa token'ı da tazele
+async function dogrulamaTazele(u: User) {
+  if (u.emailVerified) return;
+  if (!_tazelendi) _tazelendi = u.reload().then(async () => { if (u.emailVerified) await u.getIdToken(true); }).catch(() => {});
+  await _tazelendi;
+}
 export async function kullanici(): Promise<User | null> {
   const a = await auth();
-  return new Promise((ok) => { const un = onAuthStateChanged(a, (u) => { un(); ok(u); }); });
+  const u = await new Promise<User | null>((ok) => { const un = onAuthStateChanged(a, (x) => { un(); ok(x); }); });
+  if (u) await dogrulamaTazele(u);
+  return u;
 }
+export async function dogrulamaKontrol() { const u = await kullanici(); if (!u) return false; _tazelendi = null; await dogrulamaTazele(u); return u.emailVerified; }
 export async function token(zorla = false) { const u = await kullanici(); return u ? u.getIdToken(zorla) : null; }
 
 export class ApiHata extends Error { constructor(public kod: number, m: string) { super(m); } }

@@ -77,7 +77,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
   </div>
   <script define:vars={{ TIPLER_L: tipler }}>window.__TIPLER = TIPLER_L;</script>
   <script>
-    import { kullanici, api, oturumAc, ApiHata, cikis, dogrulamaGonder } from '../scripts/fb';
+    import { kullanici, api, oturumAc, ApiHata, cikis, dogrulamaGonder, dogrulamaKontrol } from '../scripts/fb';
     import { h, tl, tarih, kalan, toast, modal, alan, sekmeler, hataGoster } from '../scripts/ui';
     const TIPLER: { k: string; ad: string }[] = (window as any).__TIPLER;
     const $ = (id: string) => document.getElementById(id)!;
@@ -339,7 +339,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
             h('div', { style: { display: 'flex', gap: '10px', flexWrap: 'wrap' } },
               h('button', { class: 'btn btn-p', type: 'button', onclick: async () => { await cikis(); location.href = '/giris/?geri=/firma-paneli/'; } }, 'Firma e-postasıyla giriş yap'),
               h('a', { class: 'btn btn-g', href: '/firma-kayit/' }, 'Firmamı kaydet / doğrula'),
-              ...(e.message.includes('doğrulayın') ? [h('button', { class: 'btn btn-g', type: 'button', onclick: async () => { await dogrulamaGonder(); toast('Doğrulama e-postası gönderildi'); } }, 'Doğrulama e-postası gönder')] : [])));
+              ...(e.message.includes('doğrulayın') ? [h('button', { class: 'btn btn-p', type: 'button', onclick: async () => { if (await dogrulamaKontrol()) location.reload(); else toast('Adres henüz doğrulanmamış görünüyor. E-postadaki bağlantıya tıklayıp tekrar deneyin.'); } }, 'Doğruladım, yenile'), h('button', { class: 'btn btn-g', type: 'button', onclick: async () => { await dogrulamaGonder(); toast('Doğrulama e-postası gönderildi'); } }, 'Doğrulama e-postası gönder')] : [])));
         } else $('fp-mesaj').textContent = e?.message || 'Panel yüklenemedi. Sayfayı yenileyin.';
       }
     })();

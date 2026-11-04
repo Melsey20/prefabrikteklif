@@ -36,6 +36,9 @@ const org = {
   ...(SITE.eposta ? { email: SITE.eposta } : {}), ...(SITE.telefon ? { telephone: SITE.telefon } : {}),
   ...(SITE.instagram ? { sameAs: [`https://www.instagram.com/${SITE.instagram}/`] } : {}),
 };
+const COK_ARANAN = ['en-ucuz-prefabrik-ev-fiyatlari', 'anahtar-teslim-prefabrik-ev-fiyatlari', 'tek-katli-prefabrik-ev-fiyatlari', 'dubleks-prefabrik-ev-fiyatlari', 'prefabrik-villa-fiyatlari', 'bahce-evi-fiyatlari'];
+const konuIlk = COK_ARANAN.map((sl) => KONULAR.find((k) => k.slug === sl)).filter((k): k is (typeof KONULAR)[number] => !!k);
+const konuDiger = KONULAR.filter((k) => !COK_ARANAN.includes(k.slug));
 const tipler = TIP_SIRA.filter((k) => TIPLER[k]).map((k) => ({ k, ...TIPLER[k], min: meta.istatistik[k]?.min }));
 const populer = [
   { ad: '2+1 prefabrik ev', url: '/prefabrik-ev-fiyatlari/2-1/' },
@@ -147,27 +150,58 @@ const ic = {
         <button class="hicon" type="button" aria-label="Menüyü kapat" data-drawer-close><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       </div>
       <a class="btn btn-p" href="/evini-bul/">Hangi evi arıyorsunuz?</a>
-      <div class="tgrid">
-        {tipler.map((t) => <a href={tipUrl(t.k)}><img src={tipImg(t.k, 'kare')} alt="" width="72" height="72" loading="lazy" decoding="async" />{t.ad}</a>)}
+      <div class="tgrid" aria-label="Ev tipleri">
+        {tipler.map((t) => <a href={tipUrl(t.k)}><img src={tipImg(t.k, 'kare')} alt="" width="64" height="64" loading="lazy" decoding="async" /><span>{t.ad}</span></a>)}
       </div>
       <nav class="links" aria-label="Mobil menü">
-        <a href="/teklif-al/">48 saatte teklif al</a>
-        <a href="/teklif-al/?mod=surec">Süreci siz yönetin</a>
-        <a href="/firmalar/">Firmalar</a>
-        <a href="/rehber/">Rehber</a>
-        <a href="/arazim-uygun-mu/">Arazim uygun mu?</a>
-        <a href="/favorilerim/">Favorilerim</a>
-        <a href="/karsilastir/">Karşılaştırma</a>
-        <a href="/hesabim/">Hesabım</a>
-        <a href="/firma-paneli/">Firma girişi</a>
-        <a href="/firma-kayit/">Firmanızı ekleyin</a>
-        <a href="/reklam-ver/">Reklam ver</a>
+        <p class="dgrup">Teklif</p>
+        <div class="dkart">
+          <a href="/teklif-al/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>48 saatte teklif al</a>
+          <a href="/teklif-al/?mod=surec"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4L19 6"/></svg>Süreci siz yönetin</a>
+          <a href="/arazim-uygun-mu/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg>Arazim uygun mu?</a>
+          <a href="/prefabrik-ev-maliyet-hesaplama/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/></svg>Maliyet hesaplama</a>
+        </div>
+        <p class="dgrup">Keşfet</p>
+        <div class="dkart">
+          <a href="/firmalar/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6"/></svg>Firmalar</a>
+          <a href="/rehber/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/></svg>Rehber</a>
+          <a href="/favorilerim/"><svg viewBox="0 0 24 24" aria-hidden="true" set:html={ic.kalp} />Favorilerim</a>
+          <a href="/karsilastir/"><svg viewBox="0 0 24 24" aria-hidden="true" set:html={ic.kiyas} />Karşılaştırma</a>
+        </div>
+        <p class="dgrup">Hesap</p>
+        <div class="dkart">
+          <a href="/hesabim/"><svg viewBox="0 0 24 24" aria-hidden="true" set:html={ic.kisi} />Hesabım</a>
+          <a href="/firma-paneli/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Firma girişi</a>
+        </div>
+        <div class="dalt">
+          <a href="/firma-kayit/">Firmanızı ekleyin</a>
+          <a href="/reklam-ver/">Reklam ver</a>
+        </div>
       </nav>
     </div>
   </div>
   <main id="icerik">
     <slot />
   </main>
+  <div class="wrap by-dis">
+        <section class="bize-yazin" aria-labelledby="by-baslik">
+          <div>
+            <h2 id="by-baslik">Bize yazın</h2>
+            <p class="small muted">Öneri, soru, şikâyet ya da iş birliği: mesajınız doğrudan ekibimize gelir, en geç 1 iş günü içinde e-postayla dönüyoruz.</p>
+          </div>
+          <form id="by-form" novalidate>
+            <div class="two">
+              <label class="f">Adınız<input type="text" name="ad" maxlength="80" required autocomplete="name" /></label>
+              <label class="f">E-posta<input type="email" name="eposta" maxlength="120" required autocomplete="email" /></label>
+            </div>
+            <label class="f">Konu<select name="konu"><option value="soru">Soru</option><option value="oneri">Öneri</option><option value="sikayet">Şikâyet</option><option value="isbirligi">İş birliği</option><option value="reklam">Reklam</option><option value="diger">Diğer</option></select></label>
+            <label class="f">Mesajınız<textarea name="mesaj" maxlength="3000" rows="3" required></textarea></label>
+            <div class="hp" aria-hidden="true"><label>Web<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
+            <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="btn btn-p btn-s" type="submit">Gönder</button><span class="xs muted">Bilgileriniz yalnızca size dönüş yapmak için kullanılır. <a href="/kvkk-aydinlatma-metni/">Aydınlatma metni</a></span></div>
+            <p class="small" id="by-durum" role="status" hidden></p>
+          </form>
+        </section>
+  </div>
   <footer class="ftr">
     <div class="wrap">
       <div class="cols5">
@@ -180,8 +214,11 @@ const ic = {
         <div>
           <h2>Fiyatlar</h2>
           <ul>{tipler.map((t) => <li><a href={tipUrl(t.k)}>{t.baslik}</a></li>)}</ul>
-          <h2 style="margin-top:18px">Çok arananlar</h2>
-          <ul>{KONULAR.filter((k) => !k.sehir).map((k) => <li><a href={`/${k.slug}/`}>{k.baslik}</a></li>)}</ul>
+        </div>
+        <div>
+          <h2>Çok arananlar</h2>
+          <ul>{konuIlk.map((k) => <li><a href={`/${k.slug}/`}>{k.baslik}</a></li>)}</ul>
+          <details class="ftr-daha"><summary>Tümünü gör ({konuDiger.length})</summary><ul>{konuDiger.map((k) => <li><a href={`/${k.slug}/`}>{k.baslik}</a></li>)}</ul></details>
         </div>
         <div>
           <h2>Rehber ve araçlar</h2>
@@ -206,23 +243,6 @@ const ic = {
           </ul>
         </div>
       </div>
-      <section class="bize-yazin" aria-labelledby="by-baslik">
-        <div>
-          <h2 id="by-baslik">Bize yazın</h2>
-          <p class="small muted">Öneri, soru, şikâyet ya da iş birliği: mesajınız doğrudan ekibimize gelir, en geç 1 iş günü içinde e-postayla dönüyoruz.</p>
-        </div>
-        <form id="by-form" novalidate>
-          <div class="two">
-            <label class="f">Adınız<input type="text" name="ad" maxlength="80" required autocomplete="name" /></label>
-            <label class="f">E-posta<input type="email" name="eposta" maxlength="120" required autocomplete="email" /></label>
-          </div>
-          <label class="f">Konu<select name="konu"><option value="soru">Soru</option><option value="oneri">Öneri</option><option value="sikayet">Şikâyet</option><option value="isbirligi">İş birliği</option><option value="reklam">Reklam</option><option value="diger">Diğer</option></select></label>
-          <label class="f">Mesajınız<textarea name="mesaj" maxlength="3000" rows="3" required></textarea></label>
-          <div class="hp" aria-hidden="true"><label>Web<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
-          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="btn btn-p btn-s" type="submit">Gönder</button><span class="xs muted">Bilgileriniz yalnızca size dönüş yapmak için kullanılır. <a href="/kvkk-aydinlatma-metni/">Aydınlatma metni</a></span></div>
-          <p class="small" id="by-durum" role="status" hidden></p>
-        </form>
-      </section>
       <p class="site-note">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#17663F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
         <span><b>Küçük bir rica:</b> Lütfen hizmet aldığınız firmayı sözleşmeden önce siz de teyit edin. Firmaları resmi evraklarıyla ve referanslarıyla kabul ediyor, referansı olmayanı kaydetmiyoruz; yine de satış, üretim, teslim ve garanti üretici firmanın sorumluluğundadır, {SITE.ad} aracı platform olarak bu süreçlerden sorumlu tutulamaz. <a href="/kullanim-kosullari/">Ayrıntılar</a></span>

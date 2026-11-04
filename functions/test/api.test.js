@@ -177,7 +177,7 @@ test('firma başvurusu onayı firma hesabını açar', async () => {
   assert.equal(evraksiz.statusCode, 400, 'evraksız başvuru alınmaz'); assert.match(evraksiz.body.hata, /Vergi levha/);
   const v = await evrakYukle(call, 'vergi-levhasi'); const f = await evrakYukle(call, 'sicil-gazetesi', 2_000_000, 'gazete.pdf');
   assert.equal(v.statusCode, 200, JSON.stringify(v.body)); assert.equal(f.statusCode, 200, JSON.stringify(f.body));
-  const b = await call('POST', '/api/firma-basvuru', { body: { ...temel, ...TAM, evrak: [v.body, f.body], referanslar: 'Malatya Yeşilyurt 2025, 90 m² ev, Mehmet Bey 0532...', sozlesmeOnay: true, abonelikOnay: true } });
+  const b = await call('POST', '/api/firma-basvuru', { body: { ...temel, ...TAM, evrak: [v.body, f.body], referanslar: 'Malatya Yeşilyurt 2025, 90 m² ev, Mehmet Bey 0532...', sozlesmeOnay: true, abonelikOnay: true, reklam: ['ana', 'yan', 'liste', 'uydurma'] } });
   assert.equal(b.statusCode, 200, JSON.stringify(b.body));
   // Aynı evrak ikinci başvuruda kullanılamaz
   assert.equal((await call('POST', '/api/firma-basvuru', { body: { ...temel, ...TAM, evrak: [v.body, f.body], referanslar: 'Malatya Yeşilyurt 2025, 90 m² ev, Mehmet Bey 0532...', sozlesmeOnay: true, abonelikOnay: true } })).statusCode, 400);
@@ -185,12 +185,16 @@ test('firma başvurusu onayı firma hesabını açar', async () => {
   const oz = await call('GET', '/api/yonetim/ozet', { tok: 'tok-admin' });
   const id = oz.body.basvurular[0].id;
   assert.equal(oz.body.basvurular[0].sozlesme.abonelikTl, 499);
+  assert.deepEqual(oz.body.basvurular[0].reklam, ['ikisi', 'liste'], 'ana+yan indirimli pakete dönüşür, geçersiz paket atılır');
+  assert.ok(mails.some((m) => m.subject.startsWith('Firma başvurusu') && m.html.includes('Ana + yan banner') && m.html.includes('60.000')), 'yönetici e-postasında reklam isteği');
   assert.equal((await call('POST', '/api/yonetim/basvuru', { tok: 'tok-admin', body: { id, karar: 'onay', odemeLinki: 'http://kotu' } })).statusCode, 400);
   const o = await call('POST', '/api/yonetim/basvuru', { tok: 'tok-admin', body: { id, karar: 'onay', odemeLinki: 'https://odeme.example/abc' } });
   assert.equal(o.body.slug, 'ornek-prefabrik');
   const ben = await call('GET', '/api/ben', { tok: 'tok-firma' });
   assert.equal(ben.body.firma, 'ornek-prefabrik');
   assert.ok(mails.some((m) => m.subject === 'Firma hesabınız açıldı' && m.html.includes('https://odeme.example/abc')), 'onay e-postasında ödeme bağlantısı');
+  const rt = (await call('GET', '/api/yonetim/ozet', { tok: 'tok-admin' })).body.reklamTalepleri.filter((r) => r.firma === 'ornek-prefabrik').map((r) => r.paket).sort();
+  assert.deepEqual(rt, ['ikisi', 'liste'], 'onayda reklam talepleri oluşur');
   const fp = await call('GET', '/api/firma/ozet', { tok: 'tok-firma' });
   assert.equal(fp.body.abonelik.durum, 'odeme-bekliyor'); assert.equal(fp.body.abonelik.odemeLinki, 'https://odeme.example/abc'); assert.equal(fp.body.abonelik.tutar, 499);
   // Yönetim ödemeyi işler, bağlantıyı yeniden gönderir
@@ -296,6 +300,12 @@ test('üye olmayan firmalar davet alır, ödeme yapmayan fiyat veremez, panelden
   assert.ok(!davet.html.includes('Ali Veli') && !davet.html.includes('0532'), 'davette müşteri bilgisi yok');
   const odeme = mails2.find((m) => m.to === 'satis@kardesler.com');
   assert.ok(odeme && odeme.html.includes('https://odeme.example/1'), 'ödeme bekleyen firmaya ödeme bağlantısı');
+  // Yönetici test talebi: listelenmiş ve ödeme bekleyen firmalara hiçbir şey gitmez; normal kullanıcının test bayrağı yok sayılır
+  const once = mails2.length;
+  const rt = await call2('POST', '/api/teklif', { tok: 'tok-admin', body: { ...TALEP, test: true } });
+  assert.equal(rt.statusCode, 200); assert.equal(rt.body.firmaSayisi, 0, 'test talebi üye olmayana gitmez');
+  assert.ok(!mails2.slice(once).some((m) => m.to === 'info@pramo.example' || m.to === 'satis@kardesler.com'), 'test talebinde davet/ödeme e-postası yok');
+  assert.ok(mails2.slice(once).some((m) => m.subject.includes('[TEST]')), 'yönetici e-postası [TEST] ile işaretli');
   // Ödeme yapmayan firma panelden fiyat veremez
   const oz = await call2('GET', '/api/firma/ozet', { tok: 'tok-firma' });
   assert.equal(oz.body.uye, false); assert.equal(oz.body.talepler.length, 1);

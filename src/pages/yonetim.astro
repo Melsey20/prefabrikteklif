@@ -23,7 +23,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
     <main>
       <div id="eposta-uyari" class="box" hidden style="border-color:#c0392b;background:#fdecea;margin-bottom:16px"></div>
       <section data-panel="onaylar"><div class="ph-h"><h1>Onay bekleyenler</h1></div><div id="p-onaylar" class="list"></div></section>
-      <section data-panel="talepler" hidden><div class="ph-h"><h1>Teklif talepleri</h1></div><div id="p-talepler"></div></section>
+      <section data-panel="talepler" hidden><div class="ph-h"><h1>Teklif talepleri</h1><a class="btn btn-g btn-s" href="/teklif-al/?test=1&tip=prefabrik&il=Malatya" title="Yalnızca üyeliği aktif firmalara gider">Test talebi gönder</a></div><div id="p-talepler"></div></section>
       <section data-panel="siparisler" hidden><div class="ph-h"><h1>Yönettiğimiz siparişler</h1></div><div id="p-kanban" class="kanban" style="margin-bottom:18px"></div><div id="p-siparisler" class="list"></div></section>
       <section data-panel="firmalar" hidden><div class="ph-h"><div><h1>Kayıtlı firmalar</h1><p class="small muted" style="margin:4px 0 0">Talepler yalnızca aktif ve e-postası olan firmalara gider. Panel e-postaları firma paneline giriş yapabilir.</p></div><button class="btn btn-p btn-s" type="button" id="firma-ekle">+ Firma hesabı aç</button></div><div id="p-firmalar"></div></section>
       <section data-panel="geri-bildirim" hidden><div class="ph-h"><h1>Firma geri bildirimleri</h1></div><div id="p-gb" class="list"></div><h2 style="font-size:1.15rem;margin:26px 0 10px">Siteden gelen mesajlar (Bize yazın)</h2><div id="p-iletisim" class="list"></div></section>
@@ -84,6 +84,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
           satir('Unvan', b.unvan), satir('Vergi', [b.vergiDairesi, b.vergiNo].filter(Boolean).join(' · ')), satir('Yetkili', `${b.yetkili}${b.yetkiliUnvan ? ` (${b.yetkiliUnvan})` : ''} · ${b.telefon} · ${b.eposta}`), satir('Adres', [b.adres, b.merkezIl].filter(Boolean).join(' · ')), satir('Web', b.web),
           (b.evrak || []).length ? h('div', { style: { display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' } }, h('b', { class: 'small' }, 'Evrak:'), ...(b.evrak || []).map((e: any) => h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => belgeAc(e.id) }, `${EVRAK[e.tur] || e.tur} · ${(e.boyut / 1048576).toFixed(1)} MB`))) : satir('Evrak', 'Yüklenmemiş (eski başvuru)'),
           satir('Tipler', (b.tipler || []).map((t: string) => TIP[t]).join(', ')), satir('İller', b.iller), satir('Belgeler', b.belgeler), satir('Referanslar', b.referanslar), satir('Not', b.not),
+          (b.reklam || []).length ? h('p', { class: 'note-a', style: { margin: 0 } }, h('b', {}, 'Öne çıkma isteği: '), (b.reklam || []).map((k: string) => `${V.reklamPaketleri?.[k]?.ad || k} (${(V.reklamPaketleri?.[k]?.fiyat || 0).toLocaleString('tr-TR')} TL/ay)`).join(', '), '. Onaylayınca Reklam talepleri bölümüne “bekliyor” olarak düşer.') : null,
           satir('Üyelik', b.sozlesme ? `Aylık ${b.sozlesme.abonelikTl} TL ve sözleşme onaylandı (${tarih(b.sozlesme.onayZamani)})` : 'Eski başvuru: sözleşme onayı yok'),
           h('label', { class: 'small', style: { display: 'flex', flexDirection: 'column', gap: '4px', fontWeight: 700 } }, 'Listedeki firma kaydı', slug),
           h('label', { class: 'small', style: { display: 'flex', flexDirection: 'column', gap: '4px', fontWeight: 700 } }, `${V.abonelik} TL aylık üyelik ödeme bağlantısı (onay e-postasıyla gider)`, odeme),
@@ -109,7 +110,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
         const ep = inp('eposta', { type: 'email', placeholder: 'firma@ornek.com' });
         const acik = t.durum === 'acik';
         return h('article', { class: 'item' },
-          h('div', { class: 'row' }, h('b', {}, [t.mod === 'surec' ? 'SÜREÇ' : '', TIP[t.tip], t.oda, t.m2 ? `${t.m2} m²` : '', [t.il, t.ilce].filter(Boolean).join(' / ')].filter(Boolean).join(' · ')), h('span', { class: 'st-b ' + (acik ? 'a' : 'g') }, t.mod === 'surec' ? 'Süreç yönetimi' : acik ? kalan(t.sonTarih) : 'Özet gönderildi')),
+          h('div', { class: 'row' }, h('b', {}, [t.test ? 'TEST' : '', t.mod === 'surec' ? 'SÜREÇ' : '', TIP[t.tip], t.oda, t.m2 ? `${t.m2} m²` : '', [t.il, t.ilce].filter(Boolean).join(' / ')].filter(Boolean).join(' · ')), h('span', { class: 'st-b ' + (acik ? 'a' : 'g') }, t.mod === 'surec' ? 'Süreç yönetimi' : acik ? kalan(t.sonTarih) : 'Özet gönderildi')),
           h('span', { class: 'small' }, `${t.ad} · `, h('a', { href: 'tel:' + t.telefon }, t.telefon), ' · ', h('a', { href: 'mailto:' + t.eposta }, t.eposta)),
           h('span', { class: 'xs muted' }, `${tarih(t.olusturma)} · ${t.davetler?.length || 0} firmaya iletildi · ${t.teklifSayisi || 0} teklif` + (t.davetler?.length ? ' · ' + t.davetler.map((d: any) => `${d.firma} (${d.durum})`).join(', ') : '')),
           t.not ? h('span', { class: 'small muted' }, '“' + t.not + '”') : null,
