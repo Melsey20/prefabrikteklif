@@ -316,6 +316,11 @@ test('üye olmayan firmalar davet alır, ödeme yapmayan fiyat veremez, panelden
   assert.ok(!yeni.some((m) => m.to === 'satis@kardesler.com'), 'gerçek üyeye test talebi gitmez');
   assert.ok(yeni.some((m) => m.to === 'info@mitraajans.com' && m.subject.startsWith('Yeni talep: [TEST]')), 'test firmasına [TEST] talep');
   await db2.collection('firmalar').doc('kardesler').set({ abonelik: { durum: 'odeme-bekliyor', odemeLinki: 'https://odeme.example/1' } }, { merge: true });
+  await db2.collection('firmalar').doc('kardesler').set({ aktif: false }, { merge: true });
+  const once3 = mails2.length;
+  await call2('POST', '/api/teklif', { body: TALEP });
+  await db2.collection('firmalar').doc('kardesler').set({ aktif: true }, { merge: true });
+  assert.ok(!mails2.slice(once3).some((m) => m.to === 'info@mitraajans.com' && m.html.includes('/teklif-ver/')), 'gerçek talep test firmasına gitmez');
   await db2.collection('firmalar').doc('testfirma').set({ aktif: false }, { merge: true });
   // Ödeme yapmayan firma panelden fiyat veremez
   const oz = await call2('GET', '/api/firma/ozet', { tok: 'tok-firma' });
