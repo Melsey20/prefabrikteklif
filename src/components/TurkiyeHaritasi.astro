@@ -1,0 +1,29 @@
+---
+// Türkiye il haritası (satır içi SVG; harita servisi veya API anahtarı gerektirmez)
+// sayilar: il → değer. Tıklanınca "harita:il" olayı yayınlanır.
+import harita from '../lib/trHarita.json';
+interface Props { sayilar: Record<string, number>; etiket?: string; baslik?: string }
+const { sayilar, etiket = 'firma', baslik = 'Türkiye haritası' } = Astro.props;
+const AD: Record<string, string> = { Afyon: 'Afyonkarahisar' };
+const ilAd = (x: string) => AD[x] || x;
+const enCok = Math.max(1, ...Object.values(sayilar));
+const renk = (n: number) => (n ? `rgba(23,102,63,${(0.22 + 0.78 * Math.sqrt(n / enCok)).toFixed(2)})` : '#e8ece6');
+---
+<figure class="trh" data-trh>
+  <svg viewBox={`0 0 ${harita.w} ${harita.h}`} role="img" aria-label={baslik}>
+    {harita.iller.map((x) => { const il = ilAd(x.il); const n = sayilar[il] || 0; return (
+      <path d={x.d} fill={renk(n)} data-il={il} data-n={n} tabindex={n ? 0 : -1} role={n ? 'button' : undefined} aria-label={n ? `${il}: ${n} ${etiket}` : undefined}><title>{il}{n ? `: ${n} ${etiket}` : ''}</title></path>
+    ); })}
+    {harita.iller.filter((x) => sayilar[ilAd(x.il)]).map((x) => (
+      <g class="trh-p" transform={`translate(${x.x} ${x.y})`} aria-hidden="true"><circle r="11" /><text y="4">{sayilar[ilAd(x.il)]}</text></g>
+    ))}
+  </svg>
+  <figcaption class="xs muted">Koyu renk daha çok {etiket} anlamına gelir. Bir ile tıklayın.</figcaption>
+</figure>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-trh]').forEach((f) => {
+    const sec = (p: Element | null) => { if (!(p instanceof SVGPathElement) || p.dataset.n === '0') return; f.querySelectorAll('path.on').forEach((x) => x.classList.remove('on')); p.classList.add('on'); f.dispatchEvent(new CustomEvent('harita:il', { bubbles: true, detail: p.dataset.il })); };
+    f.addEventListener('click', (e) => sec((e.target as Element).closest('path')));
+    f.addEventListener('keydown', (e) => { if ((e as KeyboardEvent).key === 'Enter') sec(e.target as Element); });
+  });
+</script>

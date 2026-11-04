@@ -1,11 +1,13 @@
 ---
 import FirmaLogo from '../components/FirmaLogo.astro';
+import TurkiyeHaritasi from '../components/TurkiyeHaritasi.astro';
 import Base from '../layouts/Base.astro';
 import Crumbs from '../components/Crumbs.astro';
 import { firms, TIPLER, TIP_SIRA, meta, kisaTl, monogram } from '../lib/data';
 import { SITE } from '../site.config';
 import { KONULAR } from '../lib/konular';
 const sehirler = KONULAR.filter((k) => k.sehir);
+const ilSayi: Record<string, number> = {}; for (const f of firms) if (f.il) ilSayi[f.il] = (ilSayi[f.il] || 0) + 1;
 const sirali = [...firms].sort((a, b) => b.modelSayisi - a.modelSayisi || a.kisaAd.localeCompare(b.kisaAd, 'tr'));
 const ld = [{ '@context': 'https://schema.org', '@type': 'ItemList', name: 'Prefabrik ve modüler ev firmaları', numberOfItems: firms.length,
   itemListElement: sirali.map((f, i) => ({ '@type': 'ListItem', position: i + 1, url: `https://www.prefabrikteklif.com.tr/firma/${f.slug}/`, name: f.kisaAd })) }];
@@ -17,6 +19,7 @@ const ld = [{ '@context': 'https://schema.org', '@type': 'ItemList', name: 'Pref
     <h1>Prefabrik ve modüler ev firmaları</h1>
     <p class="muted" style="max-width:760px">{firms.length} üretici. Fiyatlar firmaların kendi sitelerinden alınır. “Doğrulanmış” rozeti, belgeleri kontrol edilen firmalara verilir.</p>
     <p class="small" style="margin:10px 0 0"><b>Şehre göre:</b> {sehirler.map((k, i) => <>{i ? ' · ' : ''}<a href={`/${k.slug}/`}>{k.sehir} prefabrik ev firmaları</a></>)}</p>
+    <TurkiyeHaritasi sayilar={ilSayi} etiket="firma" baslik="Firmaların bulunduğu iller" />
     <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0">
       <label style="flex:1;min-width:220px"><span class="sr-only">Firma ara</span><input type="search" id="fara" placeholder="Firma veya il ara" /></label>
       <ul class="pills" id="ftip">
@@ -45,6 +48,7 @@ const ld = [{ '@context': 'https://schema.org', '@type': 'ItemList', name: 'Pref
     const ara = document.getElementById('fara') as HTMLInputElement; let tip = '';
     const uygula = () => { const q = ara.value.trim().toLocaleLowerCase('tr'); document.querySelectorAll<HTMLElement>('#flist > a').forEach((a) => { a.hidden = !(a.dataset.ara!.includes(q) && (!tip || a.dataset.tip!.split('|').includes(tip))); }); };
     ara.addEventListener('input', uygula);
+    document.addEventListener('harita:il', (e) => { ara.value = (e as CustomEvent).detail; uygula(); document.getElementById('fara')!.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
     document.getElementById('ftip')!.addEventListener('click', (e) => { const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-t]'); if (!a) return; e.preventDefault(); tip = a.dataset.t!; document.querySelectorAll('#ftip a').forEach((x) => x.classList.toggle('on', x === a)); uygula(); });
   </script>
 </Base>

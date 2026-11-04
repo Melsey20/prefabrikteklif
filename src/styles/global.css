@@ -752,3 +752,13 @@ body:has(.app) .by-dis { display: none; }
 @media (max-width: 760px) { .gb-adim { grid-template-columns: 1fr; } }
 .gb-ulkeler { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
 .gb-ulkeler a { text-decoration: none; color: var(--ink); }
+/* ---------- Türkiye haritası ---------- */
+.trh { margin: 16px 0; background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 12px 12px 8px; }
+.trh svg { width: 100%; height: auto; display: block; }
+.trh path { stroke: #fff; stroke-width: 1; transition: fill .15s; }
+.trh path[data-n]:not([data-n="0"]) { cursor: pointer; }
+.trh path:not([data-n="0"]):hover, .trh path.on, .trh path:focus-visible { fill: #e0a526; outline: none; }
+.trh-p circle { fill: #fff; stroke: var(--green); stroke-width: 2; }
+.trh-p text { font: 800 12px var(--font); fill: var(--green-d); text-anchor: middle; pointer-events: none; }
+.trh-p { pointer-events: none; }
+.trh figcaption { text-align: center; margin-top: 4px; }

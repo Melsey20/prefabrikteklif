@@ -64,7 +64,7 @@ const ana = f.tipler[0] || 'prefabrik';
         <div class="box dk">
           <a class="btn btn-w btn-block" href={`/teklif-al/?firmalar=${f.slug}&tip=${encodeURIComponent(ana)}`}>Bu firmadan teklif al</a>
           <p class="small" style="margin:10px 0 0">Bilgileriniz yalnızca fiyat vermeyi kabul ederse firmayla paylaşılır.</p>
-          {f.web && <p class="small" style="margin:8px 0 0"><a style="color:#fff" href={f.web} rel="nofollow noopener" target="_blank">Firmanın sitesi ↗</a></p>}
+          {(f.web || f.il) && <p class="small" style="margin:8px 0 0;display:flex;gap:14px;flex-wrap:wrap">{f.web && <a style="color:#fff" href={f.web} rel="nofollow noopener" target="_blank">Firmanın sitesi ↗</a>}{f.il && <a style="color:#fff" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${f.ad || f.kisaAd} ${f.il}`)}`} rel="nofollow noopener" target="_blank">Haritada gör ↗</a>}</p>}
         </div>
       </aside>
     </div>
