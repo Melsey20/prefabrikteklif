@@ -1,0 +1,201 @@
+{
+  "tarih": "2026-11-04",
+  "slot": "aksam",
+  "saat": "19:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Konteyner ev fiyatları 2026: konteyner ev 85.000 TL'den başlıyor, peki fiyata ne dahil? 👇\n\nKonteyner ev arıyorsanız önce rakamları bilin. 3 Kasım 2026 itibarıyla listemizde konteyner ev modelleri 85.000 TL'den başlıyor; ortanca fiyat 182.300 TL, m² başına ortanca fiyat 7.083 TL. 6 firmanın 35 konteyner ev modelini tek yerde karşılaştırabilirsiniz.\n\nAynı fiyat etiketinin arkasında farklı kapsamlar olabilir: yalıtım, nakliye ve vinç, montaj, elektrik ve tesisat, iç bitiş, KDV. 2+1 ya da 3+1 konteyner ev teklifi almadan önce bu kalemleri mutlaka sorun.\n\nPrefabrikTeklif, ev alırken aklınıza takılan soruları yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir: tek form, 48 saatte teklif.\n\n📌 Kaydedin, konteyner ev bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#konteynerev #konteynerevfiyatları #konteynerevmodelleri #prefabrikev",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Konteyner ev",
+          "h": "Konteyner ev fiyatları <em>85.000 TL’den</em> başlıyor.",
+          "p": "Ama asıl fark fiyatta değil, fiyata dahil olanlarda. Kaydırın, birlikte bakalım.",
+          "img": "konteyner-b-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Rakamlarla <em>konteyner ev</em>",
+          "boy": 84,
+          "maddeler": [
+            [
+              "Başlangıç fiyatı",
+              "3 Kasım 2026 itibarıyla listemizde konteyner ev modelleri 85.000 TL’den başlıyor."
+            ],
+            [
+              "Ortanca fiyat",
+              "Listedeki konteyner evlerin ortanca fiyatı 182.300 TL."
+            ],
+            [
+              "m² başına ortanca",
+              "7.083 TL. 30 m²’lik bir ev için kaba hesap: yaklaşık 212.000 TL."
+            ],
+            [
+              "Seçenek",
+              "6 firmanın 35 modeli; ölçü, plan ve donanım modelden modele değişiyor."
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Teklif almadan önce <em>sorun:</em>",
+          "p": "Bu kalemler fiyata dahil mi? Firmadan firmaya değişir.",
+          "maddeler": [
+            "Yalıtım",
+            "Nakliye & vinç",
+            "Montaj",
+            "Elektrik & tesisat",
+            "İç bitiş",
+            "KDV"
+          ],
+          "img": "konteyner-c-960.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Tek form, <em>48 saatte</em> konteyner ev teklifleri.",
+          "p": "Talebiniz firmalara isimsiz gider; numaranız yalnızca fiyat veren firmaya açılır.",
+          "img": "hero-1344.webp",
+          "cipler": [
+            "Ücretsiz",
+            "6 firma",
+            "35 model"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Tarlaya ev yapılır mı? İzinsiz yapılırsa elektrik ve su aboneliği verilmiyor. Bağ evi için, haberlere göre en az beş dönüm arazi ve en fazla otuz metrekare şartı var. Arazinizi Arazim uygun mu testiyle kontrol edin. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "Tarlaya ev yapılır mı? Tarlaya ev yapma şartları ve bağ evi kuralları 2026 👇\n\nTarım arazisine izinsiz kurulan prefabrik, konteyner ya da tiny house gibi yapılara Haziran 2026 düzenlemesiyle elektrik, su ve doğal gaz aboneliği verilmiyor. Bağ evi için ise 4 Nisan 2026 yönetmelik değişikliğini aktaran haberlere göre en az 5 dönüm arazi ve en fazla 30 m² yapı şartı konuşuluyor. Başvurudan önce il tarım ve orman müdürlüğünden güncel şartları teyit edin.\n\nArazinizin hangi izin yoluna uyduğunu sitemizdeki ücretsiz \"Arazim uygun mu?\" testiyle 4 soruda görün. PrefabrikTeklif soruları yanıtlar, size uygun evi ve teklifleri getirir.\n\n📌 Kaydedin, arazi bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tarlayaevyapma #bağevi #hobibahçesi #prefabrikev #tinyhouse",
+      "sure": 14.65,
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "img": "bungalov-b-960.webp",
+          "h": "Tarlaya Ev<br><em>Yapılır mı?</em>"
+        },
+        {
+          "t": 1.49,
+          "tur": "liste",
+          "ikon": "✕",
+          "maddeler": [
+            "Elektrik aboneliği",
+            "Su aboneliği",
+            "Doğal gaz aboneliği"
+          ],
+          "h": "İzinsiz yapıya <em>abonelik yok.</em>",
+          "p": "Haziran 2026 düzenlemesi"
+        },
+        {
+          "t": 4.71,
+          "tur": "liste",
+          "maddeler": [
+            "En az 5 dönüm arazi",
+            "En fazla 30 m² yapı",
+            "Tarım müdürlüğü izni"
+          ],
+          "h": "Bağ evi için <em>şartlar</em>",
+          "p": "Haberlere göre; başvurudan önce teyit edin"
+        },
+        {
+          "t": 10.04,
+          "tur": "foto",
+          "img": "hero-1344.webp",
+          "h": "“Arazim uygun mu?” <em>testiyle</em> kontrol edin.",
+          "cipler": [
+            "4 soru",
+            "Ücretsiz"
+          ]
+        },
+        {
+          "t": 13.22,
+          "tur": "son",
+          "h": "Arazinize uygun <em>evi bulun.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261104_105927_16bf3123-8ac5-420c-9610-d392e2817f50.mp3"
+    },
+    {
+      "seslendirme": "Yüz metrekare prefabrik ev kaça mal olur? Listemizde metrekare başı ortanca fiyat on bin iki yüz seksen lira. Kaba hesapla, yaklaşık bir milyon lira. Nakliye ve montaj dahil mi, mutlaka sorun. Tek formla teklif alın. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "100 m² prefabrik ev fiyatları: 100 metrekare prefabrik ev kaça mal olur? 👇\n\n3 Kasım 2026 itibarıyla listemizde prefabrik evlerde m² başına ortanca fiyat 10.280 TL. Kaba hesapla 100 m²'lik bir prefabrik ev yaklaşık 1.028.000 TL ediyor. 3+1 ya da 2+1 prefabrik ev bütçenizi planlarken bu rakamı başlangıç noktası olarak kullanın.\n\nAma son fiyatı kapsam belirler: nakliye, montaj, zemin betonu ve KDV fiyata dahil mi, teklif alırken mutlaka sorun.\n\nPrefabrikTeklif fiyatları ve fiyata dahil olanları yan yana gösterir; tek formla 48 saatte teklifler gelir.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevfiyatları #prefabrikev #prefabrikevmaliyeti #prefabrikevmodelleri",
+      "sure": 15.58,
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "img": "prefabrik-b-960.webp",
+          "h": "100 m² Ev<br><em>Kaça Mal Olur?</em>"
+        },
+        {
+          "t": 2.76,
+          "tur": "sayi",
+          "n": 10280,
+          "birim": "TL / m² · ortanca",
+          "h": "m² başı ortanca <em>10.280 TL</em>",
+          "p": "3 Kasım 2026 itibarıyla listemizde, prefabrik ev"
+        },
+        {
+          "t": 6.47,
+          "tur": "sayi",
+          "n": 1028,
+          "birim": "bin TL · 100 m² kaba hesap",
+          "h": "Kaba hesap: <em>≈ 1 milyon TL</em>"
+        },
+        {
+          "t": 9.36,
+          "tur": "liste",
+          "ikon": "?",
+          "maddeler": [
+            "Nakliye",
+            "Montaj",
+            "Zemin betonu",
+            "KDV"
+          ],
+          "h": "Fiyata <em>dahil mi?</em>"
+        },
+        {
+          "t": 12.65,
+          "tur": "foto",
+          "img": "montaj-1344.webp",
+          "h": "Tek formla <em>teklif alın.</em>",
+          "cipler": [
+            "Ücretsiz",
+            "48 saatte"
+          ]
+        },
+        {
+          "t": 14.15,
+          "tur": "son",
+          "h": "Bütçenizi <em>netleştirin.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261104_105927_103ddae6-025b-40dc-88f1-4ba35f8f28dd.mp3"
+    }
+  ],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "hazırlanıyor"
+  }
+}

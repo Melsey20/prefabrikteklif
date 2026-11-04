@@ -7,6 +7,8 @@ Kullanım (depo kökünden):
 Fontlar: node_modules/@fontsource/{manrope,playfair-display} (yoksa FONT_DIR ortam değişkeni).
 Görseller: public/img. Logo: scripts/instagram/marka.
 Tasarımlar PNG (1080×1350), reels için kare kare HTML (reels.cjs ile çekilir).
+Reels sahne türleri: foto (img), grid (imgs), sayi (n, birim), liste (maddeler ≤5, ikon: ✓/✕/?), son.
+Günde 2 dosya: icerik/YYYY-MM-DD-sabah.json ve -aksam.json; her birinde 1 tasarım + "reels": [2 reels].
 """
 import base64, json, os, pathlib, re, sys
 
@@ -132,7 +134,10 @@ RCSS = f'''.sc{{position:absolute;inset:0;opacity:0}}
 .son{{position:absolute;inset:0;background:{C['forest']};color:{C['ivory']};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:48px;text-align:center;padding:0 80px}}
 .son h1{{font-family:S;font-weight:600;font-size:96px;line-height:1.08;letter-spacing:-.02em}} .son h1 em{{font-style:italic;font-weight:500;color:{C['sage2']}}}
 .url{{font:800 46px M;background:{C['ivory']};color:{C['forest']};padding:24px 44px;border-radius:999px}}
-.son p{{font:600 36px M;color:#D9E2DB}}'''
+.son p{{font:600 36px M;color:#D9E2DB}}
+.rl{{display:flex;flex-direction:column;justify-content:center;gap:26px;padding:56px 60px;background:{C['sage']}}}
+.rmd{{display:flex;align-items:center;gap:26px;font:700 50px/1.2 M;color:{C['forest']};opacity:0}}
+.rmd i{{font-style:normal;width:72px;height:72px;flex:none;border-radius:50%;background:{C['forest']};color:{C['ivory']};display:flex;align-items:center;justify-content:center;font-size:38px}}'''
 RJS = '''const cl=x=>Math.min(Math.max(x,0),1); const e=x=>1-Math.pow(1-cl(x),3);
 window.setT=(t)=>{ const n=T.length-1; let last=0; for(let i=0;i<n;i++) if(t>=T[i]) last=i;
  document.getElementById('lg').style.opacity = document.querySelector('#s'+last+' .son') ? 0 : 1;
@@ -143,6 +148,7 @@ window.setT=(t)=>{ const n=T.length-1; let last=0; for(let i=0;i<n;i++) if(t>=T[
   const p=s.querySelector('.hd p'); if(p) p.style.opacity=e((l-0.45)/0.35);
   const ph=s.querySelector('.rph'); if(ph){ const x=e((l-0.1)/0.5); ph.style.transform=`translateY(${(1-x)*70}px) scale(${0.96+0.04*x})`; ph.style.opacity=x; const im=ph.querySelector('img'); if(im) im.style.transform=`scale(${1.03+0.08*cl(l/d)})`; }
   s.querySelectorAll('.grid div').forEach((g,k)=>{ const x=e((l-0.08*k)/0.3); g.style.opacity=x; g.style.transform=`scale(${0.9+0.1*x})`; });
+  s.querySelectorAll('.rmd').forEach((c,k)=>{ const x=e((l-0.35-0.22*k)/0.3); c.style.opacity=x; c.style.transform=`translateX(${(1-x)*40}px)`; });
   s.querySelectorAll('.rchip').forEach((c,k)=>{ const x=e((l-0.5-0.15*k)/0.3); c.style.opacity=x; c.style.transform=`translateY(${(1-x)*20}px)`; });
   const big=s.querySelector('.big'); if(big) big.textContent=Math.round(big.dataset.n*e((l-0.2)/1.2)).toLocaleString('tr-TR');
   const u=s.querySelector('.url'); if(u){ const x=e((l-0.5)/0.4); u.style.opacity=x; u.style.transform=`scale(${0.9+0.1*x})`; }
@@ -165,6 +171,7 @@ def reels_html(r):
         if s['tur'] == 'foto': vis = f'<div class="rph"><img src="{img(s["img"])}"></div>'
         elif s['tur'] == 'grid': vis = '<div class="grid">' + ''.join(f'<div><img src="{img(x)}"></div>' for x in s['imgs'][:4]) + '</div>'
         elif s['tur'] == 'sayi': vis = f'<div class="rph" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:44px;background:{C["sage"]}"><span class="big" data-n="{s["n"]}">0</span><span style="font:700 40px M;color:{C["forest"]}">{s.get("birim","")}</span></div>'
+        elif s['tur'] == 'liste': vis = '<div class="rph rl">' + ''.join(f'<div class="rmd"><i>{s.get("ikon", "✓")}</i>{m}</div>' for m in s['maddeler'][:5]) + '</div>'
         chips = ''.join(f'<span class="rchip">{c}</span>' for c in s.get('cipler', []))
         p = f'<p>{s["p"]}</p>' if s.get('p') else ''
         html += f'<div class="sc" id="s{i}"><div class="hd"><h1>{kelimeler(s["h"])}</h1>{p}</div>{vis}<div class="chips">{chips}</div></div>'
@@ -180,5 +187,8 @@ if __name__ == '__main__':
             for k, sl in enumerate(g['kartlar']):
                 jobs.append(dict(w=1080, h=1350, out=str(out / f'{g["ad"]}-{k + 1}.jpg'), html=page(SABLON[sl['sablon']](sl))))
         (out / 'jobs.json').write_text(json.dumps(jobs))
-    elif mod == 'reels':
-        (out / 'reels.html').write_text(reels_html(spec['reels']))
+    elif mod == 'reels':  # "reels" tek nesne (reels.html) ya da liste (reels-1.html, reels-2.html …)
+        R = spec['reels']
+        if isinstance(R, dict): (out / 'reels.html').write_text(reels_html(R))
+        else:
+            for k, r in enumerate(R): (out / f'reels-{k + 1}.html').write_text(reels_html(r))
