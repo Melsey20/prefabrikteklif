@@ -25,8 +25,10 @@ const kat = katYazi(m);
 const title = `${f.kisaAd} ${m.ad}${m.fiyat && m.fiyatTuru === 'model' ? ` Fiyatı ${meta.ay}` : ''}`;
 const desc = `${f.kisaAd} ${m.ad}${detay ? ` (${detay})` : ''}: ${fiyatYazi(m)}. Fiyata neyin dahil olduğu, kaynak ve benzer ${T.kisa} modelleriyle kıyas. ${SITE.teklifSaat} saatte ücretsiz teklif alın.`;
 const url = new URL(modelUrl(m), SITE.url).href;
+// Google sku için en fazla 50 karakter ister: kimliğin kısa, sabit bir özeti
+const kisaSku = (s: string) => { let h = 2166136261; for (const c of s) { h ^= c.codePointAt(0)!; h = Math.imul(h, 16777619) >>> 0; } return `PT-${h.toString(36).toUpperCase()}`; };
 const ld = m.fiyat && m.fiyatTuru === 'model' ? [{
-  '@context': 'https://schema.org', '@type': 'Product', name: `${f.kisaAd} ${m.ad}`, category: T.ad, sku: id,
+  '@context': 'https://schema.org', '@type': 'Product', name: `${f.kisaAd} ${m.ad}`, category: T.ad, sku: kisaSku(id),
   brand: { '@type': 'Brand', name: f.kisaAd }, url,
   image: [new URL(modelImg(m, 960), SITE.url).href, new URL(`/img/${TIP_IMG[m.tip] || 'prefabrik'}-og.jpg`, SITE.url).href],
   description: `${T.ad}${detay ? `, ${detay}` : ''}. ${m.kapsam}`.slice(0, 300),

@@ -292,8 +292,10 @@ async function giris(p, eposta, hedef) {
   await ok.locator('.hs-ok.sol').click(); await p.waitForTimeout(700);
   assert.ok((await ok.locator('.hscroll').evaluate((e) => e.scrollLeft)) < sl1, 'sol ok geri kaydırır');
   const iki = p.locator('.hs-kap', { has: p.locator('.hscroll .mcard') }).nth(1); await iki.scrollIntoViewIfNeeded();
-  const a0 = await iki.locator('.hscroll').evaluate((e) => e.scrollLeft); await p.mouse.move(5, 5); await p.waitForTimeout(5200);
-  assert.ok((await iki.locator('.hscroll').evaluate((e) => e.scrollLeft)) !== a0, 'sıra kendiliğinden kayar');
+  const a0 = await iki.locator('.hscroll').evaluate((e) => e.scrollLeft); await p.mouse.move(5, 5);
+  // Fare ayrıldıktan 4 sn sonra, 4,5 sn aralıklı zamanlayıcıyla kayar: en fazla ~9 sn bekle
+  const kaydi = await p.waitForFunction((a) => [...document.querySelectorAll('.hs-kap')].filter((k) => k.querySelector('.hscroll .mcard'))[1].querySelector('.hscroll').scrollLeft !== a, a0, { timeout: 11000 }).then(() => true).catch(() => false);
+  assert.ok(kaydi, 'sıra kendiliğinden kayar');
   adim('Ana sayfa: ara reklam alanı, oklarla ve kendiliğinden kayan sıralar');
   await ctx.close();
 

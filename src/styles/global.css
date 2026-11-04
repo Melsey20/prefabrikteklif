@@ -377,7 +377,8 @@ p a, li a, .small a { text-decoration: underline; text-underline-offset: 3px; }
 .prose li { margin-bottom: .45em; }
 .prose h2 { margin-top: 1.4em; }
 .prose img { border-radius: 18px; }
-.prose table { margin: 8px 0 18px; }
+.prose table { margin: 8px 0 18px; display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.prose td, .prose th { min-width: 90px; }
 
 /* ---------- Model page ---------- */
 .mhero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 24px; margin-top: 8px; }

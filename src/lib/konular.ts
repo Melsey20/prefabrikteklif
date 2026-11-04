@@ -12,6 +12,7 @@ export interface Konu {
   giris: (s: S, list: Model[]) => string;
   sss: (s: S, list: Model[]) => { s: string; c: string }[];
   ilgili: { ad: string; url: string }[];
+  sira?: 'fiyat'; // listeyi fiyata göre artan sırala
   sehir?: string; // şehir sayfası (alt bilgideki “Çok arananlar” listesinde gösterilmez)
 }
 
@@ -203,6 +204,49 @@ export const KONULAR: Konu[] = [
     ],
     ilgili: [{ ad: 'Konteyner ev fiyatları', url: '/konteyner-ev-fiyatlari/' }, { ad: '1+0 konteyner ev', url: '/konteyner-ev-fiyatlari/1-0/' }, { ad: 'Konteyner ev mi prefabrik ev mi?', url: '/rehber/konteyner-ev-mi-prefabrik-ev-mi/' }],
   },
+  {
+    slug: 'tasinabilir-ev-fiyatlari',
+    baslik: 'Taşınabilir Ev Fiyatları',
+    kisa: 'taşınabilir ev',
+    tip: 'tiny house',
+    filtre: (m) => m.tip === 'tiny house' || m.tip === 'konteyner' || /tek parça|taşınabilir/.test(metin(m)),
+    giris: (s, l) => `Taşınabilir evler fabrikada tek parça halinde üretilip tır ya da römorkla arsaya getirilir; gerekirse sökülmeden başka bir yere taşınabilir. Tiny house’lar şasi üzerinde ve tekerlekli, konteyner evler ve tek parça prefabrik evler ise vinçle indirilir. Listede ${s.firma} firmanın ${s.model} taşınabilir modeli var (${tipSay(l)}); fiyatlar ${aralik(s)}, ortanca fiyat ${kisaTl(s.medyan)}.`,
+    sss: (s) => [
+      { s: 'Taşınabilir ev fiyatları ne kadar?', c: `Listemizdeki taşınabilir modellerde fiyatlar ${aralik(s)}; ortanca fiyat ${kisaTl(s.medyan)}. Konteyner evler genellikle en ekonomik, tekerlekli tiny house’lar ise donanıma göre daha pahalı olabilir.` },
+      { s: 'Taşınabilir ev için ruhsat gerekir mi?', c: 'O2 belgeli, plakalı tiny house araç sayılır ve yapı ruhsatı gerekmez. Zemine sabitlenen ve sürekli kullanılan konteyner ya da prefabrik ev ise yapı sayılır ve izne tabidir. Arazinizin durumunu “Arazim uygun mu?” aracıyla kontrol edin.' },
+      { s: 'Taşınabilir ev nasıl taşınır?', c: 'Tek parça evler tırla taşınır ve vinçle indirilir; arsaya giden yolun tır geçişine uygun olması gerekir. Tekerlekli tiny house ise uygun ehliyet ve araçla römork olarak çekilebilir. Nakliyenin fiyata dahil olup olmadığını teklifte sorun.' },
+      DAHIL,
+    ],
+    ilgili: [{ ad: 'Tekerlekli tiny house', url: '/tekerlekli-tiny-house-fiyatlari/' }, { ad: 'Konteyner ev fiyatları', url: '/konteyner-ev-fiyatlari/' }, { ad: 'Tiny house fiyatları', url: '/tiny-house-fiyatlari/' }, { ad: 'Arazim uygun mu?', url: '/arazim-uygun-mu/' }],
+  },
+  {
+    slug: 'anahtar-teslim-celik-ev-fiyatlari',
+    baslik: 'Anahtar Teslim Çelik Ev Fiyatları',
+    kisa: 'anahtar teslim çelik ev',
+    tip: 'celik',
+    filtre: (m) => m.tip === 'celik' && /anahtar/i.test(m.teslim || ''),
+    giris: (s, l) => `Anahtar teslim çelik evde taşıyıcı çelik karkasın yanında iç-dış kaplama, doğrama, tesisat ve genellikle mutfak-banyo da fiyata dahildir. Ancak “anahtar teslim” her firmada aynı kalemleri kapsamaz; zemin betonu, nakliye ve ruhsat çoğunlukla ayrıdır. Listede ${s.firma} firmanın ${s.model} anahtar teslim çelik ev modeli var; fiyatlar ${aralik(s)}, ortanca fiyat ${kisaTl(s.medyan)}.`,
+    sss: (s) => [
+      { s: 'Anahtar teslim çelik ev fiyatları ne kadar?', c: `Listemizdeki anahtar teslim çelik evlerde fiyatlar ${aralik(s)}; ortanca fiyat ${kisaTl(s.medyan)}${s.m2Medyan ? `, ortanca m² fiyatı ${sayi(s.m2Medyan)} TL` : ''}.` },
+      { s: 'Anahtar teslime neler dahildir?', c: 'Firmaya göre değişir. Teklifte iç bitiş (zemin, boya), mutfak dolabı ve tezgâh, banyo vitrifiyesi, elektrik-su tesisatı, iç kapılar, nakliye, montaj ve zemin betonunun dahil olup olmadığını tek tek yazılı isteyin.' },
+      RUHSAT,
+    ],
+    ilgili: [{ ad: 'Çelik ev fiyatları', url: '/celik-ev-fiyatlari/' }, { ad: 'Çelik konstrüksiyon ev', url: '/celik-konstruksiyon-ev-fiyatlari/' }, { ad: 'Anahtar teslim prefabrik ev', url: '/anahtar-teslim-prefabrik-ev-fiyatlari/' }, { ad: 'Çelik evin avantajları ve dezavantajları', url: '/rehber/celik-ev-avantajlari-dezavantajlari/' }],
+  },
+  {
+    slug: 'en-ucuz-prefabrik-ev-fiyatlari', sira: 'fiyat',
+    baslik: 'En Ucuz Prefabrik Ev Fiyatları (600 Bin TL Altı)',
+    kisa: 'ucuz prefabrik ev',
+    tip: 'prefabrik',
+    filtre: (m) => m.tip === 'prefabrik' && m.fiyatTuru === 'model' && !!m.fiyat && m.fiyat <= 600000,
+    giris: (s, l) => `Bütçeniz sınırlıysa bu sayfada 600.000 TL ve altındaki prefabrik ev modellerini topladık: ${s.firma} firmanın ${s.model} modeli, fiyatlar ${aralik(s)}. Ucuz modellerin çoğu 1+1 ve küçük 2+1 planlardır. Düşük fiyatın nedeni çoğu zaman kapsamdır: iç bitiş, nakliye ve montajın fiyata dahil olup olmadığına her kartta bakın.`,
+    sss: (s) => [
+      { s: 'En ucuz prefabrik ev ne kadar?', c: `Listemizdeki 600.000 TL altı prefabrik evlerde fiyatlar ${aralik(s)} arasında. En düşük fiyatlar genellikle 20–35 m² modellerde görülür.` },
+      { s: 'Ucuz prefabrik ev alırken nelere dikkat etmeli?', c: 'Panel kalınlığı ve yalıtım, pencerelerin çift cam olup olmadığı, ıslak hacim malzemeleri ve garanti şartlarını sorun. Fiyata dahil olmayan kalemleri (nakliye, montaj, zemin betonu) ekleyerek toplam maliyeti kıyaslayın.' },
+      DAHIL, RUHSAT,
+    ],
+    ilgili: [{ ad: '1+1 prefabrik ev', url: '/prefabrik-ev-fiyatlari/1-1/' }, { ad: 'Bahçe evi ve bağ evi', url: '/bahce-evi-fiyatlari/' }, { ad: 'Maliyet hesaplama', url: '/prefabrik-ev-maliyet-hesaplama/' }, { ad: 'Prefabrik evin dezavantajları', url: '/rehber/prefabrik-ev-dezavantajlari/' }],
+  },
   sehirKonu('İstanbul', 'istanbul-prefabrik-ev-fiyatlari'),
   sehirKonu('İzmir', 'izmir-prefabrik-ev-fiyatlari'),
   sehirKonu('Kocaeli', 'kocaeli-prefabrik-ev-fiyatlari'),
@@ -211,7 +255,7 @@ export const KONULAR: Konu[] = [
 ];
 
 export const konuBul = (slug: string) => KONULAR.find((k) => k.slug === slug)!;
-export const konuModelleri = (k: Konu) => sirala(models.filter(k.filtre));
+export const konuModelleri = (k: Konu) => (k.sira === 'fiyat' ? models.filter(k.filtre).sort((a, b) => (a.fiyat ?? 9e15) - (b.fiyat ?? 9e15)) : sirala(models.filter(k.filtre)));
 
 // Tip bazında özet (hazır ev ve m² sayfalarındaki tablolar)
 export function tipOzet(list: Model[]) {
