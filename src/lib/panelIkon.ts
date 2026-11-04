@@ -10,5 +10,8 @@ const P: Record<string, string> = {
   urun: '<path d="M3 11 12 4l9 7"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-6h4v6"/>',
   uyelik: '<path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6l-5.4 2.9 1.2-6-4.5-4.2 6.1-.7z"/>',
   profil: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+  ozet: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  kullanici: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/>',
+  davet: '<path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/>',
 };
 export const ik = (ad: keyof typeof P | string) => `<svg class="pik" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[ad] || ''}</svg>`;

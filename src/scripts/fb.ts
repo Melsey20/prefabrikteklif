@@ -1,6 +1,6 @@
 // Firebase istemcisi: yapılandırma Hosting'in /__/firebase/init.json adresinden gelir.
 import { initializeApp, type FirebaseApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, updateProfile, signOut, type User, type Auth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, updateProfile, signOut, RecaptchaVerifier, signInWithPhoneNumber, type ConfirmationResult, type User, type Auth } from 'firebase/auth';
 
 let _app: Promise<FirebaseApp> | null = null;
 let _auth: Auth | null = null;
@@ -43,7 +43,7 @@ const HATALAR: Record<string, string> = {
   'auth/email-already-in-use': 'Bu e-posta zaten kayıtlı. Giriş yapın ya da şifrenizi sıfırlayın.', 'auth/weak-password': 'Şifre en az 6 karakter olmalı.',
   'auth/invalid-email': 'Geçerli bir e-posta yazın.', 'auth/too-many-requests': 'Çok fazla deneme yapıldı, biraz sonra tekrar deneyin.',
   'auth/popup-closed-by-user': 'Giriş penceresi kapatıldı.', 'auth/network-request-failed': 'İnternet bağlantınızı kontrol edin.',
-  'auth/operation-not-allowed': 'Bu giriş yöntemi henüz açılmadı.', 'auth/unauthorized-domain': 'Bu alan adı giriş için yetkilendirilmemiş.',
+  'auth/operation-not-allowed': 'Bu giriş yöntemi henüz açılmadı.', 'auth/invalid-phone-number': 'Telefon numarasını 05xx xxx xx xx biçiminde yazın.', 'auth/invalid-verification-code': 'Kod hatalı. SMS’teki 6 haneli kodu yazın.', 'auth/code-expired': 'Kodun süresi doldu, yeniden kod isteyin.', 'auth/quota-exceeded': 'Şu an SMS gönderilemiyor, biraz sonra tekrar deneyin ya da e-postayla girin.', 'auth/captcha-check-failed': 'Güvenlik doğrulaması başarısız oldu, sayfayı yenileyip tekrar deneyin.', 'auth/missing-phone-number': 'Telefon numaranızı yazın.', 'auth/unauthorized-domain': 'Bu alan adı giriş için yetkilendirilmemiş.',
 };
 export const hataYazi = (e: any) => HATALAR[e?.code] || e?.message || 'Bir hata oluştu.';
 
@@ -53,6 +53,17 @@ export async function googleGiris() {
 }
 // Yönlendirmeli girişten dönüşte sonucu/hatayı al
 export async function yonlendirmeSonucu() { try { return (await getRedirectResult(await auth()))?.user ?? null; } catch (e) { throw e; } }
+// ---- Telefonla giriş (SMS kodu) ----
+let _onay: ConfirmationResult | null = null; let _rc: RecaptchaVerifier | null = null;
+export const telefonE164 = (t: string) => { const d = t.replace(/\D/g, ''); const s = d.startsWith('90') ? d.slice(2) : d.startsWith('0') ? d.slice(1) : d; return s.length === 10 && s.startsWith('5') ? '+90' + s : ''; };
+export async function telefonKodGonder(numara: string, butonId: string) {
+  const n = telefonE164(numara); if (!n) throw Object.assign(new Error('Telefon numarasını 05xx xxx xx xx biçiminde yazın.'), { code: 'auth/invalid-phone-number' });
+  const a = await auth();
+  if (!_rc) _rc = new RecaptchaVerifier(a, butonId, { size: 'invisible' });
+  try { _onay = await signInWithPhoneNumber(a, n, _rc); } catch (e) { try { _rc.clear(); } catch { /* */ } _rc = null; throw e; }
+}
+export async function telefonKodDogrula(kod: string) { if (!_onay) throw new Error('Önce kod isteyin.'); return (await _onay.confirm(kod.replace(/\D/g, ''))).user; }
+
 export async function epostaGiris(e: string, s: string) { return (await signInWithEmailAndPassword(await auth(), e, s)).user; }
 export async function kayitOl(e: string, s: string, ad: string) {
   const u = (await createUserWithEmailAndPassword(await auth(), e, s)).user;
@@ -65,7 +76,11 @@ export async function dogrulamaGonder() { const u = await kullanici(); if (u) aw
 export async function sifreSifirla(e: string) { await sendPasswordResetEmail(await auth(), e, { url: location.origin + '/giris/' }); }
 export async function cikis() { await signOut(await auth()); try { localStorage.removeItem('pt_user'); Object.keys(localStorage).filter((k) => k.startsWith('pt_hesap_')).forEach((k) => localStorage.removeItem(k)); } catch { /* */ } }
 
-export interface Ben { uid: string; eposta: string; dogrulandi: boolean; ad: string; rol: 'kullanici' | 'firma' | 'admin'; firma: string | null }
+export interface Ben { uid: string; eposta: string; telefon?: string; dogrulandi: boolean; ad: string; rol: 'kullanici' | 'firma' | 'admin'; firma: string | null; onaylar?: Record<string, string> }
+// Yasal metin sürümü (functions/app.js SOZLESME ile aynı tutulur). Sürüm değişince kullanıcıdan yeniden onay istenir.
+export const SOZLESME_SURUM = '2026-11';
+export const eksikOnaylar = (b: Ben) => (b.rol === 'firma' ? ['kullanici', 'kvkk', 'gizlilik', 'firma', 'abonelik'] : ['kullanici', 'kvkk', 'gizlilik']).filter((k) => b.onaylar?.[k] !== SOZLESME_SURUM);
+export async function onayVer(belgeler: string[], tur = 'hesap', pazarlama = false) { await api('/api/onay', { belgeler: [...belgeler, ...(pazarlama ? ['pazarlama'] : [])], tur }); }
 // Girişten sonra: rolü al, favorileri hesapla birleştir
 export async function oturumAc(): Promise<Ben | null> {
   const u = await kullanici(); if (!u) return null;

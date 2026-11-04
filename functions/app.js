@@ -676,7 +676,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     ist.oran = ist.talep ? Math.round((ist.teklif / ist.talep) * 100) : 0;
     return {
       uye: uyeAktif(fd), istatistik: ist, kartliOdeme: { acik: iyz().hazir && !!(await iyzicoPlan()), aktif: !!fd.iyzicoAbonelik },
-      ben: u, firma: { slug, ad: st.kisaAd || fd.ad || slug, il: st.il || '', tipler: fd.tipler || st.tipler || [], iller: fd.iller || [], eposta: fd.eposta || '', telefon: fd.telefon || '', aktif: !!fd.aktif },
+      ben: u, firma: { slug, ad: st.kisaAd || fd.ad || slug, il: st.il || '', tipler: fd.tipler || st.tipler || [], iller: fd.iller || [], eposta: fd.eposta || '', telefon: fd.telefon || '', web: fd.web || st.web || '', adres: fd.adres || '', aktif: !!fd.aktif },
       abonelik: { tutar: ab.tutar || ABONELIK_TL, durum: ab.durum || 'odeme-bekliyor', durumAd: ABONELIK_DURUM[ab.durum || 'odeme-bekliyor'], odemeLinki: ab.odemeLinki || '', sonOdeme: ab.sonOdeme || '', sonrakiOdeme: ab.sonrakiOdeme || '' },
       reklamPaketleri: REKLAM_PAKET, reklamlar, modeller, bekleyen, talepler, geriBildirimler: geri,
     };

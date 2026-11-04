@@ -1,0 +1,34 @@
+---
+import Sayfa from '../components/Sayfa.astro';
+import { SITE } from '../site.config';
+const sirket = SITE.sirketUnvani || SITE.ad;
+---
+<Sayfa title="Süreç Yönetimi Hizmet Sözleşmesi ve Ön Bilgilendirme" h1="Süreç yönetimi hizmet sözleşmesi ve ön bilgilendirme" description={`${SITE.ad} “Süreci siz yönetin” hizmeti: %${SITE.komisyon} hizmet bedeli, kapsam, ödeme zamanı, cayma hakkı ve sorumluluk sınırları.`}>
+  <p class="small muted">Sürüm: 2026-11 · Bu metin, mesafeli sözleşmelere ilişkin mevzuat kapsamında ön bilgilendirme niteliğindedir. “Süreci siz yönetin” talebi gönderen kullanıcı ön görüşmeye davet edilir; hizmet sözleşmesi, hizmet bedeli ve seçilen firma yazılı olarak netleştirildikten sonra kurulur.</p>
+  <h2>1. Hizmet sağlayıcı</h2>
+  <p>{sirket}{SITE.adres ? ` · ${SITE.adres}` : ''} · <a href={`mailto:${SITE.eposta}`}>{SITE.eposta}</a></p>
+  <h2>2. Hizmetin konusu ve kapsamı</h2>
+  <ul>
+    <li>İhtiyacınızı dinleyip uygun firmaları ve modelleri birlikte belirlemek, teklifleri kalem kalem karşılaştırmak ve pazarlıkta size destek olmak.</li>
+    <li>Seçtiğiniz firmayla yapacağınız sözleşmeyi imzalamadan önce kontrol etmek; ödeme planını aşamalara (üretim, nakliye, montaj, teslim) bağlamanızı önermek.</li>
+    <li>Üretim, nakliye, montaj ve teslim aşamalarını firmayla takip etmek; her adımı hesabınızdaki “Süreç takibi” bölümünde göstermek.</li>
+  </ul>
+  <p><strong>Kapsam dışı:</strong> evin satışı, üretimi, nakliyesi, montajı, ruhsat ve imar işlemleri, garantisi. Bunlar yalnızca sizinle firma arasındaki satış sözleşmesine tabidir; {SITE.ad} bu sözleşmenin tarafı değildir ve firmanın edimlerinden sorumlu değildir. Ev bedelini doğrudan firmaya ödersiniz; {SITE.ad} ev bedelini tahsil etmez.</p>
+  <h2>3. Hizmet bedeli ve ödeme</h2>
+  <ul>
+    <li>Hizmet bedeli, firmayla imzalanan sözleşmedeki ev bedelinin <strong>%{SITE.komisyon}</strong>’idir. Kesin tutar, firma sözleşmesi imzalanmadan önce size yazılı olarak bildirilir ve onayınız alınır.</li>
+    <li>Ön görüşme ve firma karşılaştırması ücretsizdir; firmayla sözleşme imzalamazsanız hizmet bedeli doğmaz.</li>
+    <li>Ödeme zamanı ve şekli (ör. firma sözleşmesi imzalandığında veya teslimde) hizmet sözleşmesinde belirtilir. Her ödeme için fatura düzenlenir.</li>
+  </ul>
+  <h2>4. Cayma hakkı</h2>
+  <p>Hizmet sözleşmesinin kurulduğu günden itibaren <strong>14 gün</strong> içinde hiçbir gerekçe göstermeden ve cezai şart ödemeden cayabilirsiniz. Cayma bildirimini {SITE.eposta} adresine yazılı olarak iletmeniz yeterlidir. Cayma süresi içinde hizmetin ifasına onayınızla başlanmış ve hizmet bu süre içinde tamamen ifa edilmişse (firma sözleşmeniz imzalanmış ve süreç tamamlanmışsa) cayma hakkı kullanılamaz; kısmen ifa edilmişse yalnızca ifa edilen kısmın bedeli talep edilebilir. Cayma halinde ödediğiniz tutar 14 gün içinde iade edilir.</p>
+  <h2>5. Tarafların yükümlülükleri</h2>
+  <ul>
+    <li>{SITE.ad}, hizmeti özenle ve sizin menfaatinizi gözeterek yürütür; firmalardan sizin aleyhinize gizli komisyon almaz.</li>
+    <li>Siz, ihtiyaç ve arsa bilgilerinizi doğru verir, firmayla yapacağınız sözleşme ve ödemeler hakkında bizi bilgilendirirsiniz.</li>
+  </ul>
+  <h2>6. Kişisel veriler</h2>
+  <p>Bilgileriniz <a href="/kvkk-aydinlatma-metni/">KVKK Aydınlatma Metni</a> uyarınca işlenir ve yalnızca birlikte seçtiğimiz firmayla paylaşılır.</p>
+  <h2>7. Şikâyet ve uyuşmazlık</h2>
+  <p>Şikâyetlerinizi {SITE.eposta} adresine iletebilirsiniz. Uyuşmazlıklarda, Ticaret Bakanlığınca her yıl ilan edilen parasal sınırlar içinde yerleşim yerinizdeki veya hizmeti satın aldığınız yerdeki tüketici hakem heyetine, bu sınırların üzerindeki uyuşmazlıklarda tüketici mahkemelerine başvurabilirsiniz.</p>
+</Sayfa>

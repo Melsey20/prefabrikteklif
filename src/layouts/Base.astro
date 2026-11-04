@@ -26,11 +26,12 @@ const kisaBaslik = (t: string) => {
   if (x.length > 62) x = x.replace(` | ${SITE.ad}`, '');
   return kelimeKes(x, 62);
 };
-const fullTitle = kisaBaslik(title.includes(SITE.ad) || title.length > 52 ? title : `${title} | ${SITE.ad}`);
+// Marka adı başlıklarda iki kelime yazılır (“prefabrik teklif” aramaları için)
+const fullTitle = kisaBaslik(title.includes(SITE.ad) || title.includes('Prefabrik Teklif') || title.length > 50 ? title : `${title} | Prefabrik Teklif`);
 const metaDesc = kelimeKes(description.replace(/\s+/g, ' ').trim(), 158, '…');
 const og = new URL(ogImage, SITE.url).href;
 const org = {
-  '@context': 'https://schema.org', '@type': 'Organization', '@id': `${SITE.url}/#org`, name: SITE.ad, url: SITE.url,
+  '@context': 'https://schema.org', '@type': 'Organization', '@id': `${SITE.url}/#org`, name: 'Prefabrik Teklif', alternateName: ['PrefabrikTeklif', 'prefabrikteklif.com.tr'], url: SITE.url,
   legalName: SITE.sirketUnvani || undefined, logo: new URL('/logo.png', SITE.url).href,
   description: 'Türkiye’deki prefabrik ev, tiny house, çelik ev, konteyner ev, ahşap ev ve bungalov üreticilerinin fiyatlarını karşılaştıran ve firmalardan teklif toplayan platform.',
   ...(SITE.eposta ? { email: SITE.eposta } : {}), ...(SITE.telefon ? { telephone: SITE.telefon } : {}),
@@ -65,15 +66,17 @@ const ic = {
   <link rel="canonical" href={canonical} />
   <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
   <meta name="theme-color" content="#17663f" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+  <link rel="icon" href="/favicon-96.png" type="image/png" sizes="96x96" />
+  <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="sitemap" href="/sitemap-index.xml" />
   <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM özeti" />
   <link rel="alternate" type="application/rss+xml" href="/rehber/rss.xml" title="PrefabrikTeklif Rehber" />
   {preload && <link rel="preload" as="image" href={preload} fetchpriority="high" />}
-  <meta property="og:site_name" content={SITE.ad} />
+  <meta property="og:site_name" content="Prefabrik Teklif" />
   <meta property="og:locale" content="tr_TR" />
   <meta property="og:type" content={ogType} />
   <meta property="og:title" content={fullTitle} />
@@ -184,23 +187,20 @@ const ic = {
     <slot />
   </main>
   <div class="wrap by-dis">
-        <section class="bize-yazin" aria-labelledby="by-baslik">
-          <div>
-            <h2 id="by-baslik">Bize yazın</h2>
-            <p class="small muted">Öneri, soru, şikâyet ya da iş birliği: mesajınız doğrudan ekibimize gelir, en geç 1 iş günü içinde e-postayla dönüyoruz.</p>
-          </div>
+        <details class="bize-yazin" id="bize-yazin">
+          <summary><span class="by-ikon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l.9-4.4A8 8 0 1 1 20 12z"/></svg></span><span class="by-m"><b id="by-baslik">Bize yazın</b><span class="small muted">Soru, öneri, şikâyet ya da iş birliği · 1 iş günü içinde dönüyoruz</span></span><span class="by-ac">Mesaj yaz</span></summary>
           <form id="by-form" novalidate>
-            <div class="two">
+            <div class="by-uc">
               <label class="f">Adınız<input type="text" name="ad" maxlength="80" required autocomplete="name" /></label>
               <label class="f">E-posta<input type="email" name="eposta" maxlength="120" required autocomplete="email" /></label>
-            </div>
             <label class="f">Konu<select name="konu"><option value="soru">Soru</option><option value="oneri">Öneri</option><option value="sikayet">Şikâyet</option><option value="isbirligi">İş birliği</option><option value="reklam">Reklam</option><option value="diger">Diğer</option></select></label>
-            <label class="f">Mesajınız<textarea name="mesaj" maxlength="3000" rows="3" required></textarea></label>
+            </div>
+            <label class="f">Mesajınız<textarea name="mesaj" maxlength="3000" rows="2" required></textarea></label>
             <div class="hp" aria-hidden="true"><label>Web<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
             <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="btn btn-p btn-s" type="submit">Gönder</button><span class="xs muted">Bilgileriniz yalnızca size dönüş yapmak için kullanılır. <a href="/kvkk-aydinlatma-metni/">Aydınlatma metni</a></span></div>
             <p class="small" id="by-durum" role="status" hidden></p>
           </form>
-        </section>
+        </details>
   </div>
   <footer class="ftr">
     <div class="wrap">
@@ -249,7 +249,7 @@ const ic = {
       </p>
       <div class="bot">
         <span>© {new Date().getFullYear()} {SITE.sirketUnvani || SITE.ad} · Web tasarım ve dijital pazarlama: <a href="https://mitraajans.com/">Mitra Ajans</a></span>
-        <span><a href="/kvkk-aydinlatma-metni/">KVKK</a> · <a href="/kullanim-kosullari/">Kullanım koşulları</a> · <a href="/cerez-politikasi/">Çerezler</a></span>
+        <span><a href="/kvkk-aydinlatma-metni/">KVKK</a> · <a href="/gizlilik-politikasi/">Gizlilik</a> · <a href="/kullanici-sozlesmesi/">Kullanıcı sözleşmesi</a> · <a href="/abonelik-ve-iptal-kosullari/">Abonelik ve iptal</a> · <a href="/surec-yonetimi-hizmet-sozlesmesi/">Hizmet sözleşmesi</a> · <a href="/cerez-politikasi/">Çerezler</a></span>
       </div>
     </div>
   </footer>

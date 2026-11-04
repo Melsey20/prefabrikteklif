@@ -39,6 +39,7 @@ import { SITE } from '../site.config';
   </div>
   <script define:vars={{ KOMISYON: SITE.komisyon, SAAT: SITE.teklifSaat }}>window.__HS = { KOMISYON, SAAT };</script>
   <script>
+    import { onayIste } from '../scripts/onayKutusu';
     import { kullanici, api, oturumAc, cikis, dogrulamaGonder, sifreSifirla, adGuncelle, hataYazi } from '../scripts/fb';
     import { h, tl, tarih, toast, hataGoster } from '../scripts/ui';
     import { modeller, kart, TIP_IMG } from '../scripts/modeller';
@@ -51,6 +52,7 @@ import { SITE } from '../site.config';
 
     // ---- Sekmeler (adres çubuğundaki #bölüm ile) ----
     function ac(p: string) {
+      if (p === 'teklifler') p = 'talepler';
       if (!document.querySelector(`.hs-sek [data-p="${p}"]`)) p = 'genel';
       document.querySelectorAll<HTMLElement>('.hs-sek [data-p]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.p === p)));
       document.querySelectorAll<HTMLElement>('.hs-p').forEach((s) => (s.hidden = s.dataset.panel !== p));
@@ -67,6 +69,13 @@ import { SITE } from '../site.config';
       const ad = ['Talep gönderildi', n ? `${n} teklif geldi` : 'Firmalar fiyat veriyor', 'Karşılaştırma hazır'];
       return h('ol', { class: 'hs-ilerle' }, ...ad.map((a, i) => h('li', { class: i + 1 < adim ? 'ok' : i + 1 === adim ? 'now' : '' }, h('i', {}, i + 1 < adim ? '✓' : String(i + 1)), h('span', {}, a))));
     }
+    function mesajKutu(x: any, t: any) {
+      const m = x.mesajlar || [];
+      const metin = h('textarea', { rows: 2, maxlength: 2000, placeholder: `${x.firma} firmasına sorunuzu yazın` }) as HTMLTextAreaElement;
+      return h('details', { class: 'mj-kutu', open: m.length > 0 }, h('summary', {}, `Firmayla mesajlaşma${m.length ? ` (${m.length})` : ''}`),
+        h('div', { class: 'mj-liste' }, ...m.map((y: any) => h('div', { class: 'mj ' + (y.kim === 'musteri' ? 'ben' : '') }, h('span', { class: 'xs muted' }, (y.kim === 'musteri' ? 'Siz' : x.firma) + ' · ' + tarih(y.zaman)), h('p', {}, y.metin)))),
+        h('form', { class: 'mj-form', onsubmit: async (e: Event) => { e.preventDefault(); if (metin.value.trim().length < 2) return; try { await api('/api/mesaj', { talep: t.id, firma: x.firmaSlug, metin: metin.value }); toast('Mesajınız firmaya iletildi'); await yukle(); ac('talepler'); } catch (err: any) { toast(err.message); } } }, metin, h('button', { class: 'btn btn-p btn-s', type: 'submit' }, 'Gönder')));
+    }
     function teklifKart(x: any, en: boolean, t: any) {
       return h('article', { class: 'hs-tk' + (en ? ' en' : '') },
         en ? h('span', { class: 'hs-en' }, 'En uygun') : null,
@@ -75,8 +84,13 @@ import { SITE } from '../site.config';
         x.dahil?.length ? h('ul', { class: 'tags' }, ...x.dahil.map((d: string) => h('li', { class: 'd' }, d + ' dahil'))) : h('span', { class: 'xs muted' }, 'Dahil kalem belirtilmedi'),
         h('span', { class: 'small' }, [x.teslimGun ? `Teslim ${x.teslimGun} gün` : '', x.garantiYil ? `${x.garantiYil} yıl garanti` : ''].filter(Boolean).join(' · ')),
         x.not ? h('details', {}, h('summary', { class: 'small' }, 'Firmanın notu'), h('p', { class: 'small', style: { whiteSpace: 'pre-line', margin: '6px 0 0' } }, x.not)) : null,
+        x.iletisim ? h('div', { class: 'tk-iletisim' },
+          x.iletisim.telefon ? h('a', { class: 'btn btn-p btn-s', href: 'tel:' + x.iletisim.telefon.replace(/\s/g, '') }, '📞 Ara') : null,
+          x.iletisim.eposta ? h('a', { class: 'btn btn-g btn-s', href: `mailto:${x.iletisim.eposta}?subject=${encodeURIComponent('PrefabrikTeklif teklifiniz: ' + baslik(t))}` }, '✉️ E-posta') : null,
+          h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: (e: Event) => { const d = (e.currentTarget as HTMLElement).closest('.hs-tk')!.querySelector('details.mj-kutu') as HTMLDetailsElement; d.open = true; d.querySelector('textarea')?.focus(); } }, '💬 Soru sor')) : null,
+        mesajKutu(x, t),
         h('div', { class: 'hs-tk-b' },
-          h('a', { class: 'btn btn-p btn-s', href: `/teklif-al/?mod=surec&firmalar=${encodeURIComponent(x.firmaSlug)}&tip=${encodeURIComponent(t.tip || '')}` }, 'Bu firmayla ilerle'),
+          h('a', { class: 'btn btn-l btn-s', href: `/teklif-al/?mod=surec&firmalar=${encodeURIComponent(x.firmaSlug)}&tip=${encodeURIComponent(t.tip || '')}` }, 'Süreci siz yönetin'),
           h('a', { class: 'btn btn-g btn-s', href: `/yorum-yaz/?firma=${encodeURIComponent(x.firmaSlug)}` }, 'Yorum yaz')));
     }
     function talepKart(t: any, kisa = false) {
@@ -170,7 +184,7 @@ import { SITE } from '../site.config';
     function basCiz() {
       const b = veri.ben; const ad = (b.ad || '').trim();
       $('hs-ad').textContent = ad ? `Merhaba ${ad.split(/\s+/)[0]}` : 'Hesabım';
-      $('hs-eposta').textContent = b.eposta || '';
+      $('hs-eposta').textContent = b.eposta || b.telefon || '';
       $('hs-av').textContent = (ad || b.eposta || '?').trim()[0].toLocaleUpperCase('tr');
     }
     function hepsiniCiz() {
@@ -198,9 +212,9 @@ import { SITE } from '../site.config';
         uid = u.uid;
         // Son görülen bilgilerle hemen çiz, ardından güncelle (sayfa anında açılır)
         try { const c = JSON.parse(localStorage.getItem('pt_hesap_' + uid) || 'null'); if (c?.veri) { veri = c.veri; hepsiniCiz(); } } catch { /* */ }
-        if (!veri) { $('hs-eposta').textContent = u.email || ''; $('hs-ad').textContent = u.displayName ? `Merhaba ${u.displayName.split(/\s+/)[0]}` : 'Hesabım'; }
+        if (!veri) { $('hs-eposta').textContent = u.email || u.phoneNumber || ''; $('hs-ad').textContent = u.displayName ? `Merhaba ${u.displayName.split(/\s+/)[0]}` : 'Hesabım'; }
         ac(location.hash.slice(1) || 'genel');
-        oturumAc().catch(() => {}); // favorileri birleştir, başlıktaki adı güncelle (arka planda)
+        oturumAc().then((b) => onayIste(b)).catch(() => {}); // favorileri birleştir, başlıktaki adı güncelle, eksik sözleşme onayını iste (arka planda)
         await yukle();
         if (!location.hash && !veri.talepler.length && veri.siparisler.length) ac('surec');
       } catch (e) { if (!veri) hataGoster($('p-genel'), e); else toast('Bilgiler güncellenemedi; son kaydedilen hali gösteriliyor.'); }

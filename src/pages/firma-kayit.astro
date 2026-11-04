@@ -92,9 +92,9 @@ const firmaOzet = Object.fromEntries(firms.map((f) => [f.slug, { u: f.ad, m: f.k
           <p class="xs muted" style="margin:0">Bedeller aylıktır ve {SITE.abonelik} TL üyeliğe ektir. Onaydan sonra alan uygunluğunu kontrol edip ödeme bağlantısını ayrıca göndeririz. <a href="/reklam-ver/" target="_blank">Alanların nerede göründüğüne bakın</a></p>
         </div>
       </div>
-      <label class="chk"><input type="checkbox" name="abonelik" required /> <span>Aylık <b>{SITE.abonelik} TL</b> üyelik bedelini, onaydan sonra gönderilecek bağlantıdan her ay düzenli ödeyeceğimi; ödenen üyelik ve reklam bedellerinin iade edilmediğini biliyorum.</span></label>
+      <label class="chk"><input type="checkbox" name="abonelik" required /> <span>Aylık <b>{SITE.abonelik} TL</b> üyelik bedelini, onaydan sonra gönderilecek bağlantıdan ya da kartımı kaydederek her ay düzenli ödeyeceğimi; ödenen üyelik ve reklam bedellerinin iade edilmediğini biliyorum. <a href="/abonelik-ve-iptal-kosullari/" target="_blank">Abonelik, ödeme ve iptal koşulları</a></span></label>
       <label class="chk"><input type="checkbox" name="sozlesme" required /> <span><a href="/firma-uyelik-sozlesmesi/" target="_blank">Firma üyelik sözleşmesini</a> okudum ve kabul ediyorum. Müşteriye karşı tüm sorumluluğun firmamda olduğunu, müşteriyi mağdur etmem halinde kaydımın silineceğini biliyorum.</span></label>
-      <label class="chk"><input type="checkbox" name="kosul" required /> <span><a href="/kullanim-kosullari/" target="_blank">Kullanım koşullarını</a> ve <a href="/kvkk-aydinlatma-metni/" target="_blank">aydınlatma metnini</a> okudum. Verdiğim bilgilerin ve belgelerin doğru olduğunu beyan ederim.</span></label>
+      <label class="chk"><input type="checkbox" name="kosul" required /> <span><a href="/kullanici-sozlesmesi/" target="_blank">Kullanıcı sözleşmesini</a>, <a href="/gizlilik-politikasi/" target="_blank">gizlilik politikasını</a> ve <a href="/kvkk-aydinlatma-metni/" target="_blank">aydınlatma metnini</a> okudum. Verdiğim bilgilerin ve belgelerin doğru olduğunu beyan ederim.</span></label>
       <p class="err" id="hata" role="alert" hidden></p>
       <button class="btn btn-p btn-block" type="submit" id="gonder">Kaydı gönder</button>
     </form>

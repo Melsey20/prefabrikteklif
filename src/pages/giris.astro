@@ -12,22 +12,32 @@ import { SITE } from '../site.config';
         <button type="button" role="tab" aria-selected="false" data-g="kayit">Kayıt ol</button>
       </div>
       <button class="gbtn" type="button" id="g-google"><svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Google ile devam et</button>
+      <button class="gbtn" type="button" id="g-tel-ac" style="margin-top:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18h2"/></svg>Telefon numarasıyla devam et</button>
+      <form class="form" id="g-tel" hidden novalidate style="gap:10px;margin-top:12px">
+        <label class="f">Cep telefonu<input type="tel" name="tel" autocomplete="tel" inputmode="tel" placeholder="05xx xxx xx xx" maxlength="16" /></label>
+        <label class="f" id="g-kod-alan" hidden>SMS ile gelen kod<input type="text" name="kod" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6 haneli kod" /></label>
+        <button class="btn btn-p btn-block" type="submit" id="g-tel-btn">Kod gönder</button>
+        <p class="xs muted" style="margin:0">Numaranıza tek kullanımlık doğrulama kodu gönderilir. Teklif talebinde yazdığınız numarayla girerseniz talepleriniz otomatik görünür.</p>
+      </form>
       <div class="or">veya e-posta ile</div>
       <form class="form" id="g-form" novalidate style="gap:12px">
         <label class="f" data-k hidden>Ad soyad<input type="text" name="ad" autocomplete="name" maxlength="80" /></label>
         <label class="f">E-posta<input type="email" name="eposta" autocomplete="email" required maxlength="120" /></label>
         <label class="f">Şifre<input type="password" name="sifre" autocomplete="current-password" required minlength="6" /></label>
+        <label class="chk" data-k hidden><input type="checkbox" name="onay" /> <span><a href="/kullanici-sozlesmesi/" target="_blank">Kullanıcı Sözleşmesi</a>, <a href="/kvkk-aydinlatma-metni/" target="_blank">KVKK Aydınlatma Metni</a> ve <a href="/gizlilik-politikasi/" target="_blank">Gizlilik Politikası</a>’nı okudum, kabul ediyorum.</span></label>
+        <label class="chk" data-k hidden><input type="checkbox" name="pazarlama" /> <span>Fiyat düşüşü ve yeni modellerden e-postayla haberdar olmak istiyorum (isteğe bağlı).</span></label>
         <p class="err" id="g-hata" role="alert" hidden></p>
         <p class="okmsg small" id="g-ok" role="status" hidden style="margin:0"></p>
         <button class="btn btn-p btn-block" type="submit" id="g-btn">Giriş yap</button>
         <button class="btn btn-g btn-s" type="button" id="g-sifre" style="align-self:center;border:0">Şifremi unuttum</button>
       </form>
-      <p class="xs muted" style="margin:14px 0 0">Devam ederek <a href="/kullanim-kosullari/">kullanım koşullarını</a> ve <a href="/kvkk-aydinlatma-metni/">aydınlatma metnini</a> kabul etmiş olursunuz.</p>
+      <p class="xs muted" style="margin:14px 0 0">İlk girişte <a href="/kullanici-sozlesmesi/">Kullanıcı Sözleşmesi</a>, <a href="/kvkk-aydinlatma-metni/">KVKK Aydınlatma Metni</a> ve <a href="/gizlilik-politikasi/">Gizlilik Politikası</a> için onayınız istenir.</p>
     </div>
     <p class="small muted" style="text-align:center">Firma mısınız? Başvurunuz onaylandıktan sonra başvurudaki e-postayla giriş yapın. <a href="/firma-kayit/">Firma başvurusu</a></p>
   </div>
   <script>
-    import { googleGiris, yonlendirmeSonucu, epostaGiris, kayitOl, sifreSifirla, oturumAc, hedefSayfa, hataYazi, kullanici } from '../scripts/fb';
+    import { googleGiris, yonlendirmeSonucu, epostaGiris, kayitOl, sifreSifirla, oturumAc, hedefSayfa, hataYazi, kullanici, telefonKodGonder, telefonKodDogrula, onayVer, eksikOnaylar } from '../scripts/fb';
+    import { onayIste } from '../scripts/onayKutusu';
     const q = new URLSearchParams(location.search);
     const geri = (q.get('geri') || '').startsWith('/') && !q.get('geri')!.startsWith('//') ? q.get('geri')! : '';
     const form = document.getElementById('g-form') as HTMLFormElement;
@@ -51,6 +61,10 @@ import { SITE } from '../site.config';
     async function bitir() {
       try {
         const ben = await oturumAc(); if (!ben) return;
+        // Kayıt formunda onay kutusu işaretlendiyse onay doğrudan kaydedilir; değilse (Google, telefon, eski hesap) bir kez sorulur
+        const ek = eksikOnaylar(ben);
+        if (ek.length && mod === 'kayit' && (form.elements.namedItem('onay') as HTMLInputElement).checked && ben.rol !== 'firma') await onayVer(ek, 'kayit', (form.elements.namedItem('pazarlama') as HTMLInputElement).checked);
+        else await onayIste(ben);
         (window as any).gtag?.('event', 'login');
         location.href = geri || hedefSayfa(ben);
       } catch (e: any) { hataG(e.message || 'Giriş yapılamadı.'); }
@@ -63,11 +77,25 @@ import { SITE } from '../site.config';
       const ep = (form.elements.namedItem('eposta') as HTMLInputElement).value.trim(); const s = (form.elements.namedItem('sifre') as HTMLInputElement).value;
       if (!/^\S+@\S+\.\S+$/.test(ep)) return hataG('Geçerli bir e-posta yazın.');
       if (s.length < 6) return hataG('Şifre en az 6 karakter olmalı.');
+      if (mod === 'kayit' && !(form.elements.namedItem('onay') as HTMLInputElement).checked) return hataG('Kayıt için sözleşme ve aydınlatma metnini onaylayın.');
       const btn = $('g-btn') as HTMLButtonElement; btn.disabled = true;
       try {
         if (mod === 'kayit') { await kayitOl(ep, s, (form.elements.namedItem('ad') as HTMLInputElement).value.trim()); okG('Hesabınız oluşturuldu. E-postanıza gelen bağlantıyla adresinizi doğrulayın.'); await bitir(); }
         else { await epostaGiris(ep, s); await bitir(); }
       } catch (err) { hataG(hataYazi(err)); } finally { btn.disabled = false; }
+    });
+    // Telefonla giriş
+    const tf = $('g-tel') as HTMLFormElement; let kodGitti = false;
+    $('g-tel-ac').addEventListener('click', () => { tf.hidden = !tf.hidden; if (!tf.hidden) (tf.elements.namedItem('tel') as HTMLInputElement).focus(); });
+    tf.addEventListener('submit', async (e) => {
+      e.preventDefault(); const b = $('g-tel-btn') as HTMLButtonElement; b.disabled = true;
+      try {
+        if (!kodGitti) {
+          await telefonKodGonder((tf.elements.namedItem('tel') as HTMLInputElement).value, 'g-tel-btn');
+          kodGitti = true; $('g-kod-alan').hidden = false; b.textContent = 'Kodu doğrula ve giriş yap'; okG('Kod gönderildi. SMS ile gelen 6 haneli kodu yazın.');
+          (tf.elements.namedItem('kod') as HTMLInputElement).focus();
+        } else { await telefonKodDogrula((tf.elements.namedItem('kod') as HTMLInputElement).value); await bitir(); }
+      } catch (err) { hataG(hataYazi(err)); } finally { b.disabled = false; }
     });
     $('g-sifre').addEventListener('click', async () => {
       const ep = (form.elements.namedItem('eposta') as HTMLInputElement).value.trim();

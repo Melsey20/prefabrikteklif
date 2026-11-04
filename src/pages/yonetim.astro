@@ -12,17 +12,23 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
   <div class="app" id="y-app" hidden>
     <aside aria-label="Yönetim bölümleri" id="sekmeler">
       <div class="side-x" style="font-weight:800;padding:4px 12px 16px">Yönetim</div>
+      <button type="button" data-sekme="ozet"><Fragment set:html={ik('ozet')} /><span class="pt">Özet</span></button>
       <button type="button" data-sekme="onaylar"><Fragment set:html={ik('onay')} /><span class="pt">Onaylar</span><span class="rz" data-rz="onay"></span></button>
       <button type="button" data-sekme="talepler"><Fragment set:html={ik('talep')} /><span class="pt">Talepler</span></button>
       <button type="button" data-sekme="siparisler"><Fragment set:html={ik('siparis')} /><span class="pt">Siparişler</span><span class="rz" data-rz="siparis"></span></button>
       <button type="button" data-sekme="firmalar"><Fragment set:html={ik('firma')} /><span class="pt">Firmalar</span></button>
+      <button type="button" data-sekme="kullanicilar"><Fragment set:html={ik('kullanici')} /><span class="pt">Kullanıcılar</span></button>
+      <button type="button" data-sekme="tanitim"><Fragment set:html={ik('davet')} /><span class="pt">Firma daveti</span></button>
       <button type="button" data-sekme="geri-bildirim"><Fragment set:html={ik('mesaj')} /><span class="pt">Geri bildirim</span><span class="rz" data-rz="gb"></span></button>
       <button type="button" data-sekme="bannerlar"><Fragment set:html={ik('reklam')} /><span class="pt">Reklam alanları</span><span class="rz" data-rz="reklam"></span></button>
       <button type="button" data-sekme="fiyat"><Fragment set:html={ik('fiyat')} /><span class="pt">Fiyat kontrolü</span></button>
     </aside>
     <main>
       <div id="eposta-uyari" class="box" hidden style="border-color:#c0392b;background:#fdecea;margin-bottom:16px"></div>
-      <section data-panel="onaylar"><div class="ph-h"><h1>Onay bekleyenler</h1></div><div id="p-onaylar" class="list"></div></section>
+      <section data-panel="ozet"><div class="ph-h"><h1>Özet</h1><button class="btn btn-g btn-s" type="button" id="ist-hesapla" title="Sayaçları talep geçmişinden yeniden hesaplar">Sayıları yeniden hesapla</button></div><div id="p-ozet"></div></section>
+      <section data-panel="kullanicilar" hidden><div class="ph-h"><div><h1>Kullanıcılar</h1><p class="small muted" style="margin:4px 0 0">Hesap açan kullanıcılar ve hesabı olmadan talep gönderenler. Talep ve gelen teklif sayıları test talepleri hariçtir.</p></div></div><div id="p-kullanicilar"></div><h2 style="font-size:1.15rem;margin:26px 0 10px">Sözleşme onay kayıtları (son 100)</h2><p class="small muted" style="margin:0 0 10px">Her talep, kayıt, firma başvurusu ve abonelikte hangi metnin hangi sürümünün, ne zaman, hangi tarayıcıdan onaylandığı saklanır. Uyuşmazlıkta ispat için kullanılır.</p><div id="p-onaykayit"></div></section>
+      <section data-panel="tanitim" hidden><div class="ph-h"><div><h1>Firmalara tanıtım e-postası</h1><p class="small muted" style="margin:4px 0 0">Açıkken her gün saat 10.00’da sıradaki firmalara gönderilir. Kayıtlı firmalara, ret bağlantısına tıklayanlara ve son 30 günde e-posta alanlara gitmez; bir adrese en fazla 2 kez gider.</p></div></div><div id="p-tanitim"></div></section>
+      <section data-panel="onaylar" hidden><div class="ph-h"><h1>Onay bekleyenler</h1></div><div id="p-onaylar" class="list"></div></section>
       <section data-panel="talepler" hidden><div class="ph-h"><h1>Teklif talepleri</h1><a class="btn btn-g btn-s" href="/teklif-al/?test=1&tip=prefabrik&il=Malatya" title="Yalnızca yönetici e-postasıyla kayıtlı test firmalarına gider">Test talebi gönder</a></div><div id="p-talepler"></div></section>
       <section data-panel="siparisler" hidden><div class="ph-h"><h1>Yönettiğimiz siparişler</h1></div><div id="p-kanban" class="kanban" style="margin-bottom:18px"></div><div id="p-siparisler" class="list"></div></section>
       <section data-panel="firmalar" hidden><div class="ph-h"><div><h1>Kayıtlı firmalar</h1><p class="small muted" style="margin:4px 0 0">Talepler yalnızca aktif ve e-postası olan firmalara gider. Panel e-postaları firma paneline giriş yapabilir.</p></div><button class="btn btn-p btn-s" type="button" id="firma-ekle">+ Firma hesabı aç</button></div><div id="p-firmalar"></div></section>
@@ -158,10 +164,55 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
     }
     function firmalarCiz() {
       if (!V.firmalar.length) { $('p-firmalar').replaceChildren(h('div', { class: 'empty' }, 'Henüz kayıtlı firma yok. Başvuruları onayladığınızda ya da “Firma hesabı aç” ile ekleyin.')); return; }
-      $('p-firmalar').replaceChildren(h('div', { class: 'tbl-wrap' }, h('table', { style: { minWidth: '760px' } }, h('thead', {}, h('tr', {}, ...['Firma', 'Durum', 'Üyelik', 'Bildirim e-postası', 'Panel e-postaları', 'Tipler', 'İller', ''].map((x) => h('th', {}, x)))),
-        h('tbody', {}, ...V.firmalar.map((f: any) => h('tr', {}, h('td', {}, h('b', {}, f.ad || f.id), h('div', { class: 'xs muted' }, f.id)), h('td', {}, h('span', { class: 'st-b ' + (f.kaldirildi ? 'r' : f.aktif ? 'g' : '') }, f.kaldirildi ? 'Yayından kaldırıldı' : f.aktif ? 'Aktif' : 'Pasif')), h('td', { class: 'small' }, f.abonelik ? h('span', { class: 'st-b ' + (f.abonelik.durum === 'aktif' ? 'g' : 'a') }, V.abonelikDurumlari[f.abonelik.durum] || f.abonelik.durum) : '–', f.abonelik?.sonrakiOdeme ? h('div', { class: 'xs muted' }, 'Sonraki: ' + f.abonelik.sonrakiOdeme) : null), h('td', { class: 'small' }, f.eposta || '–'), h('td', { class: 'small' }, (f.panelEpostalari || []).join(', ') || '–'), h('td', { class: 'small' }, (f.tipler || []).map((t: string) => TIP[t]).join(', ')), h('td', { class: 'small' }, (f.iller || []).join(', ').replace('*', 'Tüm Türkiye')), h('td', { style: { whiteSpace: 'nowrap' } }, h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => firmaFormu(f) }, 'Düzenle'), ' ', h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => uyelikFormu(f) }, 'Üyelik'), ' ',
+      $('p-firmalar').replaceChildren(h('div', { class: 'tbl-wrap' }, h('table', { style: { minWidth: '760px' } }, h('thead', {}, h('tr', {}, ...['Firma', 'Durum', 'Üyelik', 'Talep / teklif', 'Bildirim e-postası', 'Panel e-postaları', 'Tipler', 'İller', ''].map((x) => h('th', {}, x)))),
+        h('tbody', {}, ...V.firmalar.map((f: any) => h('tr', {}, h('td', {}, h('b', {}, f.ad || f.id), h('div', { class: 'xs muted' }, f.id)), h('td', {}, h('span', { class: 'st-b ' + (f.kaldirildi ? 'r' : f.aktif ? 'g' : '') }, f.kaldirildi ? 'Yayından kaldırıldı' : f.aktif ? 'Aktif' : 'Pasif')), h('td', { class: 'small' }, f.abonelik ? h('span', { class: 'st-b ' + (f.abonelik.durum === 'aktif' ? 'g' : 'a') }, V.abonelikDurumlari[f.abonelik.durum] || f.abonelik.durum) : '–', f.abonelik?.sonrakiOdeme ? h('div', { class: 'xs muted' }, 'Sonraki: ' + f.abonelik.sonrakiOdeme) : null), h('td', { class: 'small', style: { whiteSpace: 'nowrap' } }, h('b', {}, `${f.istTalep || 0} / ${f.istTeklif || 0}`), h('div', { class: 'xs muted' }, f.istTalep ? `%${Math.round(((f.istTeklif || 0) / f.istTalep) * 100)} dönüş${f.istRed ? ` · ${f.istRed} red` : ''}` : 'henüz talep yok')), h('td', { class: 'small' }, f.eposta || '–'), h('td', { class: 'small' }, (f.panelEpostalari || []).join(', ') || '–'), h('td', { class: 'small' }, (f.tipler || []).map((t: string) => TIP[t]).join(', ')), h('td', { class: 'small' }, (f.iller || []).join(', ').replace('*', 'Tüm Türkiye')), h('td', { style: { whiteSpace: 'nowrap' } }, h('button', { class: 'btn btn-s ' + (f.aktif ? 'btn-g' : 'btn-p'), type: 'button', onclick: () => yap('/api/yonetim/firma-durum', { slug: f.id, islem: f.aktif ? 'pasif' : 'aktif' }, f.aktif ? 'Pasife alındı: talep almaz' : 'Aktif: talepler gelir') }, f.aktif ? 'Pasife al' : 'Aktif et'), ' ', h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => firmaFormu(f) }, 'Düzenle'), ' ', h('button', { class: 'btn btn-g btn-s', type: 'button', style: { color: '#b3261e' }, onclick: () => { const o = prompt(`“${f.ad || f.id}” firma hesabı kalıcı olarak silinecek; panel erişimi kapanır, firmaya talep gitmez (geçmiş talepler ve yedek kayıt saklanır). Onaylamak için firma kodunu yazın: ${f.id}`); if (o) yap('/api/yonetim/firma-durum', { slug: f.id, islem: 'sil', onay: o.trim() }, 'Firma silindi'); } }, 'Sil'), ' ', h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => uyelikFormu(f) }, 'Üyelik'), ' ',
           f.kaldirildi ? h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => yap('/api/yonetim/firma', { slug: f.id, sadeceAbonelik: true, yayinaAl: true }, 'Yeniden yayında (aktifliği Düzenle’den açın)') }, 'Yayına al')
             : h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => { const neden = prompt('Yayından kaldırma nedeni (ör: müşteri mağduriyeti). Firmanın tüm ilanları gizlenir, talep almaz:'); if (neden !== null) yap('/api/yonetim/firma', { slug: f.id, sadeceAbonelik: true, yayindanKaldir: true, neden }, 'Firma yayından kaldırıldı'); } }, 'Yayından kaldır'))))))));
+    }
+    const sayiKart = (baslik: string, deger: any, alt = '') => h('div', { class: 'card', style: { padding: '16px', display: 'flex', flexDirection: 'column', gap: '2px' } }, h('span', { class: 'xs muted', style: { fontWeight: 800, textTransform: 'uppercase', letterSpacing: '.06em' } }, baslik), h('b', { style: { fontSize: '1.7rem', lineHeight: 1.1 } }, String(deger)), alt ? h('span', { class: 'xs muted' }, alt) : null);
+    function ozetCiz() {
+      const s = V.istatistik || {};
+      const aktifFirma = V.firmalar.filter((f: any) => f.istTalep);
+      const iz = V.iyzico || {};
+      $('p-ozet').replaceChildren(
+        h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(170px,1fr))', gap: '12px' } },
+          sayiKart('Kullanıcı', s.kullanici ?? 0, `${s.hesapsizMusteri || 0} kişi hesapsız talep gönderdi`),
+          sayiKart('Teklif talebi', s.talep ?? 0, `${s.surec || 0} süreç yönetimi talebi`),
+          sayiKart('Gelen teklif', s.teklif ?? 0, s.talep ? `talep başına ${(s.teklif / s.talep).toFixed(1)}` : ''),
+          sayiKart('Teklif alan talep', s.talep ? `%${Math.round((s.teklifAlanTalep / s.talep) * 100)}` : '–', `${s.teklifAlanTalep || 0} talebe en az 1 teklif`),
+          sayiKart('Üye firma', s.uyeFirma ?? 0, `${s.kayitliFirma || 0} kayıtlı firma hesabı`)),
+        h('h2', { style: { fontSize: '1.1rem', margin: '24px 0 10px' } }, 'Firmalara giden talep ve dönüşler'),
+        aktifFirma.length ? h('div', { class: 'tbl-wrap' }, h('table', {}, h('thead', {}, h('tr', {}, ...['Firma', 'Gelen talep', 'Teklif verdi', 'Reddetti', 'Dönüş oranı'].map((x) => h('th', {}, x)))),
+          h('tbody', {}, ...aktifFirma.sort((a: any, b: any) => b.istTalep - a.istTalep).map((f: any) => h('tr', {}, h('td', {}, f.ad || f.id), h('td', {}, String(f.istTalep || 0)), h('td', {}, String(f.istTeklif || 0)), h('td', {}, String(f.istRed || 0)), h('td', {}, h('b', {}, `%${Math.round(((f.istTeklif || 0) / f.istTalep) * 100)}`))))))) : h('p', { class: 'small muted' }, 'Henüz firmalara talep gitmedi.'),
+        h('h2', { style: { fontSize: '1.1rem', margin: '24px 0 10px' } }, 'Kartlı abonelik (iyzico)'),
+        h('div', { class: 'box', style: { display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' } },
+          h('span', { class: 'small' }, !iz.hazir ? 'iyzico anahtarları henüz tanımlı değil; firmalar ödeme bağlantısıyla ödüyor.' : iz.planKodu ? `Açık. Plan kodu: ${iz.planKodu}` : 'Anahtarlar tanımlı; aylık planı oluşturun.'),
+          iz.hazir && !iz.planKodu ? h('button', { class: 'btn btn-p btn-s', type: 'button', onclick: () => yap('/api/yonetim/iyzico-plan', {}, 'Aylık plan oluşturuldu') }, `Aylık ${V.abonelik} TL planı oluştur`) : null));
+    }
+    function kullanicilarCiz() {
+      const k = V.kullanicilar || [];
+      $('p-kullanicilar').replaceChildren(k.length ? h('div', { class: 'tbl-wrap' }, h('table', { style: { minWidth: '720px' } }, h('thead', {}, h('tr', {}, ...['Kullanıcı', 'İletişim', 'Talep', 'Gelen teklif', 'Favori', 'Kayıt', 'Son giriş'].map((x) => h('th', {}, x)))),
+        h('tbody', {}, ...k.map((u: any) => h('tr', {}, h('td', {}, h('b', {}, u.ad || '–'), u.rol === 'admin' ? h('div', { class: 'xs muted' }, 'Yönetici') : null), h('td', { class: 'small' }, u.eposta || '', u.telefon ? h('div', {}, u.telefon) : null), h('td', {}, String(u.talep)), h('td', {}, String(u.teklif)), h('td', {}, String(u.favori)), h('td', { class: 'small' }, u.ilkGiris ? tarih(u.ilkGiris) : '–'), h('td', { class: 'small' }, u.sonGiris ? tarih(u.sonGiris) : '–')))))) : h('div', { class: 'empty' }, 'Henüz hesap açan kullanıcı yok.'),
+        (V.hesapsizMusteriler || []).length ? h('details', { style: { marginTop: '14px' } }, h('summary', { style: { cursor: 'pointer', fontWeight: 800 } }, `Hesap açmadan talep gönderenler (${V.hesapsizMusteriler.length})`), h('div', { class: 'tbl-wrap', style: { marginTop: '8px' } }, h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, 'E-posta'), h('th', {}, 'Talep'), h('th', {}, 'Gelen teklif'))), h('tbody', {}, ...V.hesapsizMusteriler.map((m: any) => h('tr', {}, h('td', { class: 'small' }, m.eposta), h('td', {}, String(m.talep)), h('td', {}, String(m.teklif)))))))) : null);
+      const tur: Record<string, string> = { 'teklif-talebi': 'Teklif talebi', 'surec-talebi': 'Süreç yönetimi talebi', kayit: 'Hesap kaydı', hesap: 'Hesap', 'firma-basvurusu': 'Firma başvurusu', 'abonelik-baslatma': 'Kartlı abonelik' };
+      $('p-onaykayit').replaceChildren((V.onaylar || []).length ? h('div', { class: 'tbl-wrap' }, h('table', { style: { minWidth: '720px' } }, h('thead', {}, h('tr', {}, ...['Zaman', 'İşlem', 'Kişi', 'Onaylanan metinler (sürüm)'].map((x) => h('th', {}, x)))),
+        h('tbody', {}, ...V.onaylar.map((o: any) => h('tr', {}, h('td', { class: 'small', style: { whiteSpace: 'nowrap' } }, tarih(o.zaman)), h('td', { class: 'small' }, tur[o.tur] || o.tur), h('td', { class: 'small' }, [o.ad, o.eposta, o.telefon].filter(Boolean).join(' · ')), h('td', { class: 'xs' }, o.belgeler.map((b: any) => `${b.ad} (${b.surum})`).join(', '))))))) : h('p', { class: 'small muted' }, 'Henüz kayıt yok.'));
+    }
+    function tanitimCiz() {
+      const t = V.tanitim || {};
+      const gunluk = inp('gunluk', { type: 'number', min: 1, max: 50, value: t.gunluk || 20, style: { maxWidth: '110px' } });
+      const liste = h('textarea', { rows: 4, placeholder: 'Her satıra bir firma: e-posta; firma adı (ör: info@ornekprefabrik.com; Örnek Prefabrik)' }) as HTMLTextAreaElement;
+      $('p-tanitim').replaceChildren(
+        h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(160px,1fr))', gap: '12px', marginBottom: '14px' } },
+          sayiKart('Durum', t.aktif ? 'Açık' : 'Kapalı', t.aktif ? `her gün 10.00 · ${t.gunluk} firma` : 'gönderim yapılmıyor'), sayiKart('Sırada bekleyen', t.aday ?? 0, 'e-postası olan, üye olmayan'), sayiKart('Gönderilen firma', t.gonderilen ?? 0, t.sonCalisma ? `son: ${tarih(t.sonCalisma)}` : ''), sayiKart('Ayrılan', t.iptal ?? 0, 'ret bağlantısına tıkladı')),
+        h('div', { class: 'box', style: { display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'end' } },
+          alan('Günlük adet', gunluk),
+          h('button', { class: 'btn btn-s ' + (t.aktif ? 'btn-g' : 'btn-p'), type: 'button', onclick: () => yap('/api/yonetim/tanitim', { aktif: !t.aktif, gunluk: Number(gunluk.value) }, t.aktif ? 'Durduruldu' : 'Başlatıldı: her gün 10.00’da gider') }, t.aktif ? 'Durdur' : 'Başlat'),
+          h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => yap('/api/yonetim/tanitim', { onizleme: true }, 'Önizleme size gönderildi') }, 'Önizlemeyi bana gönder'),
+          h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => { if (confirm(`Şimdi ${gunluk.value} firmaya gönderilsin mi?`)) yap('/api/yonetim/tanitim', { simdiGonder: true, adet: Number(gunluk.value) }, 'Gönderildi'); } }, 'Şimdi gönder')),
+        h('div', { class: 'box', style: { marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px' } }, h('b', {}, 'Listeye firma ekle'), h('span', { class: 'xs muted' }, 'Sitede listelenmeyen firmaların herkese açık kurumsal e-postalarını ekleyebilirsiniz. Yalnızca tacir/esnaf adreslerini ekleyin (6563 sayılı Kanun md. 6/2).'), liste, h('div', {}, h('button', { class: 'btn btn-p btn-s', type: 'button', onclick: () => yap('/api/yonetim/tanitim', { ekle: liste.value }, 'Listeye eklendi') }, 'Ekle'))),
+        h('h2', { style: { fontSize: '1.1rem', margin: '22px 0 10px' } }, 'Son gönderilenler'),
+        (t.son || []).length ? h('div', { class: 'tbl-wrap' }, h('table', {}, h('thead', {}, h('tr', {}, ...['Firma', 'E-posta', 'Gönderim', 'Durum'].map((x) => h('th', {}, x)))), h('tbody', {}, ...t.son.map((x: any) => h('tr', {}, h('td', {}, x.ad || '–'), h('td', { class: 'small' }, x.eposta), h('td', { class: 'small' }, `${tarih(x.son)} (${x.sayi}. e-posta)`), h('td', {}, x.iptal ? h('span', { class: 'st-b r' }, 'Ayrıldı') : h('span', { class: 'st-b g' }, 'Gönderildi'))))))) : h('p', { class: 'small muted' }, 'Henüz gönderim yok.'));
     }
     function uyelikFormu(f: any) {
       const a = f.abonelik || {};
@@ -251,9 +302,10 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       const uy = $('eposta-uyari');
       uy.hidden = !eh.length;
       if (eh.length) uy.replaceChildren(h('b', {}, `E-posta gönderilemiyor (son 3 günde ${eh.length} bildirim)`), h('p', { class: 'small', style: { margin: '4px 0 0' } }, `Son hata: ${eh[0].hata} — ${tarih(eh[0].zaman)}. Ziyaretçi işlemleri kaydedildi; yalnızca bildirim e-postaları gitmedi. E-posta şifresi değiştiyse GUNCELLE dosyasını çalıştırıp yeni şifreyi girin.`));
-      onaylarCiz(); taleplerCiz(); siparislerCiz(); firmalarCiz(); gbCiz(); iletisimCiz(); bannerlarCiz(); fiyatCiz();
+      ozetCiz(); kullanicilarCiz(); tanitimCiz(); onaylarCiz(); taleplerCiz(); siparislerCiz(); firmalarCiz(); gbCiz(); iletisimCiz(); bannerlarCiz(); fiyatCiz();
     }
     $('firma-ekle').addEventListener('click', () => firmaFormu(null));
+    $('ist-hesapla').addEventListener('click', () => yap('/api/yonetim/istatistik', {}, 'Sayılar yeniden hesaplandı'));
     $('banner-ekle').addEventListener('click', () => bannerFormu(null));
     (async () => {
       try {

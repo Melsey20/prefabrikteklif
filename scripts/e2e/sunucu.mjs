@@ -17,6 +17,12 @@ const app = createApp({ db, FieldValue, Timestamp, FIRMS, MODELS, mail: async (t
 const TIP = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.png': 'image/png', '.svg': 'image/svg+xml', '.txt': 'text/plain; charset=utf-8', '.xml': 'application/xml', '.woff2': 'font/woff2' };
 http.createServer(async (req, res) => {
   const u = new URL(req.url, 'http://x');
+  // Firma e-postası artık panele gider; hızlı fiyat bağlantısını (t, f) testler için veritabanından ver
+  if (u.pathname === '/__davet') {
+    const slug = u.searchParams.get('f'); let out = null;
+    for (const [k, v] of db.dump('talepler/')) { const m = /^talepler\/([^/]+)\/davetler\/(.+)$/.exec(k); if (m && m[2] === slug) { const t = db.v.get(`talepler/${m[1]}`); out = `/teklif-ver/?t=${m[1]}.${t.token}&f=${slug}.${v.kod}`; } }
+    res.setHeader('Content-Type', 'application/json'); return res.end(JSON.stringify({ link: out }));
+  }
   if (u.pathname === '/__mails') { res.setHeader('Content-Type', 'application/json'); return res.end(JSON.stringify(mails)); }
   if (u.pathname === '/__/firebase/init.json') { res.setHeader('Content-Type', 'application/json'); return res.end(JSON.stringify({ apiKey: 'test-key', authDomain: 'localhost', projectId: 'prefabrikteklif', appId: '1:1:web:1' })); }
   if (u.pathname.startsWith('/api/')) {

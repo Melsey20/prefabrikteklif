@@ -31,7 +31,7 @@ const sss = [
   { s: 'Firmalar sıralamada üst sıraya çıkmak için ödeme yapıyor mu?', c: 'Hayır. Listeler fiyata göre sıralanır. Reklam alanları ayrıca “Reklam” olarak işaretlenir.' },
 ];
 const ld = [
-  { '@context': 'https://schema.org', '@type': 'WebSite', '@id': `${SITE.url}/#site`, name: SITE.ad, url: SITE.url, inLanguage: 'tr-TR', publisher: { '@id': `${SITE.url}/#org` },
+  { '@context': 'https://schema.org', '@type': 'WebSite', '@id': `${SITE.url}/#site`, name: 'Prefabrik Teklif', alternateName: ['PrefabrikTeklif', 'prefabrikteklif.com.tr'], url: SITE.url, inLanguage: 'tr-TR', publisher: { '@id': `${SITE.url}/#org` },
     potentialAction: { '@type': 'SearchAction', target: `${SITE.url}/evini-bul/?q={search_term_string}`, 'query-input': 'required name=search_term_string' } },
 ];
 const yollar = [
@@ -40,7 +40,7 @@ const yollar = [
   { b: 'Süreci biz yönetelim', s: `Sadece %${SITE.komisyon} hizmet bedeliyle: firmayı birlikte seçer, sözleşmeden teslime kadar her adımı şeffafça takip ederiz.`, url: '/teklif-al/?mod=surec', ic: '<path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>', dk: true },
 ];
 ---
-<Base title={`Prefabrik Ev Fiyatları ${meta.ay.split(' ').pop()}: ${meta.firmaSayisi} Firmayı Karşılaştır, Teklif Al`} description={`${meta.firmaSayisi} firmanın ${meta.modelSayisi} prefabrik ev, tiny house, çelik ev, konteyner ve bağ evi modeli tek yerde. Güncel fiyatları karşılaştırın, ${SITE.teklifSaat} saatte ücretsiz teklif alın ya da tüm süreci bize bırakın.`} jsonLd={ld} preload="/img/hero-960.webp" ogImage="/img/hero-og.jpg">
+<Base title={`Prefabrik Teklif: Prefabrik Ev Fiyatları ${meta.ay.split(' ').pop()}, ${meta.firmaSayisi} Firmadan Teklif Al`} description={`${meta.firmaSayisi} firmanın ${meta.modelSayisi} prefabrik ev, tiny house, çelik ev, konteyner ve bağ evi modeli tek yerde. Güncel fiyatları karşılaştırın, ${SITE.teklifSaat} saatte ücretsiz teklif alın ya da tüm süreci bize bırakın.`} jsonLd={ld} preload="/img/hero-960.webp" ogImage="/img/hero-og.jpg">
   <div class="wrap">
     <div class="hero-row">
       <section class="slider" data-slider aria-roledescription="carousel" aria-label="Öne çıkanlar">

@@ -63,6 +63,17 @@ grep -q YONETICILER functions/.env || echo "YONETICILER=info@mitraajans.com,yusu
 # Bildirimler ve yönetici girişi: prefabrikteklif@gmail.com
 if grep -q "^ADMIN_EMAIL=" functions/.env; then sed -i '' 's/^ADMIN_EMAIL=.*/ADMIN_EMAIL=prefabrikteklif@gmail.com/' functions/.env; else echo "ADMIN_EMAIL=prefabrikteklif@gmail.com" >> functions/.env; fi
 grep "^YONETICILER=" functions/.env | grep -q "prefabrikteklif@gmail.com" || sed -i '' 's/^YONETICILER=/YONETICILER=prefabrikteklif@gmail.com,/' functions/.env
+# iyzico (kartlı abonelik): anahtarlar ~/.prefabrik-iyzico dosyasından alınır (IYZICO_API_KEY=..., IYZICO_SECRET_KEY=..., isteğe bağlı IYZICO_BASE=https://sandbox-api.iyzipay.com)
+if [ -f "$HOME/.prefabrik-iyzico" ]; then
+  for k in IYZICO_API_KEY IYZICO_SECRET_KEY IYZICO_BASE IYZICO_PLAN; do
+    v=$(grep "^$k=" "$HOME/.prefabrik-iyzico" | head -1 | cut -d= -f2- | tr -d '\r"' | xargs)
+    [ -z "$v" ] && continue
+    if grep -q "^$k=" functions/.env; then sed -i '' "s|^$k=.*|$k=$v|" functions/.env; else echo "$k=$v" >> functions/.env; fi
+  done
+  echo "iyzico anahtarları eklendi (kartlı abonelik açık)."
+else
+  echo "iyzico anahtar dosyası yok (~/.prefabrik-iyzico); kartlı abonelik kapalı kalır."
+fi
 echo "Bildirimlerin geleceği adres: $(grep ^ADMIN_EMAIL functions/.env | cut -d= -f2)"
 echo "Yönetici e-postaları: $(grep YONETICILER functions/.env | cut -d= -f2)"
 echo

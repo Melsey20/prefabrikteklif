@@ -1,0 +1,22 @@
+---
+import Sayfa from '../components/Sayfa.astro';
+import { SITE } from '../site.config';
+const tl = (n: number) => new Intl.NumberFormat('tr-TR').format(n) + ' TL';
+const sirket = SITE.sirketUnvani || SITE.ad;
+---
+<Sayfa title="Abonelik, Ödeme ve İptal Koşulları" h1="Abonelik, ödeme ve iptal koşulları" description={`${SITE.ad} firma üyeliği: aylık ${tl(SITE.abonelik)} otomatik ödeme, kart güncelleme, ödeme alınamazsa ne olur, iptal ve iade koşulları.`}>
+  <p class="small muted">Sürüm: 2026-11 · Bu koşullar <a href="/firma-uyelik-sozlesmesi/">Firma Üyelik Sözleşmesi</a>’nin ekidir ve yalnızca firma (tacir/esnaf) üyelerine uygulanır. Kartla abone olurken onay kutusunu işaretleyen firma bu koşulları kabul etmiş sayılır.</p>
+  <ol>
+    <li><strong>Hizmet sağlayıcı.</strong> {sirket}{SITE.adres ? `, ${SITE.adres}` : ''} · <a href={`mailto:${SITE.eposta}`}>{SITE.eposta}</a></li>
+    <li><strong>Hizmetin içeriği.</strong> Firma üyeliği; firmaya uygun müşteri taleplerinin panelde ve e-postayla iletilmesini, taleplere fiyat verebilmeyi, ürün ve fiyatların panelden güncellenmesini ve doğrulanmış firma rozetini kapsar. Üyelik belirli sayıda talep veya satış garantisi vermez.</li>
+    <li><strong>Bedel.</strong> Üyelik bedeli aylık <strong>{tl(SITE.abonelik)}</strong>’dir (vergiler dahil gösterilen tutar fatura üzerinde ayrıca belirtilir). Reklam paketleri isteğe bağlıdır ve ayrıca ücretlendirilir. Bedel değişikliği en az 30 gün önce e-postayla bildirilir; yeni bedel, bildirimden sonraki ilk yenilemede uygulanır.</li>
+    <li><strong>Otomatik ödeme.</strong> Firma kartını bir kez kaydeder; ilk ödeme abonelik başlarken alınır, sonraki ödemeler her ay aynı gün otomatik çekilir. Kart bilgileri {SITE.ad} sunucularında saklanmaz; ödeme ve kart saklama, 6493 sayılı Kanun kapsamında lisanslı ödeme kuruluşu iyzico tarafından yapılır. Dilerseniz ödemeyi size e-postayla gönderilen ödeme bağlantısıyla da yapabilirsiniz.</li>
+    <li><strong>Ödeme alınamazsa.</strong> Aylık ödeme karttan çekilemezse firmaya hemen e-posta gönderilir ve üyelik “ödeme gecikti” durumuna geçer. Bu süre içinde <strong>yeni talepler firmaya iletilmez ve taleplere fiyat verilemez</strong>. Firma panelden kartını güncellediğinde ödeme yeniden denenir; ödeme alındığında üyelik kendiliğinden devam eder. Ödeme alınana kadar 3 günde bir hatırlatma e-postası gönderilir.</li>
+    <li><strong>İptal.</strong> Firma, kartlı aboneliğini panelden “Aboneliği iptal et” düğmesiyle veya {SITE.eposta} adresine yazarak dilediği zaman iptal edebilir. İptal, bir sonraki otomatik çekimi durdurur; içinde bulunulan ay için talepler dönem sonuna kadar iletilmeye devam edebilir. Sözleşmede asgari süre yoktur.</li>
+    <li><strong>İade.</strong> Firma üyeliği ticari amaçla, tacir veya esnaf sıfatıyla alınan bir hizmettir; tüketici mevzuatındaki cayma hakkı uygulanmaz. Başlamış bir aya ait üyelik ve reklam bedelleri iade edilmez. Platform kaynaklı mükerrer veya hatalı çekimler tespit edildiğinde 14 gün içinde iade edilir.</li>
+    <li><strong>Fatura.</strong> Her ödeme için firmanın başvuruda bildirdiği unvan ve vergi bilgileriyle fatura düzenlenir ve e-postayla gönderilir. Fatura bilgilerinin doğruluğundan firma sorumludur.</li>
+    <li><strong>Askıya alma ve fesih.</strong> Firma Üyelik Sözleşmesi’ne aykırılık (müşteriyi mağdur etme, yanıltıcı bilgi, müşteri verilerinin amaç dışı kullanımı vb.) halinde Platform üyeliği derhal sona erdirebilir; bu durumda o aya ait bedel iade edilmez ve otomatik ödeme durdurulur.</li>
+    <li><strong>Kayıt ve ispat.</strong> Abonelik başlatma, iptal ve onay işlemleri tarih, saat ve sürüm bilgisiyle kaydedilir. Taraflar, bu elektronik kayıtların uyuşmazlıklarda delil olarak kullanılabileceğini kabul eder.</li>
+    <li><strong>Uyuşmazlık.</strong> Türk hukuku uygulanır.</li>
+  </ol>
+</Sayfa>

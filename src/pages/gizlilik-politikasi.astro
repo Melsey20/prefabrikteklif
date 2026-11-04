@@ -1,0 +1,45 @@
+---
+import Sayfa from '../components/Sayfa.astro';
+import { SITE } from '../site.config';
+const sirket = SITE.sirketUnvani || SITE.ad;
+---
+<Sayfa title="Gizlilik ve Veri Koruma Politikası" h1="Gizlilik ve veri koruma politikası" description={`${SITE.ad} gizlilik politikası: hangi verileri neden topluyoruz, kimlerle paylaşıyoruz, nasıl koruyoruz ve haklarınız.`}>
+  <p class="small muted">Sürüm: 2026-11 · Bu politika, <a href="/kvkk-aydinlatma-metni/">KVKK Aydınlatma Metni</a>’ni tamamlar.</p>
+  <h2>Kısaca</h2>
+  <ul>
+    <li>Talebiniz firmalara <strong>isimsiz</strong> gider. Ad, telefon ve e-postanızı yalnızca fiyat veren firma görür.</li>
+    <li>Verilerinizi satmayız, reklam ağlarıyla paylaşmayız.</li>
+    <li>Kart bilgileriniz sitemizde saklanmaz; firma abonelik ödemeleri lisanslı ödeme kuruluşu iyzico üzerinden alınır.</li>
+    <li>Ziyaret istatistiği için çerezler yalnızca onay verirseniz çalışır.</li>
+  </ul>
+  <h2>Topladığımız veriler</h2>
+  <ul>
+    <li><strong>Teklif talebinde:</strong> ad soyad, telefon, e-posta, ev tipi, büyüklük, il-ilçe, arazi durumu, bütçe, zaman ve notlarınız.</li>
+    <li><strong>Hesapta:</strong> e-posta, ad, telefon (telefonla girerseniz), giriş yöntemi, favoriler, talepler, gelen teklifler ve firmalarla mesajlarınız.</li>
+    <li><strong>Firmalarda:</strong> unvan, vergi bilgileri, adres, yetkili bilgileri, belgeler, ürün ve fiyat bilgileri, abonelik durumu.</li>
+    <li><strong>Onay kayıtları:</strong> hangi metnin hangi sürümünü ne zaman onayladığınız, IP adresi ve tarayıcı bilgisi. Bu kayıtlar, onayın ispatı ve olası uyuşmazlıklar için tutulur.</li>
+    <li><strong>Güvenlik:</strong> IP adresi, istek zamanları (kötüye kullanımı ve aşırı istekleri engellemek için).</li>
+  </ul>
+  <h2>Kimlerle paylaşıyoruz</h2>
+  <ul>
+    <li><strong>Üretici firmalar:</strong> talep içeriği isimsiz olarak; iletişim bilgileriniz yalnızca fiyat veren firmayla.</li>
+    <li><strong>Hizmet sağlayıcılarımız (veri işleyen):</strong> barındırma, veritabanı ve kimlik doğrulama için Google Firebase; e-posta gönderimi için e-posta hizmet sağlayıcımız; SMS doğrulama kodları için Google Firebase; firma abonelik ödemeleri için iyzico Ödeme Hizmetleri A.Ş.; çerez onayı verirseniz Google Analytics.</li>
+    <li><strong>Yetkili kurumlar:</strong> yasal zorunluluk halinde.</li>
+  </ul>
+  <p>Google hizmetlerinin bir kısmı yurt dışındaki sunucularda çalışır. Bu aktarım, 6698 sayılı Kanun’un 9. maddesinde öngörülen güvencelerle ve yalnızca hizmetin sunulması için gereken ölçüde yapılır.</p>
+  <h2>Nasıl koruyoruz</h2>
+  <ul>
+    <li>Tüm bağlantılar HTTPS ile şifrelenir; veritabanına doğrudan erişim kapalıdır, işlemler yalnızca sunucumuz üzerinden yapılır.</li>
+    <li>Firma evrakları yalnızca yönetici yetkisiyle açılabilir, herkese açık bağlantısı yoktur.</li>
+    <li>Firmalar müşteri bilgilerini yalnızca ilgili talep için kullanmayı sözleşmeyle kabul eder; aykırılıkta kaydı silinir.</li>
+  </ul>
+  <h2>Saklama süreleri</h2>
+  <ul>
+    <li>Teklif talepleri ve mesajlar: talepten itibaren en fazla 2 yıl; sonra silinir veya anonimleştirilir.</li>
+    <li>Hesap bilgileri: hesabınızı silene kadar; silme talebinizden sonra 30 gün içinde.</li>
+    <li>Sözleşme onay kayıtları ve firma ödeme kayıtları: ilgili mevzuattaki zamanaşımı ve saklama süreleri boyunca (en fazla 10 yıl).</li>
+  </ul>
+  <h2>Haklarınız</h2>
+  <p>Verilerinize erişme, düzeltme, silme, işlemeye itiraz etme ve verdiğiniz açık rızayı geri alma hakkına sahipsiniz. Başvurularınızı <a href={`mailto:${SITE.eposta}`}>{SITE.eposta}</a> adresine iletebilirsiniz; en geç 30 gün içinde yanıtlarız. Kişisel Verileri Koruma Kurulu’na şikâyet hakkınız saklıdır.</p>
+  <p>Veri sorumlusu: {sirket}{SITE.adres ? ` · ${SITE.adres}` : ''}</p>
+</Sayfa>

@@ -576,7 +576,7 @@ textarea { padding: 12px 14px; min-height: 110px; resize: vertical; }
 .kf-paket em small { display: inline; font-weight: 700; }
 @media (max-width: 420px) { .kf-paket { grid-template-columns: 20px minmax(0, 1fr); } .kf-paket em { grid-column: 2; } }
 .il-grid .chk { font-size: .9rem; min-height: 34px; }
-.by-dis { margin-top: 56px; }
+.by-dis { margin-top: 48px; }
 body:has(.app) .by-dis { display: none; }
 .by-dis + .ftr { margin-top: 32px; }
 .ftr-daha { margin-top: 9px; }
@@ -585,10 +585,18 @@ body:has(.app) .by-dis { display: none; }
 .ftr-daha summary::after { content: ' ▾'; }
 .ftr-daha[open] summary::after { content: ' ▴'; }
 .ftr-daha ul { margin-top: 9px; }
-.bize-yazin { background: #fff; padding: 22px; border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 6px 24px rgba(19,32,26,.05); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 22px; }
-.bize-yazin h2 { font-size: 1.15rem; margin: 0 0 6px; }
-.bize-yazin form { display: flex; flex-direction: column; gap: 10px; }
-@media (max-width: 760px) { .bize-yazin { grid-template-columns: 1fr; padding: 16px; } }
+.bize-yazin { background: #fff; border: 1px solid var(--line); border-radius: 16px; max-width: 860px; margin: 0 auto; }
+.bize-yazin summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 12px 16px; }
+.bize-yazin summary::-webkit-details-marker { display: none; }
+.by-ikon { width: 38px; height: 38px; border-radius: 50%; background: #e9f5ee; color: var(--green); display: grid; place-items: center; flex: none; }
+.by-m { display: flex; flex-direction: column; flex: 1; min-width: 0; line-height: 1.3; }
+.by-ac { font-weight: 800; color: var(--green-d); font-size: .9rem; white-space: nowrap; }
+.by-ac::after { content: ' ▾'; }
+.bize-yazin[open] .by-ac::after { content: ' ▴'; }
+.bize-yazin form { display: flex; flex-direction: column; gap: 10px; padding: 0 16px 16px; }
+.by-uc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.bize-yazin input, .bize-yazin select { min-height: 44px; }
+@media (max-width: 640px) { .by-uc { grid-template-columns: 1fr; } .by-m .small { display: none; } }
 
 /* Firma sayfası: sahiplenme / doğrulama çağrısı */
 .claim-bar { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 1.5px solid #b9d8c4; background: #eef7f1; border-radius: 14px; color: var(--ink); text-decoration: none; }
@@ -718,3 +726,18 @@ body:has(.app) .by-dis { display: none; }
 .yp-liste li.yp-tamam { opacity: .55; }
 .yp-i { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--line-2); display: inline-flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 800; flex: none; color: var(--green-d); }
 .yp-liste li.yp-tamam .yp-i { background: var(--green-ll); border-color: var(--green); }
+/* ---------- Mesajlaşma ve istatistik şeridi ---------- */
+.ist-serit { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }
+.ist-serit > div { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+.ist-serit span { font-size: .75rem; color: var(--muted); font-weight: 700; }
+.ist-serit b { font-size: 1.35rem; }
+@media (max-width: 640px) { .ist-serit { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.mj-kutu { border-top: 1px solid var(--line); padding-top: 10px; }
+.mj-kutu summary { cursor: pointer; font-weight: 800; font-size: .9rem; color: var(--green-d); }
+.mj-liste { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; max-height: 320px; overflow-y: auto; }
+.mj { align-self: flex-start; max-width: 85%; background: var(--bg); border: 1px solid var(--line); border-radius: 14px 14px 14px 4px; padding: 8px 12px; }
+.mj.ben { align-self: flex-end; background: #e9f5ee; border-color: #cfe7d8; border-radius: 14px 14px 4px 14px; }
+.mj p { margin: 2px 0 0; white-space: pre-line; font-size: .92rem; }
+.mj-form { display: flex; gap: 8px; align-items: flex-end; }
+.mj-form textarea { min-height: 48px; }
+.tk-iletisim { display: flex; gap: 8px; flex-wrap: wrap; }

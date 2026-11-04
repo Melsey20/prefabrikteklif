@@ -25,13 +25,13 @@ export const tl = (n: number | null | undefined) => (n == null ? '' : new Intl.N
 export const tarih = (ms: number) => (ms ? new Date(ms).toLocaleString('tr-TR', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '');
 export const kalan = (ms: number) => { const s = Math.round((ms - Date.now()) / 3600000); return s > 0 ? `${s} saat kaldı` : 'Süre doldu'; };
 export function toast(msg: string) { const t = h('div', { class: 'toast', role: 'status' }, msg); document.body.append(t); setTimeout(() => t.remove(), 2800); }
-export function modal(baslik: string, govde: Node, { kapat }: { kapat?: () => void } = {}) {
-  const k = () => { d.remove(); document.body.style.overflow = ''; kapat?.(); };
-  const d = h('div', { class: 'dlg', onclick: (e: Event) => { if (e.target === d) k(); } },
+export function modal(baslik: string, govde: Node, { kapat, kapatilamaz = false }: { kapat?: () => void; kapatilamaz?: boolean } = {}) {
+  const k = () => { d.remove(); document.body.style.overflow = ''; document.removeEventListener('keydown', esc); kapat?.(); };
+  const d = h('div', { class: 'dlg', onclick: (e: Event) => { if (e.target === d && !kapatilamaz) k(); } },
     h('div', { class: 'in', role: 'dialog', 'aria-modal': 'true', 'aria-label': baslik },
-      h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginBottom: '12px' } }, h('h2', { style: { margin: 0, fontSize: '1.2rem' } }, baslik), h('button', { class: 'hicon', type: 'button', 'aria-label': 'Kapat', onclick: k }, '✕')),
+      h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginBottom: '12px' } }, h('h2', { style: { margin: 0, fontSize: '1.2rem' } }, baslik), kapatilamaz ? null : h('button', { class: 'hicon', type: 'button', 'aria-label': 'Kapat', onclick: () => k() }, '✕')),
       govde));
-  const esc = (e: KeyboardEvent) => { if (e.key === 'Escape') { k(); document.removeEventListener('keydown', esc); } };
+  const esc = (e: KeyboardEvent) => { if (e.key === 'Escape' && !kapatilamaz) k(); };
   document.addEventListener('keydown', esc);
   document.body.append(d); document.body.style.overflow = 'hidden';
   (d.querySelector('input,select,textarea,button') as HTMLElement)?.focus();

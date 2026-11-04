@@ -1,0 +1,25 @@
+---
+import Sayfa from '../components/Sayfa.astro';
+import { SITE } from '../site.config';
+const sirket = SITE.sirketUnvani || SITE.ad;
+---
+<Sayfa title="Kullanıcı Sözleşmesi" h1="Kullanıcı sözleşmesi" description={`${SITE.ad} kullanıcı sözleşmesi: platformun aracı niteliği, teklif talepleri, hesap, mesajlaşma, yorumlar ve sorumluluk.`}>
+  <p class="small muted">Sürüm: 2026-11 · Teklif talebi gönderirken, hesap açarken veya ilk girişte onay kutusunu işaretleyen kullanıcı bu sözleşmeyi kabul etmiş sayılır. Onayınız tarih, saat ve sürüm bilgisiyle kaydedilir.</p>
+  <ol>
+    <li><strong>Taraflar.</strong> Bu sözleşme {sirket} (“{SITE.ad}” veya “Platform”){SITE.adres ? `, ${SITE.adres}` : ''} ile {SITE.alanAdi} sitesini kullanan kişi (“Kullanıcı”) arasındadır.</li>
+    <li><strong>Platformun niteliği.</strong> {SITE.ad}, prefabrik, çelik, konteyner, ahşap ev ve tiny house üreticilerinin fiyatlarını karşılaştırma ve kullanıcıların teklif taleplerini firmalara iletme hizmeti sunan <strong>aracı bir platformdur</strong>. Platform ev satmaz; satış, sözleşme, üretim, nakliye, montaj, teslim, ruhsat ve garanti yalnızca Kullanıcı ile seçtiği firma arasındadır. Platform bu ilişkinin tarafı değildir.</li>
+    <li><strong>Ücret.</strong> Fiyatları karşılaştırmak, teklif almak, hesap açmak ve firmalarla mesajlaşmak Kullanıcı için ücretsizdir. Yalnızca isteğe bağlı “Süreci siz yönetin” hizmeti ücretlidir ve ayrı bir <a href="/surec-yonetimi-hizmet-sozlesmesi/">hizmet sözleşmesi</a> ile düzenlenir.</li>
+    <li><strong>Teklif talebi.</strong> Talebinizin içeriği (ev tipi, büyüklük, il, arazi, bütçe, notlarınız) kriterlerinize uyan üye firmalara <strong>adınız ve iletişim bilgileriniz olmadan</strong> gönderilir. Ad, telefon ve e-postanız, verdiğiniz açık rızaya dayanarak yalnızca talebinize fiyat vermeyi kabul eden firmayla paylaşılır. Firmaların teklif vermesi zorunlu değildir; Platform teklif sayısını, fiyatı veya teslim süresini garanti etmez.</li>
+    <li><strong>Firmalarla iletişim ve mesajlaşma.</strong> Fiyat veren firmayı arayabilir, e-posta gönderebilir veya Platform üzerinden mesaj yazabilirsiniz. Mesajlar ilgili firmaya ve size e-postayla da iletilir; kötüye kullanımın önlenmesi ve uyuşmazlıkların çözümü için saklanır. Hakaret, taciz, reklam veya yanıltıcı içerik içeren mesajlar yasaktır.</li>
+    <li><strong>Hesap.</strong> Hesabınızı e-posta ve şifre, Google veya telefon numaranıza gelen kodla açabilirsiniz. Giriş bilgilerinizin güvenliğinden siz sorumlusunuz. Gerçeğe aykırı bilgiyle hesap açılamaz. Talebinizde yazdığınız e-posta veya telefonla giriş yaptığınızda talepleriniz hesabınızda görünür.</li>
+    <li><strong>Fiyat ve içerik bilgileri.</strong> Fiyatlar firmaların kendi sitelerinden alınır veya kayıtlı firmalarca girilir; her fiyatın kaynağı ve son kontrol tarihi gösterilir. Fiyatlar firma beyanıdır ve değişebilir. Rehber yazıları ve araçlar (ör. maliyet hesaplama, “Arazim uygun mu?”) genel bilgi amaçlıdır; hukuki, teknik veya mali görüş değildir.</li>
+    <li><strong>Yorumlar.</strong> Yorumlar gerçek deneyime dayanmalıdır. Sahte, ücret karşılığı veya firmayı karalamak amaçlı yorum yasaktır. Olumsuz yorumlar hukuka ve kurallara uygun olduğu sürece kaldırılmaz; firmalar yanıt verebilir.</li>
+    <li><strong>Kötüye kullanım.</strong> Sahte talep, başkası adına talep, otomatik form gönderimi, siteyi izinsiz tarama veya güvenliği zedeleyecek girişimler yasaktır. Bu durumda hesap kapatılabilir ve yasal yollara başvurulabilir.</li>
+    <li><strong>Sorumluluğun sınırı.</strong> Platform; firmanın ürünü, fiyatı, teslimi, montajı, garantisi, ruhsat ve imar durumu ile firma ile Kullanıcı arasındaki sözleşmeden doğan uyuşmazlıklardan sorumlu değildir. Firmaları resmi evrak ve referanslarla kabul ediyoruz; yine de sözleşme öncesinde firmayı kendiniz de teyit etmenizi öneririz. Platform, erişim kesintileri ve üçüncü taraf hizmetlerinden kaynaklanan aksaklıklardan sorumlu tutulamaz.</li>
+    <li><strong>Kişisel veriler.</strong> Kişisel verileriniz <a href="/kvkk-aydinlatma-metni/">KVKK Aydınlatma Metni</a> ve <a href="/gizlilik-politikasi/">Gizlilik ve Veri Koruma Politikası</a>’na göre işlenir.</li>
+    <li><strong>Ticari ileti.</strong> Kampanya ve bilgilendirme e-postaları yalnızca ayrıca onay verirseniz gönderilir; her e-postadaki bağlantıdan veya bize yazarak dilediğiniz zaman ayrılabilirsiniz. Talebinizle ilgili bildirimler (talep alındı, yeni teklif, mesaj) hizmetin parçasıdır.</li>
+    <li><strong>Değişiklik.</strong> Sözleşme güncellenebilir; güncel metin bu sayfada yayımlanır ve sürüm değiştiğinde bir sonraki girişinizde onayınız yeniden istenir.</li>
+    <li><strong>Uygulanacak hukuk.</strong> Türk hukuku uygulanır. Tüketici sıfatıyla yapacağınız başvurularda yerleşim yerinizdeki tüketici hakem heyetleri ve tüketici mahkemeleri yetkilidir.</li>
+  </ol>
+  <p>İletişim: <a href={`mailto:${SITE.eposta}`}>{SITE.eposta}</a></p>
+</Sayfa>

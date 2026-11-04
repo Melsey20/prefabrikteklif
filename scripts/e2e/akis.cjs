@@ -17,7 +17,12 @@ async function sahteAuth(ctx) {
 async function giris(p, eposta, hedef) {
   await p.goto(B + '/giris/?geri=' + encodeURIComponent(hedef));
   await p.fill('input[name=eposta]', eposta); await p.fill('input[name=sifre]', 'sifre123');
-  await Promise.all([p.waitForURL(B + hedef + '**', { timeout: 15000 }), p.click('#g-btn')]);
+  const url = p.waitForURL(B + hedef + '**', { timeout: 15000 });
+  await p.click('#g-btn');
+  // İlk girişte sözleşme onayı istenir (sürüm değişene kadar bir kez)
+  const onay = p.locator('.dlg [aria-label="Sözleşme onayı"]');
+  if (await onay.waitFor({ timeout: 4000 }).then(() => true).catch(() => false)) { await onay.locator('input[type=checkbox]').first().check(); await onay.locator('button[type=submit]').click(); }
+  await url;
 }
 (async () => {
   const br = await chromium.launch();
@@ -83,13 +88,14 @@ async function giris(p, eposta, hedef) {
   const fm = mails.find((m) => m.to === 'satis@kardesler.com');
   assert.ok(fm && !fm.html.includes('05321112233') && !fm.html.includes('Ali Veli'), 'firma e-postası isimsiz');
   adim('Teklif formu → firmaya isimsiz e-posta');
-  const link = fm.html.match(/href="(http:\/\/localhost:4400\/teklif-ver\/[^"]+)"/)[1].replace(/&amp;/g, '&');
+  assert.ok(fm.html.includes('/firma-paneli/#talepler') && fm.html.includes('48 saat'), 'firma e-postası panele yönlendirir');
+  const link = B + (await (await fetch(B + '/__davet?f=kardesler-celik-yapi')).json()).link;
   await p.goto(link); await p.waitForSelector('#f:not([hidden])');
   assert.ok(!(await p.content()).includes('05321112233'));
   await p.fill('#f input[name=fiyat]', '595000'); await p.check('#f input[value=nakliye]');
   await p.click('#f button[type=submit]'); await p.waitForSelector('#musteri:not([hidden])');
   assert.ok((await p.locator('#musteri').textContent()).includes('05321112233'));
-  adim('E-postadaki bağlantıyla fiyat verildi → müşteri bilgisi açıldı');
+  adim('Hızlı fiyat bağlantısıyla fiyat verildi → müşteri bilgisi açıldı');
   // Süreç yönetimi talebi
   await p.goto(B + '/teklif-al/?mod=surec&tip=prefabrik');
   await p.fill('input[name=ad]', 'Ali Veli'); await p.fill('input[name=telefon]', '05321112233'); await p.fill('input[name=eposta]', 'ali@ornek.com'); await p.selectOption('select[name=il]', 'Malatya');
@@ -149,6 +155,14 @@ async function giris(p, eposta, hedef) {
   ({ ctx, p } = await yeniSayfa(1280));
   await giris(p, 'info@mitraajans.com', '/yonetim/');
   await p.waitForSelector('#y-app:not([hidden])');
+  await p.waitForSelector('#p-ozet .card');
+  assert.ok((await p.locator('#p-ozet').textContent()).includes('Teklif talebi'), 'özet sayıları');
+  await p.screenshot({ path: '/tmp/e2e-yonetim-ozet.png' });
+  await p.click('[data-sekme=kullanicilar]');
+  await p.waitForSelector('#p-kullanicilar table');
+  assert.ok((await p.locator('#p-kullanicilar').textContent()).includes('ali@ornek.com'), 'kullanıcı listesi');
+  assert.ok((await p.locator('#p-onaykayit').textContent()).includes('Teklif talebi'), 'onay kayıtları');
+  await p.click('[data-sekme=onaylar]');
   await p.waitForSelector('#p-onaylar .item');
   await p.screenshot({ path: '/tmp/e2e-yonetim.png' });
   for (let i = 0; i < 2; i++) {
@@ -220,7 +234,7 @@ async function giris(p, eposta, hedef) {
   adim('Firma başvurusu: referans ve 499 TL üyelik onayı zorunlu, başvuru alındı');
   await ctx.close();
   ({ ctx, p } = await yeniSayfa(1280));
-  await giris(p, 'info@mitraajans.com', '/yonetim/');
+  await giris(p, 'info@mitraajans.com', '/yonetim/#onaylar');
   await p.waitForSelector('#p-onaylar .item');
   const bas = p.locator('#p-onaylar .item', { hasText: 'Deneme Prefabrik' });
   assert.ok((await bas.textContent()).includes('Mehmet Bey'));
@@ -274,6 +288,7 @@ async function giris(p, eposta, hedef) {
   // 8) Alt bilgideki "Bize yazın" formu
   ({ ctx, p } = await yeniSayfa(390));
   await p.goto(B + '/rehber/');
+  await p.click('#bize-yazin summary');
   const bf = p.locator('#by-form');
   await bf.locator('[name=ad]').fill('Deniz'); await bf.locator('[name=eposta]').fill('deniz@ornek.com'); await bf.locator('[name=mesaj]').fill('Bungalov için Rize taraflarında firma var mı?');
   await bf.locator('button[type=submit]').click(); await p.waitForSelector('#by-durum:not([hidden])');
@@ -347,7 +362,17 @@ async function giris(p, eposta, hedef) {
   assert.equal(await p.locator('[data-say=teklif]').textContent(), '2');
   await p.click('.hs-sek [data-p=talepler]'); await p.waitForSelector('#p-talepler .hs-tk');
   assert.ok((await p.locator('#p-talepler').textContent()).includes('595.000'));
-  assert.equal(await p.locator('#p-talepler .hs-tk a', { hasText: 'Bu firmayla ilerle' }).count() >= 1, true);
+  assert.equal(await p.locator('#p-talepler .hs-tk a', { hasText: 'Süreci siz yönetin' }).count() >= 1, true);
+  assert.ok(await p.locator('#p-talepler .hs-tk a[href^="mailto:"]').count() >= 1, 'teklifte e-posta düğmesi');
+  // Site içinden firmaya soru
+  const tk1 = p.locator('#p-talepler .hs-tk').first();
+  await tk1.getByRole('button', { name: /Soru sor/ }).click();
+  await tk1.locator('details.mj-kutu textarea').fill('Zemin betonu fiyata dahil mi?');
+  await tk1.locator('details.mj-kutu button[type=submit]').click();
+  await p.waitForFunction(() => [...document.querySelectorAll('#p-talepler .mj p')].some((x) => x.textContent.includes('Zemin betonu fiyata dahil mi?')));
+  const mj3 = await (await p.request.get(B + '/__mails')).json();
+  assert.ok(mj3.some((m) => m.subject.startsWith('Müşteriden mesaj') && m.html.includes('Zemin betonu fiyata dahil mi?')), 'firmaya mesaj e-postası');
+  adim('Hesabım: teklifte ara/e-posta düğmeleri, firmaya site içinden soru gitti');
   await p.click('.hs-sek [data-p=surec]'); await p.waitForSelector('#p-surec .steps');
   await p.click('.hs-sek [data-p=ayarlar]'); await p.waitForSelector('#p-ayarlar .hs-ayar');
   await p.screenshot({ path: '/tmp/e2e-hesap.png', fullPage: true });

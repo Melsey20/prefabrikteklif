@@ -33,6 +33,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       </section>
       <section data-panel="talepler" hidden>
         <div class="ph-h"><div><h1>Teklif bekleyenler</h1><p class="small muted" style="margin:4px 0 0">Size uyan müşteri talepleri. Fiyatınızı ve notunuzu yazın; müşteri bilgileri fiyat verdiğinizde açılır.</p></div></div>
+        <div id="teklif-ist"></div>
         <div id="teklif-uyelik"></div>
         <div id="p-talepler" class="list"></div>
       </section>
@@ -60,9 +61,14 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       <section data-panel="profil" hidden>
         <div class="ph-h"><h1>Profil</h1></div>
         <form class="box form" id="profil-form" style="gap:14px;max-width:720px" novalidate>
+          <p class="small muted" style="margin:0">Değişiklikler anında kaydedilir; yeni talepler hemen buraya yazdığınız e-postaya gider ve panele bu adresle de girebilirsiniz.</p>
           <div class="two">
             <label class="f">Talep bildirim e-postası<input type="email" name="eposta" maxlength="120" /></label>
             <label class="f">Telefon<input type="tel" name="telefon" maxlength="20" /></label>
+          </div>
+          <div class="two">
+            <label class="f">İnternet siteniz<input type="url" name="web" maxlength="160" placeholder="https://" /></label>
+            <label class="f">Adres<input type="text" name="adres" maxlength="240" /></label>
           </div>
           <fieldset><legend>Ürettiğiniz tipler</legend><div class="two">{tipler.map((t) => <label class="chk"><input type="checkbox" name="tipler" value={t.k} /> {t.ad}</label>)}</div></fieldset>
           <fieldset><legend>Hizmet verdiğiniz iller</legend>
@@ -72,12 +78,14 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
           </fieldset>
           <button class="btn btn-p btn-s" type="submit" style="align-self:flex-start">Kaydet</button>
         </form>
+        <div class="box" id="rozet-kutu" style="margin-top:18px;max-width:720px;display:flex;flex-direction:column;gap:10px"></div>
       </section>
     </main>
   </div>
   <script define:vars={{ TIPLER_L: tipler }}>window.__TIPLER = TIPLER_L;</script>
   <script>
     import { kullanici, api, oturumAc, ApiHata, cikis, dogrulamaGonder, dogrulamaKontrol } from '../scripts/fb';
+    import { onayIste } from '../scripts/onayKutusu';
     import { h, tl, tarih, kalan, toast, modal, alan, sekmeler, hataGoster } from '../scripts/ui';
     const TIPLER: { k: string; ad: string }[] = (window as any).__TIPLER;
     const $ = (id: string) => document.getElementById(id)!;
@@ -204,8 +212,16 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       });
       return f;
     }
+    function mesajlar(t: any) {
+      const liste = h('div', { class: 'mj-liste' }, ...(t.mesajlar || []).map((m: any) => h('div', { class: 'mj ' + (m.kim === 'firma' ? 'ben' : '') }, h('span', { class: 'xs muted' }, (m.kim === 'firma' ? 'Siz' : t.musteri?.ad || 'Müşteri') + ' · ' + tarih(m.zaman)), h('p', {}, m.metin))));
+      const metin = h('textarea', { rows: 2, maxlength: 2000, placeholder: 'Müşteriye mesaj yazın (e-postasına da gider)' }) as HTMLTextAreaElement;
+      return h('details', { class: 'mj-kutu', open: (t.mesajlar || []).length > 0 }, h('summary', {}, `Mesajlar${(t.mesajlar || []).length ? ` (${t.mesajlar.length})` : ''}`), liste,
+        h('form', { class: 'mj-form', onsubmit: async (e: Event) => { e.preventDefault(); if (metin.value.trim().length < 2) return; try { await api('/api/firma/mesaj' + fq, { talep: t.id, metin: metin.value }); toast('Mesaj gönderildi'); yukle(); } catch (err: any) { toast(err.message); } } }, metin, h('button', { class: 'btn btn-p btn-s', type: 'submit' }, 'Gönder')));
+    }
     function taleplerCiz() {
       const box = $('p-talepler');
+      const ist = V.istatistik || { talep: 0, teklif: 0, red: 0, oran: 0 };
+      $('teklif-ist').replaceChildren(h('div', { class: 'ist-serit' }, ...[['Size gelen talep', ist.talep], ['Teklif verdiğiniz', ist.teklif], ['İlgilenmediğiniz', ist.red], ['Dönüş oranınız', ist.talep ? `%${ist.oran}` : '–']].map(([a, b]) => h('div', {}, h('span', {}, String(a)), h('b', {}, String(b))))));
       const a = V.abonelik;
       $('teklif-uyelik').replaceChildren(V.uye ? '' : h('div', { class: 'box', style: { borderColor: '#e0b252', background: '#fff8e6', display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between', marginBottom: '14px' } },
         h('span', {}, h('b', {}, 'Fiyat verebilmek için üyeliğinizin aktif olması gerekiyor. '), `Aylık ${tl(a.tutar)} üyelik ödemeniz onaylandığında aşağıdaki taleplere fiyat verebilirsiniz.`),
@@ -222,6 +238,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
           t.not ? h('span', { class: 'small muted' }, '“' + t.not + '”') : null,
           t.musteri ? h('div', { class: 'okmsg small', style: { padding: '10px 12px' } }, h('b', {}, t.musteri.ad), ' · ', h('a', { href: 'tel:' + t.musteri.telefon }, t.musteri.telefon), ' · ', h('a', { href: 'mailto:' + t.musteri.eposta }, t.musteri.eposta))
             : h('span', { class: 'xs muted' }, '🔒 Müşteri bilgileri fiyat verince açılır'),
+          t.teklif ? mesajlar(t) : null,
           !t.teklif && acik && t.davet !== 'red' ? h('div', { style: { display: 'flex', gap: '8px', flexWrap: 'wrap' } },
             V.uye ? h('button', { class: 'btn btn-p btn-s', type: 'button', 'data-talep': t.id, onclick: () => modal('Fiyat ver', teklifFormu(t)) }, 'Fiyat ver')
               : h('span', { class: 'st-b a' }, '🔒 Üyelik ödemesinden sonra fiyat verebilirsiniz'),
@@ -249,7 +266,14 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
         h('div', {}, h('b', { style: { fontSize: '1.05rem' } }, `Firma üyeliği · ${tl(a.tutar)} / ay`), ' ', h('span', { class: 'st-b ' + (a.durum === 'aktif' ? 'g' : a.durum === 'gecikti' || a.durum === 'iptal' ? 'r' : 'a') }, a.durumAd),
           h('div', { class: 'small muted', style: { marginTop: '4px' } }, [a.sonOdeme ? `Son ödeme: ${a.sonOdeme}` : '', a.sonrakiOdeme ? `Sonraki ödeme: ${a.sonrakiOdeme}` : ''].filter(Boolean).join(' · ') || 'Ödemeyi her ay düzenli yapmanız yeterli.')),
         a.odemeLinki ? h('a', { class: 'btn btn-p btn-s', href: a.odemeLinki, target: '_blank', rel: 'noopener' }, odenmedi ? 'Ödemeyi yap' : 'Ödeme bağlantısı') : h('span', { class: 'small muted' }, 'Ödeme bağlantısı e-postanıza gönderilecek.'));
-      $('p-uyelik').replaceChildren(kart);
+      const ko = V.kartliOdeme || {};
+      const kartli = !ko.acik ? null : ko.aktif
+        ? h('div', { class: 'box mint', style: { display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', marginTop: '10px' } }, h('span', { class: 'small' }, h('b', {}, 'Kartla otomatik ödeme açık. '), 'Üyelik ücreti her ay kayıtlı kartınızdan çekilir.'),
+            h('span', { style: { display: 'flex', gap: '8px' } }, h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => iyzicoAc('/api/firma/kart-guncelle', {}) }, 'Kartı güncelle'),
+              h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => confirmModal!('Kartlı aboneliğiniz iptal edilsin mi? Dönem sonundan itibaren talepler gelmez.', async () => { await api('/api/firma/abonelik-iptal' + fq, {}); toast('Abonelik iptal edildi'); yukle(); }) }, 'Aboneliği iptal et')))
+        : h('div', { class: 'box', style: { display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', marginTop: '10px', borderColor: 'var(--green)' } }, h('span', { class: 'small' }, h('b', {}, 'Kartınızı bir kez kaydedin, her ay otomatik ödensin. '), 'Ödeme iyzico güvencesiyle alınır; kart bilgileriniz sitemizde saklanmaz.'),
+            h('button', { class: 'btn btn-p btn-s', type: 'button', onclick: aboneFormu }, 'Kartla abone ol'));
+      $('p-uyelik').replaceChildren(kart, ...(kartli ? [kartli] : []), h('div', { id: 'iyzipay-checkout-form', class: 'responsive' }));
       $('uyelik-uyari').replaceChildren(odenmedi && a.odemeLinki ? h('p', { class: 'note-a', style: { marginTop: 0 } }, `Aylık ${tl(a.tutar)} üyelik ödemeniz bekleniyor. `, h('a', { href: a.odemeLinki, target: '_blank', rel: 'noopener' }, 'Şimdi öde →')) : '');
       document.querySelector('[data-rz=uyelik]')!.textContent = odenmedi ? '!' : '';
       const modeller = V.modeller.filter((m: any) => !m.gizli);
@@ -264,10 +288,52 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
         h('span', { class: 'xs muted' }, tarih(r.zaman)),
         r.odemeLinki && r.durum === 'odeme-bekliyor' ? h('a', { class: 'btn btn-p btn-s', href: r.odemeLinki, target: '_blank', rel: 'noopener', style: { alignSelf: 'flex-start' } }, 'Ödemeyi yap') : null)) : [h('p', { class: 'small muted' }, 'Henüz reklam talebiniz yok.')]));
     }
+    // iyzico ödeme formu: dönen içerikteki betikler DOM'a yeniden eklenerek çalıştırılır
+    async function iyzicoAc(yol: string, govde: any) {
+      try {
+        const r = await api(yol + fq, govde);
+        const kap = $('iyzipay-checkout-form'); kap.innerHTML = '';
+        const tmp = document.createElement('div'); tmp.innerHTML = r.icerik;
+        for (const el of [...tmp.childNodes]) {
+          if (el instanceof HTMLScriptElement) { const sc = document.createElement('script'); for (const at of [...el.attributes]) sc.setAttribute(at.name, at.value); sc.text = el.text; document.body.append(sc); }
+          else kap.append(el);
+        }
+        kap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } catch (e: any) { toast(e.message); }
+    }
+    function aboneFormu() {
+      const ad = inp('ad', { required: true, autocomplete: 'given-name' }); const soyad = inp('soyad', { required: true, autocomplete: 'family-name' });
+      const tel = inp('telefon', { type: 'tel', required: true, value: V.firma.telefon || '' }); const il = inp('il', { required: true, value: V.firma.il || '' });
+      const adres = h('textarea', { rows: 2, maxlength: 240, required: true, placeholder: 'Fatura adresi' }) as HTMLTextAreaElement;
+      const tc = inp('tc', { inputmode: 'numeric', maxlength: 11, placeholder: 'İsteğe bağlı' });
+      const onay = inp('onay', { type: 'checkbox' });
+      const hata = h('p', { class: 'err', hidden: true, role: 'alert' });
+      let kapat: () => void;
+      const f = h('form', { class: 'form', style: { gap: '12px' }, onsubmit: async (e: Event) => {
+        e.preventDefault(); hata.hidden = true;
+        if (!onay.checked) { hata.textContent = 'Koşulları onaylayın.'; hata.hidden = false; return; }
+        kapat(); await iyzicoAc('/api/firma/abonelik-baslat', { ad: ad.value, soyad: soyad.value, telefon: tel.value, il: il.value, adres: adres.value, tc: tc.value, onay: true });
+      } },
+        h('p', { class: 'small muted', style: { margin: 0 } }, `Aylık ${tl(V.abonelik.tutar)}. İlk ödeme şimdi alınır, sonra her ay aynı gün otomatik çekilir. Dilediğiniz ay panelden iptal edersiniz.`),
+        h('div', { class: 'two' }, alan('Yetkili adı', ad), alan('Soyadı', soyad)), h('div', { class: 'two' }, alan('Cep telefonu', tel), alan('Fatura ili', il)), alan('Fatura adresi', adres), alan('T.C. kimlik no (fatura için)', tc),
+        h('label', { class: 'chk' }, onay, h('span', {}, h('a', { href: '/abonelik-ve-iptal-kosullari/', target: '_blank' }, 'Abonelik, ödeme ve iptal koşullarını'), ' ve ', h('a', { href: '/firma-uyelik-sozlesmesi/', target: '_blank' }, 'firma üyelik sözleşmesini'), ' okudum, onaylıyorum.')),
+        hata, h('button', { class: 'btn btn-p', type: 'submit' }, 'Ödeme sayfasına geç'));
+      kapat = modal('Kartla abone ol', f);
+    }
+    function rozetCiz() {
+      const url = `https://www.prefabrikteklif.com.tr/firma/${V.firma.slug}/`;
+      const kod = `<a href="${url}" target="_blank" rel="noopener" title="PrefabrikTeklif doğrulanmış firma"><img src="https://www.prefabrikteklif.com.tr/rozet/dogrulanmis-firma.svg" alt="PrefabrikTeklif doğrulanmış firma" width="200" height="60" loading="lazy"></a>`;
+      const ta = h('textarea', { rows: 3, readonly: true, style: { fontFamily: 'monospace', fontSize: '.8rem' } }, kod) as HTMLTextAreaElement;
+      $('rozet-kutu').replaceChildren(h('b', {}, 'Sitenize “doğrulanmış firma” rozeti ekleyin'), h('span', { class: 'small muted' }, 'Rozet, ziyaretçilerinize firmanızın evraklarının kontrol edildiğini gösterir ve tıklayan kişiyi buradaki fiyatlarınıza getirir. Kodu sitenizin alt kısmına yapıştırmanız yeterli.'),
+        h('img', { src: '/rozet/dogrulanmis-firma.svg', alt: '', width: 200, height: 60, style: { alignSelf: 'flex-start' } }), ta,
+        h('button', { class: 'btn btn-g btn-s', type: 'button', style: { alignSelf: 'flex-start' }, onclick: async () => { try { await navigator.clipboard.writeText(kod); toast('Kod kopyalandı'); } catch { ta.select(); } } }, 'Kodu kopyala'));
+    }
     function profilDoldur() {
       const f = $('profil-form') as HTMLFormElement; const p = V.firma;
       (f.elements.namedItem('eposta') as HTMLInputElement).value = p.eposta || '';
       (f.elements.namedItem('telefon') as HTMLInputElement).value = p.telefon || '';
+      (f.elements.namedItem('web') as HTMLInputElement).value = p.web || '';
+      (f.elements.namedItem('adres') as HTMLInputElement).value = p.adres || '';
       f.querySelectorAll<HTMLInputElement>('input[name=tipler]').forEach((c) => (c.checked = p.tipler.includes(c.value)));
       const tum = !p.iller.length || p.iller.includes('*');
       (f.elements.namedItem('tum') as HTMLInputElement).checked = tum;
@@ -279,7 +345,9 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       document.querySelector('[data-rz=bekleyen]')!.textContent = V.bekleyen.length || '';
       document.querySelector('[data-rz=talep]')!.textContent = V.talepler.filter((t: any) => !t.kapali && !t.teklif && t.davet !== 'red').length || '';
       document.querySelector('[data-rz=gb]')!.textContent = V.geriBildirimler.filter((g: any) => g.durum === 'cevaplandi').length || '';
-      urunlerCiz(); taleplerCiz(); gbCiz(); uyelikCiz(); profilDoldur(); yapilacakCiz();
+      urunlerCiz(); taleplerCiz(); gbCiz(); uyelikCiz(); profilDoldur(); yapilacakCiz(); rozetCiz();
+      const od = q.get('odeme');
+      if (od && !(window as any).__odemeBildirildi) { (window as any).__odemeBildirildi = true; toast(od === 'basarili' ? 'Ödemeniz alındı, üyeliğiniz aktif.' : od === 'kart' ? 'Kartınız güncellendi.' : 'Ödeme tamamlanamadı. Bilgileri kontrol edip tekrar deneyin.'); document.querySelector<HTMLButtonElement>('#sekmeler [data-sekme=reklam]')?.click(); }
       // E-postadaki bağlantıyla gelindiyse ilgili talebin fiyat formunu aç
       const tq = q.get('talep');
       if (tq && !(window as any).__talepAcildi) { (window as any).__talepAcildi = true; const t = V.talepler.find((x: any) => x.id === tq); document.querySelector<HTMLButtonElement>('[data-sekme=talepler]')?.click(); if (t && V.uye && !t.teklif && !t.kapali) modal('Fiyat ver', teklifFormu(t)); }
@@ -315,13 +383,14 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       e.preventDefault(); const f = e.target as HTMLFormElement;
       const tum = (f.elements.namedItem('tum') as HTMLInputElement).checked;
       const iller = tum ? ['*'] : [...(f.elements.namedItem('iller') as HTMLSelectElement).selectedOptions].map((o) => o.value);
-      try { await api('/api/firma/profil' + fq, { eposta: (f.elements.namedItem('eposta') as HTMLInputElement).value, telefon: (f.elements.namedItem('telefon') as HTMLInputElement).value, tipler: [...f.querySelectorAll<HTMLInputElement>('input[name=tipler]:checked')].map((c) => c.value), iller }); toast('Kaydedildi'); yukle(); } catch (err: any) { toast(err.message); }
+      try { await api('/api/firma/profil' + fq, { eposta: (f.elements.namedItem('eposta') as HTMLInputElement).value, telefon: (f.elements.namedItem('telefon') as HTMLInputElement).value, web: (f.elements.namedItem('web') as HTMLInputElement).value, adres: (f.elements.namedItem('adres') as HTMLInputElement).value, tipler: [...f.querySelectorAll<HTMLInputElement>('input[name=tipler]:checked')].map((c) => c.value), iller }); toast('Kaydedildi'); yukle(); } catch (err: any) { toast(err.message); }
     });
     (async () => {
       try {
         const u = await kullanici();
         if (!u) { $('fp-yukleniyor').hidden = true; $('fp-giris').hidden = false; return; }
-        const [, veri] = await Promise.all([oturumAc().catch(() => null), yukle().then(() => true).catch((e) => e)]);
+        const [ben, veri] = await Promise.all([oturumAc().catch(() => null), yukle().then(() => true).catch((e) => e)]);
+        if (veri === true && ben && !(ben.rol === 'admin' && fq)) onayIste(ben);
         if (veri !== true) throw veri;
         $('fp-yukleniyor').hidden = true;
         $('fp-app').hidden = false;
