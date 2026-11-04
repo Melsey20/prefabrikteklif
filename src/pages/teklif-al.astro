@@ -8,7 +8,7 @@ const firmaAd = Object.fromEntries(firms.map((f) => [f.slug, f.kisaAd]));
 <Base title={`Ücretsiz Teklif Al: ${SITE.teklifSaat} Saatte Firmalardan Fiyat`} description={`Bir kez yazın; prefabrik, çelik, tiny house ve konteyner ev firmaları ${SITE.teklifSaat} saat içinde fiyat versin. Talebiniz isimsiz gider; bilgileriniz yalnızca fiyat veren firmayla paylaşılır. Ücretsiz.`}>
   <div class="wrap narrow">
     <Crumbs items={[{ ad: 'Teklif al' }]} />
-    <p class="box" id="test-bant" hidden style="border-color:#c08a00;background:#fff6dd;margin:0 0 12px"><b>Test modu:</b> Bu talep yalnızca üyeliği aktif firmalara gider; listelenmiş firmalara davet gönderilmez. Yönetici olarak giriş yapmış olmanız gerekir.</p>
+    <p class="box" id="test-bant" hidden style="border-color:#c08a00;background:#fff6dd;margin:0 0 12px"><b>Test modu:</b> Bu talep yalnızca yönetici e-postalarımızla (prefabrikteklif@gmail.com vb.) kayıtlı, üyeliği aktif test firmalarına gider; gerçek firmalara hiçbir e-posta gitmez. Yönetici olarak giriş yapmış olmanız gerekir.</p>
     <script is:inline>if (new URLSearchParams(location.search).get('test') === '1') document.getElementById('test-bant').hidden = false;</script>
     <h1 id="t-h1" data-t={`${SITE.teklifSaat} saatte firmalardan teklif alın`}>{SITE.teklifSaat} saatte firmalardan teklif alın</h1>
     <div class="seg" role="tablist" aria-label="Talep türü" style="margin:6px 0 18px">

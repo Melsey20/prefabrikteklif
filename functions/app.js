@@ -167,8 +167,11 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     };
     const hedef = [];
     const ekle = (slug) => { if (hedef.length < maksFirma && !hedef.includes(slug)) hedef.push(slug); };
-    for (const slug of secilen) { const g = grup(slug); if (g === 'uye' || (!test && (g === 'odeme' || (g === 'liste' && davetEdilebilir(slug, true))))) ekle(slug); }
-    for (const [slug, f] of fdocs) if (grup(slug) === 'uye' && tipUyar(slug, f) && ilUyar(f)) ekle(slug);
+    // Test talebinde yalnızca yönetici e-postalarıyla kayıtlı (test) firmalar hedeflenir; gerçek üyelere hiçbir şey gitmez
+    const yonEp = [ayar().admin, ...(ayar().yoneticiler || [])].filter(Boolean).map((x) => String(x).toLowerCase());
+    const testFirma = (slug) => { const f = fdocs.get(slug) || {}; return [f.eposta, ...(f.panelEpostalari || [])].some((e) => e && yonEp.includes(String(e).toLowerCase())); };
+    for (const slug of secilen) { const g = grup(slug); if (test && !testFirma(slug)) continue; if (g === 'uye' || (!test && (g === 'odeme' || (g === 'liste' && davetEdilebilir(slug, true))))) ekle(slug); }
+    for (const [slug, f] of fdocs) if (grup(slug) === 'uye' && (!test || testFirma(slug)) && tipUyar(slug, f) && ilUyar(f)) ekle(slug);
     if (!test) for (const [slug, f] of fdocs) if (grup(slug) === 'odeme' && tipUyar(slug, f) && ilUyar(f)) ekle(slug);
     const listeAday = test ? [] : FIRMS.filter((f) => grup(f.slug) === 'liste' && f.tipler?.includes(d.tip) && davetEdilebilir(f.slug, false))
       .sort((x, y) => (y.il === d.il) - (x.il === d.il) || (y.modelSayisi || 0) - (x.modelSayisi || 0));

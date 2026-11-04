@@ -306,6 +306,17 @@ test('üye olmayan firmalar davet alır, ödeme yapmayan fiyat veremez, panelden
   assert.equal(rt.statusCode, 200); assert.equal(rt.body.firmaSayisi, 0, 'test talebi üye olmayana gitmez');
   assert.ok(!mails2.slice(once).some((m) => m.to === 'info@pramo.example' || m.to === 'satis@kardesler.com'), 'test talebinde davet/ödeme e-postası yok');
   assert.ok(mails2.slice(once).some((m) => m.subject.includes('[TEST]')), 'yönetici e-postası [TEST] ile işaretli');
+  // Gerçek üye firma test talebini almaz; yönetici e-postasıyla kayıtlı test firması alır
+  await db2.collection('firmalar').doc('kardesler').set({ abonelik: { durum: 'aktif' } }, { merge: true });
+  await db2.collection('firmalar').doc('testfirma').set({ aktif: true, eposta: 'info@mitraajans.com', panelEpostalari: ['info@mitraajans.com'], tipler: ['prefabrik'], iller: ['*'], abonelik: { durum: 'aktif' } });
+  const once2 = mails2.length;
+  const rt2 = await call2('POST', '/api/teklif', { tok: 'tok-admin', body: { ...TALEP, test: true } });
+  assert.equal(rt2.body.firmaSayisi, 1, JSON.stringify(rt2.body));
+  const yeni = mails2.slice(once2);
+  assert.ok(!yeni.some((m) => m.to === 'satis@kardesler.com'), 'gerçek üyeye test talebi gitmez');
+  assert.ok(yeni.some((m) => m.to === 'info@mitraajans.com' && m.subject.startsWith('Yeni talep: [TEST]')), 'test firmasına [TEST] talep');
+  await db2.collection('firmalar').doc('kardesler').set({ abonelik: { durum: 'odeme-bekliyor', odemeLinki: 'https://odeme.example/1' } }, { merge: true });
+  await db2.collection('firmalar').doc('testfirma').set({ aktif: false }, { merge: true });
   // Ödeme yapmayan firma panelden fiyat veremez
   const oz = await call2('GET', '/api/firma/ozet', { tok: 'tok-firma' });
   assert.equal(oz.body.uye, false); assert.equal(oz.body.talepler.length, 1);
