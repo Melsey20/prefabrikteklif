@@ -187,3 +187,13 @@ document.getElementById('by-form')?.addEventListener('submit', async (e) => {
   const tm = document.getElementById('tamam');
   if (tm) new MutationObserver(() => { if (!tm.hidden) requestAnimationFrame(() => tm.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' })); }).observe(tm, { attributes: true, attributeFilter: ['hidden'] });
 }
+
+// Paylaş düğmesi: telefonda sistemin paylaşım menüsü, değilse bağlantıyı kopyala
+document.querySelectorAll<HTMLButtonElement>('[data-paylas]').forEach((b) => b.addEventListener('click', async () => {
+  const veri = { title: b.dataset.paylas || document.title, url: location.href.split('#')[0] };
+  try {
+    if (navigator.share) { await navigator.share(veri); return; }
+    await navigator.clipboard.writeText(veri.url);
+    const eski = b.innerHTML; b.textContent = 'Bağlantı kopyalandı ✓'; setTimeout(() => { b.innerHTML = eski; }, 2200);
+  } catch { /* kullanıcı vazgeçti */ }
+}));

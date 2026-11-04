@@ -80,6 +80,10 @@ const tq = `tip=${encodeURIComponent(m.tip)}${m.oda ? `&oda=${encodeURIComponent
           <a class="btn btn-g" href={`/teklif-al/?mod=surec&${tq}&firmalar=${f.slug}`}>Bu evi istiyorum, süreci siz yönetin</a>
           <label class="cmp" style="align-self:center"><input type="checkbox" data-cmp={id} /> Karşılaştırma listeme ekle</label>
         </div>
+        <div class="paylas">
+          <button type="button" class="btn btn-g btn-s" data-paylas={`${f.kisaAd} ${m.ad}`}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg> Paylaş</button>
+          <a class="btn btn-g btn-s" target="_blank" rel="noopener" href={`https://wa.me/?text=${encodeURIComponent(`${f.kisaAd} ${m.ad}${m.fiyat && m.fiyatTuru === 'model' ? ` – ${fiyatYazi(m)}` : ''}: ${url}`)}`}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.7 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/></svg> WhatsApp’ta gönder</a>
+        </div>
       </div>
     </div>
 

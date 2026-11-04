@@ -26,6 +26,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
     </aside>
     <main>
       <div id="uyelik-uyari"></div>
+      <div id="yapilacak"></div>
       <section data-panel="urunler">
         <div class="ph-h"><div><h1>Ürünlerim</h1><p class="small muted" style="margin:4px 0 0">Fiyat, fotoğraf ve açıklama değişiklikleri onayımızdan sonra yayına girer (genellikle aynı gün).</p></div><button class="btn btn-p btn-s" type="button" id="yeni-urun">+ Ürün ekle</button></div>
         <div id="p-urunler"></div>
@@ -278,10 +279,31 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       document.querySelector('[data-rz=bekleyen]')!.textContent = V.bekleyen.length || '';
       document.querySelector('[data-rz=talep]')!.textContent = V.talepler.filter((t: any) => !t.kapali && !t.teklif && t.davet !== 'red').length || '';
       document.querySelector('[data-rz=gb]')!.textContent = V.geriBildirimler.filter((g: any) => g.durum === 'cevaplandi').length || '';
-      urunlerCiz(); taleplerCiz(); gbCiz(); uyelikCiz(); profilDoldur();
+      urunlerCiz(); taleplerCiz(); gbCiz(); uyelikCiz(); profilDoldur(); yapilacakCiz();
       // E-postadaki bağlantıyla gelindiyse ilgili talebin fiyat formunu aç
       const tq = q.get('talep');
       if (tq && !(window as any).__talepAcildi) { (window as any).__talepAcildi = true; const t = V.talepler.find((x: any) => x.id === tq); document.querySelector<HTMLButtonElement>('[data-sekme=talepler]')?.click(); if (t && V.uye && !t.teklif && !t.kapali) modal('Fiyat ver', teklifFormu(t)); }
+    }
+    // Firma için kısa yapılacaklar listesi: eksik adımlar tıklanınca ilgili sekmeye götürür
+    function yapilacakCiz() {
+      const git = (sekme: string) => () => document.querySelector<HTMLButtonElement>(`#sekmeler [data-sekme=${sekme}]`)?.click();
+      const fotosuz = V.modeller.filter((m: any) => !m.gizli && !(m.gorseller || []).length).length;
+      const adim: [boolean, string, string, () => void][] = [
+        [V.uye, 'Üyeliğinizi aktif edin', 'Fiyat verebilmek ve talep almak için aylık üyelik ödemesi gerekir.', git('reklam')],
+        [!!V.firma.telefon, 'Telefon numaranızı ekleyin', 'Fiyat verdiğiniz müşteri size bu numaradan ulaşır.', git('profil')],
+        [!!(V.firma.iller || []).length, 'Hizmet verdiğiniz illeri seçin', 'Yalnızca bu illerdeki talepler size gelir.', git('profil')],
+        [fotosuz === 0, fotosuz ? `${fotosuz} ürününüze kendi fotoğrafınızı ekleyin` : 'Ürün fotoğrafları', 'Gerçek fotoğraflı ürünler daha çok tıklanır; şu an temsili görsel gösteriliyor.', git('urunler')],
+      ];
+      const eksik = adim.filter((a) => !a[0]);
+      const kutu = $('yapilacak');
+      if (!eksik.length) { kutu.replaceChildren(); return; }
+      kutu.replaceChildren(h('div', { class: 'box yp-kutu' },
+        h('div', { class: 'row', style: { display: 'flex', justifyContent: 'space-between', gap: '10px', flexWrap: 'wrap' } }, h('b', {}, 'Profilinizi tamamlayın'), h('span', { class: 'small muted' }, `${adim.length - eksik.length} / ${adim.length} adım tamam`)),
+        h('div', { class: 'kf-bar', style: { margin: '8px 0 10px' } }, h('span', { style: { width: `${Math.round(((adim.length - eksik.length) / adim.length) * 100)}%` } })),
+        h('ul', { class: 'yp-liste' }, ...adim.map(([tamam, baslik, aciklama, fn]) => h('li', { class: tamam ? 'yp-tamam' : '' },
+          h('span', { class: 'yp-i', 'aria-hidden': 'true' }, tamam ? '✓' : '○'),
+          h('span', {}, h('b', {}, baslik), h('span', { class: 'small muted', style: { display: 'block' } }, aciklama)),
+          tamam ? null : h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: fn }, 'Git'))))));
     }
     $('yeni-urun').addEventListener('click', () => { const k = modal('Yeni ürün ekle', urunFormu(null, async (veri) => { if (!veri.ad) throw new Error('Model adı yazın.'); await api('/api/firma/urun' + fq, { tur: 'yeni', veri }); k(); toast('Yeni ürün onaya gönderildi'); yukle(); })); });
     $('gb-form').addEventListener('submit', async (e) => {

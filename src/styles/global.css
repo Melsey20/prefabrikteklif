@@ -667,3 +667,17 @@ textarea { padding: 12px 14px; min-height: 110px; resize: vertical; }
 .spin { width: 34px; height: 34px; margin: 0 auto; border-radius: 50%; border: 3px solid var(--line); border-top-color: var(--green); animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .spin { animation-duration: 2.4s; } }
+
+.kf-ilerleme { position: sticky; top: 60px; z-index: 6; background: var(--bg); padding: 10px 0 8px; display: flex; flex-direction: column; gap: 6px; }
+.kf-bar { height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.kf-bar span { display: block; height: 100%; width: 0; background: var(--green); transition: width .3s; }
+@media (min-width: 861px) { .kf-ilerleme { top: 68px; } }
+.paylas { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.paylas .btn { display: inline-flex; align-items: center; gap: 6px; }
+.yp-kutu { margin-bottom: 16px; }
+.yp-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.yp-liste li { display: flex; gap: 10px; align-items: center; }
+.yp-liste li > span:nth-child(2) { flex: 1; min-width: 0; }
+.yp-liste li.yp-tamam { opacity: .55; }
+.yp-i { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--line-2); display: inline-flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 800; flex: none; color: var(--green-d); }
+.yp-liste li.yp-tamam .yp-i { background: var(--green-ll); border-color: var(--green); }
