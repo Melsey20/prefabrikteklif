@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../site.config';
+import { meta, tipImg, kisaTl, TIPLER } from '../../lib/data';
+const st = meta.istatistik;
+const fmt = (n: number | null) => (n ? new Intl.NumberFormat('de-DE').format(n) + ' TL' : '–');
+const alternates = [{ lang: 'de', href: '/de/haus-in-der-tuerkei/' }, { lang: 'nl', href: '/nl/huis-in-turkije/' }, { lang: 'tr', href: '/yurt-disindan-prefabrik-ev/' }, { lang: 'tr-DE', href: '/almanyadan-turkiyeye-prefabrik-ev/' }];
+const faq = [
+  { s: 'Darf ich als Ausländer in der Türkei ein Haus bauen?', c: 'Ausländische Staatsangehörige können in der Türkei grundsätzlich Grundstücke erwerben, mit Einschränkungen in bestimmten Gebieten. Lassen Sie den Grundbuchauszug (Tapu) und den Bebauungsstatus (İmar) vor dem Kauf von einem Anwalt prüfen.' },
+  { s: 'Was kostet ein Fertighaus in der Türkei?', c: `Auf unserer Seite vergleichen Sie aktuell ${meta.modelSayisi} Modelle von ${meta.firmaSayisi} Herstellern. Fertighäuser beginnen bei ${fmt(st.prefabrik?.min ?? null)}, Stahlhäuser bei ${fmt(st.celik?.min ?? null)} (Preise in Türkischer Lira, Stand ${meta.sonKontrolYazi}). Fundament, Transport und Baugenehmigung sind meist nicht enthalten.` },
+  { s: 'Wie läuft die Zahlung?', c: 'Sie zahlen direkt an den Hersteller in der Türkei, idealerweise in Raten nach Baufortschritt (Produktion, Transport, Montage, Übergabe). Wir kassieren den Hauspreis nicht.' },
+  { s: 'Sprechen Sie Deutsch?', c: `Unsere Website ist auf Türkisch. Fragen auf Deutsch können Sie per E-Mail an ${SITE.eposta} senden.` },
+];
+---
+<Base lang="de" title="Haus in der Türkei: Fertighaus statt Kauf – Preise vergleichen" description={`Haus in der Türkei kaufen oder bauen? Vergleichen Sie Preise von ${meta.firmaSayisi} türkischen Fertighaus-Herstellern und erhalten Sie kostenlos Angebote für Ihr eigenes Grundstück.`} alternates={alternates} preload={tipImg('prefabrik', 960)}>
+  <div class="wrap">
+    <div class="phead">
+      <img src={tipImg('prefabrik', 960)} sizes="100vw" alt="" width="960" height="723" fetchpriority="high" />
+      <div class="in"><h1>Haus in der Türkei: Fertighaus statt Kauf</h1><p>{meta.modelSayisi} Modelle von {meta.firmaSayisi} Herstellern · Preise geprüft am {meta.sonKontrolYazi}</p></div>
+    </div>
+    <div class="prose" style="max-width:860px">
+      <p style="font-size:1.05rem">Wer ein Haus in der Türkei sucht, denkt meist an den Kauf einer fertigen Immobilie. Besitzen Sie bereits ein Grundstück – etwa im Heimatdorf oder an der Küste – ist ein <strong>Fertighaus (prefabrik ev)</strong> oder <strong>Stahlhaus (çelik ev)</strong> oft deutlich günstiger: Das Haus wird im Werk gefertigt und in wenigen Wochen auf Ihrem Grundstück montiert.</p>
+      <h2>Aktuelle Einstiegspreise nach Haustyp</h2>
+      <ul>{Object.keys(TIPLER).filter((t) => st[t]?.min).map((t) => <li><strong>{TIPLER[t].ad}</strong>: ab {fmt(st[t].min)} ({st[t].model} Modelle)</li>)}</ul>
+      <p class="small muted">Preise in Türkischer Lira laut Herstellerwebsites; Fundament, Transport und Genehmigung meist zusätzlich.</p>
+      <h2>So funktioniert es aus dem Ausland</h2>
+      <ol>
+        <li>Grundstück prüfen: Grundbuch (Tapu) und Bebauungsplan (İmar).</li>
+        <li>Modelle und Preise auf unserer Website vergleichen.</li>
+        <li>Mit einem Formular Angebote von mehreren Herstellern erhalten – innerhalb von {SITE.teklifSaat} Stunden.</li>
+        <li>Vollmacht beim türkischen Konsulat für Genehmigungen und Anschlüsse erteilen.</li>
+        <li>In Raten nach Baufortschritt direkt an den Hersteller zahlen.</li>
+      </ol>
+      <p>Auf Wunsch übernimmt unser Team die gesamte Abwicklung vor Ort – Herstellerauswahl, Vertragsprüfung, Produktions- und Montagekontrolle – für {SITE.komisyon}% des Hauspreises.</p>
+      <p><a class="btn btn-p" href="/teklif-al/">Kostenlos Angebote anfordern (Formular auf Türkisch)</a> <a class="btn btn-g" href="/almanyadan-turkiyeye-prefabrik-ev/" hreflang="tr">Türkçe sayfa</a></p>
+      <h2>Häufige Fragen</h2>
+      {faq.map((x) => <details><summary>{x.s}</summary><p>{x.c}</p></details>)}
+    </div>
+  </div>
+</Base>

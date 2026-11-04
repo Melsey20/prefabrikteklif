@@ -1,0 +1,95 @@
+---
+// Yurt dışında yaşayanlar için ülke sayfası (Almanya, Fransa, Avusturya, Hollanda, İsviçre)
+import Base from '../layouts/Base.astro';
+import Crumbs from './Crumbs.astro';
+import ModelList from './ModelList.astro';
+import Faq from './Faq.astro';
+import { SITE } from '../site.config';
+import { TIPLER, meta, models, istatistik, tl, sayi, kisaTl, tipImg, tipUrl, TIP_IMG } from '../lib/data';
+import { tipOzet } from '../lib/konular';
+import { ULKELER, ulkeBul, ulkeModelleri } from '../lib/gurbet';
+
+interface Props { slug: string }
+const u = ulkeBul(Astro.props.slug);
+const liste = ulkeModelleri(u);
+const tablo = tipOzet(models).filter((r) => r.s.min);
+const s = istatistik(models);
+const diger = ULKELER.filter((x) => x.slug !== u.slug);
+const alternates = [...ULKELER.map((x) => ({ lang: x.hreflang, href: `/${x.slug}/` })), { lang: 'tr', href: '/yurt-disindan-prefabrik-ev/' }, { lang: 'x-default', href: '/yurt-disindan-prefabrik-ev/' }];
+const ADIM = [
+  ['Arsanızı kontrol edin', 'Tapu ve imar durumunu e-Devlet’ten veya belediyeden öğrenin; “Arazim uygun mu?” aracıyla ön kontrol yapın.'],
+  ['Modelleri karşılaştırın', 'Fiyat, m², oda sayısı ve neyin dahil olduğuna göre modelleri buradan kıyaslayın.'],
+  ['Teklif alın', `Tek formla birden çok firmadan ${SITE.teklifSaat} saatte teklif gelir; bilgileriniz yalnızca fiyat veren firmayla paylaşılır.`],
+  ['Vekaletname verin', 'Ruhsat ve abonelik işlemleri için Türkiye’deki bir yakınınıza veya avukata konsoloslukta vekaletname verin.'],
+  ['Aşamalı ödeyin', 'Ödemeyi üretim, nakliye, montaj ve teslime bölün; ödemeyi doğrudan firmaya yaparsınız.'],
+  ['Uzaktan takip edin', 'Süreci bize bırakırsanız her aşamanın fotoğrafını hesabınızdan izlersiniz; izninizde anahtarı alırsınız.'],
+];
+const ld = [{
+  '@context': 'https://schema.org', '@type': 'Service', name: `${u.den} Türkiye’ye prefabrik ev: teklif ve süreç yönetimi`, provider: { '@id': `${SITE.url}/#org` },
+  areaServed: { '@type': 'Country', name: 'Türkiye' }, audience: { '@type': 'Audience', geographicArea: { '@type': 'Country', name: u.ulke } },
+  description: u.desc, offers: { '@type': 'Offer', description: `Teklif almak ücretsizdir; süreç yönetimi hizmet bedeli ev bedelinin %${SITE.komisyon}’idir.` },
+}];
+---
+<Base title={u.title} description={u.desc} jsonLd={ld} tip={u.tip} ogImage={`/img/${TIP_IMG[u.tip]}-og.jpg`} preload={tipImg(u.tip, 960)} alternates={alternates}>
+  <div class="wrap">
+    <div class="phead">
+      <img src={tipImg(u.tip, 960)} srcset={`${tipImg(u.tip, 480)} 480w, ${tipImg(u.tip, 960)} 960w`} sizes="100vw" alt="" width="960" height="723" fetchpriority="high" />
+      <div class="in">
+        <h1>{u.h1}</h1>
+        <p>{meta.firmaSayisi} üreticinin {meta.modelSayisi} modeli · fiyatlar {meta.sonKontrolYazi}’de firma sitelerinden kontrol edildi.</p>
+      </div>
+    </div>
+    <Crumbs items={[{ ad: 'Yurt dışından ev', url: '/yurt-disindan-prefabrik-ev/' }, { ad: u.ulke }]} />
+    <p style="max-width:860px;font-size:1.05rem;line-height:1.6;margin:14px 0 18px">{u.giris}</p>
+
+    <div class="box dk gb-cta">
+      <div><b style="font-size:1.15rem">{u.da} yaşıyorsanız süreci bize bırakın</b><p class="small" style="margin:6px 0 0">Firmayı birlikte seçelim, sözleşmeyi kontrol edelim, üretim ve montajı yerinde takip edelim. Ev bedelini doğrudan firmaya ödersiniz; hizmet bedelimiz yalnızca %{SITE.komisyon} ve sözleşmeden önce yazılı bildirilir.</p></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn btn-w" href={`/teklif-al/?mod=surec&tip=${encodeURIComponent(u.tip)}`}>Süreci siz yönetin</a><a class="btn" style="border:1.5px solid #5c6f63;color:#fff" href={`/teklif-al/?tip=${encodeURIComponent(u.tip)}`}>Sadece teklif al</a></div>
+    </div>
+
+    <div class="gb-kutular">{u.ozel.map((o) => <div class="card"><b>{o.b}</b><p class="small muted" style="margin:6px 0 0">{o.t}</p></div>)}</div>
+
+    <section>
+      <h2>{u.den} Türkiye’de ev: 6 adımda</h2>
+      <ol class="gb-adim">{ADIM.map(([b, t]) => <li><b>{b}</b><span class="small muted">{t}</span></li>)}</ol>
+    </section>
+
+    <section>
+      <h2>Tiplere göre Türkiye’de prefabrik ev fiyatları</h2>
+      <p class="small muted">Fiyatlar TL’dir; {u.para} karşılığı ödeme günündeki kura göre değişir. Zemin betonu, nakliye ve ruhsat çoğu fiyata dahil değildir.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Ev tipi</th><th class="n">Model</th><th class="n">En düşük</th><th class="n">Ortanca</th><th class="n">Ortanca m²</th></tr></thead>
+          <tbody>{tablo.map((r) => <tr><td><a href={tipUrl(r.tip)}>{TIPLER[r.tip].ad}</a></td><td class="n">{r.s.model}</td><td class="n">{tl(r.s.min)}</td><td class="n">{tl(r.s.medyan)}</td><td class="n">{r.s.m2Medyan ? `${sayi(r.s.m2Medyan)} TL` : ''}</td></tr>)}</tbody>
+        </table>
+      </div>
+    </section>
+
+    <h2>{u.vurguBaslik}</h2>
+    <ModelList list={liste} />
+
+    <div class="cols" style="margin-top:8px">
+      <div class="prose"><Faq items={u.sss} /></div>
+      <aside class="sticky-side">
+        <div class="box dk">
+          <h2 style="margin-top:0;font-size:1.2rem">{SITE.teklifSaat} saatte teklif al</h2>
+          <p class="small">{s.firma} firmadan uygun olanlar fiyat versin. Teklifler e-postanıza gelir; {u.da} olmanız fark etmez.</p>
+          <a class="btn btn-w btn-block" href={`/teklif-al/?tip=${encodeURIComponent(u.tip)}`}>Teklif al</a>
+        </div>
+        <div class="box" style="margin-top:12px">
+          <h3 style="margin-top:0">Diğer ülkelerden</h3>
+          <ul class="small" style="padding-left:18px;margin:0">{diger.map((x) => <li><a href={`/${x.slug}/`}>{x.den} Türkiye’ye prefabrik ev</a></li>)}</ul>
+        </div>
+        <div class="box" style="margin-top:12px">
+          <h3 style="margin-top:0">Faydalı sayfalar</h3>
+          <ul class="small" style="padding-left:18px;margin:0">
+            <li><a href="/arazim-uygun-mu/">Arazim uygun mu?</a></li>
+            <li><a href="/prefabrik-ev-maliyet-hesaplama/">Maliyet hesaplama</a></li>
+            <li><a href="/anahtar-teslim-prefabrik-ev-fiyatlari/">Anahtar teslim fiyatlar</a></li>
+            <li><a href="/nasil-calisir/">Nasıl çalışır?</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</Base>

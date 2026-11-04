@@ -741,3 +741,14 @@ body:has(.app) .by-dis { display: none; }
 .mj-form { display: flex; gap: 8px; align-items: flex-end; }
 .mj-form textarea { min-height: 48px; }
 .tk-iletisim { display: flex; gap: 8px; flex-wrap: wrap; }
+/* ---------- Yurt dışı (gurbetçi) sayfaları ---------- */
+.gb-cta { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin: 6px 0 16px; }
+.gb-kutular { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 8px; }
+.gb-kutular .card { padding: 16px; }
+@media (max-width: 760px) { .gb-kutular { grid-template-columns: 1fr; } }
+.gb-adim { counter-reset: a; list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.gb-adim li { counter-increment: a; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px 14px 14px 52px; position: relative; display: flex; flex-direction: column; gap: 4px; }
+.gb-adim li::before { content: counter(a); position: absolute; left: 14px; top: 14px; width: 26px; height: 26px; border-radius: 50%; background: var(--green); color: #fff; font-weight: 800; display: grid; place-items: center; font-size: .85rem; }
+@media (max-width: 760px) { .gb-adim { grid-template-columns: 1fr; } }
+.gb-ulkeler { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.gb-ulkeler a { text-decoration: none; color: var(--ink); }

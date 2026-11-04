@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import Crumbs from '../components/Crumbs.astro';
+import Faq from '../components/Faq.astro';
+import { SITE } from '../site.config';
+import { meta, tipImg } from '../lib/data';
+import { ULKELER } from '../lib/gurbet';
+const alternates = [...ULKELER.map((x) => ({ lang: x.hreflang, href: `/${x.slug}/` })), { lang: 'tr', href: '/yurt-disindan-prefabrik-ev/' }, { lang: 'de', href: '/de/haus-in-der-tuerkei/' }, { lang: 'nl', href: '/nl/huis-in-turkije/' }, { lang: 'x-default', href: '/yurt-disindan-prefabrik-ev/' }];
+const sss = [
+  { s: 'Yurt dışında yaşarken Türkiye’de ev yaptırmak için Türkiye’de olmam gerekir mi?', c: 'Hayır. Modelleri buradan karşılaştırır, teklifleri e-postanızdan alırsınız. Ruhsat ve abonelik işlemleri için konsoloslukta vekaletname vermeniz yeterli. İsterseniz süreci baştan sona ekibimiz yönetir.' },
+  { s: 'Süreç yönetimi ne kadar tutar?', c: `Teklif almak ücretsizdir. “Süreci siz yönetin” hizmetinde bedelimiz ev bedelinin %${SITE.komisyon}’idir ve firmayla sözleşme imzalanmadan önce yazılı bildirilir; firmayla anlaşmazsanız ücret doğmaz.` },
+  { s: 'Hangi ülkelerden başvuru alıyorsunuz?', c: 'Her ülkeden. En çok Almanya, Fransa, Avusturya, Hollanda ve İsviçre’den talep geliyor; bu ülkeler için ayrı rehber sayfalarımız var.' },
+];
+---
+<Base title="Yurt Dışından Türkiye’ye Prefabrik Ev: Gurbetçiler İçin Rehber" description="Yurt dışında yaşayıp Türkiye’de prefabrik, çelik veya köy evi yaptırmak isteyenler için: fiyat karşılaştırma, uzaktan teklif, vekaletname, aşamalı ödeme ve süreç yönetimi." alternates={alternates} preload={tipImg('prefabrik', 960)}>
+  <div class="wrap">
+    <div class="phead">
+      <img src={tipImg('prefabrik', 960)} srcset={`${tipImg('prefabrik', 480)} 480w, ${tipImg('prefabrik', 960)} 960w`} sizes="100vw" alt="" width="960" height="723" fetchpriority="high" />
+      <div class="in"><h1>Yurt dışından Türkiye’ye prefabrik ev</h1><p>{meta.firmaSayisi} üreticinin {meta.modelSayisi} modeli · uzaktan teklif · süreci biz yönetelim</p></div>
+    </div>
+    <Crumbs items={[{ ad: 'Yurt dışından ev' }]} />
+    <p style="max-width:860px;font-size:1.05rem;line-height:1.6">Yurt dışında yaşıyor, memlekette ya da tatil bölgesinde kendi arsanıza ev yaptırmak istiyorsanız Türkiye’ye gelip gitmeden karar verebilirsiniz. Fiyatları buradan karşılaştırın, tek formla firmalardan teklif alın; isterseniz firma seçiminden anahtar teslimine kadar tüm süreci ekibimiz yönetsin.</p>
+    <h2>Bulunduğunuz ülkeye göre rehber</h2>
+    <div class="gb-ulkeler">{ULKELER.map((u) => <a class="card" style="padding:16px" href={`/${u.slug}/`}><b>{u.den} Türkiye’ye prefabrik ev</b><p class="small muted" style="margin:6px 0 0">{u.desc}</p></a>)}</div>
+    <p class="small muted" style="margin-top:10px">Auf Deutsch: <a href="/de/haus-in-der-tuerkei/" hreflang="de">Haus in der Türkei: Fertighaus statt Kauf</a> · In het Nederlands: <a href="/nl/huis-in-turkije/" hreflang="nl">Huis in Turkije: prefab in plaats van kopen</a></p>
+    <div class="box dk gb-cta" style="margin-top:18px">
+      <div><b style="font-size:1.15rem">Süreci uzaktan yönetmek zor mu? Bize bırakın.</b><p class="small" style="margin:6px 0 0">Firmayı birlikte seçer, sözleşmeyi kontrol eder, üretim ve montajı yerinde takip ederiz. Her adımı hesabınızdan izlersiniz.</p></div>
+      <a class="btn btn-w" href="/teklif-al/?mod=surec">Süreci siz yönetin</a>
+    </div>
+    <div class="prose"><Faq items={sss} /></div>
+  </div>
+</Base>

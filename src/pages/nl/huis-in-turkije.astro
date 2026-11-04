@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../site.config';
+import { meta, tipImg, TIPLER } from '../../lib/data';
+const st = meta.istatistik;
+const fmt = (n: number | null) => (n ? new Intl.NumberFormat('nl-NL').format(n) + ' TL' : '–');
+const alternates = [{ lang: 'nl', href: '/nl/huis-in-turkije/' }, { lang: 'de', href: '/de/haus-in-der-tuerkei/' }, { lang: 'tr', href: '/yurt-disindan-prefabrik-ev/' }, { lang: 'tr-NL', href: '/hollandadan-turkiyeye-prefabrik-ev/' }];
+const faq = [
+  { s: 'Mag ik als buitenlander een huis bouwen in Turkije?', c: 'Buitenlanders kunnen in Turkije in principe grond kopen, met beperkingen in bepaalde gebieden. Laat het eigendomsbewijs (Tapu) en de bestemming (İmar) vóór aankoop door een advocaat controleren.' },
+  { s: 'Wat kost een prefab huis in Turkije?', c: `Op onze site vergelijkt u ${meta.modelSayisi} modellen van ${meta.firmaSayisi} fabrikanten. Prefab huizen beginnen bij ${fmt(st.prefabrik?.min ?? null)}, stalen huizen bij ${fmt(st.celik?.min ?? null)} (prijzen in Turkse lira, gecontroleerd op ${meta.sonKontrolYazi}). Fundering, transport en vergunning zijn meestal niet inbegrepen.` },
+  { s: 'Hoe betaal ik?', c: 'U betaalt rechtstreeks aan de fabrikant in Turkije, bij voorkeur in termijnen per bouwfase (productie, transport, montage, oplevering). Wij innen de huisprijs niet.' },
+  { s: 'Spreekt u Nederlands?', c: `Onze website is in het Turks. Vragen kunt u per e-mail sturen naar ${SITE.eposta}.` },
+];
+---
+<Base lang="nl" title="Huis in Turkije: prefab in plaats van kopen – prijzen vergelijken" description={`Huis kopen in Turkije? Bouw op uw eigen grond een prefab of stalen huis. Vergelijk prijzen van ${meta.firmaSayisi} Turkse fabrikanten en vraag gratis offertes aan.`} alternates={alternates} preload={tipImg('prefabrik', 960)}>
+  <div class="wrap">
+    <div class="phead">
+      <img src={tipImg('prefabrik', 960)} sizes="100vw" alt="" width="960" height="723" fetchpriority="high" />
+      <div class="in"><h1>Huis in Turkije: prefab in plaats van kopen</h1><p>{meta.modelSayisi} modellen van {meta.firmaSayisi} fabrikanten · prijzen gecontroleerd op {meta.sonKontrolYazi}</p></div>
+    </div>
+    <div class="prose" style="max-width:860px">
+      <p style="font-size:1.05rem">Wie een huis in Turkije zoekt, denkt meestal aan een bestaande woning kopen. Heeft u al grond – in uw geboortedorp of aan de kust – dan is een <strong>prefab huis (prefabrik ev)</strong> of <strong>stalen huis (çelik ev)</strong> vaak veel voordeliger: het huis wordt in de fabriek gemaakt en in enkele weken op uw grond gemonteerd.</p>
+      <h2>Actuele vanafprijzen per type</h2>
+      <ul>{Object.keys(TIPLER).filter((t) => st[t]?.min).map((t) => <li><strong>{TIPLER[t].ad}</strong>: vanaf {fmt(st[t].min)} ({st[t].model} modellen)</li>)}</ul>
+      <p class="small muted">Prijzen in Turkse lira volgens de websites van de fabrikanten; fundering, transport en vergunning meestal extra.</p>
+      <h2>Zo werkt het vanuit Nederland of België</h2>
+      <ol>
+        <li>Grond controleren: eigendomsbewijs (Tapu) en bestemmingsplan (İmar).</li>
+        <li>Modellen en prijzen vergelijken op onze website.</li>
+        <li>Met één formulier offertes van meerdere fabrikanten ontvangen – binnen {SITE.teklifSaat} uur.</li>
+        <li>Volmacht bij het Turkse consulaat geven voor vergunning en aansluitingen.</li>
+        <li>In termijnen per bouwfase rechtstreeks aan de fabrikant betalen.</li>
+      </ol>
+      <p>Op verzoek regelt ons team het hele traject ter plaatse – keuze van de fabrikant, contractcontrole, toezicht op productie en montage – voor {SITE.komisyon}% van de huisprijs.</p>
+      <p><a class="btn btn-p" href="/teklif-al/">Gratis offertes aanvragen (formulier in het Turks)</a> <a class="btn btn-g" href="/hollandadan-turkiyeye-prefabrik-ev/" hreflang="tr">Türkçe sayfa</a></p>
+      <h2>Veelgestelde vragen</h2>
+      {faq.map((x) => <details><summary>{x.s}</summary><p>{x.c}</p></details>)}
+    </div>
+  </div>
+</Base>
