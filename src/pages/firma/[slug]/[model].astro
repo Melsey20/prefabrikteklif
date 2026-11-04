@@ -33,9 +33,9 @@ const ld = m.fiyat && m.fiyatTuru === 'model' ? [{
   image: [new URL(modelImg(m, 960), SITE.url).href, new URL(`/img/${TIP_IMG[m.tip] || 'prefabrik'}-og.jpg`, SITE.url).href],
   description: `${T.ad}${detay ? `, ${detay}` : ''}. ${m.kapsam}`.slice(0, 300),
   ...(m.m2 ? { additionalProperty: [{ '@type': 'PropertyValue', name: 'Kullanım alanı', value: m.m2, unitCode: 'MTK' }, ...(m.oda ? [{ '@type': 'PropertyValue', name: 'Oda sayısı', value: m.oda }] : [])] } : {}),
-  offers: { '@type': 'Offer', price: m.fiyat, priceCurrency: 'TRY', availability: 'https://schema.org/InStock', url, validFrom: meta.sonKontrol.slice(0, 10), priceValidUntil: `${Number(meta.sonKontrol.slice(0, 4)) + (meta.sonKontrol.slice(5, 7) === '12' ? 1 : 0)}-${String((Number(meta.sonKontrol.slice(5, 7)) % 12) + 1).padStart(2, '0')}-28`,
-    seller: { '@type': 'Organization', name: f.kisaAd },
-    ...(m.kdv ? { priceSpecification: { '@type': 'PriceSpecification', price: m.fiyat, priceCurrency: 'TRY', valueAddedTaxIncluded: m.kdv === 'dahil' } } : {}) },
+  // Karşılaştırma sitesiyiz, satıcı değiliz: Google'ın karşılaştırma sayfaları için önerdiği AggregateOffer
+  // (ürün snippet'i için geçerli; satıcı girişlerine girmez, iade/kargo alanı istemez)
+  offers: { '@type': 'AggregateOffer', lowPrice: m.fiyat, highPrice: m.fiyat, offerCount: 1, priceCurrency: 'TRY', url },
 }] : [];
 const tq = `tip=${encodeURIComponent(m.tip)}${m.oda ? `&oda=${encodeURIComponent(m.oda)}` : ''}${m.m2 ? `&m2=${m.m2}` : ''}&model=${encodeURIComponent(id)}`;
 ---
