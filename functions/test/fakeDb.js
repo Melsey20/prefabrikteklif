@@ -2,14 +2,15 @@
 export class Ts { constructor(ms) { this.ms = ms; } toMillis() { return this.ms; } toDate() { return new Date(this.ms); } valueOf() { return this.ms; } }
 let saat = Date.UTC(2026, 10, 1, 9, 0, 0);
 export const zaman = { simdi: () => saat, ileri: (ms) => { saat += ms; } };
-const SERVER = Symbol('server'); const UNION = Symbol('union');
-export const FieldValue = { serverTimestamp: () => ({ [SERVER]: true }), arrayUnion: (...a) => ({ [UNION]: a }) };
+const SERVER = Symbol('server'); const UNION = Symbol('union'); const INC = Symbol('inc');
+export const FieldValue = { serverTimestamp: () => ({ [SERVER]: true }), arrayUnion: (...a) => ({ [UNION]: a }), increment: (n) => ({ [INC]: n }) };
 export const Timestamp = { now: () => new Ts(saat), fromMillis: (n) => new Ts(n) };
 const kopya = (o) => (o == null ? o : structuredClone(o));
 function uygula(eski, yeni) {
   const out = { ...(eski || {}) };
   for (const [k, v] of Object.entries(yeni)) {
     if (v && typeof v === 'object' && v[SERVER]) out[k] = new Ts(saat);
+    else if (v && typeof v === 'object' && INC in v) out[k] = (Number(out[k]) || 0) + v[INC];
     else if (v && typeof v === 'object' && v[UNION]) out[k] = [...(Array.isArray(out[k]) ? out[k] : []), ...v[UNION].filter((x) => !(out[k] || []).some((y) => JSON.stringify(y) === JSON.stringify(x)))];
     else out[k] = v;
   }

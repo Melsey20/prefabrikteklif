@@ -23,6 +23,11 @@ const MAIL_FROM = defineString('MAIL_FROM', { default: '' });
 const ADMIN_EMAIL = defineString('ADMIN_EMAIL', { default: 'prefabrikteklif@gmail.com' });
 const YONETICILER = defineString('YONETICILER', { default: 'prefabrikteklif@gmail.com,info@mitraajans.com,yusuf4461@gmail.com' });
 const SITE_URL = defineString('SITE_URL', { default: 'https://www.prefabrikteklif.com.tr' });
+// iyzico: anahtarlar functions/.env dosyasında (GUNCELLE, ~/.prefabrik-iyzico dosyasından ekler). Boşsa kartlı ödeme kapalı kalır.
+const IYZICO_API_KEY = defineString('IYZICO_API_KEY', { default: '' });
+const IYZICO_SECRET_KEY = defineString('IYZICO_SECRET_KEY', { default: '' });
+const IYZICO_BASE = defineString('IYZICO_BASE', { default: 'https://api.iyzipay.com' });
+const IYZICO_PLAN = defineString('IYZICO_PLAN', { default: '' });
 
 const FIRMS = JSON.parse(readFileSync(new URL('./firms.json', import.meta.url), 'utf8'));
 const MODELS = JSON.parse(readFileSync(new URL('./models.json', import.meta.url), 'utf8'));
@@ -50,6 +55,7 @@ async function mail(to, subject, html, o = {}) {
 }
 const ayar = () => ({
   site: SITE_URL.value(), admin: ADMIN_EMAIL.value(), placesKey: PLACES_API_KEY.value() || '',
+  iyzico: { apiKey: IYZICO_API_KEY.value(), secretKey: IYZICO_SECRET_KEY.value(), base: IYZICO_BASE.value(), planKodu: IYZICO_PLAN.value() },
   yoneticiler: [...new Set([...YONETICILER.value().split(','), ADMIN_EMAIL.value()].map((s) => s.trim().toLowerCase()).filter(Boolean))],
 });
 const ortak = { db, mail, ayar, FieldValue, Timestamp, FIRMS, MODELS };
@@ -60,6 +66,13 @@ export const api = onRequest({ region: REGION, secrets: [SMTP_PASS, PLACES_API_K
 
 export const teklifOzeti = onSchedule({ schedule: 'every 30 minutes', region: REGION, timeZone: 'Europe/Istanbul', secrets: [SMTP_PASS] }, async () => {
   await teklifOzetleri(ortak);
+});
+
+// Her gün 10.00 (İstanbul): yönetimden açıldıysa firmalara tanıtım e-postası (günlük kota) + ödemesi gecikenlere hatırlatma
+export const firmaTanitim = onSchedule({ schedule: '0 10 * * *', region: REGION, timeZone: 'Europe/Istanbul', secrets: [SMTP_PASS], timeoutSeconds: 300 }, async () => {
+  const n = await app().zamanliTanitim();
+  const h = await app().abonelikHatirlat();
+  console.log('Tanıtım e-postası', n, 'ödeme hatırlatması', h);
 });
 
 // Her ayın 1'i saat 17.00 (İstanbul): firma sitelerindeki fiyatları kontrol et, değişenleri onaya düşür

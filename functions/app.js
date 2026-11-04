@@ -1,6 +1,7 @@
 // PrefabrikTeklif API: tüm iş kuralları burada. index.js gerçek Firebase bağlantılarıyla çağırır,
 // testler sahte veritabanıyla çağırır (functions/test/).
 import crypto from 'node:crypto';
+import { iyzicoIstemci } from './iyzico.js';
 
 export const TIP_AD = { prefabrik: 'Prefabrik ev', celik: 'Çelik ev', konteyner: 'Konteyner ev', 'tiny house': 'Tiny house', ahsap: 'Ahşap ev', bungalov: 'Bungalov / bağ evi' };
 export const ARAZI_AD = { imarli: 'İmarlı arsa', koy: 'Köy yerleşik alanı', tarla: 'Tarla / tarım arazisi', bag: 'Bağ – bahçe', yok: 'Henüz arazi yok' };
@@ -45,9 +46,36 @@ export const katalogId = (id) => String(id).replace(/\//g, '__');
 const tarihYazi = (d) => d.toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
 const sayi = (v, min, max) => { const n = Number(v); return Number.isFinite(n) && n >= min && n <= max ? n : null; };
 
-export const kart = (rows) => `<table style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px">${rows.filter((r) => r[1] !== undefined && r[1] !== null && r[1] !== '').map((r) => `<tr><td style="padding:4px 12px 4px 0;color:#4a5751;vertical-align:top"><b>${esc(r[0])}</b></td><td style="padding:4px 0">${esc(r[1])}</td></tr>`).join('')}</table>`;
-export const buton = (url, yazi) => `<p><a href="${esc(url)}" style="background:#17663f;color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none;font-weight:bold;display:inline-block">${esc(yazi)}</a></p>`;
-export const sablon = (baslik, icerik) => `<div style="font-family:Arial,sans-serif;max-width:640px;margin:auto;color:#15201b"><p style="margin:0 0 12px"><img src="https://www.prefabrikteklif.com.tr/logo-yatay.png" width="200" height="41" alt="PrefabrikTeklif" style="display:block;border:0"></p><h2 style="color:#17663f">${esc(baslik)}</h2>${icerik}<p style="color:#4a5751;font-size:12px;margin-top:24px">PrefabrikTeklif · prefabrikteklif.com.tr</p></div>`;
+// ---- E-posta şablonu (tablo tabanlı; Gmail, Outlook ve mobil uygulamalarda aynı görünür) ----
+const YESIL = '#17663f';
+export const kart = (rows) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e3e8e1;border-radius:12px;background:#f8faf7;margin:16px 0">${rows.filter((r) => r[1] !== undefined && r[1] !== null && r[1] !== '').map((r, i) => `<tr><td style="padding:10px 16px;${i ? 'border-top:1px solid #e3e8e1;' : ''}color:#5b6760;font-size:13px;width:38%;vertical-align:top">${esc(r[0])}</td><td style="padding:10px 16px;${i ? 'border-top:1px solid #e3e8e1;' : ''}color:#13201a;font-size:14px;font-weight:bold">${esc(r[1])}</td></tr>`).join('')}</table>`;
+export const buton = (url, yazi, ikincil = false) => `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:18px 0 6px"><tr><td style="border-radius:10px;background:${ikincil ? '#ffffff' : YESIL};${ikincil ? `border:1.5px solid ${YESIL};` : ''}"><a href="${esc(url)}" style="display:inline-block;padding:14px 26px;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:bold;color:${ikincil ? YESIL : '#ffffff'};text-decoration:none;border-radius:10px">${esc(yazi)}</a></td></tr></table>`;
+// ust: başlığın üstündeki küçük etiket; alt: kartın altındaki bilgi notu (neden aldınız / iptal)
+export const sablon = (baslik, icerik, o = {}) => `<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>${esc(baslik)}</title></head><body style="margin:0;padding:0;background:#eef2ec">${o.onizleme ? `<div style="display:none;max-height:0;overflow:hidden;opacity:0">${esc(o.onizleme)}</div>` : ''}<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef2ec"><tr><td align="center" style="padding:28px 12px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px">
+<tr><td style="padding:0 4px 16px"><a href="https://www.prefabrikteklif.com.tr/" style="text-decoration:none"><img src="https://www.prefabrikteklif.com.tr/logo-yatay.png" width="190" height="39" alt="Prefabrik Teklif" style="display:block;border:0"></a></td></tr>
+<tr><td style="background:#ffffff;border-radius:18px;overflow:hidden;box-shadow:0 2px 10px rgba(19,32,26,.06)">
+<div style="height:6px;background:${YESIL};background:linear-gradient(90deg,${YESIL},#3fae6c)"></div>
+<div style="padding:30px 32px 28px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#13201a">
+${o.ust ? `<p style="margin:0 0 8px;font-size:12px;font-weight:bold;letter-spacing:.08em;text-transform:uppercase;color:${YESIL}">${esc(o.ust)}</p>` : ''}<h1 style="margin:0 0 16px;font-size:23px;line-height:1.3;color:#13201a">${esc(baslik)}</h1>${icerik}
+</div></td></tr>
+<tr><td style="padding:20px 8px 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#6b766f;text-align:center">
+<b style="color:#3e4a43">Prefabrik Teklif</b> · Türkiye’nin prefabrik ve tiny house karşılaştırma platformu<br><a href="https://www.prefabrikteklif.com.tr/" style="color:${YESIL};text-decoration:none">prefabrikteklif.com.tr</a> · <a href="https://www.instagram.com/prefabrik.teklif/" style="color:${YESIL};text-decoration:none">Instagram</a> · <a href="https://www.prefabrikteklif.com.tr/kvkk-aydinlatma-metni/" style="color:#6b766f">KVKK</a>${o.alt ? `<br><span style="color:#8a948d">${o.alt}</span>` : ''}
+</td></tr></table></td></tr></table></body></html>`;
+
+// Yasal metinlerin sürümleri: kullanıcı/firma onayları bu sürümlerle kaydedilir (metin değişince sürüm artırılır)
+export const SOZLESME = {
+  kvkk: { ad: 'KVKK Aydınlatma Metni', yol: '/kvkk-aydinlatma-metni/', surum: '2026-11' },
+  riza: { ad: 'Açık rıza (talep bilgilerinin fiyat veren firmayla paylaşılması)', yol: '/kvkk-aydinlatma-metni/', surum: '2026-11' },
+  kullanici: { ad: 'Kullanıcı Sözleşmesi', yol: '/kullanici-sozlesmesi/', surum: '2026-11' },
+  gizlilik: { ad: 'Gizlilik ve Veri Koruma Politikası', yol: '/gizlilik-politikasi/', surum: '2026-11' },
+  cerez: { ad: 'Çerez Politikası', yol: '/cerez-politikasi/', surum: '2026-11' },
+  firma: { ad: 'Firma Üyelik Sözleşmesi', yol: '/firma-uyelik-sozlesmesi/', surum: '2026-11' },
+  abonelik: { ad: 'Abonelik, Ödeme ve İptal Koşulları', yol: '/abonelik-ve-iptal-kosullari/', surum: '2026-11' },
+  hizmet: { ad: 'Süreç Yönetimi Hizmet Sözleşmesi ve Ön Bilgilendirme', yol: '/surec-yonetimi-hizmet-sozlesmesi/', surum: '2026-11' },
+  pazarlama: { ad: 'Ticari elektronik ileti onayı', yol: '/kvkk-aydinlatma-metni/', surum: '2026-11' },
+};
+export const telNorm = (t) => String(t || '').replace(/\D/g, '').slice(-10);
 
 export class HttpHata extends Error { constructor(kod, mesaj) { super(mesaj); this.kod = kod; } }
 const hata = (kod, mesaj) => { throw new HttpHata(kod, mesaj); };
@@ -83,6 +111,20 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     });
   }
 
+  // ---- Onay kayıtları: kim, hangi metnin hangi sürümünü, ne zaman, hangi bağlantıdan onayladı (ispat için saklanır) ----
+  async function onayKaydet(req, o) {
+    const ip = String(req.headers?.['x-forwarded-for'] || req.ip || '').split(',')[0].trim();
+    const belgeler = (o.belgeler || []).filter((k) => SOZLESME[k]).map((k) => ({ kod: k, ad: SOZLESME[k].ad, surum: SOZLESME[k].surum }));
+    if (!belgeler.length) return;
+    await db.collection('onaylar').add({
+      tur: o.tur, uid: o.uid || null, eposta: o.eposta || '', telefon: o.telefon || '', firma: o.firma || '', ad: o.ad || '', kayit: o.kayit || '',
+      belgeler, ip: ip.slice(0, 64), ipOzet: crypto.createHash('sha256').update(`onay:${ip}`).digest('hex').slice(0, 24),
+      tarayici: str(req.headers?.['user-agent'], 300), zaman: FieldValue.serverTimestamp(), zamanMs: now(),
+    }).catch((e) => console.error('Onay kaydedilemedi', e?.message));
+  }
+  const sayac = (alanlar) => db.collection('sistem').doc('sayac').set(Object.fromEntries(Object.entries(alanlar).map(([k, v]) => [k, FieldValue.increment(v)])), { merge: true }).catch(() => {});
+  const firmaSayac = (slug, alanlar) => db.collection('firmalar').doc(slug).set(Object.fromEntries(Object.entries(alanlar).map(([k, v]) => [k, FieldValue.increment(v)])), { merge: true }).catch(() => {});
+
   // ---- Kimlik ----
   async function kim(req, zorunlu = true) {
     const h = String(req.headers?.authorization || '');
@@ -91,7 +133,9 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     let u;
     try { u = await auth.verifyIdToken(t); } catch { if (zorunlu) hata(401, 'Oturumunuz sona erdi, tekrar giriş yapın.'); return null; }
     const eposta = String(u.email || '').toLowerCase();
-    const dogrulandi = !!u.email_verified;
+    const telefon = String(u.phone_number || '');
+    // Telefonla girişte numara SMS ile doğrulanmıştır
+    const dogrulandi = !!u.email_verified || (!eposta && !!telefon);
     const a = ayar();
     let rol = 'kullanici'; let firma = null;
     if (dogrulandi && a.yoneticiler.includes(eposta)) rol = 'admin';
@@ -99,7 +143,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       const q = await db.collection('firmalar').where('panelEpostalari', 'array-contains', eposta).limit(1).get();
       if (!q.empty) { firma = q.docs[0].id; if (rol !== 'admin') rol = 'firma'; }
     }
-    return { uid: u.uid, eposta, dogrulandi, ad: u.name || '', rol, firma };
+    return { uid: u.uid, eposta, telefon, dogrulandi, ad: u.name || '', rol, firma };
   }
   const yonetici = async (req) => { const u = await kim(req); if (u.rol !== 'admin') hata(403, 'Bu işlem için yönetici yetkisi gerekiyor.'); return u; };
   const firmaKim = async (req) => {
@@ -140,7 +184,9 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const t0 = now();
     const ref = db.collection('talepler').doc();
     const tkn = token();
-    const ortak = { ...d, uid: u?.uid || null, token: tkn, riza: true, rizaZamani: FieldValue.serverTimestamp(), olusturma: FieldValue.serverTimestamp() };
+    const ortak = { ...d, telefonNorm: telNorm(d.telefon), uid: u?.uid || null, token: tkn, riza: true, rizaZamani: FieldValue.serverTimestamp(), olusturma: FieldValue.serverTimestamp() };
+    await onayKaydet(req, { tur: mod === 'surec' ? 'surec-talebi' : 'teklif-talebi', kayit: ref.id, uid: u?.uid, eposta: d.eposta, telefon: d.telefon, ad: d.ad, belgeler: ['kvkk', 'riza', 'kullanici', ...(mod === 'surec' ? ['hizmet'] : []), ...(d.pazarlama ? ['pazarlama'] : [])] });
+    if (!test) sayac({ talep: 1, ...(mod === 'surec' ? { surec: 1 } : {}) });
 
     if (mod === 'surec') {
       const sref = db.collection('siparisler').doc();
@@ -158,7 +204,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const fdocs = new Map((await db.collection('firmalar').get()).docs.map((x) => [x.id, x.data()]));
     const ilUyar = (f) => !f.iller?.length || f.iller.includes('*') || f.iller.includes(d.il);
     const tipUyar = (slug, f) => (f?.tipler?.length ? f.tipler : FIRMS.find((x) => x.slug === slug)?.tipler || []).includes(d.tip);
-    const grup = (slug) => { const f = fdocs.get(slug); if (f?.kaldirildi) return 'kaldirildi'; if (uyeAktif(f)) return 'uye'; if (f && f.aktif !== false && (f.eposta || f.panelEpostalari?.length)) return 'odeme'; return 'liste'; };
+    const grup = (slug) => { const f = fdocs.get(slug); if (f?.kaldirildi) return 'kaldirildi'; if (f && f.aktif === false) return 'pasif'; if (uyeAktif(f)) return 'uye'; if (f && f.aktif !== false && (f.eposta || f.panelEpostalari?.length)) return 'odeme'; return 'liste'; };
     const kayitlar = new Map((await Promise.all(FIRMS.map(async (f) => [f.slug, (await db.collection('davetKayit').doc(f.slug).get()).data() || null]))));
     const davetEdilebilir = (slug, secildi) => {
       const st = FIRMS.find((x) => x.slug === slug); const k = kayitlar.get(slug);
@@ -191,13 +237,14 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
         const k = kayitlar.get(slug) || {}; iptalKod = k.kod || token();
         await db.collection('davetKayit').doc(slug).set({ kod: iptalKod, sonDavet: t0, sayi: (k.sayi || 0) + 1, eposta }, { merge: true });
       }
+      if (tur === 'uye' || tur === 'odeme') firmaSayac(slug, { istTalep: 1 });
       davetler.push({ slug, eposta, tur, kod, iptalKod, link: `${a.site}/teklif-ver/?t=${ref.id}.${tkn}&f=${slug}.${kod}`, odemeLinki: f.abonelik?.odemeLinki || '' });
     }
     const ozet = kart(talepOzeti(d));
     const son = tarihYazi(new Date(t0 + saat * 3600000));
     const baslikEk = `${test ? '[TEST] ' : ''}${TIP_AD[d.tip]}${d.oda ? ` ${d.oda}` : ''}${d.m2 ? `, ${d.m2} m²` : ''}, ${d.il}`;
     const davetMail = (v) => {
-      if (v.tur === 'uye') return mail(v.eposta, `Yeni talep: ${baslikEk}`, sablon('Size uygun yeni bir talep var', `<p>Merhaba,</p><p>PrefabrikTeklif’te kriterlerinize uyan yeni bir müşteri talebi var. <b>Müşterinin iletişim bilgileri gizlidir;</b> fiyat verdiğinizde ad, telefon ve e-posta size açılır.</p>${ozet}<p>Fiyatınızı <b>${esc(son)}</b> tarihine kadar girin. Süre dolunca tüm teklifler müşteriye tek tabloda iletilir.</p>${buton(v.link, 'Fiyat ver')}<p style="font-size:13px;color:#4a5751">Bu talebi ve diğerlerini <a href="${esc(a.site)}/firma-paneli/#talepler">firma panelinizdeki “Teklif bekleyenler”</a> bölümünde de görebilir, fiyatınıza not ekleyebilirsiniz.</p>`), { tur: 'davet' });
+      if (v.tur === 'uye') return mail(v.eposta, `Yeni talep: ${baslikEk}`, sablon('Size uygun yeni bir müşteri talebi var', `<p>Merhaba,</p><p>Kriterlerinize uyan bir müşteri ev arıyor. <b>48 saat içinde</b> firma panelinize giriş yapıp fiyatınızı girin; süre dolunca müşteriye yalnızca zamanında gelen teklifler tek tabloda iletilir.</p>${ozet}<p style="margin:0">Son teklif zamanı: <b>${esc(son)}</b></p>${buton(`${a.site}/firma-paneli/#talepler`, 'Panele giriş yap ve teklif ver')}<p style="font-size:13px;color:#5b6760;margin:14px 0 0">Müşterinin adı, telefonu ve e-postası gizlidir; fiyatınızı girdiğiniz anda panelinizde açılır ve müşteriye “yeni teklif” bildirimi gider. Panele bu e-postanın geldiği adresle girersiniz.</p>`, { ust: 'Yeni talep · 48 saat', onizleme: `${d.il} ilinde ${TIP_AD[d.tip].toLocaleLowerCase('tr')} için teklif bekleniyor` }), { tur: 'davet' });
       if (v.tur === 'odeme') return mail(v.eposta, `Size uygun bir talep var: ${baslikEk}`, sablon('Size uygun bir talep var', `<p>Merhaba,</p><p>PrefabrikTeklif’te firmanıza uyan bir müşteri talebi var. Bu talebe ve sonraki taleplere fiyat verebilmek için <b>aylık ${ABONELIK_TL} TL üyelik ödemenizi</b> tamamlamanız yeterli; ödeme onaylandığında talep panelinizde fiyat vermeye açılır.</p>${ozet}${v.odemeLinki ? buton(v.odemeLinki, 'Üyelik ödemesini yap') : ''}${buton(`${a.site}/firma-paneli/#talepler`, 'Firma panelime git')}<p style="font-size:13px;color:#4a5751">Talep süresi: ${esc(son)}.</p>`), { tur: 'davet' });
       const st = FIRMS.find((x) => x.slug === v.slug) || {};
       return mail(v.eposta, `${d.il} ilinde ${TIP_AD[d.tip].toLocaleLowerCase('tr')} arayan bir müşteri var`, sablon(`${d.il} ilinde ${TIP_AD[d.tip].toLocaleLowerCase('tr')} arayan bir müşteri var`, `<p>Merhaba ${esc(st.kisaAd || '')} yetkilisi,</p><p>PrefabrikTeklif.com.tr’de bir müşteri şu özelliklerde ev arıyor ve firmanızdan fiyat almak istiyor olabilir:</p>${ozet}<p>Bu talebe teklif verebilmek için firmanızı PrefabrikTeklif’e kaydetmeniz gerekiyor. Kayıt birkaç dakika sürer; üyeliğiniz onaylanıp aylık üyelik ödemesi yapıldığında bu talebi ve size uyan yeni talepleri panelinizden görüp fiyat verebilirsiniz. Müşterinin iletişim bilgileri, fiyat verdiğinizde açılır.</p>${buton(`${a.site}/firma-kayit/?firma=${encodeURIComponent(v.slug)}&davet=${encodeURIComponent(`${ref.id}.${v.kod}`)}`, 'Firmamı kaydet, teklif ver')}<p style="font-size:13px;color:#4a5751">Talep süresi: ${esc(son)}. Sorularınız için bu e-postayı yanıtlayabilirsiniz.</p><p style="font-size:12px;color:#7a857f">Firmanız, kendi web sitenizde herkese açık yayınladığınız bilgilerle sitemizde listelendiği için bu e-postayı web sitenizdeki adrese gönderdik. Talep bildirimi almak istemiyorsanız: <a href="${esc(a.site)}/bildirim-iptal/?f=${encodeURIComponent(`${v.slug}.${v.iptalKod}`)}">bildirimleri durdur</a>.</p>`), { tur: 'davet', iptal: `${a.site}/bildirim-iptal/?f=${encodeURIComponent(`${v.slug}.${v.iptalKod}`)}` });
@@ -244,9 +291,13 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     await v.davetRef.set({ durum: 'kabul', kabulZamani: FieldValue.serverTimestamp() }, { merge: true });
     const a = ayar(); const d = v.talep;
     if (ilk) {
+      if (!d.test) { firmaSayac(firmaSlug, { istTeklif: 1 }); sayac({ teklif: 1 }); }
+      await v.ref.set({ teklifSayisi: FieldValue.increment(1), sonTeklif: FieldValue.serverTimestamp() }, { merge: true });
+      const kac = (await v.ref.collection('teklifler').get()).size;
+      const fa = firmAd(firmaSlug);
       await Promise.allSettled([
-        v.davet?.eposta ? mail(v.davet.eposta, `Müşteri bilgileri: ${TIP_AD[d.tip]}, ${d.il}`, sablon('Teklifiniz alındı, müşteri bilgileri', `<p>Fiyatınız kaydedildi. Müşterinin iletişim bilgileri aşağıda; teklifinizi netleştirmek için arayabilirsiniz. Lütfen bu bilgileri yalnızca bu talep için kullanın.</p>${kart([['Ad soyad', d.ad], ['Telefon', d.telefon], ['E-posta', d.eposta], ['Teklifiniz', tl(fiyat)]])}`)) : null,
-        mail(d.eposta, `Yeni teklif: ${firmAd(firmaSlug)}`, sablon('Talebinize yeni teklif geldi', `<p>Merhaba ${esc(d.ad)},</p><p><b>${esc(firmAd(firmaSlug))}</b> talebinize fiyat verdi ve iletişim bilgileriniz bu firmayla paylaşıldı. Süre dolunca tüm teklifler tek tabloda e-postanıza gelecek.</p>${buton(`${a.site}/hesabim/`, 'Teklifleri gör')}`)),
+        v.davet?.eposta ? mail(v.davet.eposta, `Müşteri bilgileri: ${TIP_AD[d.tip]}, ${d.il}`, sablon('Teklifiniz müşteriye iletildi', `<p>Fiyatınız kaydedildi ve müşteriye bildirildi. Müşterinin iletişim bilgileri aşağıda; teklifinizi netleştirmek için arayabilir ya da panelinizden mesaj yazabilirsiniz. Lütfen bu bilgileri yalnızca bu talep için kullanın.</p>${kart([['Ad soyad', d.ad], ['Telefon', d.telefon], ['E-posta', d.eposta], ['Teklifiniz', tl(fiyat)]])}${buton(`${a.site}/firma-paneli/#talepler`, 'Panelde aç')}`, { ust: 'Teklif gönderildi' })) : null,
+        mail(d.eposta, `${kac === 1 ? 'İlk teklifiniz geldi' : `${kac}. teklif geldi`}: ${fa}`, sablon(`${fa} projenize teklif verdi`, `<p>Merhaba ${esc(d.ad)},</p><p><b>${esc(fa)}</b> ${esc(TIP_AD[d.tip].toLocaleLowerCase('tr'))} talebinize fiyat verdi. Şu ana kadar <b>${kac} firma</b> teklif verdi.</p>${kart([['Firma', fa], ['Toplam fiyat', `${tl(fiyat)}${b.kdvDahil ? ' (KDV dahil)' : ''}`], ['Teslim süresi', b.teslimGun ? `${sayi(b.teslimGun, 1, 365)} gün` : ''], ['Garanti', b.garantiYil ? `${sayi(b.garantiYil, 0, 50)} yıl` : '']])}<p>Teklifin ayrıntılarını görmek, firmayı aramak, e-posta göndermek ya da site üzerinden soru sormak için hesabınıza girin. Talepte yazdığınız e-posta ya da telefonla giriş yapmanız yeterli.</p>${buton(`${a.site}/hesabim/#teklifler`, 'Teklifleri gör')}<p style="font-size:13px;color:#5b6760;margin:12px 0 0">Süre dolunca tüm teklifler karşılaştırma tablosu olarak e-postanıza da gelecek.</p>`, { ust: `${kac}. teklif`, onizleme: `${fa}: ${tl(fiyat)}` })),
       ]);
     }
     return { ok: true, musteri: musteri(d) };
@@ -273,6 +324,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     if (!v) hata(404, 'Bağlantı geçersiz.');
     if ((await v.ref.collection('teklifler').doc(v.slug).get()).exists) hata(409, 'Bu talebe zaten fiyat verdiniz.');
     await v.davetRef.set({ durum: 'red', redZamani: FieldValue.serverTimestamp(), redNeden: str(b.neden, 200) }, { merge: true });
+    if (!v.talep.test && v.davet?.durum !== 'red') firmaSayac(v.slug, { istRed: 1 });
     return { ok: true };
   }
 
@@ -355,9 +407,10 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     d.evrak = evrak;
     if (d.referanslar.length < 10) hata(400, 'En az bir referans (teslim ettiğiniz bir proje ve iletişim bilgisi) yazın; referanssız kayıt almıyoruz.');
     if (b.sozlesmeOnay !== true || b.abonelikOnay !== true) hata(400, `Firma üyelik sözleşmesini ve aylık ${ABONELIK_TL} TL üyelik bedelini onaylayın.`);
-    d.sozlesme = { surum: '2026-11', abonelikTl: ABONELIK_TL, onayZamani: now() };
+    d.sozlesme = { surum: SOZLESME.firma.surum, abonelikSurum: SOZLESME.abonelik.surum, abonelikTl: ABONELIK_TL, onayZamani: now() };
     if (!(await rateLimit(req, 'basvuru', 3))) hata(429, 'Çok fazla deneme, sonra tekrar deneyin.');
     const ref = await db.collection('firmaBasvurulari').add({ ...d, durum: 'bekliyor', zaman: FieldValue.serverTimestamp() });
+    await onayKaydet(req, { tur: 'firma-basvurusu', kayit: ref.id, eposta: d.eposta, telefon: d.telefon, ad: `${d.yetkili} (${d.unvan})`, firma: d.mevcut || '', belgeler: ['firma', 'abonelik', 'kvkk', 'kullanici', 'gizlilik'] });
     for (const e of evrak) await db.collection('belgeler').doc(e.id).set({ durum: 'basvuru', basvuru: ref.id }, { merge: true });
     const a = ayar();
     await Promise.allSettled([
@@ -452,6 +505,13 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
   // ---- Listelenmiş firmanın talep bildirimlerini durdurması ----
   async function bildirimIptal(req) {
     const [slug, kod] = String(req.body?.f || '').split('.');
+    if (/^t-[a-f0-9]{24}$/.test(slug || '')) {
+      const tr = db.collection('tanitimKayit').doc(slug.slice(2)); const ts = await tr.get();
+      if (!kod || !ts.exists || ts.data().kod !== kod) hata(404, 'Bağlantı geçersiz.');
+      await tr.set({ iptal: true, iptalZamani: now() }, { merge: true });
+      if (ts.data().slug) await db.collection('davetKayit').doc(ts.data().slug).set({ iptal: true, iptalZamani: now() }, { merge: true });
+      return { ok: true, firmaAd: ts.data().ad || '' };
+    }
     const ref = db.collection('davetKayit').doc(str(slug, 80)); const s = await ref.get();
     if (!slug || !kod || !s.exists || s.data().kod !== kod) hata(404, 'Bağlantı geçersiz.');
     await ref.set({ iptal: true, iptalZamani: now() }, { merge: true });
@@ -480,19 +540,45 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
   }
 
   // ---- Kullanıcı ----
-  async function ben(req) { const u = await kim(req); return u; }
+  async function ben(req) {
+    const u = await kim(req);
+    const ref = db.collection('kullanicilar').doc(u.uid);
+    const s = await ref.get();
+    const yeni = !s.exists || !s.data().ilkGiris;
+    await ref.set({ eposta: u.eposta, telefon: u.telefon, ad: u.ad || s.data()?.ad || '', rol: u.rol, firma: u.firma || '', sonGiris: FieldValue.serverTimestamp(), ...(yeni ? { ilkGiris: FieldValue.serverTimestamp() } : {}) }, { merge: true });
+    if (yeni) sayac({ kullanici: 1 });
+    return { ...u, onaylar: s.data()?.onaylar || {} };
+  }
+  // Kayıt/giriş sırasında kullanıcı sözleşmesi, KVKK ve gizlilik onayı
+  async function onay(req) {
+    const u = await kim(req);
+    const b = req.body || {};
+    const belgeler = arr(b.belgeler, 10, 20).filter((k) => ['kullanici', 'kvkk', 'gizlilik', 'cerez', 'pazarlama', 'firma', 'abonelik'].includes(k));
+    if (!belgeler.length) hata(400, 'Onaylanacak metin yok.');
+    await onayKaydet(req, { tur: str(b.tur, 30) || 'hesap', uid: u.uid, eposta: u.eposta, telefon: u.telefon, ad: u.ad, firma: u.firma || '', belgeler });
+    await db.collection('kullanicilar').doc(u.uid).set({ onaylar: Object.fromEntries(belgeler.map((k) => [k, SOZLESME[k].surum])), ...(belgeler.includes('pazarlama') ? { pazarlama: true } : {}) }, { merge: true });
+    return { ok: true };
+  }
   async function hesap(req) {
     const u = await kim(req);
     const qs = [db.collection('talepler').where('uid', '==', u.uid).limit(50).get()];
     if (u.dogrulandi && u.eposta) qs.push(db.collection('talepler').where('eposta', '==', u.eposta).limit(50).get());
+    if (u.telefon) qs.push(db.collection('talepler').where('telefonNorm', '==', telNorm(u.telefon)).limit(50).get());
     const docs = new Map();
     for (const q of await Promise.all(qs)) for (const d of q.docs) docs.set(d.id, d);
     const talepler = [];
+    const fCache = new Map();
+    const firmaIletisim = async (slug) => {
+      if (!fCache.has(slug)) fCache.set(slug, db.collection('firmalar').doc(slug).get().then((x) => x.data() || {}));
+      const f = await fCache.get(slug); const st = FIRMS.find((x) => x.slug === slug) || {};
+      return { telefon: f.telefon || '', eposta: f.eposta || '', web: st.web || '', sayfa: st.slug ? `/firma/${st.slug}/` : '' };
+    };
     const tkler = new Map(await Promise.all([...docs.values()].filter((d) => d.data().mod !== 'surec').map(async (d) => [d.id, await d.ref.collection('teklifler').get()])));
     for (const d of docs.values()) {
       const t = d.data();
       if (t.mod === 'surec') continue;
-      const tk = tkler.get(d.id).docs.map((x) => { const y = x.data(); return { firma: firmAd(y.firma), firmaSlug: y.firma, fiyat: y.fiyat, kdvDahil: y.kdvDahil, dahil: (y.dahil || []).map((k) => DAHIL_AD[k]), teslimGun: y.teslimGun, garantiYil: y.garantiYil, not: y.not }; }).sort((a, b) => a.fiyat - b.fiyat);
+      const ms = new Map((await d.ref.collection('mesajlar').get()).docs.map((x) => [x.id, (x.data().mesajlar || []).slice(-100)]));
+      const tk = (await Promise.all(tkler.get(d.id).docs.map(async (x) => { const y = x.data(); return { firma: firmAd(y.firma), firmaSlug: y.firma, fiyat: y.fiyat, kdvDahil: y.kdvDahil, dahil: (y.dahil || []).map((k) => DAHIL_AD[k]), teslimGun: y.teslimGun, garantiYil: y.garantiYil, not: y.not, zaman: y.zaman?.toMillis?.() || 0, iletisim: await firmaIletisim(y.firma), mesajlar: ms.get(y.firma) || [] }; }))).sort((a, b) => a.fiyat - b.fiyat);
       talepler.push({ id: d.id, ...anonim(t), durum: t.durum, olusturma: t.olusturma?.toMillis?.() || 0, sonTarihMs: t.sonTarih?.toMillis?.() || 0, teklifler: tk });
     }
     talepler.sort((a, b) => b.olusturma - a.olusturma);
@@ -525,6 +611,36 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     return { ok: true };
   }
 
+  // ---- Müşteri ↔ firma mesajlaşması (yalnızca fiyat vermiş firmayla) ----
+  async function mesajYaz(req, kimden) {
+    const b = req.body || {};
+    const metin = str(b.metin, 2000);
+    if (metin.length < 2) hata(400, 'Mesajınızı yazın.');
+    const ref = db.collection('talepler').doc(str(b.talep, 60)); const s = await ref.get();
+    if (!s.exists) hata(404, 'Talep bulunamadı.');
+    const t = s.data(); let firma; let u;
+    if (kimden === 'musteri') {
+      u = await kim(req);
+      const sahip = t.uid === u.uid || (u.dogrulandi && u.eposta && t.eposta === u.eposta) || (u.telefon && t.telefonNorm === telNorm(u.telefon));
+      if (!sahip) hata(404, 'Talep bulunamadı.');
+      firma = str(b.firma, 80);
+    } else { u = await firmaKim(req); firma = u.firma; }
+    if (!(await ref.collection('teklifler').doc(firma).get()).exists) hata(409, 'Mesajlaşma, firma fiyat verdikten sonra açılır.');
+    if (!(await rateLimit(req, `mesaj:${u.uid}`, 40))) hata(429, 'Çok fazla mesaj gönderildi, biraz sonra tekrar deneyin.');
+    await ref.collection('mesajlar').doc(firma).set({ firma, mesajlar: FieldValue.arrayUnion({ kim: kimden, metin, zaman: now() }), son: FieldValue.serverTimestamp(), [`okunmadi_${kimden === 'musteri' ? 'firma' : 'musteri'}`]: true }, { merge: true });
+    const a = ayar(); const fa = firmAd(firma);
+    if (kimden === 'musteri') {
+      const f = (await db.collection('firmalar').doc(firma).get()).data() || {};
+      const to = f.eposta || f.panelEpostalari?.[0];
+      if (to) await mail(to, `Müşteriden mesaj: ${TIP_AD[t.tip]}, ${t.il}`, sablon('Müşteriniz size yazdı', `<p><b>${esc(t.ad)}</b> fiyat verdiğiniz talep için mesaj gönderdi:</p><blockquote style="margin:14px 0;padding:12px 16px;border-left:4px solid #17663f;background:#f8faf7;border-radius:8px">${esc(metin)}</blockquote>${buton(`${a.site}/firma-paneli/#talepler`, 'Panelden yanıtla')}`, { ust: 'Yeni mesaj' }));
+    } else if (t.eposta) {
+      await mail(t.eposta, `${fa} size yazdı`, sablon(`${fa} size yazdı`, `<p>Merhaba ${esc(t.ad)},</p><p><b>${esc(fa)}</b> talebinizle ilgili mesaj gönderdi:</p><blockquote style="margin:14px 0;padding:12px 16px;border-left:4px solid #17663f;background:#f8faf7;border-radius:8px">${esc(metin)}</blockquote>${buton(`${a.site}/hesabim/#teklifler`, 'Yanıtla')}`, { ust: 'Yeni mesaj' }));
+    }
+    return { ok: true };
+  }
+  const musteriMesaj = (req) => mesajYaz(req, 'musteri');
+  const firmaMesaj = (req) => mesajYaz(req, 'firma');
+
   // ---- Firma paneli ----
   async function firmaOzet(req) {
     const u = await firmaKim(req);
@@ -539,11 +655,11 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const bekleyen = dq.docs.map((d) => ({ id: d.id, ...d.data(), zaman: d.data().zaman?.toMillis?.() || 0 }));
     const tq = await db.collection('talepler').where('firmalar', 'array-contains', slug).limit(60).get();
     const talepler = [];
-    const ekler = await Promise.all(tq.docs.map((d) => Promise.all([d.ref.collection('davetler').doc(slug).get(), d.ref.collection('teklifler').doc(slug).get()])));
+    const ekler = await Promise.all(tq.docs.map((d) => Promise.all([d.ref.collection('davetler').doc(slug).get(), d.ref.collection('teklifler').doc(slug).get(), d.ref.collection('mesajlar').doc(slug).get()])));
     for (const [n, d] of tq.docs.entries()) {
       const t = d.data();
-      const [dv, tk] = ekler[n];
-      talepler.push({ id: d.id, ...anonim(t), davetTur: dv.exists ? dv.data().tur || '' : '', olusturma: t.olusturma?.toMillis?.() || 0, sonTarihMs: t.sonTarih?.toMillis?.() || 0, davet: dv.exists ? dv.data().durum : 'yok', teklif: tk.exists ? { fiyat: tk.data().fiyat, kdvDahil: tk.data().kdvDahil } : null, ...(tk.exists ? { musteri: musteri(t) } : {}) });
+      const [dv, tk, mj] = ekler[n];
+      talepler.push({ id: d.id, test: !!t.test, mesajlar: mj.exists ? (mj.data().mesajlar || []).slice(-100) : [], ...anonim(t), davetTur: dv.exists ? dv.data().tur || '' : '', olusturma: t.olusturma?.toMillis?.() || 0, sonTarihMs: t.sonTarih?.toMillis?.() || 0, davet: dv.exists ? dv.data().durum : 'yok', teklif: tk.exists ? { fiyat: tk.data().fiyat, kdvDahil: tk.data().kdvDahil } : null, ...(tk.exists ? { musteri: musteri(t) } : {}) });
     }
     talepler.sort((a, b) => b.olusturma - a.olusturma);
     const gq = await db.collection('geriBildirimler').where('firma', '==', slug).limit(50).get();
@@ -552,8 +668,14 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const rq = await db.collection('reklamTalepleri').where('firma', '==', slug).limit(30).get();
     const reklamlar = rq.docs.map((d) => { const r = d.data(); return { id: d.id, paket: r.paket, paketAd: REKLAM_PAKET[r.paket]?.ad || r.paket, fiyat: r.fiyat, durum: r.durum, odemeLinki: r.odemeLinki || '', modelId: r.modelId || '', zaman: r.zaman?.toMillis?.() || 0 }; }).sort((a, b) => b.zaman - a.zaman);
     const ab = fd.abonelik || {};
+    // İstatistik: sayaçlar (kalıcı) + son 60 talepten hesaplanan değerler (sayaç yoksa)
+    const gercek = talepler.filter((t) => !t.test && (t.davetTur === 'uye' || t.davetTur === 'odeme'));
+    const ist = {
+      talep: Math.max(fd.istTalep || 0, gercek.length), teklif: Math.max(fd.istTeklif || 0, gercek.filter((t) => t.teklif).length), red: Math.max(fd.istRed || 0, gercek.filter((t) => t.davet === 'red').length),
+    };
+    ist.oran = ist.talep ? Math.round((ist.teklif / ist.talep) * 100) : 0;
     return {
-      uye: uyeAktif(fd),
+      uye: uyeAktif(fd), istatistik: ist, kartliOdeme: { acik: iyz().hazir && !!(await iyzicoPlan()), aktif: !!fd.iyzicoAbonelik },
       ben: u, firma: { slug, ad: st.kisaAd || fd.ad || slug, il: st.il || '', tipler: fd.tipler || st.tipler || [], iller: fd.iller || [], eposta: fd.eposta || '', telefon: fd.telefon || '', aktif: !!fd.aktif },
       abonelik: { tutar: ab.tutar || ABONELIK_TL, durum: ab.durum || 'odeme-bekliyor', durumAd: ABONELIK_DURUM[ab.durum || 'odeme-bekliyor'], odemeLinki: ab.odemeLinki || '', sonOdeme: ab.sonOdeme || '', sonrakiOdeme: ab.sonrakiOdeme || '' },
       reklamPaketleri: REKLAM_PAKET, reklamlar, modeller, bekleyen, talepler, geriBildirimler: geri,
@@ -611,6 +733,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     if (!s.exists || !(s.data().firmalar || []).includes(u.firma)) hata(404, 'Talep bulunamadı.');
     if ((await ref.collection('teklifler').doc(u.firma).get()).exists) hata(409, 'Bu talebe zaten fiyat verdiniz.');
     await ref.collection('davetler').doc(u.firma).set({ durum: 'red', redZamani: FieldValue.serverTimestamp() }, { merge: true });
+    if (!s.data().test) firmaSayac(u.firma, { istRed: 1 });
     return { ok: true };
   }
   async function firmaGeriBildirim(req) {
@@ -657,8 +780,123 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     if (eposta && !epostaMi(eposta)) hata(400, 'Geçerli bir e-posta yazın.');
     const iller = arr(b.iller, 81, 40);
     const tipler = arr(b.tipler).filter((t) => TIP_AD[t]);
-    await db.collection('firmalar').doc(u.firma).set({ ...(eposta ? { eposta } : {}), telefon: str(b.telefon, 20), iller: iller.length ? iller : ['*'], ...(tipler.length ? { tipler } : {}), guncelleme: FieldValue.serverTimestamp() }, { merge: true });
+    await db.collection('firmalar').doc(u.firma).set({ ...(eposta ? { eposta, panelEpostalari: FieldValue.arrayUnion(eposta) } : {}), telefon: str(b.telefon, 20), ...(b.web !== undefined ? { web: httpsUrl(b.web) || '' } : {}), ...(b.adres !== undefined ? { adres: str(b.adres, 240) } : {}), iller: iller.length ? iller : ['*'], ...(tipler.length ? { tipler } : {}), guncelleme: FieldValue.serverTimestamp() }, { merge: true });
     return { ok: true };
+  }
+
+  // ---- iyzico aylık abonelik ----
+  const iyz = () => iyzicoIstemci({ ...(ayar().iyzico || {}), fetch: fetchFn });
+  const ayEkle = (ms, n = 1) => { const t = new Date(ms); t.setMonth(t.getMonth() + n); return t.toISOString().slice(0, 10); };
+  const bugun = () => new Date(now()).toISOString().slice(0, 10);
+  async function iyzicoPlan() { const d = (await db.collection('sistem').doc('iyzico').get()).data() || {}; return ayar().iyzico?.planKodu || d.planKodu || ''; }
+  async function firmaAbonelikBaslat(req) {
+    const u = await firmaKim(req);
+    const c = iyz(); if (!c.hazir) hata(409, 'Kartla otomatik ödeme henüz açılmadı. Ödeme bağlantısıyla ödeyebilir ya da bizimle iletişime geçebilirsiniz.');
+    const plan = await iyzicoPlan(); if (!plan) hata(409, 'Abonelik planı henüz tanımlanmadı.');
+    const b = req.body || {};
+    const ad = str(b.ad, 60); const soyad = str(b.soyad, 60); const adres = str(b.adres, 240); const il = str(b.il, 40);
+    const gsm = String(b.telefon || '').replace(/\D/g, '').slice(-10);
+    const tc = /^\d{11}$/.test(String(b.tc || '')) ? String(b.tc) : '11111111111';
+    if (!ad || !soyad || adres.length < 10 || !il || gsm.length !== 10) hata(400, 'Ad, soyad, telefon, il ve fatura adresini eksiksiz yazın.');
+    if (b.onay !== true) hata(400, 'Abonelik, ödeme ve iptal koşullarını onaylayın.');
+    const ref = db.collection('firmalar').doc(u.firma); const fd = (await ref.get()).data() || {};
+    const kod = token();
+    await ref.set({ iyzicoDonusKod: kod }, { merge: true });
+    await onayKaydet(req, { tur: 'abonelik-baslatma', uid: u.uid, eposta: u.eposta, firma: u.firma, ad: `${ad} ${soyad}`, belgeler: ['abonelik', 'firma'] });
+    const a = ayar();
+    const r = await c.formBaslat({ conversationId: u.firma, planKodu: plan, callbackUrl: `${a.site}/api/iyzico/donus?f=${encodeURIComponent(u.firma)}&k=${kod}`,
+      musteri: { name: ad, surname: soyad, email: fd.eposta || u.eposta, gsmNumber: `+90${gsm}`, identityNumber: tc, billingAddress: { contactName: `${ad} ${soyad}`, city: il, country: 'Turkey', address: adres }, shippingAddress: { contactName: `${ad} ${soyad}`, city: il, country: 'Turkey', address: adres } } });
+    return { icerik: r.checkoutFormContent, token: r.token };
+  }
+  async function iyzicoDonus(req) {
+    const slug = str(req.query?.f, 80); const kod = str(req.query?.k, 60); const tkn = str(req.body?.token || req.query?.token, 200);
+    const ref = db.collection('firmalar').doc(slug); const fd = slug ? (await ref.get()).data() : null;
+    const geri = (durum) => ({ __yonlendir: `/firma-paneli/?odeme=${durum}#uyelik` });
+    if (!fd || !kod || fd.iyzicoDonusKod !== kod || !tkn) return geri('hata');
+    let r; try { r = await iyz().formSonuc(tkn); } catch (e) { console.error('iyzico dönüş', e?.message); return geri('hata'); }
+    const x = r.data || {};
+    if (x.subscriptionStatus !== 'ACTIVE' || !x.referenceCode) return geri('hata');
+    const ab = { ...(fd.abonelik || {}), tutar: ABONELIK_TL, durum: 'aktif', yontem: 'iyzico', iyzico: { abonelikKodu: x.referenceCode, musteriKodu: x.customerReferenceCode || '' }, sonOdeme: bugun(), sonrakiOdeme: ayEkle(now()) };
+    await ref.set({ abonelik: ab, iyzicoAbonelik: x.referenceCode, iyzicoDonusKod: '' }, { merge: true });
+    const a = ayar(); const to = fd.eposta || fd.panelEpostalari?.[0];
+    await Promise.allSettled([
+      to ? mail(to, 'Üyeliğiniz başladı: artık teklif verebilirsiniz', sablon('Üyeliğiniz başladı', `<p>Kartınız kaydedildi ve ilk aylık ödemeniz alındı. Üyelik ücreti (${tl(ABONELIK_TL)}) her ay aynı gün kartınızdan otomatik çekilir; dilediğiniz zaman panelinizden iptal edebilirsiniz.</p>${kart([['Sonraki ödeme', ab.sonrakiOdeme], ['Tutar', `${tl(ABONELIK_TL)} / ay`]])}${buton(`${a.site}/firma-paneli/#talepler`, 'Taleplere git')}`, { ust: 'Üyelik aktif' })) : null,
+      mail(a.admin, `Abonelik başladı: ${firmAd(slug)}`, sablon('Yeni kartlı abonelik', kart([['Firma', firmAd(slug)], ['iyzico abonelik kodu', x.referenceCode]]))),
+    ]);
+    return geri('basarili');
+  }
+  // iyzico abonelik bildirimi: içerik doğrudan güvenilmez, durum iyzico'dan sorgulanarak doğrulanır
+  async function iyzicoBildirim(req) {
+    const b = req.body || {};
+    const kodAb = str(b.subscriptionReferenceCode, 100);
+    if (!kodAb) return { ok: true };
+    const q = await db.collection('firmalar').where('iyzicoAbonelik', '==', kodAb).limit(1).get();
+    if (q.empty) return { ok: true };
+    const ref = q.docs[0].ref; const fd = q.docs[0].data(); const slug = q.docs[0].id;
+    let durum = '';
+    try { durum = (await iyz().abonelik(kodAb)).data?.subscriptionStatus || ''; } catch (e) { console.error('iyzico sorgu', e?.message); hata(409, 'Doğrulanamadı'); }
+    const a = ayar(); const to = fd.eposta || fd.panelEpostalari?.[0];
+    const ab = { ...(fd.abonelik || {}) };
+    if (b.iyziEventType === 'subscription.order.success' && durum === 'ACTIVE') {
+      const yeni = ab.durum !== 'aktif';
+      Object.assign(ab, { durum: 'aktif', sonOdeme: bugun(), sonrakiOdeme: ayEkle(now()), hataSiparis: '', hataZamani: 0 });
+      await ref.set({ abonelik: ab }, { merge: true });
+      if (yeni && to) await mail(to, 'Ödemeniz alındı, üyeliğiniz yeniden aktif', sablon('Üyeliğiniz yeniden aktif', `<p>Aylık üyelik ödemeniz alındı. Size uyan talepler yeniden panelinize gelecek.</p>${buton(`${a.site}/firma-paneli/#talepler`, 'Panele git')}`, { ust: 'Ödeme alındı' }));
+    } else if (b.iyziEventType === 'subscription.order.failure') {
+      Object.assign(ab, { durum: 'gecikti', hataSiparis: str(b.orderReferenceCode, 100), hataZamani: now(), hatirlatma: now() });
+      await ref.set({ abonelik: ab }, { merge: true });
+      await Promise.allSettled([
+        to ? mail(to, 'Üyelik ödemeniz alınamadı: talepler durduruldu', odemeHataHtml()) : null,
+        mail(a.admin, `Abonelik ödemesi alınamadı: ${firmAd(slug)}`, sablon('Ödeme alınamadı', kart([['Firma', firmAd(slug)], ['iyzico durumu', durum]]))),
+      ]);
+    }
+    return { ok: true };
+  }
+  const odemeHataHtml = () => sablon('Üyelik ödemeniz alınamadı', `<p>Bu ayki ${tl(ABONELIK_TL)} üyelik ödemeniz kayıtlı kartınızdan çekilemedi. <b>Ödeme alınana kadar yeni müşteri talepleri size gelmez</b> ve bekleyen taleplere fiyat veremezsiniz.</p><p>Kartınızı panelinizden güncellediğinizde ödeme hemen yeniden denenir ve üyeliğiniz kaldığı yerden devam eder.</p>${buton(`${ayar().site}/firma-paneli/#uyelik`, 'Kartımı güncelle')}`, { ust: 'Ödeme alınamadı', onizleme: 'Kartınızı güncelleyin, talepler yeniden gelsin' });
+  async function firmaKartGuncelle(req) {
+    const u = await firmaKim(req);
+    const ref = db.collection('firmalar').doc(u.firma); const fd = (await ref.get()).data() || {};
+    if (!fd.iyzicoAbonelik) hata(400, 'Kartlı aboneliğiniz yok.');
+    const kod = token(); await ref.set({ iyzicoDonusKod: kod }, { merge: true });
+    const r = await iyz().kartGuncelleBaslat({ abonelikKodu: fd.iyzicoAbonelik, callbackUrl: `${ayar().site}/api/iyzico/kart-donus?f=${encodeURIComponent(u.firma)}&k=${kod}` });
+    return { icerik: r.checkoutFormContent, token: r.token };
+  }
+  async function iyzicoKartDonus(req) {
+    const slug = str(req.query?.f, 80); const kod = str(req.query?.k, 60);
+    const ref = db.collection('firmalar').doc(slug); const fd = slug ? (await ref.get()).data() : null;
+    if (!fd || !kod || fd.iyzicoDonusKod !== kod) return { __yonlendir: '/firma-paneli/?odeme=hata#uyelik' };
+    await ref.set({ iyzicoDonusKod: '' }, { merge: true });
+    if (fd.abonelik?.durum === 'gecikti' && fd.abonelik?.hataSiparis) { try { await iyz().odemeTekrarla(fd.abonelik.hataSiparis); } catch (e) { console.error('iyzico yeniden deneme', e?.message); } }
+    return { __yonlendir: '/firma-paneli/?odeme=kart#uyelik' };
+  }
+  async function firmaAbonelikIptal(req) {
+    const u = await firmaKim(req);
+    const ref = db.collection('firmalar').doc(u.firma); const fd = (await ref.get()).data() || {};
+    if (!fd.iyzicoAbonelik) hata(400, 'Kartlı aboneliğiniz yok.');
+    await iyz().iptal(fd.iyzicoAbonelik);
+    await ref.set({ abonelik: { ...(fd.abonelik || {}), durum: 'iptal', iptalZamani: now() } }, { merge: true });
+    await mail(ayar().admin, `Abonelik iptal edildi: ${firmAd(u.firma)}`, sablon('Firma aboneliğini iptal etti', kart([['Firma', firmAd(u.firma)], ['İptal eden', u.eposta]])));
+    return { ok: true };
+  }
+  async function yonetimIyzicoPlan(req) {
+    await yonetici(req);
+    const c = iyz(); if (!c.hazir) hata(409, 'iyzico anahtarları tanımlı değil.');
+    const ur = await c.urunOlustur('PrefabrikTeklif Firma Üyeliği', `Aylık ${ABONELIK_TL} TL firma üyeliği`);
+    const pl = await c.planOlustur(ur.data.referenceCode, `Aylık ${ABONELIK_TL} TL`, ABONELIK_TL);
+    await db.collection('sistem').doc('iyzico').set({ urunKodu: ur.data.referenceCode, planKodu: pl.data.referenceCode, zaman: FieldValue.serverTimestamp() }, { merge: true });
+    return { ok: true, planKodu: pl.data.referenceCode };
+  }
+  // Ödemesi gecikmiş firmalara 3 günde bir hatırlatma
+  async function abonelikHatirlat() {
+    const q = await db.collection('firmalar').get(); let n = 0;
+    for (const d of q.docs) {
+      const ab = d.data().abonelik || {};
+      if (ab.durum !== 'gecikti' || now() - (ab.hatirlatma || 0) < 3 * 24 * 3600000) continue;
+      const to = d.data().eposta || d.data().panelEpostalari?.[0]; if (!to) continue;
+      await mail(to, 'Hatırlatma: üyeliğinizi yenileyin, talepler size gelmiyor', odemeHataHtml());
+      await d.ref.set({ abonelik: { ...ab, hatirlatma: now() } }, { merge: true }); n++;
+    }
+    return n;
   }
 
   // ---- Yönetim ----
@@ -681,6 +919,14 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       al(db.collection('epostaHatalari').orderBy('zaman', 'desc').limit(20)),
       db.collection('sistem').doc('eposta').get().then((d) => d.data() || {}).catch(() => ({})),
     ]);
+    const [kullaniciQ, sayacD, onayQ, tanitimD, tanitimQ, tumTalepQ] = await Promise.all([
+      al(db.collection('kullanicilar').limit(1000)),
+      db.collection('sistem').doc('sayac').get().then((d) => d.data() || {}).catch(() => ({})),
+      al(db.collection('onaylar').orderBy('zaman', 'desc').limit(100)).catch(() => []),
+      db.collection('sistem').doc('tanitim').get().then((d) => d.data() || {}).catch(() => ({})),
+      al(db.collection('tanitimKayit').limit(2000)).catch(() => []),
+      al(db.collection('talepler').limit(2000), (d) => { const x = d.data(); return { eposta: x.eposta, telefonNorm: x.telefonNorm || telNorm(x.telefon), uid: x.uid, test: !!x.test, mod: x.mod, teklifSayisi: x.teklifSayisi || 0 }; }),
+    ]);
     const z = (x) => ({ ...x, zaman: ms(x.zaman), olusturma: ms(x.olusturma), guncelleme: ms(x.guncelleme), sonTarih: ms(x.sonTarih), rizaZamani: undefined });
     await Promise.all(talep.map(async (t) => {
       const ref = db.collection('talepler').doc(t.id);
@@ -688,7 +934,26 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       t.davetler = dv.docs.map((d) => ({ firma: d.id, durum: d.data().durum }));
       t.teklifSayisi = tk.size; delete t.token;
     }));
+    // Kullanıcılar: hesap açanlar + hesabı olmadan talep gönderenler; her biri için talep ve gelen teklif sayısı
+    const gercekT = tumTalepQ.filter((t) => !t.test);
+    const kisiler = kullaniciQ.filter((k) => k.rol !== 'firma').map((k) => {
+      const tl2 = gercekT.filter((t) => t.uid === k.id || (k.eposta && t.eposta === k.eposta) || (k.telefon && t.telefonNorm === telNorm(k.telefon)));
+      return { uid: k.id, ad: k.ad || '', eposta: k.eposta || '', telefon: k.telefon || '', rol: k.rol || 'kullanici', ilkGiris: ms(k.ilkGiris), sonGiris: ms(k.sonGiris), talep: tl2.length, teklif: tl2.reduce((n, t) => n + t.teklifSayisi, 0), favori: (k.favoriler || []).length, pazarlama: !!k.pazarlama };
+    }).sort((a, b) => b.sonGiris - a.sonGiris);
+    const hesapsiz = new Map();
+    for (const t of gercekT) if (t.eposta && !kullaniciQ.some((k) => k.eposta === t.eposta)) { const x = hesapsiz.get(t.eposta) || { eposta: t.eposta, talep: 0, teklif: 0 }; x.talep++; x.teklif += t.teklifSayisi; hesapsiz.set(t.eposta, x); }
+    const istatistik = {
+      kullanici: kisiler.length, firmaHesabi: kullaniciQ.filter((k) => k.rol === 'firma').length, hesapsizMusteri: hesapsiz.size,
+      talep: gercekT.filter((t) => t.mod !== 'surec').length, surec: gercekT.filter((t) => t.mod === 'surec').length,
+      teklif: gercekT.reduce((n, t) => n + t.teklifSayisi, 0), teklifAlanTalep: gercekT.filter((t) => t.teklifSayisi > 0).length,
+      uyeFirma: firma.filter((f) => f.aktif !== false && !f.kaldirildi && f.abonelik?.durum === 'aktif').length, kayitliFirma: firma.length,
+      sayac: sayacD,
+    };
+    const tanitim = { aktif: !!tanitimD.aktif, gunluk: tanitimD.gunluk || 20, saat: tanitimD.saat || 10, sonCalisma: ms(tanitimD.sonCalisma), gonderilen: tanitimQ.filter((x) => x.sayi).length, iptal: tanitimQ.filter((x) => x.iptal).length, aday: 0, son: tanitimQ.filter((x) => x.son).sort((a, b) => ms(b.son) - ms(a.son)).slice(0, 30).map((x) => ({ ad: x.ad || x.id, eposta: x.eposta, son: ms(x.son), sayi: x.sayi || 0, iptal: !!x.iptal })) };
+    tanitim.aday = (await tanitimAdaylari()).length;
     return {
+      iyzico: { hazir: iyz().hazir, planKodu: await iyzicoPlan() },
+      istatistik, kullanicilar: kisiler.slice(0, 500), hesapsizMusteriler: [...hesapsiz.values()].slice(0, 300), onaylar: onayQ.map((o) => ({ ...o, zaman: ms(o.zaman), ip: undefined })), tanitim,
       degisiklikler: degisiklik.map((d) => ({ ...z(d), firmaAd: firmAd(d.firma), model: d.modelId ? (modelBul(d.modelId) || null) : null })),
       basvurular: basvuru.map(z), yorumlar: yorumB.map((y) => ({ ...z(y), firmaAd: firmAd(y.firma) })),
       geriBildirimler: geri.map((g) => ({ ...z(g), firmaAd: firmAd(g.firma) })).sort((a, b) => (a.durum === 'kapandi') - (b.durum === 'kapandi') || b.zaman - a.zaman),
@@ -761,6 +1026,110 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     if (res.send) { res.send(buf); return undefined; }
     return { boyut: buf.length, mime: d.mime };
   }
+  async function yonetimFirmaDurum(req) {
+    await yonetici(req);
+    const b = req.body || {};
+    const slug = str(b.slug, 80);
+    const ref = db.collection('firmalar').doc(slug);
+    if (!/^[a-z0-9-]{2,80}$/.test(slug) || !(await ref.get()).exists) hata(404, 'Firma bulunamadı.');
+    if (b.islem === 'sil') {
+      if (b.onay !== slug) hata(400, 'Silmeyi onaylamak için firma kodunu yazın.');
+      const eski = (await ref.get()).data();
+      await db.collection('silinenFirmalar').add({ slug, veri: JSON.parse(JSON.stringify(eski, (k, v) => (v && v.toMillis ? v.toMillis() : v))), zaman: FieldValue.serverTimestamp() });
+      await ref.delete();
+      return { ok: true, silindi: true };
+    }
+    if (b.islem !== 'aktif' && b.islem !== 'pasif') hata(400, 'Geçersiz işlem.');
+    await ref.set({ aktif: b.islem === 'aktif', guncelleme: FieldValue.serverTimestamp() }, { merge: true });
+    return { ok: true };
+  }
+  // Sayaçları talep geçmişinden yeniden hesapla (tek seferlik düzeltme)
+  async function yonetimIstatistik(req) {
+    await yonetici(req);
+    const q = await db.collection('talepler').limit(3000).get();
+    const f = {}; const top = { talep: 0, teklif: 0, surec: 0 };
+    for (const d of q.docs) {
+      const t = d.data(); if (t.test) continue;
+      if (t.mod === 'surec') { top.surec++; continue; }
+      top.talep++;
+      const [dv, tk] = await Promise.all([d.ref.collection('davetler').get(), d.ref.collection('teklifler').get()]);
+      if ((t.teklifSayisi || 0) !== tk.size) await d.ref.set({ teklifSayisi: tk.size }, { merge: true });
+      top.teklif += tk.size;
+      for (const x of dv.docs) { const v = x.data(); if (v.tur !== 'uye' && v.tur !== 'odeme') continue; const o = (f[x.id] ||= { istTalep: 0, istTeklif: 0, istRed: 0 }); o.istTalep++; if (v.durum === 'red') o.istRed++; }
+      for (const x of tk.docs) { const o = (f[x.id] ||= { istTalep: 0, istTeklif: 0, istRed: 0 }); o.istTeklif++; }
+    }
+    const fq = await db.collection('firmalar').get();
+    for (const d of fq.docs) await d.ref.set(f[d.id] || { istTalep: 0, istTeklif: 0, istRed: 0 }, { merge: true });
+    const kq = await db.collection('kullanicilar').get();
+    await db.collection('sistem').doc('sayac').set({ ...top, kullanici: kq.docs.filter((d) => d.data().rol !== 'firma').length }, { merge: true });
+    return { ok: true, ...top };
+  }
+
+  // ---- Firmalara tanıtım e-postası (günlük kota; tacir/esnafa onaysız gönderilebilir, ret hakkı her e-postada) ----
+  const tanitimId = (eposta) => crypto.createHash('sha256').update(`tanitim:${eposta}`).digest('hex').slice(0, 24);
+  async function tanitimAdaylari() {
+    const [kayitQ, firmaQ, listeQ, davetQ] = await Promise.all([db.collection('tanitimKayit').get(), db.collection('firmalar').get(), db.collection('tanitimListesi').get(), db.collection('davetKayit').where('iptal', '==', true).get()]);
+    const kayit = new Map(kayitQ.docs.map((d) => [d.id, d.data()]));
+    const kayitli = new Set(); for (const d of firmaQ.docs) { const x = d.data(); kayitli.add(d.id); for (const e of [x.eposta, ...(x.panelEpostalari || [])]) if (e) kayitli.add(String(e).toLowerCase()); }
+    const iptalSlug = new Set(davetQ.docs.map((d) => d.id));
+    const adaylar = [];
+    const ekle = (eposta, ad, slug) => {
+      eposta = String(eposta || '').toLowerCase().trim();
+      if (!epostaMi(eposta) || kayitli.has(eposta) || (slug && (kayitli.has(slug) || iptalSlug.has(slug)))) return;
+      const id = tanitimId(eposta); const k = kayit.get(id) || {};
+      if (k.iptal || (k.sayi || 0) >= 2 || adaylar.some((x) => x.id === id)) return;
+      if (k.son && now() - (k.son.toMillis?.() || k.son) < 30 * 24 * 3600000) return; // aynı adrese en az 30 gün arayla, en fazla 2 kez
+      adaylar.push({ id, eposta, ad: ad || '', slug: slug || '', sayi: k.sayi || 0 });
+    };
+    for (const f of FIRMS) ekle(f.eposta, f.kisaAd, f.slug);
+    for (const d of listeQ.docs) ekle(d.data().eposta, d.data().ad, '');
+    return adaylar.sort((x, y) => x.sayi - y.sayi);
+  }
+  const tanitimHtml = (ad, iptalUrl) => {
+    const a = ayar();
+    return sablon('Müşteriler prefabrik ev arıyor, teklifinizi bekliyor', `<p>Merhaba${ad ? ` ${esc(ad)} yetkilisi` : ''},</p><p><b>PrefabrikTeklif</b>, prefabrik, çelik, konteyner, ahşap ev ve tiny house arayanları üreticilerle buluşturan bir karşılaştırma ve teklif platformu. Ev arayan kişi ilini, metrekaresini ve bütçesini yazıyor; talep yalnızca o bölgeye ve ev tipine hizmet veren üye firmalara gidiyor.</p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:18px 0">${[['Hazır müşteri', 'Ne aradığını yazmış, fiyat bekleyen müşteri talepleri doğrudan panelinize gelir.'], ['Adil sıralama', 'Sıralama ücretle değişmez; fiyatınız ve hizmet kapsamınız konuşur.'], ['48 saat kuralı', 'Müşteri tekliflerini tek tabloda karşılaştırır; hızlı dönen firma öne çıkar.'], ['Aylık 499 TL', 'Komisyon yok, sözleşme süresi yok; dilediğiniz ay iptal edersiniz.']].map(([b, t]) => `<tr><td style="padding:8px 0;vertical-align:top;width:30px"><div style="width:22px;height:22px;border-radius:50%;background:#e7f3ec;color:#17663f;font-weight:bold;text-align:center;line-height:22px;font-size:13px">✓</div></td><td style="padding:8px 0;font-size:14px"><b>${b}</b><br><span style="color:#5b6760">${t}</span></td></tr>`).join('')}</table>
+<p>Firmanız sitemizde bilgi amaçlı listeleniyor olabilir. Üye olduğunuzda ürünlerinizi ve fiyatlarınızı kendiniz güncellersiniz, doğrulanmış firma rozeti alırsınız ve size uyan talepler e-postanıza düşer.</p>${buton(`${a.site}/firma-kayit/`, 'Firmamı ücretsiz başvuruyla ekle')}${buton(`${a.site}/nasil-calisir/`, 'Nasıl çalışıyor?', true)}<p style="font-size:13px;color:#5b6760;margin:16px 0 0">Sorunuz varsa bu e-postayı yanıtlamanız yeterli.</p>`, { ust: 'Firmalar için', onizleme: 'Prefabrik ev arayan müşterilerden doğrudan teklif talebi alın', alt: `Bu e-posta, firmanızın internet sitesinde herkese açık yayımlanan kurumsal adrese, tacir ve esnafa yönelik bilgilendirme olarak gönderilmiştir. Almak istemiyorsanız <a href="${esc(iptalUrl)}" style="color:#6b766f">buradan</a> tek tıkla ayrılabilirsiniz; bir daha gönderilmez.` });
+  };
+  async function tanitimGonder(adet) {
+    const a = ayar();
+    const adaylar = (await tanitimAdaylari()).slice(0, adet);
+    let n = 0;
+    for (const x of adaylar) {
+      const ref = db.collection('tanitimKayit').doc(x.id); const k = (await ref.get()).data() || {};
+      const kod = k.kod || token();
+      const iptalUrl = `${a.site}/bildirim-iptal/?f=${encodeURIComponent(`t-${x.id}.${kod}`)}`;
+      await mail(x.eposta, 'Prefabrik ev arayan müşterilerden teklif talebi alın', tanitimHtml(x.ad, iptalUrl), { iptal: iptalUrl, tur: 'davet' });
+      await ref.set({ eposta: x.eposta, ad: x.ad, slug: x.slug, kod, sayi: (k.sayi || 0) + 1, son: FieldValue.serverTimestamp() }, { merge: true });
+      n++;
+    }
+    await db.collection('sistem').doc('tanitim').set({ sonCalisma: FieldValue.serverTimestamp(), sonAdet: n }, { merge: true });
+    return n;
+  }
+  async function yonetimTanitim(req) {
+    const u = await yonetici(req);
+    const b = req.body || {};
+    if (b.onizleme) { await mail(ayar().admin, '[Önizleme] Prefabrik ev arayan müşterilerden teklif talebi alın', tanitimHtml('Örnek Firma', `${ayar().site}/bildirim-iptal/`)); return { ok: true, gonderildi: ayar().admin }; }
+    if (typeof b.ekle === 'string') {
+      let n = 0;
+      for (const satir of b.ekle.split(/\n/).slice(0, 500)) {
+        const [e, ...ad] = satir.split(/[;,\t]/).map((x) => x.trim());
+        if (!epostaMi(String(e || '').toLowerCase())) continue;
+        await db.collection('tanitimListesi').doc(tanitimId(e.toLowerCase())).set({ eposta: e.toLowerCase(), ad: ad.join(' ').slice(0, 120), ekleyen: u.eposta, zaman: FieldValue.serverTimestamp() }, { merge: true });
+        n++;
+      }
+      return { ok: true, eklendi: n };
+    }
+    if (b.simdiGonder) return { ok: true, gonderilen: await tanitimGonder(Math.min(sayi(b.adet, 1, 50) || 20, 50)) };
+    await db.collection('sistem').doc('tanitim').set({ aktif: !!b.aktif, gunluk: Math.min(sayi(b.gunluk, 1, 50) || 20, 50) }, { merge: true });
+    return { ok: true };
+  }
+  async function zamanliTanitim() {
+    const d = (await db.collection('sistem').doc('tanitim').get()).data() || {};
+    if (!d.aktif) return 0;
+    return tanitimGonder(Math.min(d.gunluk || 20, 50));
+  }
+
   async function yonetimFirma(req) {
     await yonetici(req);
     const b = req.body || {};
@@ -891,11 +1260,14 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
 
   return {
     rateLimit, kim,
+    zamanliTanitim, abonelikHatirlat,
     routes: {
       'POST /api/teklif': teklif, 'GET /api/talep': talep, 'POST /api/teklif-ver': teklifVer, 'POST /api/teklif-red': teklifRed,
       'POST /api/firma-basvuru': firmaBasvuru, 'POST /api/belge': belge, 'GET /api/yonetim/belge': yonetimBelge, 'POST /api/bildirim-iptal': bildirimIptal, 'POST /api/firma/gorsel': firmaGorsel, 'POST /api/iletisim': iletisim, 'GET /api/google-puan': googlePuan, 'GET /api/yorumlar': yorumlar, 'POST /api/yorum': yorum,
       'GET /api/katalog': katalog, 'GET /api/bannerlar': bannerlar,
-      'GET /api/ben': ben, 'GET /api/hesap': hesap, 'POST /api/favoriler': favoriler, 'POST /api/siparis-mesaj': siparisMesaj,
+      'POST /api/firma/abonelik-baslat': firmaAbonelikBaslat, 'POST /api/firma/kart-guncelle': firmaKartGuncelle, 'POST /api/firma/abonelik-iptal': firmaAbonelikIptal, 'POST /api/iyzico/donus': iyzicoDonus, 'POST /api/iyzico/kart-donus': iyzicoKartDonus, 'POST /api/iyzico/bildirim': iyzicoBildirim, 'POST /api/yonetim/iyzico-plan': yonetimIyzicoPlan,
+      'GET /api/ben': ben, 'POST /api/onay': onay, 'POST /api/mesaj': musteriMesaj, 'POST /api/firma/mesaj': firmaMesaj, 'POST /api/yonetim/firma-durum': yonetimFirmaDurum, 'POST /api/yonetim/istatistik': yonetimIstatistik, 'POST /api/yonetim/tanitim': yonetimTanitim,
+      'GET /api/hesap': hesap, 'POST /api/favoriler': favoriler, 'POST /api/siparis-mesaj': siparisMesaj,
       'GET /api/firma/ozet': firmaOzet, 'POST /api/firma/urun': firmaUrun, 'POST /api/firma/teklif': firmaTeklif, 'POST /api/firma/red': firmaRed,
       'POST /api/firma/geri-bildirim': firmaGeriBildirim, 'POST /api/firma/geri-bildirim-yanit': firmaGeriBildirimYanit, 'POST /api/firma/profil': firmaProfil, 'POST /api/firma/reklam': firmaReklam,
       'GET /api/yonetim/ozet': yonetimOzet, 'POST /api/yonetim/degisiklik': yonetimDegisiklik, 'POST /api/yonetim/basvuru': yonetimBasvuru,
@@ -914,7 +1286,11 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       const fn = this.routes[`${req.method} ${String(req.path || '').replace(/\/$/, '')}`];
       const send = (code, body) => { res.status(code); if (!res.getHeader?.('Cache-Control')) res.set?.('Cache-Control', 'no-store'); return res.json(body); };
       if (!fn) return send(404, { hata: 'Bulunamadı' });
-      try { const out = await fn(req, res); if (fn === yonetimBelge && out === undefined) return undefined; return send(200, out); } catch (e) {
+      try {
+        const out = await fn(req, res); if (fn === yonetimBelge && out === undefined) return undefined;
+        if (out && out.__yonlendir) { if (res.redirect) return res.redirect(302, out.__yonlendir); res.status(302); res.set?.('Location', out.__yonlendir); return res.json({}); }
+        return send(200, out);
+      } catch (e) {
         if (e instanceof HttpHata) return send(e.kod, { hata: e.message });
         if (/documentPath|resource path|document path|collectionPath/i.test(String(e?.message || ''))) return send(404, { hata: 'Kayıt bulunamadı veya bağlantı geçersiz.' });
         console.error(e); return send(500, { hata: 'İşleminizi şu an tamamlayamadık. Lütfen birkaç dakika sonra tekrar deneyin.' });

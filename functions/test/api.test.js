@@ -38,6 +38,13 @@ async function evrakYukle(call, tur, boyut = 2000, ad = 'belge.pdf', bas = '%PDF
 const TAM = { vergiDairesi: 'Malatya VD', adres: 'Organize Sanayi Bölgesi 3. Cadde No:12', merkezIl: 'Malatya', telefon: '05320000000' };
 const TALEP = { tip: 'prefabrik', oda: '2+1', m2: 80, arazi: 'imarli', il: 'Malatya', butce: '500000-1000000', teslim: 'anahtar', ad: 'Ali Veli', eposta: 'ali@ornek.com', telefon: '0532 111 22 33', riza: true, kapsam: ['anahtar-teslim'] };
 
+// Firma e-postası artık panele yönlendirir; hızlı fiyat bağlantısını (t, f) veritabanından kur
+async function davetLink(db, slug) {
+  const tl = db.dump('talepler/').filter(([k]) => k.split('/').length === 2).map(([k, v]) => ({ id: k.split('/')[1], ...v })).sort((a, b) => (b.olusturma?.ms || 0) - (a.olusturma?.ms || 0) || 0);
+  for (const t of tl.reverse()) { const dv = db.v.get(`talepler/${t.id}/davetler/${slug}`); if (dv) return [null, `${t.id}.${t.token}`, `${slug}.${dv.kod}`]; }
+  return null;
+}
+
 test('teklif: talep isimsiz gider, fiyat veren firmaya müşteri bilgisi açılır', async () => {
   const { db, mails, call } = kur();
   await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', tipler: ['prefabrik'], iller: ['*'], panelEpostalari: ['satis@kardesler.com'], abonelik: { durum: 'aktif' } });
@@ -49,7 +56,8 @@ test('teklif: talep isimsiz gider, fiyat veren firmaya müşteri bilgisi açıl�
   assert.ok(firmaMail, 'firmaya e-posta gitmeli');
   assert.ok(!firmaMail.html.includes('0532') && !firmaMail.html.includes('Ali Veli') && !firmaMail.html.includes('ali@ornek.com'), 'firma e-postasında müşteri bilgisi olmamalı');
   assert.ok(mails.some((m) => m.to === 'ali@ornek.com'), 'müşteriye onay e-postası');
-  const link = firmaMail.html.match(/teklif-ver\/\?t=([^&"]+)&amp;f=([^"&]+)/) || firmaMail.html.match(/teklif-ver\/\?t=([^&"]+)&f=([^"&]+)/);
+  assert.ok(firmaMail.html.includes('/firma-paneli/#talepler') && firmaMail.html.includes('48 saat'), 'firma e-postası panele ve 48 saate yönlendirir');
+  const link = await davetLink(db, 'kardesler');
   assert.ok(link, 'bağlantı bulunmalı');
   const [t, f] = [link[1], link[2]];
   const g = await call('GET', '/api/talep', { query: { t, f } });
@@ -92,7 +100,7 @@ test('firma talebi reddedebilir, sonra fiyat veremez', async () => {
   const { db, mails, call } = kur();
   await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', tipler: ['prefabrik'], iller: ['Malatya'], abonelik: { durum: 'aktif' } });
   await call('POST', '/api/teklif', { body: TALEP });
-  const m = mails.find((x) => x.to === 'satis@kardesler.com'); const l = m.html.match(/t=([^&"]+)&(?:amp;)?f=([^"&]+)/);
+  const m = mails.find((x) => x.to === 'satis@kardesler.com'); assert.ok(m); const l = await davetLink(db, 'kardesler');
   assert.equal((await call('POST', '/api/teklif-red', { body: { t: l[1], f: l[2] } })).statusCode, 200);
   assert.equal((await call('POST', '/api/teklif-ver', { body: { t: l[1], f: l[2], fiyat: 500000 } })).statusCode, 409);
 });
