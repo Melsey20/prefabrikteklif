@@ -1,0 +1,94 @@
+---
+import Base from '../layouts/Base.astro';
+import Crumbs from '../components/Crumbs.astro';
+import Faq from '../components/Faq.astro';
+import { SITE } from '../site.config';
+import { meta, tl, sayi, tipUrl } from '../lib/data';
+import { tipler, genel, buyukluk, odalar, kdv, donem, fiyatli } from '../lib/endeks';
+const pf = tipler.find((t) => t.tip === 'prefabrik')!;
+const ucuz = tipler[0]; const pahali = tipler.at(-1)!;
+const kdvYuzde = Math.round((kdv.belirsiz / fiyatli.length) * 100);
+// Tiny house ve bağ evleri küçük olduğundan 100 m² karşılaştırmasına alınmaz
+const yuz = tipler.filter((t) => t.m2 && ['konteyner', 'prefabrik', 'celik', 'ahsap'].includes(t.tip)).map((t) => ({ ad: t.ad, tip: t.tip, v: Math.round((t.m2! * 100) / 10000) * 10000 }));
+const baslik = `Prefabrik Ev Fiyat Endeksi ${donem}`;
+const alinti = `PrefabrikTeklif Prefabrik Ev Fiyat Endeksi, ${donem}`;
+const bulgular = [
+  `Türkiye’de prefabrik evlerin ortanca fiyatı ${tl(pf.med)}, ortanca metrekare fiyatı ${sayi(pf.m2)} TL.`,
+  `Metrekare fiyatı en düşük tip ${ucuz.ad.toLocaleLowerCase('tr')} (${sayi(ucuz.m2)} TL/m²), en yüksek tip ${pahali.ad.toLocaleLowerCase('tr')} (${sayi(pahali.m2)} TL/m²).`,
+  `İncelenen ${fiyatli.length} fiyatın ${kdv.belirsiz} tanesinde (%${kdvYuzde}) KDV’nin dahil olup olmadığı belirtilmiyor; karşılaştırmadan önce mutlaka sorulmalı.`,
+  `Prefabrik evlerde fiyatların yarısı ${tl(pf.q1)} ile ${tl(pf.q3)} arasında.`,
+];
+const sss = [
+  { s: 'Endeks nasıl hesaplanıyor?', c: `${meta.firmaSayisi} üreticinin internet sitelerinde yayımladığı model fiyatları her ayın başında kontrol edilir. Yalnızca belirli bir modele ait toplam fiyatlar kullanılır (yalnızca m² fiyatı verenler hariç). Ortanca (medyan) değer, uç fiyatların ortalamayı bozmaması için tercih edilir.` },
+  { s: 'Fiyatlara neler dahil?', c: 'Firmaya göre değişir. Çoğu fiyat bina ve montajı kapsar; zemin betonu, nakliye, ruhsat ve altyapı bağlantıları çoğunlukla ayrıdır. Bu nedenle endeks, anahtar teslim toplam maliyetin altında bir değeri gösterir.' },
+  { s: 'Verileri haberimde kullanabilir miyim?', c: `Evet. “${alinti}” kaynağını ve bu sayfanın bağlantısını vererek tablo ve rakamları kullanabilirsiniz. Ham veri CSV olarak indirilebilir. Sorular için: ${SITE.eposta}` },
+  { s: 'Endeks ne sıklıkla güncelleniyor?', c: 'Her ay. Fiyatlar ayın 1’inde firma sitelerinden yeniden kontrol edilir ve sayfa güncellenir.' },
+];
+const ld = [{
+  '@context': 'https://schema.org', '@type': 'Dataset', name: baslik, description: `Türkiye’deki ${meta.firmaSayisi} prefabrik, çelik, konteyner, ahşap ev ve tiny house üreticisinin ${fiyatli.length} model fiyatından derlenen aylık fiyat endeksi.`,
+  url: `${SITE.url}/prefabrik-ev-fiyat-endeksi/`, creator: { '@id': `${SITE.url}/#org` }, license: 'https://creativecommons.org/licenses/by/4.0/deed.tr', isAccessibleForFree: true,
+  temporalCoverage: meta.sonKontrol.slice(0, 7), spatialCoverage: { '@type': 'Place', name: 'Türkiye' }, inLanguage: 'tr-TR', dateModified: meta.sonKontrol,
+  variableMeasured: ['Ortanca fiyat (TL)', 'Ortanca m² fiyatı (TL)', 'Alt ve üst çeyrek fiyat'],
+  distribution: [{ '@type': 'DataDownload', encodingFormat: 'text/csv', contentUrl: `${SITE.url}/prefabrik-ev-fiyat-endeksi.csv` }],
+}];
+---
+<Base title={`${baslik}: Türkiye Ortanca Fiyatlar`} description={`${donem} prefabrik ev fiyat endeksi: ortanca prefabrik ev fiyatı ${tl(pf.med)}, m² fiyatı ${sayi(pf.m2)} TL. ${meta.firmaSayisi} üreticinin ${fiyatli.length} model fiyatından tiplere, metrekareye ve oda sayısına göre analiz.`} jsonLd={ld}>
+  <div class="wrap">
+    <Crumbs items={[{ ad: 'Rehber', url: '/rehber/' }, { ad: 'Fiyat endeksi' }]} />
+    <p class="xs" style="margin:10px 0 0;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--green)">Aylık rapor · {donem}</p>
+    <h1 style="margin-top:6px">{baslik}</h1>
+    <p class="muted" style="max-width:820px">{meta.firmaSayisi} üreticinin {fiyatli.length} model fiyatı, {meta.sonKontrolYazi} tarihinde firmaların kendi sitelerinden kontrol edildi. Rakamlar ortanca (medyan) değerdir.</p>
+
+    <div class="endeks-kartlar">
+      <div class="card"><span>Prefabrik ev ortanca fiyat</span><b>{tl(pf.med)}</b><small>{pf.n} model</small></div>
+      <div class="card"><span>Prefabrik ortanca m² fiyatı</span><b>{sayi(pf.m2)} TL</b><small>m² başına</small></div>
+      <div class="card"><span>Tüm tipler ortanca fiyat</span><b>{tl(genel.med)}</b><small>{genel.n} model, {genel.firma} firma</small></div>
+      <div class="card"><span>KDV’si belirtilmeyen fiyat</span><b>%{kdvYuzde}</b><small>{kdv.belirsiz} / {fiyatli.length} fiyat</small></div>
+    </div>
+
+    <section class="box mint" style="margin:18px 0">
+      <h2 style="margin-top:0;font-size:1.2rem">Öne çıkan bulgular</h2>
+      <ul style="margin:0;padding-left:20px">{bulgular.map((b) => <li style="margin:4px 0">{b}</li>)}</ul>
+    </section>
+
+    <section>
+      <h2>Ev tiplerine göre fiyatlar</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Ev tipi</th><th class="n">Model</th><th class="n">En düşük</th><th class="n">Alt çeyrek</th><th class="n">Ortanca</th><th class="n">Üst çeyrek</th><th class="n">Ortanca m²</th></tr></thead>
+        <tbody>{tipler.map((t) => <tr><td><a href={tipUrl(t.tip)}>{t.ad}</a></td><td class="n">{t.n}</td><td class="n">{tl(t.min)}</td><td class="n">{tl(t.q1)}</td><td class="n"><b>{tl(t.med)}</b></td><td class="n">{tl(t.q3)}</td><td class="n">{t.m2 ? `${sayi(t.m2)} TL` : '–'}</td></tr>)}</tbody>
+      </table></div>
+      <p class="xs muted">Alt çeyrek: fiyatların %25’i bu değerin altında. Üst çeyrek: %75’i bu değerin altında.</p>
+    </section>
+
+    <section>
+      <h2>100 m² ev için tahmini bina maliyeti</h2>
+      <div class="endeks-bar">{yuz.map((x) => <div><span>{x.ad}</span><i style={`width:${Math.max(8, Math.round((x.v / Math.max(...yuz.map((y) => y.v))) * 100))}%`}></i><b>{tl(x.v)}</b></div>)}</div>
+      <p class="xs muted">Ortanca m² fiyatı × 100 (tiny house ve bağ evleri küçük olduğundan dahil edilmedi). Zemin betonu, nakliye, ruhsat ve altyapı bağlantıları dahil değildir. Kendi metrekarenize göre hesaplamak için <a href="/prefabrik-ev-maliyet-hesaplama/">maliyet hesaplama</a> aracını kullanın.</p>
+    </section>
+
+    <section>
+      <h2>Metrekareye göre ortanca fiyatlar</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Büyüklük</th>{buyukluk.map((b) => <th class="n">{b.ad}</th>)}</tr></thead>
+        <tbody>{buyukluk[0].bantlar.map((_, i) => <tr><td>{buyukluk[0].bantlar[i].ad}</td>{buyukluk.map((b) => <td class="n">{b.bantlar[i].n >= 3 ? tl(b.bantlar[i].med) : '–'}</td>)}</tr>)}</tbody>
+      </table></div>
+    </section>
+
+    <section>
+      <h2>Oda sayısına göre prefabrik ev fiyatları</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Oda</th><th class="n">Model</th><th class="n">Ortanca fiyat</th><th class="n">Ortanca büyüklük</th></tr></thead>
+        <tbody>{odalar.filter((o) => o.n >= 3).map((o) => <tr><td>{o.oda}</td><td class="n">{o.n}</td><td class="n">{tl(o.med)}</td><td class="n">{o.m2 ? `${o.m2} m²` : '–'}</td></tr>)}</tbody>
+      </table></div>
+    </section>
+
+    <section class="box" style="margin-top:18px">
+      <h2 style="margin-top:0;font-size:1.15rem">Yöntem ve kullanım</h2>
+      <p class="small">Veriler, üreticilerin internet sitelerinde herkese açık yayımladığı model fiyatlarıdır; her fiyatın kaynağı ilgili model sayfasında yer alır. Yalnızca belirli bir modele ait toplam fiyatlar hesaba katılır. Rakamlar firma beyanıdır, teklif yerine geçmez.</p>
+      <p class="small" style="margin-bottom:0"><b>Alıntı:</b> “{alinti}”, prefabrikteklif.com.tr. Kaynak gösterilerek serbestçe kullanılabilir (CC BY 4.0). <a href="/prefabrik-ev-fiyat-endeksi.csv" download>Ham veriyi indir (CSV)</a> · Basın: <a href={`mailto:${SITE.eposta}?subject=${encodeURIComponent('Fiyat endeksi hakkında')}`}>{SITE.eposta}</a></p>
+    </section>
+
+    <div class="prose"><Faq items={sss} /></div>
+    <div class="band" style="margin-top:24px"><div><h2>Kendi eviniz için gerçek fiyat alın</h2><p>Endeks genel bir göstergedir. Kriterlerinizi bir kez yazın, uygun firmalar {SITE.teklifSaat} saatte fiyat versin.</p></div><a class="btn btn-w" href="/teklif-al/">Teklif al</a></div>
+  </div>
+</Base>
