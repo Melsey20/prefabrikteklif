@@ -1,0 +1,197 @@
+{
+  "tarih": "2026-11-05",
+  "slot": "aksam",
+  "saat": "19:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Prefabrik ev desteği var mı? Prefabrik ev yapım yardımı 2026: kimler başvurabilir, nasıl başvurulur? 👇\n\nDevletin \"prefabrik ev desteği\" olarak bilinen yardımı, Aile ve Sosyal Hizmetler Bakanlığı'nın barınma yardımları içinde yer alıyor ve Sosyal Yardımlaşma ve Dayanışma Vakıfları (SYDV) üzerinden veriliyor. Bakanlığın bilgi notunda prefabrik ev yapımı için 300.000 TL'ye kadar destek yazıyor.\n\nBaşlıca şartlar: gelir testine göre ihtiyaç sahibi olmak, oturulamayacak derecede eski ya da sağlıksız bir evde yaşamak veya afet mağduru olmak ve arsanın tam hisseli tapusuna sahip olmak. Başvuru e-Devlet'teki \"Sosyal Yardım Başvuru Hizmeti\" ya da ikamet ettiğiniz yerdeki vakıf üzerinden yapılıyor. Şartlar ve tutarlar değişebilir; başvurmadan önce vakfınızdan teyit edin.\n\nYardım harcama belgesi karşılığında ödendiği için faturalı satış yapan firmayla çalışın. PrefabrikTeklif sorularınızı yanıtlar, prefabrik ev fiyatlarını karşılaştırır ve teklifleri size getirir.\n\n📌 Kaydedin, başvuru yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevdesteği #prefabrikevyardımı #prefabrikev #barınmayardımı",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Prefabrik ev desteği",
+          "h": "Prefabrik ev desteği <em>var mı?</em>",
+          "p": "Barınma yardımları içinde prefabrik ev yapım yardımı var. Kimler başvurabilir? Kaydırın.",
+          "img": "prefabrik-c-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Kimler <em>başvurabilir?</em>",
+          "boy": 84,
+          "maddeler": [
+            [
+              "Muhtaçlık",
+              "Hanenin gelir testine göre ihtiyaç sahibi olması."
+            ],
+            [
+              "Barınma ihtiyacı",
+              "Oturulamayacak derecede eski, sağlıksız evde yaşamak ya da afet mağduru olmak."
+            ],
+            [
+              "Tam hisseli tapu",
+              "Evin yapılacağı arsanın tam hisseli tapusu; hisseli tapu çoğu durumda yetmiyor."
+            ],
+            [
+              "Tutar",
+              "Bakanlık bilgi notunda 300.000 TL’ye kadar; güncel tutarı vakfınıza sorun."
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Başvuru <em>adım adım</em>",
+          "p": "Şartlar değişebilir; başvurmadan önce vakfınızdan teyit edin.",
+          "maddeler": [
+            "e-Devlet başvurusu",
+            "ya da vakfa (SYDV)",
+            "Hane ziyareti",
+            "Heyet kararı",
+            "Faturalı firma",
+            "Kapsam yazılı"
+          ],
+          "img": "prefabrik-b-960.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Evi seçerken <em>teklifleri yan yana</em> görün.",
+          "p": "Arsanızın ilini ve metrekareyi yazın; firmalar 48 saatte fiyat versin.",
+          "img": "montaj-1344.webp",
+          "cipler": [
+            "Ücretsiz",
+            "62 firma",
+            "430 model"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Anahtar teslim ne demek? Firma montajı, tesisatı ve iç bitişleri tamamlar, ev oturulmaya hazır gelir. Kaba teslimde ise parke, fayans ve mutfak size kalır. Zemin betonu ve nakliye çoğu zaman ayrıdır, yazılı sorun. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "Anahtar teslim ne demek? Anahtar teslim prefabrik ev fiyatlarına neler dahil? 👇\n\nAnahtar teslim evde firma; montaj, elektrik-su tesisatı, ıslak hacimler ve iç bitişleri tamamlayıp evi oturulmaya hazır teslim eder. Kaba teslimde ise bina ayakta ve kapalıdır ama parke, fayans, mutfak, vitrifiye ve boya alıcıya kalır; fiyat farkı genellikle buradan gelir.\n\nDikkat: \"anahtar teslim\" her firmada aynı kapsamı ifade etmez. Zemin betonu, nakliye, vinç, ruhsat ve altyapı bağlantıları çoğu zaman yine ayrıdır; teklifte kalem kalem yazılı isteyin.\n\nPrefabrikTeklif soruları yanıtlar, fiyatları ve kapsamları karşılaştırır, teklifleri size getirir.\n\n📌 Kaydedin, teklif karşılaştırırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#anahtarteslimprefabrikev #anahtarteslimev #prefabrikevfiyatları #prefabrikev",
+      "sure": 16.16,
+      "sahneler": [
+        {
+          "t": 0.0,
+          "tur": "foto",
+          "img": "ic-mekan-1344.webp",
+          "h": "Anahtar Teslim<br><em>Ne Demek?</em>"
+        },
+        {
+          "t": 1.98,
+          "tur": "liste",
+          "ikon": "✓",
+          "maddeler": [
+            "Montaj",
+            "Elektrik-su tesisatı",
+            "Islak hacimler",
+            "İç bitişler"
+          ],
+          "h": "Firma <em>tamamlar</em>",
+          "p": "Ev oturulmaya hazır teslim edilir"
+        },
+        {
+          "t": 7.38,
+          "tur": "liste",
+          "ikon": "✕",
+          "maddeler": [
+            "Parke & fayans",
+            "Mutfak",
+            "Vitrifiye",
+            "Boya"
+          ],
+          "h": "Kaba teslimde <em>size kalır</em>"
+        },
+        {
+          "t": 11.2,
+          "tur": "liste",
+          "ikon": "?",
+          "maddeler": [
+            "Zemin betonu",
+            "Nakliye & vinç",
+            "Ruhsat",
+            "Altyapı bağlantıları"
+          ],
+          "h": "Çoğu zaman <em>ayrı</em>",
+          "p": "Teklifte kalem kalem yazılı isteyin"
+        },
+        {
+          "t": 14.67,
+          "tur": "son",
+          "h": "Kapsamları <em>yan yana görün.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261105_055215_f888ecf2-4bad-486f-8a65-46e02909b91d.mp3"
+    },
+    {
+      "seslendirme": "Elli metrekare ahşap ev kaça mal olur? Listemizde ahşap evde metrekare başı ortanca fiyat yirmi altı bin yüz lira. Kaba hesapla yaklaşık bir milyon üç yüz bin lira. Teklif alırken kapsamı sorun. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "50 m² ahşap ev kaça mal olur? 50 m² ahşap ev fiyatları ve maliyeti için kaba hesap 👇\n\n3 Kasım 2026 itibarıyla listemizde ahşap evlerde m² başına ortanca fiyat 26.100 TL. Kaba hesapla 50 m²'lik bir ahşap ev yaklaşık 1.305.000 TL ediyor. Bu rakam bütçe planlamak için bir başlangıç noktası; son fiyat model ve kapsama göre değişir.\n\nTeklif alırken nakliye ve montaj, temel, yalıtım, iç bitiş ve KDV'nin fiyata dahil olup olmadığını sorun.\n\nPrefabrikTeklif ahşap ev fiyatlarını karşılaştırır, sorularınızı yanıtlar ve teklifleri size getirir: tek form, 48 saatte teklif.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#ahşapev #ahşapevfiyatları #50m2ahşapev #ahşapevmaliyeti",
+      "sure": 14.75,
+      "sahneler": [
+        {
+          "t": 0.0,
+          "tur": "foto",
+          "img": "ahsap-960.webp",
+          "h": "50 m² Ahşap Ev<br><em>Kaça Mal Olur?</em>"
+        },
+        {
+          "t": 2.65,
+          "tur": "sayi",
+          "n": 26100,
+          "birim": "TL / m² · ortanca",
+          "h": "m² başı ortanca <em>26.100 TL</em>",
+          "p": "3 Kasım 2026 itibarıyla listemizde, ahşap ev"
+        },
+        {
+          "t": 7.07,
+          "tur": "sayi",
+          "n": 1305,
+          "birim": "bin TL · 50 m² kaba hesap",
+          "h": "Kaba hesap:<br><em>≈ 1,3 milyon TL</em>"
+        },
+        {
+          "t": 10.56,
+          "tur": "liste",
+          "ikon": "?",
+          "maddeler": [
+            "Nakliye & montaj",
+            "Temel",
+            "Yalıtım",
+            "İç bitiş",
+            "KDV"
+          ],
+          "h": "Kapsamı <em>sorun</em>"
+        },
+        {
+          "t": 13.05,
+          "tur": "son",
+          "h": "Bütçenizi <em>netleştirin.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261105_055235_6d9f5ebd-4300-44a1-af35-c94c39cae229.mp3"
+    }
+  ],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "bekliyor"
+  }
+}
