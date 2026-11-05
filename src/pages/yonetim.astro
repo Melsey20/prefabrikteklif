@@ -22,6 +22,8 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       <button type="button" data-sekme="geri-bildirim"><Fragment set:html={ik('mesaj')} /><span class="pt">Geri bildirim</span><span class="rz" data-rz="gb"></span></button>
       <button type="button" data-sekme="bannerlar"><Fragment set:html={ik('reklam')} /><span class="pt">Reklam alanları</span><span class="rz" data-rz="reklam"></span></button>
       <button type="button" data-sekme="fiyat"><Fragment set:html={ik('fiyat')} /><span class="pt">Fiyat kontrolü</span></button>
+      <a class="ln side-x" href="/" style="margin-top:auto">Siteye dön</a>
+      <button type="button" class="cikis-btn" data-cikis><svg class="pik" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 17l-5-5 5-5M5 12h11"/></svg><span class="pt">Çıkış yap</span></button>
     </aside>
     <main>
       <div id="eposta-uyari" class="box" hidden style="border-color:#c0392b;background:#fdecea;margin-bottom:16px"></div>

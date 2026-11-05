@@ -74,6 +74,15 @@ document.querySelectorAll<HTMLAnchorElement>('[data-hesap]').forEach((a) => {
   const l = a.querySelector('.lbl'); if (l) l.textContent = u.rol === 'firma' ? 'Firma paneli' : u.rol === 'admin' ? 'Yönetim' : 'Hesabım';
   a.setAttribute('aria-label', 'Hesabım');
 });
+// Çıkış: panellerde, Hesabım’da ve mobil menüde (oturum açıkken)
+document.querySelectorAll<HTMLElement>('[data-oturum]').forEach((e) => (e.hidden = !u));
+document.addEventListener('click', async (e) => {
+  const b = (e.target as HTMLElement).closest('[data-cikis]'); if (!b) return;
+  e.preventDefault();
+  const { cikis } = await import('./fb');
+  await cikis().catch(() => {});
+  location.href = '/';
+});
 
 // ---- Slider ----
 // Slaytlar sonradan eklenebilir (sponsorlu bannerlar): elemana 'pt:yenile' olayı gönderilince noktalar yeniden kurulur.

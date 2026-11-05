@@ -378,6 +378,10 @@ async function giris(p, eposta, hedef) {
   await p.screenshot({ path: '/tmp/e2e-hesap.png', fullPage: true });
   await p.reload(); await p.waitForSelector('#p-ayarlar:not([hidden]) .hs-ayar', { timeout: 3000 });
   adim('Hesabım: özet sayıları, teklif kartları, süreç ve ayarlar; yenilemede anında açılıyor');
+  await Promise.all([p.waitForURL(B + '/'), p.click('.hs-ust-btn [data-cikis]')]);
+  assert.equal(await p.evaluate(() => localStorage.getItem('pt_user')), null, 'çıkışta oturum bilgisi silinir');
+  await p.goto(B + '/hesabim/'); await p.waitForURL('**/giris/**');
+  adim('Çıkış yap: oturum kapandı, Hesabım tekrar giriş istiyor');
   await ctx.close();
 
   await br.close();
