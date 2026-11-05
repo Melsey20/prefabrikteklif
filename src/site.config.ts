@@ -6,7 +6,7 @@ export const SITE = {
   slogan: 'Prefabrik, tiny house ve modüler ev fiyatlarını kıyasla, 48 saatte teklif al',
   // Aşağıdakileri doldurun (KVKK ve iletişim sayfalarında kullanılır):
   sirketUnvani: 'Mitra Grup',
-  adres: '',
+  adres: 'Karakavak Mah. Güngör Cad. No:27K, Yeşilyurt / Malatya',
   eposta: 'prefabrikteklif@gmail.com',
   telefon: '',
   whatsapp: '', // Ör: "905xxxxxxxxx"

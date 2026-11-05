@@ -37,6 +37,7 @@ const org = {
   legalName: SITE.sirketUnvani || undefined, logo: new URL('/logo.png', SITE.url).href,
   description: 'Türkiye’deki prefabrik ev, tiny house, çelik ev, konteyner ev, ahşap ev ve bungalov üreticilerinin fiyatlarını karşılaştıran ve firmalardan teklif toplayan platform.',
   ...(SITE.eposta ? { email: SITE.eposta } : {}), ...(SITE.telefon ? { telephone: SITE.telefon } : {}),
+  ...(SITE.adres ? { address: { '@type': 'PostalAddress', streetAddress: 'Karakavak Mah. Güngör Cad. No:27K', addressLocality: 'Yeşilyurt', addressRegion: 'Malatya', addressCountry: 'TR' } } : {}),
   ...(SITE.instagram ? { sameAs: [`https://www.instagram.com/${SITE.instagram}/`] } : {}),
 };
 const COK_ARANAN = ['en-ucuz-prefabrik-ev-fiyatlari', 'anahtar-teslim-prefabrik-ev-fiyatlari', 'tek-katli-prefabrik-ev-fiyatlari', 'dubleks-prefabrik-ev-fiyatlari', 'prefabrik-villa-fiyatlari', 'bahce-evi-fiyatlari'];
