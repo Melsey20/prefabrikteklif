@@ -74,6 +74,9 @@ if [ -f "$HOME/.prefabrik-iyzico" ]; then
 else
   echo "iyzico anahtar dosyası yok (~/.prefabrik-iyzico); kartlı abonelik kapalı kalır."
 fi
+# Tanımsız iyzico ayarları için yayında soru sorulmasın (boş = kartlı ödeme kapalı)
+for k in IYZICO_API_KEY IYZICO_SECRET_KEY IYZICO_PLAN; do grep -q "^$k=" functions/.env || echo "$k=" >> functions/.env; done
+grep -q "^IYZICO_BASE=" functions/.env || echo "IYZICO_BASE=https://api.iyzipay.com" >> functions/.env
 echo "Bildirimlerin geleceği adres: $(grep ^ADMIN_EMAIL functions/.env | cut -d= -f2)"
 echo "Yönetici e-postaları: $(grep YONETICILER functions/.env | cut -d= -f2)"
 echo
