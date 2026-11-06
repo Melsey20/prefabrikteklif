@@ -77,6 +77,20 @@ fi
 # Tanımsız iyzico ayarları için yayında soru sorulmasın (boş = kartlı ödeme kapalı)
 for k in IYZICO_API_KEY IYZICO_SECRET_KEY IYZICO_PLAN; do grep -q "^$k=" functions/.env || echo "$k=" >> functions/.env; done
 grep -q "^IYZICO_BASE=" functions/.env || echo "IYZICO_BASE=https://api.iyzipay.com" >> functions/.env
+# Netgsm OTP SMS (telefonla giriş): bilgiler ~/.prefabrik-netgsm dosyasından alınır (NETGSM-AYAR.command oluşturur)
+if [ -f "$HOME/.prefabrik-netgsm" ]; then
+  for k in NETGSM_KULLANICI NETGSM_SIFRE NETGSM_BASLIK NETGSM_APPKEY; do
+    v=$(grep "^$k=" "$HOME/.prefabrik-netgsm" | head -1 | cut -d= -f2- | tr -d '\r')
+    [ -z "$v" ] && continue
+    v=$(printf '%s' "$v" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g')  # şifrede özel karakter olabilir: tırnak içinde yaz
+    grep -v "^$k=" functions/.env > functions/.env.tmp; mv functions/.env.tmp functions/.env; printf '%s="%s"\n' "$k" "$v" >> functions/.env
+  done
+  echo "Netgsm bilgileri eklendi (telefonla girişte kod Netgsm'den gider)."
+else
+  echo "Netgsm dosyası yok (~/.prefabrik-netgsm); telefonla girişte Firebase SMS kullanılır."
+fi
+for k in NETGSM_KULLANICI NETGSM_SIFRE NETGSM_BASLIK NETGSM_APPKEY; do grep -q "^$k=" functions/.env || echo "$k=" >> functions/.env; done
+chmod 600 functions/.env 2>/dev/null || true
 echo "Bildirimlerin geleceği adres: $(grep ^ADMIN_EMAIL functions/.env | cut -d= -f2)"
 echo "Yönetici e-postaları: $(grep YONETICILER functions/.env | cut -d= -f2)"
 echo

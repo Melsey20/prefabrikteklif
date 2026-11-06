@@ -1,6 +1,6 @@
 // Firebase istemcisi: yapılandırma Hosting'in /__/firebase/init.json adresinden gelir.
 import { initializeApp, type FirebaseApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, updateProfile, signOut, RecaptchaVerifier, signInWithPhoneNumber, type ConfirmationResult, type User, type Auth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, updateProfile, signOut, RecaptchaVerifier, signInWithPhoneNumber, signInWithCustomToken, type ConfirmationResult, type User, type Auth } from 'firebase/auth';
 
 let _app: Promise<FirebaseApp> | null = null;
 let _auth: Auth | null = null;
@@ -56,13 +56,26 @@ export async function yonlendirmeSonucu() { try { return (await getRedirectResul
 // ---- Telefonla giriş (SMS kodu) ----
 let _onay: ConfirmationResult | null = null; let _rc: RecaptchaVerifier | null = null;
 export const telefonE164 = (t: string) => { const d = t.replace(/\D/g, ''); const s = d.startsWith('90') ? d.slice(2) : d.startsWith('0') ? d.slice(1) : d; return s.length === 10 && s.startsWith('5') ? '+90' + s : ''; };
-export async function telefonKodGonder(numara: string, butonId: string) {
+// Önce kendi SMS servisimiz (Netgsm) denenir; hazır değilse ya da gönderemezse Firebase'in SMS'i kullanılır.
+let _kanal: 'netgsm' | 'firebase' = 'firebase'; let _tel = '';
+export async function telefonKodGonder(numara: string, butonId: string): Promise<{ kanal: 'netgsm' | 'firebase'; ara: number }> {
   const n = telefonE164(numara); if (!n) throw Object.assign(new Error('Telefon numarasını 05xx xxx xx xx biçiminde yazın.'), { code: 'auth/invalid-phone-number' });
+  let r: any = null;
+  try { r = await api('/api/sms/kod', { telefon: n }); } catch (e) { if (e instanceof ApiHata && (e.kod === 400 || e.kod === 429)) throw e; /* diğer durumlarda (sunucu eski sürüm, ağ) Firebase SMS */ }
+  if (r?.kanal === 'netgsm') { _kanal = 'netgsm'; _tel = n; return { kanal: 'netgsm', ara: r.ara || 60 }; }
   const a = await auth();
   if (!_rc) _rc = new RecaptchaVerifier(a, butonId, { size: 'invisible' });
   try { _onay = await signInWithPhoneNumber(a, n, _rc); } catch (e) { try { _rc.clear(); } catch { /* */ } _rc = null; throw e; }
+  _kanal = 'firebase'; return { kanal: 'firebase', ara: 60 };
 }
-export async function telefonKodDogrula(kod: string) { if (!_onay) throw new Error('Önce kod isteyin.'); return (await _onay.confirm(kod.replace(/\D/g, ''))).user; }
+export async function telefonKodDogrula(kod: string) {
+  const k = kod.replace(/\D/g, '');
+  if (_kanal === 'netgsm') {
+    const r = await api<{ token: string }>('/api/sms/dogrula', { telefon: _tel, kod: k });
+    return (await signInWithCustomToken(await auth(), r.token)).user;
+  }
+  if (!_onay) throw new Error('Önce kod isteyin.'); return (await _onay.confirm(k)).user;
+}
 
 export async function epostaGiris(e: string, s: string) { return (await signInWithEmailAndPassword(await auth(), e, s)).user; }
 export async function kayitOl(e: string, s: string, ad: string) {

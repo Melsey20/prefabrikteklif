@@ -11,9 +11,17 @@ const MODELS = JSON.parse(await readFile('functions/models.json', 'utf8'));
 const db = new FakeDb(); const mails = [];
 await db.collection('firmalar').doc('kardesler-celik-yapi').set({ aktif: true, eposta: 'satis@kardesler.com', panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik', 'celik'], iller: ['*'], abonelik: { durum: 'aktif' } });
 const jwt = (t) => { try { return JSON.parse(Buffer.from(t.split('.')[1], 'base64url').toString()); } catch { throw new Error('bad'); } };
-const app = createApp({ db, FieldValue, Timestamp, FIRMS, MODELS, mail: async (to, subject, html, o) => { mails.push({ to, subject, html, o }); },
-  auth: { verifyIdToken: async (t) => { const p = jwt(t); return { uid: p.user_id, email: p.email, email_verified: p.email_verified, name: p.name }; } },
-  ayar: () => ({ site: 'http://localhost:4400', admin: 'info@mitraajans.com', yoneticiler: ['info@mitraajans.com'], placesKey: '' }) });
+// Netgsm'e giden SMS'ler burada tutulur (gerçek SMS gönderilmez); telefonla giriş testi kodu /__sms'ten okur
+const smsler = []; const telKul = new Map();
+const sahteFetch = async (url, o) => { if (String(url).includes('api.netgsm.com.tr')) { smsler.push(String(o.body)); return { ok: true, status: 200, text: async () => '<xml><main><code>0</code><jobID>1</jobID></main></xml>' }; } return fetch(url, o); };
+const app = createApp({ db, FieldValue, Timestamp, FIRMS, MODELS, fetch: sahteFetch, mail: async (to, subject, html, o) => { mails.push({ to, subject, html, o }); },
+  auth: {
+    verifyIdToken: async (t) => { const p = jwt(t); return { uid: p.user_id, email: p.email, email_verified: p.email_verified, name: p.name, phone_number: p.phone_number }; },
+    getUserByPhoneNumber: async (n) => { if (!telKul.has(n)) throw Object.assign(new Error('yok'), { code: 'auth/user-not-found' }); return telKul.get(n); },
+    createUser: async ({ phoneNumber }) => { const u = { uid: 'tel' + (telKul.size + 1), phoneNumber, disabled: false }; telKul.set(phoneNumber, u); return u; },
+    createCustomToken: async (uid) => `ozel.${uid}.${[...telKul.values()].find((x) => x.uid === uid)?.phoneNumber || ''}`,
+  },
+  ayar: () => ({ site: 'http://localhost:4400', admin: 'info@mitraajans.com', yoneticiler: ['info@mitraajans.com'], placesKey: '', netgsm: { kullanici: 'test', sifre: 'test', baslik: 'PREFABTKLF' } }) });
 const TIP = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.png': 'image/png', '.svg': 'image/svg+xml', '.txt': 'text/plain; charset=utf-8', '.xml': 'application/xml', '.woff2': 'font/woff2' };
 http.createServer(async (req, res) => {
   const u = new URL(req.url, 'http://x');
@@ -23,6 +31,7 @@ http.createServer(async (req, res) => {
     for (const [k, v] of db.dump('talepler/')) { const m = /^talepler\/([^/]+)\/davetler\/(.+)$/.exec(k); if (m && m[2] === slug) { const t = db.v.get(`talepler/${m[1]}`); out = `/teklif-ver/?t=${m[1]}.${t.token}&f=${slug}.${v.kod}`; } }
     res.setHeader('Content-Type', 'application/json'); return res.end(JSON.stringify({ link: out }));
   }
+  if (u.pathname === '/__sms') { res.setHeader('Content-Type', 'application/json'); const son = smsler.at(-1) || ''; return res.end(JSON.stringify({ sayi: smsler.length, kod: (/giris kodunuz: (\d{6})/.exec(son) || [])[1] || null, metin: (/CDATA\[([\s\S]*?)\]\]/.exec(son) || [])[1] || '' })); }
   if (u.pathname === '/__mails') { res.setHeader('Content-Type', 'application/json'); return res.end(JSON.stringify(mails)); }
   if (u.pathname === '/__/firebase/init.json') { res.setHeader('Content-Type', 'application/json'); return res.end(JSON.stringify({ apiKey: 'test-key', authDomain: 'localhost', projectId: 'prefabrikteklif', appId: '1:1:web:1' })); }
   if (u.pathname.startsWith('/api/')) {

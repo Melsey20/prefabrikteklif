@@ -17,6 +17,7 @@ import { SITE } from '../site.config';
         <label class="f">Cep telefonu<input type="tel" name="tel" autocomplete="tel" inputmode="tel" placeholder="05xx xxx xx xx" maxlength="16" /></label>
         <label class="f" id="g-kod-alan" hidden>SMS ile gelen kod<input type="text" name="kod" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6 haneli kod" /></label>
         <button class="btn btn-p btn-block" type="submit" id="g-tel-btn">Kod gönder</button>
+        <p class="xs" id="g-tel-alt" hidden style="margin:0;display:flex;justify-content:space-between;gap:10px"><button type="button" class="linkbtn" id="g-tel-degis">Numarayı değiştir</button><button type="button" class="linkbtn" id="g-tel-tekrar" disabled>Kodu tekrar gönder</button></p>
         <p class="xs muted" style="margin:0">Numaranıza tek kullanımlık doğrulama kodu gönderilir. Teklif talebinde yazdığınız numarayla girerseniz talepleriniz otomatik görünür.</p>
       </form>
       <div class="or">veya e-posta ile</div>
@@ -87,15 +88,32 @@ import { SITE } from '../site.config';
     // Telefonla giriş
     const tf = $('g-tel') as HTMLFormElement; let kodGitti = false;
     $('g-tel-ac').addEventListener('click', () => { tf.hidden = !tf.hidden; if (!tf.hidden) (tf.elements.namedItem('tel') as HTMLInputElement).focus(); });
+    const telIn = tf.elements.namedItem('tel') as HTMLInputElement; const kodIn = tf.elements.namedItem('kod') as HTMLInputElement;
+    const tekrar = $('g-tel-tekrar') as HTMLButtonElement; let sayac: ReturnType<typeof setInterval> | undefined;
+    const geriSay = (sn: number) => {
+      clearInterval(sayac); tekrar.disabled = true; let k = sn;
+      const yaz = () => { tekrar.textContent = k > 0 ? `Tekrar gönder (${k} sn)` : 'Kodu tekrar gönder'; tekrar.disabled = k > 0; };
+      yaz(); sayac = setInterval(() => { k--; yaz(); if (k <= 0) clearInterval(sayac); }, 1000);
+    };
+    const kodGonder = async () => {
+      const r = await telefonKodGonder(telIn.value, 'g-tel-btn');
+      kodGitti = true; telIn.readOnly = true; $('g-kod-alan').hidden = false; $('g-tel-alt').hidden = false;
+      ($('g-tel-btn') as HTMLButtonElement).textContent = 'Kodu doğrula ve giriş yap'; kodIn.value = '';
+      okG('Kod gönderildi. SMS ile gelen 6 haneli kodu yazın.'); kodIn.focus(); geriSay(r.ara);
+    };
     tf.addEventListener('submit', async (e) => {
       e.preventDefault(); const b = $('g-tel-btn') as HTMLButtonElement; b.disabled = true;
       try {
-        if (!kodGitti) {
-          await telefonKodGonder((tf.elements.namedItem('tel') as HTMLInputElement).value, 'g-tel-btn');
-          kodGitti = true; $('g-kod-alan').hidden = false; b.textContent = 'Kodu doğrula ve giriş yap'; okG('Kod gönderildi. SMS ile gelen 6 haneli kodu yazın.');
-          (tf.elements.namedItem('kod') as HTMLInputElement).focus();
-        } else { await telefonKodDogrula((tf.elements.namedItem('kod') as HTMLInputElement).value); await bitir(); }
+        if (!kodGitti) await kodGonder();
+        else { await telefonKodDogrula(kodIn.value); await bitir(); }
       } catch (err) { hataG(hataYazi(err)); } finally { b.disabled = false; }
+    });
+    // 6 hane yazılınca (ya da SMS'ten otomatik dolunca) kendiliğinden doğrula
+    kodIn.addEventListener('input', () => { kodIn.value = kodIn.value.replace(/\D/g, '').slice(0, 6); if (kodIn.value.length === 6 && kodGitti) tf.requestSubmit(); });
+    tekrar.addEventListener('click', async () => { tekrar.disabled = true; try { await kodGonder(); } catch (err) { hataG(hataYazi(err)); tekrar.disabled = false; } });
+    $('g-tel-degis').addEventListener('click', () => {
+      kodGitti = false; clearInterval(sayac); telIn.readOnly = false; $('g-kod-alan').hidden = true; $('g-tel-alt').hidden = true;
+      ($('g-tel-btn') as HTMLButtonElement).textContent = 'Kod gönder'; telIn.focus(); telIn.select();
     });
     $('g-sifre').addEventListener('click', async () => {
       const ep = (form.elements.namedItem('eposta') as HTMLInputElement).value.trim();

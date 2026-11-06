@@ -781,3 +781,8 @@ body:has(.app) .by-dis { display: none; }
 .app aside.dk .cikis-btn { color: #f0a59f; }
 .app aside .cikis-btn:hover { background: #fdecea; }
 .app aside.dk .cikis-btn:hover { background: rgba(240,165,159,.12); }
+
+/* Metin görünümlü küçük buton (telefonla giriş: numarayı değiştir / tekrar gönder) */
+.linkbtn { background: none; border: 0; padding: 4px 0; font: inherit; font-weight: 700; color: var(--green); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; min-height: 32px; }
+.linkbtn:disabled { color: var(--muted); text-decoration: none; cursor: default; font-weight: 600; }
+.linkbtn:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; border-radius: 4px; }

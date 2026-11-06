@@ -2,6 +2,7 @@
 // testler sahte veritabanıyla çağırır (functions/test/).
 import crypto from 'node:crypto';
 import { iyzicoIstemci } from './iyzico.js';
+import { netgsmIstemci } from './netgsm.js';
 
 export const TIP_AD = { prefabrik: 'Prefabrik ev', celik: 'Çelik ev', konteyner: 'Konteyner ev', 'tiny house': 'Tiny house', ahsap: 'Ahşap ev', bungalov: 'Bungalov / bağ evi' };
 export const ARAZI_AD = { imarli: 'İmarlı arsa', koy: 'Köy yerleşik alanı', tarla: 'Tarla / tarım arazisi', bag: 'Bağ – bahçe', yok: 'Henüz arazi yok' };
@@ -537,6 +538,82 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const liste = q.docs.map((d) => d.data()).filter((b) => !b.bitis || Date.parse(b.bitis) > t).sort((a, b) => (a.sira || 0) - (b.sira || 0))
       .filter((b) => { const k = KONUM_SINIRI[b.konum] ? b.konum : 'ana'; say[k] = (say[k] || 0) + 1; return say[k] <= KONUM_SINIRI[k]; });
     return { bannerlar: liste.map((b) => ({ konum: KONUM_SINIRI[b.konum] ? b.konum : 'ana', baslik: b.baslik, metin: b.metin, gorsel: b.gorsel, link: b.link, ...(b.modelId ? { modelId: b.modelId } : {}) })) };
+  }
+
+  // ---- Telefonla giriş: kodu biz üretir, Netgsm OTP SMS ile göndeririz, doğrulanınca Firebase özel oturum anahtarı veririz ----
+  // Netgsm ayarı yoksa ya da gönderim başarısızsa { kanal: 'firebase' } döner; tarayıcı Firebase'in kendi SMS'ine geçer.
+  const SMS_SURE = 5 * 60 * 1000; const SMS_ARA = 60 * 1000; const SMS_SAAT = 5; const SMS_DENEME = 5; const SMS_GUNLUK = 600;
+  const smsRef = (tel) => db.collection('smsKodlari').doc(crypto.createHash('sha256').update(`sms:${tel}`).digest('hex').slice(0, 40));
+  const kodOzet = (tel, kod, tuz) => crypto.createHmac('sha256', tuz).update(`${tel}:${kod}`).digest('hex');
+  const telAl = (v) => { const d = String(v || '').replace(/\D/g, ''); const s = d.startsWith('90') && d.length === 12 ? d.slice(2) : d.startsWith('0') && d.length === 11 ? d.slice(1) : d; return /^5\d{9}$/.test(s) ? s : ''; };
+  const netgsm = () => netgsmIstemci({ ...(ayar().netgsm || {}), fetch: fetchFn });
+  async function smsKod(req) {
+    const tel = telAl(req.body?.telefon);
+    if (!tel) hata(400, 'Telefon numarasını 05xx xxx xx xx biçiminde yazın.');
+    const n = netgsm();
+    if (!n.hazir) return { kanal: 'firebase' };
+    if (!(await rateLimit(req, 'sms-kod', 10))) hata(429, 'Bu bağlantıdan çok fazla kod istendi. Bir saat sonra tekrar deneyin ya da e-postayla girin.');
+    const t = now(); const gun = new Date(t + 3 * 3600000).toISOString().slice(0, 10);
+    const gunRef = db.collection('sistem').doc('sms');
+    const ref = smsRef(tel);
+    const kod = String(crypto.randomInt(0, 1000000)).padStart(6, '0');
+    const tuz = crypto.randomBytes(16).toString('hex');
+    const sonuc = await db.runTransaction(async (tx) => {
+      const [s, g] = [await tx.get(ref), await tx.get(gunRef)];
+      const d = s.exists ? s.data() : {};
+      const gecmis = (d.gonderimler || []).filter((x) => x > t - 3600000);
+      if (d.son && t - d.son < SMS_ARA) return { bekle: Math.ceil((SMS_ARA - (t - d.son)) / 1000) };
+      if (gecmis.length >= SMS_SAAT) return { cok: true };
+      const gd = g.exists && g.data().gun === gun ? g.data() : { gun, n: 0 };
+      if (gd.n >= SMS_GUNLUK) return { kota: true };
+      tx.set(ref, { ozet: kodOzet(tel, kod, tuz), tuz, son: t, bitis: t + SMS_SURE, deneme: 0, kullanildi: false, gonderimler: [...gecmis, t], exp: Timestamp.fromMillis(t + 24 * 3600000) });
+      tx.set(gunRef, { ...gd, gun, n: gd.n + 1 });
+      return { ok: true };
+    });
+    if (sonuc.bekle) hata(429, `Yeni kod için ${sonuc.bekle} saniye bekleyin.`);
+    if (sonuc.cok) hata(429, 'Bu numaraya çok fazla kod gönderildi. Bir saat sonra tekrar deneyin ya da e-postayla girin.');
+    if (sonuc.kota) return { kanal: 'firebase' };
+    // OTP SMS'te Türkçe karakter kullanılmaz. Son satır Android/iOS'un kodu otomatik doldurması içindir (WebOTP biçimi).
+    const alan = String(ayar().site || '').replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+    const g = await n.otp(tel, `Prefabrik Teklif giris kodunuz: ${kod}\nKodu kimseyle paylasmayin.\n\n@${alan} #${kod}`);
+    if (!g.ok) {
+      console.error('Netgsm OTP gönderilemedi', g.kod, g.aciklama || '');
+      await ref.set({ ozet: '', kullanildi: true, son: 0, gonderimler: [], exp: Timestamp.fromMillis(t + 3600000) }).catch(() => {});
+      db.collection('sistem').doc('sms').set({ sonHata: `${g.kod} ${g.aciklama || ''}`.trim(), sonHataZamani: FieldValue.serverTimestamp() }, { merge: true }).catch(() => {});
+      return { kanal: 'firebase' };
+    }
+    sayac({ smsKod: 1 });
+    return { ok: true, kanal: 'netgsm', sure: SMS_SURE / 1000, ara: SMS_ARA / 1000 };
+  }
+  async function smsDogrula(req) {
+    const tel = telAl(req.body?.telefon); const kod = String(req.body?.kod || '').replace(/\D/g, '');
+    if (!tel) hata(400, 'Telefon numarasını 05xx xxx xx xx biçiminde yazın.');
+    if (kod.length !== 6) hata(400, 'SMS’teki 6 haneli kodu yazın.');
+    if (!(await rateLimit(req, 'sms-dogrula', 30))) hata(429, 'Çok fazla deneme yapıldı, biraz sonra tekrar deneyin.');
+    const ref = smsRef(tel); const t = now();
+    const r = await db.runTransaction(async (tx) => {
+      const s = await tx.get(ref);
+      const d = s.exists ? s.data() : null;
+      if (!d || d.kullanildi || !d.ozet) return { yok: true };
+      if (t > d.bitis) return { sure: true };
+      if (d.deneme >= SMS_DENEME) return { cok: true };
+      const a = Buffer.from(kodOzet(tel, kod, d.tuz), 'hex'); const b = Buffer.from(d.ozet, 'hex');
+      if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) { tx.update(ref, { deneme: (d.deneme || 0) + 1 }); return { yanlis: SMS_DENEME - (d.deneme || 0) - 1 }; }
+      tx.update(ref, { kullanildi: true, ozet: '', dogrulama: t });
+      return { ok: true };
+    });
+    if (r.yok) hata(400, 'Önce kod isteyin.');
+    if (r.sure) hata(400, 'Kodun süresi doldu, yeniden kod isteyin.');
+    if (r.cok) hata(429, 'Çok fazla yanlış kod girildi. Yeniden kod isteyin.');
+    if (r.yanlis !== undefined) hata(400, r.yanlis > 0 ? `Kod hatalı. ${r.yanlis} deneme hakkınız kaldı.` : 'Kod hatalı. Yeniden kod isteyin.');
+    const e164 = `+90${tel}`;
+    let kullanici;
+    try { kullanici = await auth.getUserByPhoneNumber(e164); } catch (e) {
+      if (e?.code !== 'auth/user-not-found') throw e;
+      kullanici = await auth.createUser({ phoneNumber: e164 });
+    }
+    if (kullanici.disabled) hata(403, 'Bu hesap kullanıma kapatılmış. Bize yazın.');
+    return { token: await auth.createCustomToken(kullanici.uid, { girisYontemi: 'sms' }) };
   }
 
   // ---- Kullanıcı ----
@@ -1266,7 +1343,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       'POST /api/firma-basvuru': firmaBasvuru, 'POST /api/belge': belge, 'GET /api/yonetim/belge': yonetimBelge, 'POST /api/bildirim-iptal': bildirimIptal, 'POST /api/firma/gorsel': firmaGorsel, 'POST /api/iletisim': iletisim, 'GET /api/google-puan': googlePuan, 'GET /api/yorumlar': yorumlar, 'POST /api/yorum': yorum,
       'GET /api/katalog': katalog, 'GET /api/bannerlar': bannerlar,
       'POST /api/firma/abonelik-baslat': firmaAbonelikBaslat, 'POST /api/firma/kart-guncelle': firmaKartGuncelle, 'POST /api/firma/abonelik-iptal': firmaAbonelikIptal, 'POST /api/iyzico/donus': iyzicoDonus, 'POST /api/iyzico/kart-donus': iyzicoKartDonus, 'POST /api/iyzico/bildirim': iyzicoBildirim, 'POST /api/yonetim/iyzico-plan': yonetimIyzicoPlan,
-      'GET /api/ben': ben, 'POST /api/onay': onay, 'POST /api/mesaj': musteriMesaj, 'POST /api/firma/mesaj': firmaMesaj, 'POST /api/yonetim/firma-durum': yonetimFirmaDurum, 'POST /api/yonetim/istatistik': yonetimIstatistik, 'POST /api/yonetim/tanitim': yonetimTanitim,
+      'POST /api/sms/kod': smsKod, 'POST /api/sms/dogrula': smsDogrula, 'GET /api/ben': ben, 'POST /api/onay': onay, 'POST /api/mesaj': musteriMesaj, 'POST /api/firma/mesaj': firmaMesaj, 'POST /api/yonetim/firma-durum': yonetimFirmaDurum, 'POST /api/yonetim/istatistik': yonetimIstatistik, 'POST /api/yonetim/tanitim': yonetimTanitim,
       'GET /api/hesap': hesap, 'POST /api/favoriler': favoriler, 'POST /api/siparis-mesaj': siparisMesaj,
       'GET /api/firma/ozet': firmaOzet, 'POST /api/firma/urun': firmaUrun, 'POST /api/firma/teklif': firmaTeklif, 'POST /api/firma/red': firmaRed,
       'POST /api/firma/geri-bildirim': firmaGeriBildirim, 'POST /api/firma/geri-bildirim-yanit': firmaGeriBildirimYanit, 'POST /api/firma/profil': firmaProfil, 'POST /api/firma/reklam': firmaReklam,

@@ -3,13 +3,14 @@ const { chromium } = require('playwright');
 const assert = require('node:assert/strict');
 const B = 'http://localhost:4400';
 const b64 = (o) => Buffer.from(JSON.stringify(o)).toString('base64url');
-const jwt = (u) => { const t = Math.floor(Date.now() / 1000); return `${b64({ alg: 'none', typ: 'JWT' })}.${b64({ iss: 'https://securetoken.google.com/prefabrikteklif', aud: 'prefabrikteklif', auth_time: t, user_id: u.uid, sub: u.uid, iat: t, exp: t + 3600, email: u.email, email_verified: true, name: u.ad, firebase: { identities: { email: [u.email] }, sign_in_provider: 'password' } })}.imza`; };
+const jwt = (u) => { const t = Math.floor(Date.now() / 1000); return `${b64({ alg: 'none', typ: 'JWT' })}.${b64({ iss: 'https://securetoken.google.com/prefabrikteklif', aud: 'prefabrikteklif', auth_time: t, user_id: u.uid, sub: u.uid, iat: t, exp: t + 3600, ...(u.tel ? { phone_number: u.tel, firebase: { identities: { phone: [u.tel] }, sign_in_provider: 'custom' } } : { email: u.email, email_verified: true, name: u.ad, firebase: { identities: { email: [u.email] }, sign_in_provider: 'password' } }) })}.imza`; };
 const KUL = { 'yeni@deneme.com': { uid: 'f2', ad: 'Ayşe Yılmaz' }, 'satis@kardesler.com': { uid: 'f1', ad: 'Kardeşler Satış' }, 'info@mitraajans.com': { uid: 'a1', ad: 'Yusuf' }, 'ali@ornek.com': { uid: 'u1', ad: 'Ali Veli' } };
 async function sahteAuth(ctx) {
   await ctx.route('**/identitytoolkit.googleapis.com/**', async (r) => {
     const url = r.request().url(); const body = r.request().postDataJSON() || {};
     if (url.includes('signInWithPassword')) { const u = KUL[body.email]; if (!u || body.password !== 'sifre123') return r.fulfill({ status: 400, json: { error: { code: 400, message: 'INVALID_LOGIN_CREDENTIALS' } } }); return r.fulfill({ json: { kind: 'identitytoolkit#VerifyPasswordResponse', localId: u.uid, email: body.email, displayName: u.ad, idToken: jwt({ ...u, email: body.email }), registered: true, refreshToken: 'rt-' + u.uid, expiresIn: '3600' } }); }
-    if (url.includes('accounts:lookup')) { const p = JSON.parse(Buffer.from(body.idToken.split('.')[1], 'base64url')); return r.fulfill({ json: { users: [{ localId: p.user_id, email: p.email, emailVerified: true, displayName: p.name, providerUserInfo: [{ providerId: 'password', email: p.email, federatedId: p.email, rawId: p.email }], validSince: '1', lastLoginAt: String(Date.now()), createdAt: String(Date.now()) }] } }); }
+    if (url.includes('signInWithCustomToken')) { const [, uid, tel] = String(body.token).split('.'); return r.fulfill({ json: { kind: 'identitytoolkit#VerifyCustomTokenResponse', idToken: jwt({ uid, tel }), refreshToken: 'rt-' + uid, expiresIn: '3600', isNewUser: true } }); }
+    if (url.includes('accounts:lookup')) { const p = JSON.parse(Buffer.from(body.idToken.split('.')[1], 'base64url')); if (p.phone_number) return r.fulfill({ json: { users: [{ localId: p.user_id, phoneNumber: p.phone_number, providerUserInfo: [{ providerId: 'phone', phoneNumber: p.phone_number, rawId: p.phone_number }], validSince: '1', lastLoginAt: String(Date.now()), createdAt: String(Date.now()) }] } }); return r.fulfill({ json: { users: [{ localId: p.user_id, email: p.email, emailVerified: true, displayName: p.name, providerUserInfo: [{ providerId: 'password', email: p.email, federatedId: p.email, rawId: p.email }], validSince: '1', lastLoginAt: String(Date.now()), createdAt: String(Date.now()) }] } }); }
     return r.fulfill({ json: {} });
   });
   await ctx.route('**/securetoken.googleapis.com/**', (r) => r.fulfill({ json: {} }));
@@ -382,6 +383,28 @@ async function giris(p, eposta, hedef) {
   assert.equal(await p.evaluate(() => localStorage.getItem('pt_user')), null, 'çıkışta oturum bilgisi silinir');
   await p.goto(B + '/hesabim/'); await p.waitForURL('**/giris/**');
   adim('Çıkış yap: oturum kapandı, Hesabım tekrar giriş istiyor');
+  await ctx.close();
+
+  // Telefonla giriş: kod Netgsm'den (sahte) gider, 6 hane yazılınca kendiliğinden doğrulanır, talepler numarayla eşleşir
+  ({ ctx, p } = await yeniSayfa());
+  await p.goto(B + '/giris/?geri=/hesabim/');
+  await p.click('#g-tel-ac'); await p.fill('#g-tel input[name=tel]', '0532 111 22 33');
+  await p.click('#g-tel-btn'); await p.waitForSelector('#g-kod-alan:not([hidden])');
+  assert.match(await p.locator('#g-tel-tekrar').textContent(), /Tekrar gönder \(\d+ sn\)/); assert.ok(await p.locator('#g-tel-tekrar').isDisabled(), 'tekrar gönder geri sayımda kapalı');
+  assert.ok(await p.locator('#g-tel input[name=tel]').evaluate((e) => e.readOnly), 'kod gidince numara kilitlenir');
+  const sms = await (await p.request.get(B + '/__sms')).json();
+  assert.ok(sms.kod && /@localhost:4400 #\d{6}$/.test(sms.metin.trim()), 'SMS otomatik doldurma satırıyla gider');
+  await p.fill('#g-tel input[name=kod]', sms.kod === '000000' ? '111111' : '000000');
+  await p.waitForSelector('#g-hata:not([hidden])'); assert.match(await p.locator('#g-hata').textContent(), /Kod hatalı/);
+  const telUrl = p.waitForURL(B + '/hesabim/**', { timeout: 15000 });
+  await p.fill('#g-tel input[name=kod]', sms.kod);
+  const tonay = p.locator('.dlg [aria-label="Sözleşme onayı"]');
+  if (await tonay.waitFor({ timeout: 5000 }).then(() => true).catch(() => false)) { for (const c of await tonay.locator('input[type=checkbox]').all()) await c.check(); await tonay.locator('button[type=submit]').click(); }
+  await telUrl;
+  await p.waitForFunction(() => document.querySelector('[data-say=teklif]')?.textContent !== '–');
+  assert.ok(Number(await p.locator('[data-say=teklif]').textContent()) >= 1, 'numarayla verilen taleplerin teklifleri hesapta');
+  await p.screenshot({ path: '/tmp/e2e-tel.png', fullPage: false });
+  adim('Telefonla giriş: Netgsm kodu, yanlış kod uyarısı, otomatik doğrulama, sözleşme onayı, numarayla eşleşen talepler');
   await ctx.close();
 
   await br.close();
