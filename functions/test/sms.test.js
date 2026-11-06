@@ -4,24 +4,25 @@ import assert from 'node:assert/strict';
 import { FakeDb, FieldValue, Timestamp, zaman, res } from './fakeDb.js';
 import { createApp } from '../app.js';
 import { netgsmIstemci } from '../netgsm.js';
+import { iletiMerkeziIstemci } from '../iletimerkezi.js';
 
-function kur({ netgsm = { kullanici: 'u', sifre: 's', baslik: 'PREFABTKLF' }, cevap = '<xml><main><code>0</code><jobID>123</jobID></main></xml>' } = {}) {
+function kur({ netgsm = { kullanici: 'u', sifre: 's', baslik: 'PREFABTKLF' }, iletimerkezi = {}, cevap = '<xml><main><code>0</code><jobID>123</jobID></main></xml>' } = {}) {
   const db = new FakeDb(); const giden = []; const kullanicilar = new Map(); const tokenlar = [];
-  const fetch = async (url, o) => { giden.push({ url, govde: o.body }); return { ok: true, status: 200, text: async () => (typeof cevap === 'function' ? cevap() : cevap) }; };
+  const fetch = async (url, o) => { giden.push({ url, govde: o.body }); const c = typeof cevap === 'function' ? cevap() : cevap; return { ok: true, status: 200, text: async () => (typeof c === 'string' ? c : JSON.stringify(c)), json: async () => (typeof c === 'string' ? JSON.parse(c) : c) }; };
   const auth = {
     verifyIdToken: async () => { throw new Error('bad'); },
     getUserByPhoneNumber: async (p) => { const u = [...kullanicilar.values()].find((x) => x.phoneNumber === p); if (!u) throw Object.assign(new Error('yok'), { code: 'auth/user-not-found' }); return u; },
     createUser: async ({ phoneNumber }) => { const u = { uid: 'yeni' + kullanicilar.size, phoneNumber, disabled: false }; kullanicilar.set(u.uid, u); return u; },
     createCustomToken: async (uid, c) => { tokenlar.push({ uid, c }); return 'ozel-' + uid; },
   };
-  const app = createApp({ db, auth, FieldValue, Timestamp, FIRMS: [], MODELS: [], simdi: zaman.simdi, fetch, mail: async () => {}, ayar: () => ({ site: 'https://www.prefabrikteklif.com.tr', admin: 'a@b.c', yoneticiler: [], netgsm }) });
+  const app = createApp({ db, auth, FieldValue, Timestamp, FIRMS: [], MODELS: [], simdi: zaman.simdi, fetch, mail: async () => {}, ayar: () => ({ site: 'https://www.prefabrikteklif.com.tr', admin: 'a@b.c', yoneticiler: [], netgsm, iletimerkezi }) });
   let ip = 1;
   const call = async (path, body, sabitIp) => { const r = res(); await app.handle({ method: 'POST', path, body, query: {}, headers: { 'x-forwarded-for': sabitIp || '9.9.9.' + (ip++ % 250) } }, r); return r; };
   const kodu = () => /giris kodunuz: (\d{6})/.exec(giden.at(-1).govde)[1];
   return { db, giden, kullanicilar, tokenlar, call, kodu };
 }
 
-test('sms: Netgsm ayarı yoksa Firebase SMS’e yönlendirir', async () => {
+test('sms: SMS ayarı yoksa Firebase SMS’e yönlendirir', async () => {
   const { call, giden } = kur({ netgsm: {} });
   const r = await call('/api/sms/kod', { telefon: '0532 111 22 33' });
   assert.equal(r.statusCode, 200); assert.equal(r.body.kanal, 'firebase'); assert.equal(giden.length, 0);
@@ -32,7 +33,7 @@ test('sms: kod gönderilir, doğru kodla yeni kullanıcı açılır ve oturum an
   assert.equal((await call('/api/sms/kod', { telefon: '12345' })).statusCode, 400);
   assert.equal((await call('/api/sms/kod', { telefon: '0212 111 22 33' })).statusCode, 400, 'sabit hat kabul edilmez');
   const r = await call('/api/sms/kod', { telefon: '+90 532 111 22 33' });
-  assert.equal(r.statusCode, 200, JSON.stringify(r.body)); assert.equal(r.body.kanal, 'netgsm');
+  assert.equal(r.statusCode, 200, JSON.stringify(r.body)); assert.equal(r.body.kanal, 'sunucu');
   assert.equal(giden[0].url, 'https://api.netgsm.com.tr/sms/send/otp');
   assert.match(giden[0].govde, /<no>5321112233<\/no>/); assert.match(giden[0].govde, /<msgheader>PREFABTKLF<\/msgheader>/);
   assert.match(giden[0].govde, /@www\.prefabrikteklif\.com\.tr #\d{6}/, 'otomatik doldurma satırı');
@@ -108,4 +109,27 @@ test('netgsm istemcisi: XML kaçışı ve dönüş kodları', async () => {
   const h = netgsmIstemci({ kullanici: 'a', sifre: 'b', baslik: 'c', fetch: async () => ({ ok: true, status: 200, text: async () => '<xml><main><code>40</code></main></xml>' }) });
   const r = await h.otp('5321112233', 'kod'); assert.equal(r.ok, false); assert.equal(r.kod, '40'); assert.match(r.aciklama, /başlığı/);
   assert.equal(netgsmIstemci({}).hazir, false);
+});
+
+test('sms: İleti Merkezi tanımlıysa önce o kullanılır (JSON, iys=0, 90 ile numara)', async () => {
+  const { call, giden, kodu } = kur({ iletimerkezi: { key: 'k', hash: 'h', baslik: 'PREFABTKLF' }, cevap: { response: { status: { code: 200, message: 'İşlem başarılı' }, order: { id: '1' } } } });
+  const r = await call('/api/sms/kod', { telefon: '05321112233' });
+  assert.equal(r.body.kanal, 'sunucu');
+  assert.equal(giden[0].url, 'https://api.iletimerkezi.com/v1/send-sms/json');
+  const g = JSON.parse(giden[0].govde).request;
+  assert.deepEqual(g.authentication, { key: 'k', hash: 'h' });
+  assert.equal(g.order.sender, 'PREFABTKLF'); assert.equal(g.order.iys, '0');
+  assert.deepEqual(g.order.message.receipents.number, ['905321112233']);
+  assert.ok(kodu());
+  const ok = await call('/api/sms/dogrula', { telefon: '05321112233', kod: kodu() });
+  assert.equal(ok.statusCode, 200);
+});
+
+test('sms: İleti Merkezi hata verirse Firebase’e düşer', async () => {
+  const { call, db } = kur({ netgsm: {}, iletimerkezi: { key: 'k', hash: 'h', baslik: 'B' }, cevap: { response: { status: { code: 402, message: 'Bakiye yetersiz' } } } });
+  const r = await call('/api/sms/kod', { telefon: '05321112233' });
+  assert.equal(r.body.kanal, 'firebase');
+  const s = (await db.collection('sistem').doc('sms').get()).data();
+  assert.match(s.sonHata, /^402 Bakiye/); assert.equal(s.saglayici, 'iletimerkezi');
+  assert.equal(iletiMerkeziIstemci({}).hazir, false);
 });

@@ -77,19 +77,23 @@ fi
 # Tanımsız iyzico ayarları için yayında soru sorulmasın (boş = kartlı ödeme kapalı)
 for k in IYZICO_API_KEY IYZICO_SECRET_KEY IYZICO_PLAN; do grep -q "^$k=" functions/.env || echo "$k=" >> functions/.env; done
 grep -q "^IYZICO_BASE=" functions/.env || echo "IYZICO_BASE=https://api.iyzipay.com" >> functions/.env
-# Netgsm OTP SMS (telefonla giriş): bilgiler ~/.prefabrik-netgsm dosyasından alınır (NETGSM-AYAR.command oluşturur)
-if [ -f "$HOME/.prefabrik-netgsm" ]; then
-  for k in NETGSM_KULLANICI NETGSM_SIFRE NETGSM_BASLIK NETGSM_APPKEY; do
-    v=$(grep "^$k=" "$HOME/.prefabrik-netgsm" | head -1 | cut -d= -f2- | tr -d '\r')
+# SMS (telefonla giriş, İleti Merkezi): bilgiler ~/.prefabrik-sms dosyasından alınır (SMS-AYAR.command oluşturur)
+SMS_ANAHTARLAR="ILETIMERKEZI_KEY ILETIMERKEZI_HASH ILETIMERKEZI_BASLIK NETGSM_KULLANICI NETGSM_SIFRE NETGSM_BASLIK NETGSM_APPKEY"
+SMS_DOSYA=""
+[ -f "$HOME/.prefabrik-netgsm" ] && SMS_DOSYA="$HOME/.prefabrik-netgsm"
+[ -f "$HOME/.prefabrik-sms" ] && SMS_DOSYA="$HOME/.prefabrik-sms"
+if [ -n "$SMS_DOSYA" ]; then
+  for k in $SMS_ANAHTARLAR; do
+    v=$(grep "^$k=" "$SMS_DOSYA" | head -1 | cut -d= -f2- | tr -d '\r')
     [ -z "$v" ] && continue
-    v=$(printf '%s' "$v" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g')  # şifrede özel karakter olabilir: tırnak içinde yaz
+    v=$(printf '%s' "$v" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g')  # özel karakter olabilir: tırnak içinde yaz
     grep -v "^$k=" functions/.env > functions/.env.tmp; mv functions/.env.tmp functions/.env; printf '%s="%s"\n' "$k" "$v" >> functions/.env
   done
-  echo "Netgsm bilgileri eklendi (telefonla girişte kod Netgsm'den gider)."
+  echo "SMS bilgileri eklendi (telefonla girişte kod kendi SMS servisimizden gider)."
 else
-  echo "Netgsm dosyası yok (~/.prefabrik-netgsm); telefonla girişte Firebase SMS kullanılır."
+  echo "SMS dosyası yok (~/.prefabrik-sms); telefonla girişte Firebase SMS kullanılır."
 fi
-for k in NETGSM_KULLANICI NETGSM_SIFRE NETGSM_BASLIK NETGSM_APPKEY; do grep -q "^$k=" functions/.env || echo "$k=" >> functions/.env; done
+for k in $SMS_ANAHTARLAR; do grep -q "^$k=" functions/.env || echo "$k=" >> functions/.env; done
 chmod 600 functions/.env 2>/dev/null || true
 echo "Bildirimlerin geleceği adres: $(grep ^ADMIN_EMAIL functions/.env | cut -d= -f2)"
 echo "Yönetici e-postaları: $(grep YONETICILER functions/.env | cut -d= -f2)"

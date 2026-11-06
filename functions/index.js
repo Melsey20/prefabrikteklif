@@ -28,7 +28,11 @@ const IYZICO_API_KEY = defineString('IYZICO_API_KEY', { default: '' });
 const IYZICO_SECRET_KEY = defineString('IYZICO_SECRET_KEY', { default: '' });
 const IYZICO_BASE = defineString('IYZICO_BASE', { default: 'https://api.iyzipay.com' });
 const IYZICO_PLAN = defineString('IYZICO_PLAN', { default: '' });
-// Netgsm OTP SMS (telefonla giriş): bilgiler functions/.env dosyasında (GUNCELLE, ~/.prefabrik-netgsm dosyasından ekler). Boşsa Firebase SMS kullanılır.
+// SMS (telefonla giriş): İleti Merkezi; bilgiler functions/.env dosyasında (GUNCELLE, ~/.prefabrik-sms dosyasından ekler). Boşsa Firebase SMS kullanılır.
+const ILETIMERKEZI_KEY = defineString('ILETIMERKEZI_KEY', { default: '' });
+const ILETIMERKEZI_HASH = defineString('ILETIMERKEZI_HASH', { default: '' });
+const ILETIMERKEZI_BASLIK = defineString('ILETIMERKEZI_BASLIK', { default: '' });
+// Yedek: Netgsm OTP SMS (telefonla giriş): bilgiler functions/.env dosyasında (GUNCELLE, ~/.prefabrik-netgsm dosyasından ekler). Boşsa Firebase SMS kullanılır.
 const NETGSM_KULLANICI = defineString('NETGSM_KULLANICI', { default: '' });
 const NETGSM_SIFRE = defineString('NETGSM_SIFRE', { default: '' });
 const NETGSM_BASLIK = defineString('NETGSM_BASLIK', { default: '' });
@@ -61,6 +65,7 @@ async function mail(to, subject, html, o = {}) {
 const ayar = () => ({
   site: SITE_URL.value(), admin: ADMIN_EMAIL.value(), placesKey: PLACES_API_KEY.value() || '',
   iyzico: { apiKey: IYZICO_API_KEY.value(), secretKey: IYZICO_SECRET_KEY.value(), base: IYZICO_BASE.value(), planKodu: IYZICO_PLAN.value() },
+  iletimerkezi: { key: ILETIMERKEZI_KEY.value(), hash: ILETIMERKEZI_HASH.value(), baslik: ILETIMERKEZI_BASLIK.value() },
   netgsm: { kullanici: NETGSM_KULLANICI.value(), sifre: NETGSM_SIFRE.value(), baslik: NETGSM_BASLIK.value(), appkey: NETGSM_APPKEY.value() },
   yoneticiler: [...new Set([...YONETICILER.value().split(','), ADMIN_EMAIL.value()].map((s) => s.trim().toLowerCase()).filter(Boolean))],
 });

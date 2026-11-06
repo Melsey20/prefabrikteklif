@@ -37,5 +37,5 @@ export function netgsmIstemci({ kullanici = '', sifre = '', baslik = '', appkey 
       return { ok: false, kod: e?.name === 'AbortError' ? 'zaman-asimi' : 'ag-hatasi' };
     } finally { clearTimeout(zt); }
   }
-  return { hazir, otp };
+  return { hazir, otp, ad: 'netgsm' };
 }

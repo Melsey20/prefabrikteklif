@@ -385,7 +385,7 @@ async function giris(p, eposta, hedef) {
   adim('Çıkış yap: oturum kapandı, Hesabım tekrar giriş istiyor');
   await ctx.close();
 
-  // Telefonla giriş: kod Netgsm'den (sahte) gider, 6 hane yazılınca kendiliğinden doğrulanır, talepler numarayla eşleşir
+  // Telefonla giriş: kod İleti Merkezi'nden (sahte) gider, 6 hane yazılınca kendiliğinden doğrulanır, talepler numarayla eşleşir
   ({ ctx, p } = await yeniSayfa());
   await p.goto(B + '/giris/?geri=/hesabim/');
   await p.click('#g-tel-ac'); await p.fill('#g-tel input[name=tel]', '0532 111 22 33');
@@ -404,7 +404,7 @@ async function giris(p, eposta, hedef) {
   await p.waitForFunction(() => document.querySelector('[data-say=teklif]')?.textContent !== '–');
   assert.ok(Number(await p.locator('[data-say=teklif]').textContent()) >= 1, 'numarayla verilen taleplerin teklifleri hesapta');
   await p.screenshot({ path: '/tmp/e2e-tel.png', fullPage: false });
-  adim('Telefonla giriş: Netgsm kodu, yanlış kod uyarısı, otomatik doğrulama, sözleşme onayı, numarayla eşleşen talepler');
+  adim('Telefonla giriş: İleti Merkezi kodu, yanlış kod uyarısı, otomatik doğrulama, sözleşme onayı, numarayla eşleşen talepler');
   await ctx.close();
 
   await br.close();

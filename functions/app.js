@@ -3,6 +3,7 @@
 import crypto from 'node:crypto';
 import { iyzicoIstemci } from './iyzico.js';
 import { netgsmIstemci } from './netgsm.js';
+import { iletiMerkeziIstemci } from './iletimerkezi.js';
 
 export const TIP_AD = { prefabrik: 'Prefabrik ev', celik: 'Çelik ev', konteyner: 'Konteyner ev', 'tiny house': 'Tiny house', ahsap: 'Ahşap ev', bungalov: 'Bungalov / bağ evi' };
 export const ARAZI_AD = { imarli: 'İmarlı arsa', koy: 'Köy yerleşik alanı', tarla: 'Tarla / tarım arazisi', bag: 'Bağ – bahçe', yok: 'Henüz arazi yok' };
@@ -540,17 +541,21 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     return { bannerlar: liste.map((b) => ({ konum: KONUM_SINIRI[b.konum] ? b.konum : 'ana', baslik: b.baslik, metin: b.metin, gorsel: b.gorsel, link: b.link, ...(b.modelId ? { modelId: b.modelId } : {}) })) };
   }
 
-  // ---- Telefonla giriş: kodu biz üretir, Netgsm OTP SMS ile göndeririz, doğrulanınca Firebase özel oturum anahtarı veririz ----
-  // Netgsm ayarı yoksa ya da gönderim başarısızsa { kanal: 'firebase' } döner; tarayıcı Firebase'in kendi SMS'ine geçer.
+  // ---- Telefonla giriş: kodu biz üretir, SMS firmasıyla (İleti Merkezi; yedek olarak Netgsm) göndeririz, doğrulanınca Firebase özel oturum anahtarı veririz ----
+  // SMS ayarı yoksa ya da gönderim başarısızsa { kanal: 'firebase' } döner; tarayıcı Firebase'in kendi SMS'ine geçer.
   const SMS_SURE = 5 * 60 * 1000; const SMS_ARA = 60 * 1000; const SMS_SAAT = 5; const SMS_DENEME = 5; const SMS_GUNLUK = 600;
   const smsRef = (tel) => db.collection('smsKodlari').doc(crypto.createHash('sha256').update(`sms:${tel}`).digest('hex').slice(0, 40));
   const kodOzet = (tel, kod, tuz) => crypto.createHmac('sha256', tuz).update(`${tel}:${kod}`).digest('hex');
   const telAl = (v) => { const d = String(v || '').replace(/\D/g, ''); const s = d.startsWith('90') && d.length === 12 ? d.slice(2) : d.startsWith('0') && d.length === 11 ? d.slice(1) : d; return /^5\d{9}$/.test(s) ? s : ''; };
-  const netgsm = () => netgsmIstemci({ ...(ayar().netgsm || {}), fetch: fetchFn });
+  const smsIstemci = () => {
+    const a = ayar();
+    const im = iletiMerkeziIstemci({ ...(a.iletimerkezi || {}), fetch: fetchFn });
+    return im.hazir ? im : netgsmIstemci({ ...(a.netgsm || {}), fetch: fetchFn });
+  };
   async function smsKod(req) {
     const tel = telAl(req.body?.telefon);
     if (!tel) hata(400, 'Telefon numarasını 05xx xxx xx xx biçiminde yazın.');
-    const n = netgsm();
+    const n = smsIstemci();
     if (!n.hazir) return { kanal: 'firebase' };
     if (!(await rateLimit(req, 'sms-kod', 10))) hata(429, 'Bu bağlantıdan çok fazla kod istendi. Bir saat sonra tekrar deneyin ya da e-postayla girin.');
     const t = now(); const gun = new Date(t + 3 * 3600000).toISOString().slice(0, 10);
@@ -577,13 +582,13 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const alan = String(ayar().site || '').replace(/^https?:\/\//, '').replace(/\/.*$/, '');
     const g = await n.otp(tel, `Prefabrik Teklif giris kodunuz: ${kod}\nKodu kimseyle paylasmayin.\n\n@${alan} #${kod}`);
     if (!g.ok) {
-      console.error('Netgsm OTP gönderilemedi', g.kod, g.aciklama || '');
+      console.error('SMS gönderilemedi', n.ad || 'netgsm', g.kod, g.aciklama || '');
       await ref.set({ ozet: '', kullanildi: true, son: 0, gonderimler: [], exp: Timestamp.fromMillis(t + 3600000) }).catch(() => {});
-      db.collection('sistem').doc('sms').set({ sonHata: `${g.kod} ${g.aciklama || ''}`.trim(), sonHataZamani: FieldValue.serverTimestamp() }, { merge: true }).catch(() => {});
+      db.collection('sistem').doc('sms').set({ sonHata: `${g.kod} ${g.aciklama || ''}`.trim(), saglayici: n.ad || 'netgsm', sonHataZamani: FieldValue.serverTimestamp() }, { merge: true }).catch(() => {});
       return { kanal: 'firebase' };
     }
     sayac({ smsKod: 1 });
-    return { ok: true, kanal: 'netgsm', sure: SMS_SURE / 1000, ara: SMS_ARA / 1000 };
+    return { ok: true, kanal: 'sunucu', sure: SMS_SURE / 1000, ara: SMS_ARA / 1000 };
   }
   async function smsDogrula(req) {
     const tel = telAl(req.body?.telefon); const kod = String(req.body?.kod || '').replace(/\D/g, '');

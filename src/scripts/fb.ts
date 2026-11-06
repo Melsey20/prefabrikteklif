@@ -56,13 +56,13 @@ export async function yonlendirmeSonucu() { try { return (await getRedirectResul
 // ---- Telefonla giriş (SMS kodu) ----
 let _onay: ConfirmationResult | null = null; let _rc: RecaptchaVerifier | null = null;
 export const telefonE164 = (t: string) => { const d = t.replace(/\D/g, ''); const s = d.startsWith('90') ? d.slice(2) : d.startsWith('0') ? d.slice(1) : d; return s.length === 10 && s.startsWith('5') ? '+90' + s : ''; };
-// Önce kendi SMS servisimiz (Netgsm) denenir; hazır değilse ya da gönderemezse Firebase'in SMS'i kullanılır.
-let _kanal: 'netgsm' | 'firebase' = 'firebase'; let _tel = '';
-export async function telefonKodGonder(numara: string, butonId: string): Promise<{ kanal: 'netgsm' | 'firebase'; ara: number }> {
+// Önce kendi SMS servisimiz (İleti Merkezi) denenir; hazır değilse ya da gönderemezse Firebase'in SMS'i kullanılır.
+let _kanal: 'sunucu' | 'firebase' = 'firebase'; let _tel = '';
+export async function telefonKodGonder(numara: string, butonId: string): Promise<{ kanal: 'sunucu' | 'firebase'; ara: number }> {
   const n = telefonE164(numara); if (!n) throw Object.assign(new Error('Telefon numarasını 05xx xxx xx xx biçiminde yazın.'), { code: 'auth/invalid-phone-number' });
   let r: any = null;
   try { r = await api('/api/sms/kod', { telefon: n }); } catch (e) { if (e instanceof ApiHata && (e.kod === 400 || e.kod === 429)) throw e; /* diğer durumlarda (sunucu eski sürüm, ağ) Firebase SMS */ }
-  if (r?.kanal === 'netgsm') { _kanal = 'netgsm'; _tel = n; return { kanal: 'netgsm', ara: r.ara || 60 }; }
+  if (r?.kanal === 'sunucu') { _kanal = 'sunucu'; _tel = n; return { kanal: 'sunucu', ara: r.ara || 60 }; }
   const a = await auth();
   if (!_rc) _rc = new RecaptchaVerifier(a, butonId, { size: 'invisible' });
   try { _onay = await signInWithPhoneNumber(a, n, _rc); } catch (e) { try { _rc.clear(); } catch { /* */ } _rc = null; throw e; }
@@ -70,7 +70,7 @@ export async function telefonKodGonder(numara: string, butonId: string): Promise
 }
 export async function telefonKodDogrula(kod: string) {
   const k = kod.replace(/\D/g, '');
-  if (_kanal === 'netgsm') {
+  if (_kanal === 'sunucu') {
     const r = await api<{ token: string }>('/api/sms/dogrula', { telefon: _tel, kod: k });
     return (await signInWithCustomToken(await auth(), r.token)).user;
   }
