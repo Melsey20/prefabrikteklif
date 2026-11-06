@@ -1,0 +1,146 @@
+{
+  "tarih": "2026-11-06",
+  "slot": "aksam",
+  "saat": "19:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Prefabrik ev firmaları: müşteri aramayın, talepler size gelsin 📣\n\nPrefabrik ev, tiny house, ahşap ev, çelik ev ya da konteyner ev üreticisi misiniz? PrefabrikTeklif'te ev arayanlar ilini, ev tipini ve metrekaresini yazarak talep bırakır; hizmet verdiğiniz illere ve ürettiğiniz ev tipine uyan talepler doğrudan firma panelinize düşer. Fiyat verdiğiniz an müşterinin iletişim bilgileri açılır; modellerinizi ve fiyatlarınızı panelden kendiniz güncellersiniz.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir. Her firmayı resmî evrakları ve referanslarıyla kabul ediyoruz.\n\n👉 Başvuru: prefabrikteklif.com.tr/firma-kayit\n📌 Kaydedin, başvururken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevfirmaları #prefabrikevüreticisi #tinyhouseüreticisi #çelikevfirmaları",
+      "alt_text": "Koyu yeşil zeminde büyük serif başlık: “Müşteri aramayın, talepler size gelsin.” Altında firmalara kısa açıklama ve başvuru adresi prefabrikteklif.com.tr/firma-kayit; üstte PrefabrikTeklif logosu.",
+      "kartlar": [
+        {
+          "sablon": "alinti",
+          "koyu": true,
+          "etiket": "Firmalar için",
+          "boy": 100,
+          "h": "Müşteri aramayın, <em>talepler size gelsin.</em>",
+          "p": "Prefabrik, tiny house, ahşap, çelik ya da konteyner ev mi üretiyorsunuz? Hizmet verdiğiniz illerden gelen talepler firma panelinize düşer. Resmî evrak ve referansla başvurun.",
+          "alt_sol": "prefabrikteklif.com.tr/firma-kayit",
+          "alt_sag": "Başvuru →"
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "İki katlı prefabrik evde nelere dikkat etmeli? Dar arsada geniş yaşam alanı sağlar; yatak odaları üst katta olur. Statik proje ve zemin etüdü raporunu yazılı isteyin. Fiyata nelerin dahil olduğunu sorun. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "İki katlı prefabrik ev alırken nelere dikkat etmeli? 2 katlı / dubleks prefabrik ev rehberi 👇\n\nİki katlı (dubleks) prefabrik, çelik ve ahşap evler dar arsada geniş yaşam alanı sağlar; yaşam alanı alt katta, yatak odaları üst katta toplanır.\n\nDayanıklılık taşıyıcı sistemin statik hesabına ve zemin etüdüne bağlı. Türkiye Bina Deprem Yönetmeliği'ne göre hazırlanmış statik projeyi ve zemin etüdü raporunu firmadan yazılı isteyin; ruhsat aşamasında bu belgeler zaten gerekiyor. Nakliye, montaj, zemin betonu ve iç bitişin fiyata dahil olup olmadığını da sorun.\n\nPrefabrikTeklif iki katlı ev sorularınızı yanıtlar, dubleks modelleri ve fiyatları karşılaştırır, teklifleri size getirir.\n\n📌 Kaydedin, dubleks bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#ikikatlıprefabrikev #2katlıprefabrikev #dubleksprefabrikev #prefabrikev",
+      "sahneler": [
+        {
+          "t": 0.0,
+          "tur": "foto",
+          "img": "celik-b-960.webp",
+          "h": "İki Katlı Prefabrik<br><em>Nelere Dikkat?</em>"
+        },
+        {
+          "t": 3.07,
+          "tur": "foto",
+          "img": "ahsap-960.webp",
+          "h": "Dar arsada <em>geniş alan</em>",
+          "p": "Yatak odaları üst katta"
+        },
+        {
+          "t": 7.24,
+          "tur": "liste",
+          "ikon": "✓",
+          "maddeler": [
+            "Statik proje",
+            "Zemin etüdü raporu",
+            "Deprem Yönetmeliği’ne uygun"
+          ],
+          "h": "Yazılı <em>isteyin</em>"
+        },
+        {
+          "t": 10.13,
+          "tur": "liste",
+          "ikon": "?",
+          "maddeler": [
+            "Nakliye",
+            "Montaj",
+            "Zemin betonu",
+            "İç bitiş"
+          ],
+          "h": "Fiyata <em>dahil mi?</em>"
+        },
+        {
+          "t": 12.11,
+          "tur": "son",
+          "h": "Dubleks modelleri <em>karşılaştırın.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 13.56,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261106_084659_3a3fee0a-a228-4770-8344-f27c139ad16e.mp3"
+    },
+    {
+      "seslendirme": "Kaç metrekare prefabrik ev lazım? Bir artı bir, otuz ile elli metrekare. İki artı bir, elli beş ile seksen beş. Üç artı bir, seksen beş ile yüz yirmi metrekare. Planınızı seçin, teklif alın. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "Kaç m² prefabrik ev lazım? Prefabrik ev modelleri: 1+1, 2+1 ve 3+1 için metrekare rehberi 👇\n\n1+1 (yaklaşık 30–50 m²): tek kişi, çift, bağ evi ya da yazlık için. 2+1 (55–85 m²): küçük aileler için en çok tercih edilen plan. 3+1 (85–120 m²): çocuklu aileler için; ikinci banyo büyük konfor sağlar. Ölçüler firmaya ve modele göre değişir.\n\nFirmaların çoğu standart planları küçük değişikliklerle uyarlayabilir; duvar kaydırma, pencere ekleme gibi istekleri sözleşmeden önce konuşun.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, modelleri ve fiyatları karşılaştırır, teklifleri size getirir: tek form, 48 saatte teklif.\n\n📌 Kaydedin, plan seçerken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevmodelleri #prefabrikev #prefabrikevplanları #3artı1prefabrikev",
+      "sahneler": [
+        {
+          "t": 0.0,
+          "tur": "foto",
+          "img": "prefabrik-960.webp",
+          "h": "Kaç m² Prefabrik<br><em>Ev Lazım?</em>"
+        },
+        {
+          "t": 2.76,
+          "tur": "foto",
+          "img": "prefabrik-c-960.webp",
+          "h": "1+1: <em>30–50 m²</em>",
+          "p": "Tek kişi, çift, bağ evi"
+        },
+        {
+          "t": 5.07,
+          "tur": "foto",
+          "img": "prefabrik-b-960.webp",
+          "h": "2+1: <em>55–85 m²</em>",
+          "p": "Küçük aileler"
+        },
+        {
+          "t": 7.73,
+          "tur": "foto",
+          "img": "hero-1344.webp",
+          "h": "3+1: <em>85–120 m²</em>",
+          "p": "Çocuklu aileler"
+        },
+        {
+          "t": 10.89,
+          "tur": "liste",
+          "ikon": "✓",
+          "maddeler": [
+            "1+1 · 30–50 m²",
+            "2+1 · 55–85 m²",
+            "3+1 · 85–120 m²"
+          ],
+          "h": "Planınızı <em>seçin</em>"
+        },
+        {
+          "t": 13.0,
+          "tur": "son",
+          "h": "Planınıza <em>teklif alın.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 14.44,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261106_084706_b0fa6431-9bfd-4120-9581-748a1c00d2fc.mp3"
+    }
+  ],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "hazırlanıyor"
+  }
+}

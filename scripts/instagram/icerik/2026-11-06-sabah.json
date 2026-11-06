@@ -1,0 +1,188 @@
+{
+  "tarih": "2026-11-06",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Çelik konstrüksiyon ev nedir? Hafif çelik ev artıları, eksileri ve çelik ev fiyatları 2026 👇\n\nÇelik konstrüksiyon ev, konutlarda çoğunlukla hafif çelik (galvanizli profiller) sistemle kurulan bir ev türü. Hafif yapı ağırlığı, hızlı kurulum ve plan esnekliğiyle öne çıkıyor; geniş açıklıklı, dubleks ve villa planlarına uygun.\n\nDikkat: çelik ısıyı iyi ilettiği için dışta kesintisiz yalıtım (mantolama) isteyin; ses yalıtımını, galvaniz sınıfını ve Türkiye Bina Deprem Yönetmeliği'ne uygun statik projeyi sorun. 3 Kasım 2026 itibarıyla listemizde çelik ev fiyatları 575.000 TL'den başlıyor; m² başına ortanca fiyat 17.000 TL. 15 firmanın 82 modeli tek yerde.\n\nPrefabrikTeklif çelik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir: tek form, 48 saatte teklif.\n\n📌 Kaydedin, çelik ev bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#çelikkonstrüksiyonev #hafifçelikev #çelikevfiyatları #çelikev",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Çelik ev",
+          "h": "Çelik konstrüksiyon ev <em>nedir?</em>",
+          "p": "Hafif çelik evin artıları, dikkat edilecekleri ve fiyatı. Kaydırın, birlikte bakalım.",
+          "img": "celik-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Artıları ve <em>dikkat edilecekler</em>",
+          "boy": 80,
+          "maddeler": [
+            [
+              "Hafif ve sünek",
+              "Yapı hafiftir; çelik aniden kırılmak yerine esner."
+            ],
+            [
+              "Plan esnekliği",
+              "Geniş açıklık, büyük pencere, dubleks ve villa planları."
+            ],
+            [
+              "Isı köprüsü",
+              "Çelik ısıyı iletir; dışta kesintisiz yalıtım isteyin."
+            ],
+            [
+              "Fiyat",
+              "3 Kasım 2026 itibarıyla listemizde 575.000 TL’den; m² ortancası 17.000 TL."
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Çelik ev alırken <em>sorun:</em>",
+          "p": "Bu kalemleri teklifte yazılı isteyin.",
+          "maddeler": [
+            "Profil kalınlığı",
+            "Galvaniz sınıfı",
+            "Statik proje",
+            "Dış yalıtım",
+            "Ses yalıtımı",
+            "Garanti"
+          ],
+          "img": "celik-c-960.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Çelik ev tekliflerini <em>yan yana</em> görün.",
+          "p": "İlinizi ve metrekareyi yazın; firmalar 48 saatte fiyat versin.",
+          "img": "montaj-1344.webp",
+          "cipler": [
+            "Ücretsiz",
+            "15 firma",
+            "82 model"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Prefabrik ev içi nasıl görünür? İç bitişi tam yapılmışsa sıradan bir daireden farksız. Duvarlar boyanır; zemine parke, vinil ya da seramik serilir. Ağır dolap ve televizyon yerlerini montajdan önce bildirin. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "Prefabrik ev içi nasıl görünür? Prefabrik ev iç tasarımı: duvar, zemin ve montaj öncesi uyarı 👇\n\nİç bitişi tam yapılmış bir prefabrik evin içi, iyi işçilikle sıradan bir daireden farksız olur. Duvarlar alçıpan ya da panel kaplama üzerine boyanır; zemine laminat parke, vinil (SPC) ya da seramik serilir. Asma tavandan spot aydınlatma küçük odaları ferah gösterir.\n\nÖnemli: mutfak dolabı, kombi ve TV gibi ağır asma yerlerini montajdan önce firmaya bildirin; panel içine takviye konsun.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları ve fiyata dahil olanları karşılaştırır, teklifleri size getirir.\n\n📌 Kaydedin, evinizi planlarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikeviçi #prefabrikeviçtasarım #prefabrikev #prefabrikevdekorasyon",
+      "sahneler": [
+        {
+          "t": 0.0,
+          "tur": "foto",
+          "img": "ic-mekan-960.webp",
+          "h": "Prefabrik Ev İçi<br><em>Nasıl Görünür?</em>"
+        },
+        {
+          "t": 2.13,
+          "tur": "foto",
+          "img": "ic-mekan-1344.webp",
+          "h": "Bir daireden <em>farksız</em>",
+          "p": "İç bitişi tam yapılmışsa"
+        },
+        {
+          "t": 5.8,
+          "tur": "liste",
+          "ikon": "✓",
+          "maddeler": [
+            "Duvar: alçıpan + boya",
+            "Zemin: parke, vinil, seramik",
+            "Asma tavan + spot"
+          ],
+          "h": "İçeride <em>neler var?</em>"
+        },
+        {
+          "t": 10.02,
+          "tur": "liste",
+          "ikon": "✓",
+          "maddeler": [
+            "Mutfak dolabı",
+            "Kombi",
+            "Televizyon"
+          ],
+          "h": "Montajdan önce <em>bildirin</em>",
+          "p": "Panel içine takviye konsun"
+        },
+        {
+          "t": 13.16,
+          "tur": "son",
+          "h": "Kendi planınıza <em>teklif alın.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 14.65,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261106_084559_2ed6e814-5441-472e-8b79-5aa870dbc6ae.mp3"
+    },
+    {
+      "seslendirme": "Üç artı bir konteyner ev kaça mal olur? Listemizde metrekare başı ortanca fiyat yedi bin seksen üç lira. Seksen metrekare için kaba hesap, yaklaşık beş yüz altmış yedi bin lira. Nakliye dahil mi, sorun. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "3+1 konteyner ev kaça mal olur? 3+1 konteyner ev fiyatları için kaba hesap 2026 👇\n\n3 Kasım 2026 itibarıyla listemizde konteyner evde m² başına ortanca fiyat 7.083 TL. 80 m²'lik bir 3+1 konteyner ev için kaba hesap: 80 × 7.083 ≈ 567.000 TL. Bu yaklaşık bir rakam; gerçek fiyat model, malzeme ve kapsama göre değişir.\n\nTeklif alırken nakliye, montaj, zemin ve KDV fiyata dahil mi, mutlaka sorun. Listemizde konteyner ev fiyatları 85.000 TL'den başlıyor; 6 firmanın 35 modeli var.\n\nPrefabrikTeklif konteyner ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#konteynerev #konteynerevfiyatları #3artı1konteynerev #konteynerevmodelleri",
+      "sahneler": [
+        {
+          "t": 0.0,
+          "tur": "foto",
+          "img": "konteyner-960.webp",
+          "h": "3+1 Konteyner Ev<br><em>Kaça Mal Olur?</em>"
+        },
+        {
+          "t": 2.31,
+          "tur": "sayi",
+          "n": 7083,
+          "birim": "TL · m² başı ortanca",
+          "h": "m² başı ortanca <em>7.083 TL</em>",
+          "p": "3 Kasım 2026 itibarıyla listemizde"
+        },
+        {
+          "t": 6.09,
+          "tur": "foto",
+          "img": "konteyner-b-960.webp",
+          "h": "Kaba hesap:<br><em>≈ 567 bin TL</em>",
+          "p": "80 m² × 7.083 TL"
+        },
+        {
+          "t": 10.16,
+          "tur": "liste",
+          "ikon": "?",
+          "maddeler": [
+            "Nakliye",
+            "Montaj",
+            "Zemin",
+            "KDV"
+          ],
+          "h": "Fiyata <em>dahil mi?</em>"
+        },
+        {
+          "t": 11.91,
+          "tur": "son",
+          "h": "Bütçenizi <em>netleştirin.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 13.33,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261106_084558_ff68ba8f-f490-44aa-a4c7-d780ef4f41fb.mp3"
+    }
+  ],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "hazırlanıyor"
+  }
+}
