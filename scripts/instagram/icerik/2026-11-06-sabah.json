@@ -1,7 +1,7 @@
 {
   "tarih": "2026-11-06",
   "slot": "sabah",
-  "saat": "10:00",
+  "saat": "12:15",
   "tasarimlar": [
     {
       "ad": "A",
@@ -183,6 +183,6 @@
   ],
   "yayin": {
     "hesap": "17841474767654199",
-    "durum": "hazırlanıyor"
+    "durum": "zamanlandı (Supermetrics, #3839-3844: tasarım 12:15, Reels 12:35 ve 12:55, 3 hikâye 13:00-13:10; 10:00 geçtiği için kaydırıldı)"
   }
 }
