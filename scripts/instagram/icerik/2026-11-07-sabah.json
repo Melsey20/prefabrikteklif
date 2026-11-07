@@ -1,0 +1,183 @@
+{
+  "tarih": "2026-11-07",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Hobi bahçesine ev konur mu? Hobi bahçesi evi ve bağ evi yapma şartları 2026: tapu, izin, abonelik 👇\n\nHobi bahçesine prefabrik, konteyner ya da tiny house koymadan önce tapudaki niteliğe bakın. Tarla, bağ ya da bahçe yazıyorsa tarım arazisi kuralları geçerli. Zemine sabit her ev, malzemesi ne olursa olsun yapı sayılır ve izin gerekir.\n\n2026'da kurallar sertleşti: haberlere göre bağ evi için en az 5 dönüm arazi ve en fazla 30 m² yapı şartı getirildi; Haziran 2026'daki düzenlemeyle tarım arazilerinde izinsiz yapılara elektrik, su ve doğal gaz aboneliği verilmiyor. Başvurudan önce il tarım ve orman müdürlüğünden ve belediyeden güncel şartları teyit edin.\n\nPrefabrikTeklif ev sorularınızı yanıtlar, arazinize uyan modellerin fiyatlarını karşılaştırır ve teklifleri size getirir. Sitemizdeki \"Arazim uygun mu?\" aracıyla 4 soruda yolunuzu görün.\n\n📌 Kaydedin, bahçenize ev bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#hobibahçesi #hobibahçesievi #bağevi #bağeviyapmaşartları #prefabrikev",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Hobi bahçesi",
+          "h": "Hobi bahçesine ev <em>konur mu?</em>",
+          "p": "Prefabrik, konteyner ya da tiny house koymadan önce bilmeniz gerekenler. Kaydırın.",
+          "img": "bungalov-b-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Önce tapuya <em>bakın</em>",
+          "boy": 80,
+          "maddeler": [
+            [
+              "Tapudaki nitelik",
+              "Tarla, bağ ya da bahçe yazıyorsa tarım arazisi kuralları geçerli."
+            ],
+            [
+              "Sabit ev = yapı",
+              "Prefabrik, konteyner, ahşap fark etmez; izin gerekir."
+            ],
+            [
+              "Bağ evi şartı",
+              "Haberlere göre en az 5 dönüm arazi, en fazla 30 m² yapı."
+            ],
+            [
+              "Abonelik",
+              "İzinsiz yapılara elektrik, su ve doğal gaz aboneliği verilmiyor."
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Kurmadan önce <em>yapın:</em>",
+          "p": "Kurallar ile ve araziye göre değişebilir; teyit edin.",
+          "maddeler": [
+            "Tapuya bakın",
+            "İmar durumu",
+            "Tarım müdürlüğü",
+            "Belediye izni",
+            "Hissedar onayı",
+            "Model ölçüsü"
+          ],
+          "img": "bungalov-c-960.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Arazinize uygun evin <em>teklifini alın.</em>",
+          "p": "“Arazim uygun mu?” aracıyla 4 soruda yolunuzu görün; uygun firmalar 48 saatte fiyat versin.",
+          "img": "tiny-house-960.webp",
+          "cipler": [
+            "Ücretsiz",
+            "62 firma",
+            "430 model"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Prefabrik ev depreme dayanıklı mı? Doğru tasarlanıp doğru kurulursa evet. Hafif yapı avantajdır ama tek başına garanti değildir. Arsanıza özel statik proje ve zemin etüdü isteyin. Panel bağlantılarını da sorun. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "Prefabrik ev depreme dayanıklı mı? Prefabrik ve hafif çelik evlerde deprem güvenliği için 3 şart 👇\n\nDoğru tasarlanıp doğru kurulan prefabrik ev depreme dayanıklıdır; ama \"prefabrik\" olması tek başına garanti değildir. Hafiflik avantajdır: deprem kuvvetleri kütleyle ilişkili olduğu için hafif yapıda tasarım yükleri azalır.\n\nFirmadan arsanıza özel, Türkiye Bina Deprem Yönetmeliği'ne uygun statik projeyi isteyin; zemin etüdü yaptırın ve temeli kimin yapacağını netleştirin. Panellerin birbirine ve temele bağlantı detaylarını (ankraj, bulon, kaynak) da sorun.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; bu soruları teklif formuna not olarak yazabilirsiniz.\n\n📌 Kaydedin, ev bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevdepremedayanıklımı #depremedayanıklıev #hafifçelikev",
+      "sahneler": [
+        {
+          "t": 0.0,
+          "tur": "foto",
+          "img": "celik-960.webp",
+          "h": "Prefabrik Ev<br><em>Depreme Dayanıklı mı?</em>"
+        },
+        {
+          "t": 2.51,
+          "tur": "foto",
+          "img": "montaj-1344.webp",
+          "h": "Doğru tasarım, <em>doğru kurulum</em>",
+          "p": "O zaman evet"
+        },
+        {
+          "t": 4.98,
+          "tur": "foto",
+          "img": "celik-b-960.webp",
+          "h": "Hafiflik <em>avantajdır</em>",
+          "p": "Ama tek başına garanti değil"
+        },
+        {
+          "t": 8.24,
+          "tur": "liste",
+          "ikon": "✓",
+          "maddeler": [
+            "Arsaya özel statik proje",
+            "Zemin etüdü",
+            "Panel bağlantıları"
+          ],
+          "h": "Yazılı <em>isteyin</em>"
+        },
+        {
+          "t": 13.18,
+          "tur": "son",
+          "h": "Güvenli evi <em>karşılaştırın.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 14.64,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261107_055104_8238cca5-54fc-4184-b8da-d4f57d3671bb.mp3"
+    },
+    {
+      "seslendirme": "Tiny house fiyatı neye göre değişir? Listemizde dört yüz yirmi dokuz bin liradan başlıyor. Fiyatı metrekare, tekerlekli ya da sabit olması, yalıtım ve ısıtma belirler. Nakliye ücretini de sorun. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "Tiny house fiyatı neye göre değişir? Tiny house fiyat 2026: listemizde 429.000 TL'den başlıyor 👇\n\n3 Kasım 2026 itibarıyla listemizde tiny house fiyatları 429.000 TL'den başlıyor; ortanca fiyat 1.225.000 TL. 9 firmanın 43 tiny house modeli tek yerde.\n\nFiyatı en çok metrekare, tekerlekli (O2 belgeli) mi sabit mi olduğu, yalıtım ve ısıtma sistemi belirler. Bazı üreticiler fiyatı döviz cinsinden verir; teslim yerine nakliye ücretini de mutlaka sorun.\n\nPrefabrikTeklif tiny house sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir: tek form, 48 saatte teklif.\n\n📌 Kaydedin, tiny house bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tinyhouse #tinyhousefiyat #tinyhousefiyatları #tekerleklitinyhouse",
+      "sahneler": [
+        {
+          "t": 0.0,
+          "tur": "foto",
+          "img": "tiny-house-b-960.webp",
+          "h": "Tiny House Fiyatı<br><em>Neye Göre Değişir?</em>"
+        },
+        {
+          "t": 2.44,
+          "tur": "sayi",
+          "n": 429,
+          "birim": "bin TL’den · tiny house",
+          "h": "Tiny house <em>429.000 TL’den.</em>",
+          "p": "3 Kasım 2026 itibarıyla listemizde"
+        },
+        {
+          "t": 5.4,
+          "tur": "liste",
+          "ikon": "✓",
+          "maddeler": [
+            "Metrekare",
+            "Tekerlekli mi, sabit mi?",
+            "Yalıtım",
+            "Isıtma sistemi"
+          ],
+          "h": "Fiyatı <em>belirleyenler</em>"
+        },
+        {
+          "t": 10.25,
+          "tur": "foto",
+          "img": "tiny-house-c-960.webp",
+          "h": "Nakliye ücretini <em>sorun.</em>",
+          "p": "Teslim yerine göre değişir"
+        },
+        {
+          "t": 11.87,
+          "tur": "son",
+          "h": "Tiny house tekliflerini <em>yan yana görün.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 13.31,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261107_055104_53a35020-7c86-4ef2-abfc-4eb39b7d9f09.mp3"
+    }
+  ],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "hazırlanıyor"
+  }
+}

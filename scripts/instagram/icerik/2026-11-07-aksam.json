@@ -1,0 +1,189 @@
+{
+  "tarih": "2026-11-07",
+  "slot": "aksam",
+  "saat": "19:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Konteyner ev mi, prefabrik ev mi? Konteyner ev fiyatları ve prefabrik ev fiyatları 2026, kurulum ve kullanım farkı 👇\n\n3 Kasım 2026 itibarıyla listemizde konteyner ev 85.000 TL'den (m² ortancası 7.083 TL), prefabrik ev 225.000 TL'den (m² ortancası 10.280 TL) başlıyor. Konteyner ev çelik modül halinde gelir, vinçle saatler ya da 1 gün içinde yerleşir; prefabrik ev panellerle sahada birkaç günde monte edilir ve plan seçeneği daha geniştir.\n\nBahçe ofisi, misafir evi ya da hızlı çözüm için konteyner; aile için kalıcı, 2+1 ve üstü bir ev için prefabrik daha uygun olur. İlan fiyatları farklı kapsamla verilir: mutfak, banyo, tesisat, yalıtım, nakliye-vinç ve KDV dahil mi, sorun.\n\nPrefabrikTeklif sorularınızı yanıtlar, iki tipin fiyatlarını yan yana karşılaştırır ve teklifleri size getirir.\n\n📌 Kaydedin, karar verirken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#konteynerev #prefabrikev #konteynerevfiyatları #prefabrikevfiyatları",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Karşılaştırma",
+          "h": "Konteyner ev mi, <em>prefabrik ev mi?</em>",
+          "p": "Fiyat, kurulum ve kullanım farkı. Kaydırın, hangisi size uygun görün.",
+          "img": "konteyner-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Rakamlarla <em>yan yana</em>",
+          "boy": 80,
+          "alt_sag": "3 Kasım 2026 itibarıyla listemizde",
+          "maddeler": [
+            [
+              "Konteyner ev",
+              "85.000 TL’den başlıyor; m² ortancası 7.083 TL."
+            ],
+            [
+              "Prefabrik ev",
+              "225.000 TL’den başlıyor; m² ortancası 10.280 TL."
+            ],
+            [
+              "Kurulum",
+              "Konteyner vinçle 1 güne kadar; prefabrik montajı birkaç gün."
+            ],
+            [
+              "Büyüklük",
+              "Konteyner tipik 15–60 m²; prefabrik 40–200 m²."
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Karşılaştırırken <em>sorun:</em>",
+          "p": "İlan fiyatları farklı kapsamla verilir.",
+          "maddeler": [
+            "Mutfak, banyo",
+            "Tesisat",
+            "Yalıtım kalınlığı",
+            "Doğrama tipi",
+            "Nakliye ve vinç",
+            "KDV"
+          ],
+          "img": "prefabrik-960.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "İki tipten de <em>teklif alın.</em>",
+          "p": "Bahçe ofisi, misafir evi için konteyner; aileye kalıcı ev için prefabrik. İlinizi yazın, 48 saatte fiyat gelsin.",
+          "img": "hero-1344.webp",
+          "cipler": [
+            "Ücretsiz",
+            "62 firma",
+            "430 model"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Prefabrik ev kaç günde kurulur? Montaj genellikle birkaç gün sürer. Ama toplam süreyi ruhsat, üretim sırası ve temel belirler. Ruhsatı evi seçmeden önce başlatın, teslim süresini sözleşmeye yazdırın. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "Prefabrik ev kaç günde kurulur? Prefabrik ev montajı, üretim ve teslim süreleri 👇\n\n\"Prefabrik ev 3 günde kurulur\" sözü yalnızca montaj için doğru. Sahadaki montaj, evin büyüklüğüne ve ekibe göre genellikle birkaç gün sürer; toplam süreyi asıl ruhsat, üretim sırası, temelin hazırlanması ve altyapı bağlantıları belirler.\n\nGecikmeyi önlemek için ruhsat sürecini evi seçmeden önce başlatın, teslim süresini gün olarak sözleşmeye yazdırın, arsaya giden yolun tır geçişine uygun olduğunu kontrol edin. Kışın kurulum mümkün; ama temel betonu ve yağış süreyi uzatabilir.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları ve teslim sürelerini karşılaştırır, teklifleri size getirir.\n\n📌 Kaydedin, ev planlarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevkaçgündekurulur #prefabrikevmontajı #prefabrikevfiyatları",
+      "sahneler": [
+        {
+          "t": 0.0,
+          "tur": "foto",
+          "img": "montaj-1344.webp",
+          "h": "Prefabrik Ev<br><em>Kaç Günde Kurulur?</em>"
+        },
+        {
+          "t": 2.22,
+          "tur": "foto",
+          "img": "prefabrik-b-960.webp",
+          "h": "Montaj: <em>birkaç gün</em>",
+          "p": "Evin büyüklüğüne ve ekibe göre"
+        },
+        {
+          "t": 4.27,
+          "tur": "liste",
+          "ikon": "✓",
+          "maddeler": [
+            "Ruhsat",
+            "Üretim sırası",
+            "Temel"
+          ],
+          "h": "Toplam süreyi <em>bunlar belirler</em>"
+        },
+        {
+          "t": 7.87,
+          "tur": "foto",
+          "img": "prefabrik-c-960.webp",
+          "h": "Teslim süresini <em>yazdırın.</em>",
+          "p": "Ruhsatı evi seçmeden önce başlatın"
+        },
+        {
+          "t": 12.13,
+          "tur": "son",
+          "h": "Teslim sürelerini <em>karşılaştırın.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 13.56,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261107_055104_a1010c32-acd5-4a22-9692-02bda073e912.mp3"
+    },
+    {
+      "seslendirme": "Bungalov ev nedir? Genellikle tek katlı, bazen çatı katlı, sade bir ev. Çoğu on beş ile altmış metrekare arası. Bağ evi, misafir evi ya da yazlık olur. Zemine sabitse izin gerekir. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "Bungalov ev nedir? Bungalov evler: özellikleri, kaç m² olduğu, kullanım alanları ve izin durumu 👇\n\nBungalov ev genellikle tek katlı, bazen çatı katlı, küçük ve sade planlı bir evdir. Türkiye'de çoğunlukla ahşap ya da ahşap görünümlü prefabrik olarak üretilir; çoğu model 15–60 m² arasındadır. A tipi (üçgen çatılı) ve beşik çatılı modeller yaygındır.\n\nBağ evi, hafta sonu evi, misafir evi, yazlık ya da dağ evi olarak kullanılır. Küçük olması izin gerektirmediği anlamına gelmez: zemine sabitlenen ve sürekli kullanılan bungalov yapı sayılır. 3 Kasım 2026 itibarıyla listemizde bungalov ev fiyatları 162.000 TL'den başlıyor.\n\nPrefabrikTeklif bungalov ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir.\n\n📌 Kaydedin, bungalov bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#bungalovev #bungalovevler #bungalovevfiyatları #ahşapbungalov",
+      "sahneler": [
+        {
+          "t": 0.0,
+          "tur": "foto",
+          "img": "bungalov-960.webp",
+          "h": "Bungalov Ev<br><em>Nedir?</em>"
+        },
+        {
+          "t": 1.6,
+          "tur": "foto",
+          "img": "ahsap-b-960.webp",
+          "h": "Tek katlı, <em>sade bir ev</em>",
+          "p": "Bazen çatı katlı"
+        },
+        {
+          "t": 5.31,
+          "tur": "sayi",
+          "n": 60,
+          "birim": "m²’ye kadar · çoğu model",
+          "h": "Çoğu <em>15–60 m² arası</em>"
+        },
+        {
+          "t": 7.82,
+          "tur": "liste",
+          "ikon": "✓",
+          "maddeler": [
+            "Bağ evi",
+            "Misafir evi",
+            "Yazlık"
+          ],
+          "h": "Nerede <em>kullanılır?</em>"
+        },
+        {
+          "t": 10.55,
+          "tur": "foto",
+          "img": "ahsap-c-960.webp",
+          "h": "Zemine sabitse <em>izin gerekir.</em>",
+          "p": "Sabit bungalov yapı sayılır"
+        },
+        {
+          "t": 12.36,
+          "tur": "son",
+          "h": "Bungalov tekliflerini <em>karşılaştırın.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 13.78,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261107_055216_0555fb26-882b-49a5-8263-cccb60ea199a.mp3"
+    }
+  ],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "hazırlanıyor"
+  }
+}
