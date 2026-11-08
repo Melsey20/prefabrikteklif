@@ -84,20 +84,20 @@
       "aciklama": "Prefabrik eve ruhsat gerekir mi? Prefabrik ev ruhsatı nasıl alınır, tarlaya prefabrik ev yapılır mı? 👇\n\nEvet, gerekir. Zemine sabitlenen prefabrik ev, 3194 sayılı İmar Kanunu'na göre bir yapıdır; kanunda prefabrik yapılar için ayrı bir istisna yok. Sıra şöyle: belediyeden imar durumu belgesi, evi bu belgeye göre seçmek, mimari-statik-elektrik-mekanik projeler ve zemin etüdü, belediyeye ruhsat başvurusu, kurulumdan sonra iskân.\n\nİskân (yapı kullanma izni) olmadan elektrik, su ve doğal gaz aboneliği kalıcı olarak bağlanmaz. Tarım arazisinde sabit konut için ruhsat çoğu zaman çıkmaz; belgeler belediyeden belediyeye değişebildiği için listeyi imar müdürlüğünden teyit edin.\n\nPrefabrikTeklif sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; teklif formunda \"Ruhsat ve proje işleri\"ni işaretlerseniz firmalar fiyatı bu kapsamla verir.\n\n📌 Kaydedin, arsaya ev kurmadan önce lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevruhsatı #prefabrikev #tarlayaprefabrikev #iskan",
       "sahneler": [
         {
-          "t": 0.0,
+          "t": 0,
           "tur": "foto",
           "img": "prefabrik-960.webp",
           "h": "Prefabrik Eve<br><em>Ruhsat Gerekir mi?</em>"
         },
         {
-          "t": 2.5,
+          "t": 2.33,
           "tur": "foto",
           "img": "montaj-1344.webp",
           "h": "Evet, <em>yapı sayılır.</em>",
           "p": "Zemine sabitlenen her prefabrik ev"
         },
         {
-          "t": 6.0,
+          "t": 6.38,
           "tur": "liste",
           "ikon": "✓",
           "maddeler": [
@@ -109,20 +109,21 @@
           "h": "Sırasıyla <em>yapın</em>"
         },
         {
-          "t": 10.0,
+          "t": 11.38,
           "tur": "foto",
           "img": "prefabrik-c-960.webp",
           "h": "İskân yoksa <em>abonelik yok</em>",
           "p": "Elektrik, su, doğal gaz kalıcı bağlanmaz"
         },
         {
-          "t": 12.5,
+          "t": 13.8,
           "tur": "son",
           "h": "Ruhsat dahil mi? <em>Teklifte sorun.</em>",
           "p": "Bağlantı profilde"
         }
       ],
-      "sure": 15.0
+      "sure": 17.33,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261108_055137_788b7eac-3355-4717-bbb6-dc07e7b6f399.mp3"
     },
     {
       "seslendirme": "Yüz metrekare ahşap ev kaça mal olur? Listemizde ahşap evde metrekare başı ortanca fiyat yirmi altı bin yüz lira. Kaba hesapla yaklaşık iki milyon altı yüz bin lira. Nakliye, temel ve KDV dahil mi, sorun. Bağlantı profilde.",
@@ -136,13 +137,13 @@
       "aciklama": "100 m² ahşap ev kaça mal olur? 100 m² ahşap ev fiyatları ve ahşap ev maliyeti için kaba hesap 👇\n\n3 Kasım 2026 itibarıyla listemizde ahşap evlerde m² başına ortanca fiyat 26.100 TL. Kaba hesapla 100 m²'lik bir ahşap ev yaklaşık 2.610.000 TL ediyor. Listemizdeki ahşap ev modelleri 364.700 TL'den başlıyor; son fiyat model, ahşap türü ve kapsama göre değişir.\n\nTeklif alırken nakliye ve montaj, temel, yalıtım, iç bitiş ve KDV'nin fiyata dahil olup olmadığını mutlaka sorun.\n\nPrefabrikTeklif ahşap ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir: tek form, 48 saatte teklif.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#ahşapev #ahşapevfiyatları #100m2ahşapev #ahşapevmaliyeti",
       "sahneler": [
         {
-          "t": 0.0,
+          "t": 0,
           "tur": "foto",
           "img": "ahsap-b-960.webp",
           "h": "100 m² Ahşap Ev<br><em>Kaça Mal Olur?</em>"
         },
         {
-          "t": 2.6,
+          "t": 2.58,
           "tur": "sayi",
           "n": 26100,
           "birim": "TL / m² · ortanca",
@@ -150,14 +151,14 @@
           "p": "3 Kasım 2026 itibarıyla listemizde, ahşap ev"
         },
         {
-          "t": 7.0,
+          "t": 7.09,
           "tur": "sayi",
           "n": 2610,
           "birim": "bin TL · 100 m² kaba hesap",
           "h": "Kaba hesap:<br><em>≈ 2,6 milyon TL</em>"
         },
         {
-          "t": 10.5,
+          "t": 10.13,
           "tur": "liste",
           "ikon": "?",
           "maddeler": [
@@ -168,13 +169,14 @@
           "h": "Dahil mi? <em>Sorun</em>"
         },
         {
-          "t": 13.0,
+          "t": 13.35,
           "tur": "son",
           "h": "Ahşap ev tekliflerini <em>yan yana görün.</em>",
           "p": "Bağlantı profilde"
         }
       ],
-      "sure": 15.0
+      "sure": 14.82,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261108_055137_fd25e92c-2c81-4ffb-9465-1762dc0011f8.mp3"
     }
   ],
   "yayin": {
