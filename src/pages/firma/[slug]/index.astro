@@ -29,8 +29,13 @@ const ld = [{
   url: f.web || undefined, ...(f.il ? { address: { '@type': 'PostalAddress', addressRegion: f.il, addressCountry: 'TR' } } : {}),
 }];
 const ana = f.tipler[0] || 'prefabrik';
+// Firma hakkında ve piyasa bağlamı: ürettiği tiplerde Türkiye geneli fiyatlar, aynı ildeki diğer üreticiler
+const tipOzet = f.tipler.filter((t) => TIPLER[t]).map((t) => ({ t, ad: TIPLER[t].ad, slug: TIPLER[t].slug, s: istatistik(models.filter((m) => m.tip === t)) }));
+const ayniIl = f.il ? firms.filter((x) => x.il === f.il && x.slug !== f.slug).sort((a, b) => b.modelSayisi - a.modelSayisi).slice(0, 8) : [];
+const urunGrup = [...new Set(f.urunTipleri.map((u) => u.trim().toLocaleLowerCase('tr')).filter(Boolean))];
+const tipYazi = tipler.length > 1 ? `${tipler.slice(0, -1).join(', ')} ve ${tipler.at(-1)}` : tipler[0] || 'prefabrik yapı';
 ---
-<Base title={sayfaBaslik} description={desc} jsonLd={ld} ogType="profile" noindex={!list.length && !!f.modelBekliyor}>
+<Base title={sayfaBaslik} description={desc} jsonLd={ld} ogType="profile">
   <div class="wrap">
     <div class="phead" style="min-height:200px">
       <img src={tipImg(ana, 960)} alt="" width="960" height="723" fetchpriority="high" />
@@ -73,6 +78,27 @@ const ana = f.tipler[0] || 'prefabrik';
       <h2 style="margin-top:0">Modeller ve fiyatlar</h2>
       <div class="grid" data-yeni={f.slug} hidden style="margin-bottom:16px"></div>
       {list.length ? <ModelList list={list} firmaGoster={false} /> : <p class="muted">{f.modelBekliyor ? 'Bu firmanın modelleri ve fiyatları henüz listemize eklenmedi. Teklif isteyerek güncel fiyat alabilirsiniz.' : 'Bu firma sitesinde fiyat yayınlamıyor. Teklif isteyerek güncel fiyat alabilirsiniz.'}</p>}
+    </section>
+
+    <section class="sec" style="padding-top:28px">
+      <h2 style="margin-top:0">{f.kisaAd} hakkında</h2>
+      <p style="max-width:820px">{f.kisaAd}{f.il ? `, ${f.il} merkezli` : ''} bir {tipYazi.toLocaleLowerCase('tr')} üreticisidir.{urunGrup.length ? ` Firmanın kendi sitesinde belirttiği ürün grupları: ${urunGrup.join(', ')}.` : ''} {list.length ? `Sitemizde ${list.length} modeli listeleniyor${s.min ? `; en uygun fiyatlı model ${kisaTl(s.min)}` : ''}.` : 'Güncel model ve fiyat bilgisi için teklif isteyebilir, aynı anda başka firmalardan da fiyat alarak karşılaştırabilirsiniz.'}</p>
+      {tipOzet.length > 0 && (
+        <>
+          <h3>Türkiye genelinde {tipYazi.toLocaleLowerCase('tr')} fiyatları</h3>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Ev tipi</th><th>Listelenen model</th><th>En düşük</th><th>Ortanca fiyat</th><th></th></tr></thead>
+            <tbody>{tipOzet.map((x) => <tr><td>{x.ad}</td><td>{x.s.model} model, {x.s.firma} firma</td><td>{x.s.min ? kisaTl(x.s.min) : '-'}</td><td>{x.s.medyan ? kisaTl(x.s.medyan) : '-'}</td><td><a href={`/${x.slug}/`}>Tüm {x.ad.toLocaleLowerCase('tr')} fiyatları</a></td></tr>)}</tbody>
+          </table></div>
+          <p class="xs muted">Fiyatlar firmaların kendi sitelerinde yayınladığı ilan fiyatlarıdır, {meta.sonKontrolYazi} tarihinde kontrol edildi.</p>
+        </>
+      )}
+      {ayniIl.length > 0 && (
+        <>
+          <h3>{f.il} ilindeki diğer üreticiler</h3>
+          <ul style="display:flex;flex-wrap:wrap;gap:8px 18px;padding:0;list-style:none">{ayniIl.map((x) => <li><a href={`/firma/${x.slug}/`}>{x.kisaAd}</a>{x.modelSayisi ? <span class="muted small"> · {x.modelSayisi} model</span> : null}</li>)}</ul>
+        </>
+      )}
     </section>
 
     <section class="sec" style="padding-top:28px"><Puanlar slug={f.slug} /></section>
