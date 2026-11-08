@@ -2110,12 +2110,11 @@
    "https://www.methouse.com.tr/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 2,
   "enDusuk": null,
   "tipler": [
-   "ahsap",
-   "tiny house"
+   "ahsap"
   ],
   "fiyatYayinliyor": false,
   "logo": "",
@@ -2139,41 +2138,11 @@
    "https://zulleticaret.com/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 3,
   "enDusuk": null,
   "tipler": [
-   "ahsap",
-   "bungalov"
-  ],
-  "fiyatYayinliyor": false,
-  "logo": "",
-  "logoAcik": false
- },
- {
-  "ad": "Bungalov.com.tr",
-  "kisaAd": "Bungalov.com.tr",
-  "slug": "bungalov-com-tr",
-  "web": "https://www.bungalov.com.tr",
-  "sehir": "Sakarya",
-  "il": "Sakarya",
-  "telefon": "",
-  "sertifikalar": [],
-  "sertifikaNotu": "",
-  "urunTipleri": [
-   "bungalov",
-   "ahşap"
-  ],
-  "kaynak": [
-   "https://www.bungalov.com.tr/iletisim"
-  ],
-  "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
-  "enDusuk": null,
-  "tipler": [
-   "ahsap",
-   "bungalov"
+   "celik"
   ],
   "fiyatYayinliyor": false,
   "logo": "",
@@ -2343,8 +2312,8 @@
    "https://carmintinyhouse.com.tr/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 1,
   "enDusuk": null,
   "tipler": [
    "tiny house"
@@ -2400,14 +2369,13 @@
    "https://homeboxmobil.com/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
-  "enDusuk": null,
+  "modelBekliyor": false,
+  "modelSayisi": 12,
+  "enDusuk": 1100000,
   "tipler": [
-   "konteyner",
    "tiny house"
   ],
-  "fiyatYayinliyor": false,
+  "fiyatYayinliyor": true,
   "logo": "",
   "logoAcik": false
  },
@@ -2459,8 +2427,8 @@
    "https://www.beyaztinyhouse.com/contact"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 12,
   "enDusuk": null,
   "tipler": [
    "tiny house"
@@ -2517,13 +2485,11 @@
    "https://www.adaliinsaat.com.tr/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 12,
   "enDusuk": null,
   "tipler": [
-   "celik",
-   "prefabrik",
-   "tiny house"
+   "celik"
   ],
   "fiyatYayinliyor": false,
   "logo": "",
@@ -2579,12 +2545,10 @@
    "https://www.erdemprefabrik.com.tr/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 12,
   "enDusuk": null,
   "tipler": [
-   "celik",
-   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": false,
@@ -2726,13 +2690,11 @@
    "https://netkonteyner.com/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 5,
   "enDusuk": null,
   "tipler": [
-   "konteyner",
-   "prefabrik",
-   "tiny house"
+   "konteyner"
   ],
   "fiyatYayinliyor": false,
   "logo": "",
@@ -2785,14 +2747,14 @@
    "https://www.ayyildizprefabrik.com.tr/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
-  "enDusuk": null,
+  "modelBekliyor": false,
+  "modelSayisi": 10,
+  "enDusuk": 67000,
   "tipler": [
    "konteyner",
    "prefabrik"
   ],
-  "fiyatYayinliyor": false,
+  "fiyatYayinliyor": true,
   "logo": "",
   "logoAcik": false
  },
@@ -2989,12 +2951,10 @@
    "https://www.depkon.com/?sayfa=iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 11,
   "enDusuk": null,
   "tipler": [
-   "celik",
-   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": false,
@@ -3228,12 +3188,11 @@
    "https://tsdcelikyapi.com/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 1,
   "enDusuk": null,
   "tipler": [
-   "celik",
-   "prefabrik"
+   "celik"
   ],
   "fiyatYayinliyor": false,
   "logo": "",
@@ -3401,12 +3360,10 @@
    "https://steelkont.com.tr/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 7,
   "enDusuk": null,
   "tipler": [
-   "celik",
-   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": false,
@@ -3431,8 +3388,8 @@
    "https://primevilla.net/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 3,
   "enDusuk": null,
   "tipler": [
    "celik",
@@ -3518,8 +3475,8 @@
    "https://www.estaprefabrik.com/iletisim/"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 5,
   "enDusuk": null,
   "tipler": [
    "celik",
@@ -3548,12 +3505,10 @@
    "https://vanprefabrik.com/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 4,
   "enDusuk": null,
   "tipler": [
-   "celik",
-   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": false,
@@ -3580,16 +3535,13 @@
    "https://aydprefabrik.com/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
-  "enDusuk": null,
+  "modelBekliyor": false,
+  "modelSayisi": 1,
+  "enDusuk": 1420000,
   "tipler": [
-   "celik",
-   "konteyner",
-   "prefabrik",
-   "tiny house"
+   "celik"
   ],
-  "fiyatYayinliyor": false,
+  "fiyatYayinliyor": true,
   "logo": "",
   "logoAcik": false
  },
@@ -3977,16 +3929,11 @@
    "https://prefabrikhane.com/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 4,
   "enDusuk": null,
   "tipler": [
-   "ahsap",
-   "bungalov",
-   "celik",
-   "konteyner",
-   "prefabrik",
-   "tiny house"
+   "celik"
   ],
   "fiyatYayinliyor": false,
   "logo": "",
@@ -4067,11 +4014,11 @@
    "https://pirkon.com/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 2,
   "enDusuk": null,
   "tipler": [
-   "prefabrik"
+   "celik"
   ],
   "fiyatYayinliyor": false,
   "logo": "",
@@ -4094,8 +4041,8 @@
    "https://www.hakimprefabrik.com/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 10,
   "enDusuk": null,
   "tipler": [
    "prefabrik"
@@ -4179,8 +4126,8 @@
    "https://www.kayseri-prefabrik.com/iletisim/"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 21,
   "enDusuk": null,
   "tipler": [
    "prefabrik"
@@ -4260,8 +4207,8 @@
    "https://zeytinprefabrik.com/iletisim/"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 6,
   "enDusuk": null,
   "tipler": [
    "prefabrik"
@@ -4482,8 +4429,8 @@
    "https://uyumprefabrik.com/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
+  "modelBekliyor": false,
+  "modelSayisi": 3,
   "enDusuk": null,
   "tipler": [
    "prefabrik"
@@ -4509,13 +4456,13 @@
    "https://www.nurprefabrik.com/iletisim"
   ],
   "seviye": "listelenmis",
-  "modelBekliyor": true,
-  "modelSayisi": 0,
-  "enDusuk": null,
+  "modelBekliyor": false,
+  "modelSayisi": 8,
+  "enDusuk": 460000,
   "tipler": [
    "prefabrik"
   ],
-  "fiyatYayinliyor": false,
+  "fiyatYayinliyor": true,
   "logo": "",
   "logoAcik": false
  },

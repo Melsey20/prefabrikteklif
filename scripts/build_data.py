@@ -187,7 +187,7 @@ for f in sorted(glob.glob(os.path.join(RAW, 'firms_*.csv'))):
             'urunTipleri': [t.strip() for t in (r.get('urun_tipleri') or '').split(';') if t.strip()],
             'kaynak': [u.strip() for u in (r.get('kaynak_url') or '').split(';') if u.strip().startswith('http')],
             'seviye': 'listelenmis',
-            # firms_F (Kasım 2026): iletişim bilgisi doğrulandı, modelleri henüz araştırılmadı
+            # firms_F (Kasım 2026): modeli bulunamayan firmalar için "henüz eklenmedi" notu
             'modelBekliyor': os.path.basename(f) == 'firms_F.csv',
         }
         seen[name] = rec
@@ -247,6 +247,7 @@ for firm in firms:
         m['slug'] = s
     priced = [m['fiyat'] for m in ms if m['fiyatTuru'] == 'model' and m['fiyat']]
     firm['modelSayisi'] = len(ms)
+    if ms: firm['modelBekliyor'] = False
     firm['enDusuk'] = min(priced) if priced else None
     firm['tipler'] = sorted({m['tip'] for m in ms})
     if not firm['tipler']:  # modeli henüz listelenmemiş firma: ürün tiplerini firmanın kendi beyanından al
