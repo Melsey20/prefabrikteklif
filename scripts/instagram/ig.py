@@ -182,14 +182,19 @@ META = json.loads((ROOT / 'src' / 'data' / 'meta.json').read_text())
 
 def guncel(x, anahtar=''):
     """Firma/model sayıları her zaman src/data/meta.json'dan gelir.
-    Metinde {firmaSayisi} / {modelSayisi} yazılabilir; 'cipler' içindeki "N firma" / "N model" çipleri güncel sayıya çevrilir."""
+    Metinde {firmaSayisi} / {modelSayisi} yazın. 'cipler' içindeki "N firma" / "N model" meta.json'daki
+    genel ya da tip bazındaki bir sayıyla eşleşmezse (eski sayı) üretim hata verip durur."""
     if isinstance(x, dict): return {k: guncel(v, k) for k, v in x.items()}
     if isinstance(x, list): return [guncel(v, anahtar) for v in x]
     if isinstance(x, str):
         x = x.replace('{firmaSayisi}', str(META['firmaSayisi'])).replace('{modelSayisi}', str(META['modelSayisi']))
-        if anahtar == 'cipler':
-            x = re.sub(r'^\d+ firma$', f"{META['firmaSayisi']} firma", x)
-            x = re.sub(r'^\d+ model$', f"{META['modelSayisi']} model", x)
+        m = re.fullmatch(r'(\d+) (firma|model)', x) if anahtar == 'cipler' else None
+        if m:
+            ist = META['istatistik'].values()
+            gecerli = {META['firmaSayisi']} | {t['firma'] for t in ist} if m[2] == 'firma' else {META['modelSayisi']} | {t['model'] for t in ist}
+            if int(m[1]) not in gecerli:
+                sys.exit(f"ESKİ SAYI: çip '{x}' meta.json ile uyuşmuyor (güncel: {META['firmaSayisi']} firma, {META['modelSayisi']} model). "
+                         "JSON'da {firmaSayisi} firma / {modelSayisi} model yazın.")
     return x
 
 if __name__ == '__main__':
