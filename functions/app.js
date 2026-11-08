@@ -17,7 +17,7 @@ export const KOMISYON = 5;
 export const REKLAM_PAKET = { ana: { ad: 'Ana banner', fiyat: 25000 }, yan: { ad: 'Yan banner (kaydırmalı)', fiyat: 25000 }, ikisi: { ad: 'Ana + yan banner', fiyat: 45000 }, ara: { ad: 'Ana sayfa ara banner', fiyat: 25000 }, liste: { ad: 'Ana sayfada öne çıkan listeleme', fiyat: 15000 } };
 export const KONUM_SINIRI = { ana: 6, yan: 6, ara: 6, liste: 10 };
 // Üye olmayan (yalnızca listelenmiş) firmalara bir talepte en fazla kaç davet gider ve aynı firmaya en sık ne kadar arayla
-export const DAVET_SINIRI = 6;
+export const DAVET_SINIRI = 15; // üye firma azken talep başına davet edilen (üye olmayan) firma sayısı
 export const DAVET_ARALIK_SAAT = 72;
 // Doğrulanmış (üyeliği aktif) firma: taleplere fiyat verebilir
 export const uyeAktif = (fd) => !!fd && fd.aktif !== false && !fd.kaldirildi && fd.abonelik?.durum === 'aktif';
@@ -1332,6 +1332,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     if (!FIRMS.some((f) => f.slug === slug) || !epostaMi(eposta)) hata(400, 'Firma ve e-posta gerekli.');
     const d = s.data();
     if (d.durum !== 'acik') hata(409, 'Talebin süresi dolmuş.');
+    if ((await db.collection('davetKayit').doc(slug).get()).data()?.iptal) hata(409, 'Bu firma bizden e-posta almak istemediğini bildirdi.');
     const kod = token();
     await ref.collection('davetler').doc(slug).set({ kod, eposta, durum: 'bekliyor', gonderim: FieldValue.serverTimestamp(), elle: true });
     await ref.update({ firmalar: FieldValue.arrayUnion(slug) });
