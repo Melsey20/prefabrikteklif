@@ -38,7 +38,7 @@ KISA = {
 }
 ALIAS = {'Karmod': 'Karmod Prefabrik Yapı Teknolojileri'}
 # Listeye alınmayanlar: başka firmanın sitesi / aynı adres / site açılmıyor
-HARIC_FIRMALAR = {'Kartal Prefabrik', 'Çelik Evler', 'Prefabriko', 'Demo Prefabrik', 'Prefabrika', 'Mopre'}
+HARIC_FIRMALAR = {'Kartal Prefabrik', 'Çelik Evler', 'Prefabriko', 'Demo Prefabrik'}  # Prefabrika ve Mopre 8 Kasım 2026'da yeniden kontrol edildi: siteleri açık, firms_F'de
 # Sayfadaki yazım hatası olduğu belli fiyatlar (firma, fiyat)
 HARIC_MODELLER = {('Kardeşler Çelik Yapı', '160000'), ('Kardeşler Çelik Yapı', '13500')}
 # Elle eklenen uyarılar (firma adı -> model uyarısı)
@@ -187,6 +187,8 @@ for f in sorted(glob.glob(os.path.join(RAW, 'firms_*.csv'))):
             'urunTipleri': [t.strip() for t in (r.get('urun_tipleri') or '').split(';') if t.strip()],
             'kaynak': [u.strip() for u in (r.get('kaynak_url') or '').split(';') if u.strip().startswith('http')],
             'seviye': 'listelenmis',
+            # firms_F (Kasım 2026): iletişim bilgisi doğrulandı, modelleri henüz araştırılmadı
+            'modelBekliyor': os.path.basename(f) == 'firms_F.csv',
         }
         seen[name] = rec
         firms.append(rec)
@@ -247,6 +249,8 @@ for firm in firms:
     firm['modelSayisi'] = len(ms)
     firm['enDusuk'] = min(priced) if priced else None
     firm['tipler'] = sorted({m['tip'] for m in ms})
+    if not firm['tipler']:  # modeli henüz listelenmemiş firma: ürün tiplerini firmanın kendi beyanından al
+        firm['tipler'] = sorted({TIP_KEY[k] for t in firm['urunTipleri'] for k in TIP_KEY if k in t.lower()})
     firm['fiyatYayinliyor'] = bool(priced) or any(m['fiyat'] for m in ms)
 
 models.sort(key=lambda m: (m['tip'], m['fiyat'] or 10**12))

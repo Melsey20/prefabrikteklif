@@ -4,6 +4,8 @@ import fs from 'node:fs';
 
 // lastmod: fiyat sayfaları için son fiyat kontrolü, rehber yazıları için yazı tarihi
 const meta = JSON.parse(fs.readFileSync('./src/data/meta.json', 'utf8'));
+// Modelleri henüz eklenmemiş yeni firmaların sayfaları noindex: site haritasına da girmesin
+const bekleyenFirma = new Set(JSON.parse(fs.readFileSync('./src/data/firms.json', 'utf8')).filter((f) => f.modelBekliyor && !f.modelSayisi).map((f) => `/firma/${f.slug}/`));
 const yaziTarih = Object.fromEntries(fs.readdirSync('./src/content/rehber').filter((f) => f.endsWith('.md')).map((f) => [f.replace(/\.md$/, ''), (fs.readFileSync(`./src/content/rehber/${f}`, 'utf8').match(/^tarih:\s*"?(\d{4}-\d{2}-\d{2})/m) || [])[1]]));
 
 export default defineConfig({
@@ -13,7 +15,7 @@ export default defineConfig({
   compressHTML: true,
   integrations: [
     sitemap({
-      filter: (page) => !/\/(teklif-alindi|teklif-ver|yorum-yaz|404|hesabim|firma-paneli|yonetim|giris|model|karsilastir|favorilerim)\//.test(page),
+      filter: (page) => !bekleyenFirma.has(new URL(page).pathname) && !/\/(teklif-alindi|teklif-ver|yorum-yaz|404|hesabim|firma-paneli|yonetim|giris|model|karsilastir|favorilerim)\//.test(page),
       changefreq: 'weekly',
       serialize(item) {
         const m = item.url.match(/\/rehber\/([^/]+)\/$/);

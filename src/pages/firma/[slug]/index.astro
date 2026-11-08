@@ -30,7 +30,7 @@ const ld = [{
 }];
 const ana = f.tipler[0] || 'prefabrik';
 ---
-<Base title={sayfaBaslik} description={desc} jsonLd={ld} ogType="profile">
+<Base title={sayfaBaslik} description={desc} jsonLd={ld} ogType="profile" noindex={!list.length && !!f.modelBekliyor}>
   <div class="wrap">
     <div class="phead" style="min-height:200px">
       <img src={tipImg(ana, 960)} alt="" width="960" height="723" fetchpriority="high" />
@@ -72,7 +72,7 @@ const ana = f.tipler[0] || 'prefabrik';
     <section class="sec" style="padding-top:28px">
       <h2 style="margin-top:0">Modeller ve fiyatlar</h2>
       <div class="grid" data-yeni={f.slug} hidden style="margin-bottom:16px"></div>
-      {list.length ? <ModelList list={list} firmaGoster={false} /> : <p class="muted">Bu firma sitesinde fiyat yayınlamıyor. Teklif isteyerek güncel fiyat alabilirsiniz.</p>}
+      {list.length ? <ModelList list={list} firmaGoster={false} /> : <p class="muted">{f.modelBekliyor ? 'Bu firmanın modelleri ve fiyatları henüz listemize eklenmedi. Teklif isteyerek güncel fiyat alabilirsiniz.' : 'Bu firma sitesinde fiyat yayınlamıyor. Teklif isteyerek güncel fiyat alabilirsiniz.'}</p>}
     </section>
 
     <section class="sec" style="padding-top:28px"><Puanlar slug={f.slug} /></section>

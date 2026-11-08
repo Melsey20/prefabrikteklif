@@ -32,6 +32,7 @@
    "https://www.karmod.com/sertifikalar/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 20,
   "enDusuk": 121200,
   "tipler": [
@@ -68,6 +69,7 @@
    "https://www.makroprefabrik.com/iletisim"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 378500,
   "tipler": [
@@ -99,6 +101,7 @@
    "https://www.novaprefabrik.com/iletisim"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 480000,
   "tipler": [
@@ -135,6 +138,7 @@
    "https://prefabrikevim.com/hakkimizda/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 429000,
   "tipler": [
@@ -165,6 +169,7 @@
    "https://ikranurprefabrik.com/prefabrik-ev-fiyatlari-modelleri"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 580000,
   "tipler": [
@@ -196,6 +201,7 @@
    "https://prefabrikevfiyatlari.com/pages/hakkimizda"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 8,
   "enDusuk": 225000,
   "tipler": [
@@ -224,6 +230,7 @@
    "https://www.limitprefabrik.com/her-sey-dahil-prefabrik-ev-fiyatlari/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 4,
   "enDusuk": 410000,
   "tipler": [
@@ -252,6 +259,7 @@
    "https://www.evoprefabrik.com/iletisim"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 930000,
   "tipler": [
@@ -286,6 +294,7 @@
    "https://www.aktasgrupinsaat.com/iletisim.html"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 1360000,
   "tipler": [
@@ -315,9 +324,13 @@
    "https://modulerevin.com/iletisim/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/moduler-evin.png",
   "logoAcik": false
@@ -341,9 +354,12 @@
    "https://www.oskacelikev.com/hakkimizda"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "celik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/oska-celik-ev.png",
   "logoAcik": false
@@ -368,6 +384,7 @@
    "https://www.asiaprefabrik.com.tr/prefabrik-evler"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 442600,
   "tipler": [
@@ -395,9 +412,12 @@
    "https://www.egeserprefabrik.com.tr/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/egeser-prefabrik.png",
   "logoAcik": false
@@ -425,9 +445,14 @@
    "https://askarprefabrik.com/urunlerimiz/acd-28-114-m2-dubleks-celik-ev/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/askar-prefabrik.png",
   "logoAcik": false
@@ -453,9 +478,14 @@
    "https://www.alsancakprefabrik.com.tr/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/alsancak-prefabrik.png",
   "logoAcik": false
@@ -481,6 +511,7 @@
    "https://www.hibrithouse.com/tiny-house-fiyatlari/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 2,
   "enDusuk": 850000,
   "tipler": [
@@ -514,6 +545,7 @@
    "https://zmtprefabrik.com/tiny-house-fiyatlari"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 5,
   "enDusuk": 389520,
   "tipler": [
@@ -548,6 +580,7 @@
    "https://www.e-konteyner.net/tiny-house"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 335000,
   "tipler": [
@@ -579,6 +612,7 @@
    "https://www.hanehouse.com/hane-house-fiyat-listesi/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 5,
   "enDusuk": null,
   "tipler": [
@@ -607,6 +641,7 @@
    "https://www.zutinyhouse.com/iletisim/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 4,
   "enDusuk": null,
   "tipler": [
@@ -636,6 +671,7 @@
    "https://elbarsco.com/tiny-house-fiyatlari/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 2,
   "enDusuk": 875000,
   "tipler": [
@@ -669,6 +705,7 @@
    "https://muttinyhouse.com/kategori/tiny-house-2"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": null,
   "tipler": [
@@ -698,6 +735,7 @@
    "https://roysal.com.tr/hazir-konteyner-ev/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 5,
   "enDusuk": 90000,
   "tipler": [
@@ -731,6 +769,7 @@
    "https://essekonteyner.com/konut-konteyner"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 8,
   "enDusuk": 85000,
   "tipler": [
@@ -762,6 +801,7 @@
    "https://www.konteynervar.com/iletisim"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 7,
   "enDusuk": 92000,
   "tipler": [
@@ -802,6 +842,7 @@
    "https://dostahsap.com.tr/kalite-belgelerimiz-ve-sertifikalarimiz/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 10,
   "enDusuk": 2610000,
   "tipler": [
@@ -833,6 +874,7 @@
    "https://yilkarahsap.com/iletisim/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 162000,
   "tipler": [
@@ -866,6 +908,7 @@
    "https://sanahsap.com/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 10,
   "enDusuk": null,
   "tipler": [
@@ -897,6 +940,7 @@
    "https://www.ahsapev.net/iletisim"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 315000,
   "tipler": [
@@ -937,6 +981,7 @@
    "https://baneva.com.tr/kurumsal/sertifikalar?lang=tr"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 3,
   "enDusuk": 400000,
   "tipler": [
@@ -972,9 +1017,14 @@
    "https://www.prefabrikyapi.com/urun-kategori/konteyner"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/prefabrik-yapi-a-s.png",
   "logoAcik": false
@@ -1009,9 +1059,14 @@
    "https://www.ozgeyapi.com/urunler/prefabrik-ev/tek-katli-prefabrik-ev"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/ozge-yapi.png",
   "logoAcik": false
@@ -1037,6 +1092,7 @@
    "https://mahirprefabrik.com/prefabrik-modelleri/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 23,
   "enDusuk": 415000,
   "tipler": [
@@ -1071,9 +1127,14 @@
    "https://www.yonelprefabrik.com/kategoriler/standart-prefabrik-evler"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/yonel-prefabrik.png",
   "logoAcik": false
@@ -1100,9 +1161,14 @@
    "https://www.fezaprefabrik.com/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/feza-prefabrik.png",
   "logoAcik": false
@@ -1136,6 +1202,7 @@
    "https://www.modernprefabrik.com.tr/urunler?kategori=prefabrik"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 645000,
   "tipler": [
@@ -1169,9 +1236,15 @@
    "https://www.evkonprefabrik.com.tr/prefabrik-tek-katli"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "bungalov",
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/evkon-prefabrik.png",
   "logoAcik": false
@@ -1198,9 +1271,13 @@
    "https://erdvilla.com/tek-katli-celik-evler"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/erd-villa.png",
   "logoAcik": false
@@ -1229,6 +1306,7 @@
    "https://miraprefabrik.com/tek-katli-prefabrik-ev-modelleri"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 560000,
   "tipler": [
@@ -1263,6 +1341,7 @@
    "https://prefabrikten.com/prefabrik-ev-fiyatlari/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 507130,
   "tipler": [
@@ -1296,6 +1375,7 @@
    "https://www.trendyapiprefabrik.com/hakkimizda/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 440685,
   "tipler": [
@@ -1327,6 +1407,7 @@
    "https://kardeslercelikyapi.com.tr/urun/tek-katli-prefabrik-2-1-82-m2-k-c-01-44"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 6,
   "enDusuk": 600000,
   "tipler": [
@@ -1359,9 +1440,14 @@
    "https://cucemenler.com/tek-katli/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/cucemenler-prefabrik.png",
   "logoAcik": false
@@ -1391,9 +1477,16 @@
    "https://www.goldyapimalatya.com/hizmetler"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "ahsap",
+   "bungalov",
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/goldyapi-malatya.png",
   "logoAcik": false
@@ -1420,6 +1513,7 @@
    "https://ifhaus.com/modeller/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 10,
   "enDusuk": 999000,
   "tipler": [
@@ -1454,6 +1548,7 @@
    "https://pramo.com.tr/bize-ulasin/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 358363,
   "tipler": [
@@ -1487,6 +1582,7 @@
    "https://aktasprefabrikev.com/prefabrik-ev-fiyatlari/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 437500,
   "tipler": [
@@ -1519,6 +1615,7 @@
    "https://www.steelev.com/magaza/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 750000,
   "tipler": [
@@ -1548,6 +1645,7 @@
    "https://villatokat.com/iletisim/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 450000,
   "tipler": [
@@ -1582,9 +1680,13 @@
    "https://www.aksaprefabrik.com/tek-katli-prefabrik-evler/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/aksa-prefabrik.png",
   "logoAcik": false
@@ -1614,9 +1716,16 @@
    "https://pratikev.tr/sayfa/fiyat-rehberleri"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "ahsap",
+   "celik",
+   "konteyner",
+   "prefabrik",
+   "tiny house"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/pratikev.png",
   "logoAcik": false
@@ -1641,6 +1750,7 @@
    "https://prefamod.com/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 7,
   "enDusuk": 495000,
   "tipler": [
@@ -1671,9 +1781,14 @@
    "https://www.platinprefabrik.com/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/platin-prefabrik.png",
   "logoAcik": false
@@ -1697,9 +1812,14 @@
    "https://sismikprefabrik.com/iletisim/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/sismik-prefabrik.png",
   "logoAcik": false
@@ -1723,9 +1843,14 @@
    "https://alyansprefabrik.com/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/alyans-prefabrik.png",
   "logoAcik": false
@@ -1749,9 +1874,14 @@
    "https://www.karincaprefabrik.com/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "bungalov",
+   "celik",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/karinca-prefabrik-celik-yapi.png",
   "logoAcik": false
@@ -1774,9 +1904,13 @@
    "https://www.vefa.com/tr/iletisim-bilgileri"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/vefa-prefabrik.png",
   "logoAcik": false
@@ -1799,6 +1933,7 @@
    "https://ecelaprefabrik.com/fiyatlar/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 416900,
   "tipler": [
@@ -1827,6 +1962,7 @@
    "https://prefabrikevfiyatlar.net/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 496500,
   "tipler": [
@@ -1855,6 +1991,7 @@
    "https://www.liderprefabrikizmir.com/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 3,
   "enDusuk": 850000,
   "tipler": [
@@ -1887,6 +2024,7 @@
    "https://piccolavita.com/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 9,
   "enDusuk": 1400000,
   "tipler": [
@@ -1915,11 +2053,2609 @@
    "https://mbtinyhouse.com/tiny-house-fiyatlari-2026-rehberi/"
   ],
   "seviye": "listelenmis",
+  "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
-  "tipler": [],
+  "tipler": [
+   "tiny house"
+  ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/mb-tiny-house.png",
+  "logoAcik": false
+ },
+ {
+  "ad": "Age Yapı",
+  "kisaAd": "Age Yapı",
+  "slug": "age-yapi",
+  "web": "https://www.ageyapi.com/",
+  "sehir": "Kırklareli",
+  "il": "Kırklareli",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tiny house",
+   "bungalov"
+  ],
+  "kaynak": [
+   "https://www.ageyapi.com/contact"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "bungalov",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Met House Ahşap Yapılar",
+  "kisaAd": "Met House Ahşap Yapılar",
+  "slug": "met-house-ahsap-yapilar",
+  "web": "https://www.methouse.com.tr",
+  "sehir": "",
+  "il": "",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tiny house",
+   "ahşap"
+  ],
+  "kaynak": [
+   "https://www.methouse.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "ahsap",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Zulle Ticaret",
+  "kisaAd": "Zulle Ticaret",
+  "slug": "zulle-ticaret",
+  "web": "https://zulleticaret.com",
+  "sehir": "",
+  "il": "",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "bungalov",
+   "ahşap"
+  ],
+  "kaynak": [
+   "https://zulleticaret.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "ahsap",
+   "bungalov"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Bungalov.com.tr",
+  "kisaAd": "Bungalov.com.tr",
+  "slug": "bungalov-com-tr",
+  "web": "https://www.bungalov.com.tr",
+  "sehir": "Sakarya",
+  "il": "Sakarya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "bungalov",
+   "ahşap"
+  ],
+  "kaynak": [
+   "https://www.bungalov.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "ahsap",
+   "bungalov"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Mooble House",
+  "kisaAd": "Mooble House",
+  "slug": "mooble-house",
+  "web": "https://www.mooblehouse.com/",
+  "sehir": "Mersin",
+  "il": "Mersin",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tiny house",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.mooblehouse.com/contact"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Davraz Ahşap",
+  "kisaAd": "Davraz Ahşap",
+  "slug": "davraz-ahsap",
+  "web": "https://davrazahsap.com/",
+  "sehir": "Isparta",
+  "il": "Isparta",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ahşap",
+   "bungalov"
+  ],
+  "kaynak": [
+   "https://davrazahsap.com/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "ahsap",
+   "bungalov"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "TMR Ahşap",
+  "kisaAd": "TMR Ahşap",
+  "slug": "tmr-ahsap",
+  "web": "https://www.tmrahsap.com/",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ahşap",
+   "bungalov"
+  ],
+  "kaynak": [
+   "https://www.tmrahsap.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "ahsap",
+   "bungalov"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Naswood",
+  "kisaAd": "Naswood",
+  "slug": "naswood",
+  "web": "https://www.naswood.com.tr/",
+  "sehir": "Antalya",
+  "il": "Antalya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ahşap",
+   "bungalov"
+  ],
+  "kaynak": [
+   "https://www.naswood.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "ahsap",
+   "bungalov"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Egemen Prefabrik",
+  "kisaAd": "Egemen Prefabrik",
+  "slug": "egemen-prefabrik",
+  "web": "https://www.egemenprefabrik.com/",
+  "sehir": "Muğla",
+  "il": "Muğla",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "ahşap",
+   "bungalov"
+  ],
+  "kaynak": [
+   "https://www.egemenprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "ahsap",
+   "bungalov",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Carmin Tiny House",
+  "kisaAd": "Carmin Tiny House",
+  "slug": "carmin-tiny-house",
+  "web": "https://carmintinyhouse.com.tr/",
+  "sehir": "Manisa",
+  "il": "Manisa",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tiny house"
+  ],
+  "kaynak": [
+   "https://carmintinyhouse.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Kaizen House",
+  "kisaAd": "Kaizen House",
+  "slug": "kaizen-house",
+  "web": "https://kaizenhouse.com.tr/",
+  "sehir": "Bursa",
+  "il": "Bursa",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tiny house",
+   "çelik"
+  ],
+  "kaynak": [
+   "https://kaizenhouse.com.tr/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "HomeBox Mobil",
+  "kisaAd": "HomeBox Mobil",
+  "slug": "homebox-mobil",
+  "web": "https://homeboxmobil.com/",
+  "sehir": "Kırklareli",
+  "il": "Kırklareli",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tiny house",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://homeboxmobil.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "konteyner",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Aka Modular House",
+  "kisaAd": "Aka Modular House",
+  "slug": "aka-modular-house",
+  "web": "https://www.akamodular.com/",
+  "sehir": "Kocaeli",
+  "il": "Kocaeli",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tiny house",
+   "ahşap",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.akamodular.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "ahsap",
+   "prefabrik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Beyaz Tiny House",
+  "kisaAd": "Beyaz Tiny House",
+  "slug": "beyaz-tiny-house",
+  "web": "https://www.beyaztinyhouse.com/",
+  "sehir": "Mersin",
+  "il": "Mersin",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tiny house"
+  ],
+  "kaynak": [
+   "https://www.beyaztinyhouse.com/contact"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Demkar Group",
+  "kisaAd": "Demkar Group",
+  "slug": "demkar-group",
+  "web": "https://www.demkargroup.com/",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tiny house",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.demkargroup.com/en/contact"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Adalı İnşaat",
+  "kisaAd": "Adalı İnşaat",
+  "slug": "adali-insaat",
+  "web": "https://www.adaliinsaat.com.tr/",
+  "sehir": "Bursa",
+  "il": "Bursa",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik",
+   "tiny house"
+  ],
+  "kaynak": [
+   "https://www.adaliinsaat.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Şendoğan Prefabrik",
+  "kisaAd": "Şendoğan Prefabrik",
+  "slug": "sendogan-prefabrik",
+  "web": "https://www.sendoganprefabrik.com/",
+  "sehir": "Sakarya",
+  "il": "Sakarya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://www.sendoganprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Erdem Prefabrik",
+  "kisaAd": "Erdem Prefabrik",
+  "slug": "erdem-prefabrik",
+  "web": "https://www.erdemprefabrik.com.tr/",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://www.erdemprefabrik.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Asil Konteyner",
+  "kisaAd": "Asil Konteyner",
+  "slug": "asil-konteyner",
+  "web": "https://www.asilkonteyner.com/",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "konteyner",
+   "bungalov",
+   "ahşap"
+  ],
+  "kaynak": [
+   "https://www.asilkonteyner.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "ahsap",
+   "bungalov",
+   "konteyner"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Bungalov Ahşap İmalat",
+  "kisaAd": "Bungalov Ahşap İmalat",
+  "slug": "bungalov-ahsap-imalat",
+  "web": "https://bungalovahsapimalat.com.tr/",
+  "sehir": "Antalya",
+  "il": "Antalya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ahşap",
+   "bungalov"
+  ],
+  "kaynak": [
+   "https://bungalovahsapimalat.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "ahsap",
+   "bungalov"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Piccolo Tiny House",
+  "kisaAd": "Piccolo Tiny House",
+  "slug": "piccolo-tiny-house",
+  "web": "https://www.piccolotinyhouse.com/",
+  "sehir": "Antalya",
+  "il": "Antalya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tiny house"
+  ],
+  "kaynak": [
+   "https://www.piccolotinyhouse.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "MODSIS Modüler Yapı",
+  "kisaAd": "MODSIS Modüler Yapı",
+  "slug": "modsis-moduler-yapi",
+  "web": "https://www.modsis.com.tr/",
+  "sehir": "Kocaeli",
+  "il": "Kocaeli",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tiny house",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://modsis.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Net Konteyner",
+  "kisaAd": "Net Konteyner",
+  "slug": "net-konteyner",
+  "web": "https://netkonteyner.com/",
+  "sehir": "Kocaeli",
+  "il": "Kocaeli",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "konteyner",
+   "tiny house",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://netkonteyner.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "konteyner",
+   "prefabrik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Aday Grup",
+  "kisaAd": "Aday Grup",
+  "slug": "aday-grup",
+  "web": "https://adaygrup.com.tr/",
+  "sehir": "Ankara",
+  "il": "Ankara",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "tiny house",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://adaygrup.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Ayyıldız Prefabrik",
+  "kisaAd": "Ayyıldız Prefabrik",
+  "slug": "ayyildiz-prefabrik",
+  "web": "https://www.ayyildizprefabrik.com.tr/",
+  "sehir": "İzmir",
+  "il": "İzmir",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://www.ayyildizprefabrik.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Movi",
+  "kisaAd": "Movi",
+  "slug": "movi",
+  "web": "https://movi.com.tr/",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://movi.com.tr/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "konteyner"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Kopp Konteyner",
+  "kisaAd": "Kopp Konteyner",
+  "slug": "kopp-konteyner",
+  "web": "https://www.kopp.com.tr/",
+  "sehir": "Bursa",
+  "il": "Bursa",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://www.kopp.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "konteyner"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Aprestij Konteyner",
+  "kisaAd": "Aprestij Konteyner",
+  "slug": "aprestij-konteyner",
+  "web": "https://www.aprestij.com.tr/",
+  "sehir": "İzmir",
+  "il": "İzmir",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "konteyner",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.aprestij.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Emir Prefabrik Ev",
+  "kisaAd": "Emir Prefabrik Ev",
+  "slug": "emir-prefabrik-ev",
+  "web": "https://www.emirprefabrikev.com/",
+  "sehir": "Ankara",
+  "il": "Ankara",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "konteyner",
+   "çelik"
+  ],
+  "kaynak": [
+   "https://www.emirprefabrikev.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Nuriş Prefabrik",
+  "kisaAd": "Nuriş Prefabrik",
+  "slug": "nuris-prefabrik",
+  "web": "https://nurisprefabrik.com/",
+  "sehir": "Ankara",
+  "il": "Ankara",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "konteyner",
+   "çelik"
+  ],
+  "kaynak": [
+   "https://nurisprefabrik.com/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Kaplan Konteyner",
+  "kisaAd": "Kaplan Konteyner",
+  "slug": "kaplan-konteyner",
+  "web": "https://www.kaplankonteyner.com/",
+  "sehir": "Ankara",
+  "il": "Ankara",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://www.kaplankonteyner.com/tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "konteyner"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Depkon",
+  "kisaAd": "Depkon",
+  "slug": "depkon",
+  "web": "https://www.depkon.com/",
+  "sehir": "Denizli",
+  "il": "Denizli",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "konteyner",
+   "çelik"
+  ],
+  "kaynak": [
+   "https://www.depkon.com/?sayfa=iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Sena Prefabrik",
+  "kisaAd": "Sena Prefabrik",
+  "slug": "sena-prefabrik",
+  "web": "https://www.senaprefabrik.com/",
+  "sehir": "Konya",
+  "il": "Konya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://www.senaprefabrik.com/iletisim.html"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "SK House",
+  "kisaAd": "SK House",
+  "slug": "sk-house",
+  "web": "https://www.skhouse.com.tr/",
+  "sehir": "Samsun",
+  "il": "Samsun",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "konteyner",
+   "bungalov",
+   "prefabrik",
+   "ahşap"
+  ],
+  "kaynak": [
+   "https://skhouse.com.tr/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "ahsap",
+   "bungalov",
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Moodilev",
+  "kisaAd": "Moodilev",
+  "slug": "moodilev",
+  "web": "https://moodilev.com/",
+  "sehir": "Antalya",
+  "il": "Antalya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik",
+   "tiny house"
+  ],
+  "kaynak": [
+   "https://moodilev.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Sun Prefabrik",
+  "kisaAd": "Sun Prefabrik",
+  "slug": "sun-prefabrik",
+  "web": "https://www.sunprefabrik.com.tr/",
+  "sehir": "Konya",
+  "il": "Konya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.sunprefabrik.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Arslanbey Prefabrik ve Çelik Yapı",
+  "kisaAd": "Arslanbey Prefabrik ve Çelik Yapı",
+  "slug": "arslanbey-prefabrik-ve-celik-yapi",
+  "web": "https://www.arslanbeyyapi.com/",
+  "sehir": "Kayseri",
+  "il": "Kayseri",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.arslanbeyyapi.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Kayseri Çelik Ev (Çalışkan Prefabrik)",
+  "kisaAd": "Kayseri Çelik Ev",
+  "slug": "kayseri-celik-ev",
+  "web": "https://www.kaysericelikev.com.tr/",
+  "sehir": "Kayseri",
+  "il": "Kayseri",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.kaysericelikev.com.tr/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Çelik Yapı Evler",
+  "kisaAd": "Çelik Yapı Evler",
+  "slug": "celik-yapi-evler",
+  "web": "https://celikyapievler.com/",
+  "sehir": "Gaziantep",
+  "il": "Gaziantep",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://celikyapievler.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "TSD Çelik Yapı",
+  "kisaAd": "TSD Çelik Yapı",
+  "slug": "tsd-celik-yapi",
+  "web": "https://tsdcelikyapi.com/",
+  "sehir": "Gaziantep",
+  "il": "Gaziantep",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://tsdcelikyapi.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Nova Life Villa",
+  "kisaAd": "Nova Life Villa",
+  "slug": "nova-life-villa",
+  "web": "https://novalifevilla.com/",
+  "sehir": "Antalya",
+  "il": "Antalya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://novalifevilla.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Özok Steel",
+  "kisaAd": "Özok Steel",
+  "slug": "ozok-steel",
+  "web": "https://www.ozoksteel.com/",
+  "sehir": "Ankara",
+  "il": "Ankara",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik"
+  ],
+  "kaynak": [
+   "https://www.ozoksteel.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Smart Prefabrik",
+  "kisaAd": "Smart Prefabrik",
+  "slug": "smart-prefabrik",
+  "web": "https://www.smartprefabrik.com/",
+  "sehir": "Ankara",
+  "il": "Ankara",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.smartprefabrik.com/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Steelin Çelik Yapı",
+  "kisaAd": "Steelin Çelik Yapı",
+  "slug": "steelin-celik-yapi",
+  "web": "https://www.steelin.com/",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik"
+  ],
+  "kaynak": [
+   "https://www.steelin.com/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Prefabrika",
+  "kisaAd": "Prefabrika",
+  "slug": "prefabrika",
+  "web": "https://prefabrika.org/",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://prefabrika.org/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "SteelKont Prefabrik",
+  "kisaAd": "SteelKont Prefabrik",
+  "slug": "steelkont-prefabrik",
+  "web": "https://steelkont.com.tr/",
+  "sehir": "Kocaeli",
+  "il": "Kocaeli",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://steelkont.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Prime Villa Prefabrik",
+  "kisaAd": "Prime Villa Prefabrik",
+  "slug": "prime-villa-prefabrik",
+  "web": "https://primevilla.net/",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://primevilla.net/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Loftev",
+  "kisaAd": "Loftev",
+  "slug": "loftev",
+  "web": "https://loftev.com/tr/",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://loftev.com/tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "ZMS Hafif Çelik",
+  "kisaAd": "ZMS Hafif Çelik",
+  "slug": "zms-hafif-celik",
+  "web": "https://zmscelik.com/",
+  "sehir": "Kocaeli",
+  "il": "Kocaeli",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://zmscelik.com/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Esta Prefabrik",
+  "kisaAd": "Esta Prefabrik",
+  "slug": "esta-prefabrik",
+  "web": "https://www.estaprefabrik.com/",
+  "sehir": "Samsun",
+  "il": "Samsun",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.estaprefabrik.com/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Van Prefabrik",
+  "kisaAd": "Van Prefabrik",
+  "slug": "van-prefabrik",
+  "web": "https://vanprefabrik.com/",
+  "sehir": "Van",
+  "il": "Van",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://vanprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "AYD Prefabrik",
+  "kisaAd": "AYD Prefabrik",
+  "slug": "ayd-prefabrik",
+  "web": "https://aydprefabrik.com/",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik",
+   "konteyner",
+   "tiny house"
+  ],
+  "kaynak": [
+   "https://aydprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Alkon Çelik Yapı",
+  "kisaAd": "Alkon Çelik Yapı",
+  "slug": "alkon-celik-yapi",
+  "web": "https://www.alkoncelik.com/",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik",
+   "konteyner",
+   "tiny house"
+  ],
+  "kaynak": [
+   "https://www.alkoncelik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Ender Çelik Yapı",
+  "kisaAd": "Ender Çelik Yapı",
+  "slug": "ender-celik-yapi",
+  "web": "https://www.celikevler.net/",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik",
+   "tiny house"
+  ],
+  "kaynak": [
+   "https://www.celikevler.net/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Kentsoy Yapı",
+  "kisaAd": "Kentsoy Yapı",
+  "slug": "kentsoy-yapi",
+  "web": "https://kentsoyapi.com/",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://kentsoyapi.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "İdeal Çelik Yapı",
+  "kisaAd": "İdeal Çelik Yapı",
+  "slug": "ideal-celik-yapi",
+  "web": "https://idealcelikyapi.com/",
+  "sehir": "Balıkesir",
+  "il": "Balıkesir",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://idealcelikyapi.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Can Yapı Çelik Ev",
+  "kisaAd": "Can Yapı Çelik Ev",
+  "slug": "can-yapi-celik-ev",
+  "web": "https://www.canyapicelikev.com.tr/",
+  "sehir": "Balıkesir",
+  "il": "Balıkesir",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.canyapicelikev.com.tr/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Söz Çelik",
+  "kisaAd": "Söz Çelik",
+  "slug": "soz-celik",
+  "web": "https://sozcelikprefabrik.com.tr/",
+  "sehir": "Balıkesir",
+  "il": "Balıkesir",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik",
+   "konteyner",
+   "tiny house",
+   "bungalov"
+  ],
+  "kaynak": [
+   "https://sozcelikprefabrik.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "bungalov",
+   "celik",
+   "konteyner",
+   "prefabrik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Eksen Prefabrik",
+  "kisaAd": "Eksen Prefabrik",
+  "slug": "eksen-prefabrik",
+  "web": "https://www.eksenprefabrik.com/",
+  "sehir": "Sakarya",
+  "il": "Sakarya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.eksenprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Fethiye Çelik Yapı",
+  "kisaAd": "Fethiye Çelik Yapı",
+  "slug": "fethiye-celik-yapi",
+  "web": "https://fethiyecelikyapi.com.tr/",
+  "sehir": "Muğla",
+  "il": "Muğla",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://fethiyecelikyapi.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Peşina Çelik",
+  "kisaAd": "Peşina Çelik",
+  "slug": "pesina-celik",
+  "web": "https://www.pesinacelik.com/",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik"
+  ],
+  "kaynak": [
+   "https://www.pesinacelik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Prefabrikevimolsun",
+  "kisaAd": "Prefabrikevimolsun",
+  "slug": "prefabrikevimolsun",
+  "web": "https://prefabrikevimolsun.com/",
+  "sehir": "Antalya",
+  "il": "Antalya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://prefabrikevimolsun.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Doura Yapı",
+  "kisaAd": "Doura Yapı",
+  "slug": "doura-yapi",
+  "web": "https://dourayapi.com/",
+  "sehir": "",
+  "il": "",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://dourayapi.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "MRZ Çelik Yapı",
+  "kisaAd": "MRZ Çelik Yapı",
+  "slug": "mrz-celik-yapi",
+  "web": "https://www.mrzcelikyapi.com.tr/",
+  "sehir": "Muğla",
+  "il": "Muğla",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://mrzcelikyapi.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Prefabrikhane",
+  "kisaAd": "Prefabrikhane",
+  "slug": "prefabrikhane",
+  "web": "https://prefabrikhane.com/",
+  "sehir": "",
+  "il": "",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik",
+   "konteyner",
+   "tiny house",
+   "ahşap",
+   "bungalov"
+  ],
+  "kaynak": [
+   "https://prefabrikhane.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "ahsap",
+   "bungalov",
+   "celik",
+   "konteyner",
+   "prefabrik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Mopre",
+  "kisaAd": "Mopre",
+  "slug": "mopre",
+  "web": "https://mopre.com.tr/",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://mopre.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "İkon Villa",
+  "kisaAd": "İkon Villa",
+  "slug": "ikon-villa",
+  "web": "https://ikonvilla.com/",
+  "sehir": "Ankara",
+  "il": "Ankara",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "çelik",
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://ikonvilla.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "celik",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Pirkon Prefabrik",
+  "kisaAd": "Pirkon Prefabrik",
+  "slug": "pirkon-prefabrik",
+  "web": "https://pirkon.com",
+  "sehir": "Ankara",
+  "il": "Ankara",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://pirkon.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Hakim Prefabrik",
+  "kisaAd": "Hakim Prefabrik",
+  "slug": "hakim-prefabrik",
+  "web": "https://www.hakimprefabrik.com",
+  "sehir": "Bursa",
+  "il": "Bursa",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.hakimprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Satanlar Prefabrik",
+  "kisaAd": "Satanlar Prefabrik",
+  "slug": "satanlar-prefabrik",
+  "web": "https://www.satanlar.com.tr",
+  "sehir": "Kocaeli",
+  "il": "Kocaeli",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "konteyner",
+   "tiny house"
+  ],
+  "kaynak": [
+   "https://www.satanlar.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "konteyner",
+   "prefabrik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Özka Prefabrik",
+  "kisaAd": "Özka Prefabrik",
+  "slug": "ozka-prefabrik",
+  "web": "https://www.ozkaprefabrik.com.tr",
+  "sehir": "Ankara",
+  "il": "Ankara",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.ozkaprefabrik.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Kayseri Prefabrik",
+  "kisaAd": "Kayseri Prefabrik",
+  "slug": "kayseri-prefabrik",
+  "web": "https://www.kayseri-prefabrik.com/",
+  "sehir": "Kayseri",
+  "il": "Kayseri",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.kayseri-prefabrik.com/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Egem Prefabrik",
+  "kisaAd": "Egem Prefabrik",
+  "slug": "egem-prefabrik",
+  "web": "https://www.egemprefabrik.com.tr",
+  "sehir": "İzmir",
+  "il": "İzmir",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.egemprefabrik.com.tr/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Tetik Prefabrik",
+  "kisaAd": "Tetik Prefabrik",
+  "slug": "tetik-prefabrik",
+  "web": "https://tetikprefabrikyapi.com",
+  "sehir": "Muğla",
+  "il": "Muğla",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://tetikprefabrikyapi.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Zeytin Prefabrik",
+  "kisaAd": "Zeytin Prefabrik",
+  "slug": "zeytin-prefabrik",
+  "web": "https://zeytinprefabrik.com",
+  "sehir": "Aydın",
+  "il": "Aydın",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://zeytinprefabrik.com/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Vizyon Prefabrik",
+  "kisaAd": "Vizyon Prefabrik",
+  "slug": "vizyon-prefabrik",
+  "web": "https://www.vizyonprefabrik.com",
+  "sehir": "Aydın",
+  "il": "Aydın",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://www.vizyonprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Delta Prefabrik",
+  "kisaAd": "Delta Prefabrik",
+  "slug": "delta-prefabrik",
+  "web": "https://deltaprefabrik.com",
+  "sehir": "Aydın",
+  "il": "Aydın",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://deltaprefabrik.com/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Ertek Prefabrik",
+  "kisaAd": "Ertek Prefabrik",
+  "slug": "ertek-prefabrik",
+  "web": "https://ertekprefabrikaydin.com",
+  "sehir": "Aydın",
+  "il": "Aydın",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://ertekprefabrikaydin.com/iletisim/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Gaziantep Prefabrik",
+  "kisaAd": "Gaziantep Prefabrik",
+  "slug": "gaziantep-prefabrik",
+  "web": "https://www.gaziantepprefabrik.com",
+  "sehir": "Gaziantep",
+  "il": "Gaziantep",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://www.gaziantepprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Mavi Prefabrik Yapı",
+  "kisaAd": "Mavi Prefabrik Yapı",
+  "slug": "mavi-prefabrik-yapi",
+  "web": "https://www.maviprefabrikyapi.com",
+  "sehir": "Samsun",
+  "il": "Samsun",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "konteyner"
+  ],
+  "kaynak": [
+   "https://www.maviprefabrikyapi.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "konteyner",
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Modüler Prefabrik Ev",
+  "kisaAd": "Modüler Prefabrik Ev",
+  "slug": "moduler-prefabrik-ev",
+  "web": "http://modulerprefabrikev.com",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "http://modulerprefabrikev.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Usta Prefabrik",
+  "kisaAd": "Usta Prefabrik",
+  "slug": "usta-prefabrik",
+  "web": "https://ustaprefabrik.com",
+  "sehir": "Kocaeli",
+  "il": "Kocaeli",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://ustaprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Uyum Prefabrik",
+  "kisaAd": "Uyum Prefabrik",
+  "slug": "uyum-prefabrik",
+  "web": "https://uyumprefabrik.com",
+  "sehir": "Kocaeli",
+  "il": "Kocaeli",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://uyumprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Nur Prefabrik",
+  "kisaAd": "Nur Prefabrik",
+  "slug": "nur-prefabrik",
+  "web": "https://www.nurprefabrik.com",
+  "sehir": "Kocaeli",
+  "il": "Kocaeli",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.nurprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "CT Prefabrik",
+  "kisaAd": "CT Prefabrik",
+  "slug": "ct-prefabrik",
+  "web": "https://ctprefabrik.com",
+  "sehir": "Sakarya",
+  "il": "Sakarya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://ctprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Karabulut Prefabrik",
+  "kisaAd": "Karabulut Prefabrik",
+  "slug": "karabulut-prefabrik",
+  "web": "https://karabulutprefabrik.com",
+  "sehir": "Uşak",
+  "il": "Uşak",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik",
+   "konteyner",
+   "tiny house"
+  ],
+  "kaynak": [
+   "https://karabulutprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "konteyner",
+   "prefabrik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Sistem Prefabrik",
+  "kisaAd": "Sistem Prefabrik",
+  "slug": "sistem-prefabrik",
+  "web": "https://www.sistemprefabrik.com",
+  "sehir": "Kocaeli",
+  "il": "Kocaeli",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.sistemprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Prefabrik Dünyası",
+  "kisaAd": "Prefabrik Dünyası",
+  "slug": "prefabrik-dunyasi",
+  "web": "https://www.konyaprefabrik.com",
+  "sehir": "Konya",
+  "il": "Konya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.konyaprefabrik.com/contact.html"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "AEA Prefabrik",
+  "kisaAd": "AEA Prefabrik",
+  "slug": "aea-prefabrik",
+  "web": "https://www.aeaprefabrik.com",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik"
+  ],
+  "kaynak": [
+   "https://www.aeaprefabrik.com/iletisim"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "prefabrik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
   "logoAcik": false
  }
 ]
