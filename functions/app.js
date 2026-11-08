@@ -1150,14 +1150,18 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
   // ---- Firmalara tanıtım e-postası (günlük kota; tacir/esnafa onaysız gönderilebilir, ret hakkı her e-postada) ----
   const tanitimId = (eposta) => crypto.createHash('sha256').update(`tanitim:${eposta}`).digest('hex').slice(0, 24);
   async function tanitimAdaylari() {
-    const [kayitQ, firmaQ, listeQ, davetQ] = await Promise.all([db.collection('tanitimKayit').get(), db.collection('firmalar').get(), db.collection('tanitimListesi').get(), db.collection('davetKayit').where('iptal', '==', true).get()]);
+    const [kayitQ, firmaQ, listeQ, davetQ] = await Promise.all([db.collection('tanitimKayit').get(), db.collection('firmalar').get(), db.collection('tanitimListesi').get(), db.collection('davetKayit').get()]);
+    const acikQ = await db.collection('talepler').where('durum', '==', 'acik').get();
     const kayit = new Map(kayitQ.docs.map((d) => [d.id, d.data()]));
     const kayitli = new Set(); for (const d of firmaQ.docs) { const x = d.data(); kayitli.add(d.id); for (const e of [x.eposta, ...(x.panelEpostalari || [])]) if (e) kayitli.add(String(e).toLowerCase()); }
-    const iptalSlug = new Set(davetQ.docs.map((d) => d.id));
+    const iptalSlug = new Set(davetQ.docs.filter((d) => d.data().iptal).map((d) => d.id));
+    // Son 3 günde talep daveti almış firmaya aynı anda bir de tanıtım e-postası gitmesin
+    const yeniDavet = new Set(davetQ.docs.filter((d) => d.data().sonDavet && now() - d.data().sonDavet < 3 * 24 * 3600000).map((d) => d.id));
+    for (const t of acikQ.docs) for (const sl of t.data().firmalar || []) yeniDavet.add(sl);
     const adaylar = [];
     const ekle = (eposta, ad, slug) => {
       eposta = String(eposta || '').toLowerCase().trim();
-      if (!epostaMi(eposta) || kayitli.has(eposta) || (slug && (kayitli.has(slug) || iptalSlug.has(slug)))) return;
+      if (!epostaMi(eposta) || kayitli.has(eposta) || (slug && (kayitli.has(slug) || iptalSlug.has(slug) || yeniDavet.has(slug)))) return;
       const id = tanitimId(eposta); const k = kayit.get(id) || {};
       if (k.iptal || (k.sayi || 0) >= 2 || adaylar.some((x) => x.id === id)) return;
       if (k.son && now() - (k.son.toMillis?.() || k.son) < 30 * 24 * 3600000) return; // aynı adrese en az 30 gün arayla, en fazla 2 kez
@@ -1336,6 +1340,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const kod = token();
     await ref.collection('davetler').doc(slug).set({ kod, eposta, durum: 'bekliyor', gonderim: FieldValue.serverTimestamp(), elle: true });
     await ref.update({ firmalar: FieldValue.arrayUnion(slug) });
+    await db.collection('davetKayit').doc(slug).set({ sonDavet: now(), eposta }, { merge: true });
     const link = `${ayar().site}/teklif-ver/?t=${ref.id}.${d.token}&f=${slug}.${kod}`;
     await mail(eposta, `Yeni talep: ${TIP_AD[d.tip]}, ${d.il}`, sablon('Sitemizde size uygun bir talep var', `<p>PrefabrikTeklif’te ürünlerinize uyan bir müşteri talebi var. <b>Müşteri bilgileri gizlidir;</b> fiyat vermeyi kabul ederseniz sizinle paylaşılır.</p>${kart(talepOzeti(d))}${buton(link, 'Fiyat ver')}<p style="font-size:12px;color:#4a5751">Firmanız sitemizde, kendi sitenizde herkese açık yayınladığınız bilgilerle bilgi amaçlı listelenmiştir. Firma üyeliği başlatılmazsa sayfanız ay sonunda sitemizden kaldırılır. Üye olarak (aylık ${ABONELIK_TL} TL) tüm talepleri panelden görebilir, bilgilerinizi kendiniz güncelleyebilirsiniz: ${esc(ayar().site)}/firma-kayit/</p>`));
     return { ok: true };

@@ -205,3 +205,16 @@ test('iyzico abonelik: kart formu, dönüş, başarısız ödeme, kart güncelle
   zaman.ileri(3 * 24 * 3600000 + 1000);
   assert.equal(await app.abonelikHatirlat(), 1);
 });
+
+test('tanıtım: açık talebi olan ya da son 3 günde davet alan firmaya tanıtım e-postası gitmez', async () => {
+  const { FakeDb, FieldValue, Timestamp, zaman } = await import('./fakeDb.js');
+  const { createApp } = await import('../app.js');
+  const db = new FakeDb(); const giden = [];
+  const FIRMS = [{ slug: 'a', kisaAd: 'A', eposta: 'a@a.com', tipler: ['celik'] }, { slug: 'b', kisaAd: 'B', eposta: 'b@b.com', tipler: ['celik'] }, { slug: 'c', kisaAd: 'C', eposta: 'c@c.com', tipler: ['celik'] }];
+  await db.collection('talepler').doc('t1').set({ durum: 'acik', firmalar: ['a'] });
+  await db.collection('davetKayit').doc('b').set({ sonDavet: zaman.simdi() - 3600000 });
+  const app = createApp({ db, auth: { verifyIdToken: async () => { throw new Error('x'); } }, FieldValue, Timestamp, FIRMS, MODELS: [], simdi: zaman.simdi, mail: async (to) => { giden.push(to); }, ayar: () => ({ site: 'https://x', admin: 'y@y.com', yoneticiler: [] }) });
+  await db.collection('sistem').doc('tanitim').set({ aktif: true, gunluk: 20 });
+  await app.zamanliTanitim();
+  assert.deepEqual(giden, ['c@c.com']);
+});
