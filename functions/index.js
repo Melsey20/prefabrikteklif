@@ -20,6 +20,8 @@ const SMTP_HOST = defineString('SMTP_HOST', { default: 'oden.veridyen.com' });
 const SMTP_PORT = defineString('SMTP_PORT', { default: '465' });
 const SMTP_USER = defineString('SMTP_USER', { default: '' });
 const MAIL_FROM = defineString('MAIL_FROM', { default: '' });
+// Firmaların/müşterilerin "yanıtla" dediğinde gideceği adres (boşsa ADMIN_EMAIL)
+const MAIL_REPLY = defineString('MAIL_REPLY', { default: '' });
 const ADMIN_EMAIL = defineString('ADMIN_EMAIL', { default: 'prefabrikteklif@gmail.com' });
 const YONETICILER = defineString('YONETICILER', { default: 'prefabrikteklif@gmail.com,info@mitraajans.com,yusuf4461@gmail.com' });
 const SITE_URL = defineString('SITE_URL', { default: 'https://www.prefabrikteklif.com.tr' });
@@ -51,7 +53,7 @@ async function mail(to, subject, html, o = {}) {
   // E-posta bildirim amaçlıdır: gönderilemezse ziyaretçinin işlemi asla hata vermez; kayıt yönetim panelinde görünür.
   try {
     const from = MAIL_FROM.value() || SMTP_USER.value();
-    const yanit = ADMIN_EMAIL.value() || SMTP_USER.value();
+    const yanit = MAIL_REPLY.value() || ADMIN_EMAIL.value() || SMTP_USER.value();
     const headers = { 'X-Entity-Ref-ID': `pt-${Date.now()}` };
     if (o.iptal || o.tur === 'davet') headers['List-Unsubscribe'] = `<mailto:${yanit}?subject=bildirim-iptal>${o.iptal ? `, <${o.iptal}>` : ''}`;
     await _tx.sendMail({ from, to, subject: String(subject).replace(/[\r\n]+/g, ' ').slice(0, 200), html, text: duzMetin(html), replyTo: yanit, headers });

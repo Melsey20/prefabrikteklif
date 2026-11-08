@@ -975,7 +975,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       const ab = d.data().abonelik || {};
       if (ab.durum !== 'gecikti' || now() - (ab.hatirlatma || 0) < 3 * 24 * 3600000) continue;
       const to = d.data().eposta || d.data().panelEpostalari?.[0]; if (!to) continue;
-      await mail(to, 'Hatırlatma: üyeliğinizi yenileyin, talepler size gelmiyor', odemeHataHtml());
+      await mail(to, 'Üyeliğinizi yenileyin: yeni talepler size ulaşmıyor', odemeHataHtml());
       await d.ref.set({ abonelik: { ...ab, hatirlatma: now() } }, { merge: true }); n++;
     }
     return n;

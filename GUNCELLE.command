@@ -95,6 +95,7 @@ else
 fi
 for k in $SMS_ANAHTARLAR; do grep -q "^$k=" functions/.env || echo "$k=" >> functions/.env; done
 chmod 600 functions/.env 2>/dev/null || true
+grep -q "^MAIL_REPLY=" functions/.env || echo "MAIL_REPLY=" >> functions/.env
 echo "Bildirimlerin geleceği adres: $(grep ^ADMIN_EMAIL functions/.env | cut -d= -f2)"
 echo "Yönetici e-postaları: $(grep YONETICILER functions/.env | cut -d= -f2)"
 echo
