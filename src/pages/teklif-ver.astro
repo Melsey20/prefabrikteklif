@@ -62,7 +62,12 @@ import Base from '../layouts/Base.astro';
             ? [h('b', {}, 'Fiyat verebilmek için üyelik ödemenizi tamamlayın'), h('span', { class: 'small' }, 'Ödemeniz onaylandığında bu talep firma panelinizdeki “Teklif bekleyenler” bölümünde fiyat vermeye açılır.'),
                d.odemeLinki ? h('a', { class: 'btn btn-p', href: d.odemeLinki, target: '_blank', rel: 'noopener', style: { alignSelf: 'flex-start' } }, 'Üyelik ödemesini yap') : null,
                h('a', { class: 'btn btn-g', href: '/firma-paneli/#talepler', style: { alignSelf: 'flex-start' } }, 'Firma panelime git')].filter(Boolean) as Node[]
-            : [h('b', {}, 'Bu talebe teklif vermek için firmanızı kaydedin'), h('span', { class: 'small' }, 'Kayıt birkaç dakika sürer. Üyeliğiniz onaylanıp aylık üyelik ödemesi yapıldığında bu talebe ve size uyan yeni taleplere panelinizden fiyat verebilirsiniz.'),
+            : [h('b', {}, 'Bu talebe fiyat vermek için firma üyeliği gerekiyor'),
+               h('ol', { class: 'small', style: { margin: 0, paddingLeft: '18px', display: 'grid', gap: '4px' } },
+                 h('li', {}, 'Firmanızı kaydedin (birkaç dakika sürer).'),
+                 h('li', {}, 'Kaydınız onaylanınca üyelik ödeme bağlantısı e-postanıza gelir.'),
+                 h('li', {}, 'Ödemeniz onaylanınca “Üyeliğiniz aktif” e-postası gelir; bu talebe ve size uyan yeni taleplere panelinizden fiyat verirsiniz.')),
+               h('span', { class: 'xs muted' }, 'Müşterinin adı ve iletişim bilgileri, fiyat verdiğinizde açılır.'),
                h('a', { class: 'btn btn-p', href: d.kayitLink, style: { alignSelf: 'flex-start' } }, 'Firmamı kaydet')]));
           u.hidden = false; return;
         }
