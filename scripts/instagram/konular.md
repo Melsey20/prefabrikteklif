@@ -50,5 +50,7 @@ Marka adları (Karmod, A101, BİM vb.), tatil/kiralık bungalov, oyuncak ev ve h
 
 ## Kurallar
 
+- Firma ve model sayısı (şu an 150 firma · 585 model) elle yazılmaz: kart metinlerinde `{firmaSayisi}` / `{modelSayisi}` kullanın; "N firma" / "N model" çipleri ig.py tarafından meta.json'a göre otomatik güncellenir. Açıklama (caption) metinlerinde sayıyı meta.json'dan okuyup yazın.
+
 - Fiyat/istatistik yalnızca src/data/meta.json'dan. "Kaba hesap" = m² × istatistik.{tip}.m2Medyan; her zaman "kaba hesap / yaklaşık" diye belirtin ve "{sonKontrolYazi} itibarıyla listemizde" kaynağını gösterin.
 - Mevzuat, izin ve destek bilgisi yalnızca sitedeki rehber yazılarından ve /arazim-uygun-mu/ sayfasından alınır; oradaki ihtiyat ifadeleri ("haberlere göre", "il tarım ve orman müdürlüğünden teyit edin") korunur. Yeni hukuki iddia uydurmayın.

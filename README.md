@@ -4,7 +4,7 @@
 
 - **Ön yüz:** Astro (statik, sıfıra yakın JavaScript). Lighthouse mobil: 98–100 performans, 94–100 erişilebilirlik, 100 SEO.
 - **Sunucu:** Firebase Cloud Functions (Node 22, `europe-west1`), Firestore.
-- **Veri:** `data/raw/*.csv` → `scripts/build_data.py` → `src/data/*.json` (62 firma, 422 model, 1 Kasım 2026).
+- **Veri:** `data/raw/*.csv` → `scripts/build_data.py` → `src/data/*.json` (firma ve model sayıları için `src/data/meta.json`).
 
 ## Sürüm 2 (Kasım 2026) — yenilikler
 

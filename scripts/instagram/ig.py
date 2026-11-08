@@ -178,8 +178,22 @@ def reels_html(r):
     T = [s['t'] for s in S] + [r['sure']]
     return page(html + f'</div><script>const T={json.dumps(T)};{RJS}</script>', RCSS, 1080, 1920)
 
+META = json.loads((ROOT / 'src' / 'data' / 'meta.json').read_text())
+
+def guncel(x, anahtar=''):
+    """Firma/model sayıları her zaman src/data/meta.json'dan gelir.
+    Metinde {firmaSayisi} / {modelSayisi} yazılabilir; 'cipler' içindeki "N firma" / "N model" çipleri güncel sayıya çevrilir."""
+    if isinstance(x, dict): return {k: guncel(v, k) for k, v in x.items()}
+    if isinstance(x, list): return [guncel(v, anahtar) for v in x]
+    if isinstance(x, str):
+        x = x.replace('{firmaSayisi}', str(META['firmaSayisi'])).replace('{modelSayisi}', str(META['modelSayisi']))
+        if anahtar == 'cipler':
+            x = re.sub(r'^\d+ firma$', f"{META['firmaSayisi']} firma", x)
+            x = re.sub(r'^\d+ model$', f"{META['modelSayisi']} model", x)
+    return x
+
 if __name__ == '__main__':
-    mod, spec, out = sys.argv[1], json.load(open(sys.argv[2])), pathlib.Path(sys.argv[3])
+    mod, spec, out = sys.argv[1], guncel(json.load(open(sys.argv[2]))), pathlib.Path(sys.argv[3])
     out.mkdir(parents=True, exist_ok=True)
     if mod == 'tasarim':
         jobs = []
