@@ -17,7 +17,8 @@ export const KOMISYON = 5;
 export const REKLAM_PAKET = { ana: { ad: 'Ana banner', fiyat: 25000 }, yan: { ad: 'Yan banner (kaydırmalı)', fiyat: 25000 }, ikisi: { ad: 'Ana + yan banner', fiyat: 45000 }, ara: { ad: 'Ana sayfa ara banner', fiyat: 25000 }, liste: { ad: 'Ana sayfada öne çıkan listeleme', fiyat: 15000 } };
 export const KONUM_SINIRI = { ana: 6, yan: 6, ara: 6, liste: 10 };
 // Üye olmayan (yalnızca listelenmiş) firmalara bir talepte en fazla kaç davet gider ve aynı firmaya en sık ne kadar arayla
-export const DAVET_SINIRI = 15; // üye firma azken talep başına davet edilen (üye olmayan) firma sayısı
+export const DAVET_SINIRI = 30;
+export const TANITIM_UST = 150; // günlük tanıtım e-postası üst sınırı (alan adı ısındıkça kademeli artırılır) // üye firma azken talep başına davet edilen (üye olmayan) firma sayısı
 export const DAVET_ARALIK_SAAT = 72;
 // Doğrulanmış (üyeliği aktif) firma: taleplere fiyat verebilir
 export const uyeAktif = (fd) => !!fd && fd.aktif !== false && !fd.kaldirildi && fd.abonelik?.durum === 'aktif';
@@ -94,7 +95,7 @@ const hata = (kod, mesaj) => { throw new HttpHata(kod, mesaj); };
  * @param {any[]} o.MODELS
  * @param {typeof fetch} [o.fetch]
  */
-export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, MODELS, fetch: fetchFn = globalThis.fetch, saat = 48, maksFirma = 20, simdi = Date.now }) {
+export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, MODELS, fetch: fetchFn = globalThis.fetch, saat = 48, maksFirma = 40, simdi = Date.now }) {
   const firmAd = (slug) => FIRMS.find((f) => f.slug === slug)?.kisaAd || slug;
   const modelBul = (id) => MODELS.find((m) => m.id === id);
   const now = simdi;
@@ -210,7 +211,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const kayitlar = new Map((await Promise.all(FIRMS.map(async (f) => [f.slug, (await db.collection('davetKayit').doc(f.slug).get()).data() || null]))));
     const davetEdilebilir = (slug, secildi) => {
       const st = FIRMS.find((x) => x.slug === slug); const k = kayitlar.get(slug);
-      if (!st?.eposta || k?.iptal) return false;
+      if (!st?.eposta || k?.iptal || k?.gecersiz) return false;
       return secildi || !k?.sonDavet || t0 - k.sonDavet > DAVET_ARALIK_SAAT * 3600000;
     };
     const hedef = [];
@@ -1154,7 +1155,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const acikQ = await db.collection('talepler').where('durum', '==', 'acik').get();
     const kayit = new Map(kayitQ.docs.map((d) => [d.id, d.data()]));
     const kayitli = new Set(); for (const d of firmaQ.docs) { const x = d.data(); kayitli.add(d.id); for (const e of [x.eposta, ...(x.panelEpostalari || [])]) if (e) kayitli.add(String(e).toLowerCase()); }
-    const iptalSlug = new Set(davetQ.docs.filter((d) => d.data().iptal).map((d) => d.id));
+    const iptalSlug = new Set(davetQ.docs.filter((d) => d.data().iptal || d.data().gecersiz).map((d) => d.id));
     // Son 3 günde talep daveti almış firmaya aynı anda bir de tanıtım e-postası gitmesin
     const yeniDavet = new Set(davetQ.docs.filter((d) => d.data().sonDavet && now() - d.data().sonDavet < 3 * 24 * 3600000).map((d) => d.id));
     for (const t of acikQ.docs) for (const sl of t.data().firmalar || []) yeniDavet.add(sl);
@@ -1163,7 +1164,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       eposta = String(eposta || '').toLowerCase().trim();
       if (!epostaMi(eposta) || kayitli.has(eposta) || (slug && (kayitli.has(slug) || iptalSlug.has(slug) || yeniDavet.has(slug)))) return;
       const id = tanitimId(eposta); const k = kayit.get(id) || {};
-      if (k.iptal || (k.sayi || 0) >= 2 || adaylar.some((x) => x.id === id)) return;
+      if (k.iptal || k.gecersiz || (k.sayi || 0) >= 2 || adaylar.some((x) => x.id === id)) return;
       if (k.son && now() - (k.son.toMillis?.() || k.son) < 30 * 24 * 3600000) return; // aynı adrese en az 30 gün arayla, en fazla 2 kez
       adaylar.push({ id, eposta, ad: ad || '', slug: slug || '', sayi: k.sayi || 0 });
     };
@@ -1206,14 +1207,26 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       }
       return { ok: true, eklendi: n };
     }
-    if (b.simdiGonder) return { ok: true, gonderilen: await tanitimGonder(Math.min(sayi(b.adet, 1, 50) || 20, 50)) };
-    await db.collection('sistem').doc('tanitim').set({ aktif: !!b.aktif, gunluk: Math.min(sayi(b.gunluk, 1, 50) || 20, 50) }, { merge: true });
+    // Geri dönen (adres bulunamadı / engellendi) e-postalar: bu adreslere bir daha ne tanıtım ne talep daveti gider
+    if (typeof b.gecersiz === 'string') {
+      let n = 0;
+      for (const satir of b.gecersiz.split(/[\n,;\s]+/).slice(0, 500)) {
+        const e = String(satir || '').trim().toLowerCase();
+        if (!epostaMi(e)) continue;
+        await db.collection('tanitimKayit').doc(tanitimId(e)).set({ eposta: e, gecersiz: true, gecersizZaman: now() }, { merge: true });
+        for (const f of FIRMS.filter((x) => String(x.eposta || '').toLowerCase() === e)) await db.collection('davetKayit').doc(f.slug).set({ gecersiz: true, gecersizZaman: now() }, { merge: true });
+        n++;
+      }
+      return { ok: true, isaretlendi: n };
+    }
+    if (b.simdiGonder) return { ok: true, gonderilen: await tanitimGonder(Math.min(sayi(b.adet, 1, TANITIM_UST) || 20, TANITIM_UST)) };
+    await db.collection('sistem').doc('tanitim').set({ aktif: !!b.aktif, gunluk: Math.min(sayi(b.gunluk, 1, TANITIM_UST) || 20, TANITIM_UST) }, { merge: true });
     return { ok: true };
   }
   async function zamanliTanitim() {
     const d = (await db.collection('sistem').doc('tanitim').get()).data() || {};
     if (!d.aktif) return 0;
-    return tanitimGonder(Math.min(d.gunluk || 20, 50));
+    return tanitimGonder(Math.min(d.gunluk || 20, TANITIM_UST));
   }
 
   async function yonetimFirma(req) {
@@ -1336,7 +1349,9 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     if (!FIRMS.some((f) => f.slug === slug) || !epostaMi(eposta)) hata(400, 'Firma ve e-posta gerekli.');
     const d = s.data();
     if (d.durum !== 'acik') hata(409, 'Talebin süresi dolmuş.');
-    if ((await db.collection('davetKayit').doc(slug).get()).data()?.iptal) hata(409, 'Bu firma bizden e-posta almak istemediğini bildirdi.');
+    const dk = (await db.collection('davetKayit').doc(slug).get()).data() || {};
+    if (dk.iptal) hata(409, 'Bu firma bizden e-posta almak istemediğini bildirdi.');
+    if (dk.gecersiz && String(dk.eposta || '').toLowerCase() === eposta) hata(409, 'Bu e-posta adresi daha önce geri döndü (geçersiz).');
     const kod = token();
     await ref.collection('davetler').doc(slug).set({ kod, eposta, durum: 'bekliyor', gonderim: FieldValue.serverTimestamp(), elle: true });
     await ref.update({ firmalar: FieldValue.arrayUnion(slug) });

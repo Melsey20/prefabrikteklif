@@ -218,3 +218,17 @@ test('tanıtım: açık talebi olan ya da son 3 günde davet alan firmaya tanıt
   await app.zamanliTanitim();
   assert.deepEqual(giden, ['c@c.com']);
 });
+
+test('geri dönen adres: geçersiz işaretlenen adrese tanıtım ve talep daveti gitmez', async () => {
+  const { FakeDb, FieldValue, Timestamp, zaman } = await import('./fakeDb.js');
+  const { createApp } = await import('../app.js');
+  const db = new FakeDb(); const giden = [];
+  const FIRMS = [{ slug: 'a', kisaAd: 'A', eposta: 'a@a.com', tipler: ['celik'] }, { slug: 'b', kisaAd: 'B', eposta: 'b@b.com', tipler: ['celik'] }];
+  const app = createApp({ db, auth: { verifyIdToken: async () => ({ uid: 'y', email: 'y@y.com', email_verified: true }) }, FieldValue, Timestamp, FIRMS, MODELS: [], simdi: zaman.simdi, mail: async (to) => { giden.push(to); }, ayar: () => ({ site: 'https://x', admin: 'y@y.com', yoneticiler: ['y@y.com'] }) });
+  const r = await app.routes['POST /api/yonetim/tanitim']({ headers: { authorization: 'Bearer x' }, body: { gecersiz: 'A@a.com\nbozuk' } });
+  assert.equal(r.isaretlendi, 1);
+  assert.equal((await db.collection('davetKayit').doc('a').get()).data().gecersiz, true);
+  await db.collection('sistem').doc('tanitim').set({ aktif: true, gunluk: 20 });
+  await app.zamanliTanitim();
+  assert.deepEqual(giden, ['b@b.com']);
+});
