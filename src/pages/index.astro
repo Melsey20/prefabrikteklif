@@ -118,7 +118,7 @@ const yollar = [
           </a>
           <a class="side-ad foto" href="/firma-kayit/" aria-roledescription="slide">
             <img src="/img/celik-b-960.webp" srcset="/img/celik-b-480.webp 480w, /img/celik-b-960.webp 960w" sizes="(max-width: 980px) 40vw, 300px" alt="" width="960" height="537" loading="lazy" decoding="async" />
-            <span style="display:flex;flex-direction:column;gap:10px"><span class="tag">Firmalar için</span><b>Firmanızı ekleyin, talepler size gelsin</b><span>Resmî evrak ve referansla kabul, aylık {SITE.abonelik} TL.</span><span class="btn btn-w btn-s" style="align-self:flex-start">Başvur</span></span>
+            <span style="display:flex;flex-direction:column;gap:10px"><span class="tag">Firmalar için</span><b>Prefabrik ev arayan müşteriler size gelsin</b><span>{SITE.kampanya.aktif ? `Talepler tüm detaylarıyla panelinizde. Açılış kampanyası: ilk ${SITE.kampanya.kontenjan} firmaya 1 ay ücretsiz.` : `Talepler tüm detaylarıyla panelinizde. Aylık ${SITE.abonelik} TL, komisyon yok.`}</span><span class="btn btn-w btn-s" style="align-self:flex-start">{SITE.kampanya.aktif ? '1 ay ücretsiz başlayın' : 'Başvur'}</span></span>
           </a>
           <a class="side-ad" href="/reklam-ver/" aria-roledescription="slide">
             <span class="tag">Reklam alanı</span>
@@ -226,7 +226,7 @@ const yollar = [
 
     <section class="sec">
       <div class="band">
-        <div><h2>Prefabrik firması mısınız?</h2><p>Aylık {SITE.abonelik} TL üyelikle ürünlerinizi ve fiyatlarınızı kendiniz güncelleyin, size uygun talepleri e-postanızda görün.</p></div>
+        <div><h2>Prefabrik firması mısınız?</h2><p>Ev arayan müşterilerin talepleri ili, metrekaresi, bütçesi ve arsa durumuyla panelinize gelsin; fiyat verdiğinizde müşterinin telefonu açılsın. Komisyon yok.{SITE.kampanya.aktif ? ` Açılış kampanyası: ilk ${SITE.kampanya.kontenjan} firmaya 1 ay ücretsiz, kart bilgisi istemeden.` : ` Aylık ${SITE.abonelik} TL.`}</p></div>
         <div class="btns"><a class="btn btn-w" href="/firma-kayit/">Firma başvurusu</a><a class="btn btn-o2" href="/firma-paneli/">Firma girişi</a></div>
       </div>
     </section>

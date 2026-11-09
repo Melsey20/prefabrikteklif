@@ -54,7 +54,7 @@ const tipYazi = tipler.length > 1 ? `${tipler.slice(0, -1).join(', ')} ve ${tipl
             <span><b>Bu firma size mi ait?</b> Hemen doğrulayın: fiyat ve fotoğraflarınızı kendiniz güncelleyin, size gelen taleplere teklif verin.</span>
             <span class="btn btn-p btn-s">Firmayı doğrula</span>
           </a>
-          <p style="margin:0" data-dg-var hidden><span class="st-b g">✓ Doğrulanmış firma</span> <span class="small muted">Firma belgeleri ve üyeliği {SITE.ad} tarafından kontrol edildi.</span></p>
+          <p style="margin:0" data-dg-var hidden><span class="st-b g">✓ Üye firma</span> <span class="small muted">Firmanın belgeleri {SITE.ad} tarafından kontrol edildi, üyeliği aktif.</span></p>
         </div>
         {f.sertifikalar.length > 0 && (
           <>
@@ -108,7 +108,7 @@ const tipYazi = tipler.length > 1 ? `${tipler.slice(0, -1).join(', ')} ve ${tipl
       <span><b>Bilgilendirme:</b> {f.kisaAd}, ev arayanlar fiyatları karşılaştırabilsin diye firmanın kendi sitesinde herkese açık yayınladığı bilgilerle listelenmiştir; {SITE.ad} ile bir üyelik ilişkisi yoktur. <b>Firma sahibiyseniz:</b> firma üyeliği başlatılmazsa bu sayfa ay sonunda sitemizden kaldırılır. Bilgilerinizi güncel tutmak ve taleplere fiyat vermek için <a href={`/firma-kayit/?firma=${f.slug}`}>firmanızı sahiplenin</a>.</span>
     </aside>
     <div class="band" style="margin-top:28px" data-dg-yok>
-      <div><h2>Bu firma sizin mi?</h2><p>Aylık {SITE.abonelik} TL üyelikle fiyatlarınızı ve fotoğraflarınızı kendiniz güncelleyin, bu sayfaya gelen talepleri alın.</p><p data-kampanya-yazi hidden style="font-weight:700;margin-top:6px">Açılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik, kart bilgisi istemeden.</p></div>
+      <div><h2>Bu firma sizin mi?</h2><p>Üye olun; bu sayfaya ve bölgenize gelen müşteri talepleri tüm detaylarıyla panelinize düşsün, fiyat ve fotoğraflarınızı kendiniz güncelleyin. Komisyon yok, aylık {SITE.abonelik} TL.</p><p data-kampanya-yazi hidden style="font-weight:700;margin-top:6px">Açılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik, kart bilgisi istemeden.</p></div>
       <div class="btns"><a class="btn btn-w" href={`/firma-kayit/?firma=${f.slug}`}>Firmamı sahiplen</a></div>
     </div>
   </div>

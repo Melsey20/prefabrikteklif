@@ -6,16 +6,16 @@ import { TIPLER, TIP_KEYS, firms, ILLER } from '../lib/data';
 const tl = (n: number) => new Intl.NumberFormat('tr-TR').format(n) + ' TL';
 const firmaOzet = Object.fromEntries(firms.map((f) => [f.slug, { u: f.ad, m: f.kisaAd, w: f.web || '', i: f.il || '', t: f.tipler }]));
 ---
-<Base title="Firma Kaydı: Prefabrik ve Modüler Ev Üreticileri" description={`Prefabrik, çelik, konteyner, tiny house ve ahşap ev üreticileri için aylık ${SITE.abonelik} TL firma üyeliği. Fiyatlarınızı güncelleyin, size uygun teklif taleplerini alın. ${SITE.ad}.`}>
+<Base title="Firma Kaydı: Prefabrik ve Modüler Ev Üreticileri" description={`Prefabrik, çelik, konteyner, tiny house ve ahşap ev üreticileri için firma üyeliği${SITE.kampanya.aktif ? ` (ilk ${SITE.kampanya.kontenjan} firmaya 1 ay ücretsiz)` : ''}: ev arayan müşterilerin talepleri tüm detaylarıyla panelinizde, komisyon yok. Fiyatlarınızı güncelleyin, size uygun teklif taleplerini alın. ${SITE.ad}.`}>
   <div class="wrap narrow">
     <Crumbs items={[{ ad: 'Firma kaydı' }]} />
     <h1>Üreticiyseniz, müşteri talepleri size gelsin</h1>
     <p class="muted">Sadece ilinize ve ürettiğiniz ev tipine uyan talepler gelir; müşteri bilgisi, fiyat vermeyi kabul ettiğinizde açılır.</p>
     <div class="box mint" id="davet-bilgi" hidden style="margin:14px 0;display:flex;gap:12px;align-items:flex-start">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#17663F" stroke-width="2" aria-hidden="true" style="flex:none"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>
-      <span class="small"><b>Sizi bekleyen bir müşteri talebi var.</b> Kaydınızı tamamlayın; başvurunuz onaylanıp aylık üyelik ödemesi yapıldığında bu talep firma panelinizdeki “Teklif bekleyenler” bölümünde fiyat vermeye açılır.</span>
+      <span class="small"><b>Sizi bekleyen bir müşteri talebi var.</b> Kaydınızı tamamlayın; başvurunuz onaylanıp üyeliğiniz açıldığında bu talep firma panelinizdeki “Teklif bekleyenler” bölümünde fiyat vermeye açılır.</span>
     </div>
-    <div class="card" id="kampanya-kutu" hidden style="margin:16px 0 0;border:2px solid var(--green);display:flex;flex-direction:column;gap:10px">
+    <div class="card" id="kampanya-kutu" hidden={!SITE.kampanya.aktif} style="margin:16px 0 0;border:2px solid var(--green);display:flex;flex-direction:column;gap:10px">
       <strong style="font-size:1.15rem;color:var(--green-d)">Açılış kampanyası: 1 ay ücretsiz üyelik</strong>
       <span class="small">Türkiye’de Google’da her ay <b>150 binden fazla</b> “prefabrik ev” ve “prefabrik ev fiyatları” araması yapılıyor; çelik ev, konteyner ev ve tiny house aramalarıyla bu sayı daha da büyüyor <span class="xs muted">(Semrush, Kasım 2026)</span>. Ev arayanlar burada fiyatları karşılaştırıp teklif istiyor.</span>
       <ul class="small" style="margin:0;padding-left:18px;display:grid;gap:4px">
@@ -26,13 +26,13 @@ const firmaOzet = Object.fromEntries(firms.map((f) => [f.slug, { u: f.ad, m: f.k
       </ul>
     </div>
     <div class="card" style="margin:16px 0;display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:var(--green-ll);border-color:#cfe4d6">
-      <div style="flex:1;min-width:220px"><strong style="font-size:1.05rem">Firma üyeliği: aylık {SITE.abonelik} TL</strong><span class="small muted" style="display:block;margin-top:4px">Başvurunuzu inceleyip onaylarız, ödeme bağlantısını e-postanıza göndeririz. Ödemeyi her ay düzenli yaparsınız; sitede kart bilgisi istemeyiz. Reklam paketleri isteğe bağlıdır ve üyeliğe ektir: <a href="/reklam-ver/">fiyatlar</a>.</span></div>
+      <div style="flex:1;min-width:220px"><strong style="font-size:1.05rem">{SITE.kampanya.aktif ? `Üyelik: 1 ay ücretsiz, sonra aylık ${SITE.abonelik} TL` : `Firma üyeliği: aylık ${SITE.abonelik} TL`}</strong><span class="small muted" style="display:block;margin-top:4px">{SITE.kampanya.aktif ? "Başvurunuzu inceleyip onaylarız; üyeliğiniz ödeme yapmadan açılır ve hemen teklif verirsiniz. Ücretsiz ay bitmeden size hatırlatırız; devam ederseniz ödemeyi e-postanıza gelen bağlantıdan yaparsınız. Komisyon ve taahhüt yok." : "Başvurunuzu inceleyip onaylarız, ödeme bağlantısını e-postanıza göndeririz. Ödemeyi her ay düzenli yaparsınız; komisyon ve taahhüt yok."} Reklam paketleri isteğe bağlıdır ve üyeliğe ektir: <a href="/reklam-ver/">fiyatlar</a>.</span></div>
     </div>
     <p class="small muted">Sitemizdeki her firmayı resmi evraklarıyla ve teslim ettiği işlerin referanslarıyla kabul ediyoruz; referansı olmayan firmayı kaydetmiyoruz. Ev arayanların bize güvenmesinin sebebi bu 🙂</p>
 
     <div class="grid" style="margin:18px 0">
       <div class="card"><strong>Listelenmiş</strong><span class="small muted">Fiyatlarınız bilgi amaçlı sitenizden alınır; teklif talebi gelmez. Üyelik başlatılmazsa sayfanız ay sonunda sitemizden kaldırılır.</span></div>
-      <div class="card"><strong>Kayıtlı firma</strong><span class="small muted">Aylık {SITE.abonelik} TL. Vergi levhası, sicil kaydı, imza sirküleri ve referanslar kontrol edilir. Firma panelinden ürün, fiyat ve fotoğraflarınızı yönetir, size uygun talepleri alır, bize geri bildirim gönderirsiniz.</span></div>
+      <div class="card"><strong>Üye firma</strong><span class="small muted">{SITE.kampanya.aktif ? `İlk ay ücretsiz, sonra aylık ${SITE.abonelik} TL.` : `Aylık ${SITE.abonelik} TL.`} Vergi levhası, sicil kaydı, imza sirküleri ve referanslar kontrol edilir. Firma panelinden ürün, fiyat ve fotoğraflarınızı yönetir, size uygun talepleri alır, bize geri bildirim gönderirsiniz.</span></div>
       <div class="card" style="border:1.5px solid var(--green)"><strong style="color:var(--green-d)">Doğrulanmış üretici</strong><span class="small muted">Fabrika ziyareti ve tanıtım videosu, üretim belgeleri ve teslim edilmiş 3 proje kontrol edilir. Taleplerde öncelik ve rozet.</span></div>
     </div>
 
@@ -102,7 +102,7 @@ const firmaOzet = Object.fromEntries(firms.map((f) => [f.slug, { u: f.ad, m: f.k
           <p class="xs muted" style="margin:0">Bedeller aylıktır ve {SITE.abonelik} TL üyeliğe ektir. Onaydan sonra alan uygunluğunu kontrol edip ödeme bağlantısını ayrıca göndeririz. <a href="/reklam-ver/" target="_blank">Alanların nerede göründüğüne bakın</a></p>
         </div>
       </div>
-      <label class="chk"><input type="checkbox" name="abonelik" required /> <span>Aylık <b>{SITE.abonelik} TL</b> üyelik bedelini, onaydan sonra gönderilecek bağlantıdan ya da kartımı kaydederek her ay düzenli ödeyeceğimi; ödenen üyelik ve reklam bedellerinin iade edilmediğini biliyorum. <a href="/abonelik-ve-iptal-kosullari/" target="_blank">Abonelik, ödeme ve iptal koşulları</a></span></label>
+      <label class="chk"><input type="checkbox" name="abonelik" required /> <span>{SITE.kampanya.aktif ? "Açılış kampanyası kapsamında ilk ayın ücretsiz olduğunu; devam edersem " : ""}{SITE.kampanya.aktif ? "aylık" : "Aylık"} <b>{SITE.abonelik} TL</b> üyelik bedelini, onaydan sonra gönderilecek bağlantıdan ya da kartımı kaydederek her ay düzenli ödeyeceğimi; ödenen üyelik ve reklam bedellerinin iade edilmediğini biliyorum. <a href="/abonelik-ve-iptal-kosullari/" target="_blank">Abonelik, ödeme ve iptal koşulları</a></span></label>
       <label class="chk"><input type="checkbox" name="sozlesme" required /> <span><a href="/firma-uyelik-sozlesmesi/" target="_blank">Firma üyelik sözleşmesini</a> okudum ve kabul ediyorum. Müşteriye karşı tüm sorumluluğun firmamda olduğunu, müşteriyi mağdur etmem halinde kaydımın silineceğini biliyorum.</span></label>
       <label class="chk"><input type="checkbox" name="kosul" required /> <span><a href="/kullanici-sozlesmesi/" target="_blank">Kullanıcı sözleşmesini</a>, <a href="/gizlilik-politikasi/" target="_blank">gizlilik politikasını</a> ve <a href="/kvkk-aydinlatma-metni/" target="_blank">aydınlatma metnini</a> okudum. Verdiğim bilgilerin ve belgelerin doğru olduğunu beyan ederim.</span></label>
       <p class="err" id="hata" role="alert" hidden></p>
@@ -113,7 +113,7 @@ const firmaOzet = Object.fromEntries(firms.map((f) => [f.slug, { u: f.ad, m: f.k
       <p>Belgelerinizi ve referanslarınızı kontrol edip 2 iş günü içinde sizi arayacağız.</p>
       <ol style="margin:8px 0 0;padding-left:20px;line-height:1.7">
         <li data-kurucu-yok>Başvurunuz onaylanınca <b>aylık {SITE.abonelik} TL</b> üyelik ödeme bağlantısı e-postanıza gelir.</li>
-        <li data-kurucu-yok>Ödemeyi yaptığınızda firmanız sitede <b>“doğrulanmış”</b> olarak görünür.</li>
+        <li data-kurucu-yok>Ödemeyi yaptığınızda firmanız sitede <b>“Üye firma”</b> rozetiyle görünür.</li>
         <li data-kurucu-var hidden>Açılış kampanyası kapsamında başvurunuz onaylanınca üyeliğiniz <b>1 ay ücretsiz</b> olarak hemen açılır; firmanız sitede “Üye firma” rozetiyle görünür.</li>
         <li>Size uyan taleplere <a href="/firma-paneli/">firma panelinizden</a> fiyat verirsiniz; fiyat verdiğiniz müşterinin iletişim bilgileri size açılır.</li>
       </ol>

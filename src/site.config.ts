@@ -20,6 +20,8 @@ export const SITE = {
   komisyon: 5,
   // Firma üyeliği (aylık, TL) ve reklam paketleri (aylık, TL; üyeliğe ektir)
   abonelik: 499,
+  // Açılış kampanyası: ilk 50 onaylı firmaya 1 ay ücretsiz üyelik (kontenjan dolunca aktif: false yapılır)
+  kampanya: { aktif: true, metin: '1 ay ücretsiz', kontenjan: 50 },
   reklam: [
     { k: 'ana', ad: 'Ana banner', fiyat: 25000, aciklama: 'Ana sayfanın en üstündeki büyük, kaydırmalı alanda tam genişlik görsel.' },
     { k: 'yan', ad: 'Yan banner', fiyat: 25000, aciklama: 'Ana sayfada büyük bannerın yanındaki kaydırmalı alan (mobilde hemen altında).' },

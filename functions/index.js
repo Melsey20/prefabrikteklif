@@ -49,14 +49,23 @@ const duzMetin = (html) => html.replace(/<a [^>]*href="([^"]+)"[^>]*>([^<]*)<\/a
 async function mail(to, subject, html, o = {}) {
   const pass = SMTP_PASS.value() || '';
   if (!to || !SMTP_USER.value() || pass.length < 2) { console.warn('E-posta ayarı eksik, gönderilmedi:', subject); return; }
-  if (!_tx) _tx = nodemailer.createTransport({ host: SMTP_HOST.value(), port: Number(SMTP_PORT.value()), secure: Number(SMTP_PORT.value()) === 465, auth: { user: SMTP_USER.value(), pass } });
+  // Havuz: aynı anda en fazla 3 SMTP bağlantısı (Gmail çok sayıda eş zamanlı bağlantıda 421 4.3.0 ile geri çeviriyor)
+  if (!_tx) _tx = nodemailer.createTransport({ host: SMTP_HOST.value(), port: Number(SMTP_PORT.value()), secure: Number(SMTP_PORT.value()) === 465, auth: { user: SMTP_USER.value(), pass }, pool: true, maxConnections: 3, maxMessages: 50 });
   // E-posta bildirim amaçlıdır: gönderilemezse ziyaretçinin işlemi asla hata vermez; kayıt yönetim panelinde görünür.
   try {
     const from = MAIL_FROM.value() || SMTP_USER.value();
     const yanit = MAIL_REPLY.value() || ADMIN_EMAIL.value() || SMTP_USER.value();
     const headers = { 'X-Entity-Ref-ID': `pt-${Date.now()}` };
     if (o.iptal || o.tur === 'davet') headers['List-Unsubscribe'] = `<mailto:${yanit}?subject=bildirim-iptal>${o.iptal ? `, <${o.iptal}>` : ''}`;
-    await _tx.sendMail({ from, to, subject: String(subject).replace(/[\r\n]+/g, ' ').slice(0, 200), html, text: duzMetin(html), replyTo: yanit, headers });
+    const ileti = { from, to, subject: String(subject).replace(/[\r\n]+/g, ' ').slice(0, 200), html, text: duzMetin(html), replyTo: yanit, headers };
+    // Geçici hatalarda (421/45x, bağlantı kopması) 3 kez daha dene: 3 sn, 10 sn, 25 sn bekleyerek
+    for (let deneme = 0; ; deneme++) {
+      try { await _tx.sendMail(ileti); break; } catch (e) {
+        const gecici = (e?.responseCode >= 421 && e?.responseCode < 460) || ['ECONNECTION', 'ETIMEDOUT', 'ESOCKET'].includes(e?.code);
+        if (!gecici || deneme >= 3) throw e;
+        await new Promise((r) => setTimeout(r, [3000, 10000, 25000][deneme]));
+      }
+    }
     db.collection('sistem').doc('eposta').set({ sonBasari: FieldValue.serverTimestamp() }, { merge: true }).catch(() => {});
   } catch (e) {
     console.error('E-posta gönderilemedi:', subject, e?.code || '', e?.message || e);
