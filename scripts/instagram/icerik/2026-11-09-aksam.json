@@ -1,0 +1,143 @@
+{
+  "tarih": "2026-11-09",
+  "slot": "aksam",
+  "saat": "19:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Prefabrik ev modelleriniz doğru alıcıya ulaşsın: prefabrik ev, tiny house, ahşap ev ve çelik ev firmaları için 📣\n\nPrefabrikTeklif'te ev arayanlar ilini, ev tipini ve metrekaresini yazarak teklif talebi bırakır. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz ev tipine uyan talepler gelir; müşteri bilgisi, fiyat vermeyi kabul ettiğinizde açılır. Prefabrik ev modellerinizi, fiyatlarınızı ve fotoğraflarınızı firma panelinden kendiniz yönetirsiniz.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir. Her firmayı resmî evrakları ve teslim ettiği işlerin referanslarıyla kabul ediyoruz; referansı olmayan firmayı kaydetmiyoruz.\n\n👉 Başvuru: prefabrikteklif.com.tr/firma-kayit\n📌 Kaydedin, başvururken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevmodelleri #prefabrikevfirmaları #tinyhouseüreticisi #ahşapevfirmaları",
+      "alt_text": "Koyu yeşil zeminde büyük serif başlık: “Prefabrik ev modelleriniz doğru alıcıya ulaşsın.” Altında firmalara kısa açıklama, ahşap, çelik ve konteyner evlerden üç temsilî fotoğraf, “Resmî evrak + referans”, “İlinize göre talep”, “Firma paneli” çipleri ve başvuru adresi prefabrikteklif.com.tr/firma-kayit; üstte PrefabrikTeklif logosu.",
+      "kartlar": [
+        {
+          "sablon": "ucfoto",
+          "koyu": true,
+          "etiket": "Firmalar için",
+          "boy": 88,
+          "h": "Prefabrik ev modelleriniz <em>doğru alıcıya</em> ulaşsın.",
+          "p": "Modellerinizi ve fiyatlarınızı panelden girin; hizmet verdiğiniz illerden, ürettiğiniz ev tipine uyan talepler size gelsin.",
+          "imgs": [
+            "ahsap-960.webp",
+            "celik-960.webp",
+            "konteyner-960.webp"
+          ],
+          "cipler": [
+            "Resmî evrak + referans",
+            "İlinize göre talep",
+            "Firma paneli"
+          ],
+          "alt_sol": "prefabrikteklif.com.tr/firma-kayit",
+          "alt_sag": "Başvuru →"
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Hisseli tarlaya ev yapılır mı? Ruhsat için tüm hissedarların noter onaylı muvafakati gerekir. Tarlada tarım arazisi kuralları var; izinsiz yapıya elektrik, su ve doğal gaz bağlanmıyor. Almadan önce belediyeye ve il tarım müdürlüğüne danışın. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "Hisseli tarlaya ev yapılır mı? Hisseli araziye prefabrik ev, tarlaya ev yapma şartları ve 2026 kuralları 👇\n\nHisseli araziye ev, ancak tüm hissedarların noter onaylı muvafakatiyle ve normal yapı ruhsatı süreciyle yapılabilir; Planlı Alanlar İmar Yönetmeliği, parsel maliklerinin muvafakati olmadan ruhsat verilmesine izin vermez. Arazi tarla vasıflıysa tarım arazisi kuralları ayrıca uygulanır.\n\n20 Haziran 2026'da yayımlanan 7584 sayılı Kanun'la izinsiz yapılara elektrik, su ve doğal gaz aboneliği verilmesi yasaklandı. Hisseli tarla almadan önce il tarım ve orman müdürlüğüne ve belediyeye/il özel idaresine danışın; gerekirse bir avukattan görüş alın.\n\nPrefabrikTeklif sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; arazinizin hangi eve uygun olduğunu \"Arazim uygun mu?\" aracıyla görebilirsiniz.\n\n📌 Kaydedin, arsa almadan önce lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tarlayaevyapılırmı #hisselitarla #hisseliarazi #bağevi #prefabrikev",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "img": "prefabrik-960.webp",
+          "h": "Hisseli Tarlaya<br><em>Ev Yapılır mı?</em>"
+        },
+        {
+          "t": 0,
+          "tur": "foto",
+          "img": "bungalov-960.webp",
+          "h": "Tüm hissedarların <em>onayı şart</em>",
+          "p": "Noter onaylı muvafakatname"
+        },
+        {
+          "t": 0,
+          "tur": "liste",
+          "ikon": "✕",
+          "maddeler": [
+            "Elektrik",
+            "Su",
+            "Doğal gaz"
+          ],
+          "h": "İzinsiz yapıya <em>abonelik yok</em>"
+        },
+        {
+          "t": 0,
+          "tur": "foto",
+          "img": "bungalov-b-960.webp",
+          "h": "Almadan önce <em>danışın</em>",
+          "p": "Belediye ve il tarım müdürlüğü"
+        },
+        {
+          "t": 0,
+          "tur": "son",
+          "h": "Arazinize uygun evi <em>tekliflerle görün.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 0
+    },
+    {
+      "seslendirme": "Tiny house kışın nasıl ısıtılır? Önce yalıtım: duvar, çatı ve taban. En verimlisi çoğu zaman inverter klima; çok soğukta yanına bacalı soba eklenir. Soba varsa karbonmonoksit dedektörü şart. Teklifte yalıtım kalınlığını sorun. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "Tiny house kışın nasıl ısıtılır? Tiny house ısıtma seçenekleri, yalıtım ve soba güvenliği 👇\n\nTiny house kışın en verimli şekilde iyi yalıtım + inverter klima ile ısıtılır; çok soğuk bölgelerde buna bacalı bir odun ya da pelet sobası eklenir. Önce kabuk: duvar, çatı ve taban yalıtımı ile ısıcam doğrama. Tekerlekli modellerde taban daha çabuk soğur.\n\nSoba kullanacaksanız baca dışarıya sızdırmaz çıkmalı, temiz hava girişi bırakılmalı ve karbonmonoksit dedektörü takılmalı; bacasız tüplü ısıtıcılar küçük kapalı alanlar için önerilmez. Su tesisatını donmaya karşı korumayı unutmayın.\n\nPrefabrikTeklif tiny house sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; teklif alırken yalıtım kalınlığını ve ısıtmanın fiyata dahil olup olmadığını sorun.\n\n📌 Kaydedin, kış gelmeden lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tinyhouse #tinyhouseısıtma #tinyhousekış #tinyhousefiyat",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "img": "tiny-house-b-960.webp",
+          "h": "Tiny House Kışın<br><em>Nasıl Isıtılır?</em>"
+        },
+        {
+          "t": 0,
+          "tur": "liste",
+          "ikon": "✓",
+          "maddeler": [
+            "Duvar",
+            "Çatı",
+            "Taban",
+            "Isıcam doğrama"
+          ],
+          "h": "Önce <em>yalıtım</em>"
+        },
+        {
+          "t": 0,
+          "tur": "foto",
+          "img": "ic-mekan-1344.webp",
+          "h": "İnverter klima <em>+ bacalı soba</em>",
+          "p": "Çok soğuk bölgede ikinci kaynak"
+        },
+        {
+          "t": 0,
+          "tur": "foto",
+          "img": "tiny-house-c-960.webp",
+          "h": "CO dedektörü <em>şart</em>",
+          "p": "Soba varsa, küçük hacimde"
+        },
+        {
+          "t": 0,
+          "tur": "son",
+          "h": "Yalıtım kalınlığını <em>teklifte sorun.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 0
+    }
+  ],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "planlandı"
+  }
+}
