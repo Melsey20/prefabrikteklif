@@ -1428,6 +1428,18 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     else if (b.durum === 'red' && d.durum !== 'red' && d.eposta) await mail(d.eposta, `Reklam talebi: ${p.ad}`, sablon('Reklam talebiniz', `<p>${esc(p.ad)} alanında şu an boş yer bulunmuyor. Yer açıldığında size haber vereceğiz.</p>`));
     return { ok: true };
   }
+  // Yönetim: açık talebin son teklif zamanını değiştir (en fazla 7 gün sonrası; müşteriye bildirim gitmez)
+  async function yonetimTalepSure(req) {
+    await yonetici(req);
+    const b = req.body || {};
+    const ref = db.collection('talepler').doc(str(b.talep, 60)); const s = await ref.get();
+    if (!s.exists) hata(404, 'Talep bulunamadı.');
+    if (s.data().durum !== 'acik') hata(409, 'Talep açık değil; süresi değiştirilemez.');
+    const t = typeof b.sonTarih === 'number' ? b.sonTarih : Date.parse(str(b.sonTarih, 40));
+    if (!Number.isFinite(t) || t <= now() || t > now() + 7 * 24 * 3600000) hata(400, 'Yeni süre şimdiden sonra ve en fazla 7 gün içinde olmalı.');
+    await ref.update({ sonTarih: Timestamp.fromMillis(t), sureUzatma: FieldValue.arrayUnion({ eski: s.data().sonTarih?.toMillis?.() || 0, yeni: t, zaman: now() }) });
+    return { ok: true, sonTarih: t };
+  }
   async function yonetimTalepIlet(req) {
     await yonetici(req);
     const b = req.body || {};
@@ -1464,7 +1476,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       'POST /api/firma/geri-bildirim': firmaGeriBildirim, 'POST /api/firma/geri-bildirim-yanit': firmaGeriBildirimYanit, 'POST /api/firma/profil': firmaProfil, 'POST /api/firma/reklam': firmaReklam,
       'GET /api/yonetim/ozet': yonetimOzet, 'POST /api/yonetim/degisiklik': yonetimDegisiklik, 'POST /api/yonetim/basvuru': yonetimBasvuru,
       'POST /api/yonetim/firma': yonetimFirma, 'POST /api/yonetim/yorum': yonetimYorum, 'POST /api/yonetim/geri-bildirim': yonetimGeriBildirim,
-      'POST /api/yonetim/siparis': yonetimSiparis, 'POST /api/yonetim/banner': yonetimBanner, 'POST /api/yonetim/reklam-talep': yonetimReklamTalep, 'POST /api/yonetim/talep-ilet': yonetimTalepIlet,
+      'POST /api/yonetim/siparis': yonetimSiparis, 'POST /api/yonetim/banner': yonetimBanner, 'POST /api/yonetim/reklam-talep': yonetimReklamTalep, 'POST /api/yonetim/talep-ilet': yonetimTalepIlet, 'POST /api/yonetim/talep-sure': yonetimTalepSure,
     },
     async handle(req, res) {
       const gm = /^\/api\/gorsel\/([A-Za-z0-9]{10,40})\/?$/.exec(String(req.path || ''));

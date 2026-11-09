@@ -259,3 +259,20 @@ test('kampanya duyurusu: kampanyadan önce e-posta alan firmalara bir kez gider;
   assert.ok(a.html.includes('Yalova') && a.html.includes('/teklif-ver/?t=t1.tok&amp;f=a.k1') && a.html.includes('bildirim-iptal'), 'açık talep bağlantısı ve ayrılma bağlantısı');
   assert.equal((await r({ gonder: true })).gonderilen, 0, 'ikinci kez gitmez');
 });
+
+test('yönetim: açık talebin süresi uzatılır; geçmiş, 7 günden uzun ve kapalı talep reddedilir', async () => {
+  const { FakeDb, FieldValue, Timestamp, zaman } = await import('./fakeDb.js');
+  const { createApp } = await import('../app.js');
+  const db = new FakeDb(); const giden = [];
+  await db.collection('talepler').doc('t1').set({ durum: 'acik', sonTarih: Timestamp.fromMillis(zaman.simdi() + 3600000) });
+  await db.collection('talepler').doc('t2').set({ durum: 'tamamlandi' });
+  const app = createApp({ db, auth: { verifyIdToken: async () => ({ uid: 'y', email: 'y@y.com', email_verified: true }) }, FieldValue, Timestamp, FIRMS: [], MODELS: [], simdi: zaman.simdi, mail: async (to) => { giden.push(to); }, ayar: () => ({ site: 'https://x', admin: 'y@y.com', yoneticiler: ['y@y.com'] }) });
+  const r = (body) => app.routes['POST /api/yonetim/talep-sure']({ headers: { authorization: 'Bearer x' }, body }).then((x) => ({ ok: true, ...x }), (e) => ({ ok: false, kod: e.kod || e.status || e.code }));
+  const yeni = zaman.simdi() + 26 * 3600000;
+  assert.equal((await r({ talep: 't1', sonTarih: yeni })).ok, true);
+  assert.equal((await db.collection('talepler').doc('t1').get()).data().sonTarih.toMillis(), yeni);
+  assert.equal((await r({ talep: 't1', sonTarih: zaman.simdi() - 1000 })).ok, false);
+  assert.equal((await r({ talep: 't1', sonTarih: zaman.simdi() + 8 * 24 * 3600000 })).ok, false);
+  assert.equal((await r({ talep: 't2', sonTarih: yeni })).ok, false);
+  assert.equal(giden.length, 0, 'müşteriye bildirim gitmez');
+});
