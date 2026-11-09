@@ -54,7 +54,7 @@ const tipYazi = tipler.length > 1 ? `${tipler.slice(0, -1).join(', ')} ve ${tipl
             <span><b>Bu firma size mi ait?</b> Hemen doğrulayın: fiyat ve fotoğraflarınızı kendiniz güncelleyin, size gelen taleplere teklif verin.</span>
             <span class="btn btn-p btn-s">Firmayı doğrula</span>
           </a>
-          <p style="margin:0" data-dg-var hidden><span class="st-b g">✓ Doğrulanmış firma</span> <span class="small muted">Firma belgeleri ve üyeliği {SITE.ad} tarafından kontrol edildi.</span></p>
+          <p style="margin:0" data-dg-var hidden><span class="st-b g">✓ Doğrulanmış firma</span> <span class="st-b g" data-kurucu-rozet hidden>★ Kurucu üye</span> <span class="small muted">Firma belgeleri ve üyeliği {SITE.ad} tarafından kontrol edildi.</span></p>
         </div>
         {f.sertifikalar.length > 0 && (
           <>
@@ -108,12 +108,13 @@ const tipYazi = tipler.length > 1 ? `${tipler.slice(0, -1).join(', ')} ve ${tipl
       <span><b>Bilgilendirme:</b> {f.kisaAd}, ev arayanlar fiyatları karşılaştırabilsin diye firmanın kendi sitesinde herkese açık yayınladığı bilgilerle listelenmiştir; {SITE.ad} ile bir üyelik ilişkisi yoktur. <b>Firma sahibiyseniz:</b> firma üyeliği başlatılmazsa bu sayfa ay sonunda sitemizden kaldırılır. Bilgilerinizi güncel tutmak ve taleplere fiyat vermek için <a href={`/firma-kayit/?firma=${f.slug}`}>firmanızı sahiplenin</a>.</span>
     </aside>
     <div class="band" style="margin-top:28px" data-dg-yok>
-      <div><h2>Bu firma sizin mi?</h2><p>Aylık {SITE.abonelik} TL üyelikle fiyatlarınızı ve fotoğraflarınızı kendiniz güncelleyin, bu sayfaya gelen talepleri alın.</p></div>
+      <div><h2>Bu firma sizin mi?</h2><p>Aylık {SITE.abonelik} TL üyelikle fiyatlarınızı ve fotoğraflarınızı kendiniz güncelleyin, bu sayfaya gelen talepleri alın.</p><p data-kurucu-yazi hidden style="font-weight:700;margin-top:6px"></p></div>
       <div class="btns"><a class="btn btn-w" href={`/firma-kayit/?firma=${f.slug}`}>Firmamı sahiplen</a></div>
     </div>
   </div>
   <script>
-    import { katalog } from '../../../scripts/katalog';
+    import { katalog, kurucuYazilari } from '../../../scripts/katalog';
+    kurucuYazilari();
     const box = document.querySelector<HTMLElement>('[data-yeni]');
     katalog().then((k) => {
       // Üye (ödeme yapan) firmalarda "listelenmiş" uyarısını gizle
@@ -123,6 +124,7 @@ const tipYazi = tipler.length > 1 ? `${tipler.slice(0, -1).join(', ')} ve ${tipl
         uyari.hidden = true;
         document.querySelectorAll<HTMLElement>('[data-dg-yok]').forEach((e) => (e.hidden = true));
         document.querySelectorAll<HTMLElement>('[data-dg-var]').forEach((e) => (e.hidden = false));
+        if ((k as any)['uye:' + uyari.dataset.listeUyari].kurucu) document.querySelectorAll<HTMLElement>('[data-kurucu-rozet]').forEach((e) => (e.hidden = false));
       }
       const yeni = Object.values(k).filter((x) => x.yeni && x.firma === box?.dataset.yeni);
       if (!box || !yeni.length) return;

@@ -83,9 +83,10 @@ export const teklifOzeti = onSchedule({ schedule: 'every 30 minutes', region: RE
 
 // Her gün 10.00 (İstanbul): yönetimden açıldıysa firmalara tanıtım e-postası (günlük kota) + ödemesi gecikenlere hatırlatma
 export const firmaTanitim = onSchedule({ schedule: '0 10 * * *', region: REGION, timeZone: 'Europe/Istanbul', secrets: [SMTP_PASS], timeoutSeconds: 540 }, async () => {
-  const n = await app().zamanliTanitim();
+  const k = await app().uyelikSureKontrol();
   const h = await app().abonelikHatirlat();
-  console.log('Tanıtım e-postası', n, 'ödeme hatırlatması', h);
+  const n = await app().zamanliTanitim();
+  console.log('Tanıtım e-postası', n, 'ödeme hatırlatması', h, 'üyelik süre kontrolü', k);
 });
 
 // Her ayın 1'i saat 17.00 (İstanbul): firma sitelerindeki fiyatları kontrol et, değişenleri onaya düşür
