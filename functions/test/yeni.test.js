@@ -232,3 +232,29 @@ test('geri dönen adres: geçersiz işaretlenen adrese tanıtım ve talep daveti
   await app.zamanliTanitim();
   assert.deepEqual(giden, ['b@b.com']);
 });
+
+test('kampanya duyurusu: kampanyadan önce e-posta alan firmalara bir kez gider; ayrılan, geçersiz ve kayıtlı firmalar atlanır', async () => {
+  const { FakeDb, FieldValue, Timestamp, zaman } = await import('./fakeDb.js');
+  const { createApp, KAMPANYA_BASLANGIC } = await import('../app.js');
+  const db = new FakeDb(); const giden = [];
+  const FIRMS = ['a', 'b', 'c', 'd', 'e'].map((s) => ({ slug: s, kisaAd: s.toUpperCase(), eposta: `${s}@${s}.com`, tipler: ['celik'] }));
+  const once = KAMPANYA_BASLANGIC - 86400000;
+  await db.collection('davetKayit').doc('a').set({ sonDavet: once, eposta: 'a@a.com' });
+  await db.collection('davetKayit').doc('b').set({ sonDavet: once, eposta: 'b@b.com', iptal: true });
+  await db.collection('davetKayit').doc('c').set({ sonDavet: once, eposta: 'c@c.com', gecersiz: true });
+  await db.collection('davetKayit').doc('d').set({ sonDavet: KAMPANYA_BASLANGIC + 1000, eposta: 'd@d.com' });
+  await db.collection('firmalar').doc('e').set({ aktif: true, eposta: 'e@e.com' });
+  await db.collection('davetKayit').doc('e').set({ sonDavet: once, eposta: 'e@e.com' });
+  await db.collection('tanitimKayit').doc('x1').set({ eposta: 'yeni@firma.com', ad: 'Yeni', son: Timestamp.fromMillis(once), sayi: 1 });
+  await db.collection('talepler').doc('t1').set({ durum: 'acik', firmalar: ['a'], il: 'Yalova', tip: 'celik', token: 'tok' });
+  await db.collection('talepler').doc('t1').collection('davetler').doc('a').set({ kod: 'k1' });
+  const app = createApp({ db, auth: { verifyIdToken: async () => ({ uid: 'y', email: 'y@y.com', email_verified: true }) }, FieldValue, Timestamp, FIRMS, MODELS: [], simdi: zaman.simdi, mail: async (to, s, html) => { giden.push({ to, s, html }); }, ayar: () => ({ site: 'https://x', admin: 'y@y.com', yoneticiler: ['y@y.com'] }) });
+  const r = (body) => app.routes['POST /api/yonetim/duyuru']({ headers: { authorization: 'Bearer x' }, body });
+  assert.equal((await r({})).aday, 2);
+  const g = await r({ gonder: true });
+  assert.equal(g.gonderilen, 2);
+  assert.deepEqual(giden.map((x) => x.to).sort(), ['a@a.com', 'yeni@firma.com']);
+  const a = giden.find((x) => x.to === 'a@a.com');
+  assert.ok(a.html.includes('Yalova') && a.html.includes('/teklif-ver/?t=t1.tok&amp;f=a.k1') && a.html.includes('bildirim-iptal'), 'açık talep bağlantısı ve ayrılma bağlantısı');
+  assert.equal((await r({ gonder: true })).gonderilen, 0, 'ikinci kez gitmez');
+});

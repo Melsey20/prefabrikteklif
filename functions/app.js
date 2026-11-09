@@ -14,6 +14,7 @@ export const TESLIM_AD = { anahtar: 'Anahtar teslim', kaba: 'Kaba / ileri kaba' 
 export const ASAMALAR = ['Ön görüşme', 'Keşif', 'Sözleşme', 'Üretim', 'Nakliye', 'Montaj', 'Teslim'];
 export const ABONELIK_TL = 499;
 export const KURUCU_KONTENJAN = 50; // açılış kampanyası: ilk 50 onaylı firmaya 1 ay ücretsiz (kalan sayı dışarıya gösterilmez)
+export const KAMPANYA_BASLANGIC = Date.parse('2026-11-09T13:45:00+03:00'); // bu andan önce e-posta almış firmalara bir kez kampanya duyurusu gider
 export const ARAMA_METNI = 'Türkiye’de Google’da her ay 150 binden fazla “prefabrik ev” ve “prefabrik ev fiyatları” araması yapılıyor (Semrush, Kasım 2026); çelik ev, konteyner ev ve tiny house aramalarıyla bu sayı daha da büyüyor.';
 export const KOMISYON = 5;
 export const REKLAM_PAKET = { ana: { ad: 'Ana banner', fiyat: 25000 }, yan: { ad: 'Yan banner (kaydırmalı)', fiyat: 25000 }, ikisi: { ad: 'Ana + yan banner', fiyat: 45000 }, ara: { ad: 'Ana sayfa ara banner', fiyat: 25000 }, liste: { ad: 'Ana sayfada öne çıkan listeleme', fiyat: 15000 } };
@@ -1260,6 +1261,48 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     await db.collection('sistem').doc('tanitim').set({ aktif: !!b.aktif, gunluk: Math.min(sayi(b.gunluk, 1, TANITIM_UST) || 20, TANITIM_UST) }, { merge: true });
     return { ok: true };
   }
+  // ---- Açılış kampanyası duyurusu: kampanyadan önce talep daveti ya da tanıtım e-postası almış firmalara, bir kez ----
+  async function duyuruAdaylari() {
+    const [dk, tk, fq, ok, acikQ] = await Promise.all([db.collection('davetKayit').get(), db.collection('tanitimKayit').get(), db.collection('firmalar').get(), db.collection('duyuruKayit').get(), db.collection('talepler').where('durum', '==', 'acik').get()]);
+    const kayitli = new Set(); for (const d of fq.docs) { const x = d.data(); kayitli.add(d.id); for (const e of [x.eposta, ...(x.panelEpostalari || [])]) if (e) kayitli.add(String(e).toLowerCase()); }
+    const gonderildi = new Set(ok.docs.map((d) => d.id));
+    const engel = new Set(); const ms = (v) => v?.toMillis?.() || (typeof v === 'number' ? v : 0);
+    for (const d of dk.docs) if (d.data().iptal || d.data().gecersiz) { engel.add(d.id); if (d.data().eposta) engel.add(String(d.data().eposta).toLowerCase()); }
+    for (const d of tk.docs) if (d.data().iptal || d.data().gecersiz) { if (d.data().eposta) engel.add(String(d.data().eposta).toLowerCase()); if (d.data().slug) engel.add(d.data().slug); }
+    const acik = acikQ.docs.map((t) => ({ id: t.id, ...t.data() }));
+    const adaylar = new Map();
+    const ekle = (eposta, slug, ad, zaman) => {
+      eposta = String(eposta || '').toLowerCase().trim();
+      if (!epostaMi(eposta) || !zaman || zaman >= KAMPANYA_BASLANGIC || engel.has(eposta) || (slug && engel.has(slug)) || kayitli.has(eposta) || (slug && kayitli.has(slug))) return;
+      const id = tanitimId(eposta); if (gonderildi.has(id) || adaylar.has(id)) return;
+      adaylar.set(id, { id, eposta, slug: slug || '', ad: ad || (slug ? firmAd(slug) : ''), talep: slug ? acik.find((t) => (t.firmalar || []).includes(slug)) : null });
+    };
+    for (const d of dk.docs) ekle(d.data().eposta || FIRMS.find((f) => f.slug === d.id)?.eposta, d.id, '', ms(d.data().sonDavet));
+    for (const d of tk.docs) ekle(d.data().eposta, d.data().slug, d.data().ad, ms(d.data().son));
+    return [...adaylar.values()];
+  }
+  const duyuruHtml = (x, iptalUrl, talepLink) => sablon('Güncelleme: üyelik ilk ay ücretsiz', `<p>Merhaba${x.ad ? ` ${esc(x.ad)} yetkilisi` : ''},</p><p>Geçtiğimiz günlerde size PrefabrikTeklif’ten bir e-posta göndermiştik. Kısa bir güncelleme: <b>açılış kampanyası kapsamında ilk ${KURUCU_KONTENJAN} firmaya üyelik 1 ay ücretsiz</b>; kart bilgisi istemiyoruz.</p><p>Başvurunuz onaylanınca size uyan taleplere hemen fiyat verirsiniz. Her talepte müşterinin ilini, ev tipini, metrekaresini, bütçesini ve arsa durumunu görürsünüz; fiyat verdiğiniz anda adı, telefonu ve e-postası açılır. Komisyon yok; ay sonunda devam etmezseniz hiçbir şey ödemezsiniz.</p>${x.talep && talepLink ? `<p style="background:#e7f3ec;border-radius:8px;padding:10px 12px;font-size:14px">Size ilettiğimiz <b>${esc(x.talep.il)}</b> ilindeki ${esc(TIP_AD[x.talep.tip]?.toLocaleLowerCase('tr') || '')} talebi hâlâ açık. Kaydınız onaylanınca bu talebe de fiyat verebilirsiniz.</p>` : ''}${buton(`${ayar().site}/firma-kayit/${x.slug ? `?firma=${encodeURIComponent(x.slug)}` : ''}`, '1 ay ücretsiz başlayın')}${talepLink ? buton(talepLink, 'Açık talebi gör', true) : ''}<p style="font-size:13px;color:#5b6760;margin:16px 0 0">Sorunuz varsa bu e-postayı yanıtlamanız yeterli.</p>`, { ust: 'Firmalar için', onizleme: 'Açılış kampanyası: ilk 50 firmaya 1 ay ücretsiz, kart bilgisi istemeden', alt: `Bu e-posta, firmanızın internet sitesinde herkese açık yayımlanan kurumsal adrese, tacir ve esnafa yönelik bilgilendirme olarak gönderilmiştir. Almak istemiyorsanız <a href="${esc(iptalUrl)}" style="color:#6b766f">buradan</a> tek tıkla ayrılabilirsiniz; bir daha gönderilmez.` });
+  async function yonetimDuyuru(req) {
+    await yonetici(req);
+    const b = req.body || {};
+    if ((await kurucuKalan()) <= 0) hata(409, 'Açılış kampanyası kontenjanı dolu; duyuru gönderilmez.');
+    const adaylar = await duyuruAdaylari();
+    if (b.onizleme) { const x = adaylar.find((y) => y.talep) || adaylar[0] || { ad: 'Örnek Firma', slug: '' }; await mail(ayar().admin, '[Önizleme] Güncelleme: PrefabrikTeklif üyeliği ilk ay ücretsiz', duyuruHtml(x, `${ayar().site}/bildirim-iptal/`, x.talep ? `${ayar().site}/teklif-ver/` : '')); return { ok: true, gonderildi: ayar().admin, aday: adaylar.length }; }
+    if (!b.gonder) return { ok: true, aday: adaylar.length, firmalar: adaylar.map((x) => x.ad || x.eposta) };
+    let n = 0;
+    for (const x of adaylar.slice(0, Math.min(sayi(b.adet, 1, 150) || 150, 150))) {
+      const tr = db.collection('tanitimKayit').doc(x.id); const k = (await tr.get()).data() || {};
+      const kod = k.kod || token();
+      await tr.set({ eposta: x.eposta, ...(x.slug ? { slug: x.slug } : {}), ...(k.ad || !x.ad ? {} : { ad: x.ad }), kod }, { merge: true });
+      const iptalUrl = `${ayar().site}/bildirim-iptal/?f=${encodeURIComponent(`t-${x.id}.${kod}`)}`;
+      let talepLink = '';
+      if (x.talep && x.slug) { const dv = (await db.collection('talepler').doc(x.talep.id).collection('davetler').doc(x.slug).get()).data(); if (dv?.kod) talepLink = `${ayar().site}/teklif-ver/?t=${x.talep.id}.${x.talep.token}&f=${x.slug}.${dv.kod}`; }
+      await mail(x.eposta, 'Güncelleme: PrefabrikTeklif üyeliği ilk ay ücretsiz', duyuruHtml(x, iptalUrl, talepLink), { iptal: iptalUrl, tur: 'davet' });
+      await db.collection('duyuruKayit').doc(x.id).set({ eposta: x.eposta, slug: x.slug, zaman: now(), talep: x.talep?.id || '' });
+      n++;
+    }
+    return { ok: true, gonderilen: n, kalan: adaylar.length - n };
+  }
   async function zamanliTanitim() {
     const d = (await db.collection('sistem').doc('tanitim').get()).data() || {};
     if (!d.aktif) return 0;
@@ -1412,7 +1455,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       'POST /api/firma-basvuru': firmaBasvuru, 'POST /api/belge': belge, 'GET /api/yonetim/belge': yonetimBelge, 'POST /api/bildirim-iptal': bildirimIptal, 'POST /api/firma/gorsel': firmaGorsel, 'POST /api/iletisim': iletisim, 'GET /api/google-puan': googlePuan, 'GET /api/yorumlar': yorumlar, 'POST /api/yorum': yorum,
       'GET /api/katalog': katalog, 'GET /api/bannerlar': bannerlar,
       'POST /api/firma/abonelik-baslat': firmaAbonelikBaslat, 'POST /api/firma/kart-guncelle': firmaKartGuncelle, 'POST /api/firma/abonelik-iptal': firmaAbonelikIptal, 'POST /api/iyzico/donus': iyzicoDonus, 'POST /api/iyzico/kart-donus': iyzicoKartDonus, 'POST /api/iyzico/bildirim': iyzicoBildirim, 'POST /api/yonetim/iyzico-plan': yonetimIyzicoPlan,
-      'POST /api/sms/kod': smsKod, 'POST /api/sms/dogrula': smsDogrula, 'GET /api/ben': ben, 'POST /api/onay': onay, 'POST /api/mesaj': musteriMesaj, 'POST /api/firma/mesaj': firmaMesaj, 'POST /api/yonetim/firma-durum': yonetimFirmaDurum, 'POST /api/yonetim/istatistik': yonetimIstatistik, 'POST /api/yonetim/tanitim': yonetimTanitim,
+      'POST /api/sms/kod': smsKod, 'POST /api/sms/dogrula': smsDogrula, 'GET /api/ben': ben, 'POST /api/onay': onay, 'POST /api/mesaj': musteriMesaj, 'POST /api/firma/mesaj': firmaMesaj, 'POST /api/yonetim/firma-durum': yonetimFirmaDurum, 'POST /api/yonetim/istatistik': yonetimIstatistik, 'POST /api/yonetim/tanitim': yonetimTanitim, 'POST /api/yonetim/duyuru': yonetimDuyuru,
       'GET /api/hesap': hesap, 'POST /api/favoriler': favoriler, 'POST /api/siparis-mesaj': siparisMesaj,
       'GET /api/firma/ozet': firmaOzet, 'POST /api/firma/urun': firmaUrun, 'POST /api/firma/teklif': firmaTeklif, 'POST /api/firma/red': firmaRed,
       'POST /api/firma/geri-bildirim': firmaGeriBildirim, 'POST /api/firma/geri-bildirim-yanit': firmaGeriBildirimYanit, 'POST /api/firma/profil': firmaProfil, 'POST /api/firma/reklam': firmaReklam,
