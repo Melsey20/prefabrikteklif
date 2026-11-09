@@ -428,19 +428,19 @@ test('hiçbir uç bozuk girdide 500 vermez (boş/garip kimlik, eksik gövde)', a
   assert.deepEqual(sorunlu, []);
 });
 
-test('kurucu üyelik: ilk ay ücretsiz aktif, kontenjan, bitişten önce hatırlatma ve süre dolunca askı', async () => {
+test('açılış kampanyası: 1 ay ücretsiz aktif, kontenjan, bitişten önce hatırlatma ve süre dolunca askı', async () => {
   const { db, mails, call, app } = kur();
   await db.collection('firmalar').doc('kardesler').set({ aktif: true, ad: 'Kardeşler', eposta: 'satis@kardesler.com', panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik'] });
   const k0 = (await call('GET', '/api/katalog')).body;
-  assert.deepEqual(k0.kurucu, { toplam: 50, kalan: 50 });
+  assert.equal(k0.kampanya, true); assert.ok(!JSON.stringify(k0).includes('kalan'), 'kalan kontenjan dışarıya verilmez');
   const a = await call('POST', '/api/yonetim/firma', { tok: 'tok-admin', body: { slug: 'kardesler', sadeceAbonelik: true, abonelik: { durum: 'aktif', kurucu: true, sonOdeme: '', sonrakiOdeme: '' } } });
   assert.equal(a.statusCode, 200, JSON.stringify(a.body));
   const oz = (await call('GET', '/api/firma/ozet', { tok: 'tok-firma' })).body;
   assert.equal(oz.uye, true); assert.equal(oz.abonelik.kurucu, true); assert.match(oz.abonelik.ucretsizBitis, /^\d{4}-\d{2}-\d{2}$/); assert.equal(oz.abonelik.sonrakiOdeme, oz.abonelik.ucretsizBitis);
-  assert.ok(mails.some((m) => m.to === 'satis@kardesler.com' && m.subject.startsWith('Kurucu üyeliğiniz aktif')), 'kurucu hoş geldin e-postası');
-  assert.ok(!mails.some((m) => m.subject.startsWith('Üyeliğiniz aktif')), 'ödeme alındı e-postası gitmez');
+  assert.ok(mails.some((m) => m.to === 'satis@kardesler.com' && m.subject === 'Üyeliğiniz aktif: 1 ay ücretsiz' && m.html.includes('bütçesi')), 'kampanya hoş geldin e-postası');
+  assert.ok(!mails.some((m) => m.subject === 'Üyeliğiniz aktif: artık fiyat verebilirsiniz'), 'ödeme alındı e-postası gitmez');
   const k1 = (await call('GET', '/api/katalog')).body;
-  assert.equal(k1.kurucu.kalan, 49); assert.ok(k1.kayitlar.some((x) => x.id === 'uye:kardesler' && x.kurucu));
+  assert.ok(k1.kayitlar.some((x) => x.id === 'uye:kardesler' && x.uye && !('kurucu' in x)));
   // Bitişe 3 günden az kala hatırlatma (bir kez), bağlantı yoksa yöneticiye uyarı
   const bitis = Date.parse(`${oz.abonelik.ucretsizBitis}T00:00:00+03:00`);
   zaman.ileri(bitis - zaman.simdi() - 2 * 24 * 3600000);
@@ -452,21 +452,21 @@ test('kurucu üyelik: ilk ay ücretsiz aktif, kontenjan, bitişten önce hatırl
   await app.uyelikSureKontrol();
   const oz2 = (await call('GET', '/api/firma/ozet', { tok: 'tok-firma' })).body;
   assert.equal(oz2.abonelik.durum, 'gecikti'); assert.equal(oz2.uye, false); assert.equal(oz2.abonelik.kurucu, true, 'rozet hakkı korunur');
-  assert.ok(mails.some((m) => m.to === 'satis@kardesler.com' && m.subject === 'Üyeliğiniz durduruldu' && m.html.includes('Ücretsiz kurucu üyelik ayınız sona erdi')));
+  assert.ok(mails.some((m) => m.to === 'satis@kardesler.com' && m.subject === 'Üyeliğiniz durduruldu' && m.html.includes('1 aylık ücretsiz üyeliğiniz sona erdi')));
   // Kontenjan dolunca kurucu verilemez
   for (let i = 0; i < 49; i++) await db.collection('firmalar').doc(`f${i}`).set({ aktif: true, abonelik: { kurucu: true, durum: 'aktif' } });
   await db.collection('firmalar').doc('pramo').set({ aktif: true, eposta: 'p@p.com', tipler: ['prefabrik'] });
   assert.equal((await call('POST', '/api/yonetim/firma', { tok: 'tok-admin', body: { slug: 'pramo', sadeceAbonelik: true, abonelik: { durum: 'aktif', kurucu: true } } })).statusCode, 409);
-  assert.equal((await call('GET', '/api/katalog')).body.kurucu.kalan, 0);
+  assert.equal((await call('GET', '/api/katalog')).body.kampanya, false);
 });
 
-test('kurucu üyelik: başvuru onayında kontenjan varsa ödeme beklemeden açılır', async () => {
+test('açılış kampanyası: başvuru onayında kontenjan varsa ödeme beklemeden açılır', async () => {
   const { db, mails, call } = kur();
   await db.collection('firmaBasvurulari').doc('b1').set({ durum: 'bekliyor', unvan: 'Örnek A.Ş.', marka: 'Örnek Ev', yetkili: 'Ayşe', eposta: 'satis@kardesler.com', telefon: '05320000000', tipler: ['prefabrik'], iller: 'Malatya' });
   const o = await call('POST', '/api/yonetim/basvuru', { tok: 'tok-admin', body: { id: 'b1', karar: 'onay' } });
   assert.equal(o.statusCode, 200, JSON.stringify(o.body));
   const oz = (await call('GET', '/api/firma/ozet', { tok: 'tok-firma' })).body;
   assert.equal(oz.uye, true); assert.equal(oz.abonelik.kurucu, true);
-  assert.ok(mails.some((m) => m.subject.startsWith('Kurucu üyeliğiniz aktif')));
+  assert.ok(mails.some((m) => m.subject === 'Üyeliğiniz aktif: 1 ay ücretsiz'));
   assert.ok(!mails.some((m) => m.subject === 'Firma hesabınız açıldı'), 'ödeme bağlantılı hoş geldin e-postası gitmez');
 });

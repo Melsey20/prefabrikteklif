@@ -206,8 +206,8 @@ async function giris(p, eposta, hedef) {
   ({ ctx, p } = await yeniSayfa(390));
   await p.goto(B + '/firma-kayit/');
   assert.ok((await p.locator('main, body').first().textContent()).includes('499 TL'));
-  await p.waitForSelector('#kurucu-kutu:not([hidden])');
-  assert.equal((await p.locator('#kurucu-kutu [data-kurucu-kalan]').textContent()).trim(), '50', 'kurucu üye kalan kontenjan');
+  await p.waitForSelector('#kampanya-kutu:not([hidden])');
+  assert.ok((await p.locator('#kampanya-kutu').textContent()).includes('1 ay ücretsiz')); assert.ok(!(await p.locator('main').textContent()).includes('kalan kontenjan'));
   const fk = p.locator('#kayit');
   await fk.locator('[name=unvan]').fill('Deneme Yapı Ltd.'); await fk.locator('[name=marka]').fill('Deneme Prefabrik'); await fk.locator('[name=vergiNo]').fill('1234567890');
   await fk.locator('[name=adres]').fill('Malatya OSB 2. Cadde No: 14'); await fk.locator('[name=vergiDairesi]').fill('Malatya VD'); await fk.locator('[name=merkezIl]').selectOption('Malatya'); await fk.locator('[name=yetkili]').fill('Ayşe Yılmaz'); await fk.locator('[name=telefon]').fill('05321112233'); await fk.locator('[name=eposta]').fill('yeni@deneme.com');
@@ -248,12 +248,12 @@ async function giris(p, eposta, hedef) {
   const er = await evrakYanit; assert.equal(er.status(), 200); assert.equal(er.headers()['content-type'], 'application/pdf');
   await (await yeniSekme).close();
   await bas.locator('input[name=odeme]').fill('https://odeme.example/deneme');
-  await bas.locator('input[name=kurucu]').uncheck(); // bu akış ücretli üyeliği sınar; kurucu üyelik birim testlerde
+  await bas.locator('input[name=kurucu]').uncheck(); // bu akış ücretli üyeliği sınar; kampanyalı üyelik birim testlerde
   await bas.getByRole('button', { name: 'Onayla, hesabı aç' }).click();
   await p.waitForFunction(() => !document.querySelector('#p-onaylar')?.textContent?.includes('Deneme Prefabrik'));
   const mailler = await (await p.request.get(B + '/__mails')).json();
   assert.ok(mailler.some((m) => m.to === 'yeni@deneme.com' && m.html.includes('https://odeme.example/deneme')), 'onay e-postasında ödeme bağlantısı');
-  adim('Firma kaydında kurucu üye kontenjanı (50) görünüyor; yönetim başvuruyu onayladı, ödeme bağlantısı firmaya gitti');
+  adim('Firma kaydında 1 ay ücretsiz kampanya kutusu (sayısız) görünüyor; yönetim başvuruyu onayladı, ödeme bağlantısı firmaya gitti');
   await p.click('[data-sekme="bannerlar"]');
   const reklamEkle = async (konum, alanlar) => {
     await p.click('#banner-ekle'); const d = p.locator('.dlg');

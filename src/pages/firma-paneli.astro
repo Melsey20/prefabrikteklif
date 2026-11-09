@@ -265,7 +265,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       const a = V.abonelik; const odenmedi = a.durum !== 'aktif';
       const kart = h('div', { class: 'box', style: { display: 'flex', gap: '14px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' } },
         h('div', {}, h('b', { style: { fontSize: '1.05rem' } }, `Firma üyeliği · ${tl(a.tutar)} / ay`), ' ', h('span', { class: 'st-b ' + (a.durum === 'aktif' ? 'g' : a.durum === 'gecikti' || a.durum === 'iptal' ? 'r' : 'a') }, a.durumAd),
-          a.kurucu ? h('span', { class: 'st-b g', style: { marginLeft: '6px' } }, '★ Kurucu üye') : null,
+          a.kurucu && a.durum === 'aktif' && a.ucretsizBitis && a.ucretsizBitis === a.sonrakiOdeme ? h('span', { class: 'st-b g', style: { marginLeft: '6px' } }, '1 ay ücretsiz') : null,
           h('div', { class: 'small muted', style: { marginTop: '4px' } }, a.kurucu && a.durum === 'aktif' && a.ucretsizBitis && a.ucretsizBitis === a.sonrakiOdeme ? `İlk ayınız ücretsiz: ${a.ucretsizBitis} tarihine kadar ödeme yok. Devam etmek için bu tarihe kadar aylık ${tl(a.tutar)} ödemeyi yapın; ödemezseniz üyelik 3 gün sonra kendiliğinden durur.` : [a.sonOdeme ? `Son ödeme: ${a.sonOdeme}` : '', a.sonrakiOdeme ? `Sonraki ödeme: ${a.sonrakiOdeme}` : ''].filter(Boolean).join(' · ') || 'Ödemeyi her ay düzenli yapmanız yeterli.')),
         a.odemeLinki ? h('a', { class: 'btn btn-p btn-s', href: a.odemeLinki, target: '_blank', rel: 'noopener' }, odenmedi ? 'Ödemeyi yap' : 'Ödeme bağlantısı') : h('span', { class: 'small muted' }, 'Ödeme bağlantısı e-postanıza gönderilecek.'));
       const ko = V.kartliOdeme || {};

@@ -62,14 +62,13 @@ import Base from '../layouts/Base.astro';
             ? [h('b', {}, 'Fiyat verebilmek için üyelik ödemenizi tamamlayın'), h('span', { class: 'small' }, 'Ödemeniz onaylandığında bu talep firma panelinizdeki “Teklif bekleyenler” bölümünde fiyat vermeye açılır.'),
                d.odemeLinki ? h('a', { class: 'btn btn-p', href: d.odemeLinki, target: '_blank', rel: 'noopener', style: { alignSelf: 'flex-start' } }, 'Üyelik ödemesini yap') : null,
                h('a', { class: 'btn btn-g', href: '/firma-paneli/#talepler', style: { alignSelf: 'flex-start' } }, 'Firma panelime git')].filter(Boolean) as Node[]
-            : d.kurucuKalan > 0 ? [h('b', {}, 'Bu talebe fiyat vermek için firmanızı kaydedin: ilk ay ücretsiz'),
-               h('p', { class: 'small', style: { margin: 0, background: '#e7f3ec', borderRadius: '8px', padding: '8px 10px' } }, `Kurucu üye kampanyası: ilk ${d.kurucuToplam} firmaya ilk ay ücretsiz. Kalan kontenjan: ${d.kurucuKalan}.`),
+            : d.kampanya ? [h('b', {}, 'Bu talebe fiyat vermek için firmanızı kaydedin: 1 ay ücretsiz'),
+               h('p', { class: 'small', style: { margin: 0, background: '#e7f3ec', borderRadius: '8px', padding: '8px 10px' } }, 'Açılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik, kart bilgisi istemeden. Komisyon yok; sonra aylık üyelik, devam etmezseniz hiçbir şey ödemezsiniz.'),
                h('ol', { class: 'small', style: { margin: 0, paddingLeft: '18px', display: 'grid', gap: '4px' } },
                  h('li', {}, 'Firmanızı kaydedin (birkaç dakika sürer).'),
-                 h('li', {}, 'Başvurunuz onaylanınca kurucu üyeliğiniz ödeme yapmadan açılır, “Kurucu üyeliğiniz aktif” e-postası gelir.'),
-                 h('li', {}, 'Bu talebe ve size uyan yeni taleplere panelinizden fiyat verirsiniz. İkinci aydan itibaren aylık üyelik ücretlidir; devam etmezseniz bir şey ödemezsiniz.')),
-               h('span', { class: 'xs muted' }, 'Müşterinin adı ve iletişim bilgileri, fiyat verdiğinizde açılır.'),
-               h('a', { class: 'btn btn-p', href: d.kayitLink, style: { alignSelf: 'flex-start' } }, 'Firmamı ücretsiz kaydet')]
+                 h('li', {}, 'Başvurunuz onaylanınca üyeliğiniz ödeme yapmadan açılır, “Üyeliğiniz aktif” e-postası gelir.'),
+                 h('li', {}, 'Bu talebe ve size uyan yeni taleplere panelinizden fiyat verirsiniz; fiyat verdiğinizde müşterinin adı, telefonu ve e-postası açılır.')),
+               h('a', { class: 'btn btn-p', href: d.kayitLink, style: { alignSelf: 'flex-start' } }, '1 ay ücretsiz başlayın')]
             : [h('b', {}, 'Bu talebe fiyat vermek için firma üyeliği gerekiyor'),
                h('ol', { class: 'small', style: { margin: 0, paddingLeft: '18px', display: 'grid', gap: '4px' } },
                  h('li', {}, 'Firmanızı kaydedin (birkaç dakika sürer).'),

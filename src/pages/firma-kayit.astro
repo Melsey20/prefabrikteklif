@@ -15,10 +15,15 @@ const firmaOzet = Object.fromEntries(firms.map((f) => [f.slug, { u: f.ad, m: f.k
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#17663F" stroke-width="2" aria-hidden="true" style="flex:none"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>
       <span class="small"><b>Sizi bekleyen bir müşteri talebi var.</b> Kaydınızı tamamlayın; başvurunuz onaylanıp aylık üyelik ödemesi yapıldığında bu talep firma panelinizdeki “Teklif bekleyenler” bölümünde fiyat vermeye açılır.</span>
     </div>
-    <div class="card" id="kurucu-kutu" hidden style="margin:16px 0 0;border:2px solid var(--green);display:flex;gap:14px;align-items:center;flex-wrap:wrap">
-      <div style="flex:1;min-width:220px"><strong style="font-size:1.1rem;color:var(--green-d)">★ Kurucu üye kampanyası: ilk ay ücretsiz</strong>
-        <span class="small" style="display:block;margin-top:4px">İlk <b data-kurucu-toplam>50</b> firmaya özel. Başvurunuz onaylanınca ödeme yapmadan size uyan taleplere hemen fiyat verirsiniz; firma sayfanızda “Kurucu üye” rozeti görünür. İkinci aydan itibaren aylık {SITE.abonelik} TL; devam etmezseniz bir şey ödemezsiniz, üyelik kendiliğinden durur.</span></div>
-      <div style="text-align:center;min-width:110px"><b style="font-size:1.8rem;color:var(--green-d)" data-kurucu-kalan>–</b><span class="xs muted" style="display:block">kalan kontenjan</span></div>
+    <div class="card" id="kampanya-kutu" hidden style="margin:16px 0 0;border:2px solid var(--green);display:flex;flex-direction:column;gap:10px">
+      <strong style="font-size:1.15rem;color:var(--green-d)">Açılış kampanyası: 1 ay ücretsiz üyelik</strong>
+      <span class="small">Türkiye’de Google’da her ay <b>150 binden fazla</b> “prefabrik ev” ve “prefabrik ev fiyatları” araması yapılıyor; çelik ev, konteyner ev ve tiny house aramalarıyla bu sayı daha da büyüyor <span class="xs muted">(Semrush, Kasım 2026)</span>. Ev arayanlar burada fiyatları karşılaştırıp teklif istiyor.</span>
+      <ul class="small" style="margin:0;padding-left:18px;display:grid;gap:4px">
+        <li><b>Müşteri tüm detaylarıyla panelinizde:</b> ili, ev tipi, metrekare ve oda sayısı, bütçesi, arsa durumu ve ne zaman başlamak istediği; fiyat verdiğiniz anda adı, telefonu ve e-postası.</li>
+        <li><b>Sadece size uyan talepler:</b> hizmet verdiğiniz iller ve ürettiğiniz ev tipleri.</li>
+        <li><b>Komisyon yok:</b> satışınızdan pay almıyoruz.</li>
+        <li><b>İlk 50 firmaya 1 ay ücretsiz,</b> kart bilgisi istemeden. Başvurunuz onaylanınca hemen teklif verirsiniz; sonra aylık {SITE.abonelik} TL, devam etmezseniz hiçbir şey ödemezsiniz.</li>
+      </ul>
     </div>
     <div class="card" style="margin:16px 0;display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:var(--green-ll);border-color:#cfe4d6">
       <div style="flex:1;min-width:220px"><strong style="font-size:1.05rem">Firma üyeliği: aylık {SITE.abonelik} TL</strong><span class="small muted" style="display:block;margin-top:4px">Başvurunuzu inceleyip onaylarız, ödeme bağlantısını e-postanıza göndeririz. Ödemeyi her ay düzenli yaparsınız; sitede kart bilgisi istemeyiz. Reklam paketleri isteğe bağlıdır ve üyeliğe ektir: <a href="/reklam-ver/">fiyatlar</a>.</span></div>
@@ -109,21 +114,20 @@ const firmaOzet = Object.fromEntries(firms.map((f) => [f.slug, { u: f.ad, m: f.k
       <ol style="margin:8px 0 0;padding-left:20px;line-height:1.7">
         <li data-kurucu-yok>Başvurunuz onaylanınca <b>aylık {SITE.abonelik} TL</b> üyelik ödeme bağlantısı e-postanıza gelir.</li>
         <li data-kurucu-yok>Ödemeyi yaptığınızda firmanız sitede <b>“doğrulanmış”</b> olarak görünür.</li>
-        <li data-kurucu-var hidden>Kurucu üye kontenjanı varsa başvurunuz onaylanınca üyeliğiniz <b>ilk ay ücretsiz</b> olarak hemen açılır; firmanız sitede “Kurucu üye” rozetiyle görünür.</li>
+        <li data-kurucu-var hidden>Açılış kampanyası kapsamında başvurunuz onaylanınca üyeliğiniz <b>1 ay ücretsiz</b> olarak hemen açılır; firmanız sitede “Üye firma” rozetiyle görünür.</li>
         <li>Size uyan taleplere <a href="/firma-paneli/">firma panelinizden</a> fiyat verirsiniz; fiyat verdiğiniz müşterinin iletişim bilgileri size açılır.</li>
       </ol>
       <p class="small muted" style="margin:10px 0 0">Firma paneline başvuruda yazdığınız e-posta adresiyle (Google ile ya da şifre belirleyerek) giriş yapabilirsiniz.</p>
     </div>
   </div>
   <script>
-    import { kurucuBilgi } from '../scripts/katalog';
-    kurucuBilgi().then((b) => {
-      if (!b || b.kalan <= 0) return;
-      const k = document.getElementById('kurucu-kutu')!; k.hidden = false;
-      k.querySelector('[data-kurucu-kalan]')!.textContent = String(b.kalan); k.querySelector('[data-kurucu-toplam]')!.textContent = String(b.toplam);
+    import { kampanyaVar } from '../scripts/katalog';
+    kampanyaVar().then((v) => {
+      if (!v) return;
+      document.getElementById('kampanya-kutu')!.hidden = false;
       document.querySelectorAll<HTMLElement>('[data-kurucu-yok]').forEach((e) => (e.hidden = true));
       document.querySelectorAll<HTMLElement>('[data-kurucu-var]').forEach((e) => (e.hidden = false));
-      const d = document.querySelector('#davet-bilgi .small'); if (d) d.innerHTML = '<b>Sizi bekleyen bir müşteri talebi var.</b> Kaydınızı tamamlayın; başvurunuz onaylanınca kurucu üye olarak ilk ay ücretsiz bu talebe firma panelinizden fiyat verebilirsiniz.';
+      const d = document.querySelector('#davet-bilgi .small'); if (d) d.innerHTML = '<b>Sizi bekleyen bir müşteri talebi var.</b> Kaydınızı tamamlayın; başvurunuz onaylanınca 1 ay ücretsiz üyelikle bu talebe firma panelinizden fiyat verebilirsiniz.';
     });
   </script>
   <script is:inline>
