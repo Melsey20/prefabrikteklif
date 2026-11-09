@@ -44,20 +44,20 @@
       "aciklama": "Hisseli tarlaya ev yapılır mı? Hisseli araziye prefabrik ev, tarlaya ev yapma şartları ve 2026 kuralları 👇\n\nHisseli araziye ev, ancak tüm hissedarların noter onaylı muvafakatiyle ve normal yapı ruhsatı süreciyle yapılabilir; Planlı Alanlar İmar Yönetmeliği, parsel maliklerinin muvafakati olmadan ruhsat verilmesine izin vermez. Arazi tarla vasıflıysa tarım arazisi kuralları ayrıca uygulanır.\n\n20 Haziran 2026'da yayımlanan 7584 sayılı Kanun'la izinsiz yapılara elektrik, su ve doğal gaz aboneliği verilmesi yasaklandı. Hisseli tarla almadan önce il tarım ve orman müdürlüğüne ve belediyeye/il özel idaresine danışın; gerekirse bir avukattan görüş alın.\n\nPrefabrikTeklif sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; arazinizin hangi eve uygun olduğunu \"Arazim uygun mu?\" aracıyla görebilirsiniz.\n\n📌 Kaydedin, arsa almadan önce lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tarlayaevyapılırmı #hisselitarla #hisseliarazi #bağevi #prefabrikev",
       "sahneler": [
         {
-          "t": 0,
+          "t": 0.0,
           "tur": "foto",
           "img": "prefabrik-960.webp",
           "h": "Hisseli Tarlaya<br><em>Ev Yapılır mı?</em>"
         },
         {
-          "t": 0,
+          "t": 1.91,
           "tur": "foto",
           "img": "bungalov-960.webp",
           "h": "Tüm hissedarların <em>onayı şart</em>",
           "p": "Noter onaylı muvafakatname"
         },
         {
-          "t": 0,
+          "t": 5.62,
           "tur": "liste",
           "ikon": "✕",
           "maddeler": [
@@ -68,20 +68,21 @@
           "h": "İzinsiz yapıya <em>abonelik yok</em>"
         },
         {
-          "t": 0,
+          "t": 11.04,
           "tur": "foto",
           "img": "bungalov-b-960.webp",
           "h": "Almadan önce <em>danışın</em>",
           "p": "Belediye ve il tarım müdürlüğü"
         },
         {
-          "t": 0,
+          "t": 13.93,
           "tur": "son",
           "h": "Arazinize uygun evi <em>tekliflerle görün.</em>",
           "p": "Bağlantı profilde"
         }
       ],
-      "sure": 0
+      "sure": 15.38,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261109_055134_85000eb7-a856-41c7-a9a9-b12e4d7fb093.mp3"
     },
     {
       "seslendirme": "Tiny house kışın nasıl ısıtılır? Önce yalıtım: duvar, çatı ve taban. En verimlisi çoğu zaman inverter klima; çok soğukta yanına bacalı soba eklenir. Soba varsa karbonmonoksit dedektörü şart. Teklifte yalıtım kalınlığını sorun. Bağlantı profilde.",
@@ -95,13 +96,13 @@
       "aciklama": "Tiny house kışın nasıl ısıtılır? Tiny house ısıtma seçenekleri, yalıtım ve soba güvenliği 👇\n\nTiny house kışın en verimli şekilde iyi yalıtım + inverter klima ile ısıtılır; çok soğuk bölgelerde buna bacalı bir odun ya da pelet sobası eklenir. Önce kabuk: duvar, çatı ve taban yalıtımı ile ısıcam doğrama. Tekerlekli modellerde taban daha çabuk soğur.\n\nSoba kullanacaksanız baca dışarıya sızdırmaz çıkmalı, temiz hava girişi bırakılmalı ve karbonmonoksit dedektörü takılmalı; bacasız tüplü ısıtıcılar küçük kapalı alanlar için önerilmez. Su tesisatını donmaya karşı korumayı unutmayın.\n\nPrefabrikTeklif tiny house sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; teklif alırken yalıtım kalınlığını ve ısıtmanın fiyata dahil olup olmadığını sorun.\n\n📌 Kaydedin, kış gelmeden lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tinyhouse #tinyhouseısıtma #tinyhousekış #tinyhousefiyat",
       "sahneler": [
         {
-          "t": 0,
+          "t": 0.0,
           "tur": "foto",
           "img": "tiny-house-b-960.webp",
           "h": "Tiny House Kışın<br><em>Nasıl Isıtılır?</em>"
         },
         {
-          "t": 0,
+          "t": 2.15,
           "tur": "liste",
           "ikon": "✓",
           "maddeler": [
@@ -113,27 +114,28 @@
           "h": "Önce <em>yalıtım</em>"
         },
         {
-          "t": 0,
+          "t": 5.82,
           "tur": "foto",
           "img": "ic-mekan-1344.webp",
           "h": "İnverter klima <em>+ bacalı soba</em>",
           "p": "Çok soğuk bölgede ikinci kaynak"
         },
         {
-          "t": 0,
+          "t": 11.04,
           "tur": "foto",
           "img": "tiny-house-c-960.webp",
           "h": "CO dedektörü <em>şart</em>",
           "p": "Soba varsa, küçük hacimde"
         },
         {
-          "t": 0,
+          "t": 13.98,
           "tur": "son",
           "h": "Yalıtım kalınlığını <em>teklifte sorun.</em>",
           "p": "Bağlantı profilde"
         }
       ],
-      "sure": 0
+      "sure": 17.29,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261109_055134_0fd4af33-4faa-4815-83aa-8b65664d5dce.mp3"
     }
   ],
   "yayin": {
