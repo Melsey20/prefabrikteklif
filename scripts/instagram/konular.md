@@ -54,3 +54,19 @@ Marka adları (Karmod, A101, BİM vb.), tatil/kiralık bungalov, oyuncak ev ve h
 
 - Fiyat/istatistik yalnızca src/data/meta.json'dan. "Kaba hesap" = m² × istatistik.{tip}.m2Medyan; her zaman "kaba hesap / yaklaşık" diye belirtin ve "{sonKontrolYazi} itibarıyla listemizde" kaynağını gösterin.
 - Mevzuat, izin ve destek bilgisi yalnızca sitedeki rehber yazılarından ve /arazim-uygun-mu/ sayfasından alınır; oradaki ihtiyat ifadeleri ("haberlere göre", "il tarım ve orman müdürlüğünden teyit edin") korunur. Yeni hukuki iddia uydurmayın.
+
+## Açılış kampanyası — firma içerikleri (9 Kasım 2026, Yusuf Bey onayladı)
+
+Geçerlilik: `src/pages/firma-kayit.astro` içinde `id="kampanya-kutu"` kutusu durdukça ve Yusuf Bey kampanyanın bittiğini söyleyene kadar.
+
+- **Ne zaman:** Pazartesi, Çarşamba ve Cuma akşamı (19:00) tasarım, kampanya odaklı bir firma karuseli ya da teklisi olur. Akşamın 2. Reels'i (19:40) de firmalara seslenen, seslendirmeli bir kampanya Reels'idir. O gün kalan 3 Reels ev arayanlar içindir ve en az 2'si bilgi içeriğidir. Örnek: `icerik/2026-11-09-aksam.json`.
+- **Söylenebilenler (sitedeki ifadelerle):** İlk 50 firmaya 1 ay ücretsiz üyelik. Kart bilgisi istenmez. Başvuru onaylanınca hemen teklif verilir. Komisyon yok. Devam etmezse hiçbir şey ödemez. Firma sitede "Üye firma" rozetiyle görünür. Talep; il, ev tipi, m², oda sayısı, bütçe, arsa durumu ve başlama zamanıyla firma paneline gelir. Yalnızca hizmet verilen illerden ve üretilen ev tiplerinden talep gelir. Her firma resmî evrak ve referansla kabul edilir.
+- **Arama verisi:** Yalnızca şu ifade kullanılır: "Google'da her ay 150 binden fazla 'prefabrik ev' ve 'prefabrik ev fiyatları' araması (Semrush, Kasım 2026)".
+- **Yasaklar:** Aylık üyelik tutarı ve reklam fiyatları YİNE yazılmaz. Kalan kontenjan sayısı yazılmaz. "Kurucu üye" denmez.
+- **Çeşitlilik:** Her gün aynı kampanya hook'unu tekrarlamayın. Örnek hook'lar:
+  - "İlk 50 firmaya 1 ay ücretsiz üyelik."
+  - "Kart bilgisi yok, taahhüt yok."
+  - "Müşteri aramayın, talepler size gelsin."
+  - "Prefabrik ev mi üretiyorsunuz?"
+  - "Tiny house üreticileri, ilk ay bizden."
+- **Başvuru adresi:** Firma içeriklerinin altında alt_sol olarak `prefabrikteklif.com.tr/firma-kayit` yazılır. Açıklamada "👉 Başvuru: prefabrikteklif.com.tr/firma-kayit" satırı bulunur.
