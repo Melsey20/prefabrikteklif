@@ -5,26 +5,69 @@
   "tasarimlar": [
     {
       "ad": "A",
-      "aciklama": "Prefabrik ev modelleriniz doğru alıcıya ulaşsın: prefabrik ev, tiny house, ahşap ev ve çelik ev firmaları için 📣\n\nPrefabrikTeklif'te ev arayanlar ilini, ev tipini ve metrekaresini yazarak teklif talebi bırakır. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz ev tipine uyan talepler gelir; müşteri bilgisi, fiyat vermeyi kabul ettiğinizde açılır. Prefabrik ev modellerinizi, fiyatlarınızı ve fotoğraflarınızı firma panelinden kendiniz yönetirsiniz.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir. Her firmayı resmî evrakları ve teslim ettiği işlerin referanslarıyla kabul ediyoruz; referansı olmayan firmayı kaydetmiyoruz.\n\n👉 Başvuru: prefabrikteklif.com.tr/firma-kayit\n📌 Kaydedin, başvururken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevmodelleri #prefabrikevfirmaları #tinyhouseüreticisi #ahşapevfirmaları",
-      "alt_text": "Koyu yeşil zeminde büyük serif başlık: “Prefabrik ev modelleriniz doğru alıcıya ulaşsın.” Altında firmalara kısa açıklama, ahşap, çelik ve konteyner evlerden üç temsilî fotoğraf, “Resmî evrak + referans”, “İlinize göre talep”, “Firma paneli” çipleri ve başvuru adresi prefabrikteklif.com.tr/firma-kayit; üstte PrefabrikTeklif logosu.",
+      "aciklama": "Prefabrik ev firmalarına açılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik 📣 Prefabrik ev, tiny house, ahşap ev, çelik ev ya da konteyner ev mi üretiyorsunuz?\n\nGoogle'da her ay 150 binden fazla \"prefabrik ev\" ve \"prefabrik ev fiyatları\" araması yapılıyor (Semrush, Kasım 2026). Ev arayanlar PrefabrikTeklif'te fiyatları karşılaştırıp teklif istiyor; talep ili, ev tipi, metrekare ve oda sayısı, bütçe, arsa durumu ve başlama zamanıyla birlikte firma panelinize düşer. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz ev tiplerinden talep gelir. Satışınızdan komisyon almıyoruz.\n\nİlk 50 firmaya 1 ay ücretsiz üyelik: kart bilgisi istemiyoruz, başvurunuz onaylanınca hemen teklif vermeye başlarsınız; devam etmezseniz hiçbir şey ödemezsiniz. Her firmayı resmî evrakları ve referanslarıyla kabul ediyoruz.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👉 Başvuru: prefabrikteklif.com.tr/firma-kayit\n📌 Kaydedin, başvururken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevfirmaları #prefabrikevüreticisi #tinyhouseüreticisi #ahşapevfirmaları #çelikevfirmaları",
       "kartlar": [
         {
-          "sablon": "ucfoto",
+          "sablon": "kapak",
           "koyu": true,
           "etiket": "Firmalar için",
-          "boy": 88,
-          "h": "Prefabrik ev modelleriniz <em>doğru alıcıya</em> ulaşsın.",
-          "p": "Modellerinizi ve fiyatlarınızı panelden girin; hizmet verdiğiniz illerden, ürettiğiniz ev tipine uyan talepler size gelsin.",
-          "imgs": [
-            "ahsap-960.webp",
-            "celik-960.webp",
-            "konteyner-960.webp"
+          "h": "İlk 50 firmaya <em>1 ay ücretsiz</em> üyelik.",
+          "boy": 96,
+          "p": "Prefabrik, tiny house, ahşap, çelik ya da konteyner ev mi üretiyorsunuz? Açılış kampanyası başladı. Kaydırın.",
+          "img": "prefabrik-c-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Neden <em>şimdi?</em>",
+          "boy": 84,
+          "alt_sag": "Arama verisi: Semrush, Kasım 2026",
+          "maddeler": [
+            [
+              "Her ay 150 binden fazla arama",
+              "“Prefabrik ev” ve “prefabrik ev fiyatları” Google’da her ay 150 binden fazla aranıyor."
+            ],
+            [
+              "Talep tüm detayıyla panelinizde",
+              "İl, ev tipi, m², oda sayısı, bütçe, arsa durumu, başlama zamanı."
+            ],
+            [
+              "Sadece size uyan talepler",
+              "Hizmet verdiğiniz iller ve ürettiğiniz ev tipleri."
+            ],
+            [
+              "Komisyon yok",
+              "Satışınızdan pay almıyoruz."
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Başvuru için <em>hazırlayın:</em>",
+          "p": "Onaylanınca 1 ay ücretsiz üyeliğiniz hemen açılır.",
+          "maddeler": [
+            "Vergi levhası",
+            "Faaliyet belgesi",
+            "Referanslarınız",
+            "Hizmet illeri",
+            "Ev tipleriniz",
+            "Model ve fiyatlar"
           ],
+          "img": "konteyner-c-960.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Kart bilgisi yok, <em>taahhüt yok.</em>",
+          "p": "İlk 50 firmaya 1 ay ücretsiz. Devam etmezseniz hiçbir şey ödemezsiniz.",
+          "img": "hero-1344.webp",
           "cipler": [
-            "Resmî evrak + referans",
-            "İlinize göre talep",
-            "Firma paneli"
+            "1 ay ücretsiz",
+            "Kartsız",
+            "Komisyonsuz"
           ],
+          "foto_boy": 520,
           "alt_sol": "prefabrikteklif.com.tr/firma-kayit",
           "alt_sag": "Başvuru →"
         }
@@ -85,7 +128,7 @@
       "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261109_055134_85000eb7-a856-41c7-a9a9-b12e4d7fb093.mp3"
     },
     {
-      "seslendirme": "Tiny house kışın nasıl ısıtılır? Önce yalıtım: duvar, çatı ve taban. En verimlisi çoğu zaman inverter klima; çok soğukta yanına bacalı soba eklenir. Soba varsa karbonmonoksit dedektörü şart. Teklifte yalıtım kalınlığını sorun. Bağlantı profilde.",
+      "seslendirme": "Prefabrik ev mi üretiyorsunuz? Google'da her ay yüz elli binden fazla prefabrik ev araması yapılıyor. İlk elli firmaya bir ay ücretsiz üyelik. Talepler tüm detayıyla panelinize gelir. Kart yok, komisyon yok. Bağlantı profilde.",
       "ses": {
         "model": "text2speech_v2",
         "variant": "elevenlabs",
@@ -93,53 +136,66 @@
         "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
         "tempo": 1.1
       },
-      "aciklama": "Tiny house kışın nasıl ısıtılır? Tiny house ısıtma seçenekleri, yalıtım ve soba güvenliği 👇\n\nTiny house kışın en verimli şekilde iyi yalıtım + inverter klima ile ısıtılır; çok soğuk bölgelerde buna bacalı bir odun ya da pelet sobası eklenir. Önce kabuk: duvar, çatı ve taban yalıtımı ile ısıcam doğrama. Tekerlekli modellerde taban daha çabuk soğur.\n\nSoba kullanacaksanız baca dışarıya sızdırmaz çıkmalı, temiz hava girişi bırakılmalı ve karbonmonoksit dedektörü takılmalı; bacasız tüplü ısıtıcılar küçük kapalı alanlar için önerilmez. Su tesisatını donmaya karşı korumayı unutmayın.\n\nPrefabrikTeklif tiny house sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; teklif alırken yalıtım kalınlığını ve ısıtmanın fiyata dahil olup olmadığını sorun.\n\n📌 Kaydedin, kış gelmeden lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tinyhouse #tinyhouseısıtma #tinyhousekış #tinyhousefiyat",
+      "aciklama": "Prefabrik ev mi üretiyorsunuz? Prefabrik ev firmalarına açılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik 📣\n\nGoogle'da her ay 150 binden fazla \"prefabrik ev\" ve \"prefabrik ev fiyatları\" araması yapılıyor (Semrush, Kasım 2026). PrefabrikTeklif'te ev arayanların teklif talepleri; il, ev tipi, metrekare, oda sayısı, bütçe, arsa durumu ve başlama zamanıyla firma panelinize gelir. Yalnızca hizmet verdiğiniz illerden ve ürettiğiniz ev tiplerinden talep alırsınız.\n\nKart bilgisi istemiyoruz, satışınızdan komisyon almıyoruz; devam etmezseniz hiçbir şey ödemezsiniz. Tiny house, ahşap ev, çelik ev ve konteyner ev üreticileri de başvurabilir; her firmayı resmî evrakları ve referanslarıyla kabul ediyoruz.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👉 Başvuru: prefabrikteklif.com.tr/firma-kayit\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevfirmaları #prefabrikevüreticisi #tinyhouseüreticisi #çelikevfirmaları",
       "sahneler": [
         {
           "t": 0.0,
           "tur": "foto",
-          "img": "tiny-house-b-960.webp",
-          "h": "Tiny House Kışın<br><em>Nasıl Isıtılır?</em>"
+          "img": "montaj-960.webp",
+          "h": "Prefabrik Ev mi<br><em>Üretiyorsunuz?</em>"
         },
         {
-          "t": 2.15,
+          "t": 2.22,
+          "tur": "sayi",
+          "n": 150,
+          "birim": "bin+ arama / ay · Semrush",
+          "h": "Her ay <em>150 binden fazla</em> arama",
+          "p": "“Prefabrik ev” + “prefabrik ev fiyatları”"
+        },
+        {
+          "t": 5.95,
+          "tur": "foto",
+          "img": "konteyner-b-960.webp",
+          "h": "İlk 50 firmaya <em>1 ay ücretsiz</em>",
+          "p": "Açılış kampanyası"
+        },
+        {
+          "t": 8.35,
           "tur": "liste",
           "ikon": "✓",
           "maddeler": [
-            "Duvar",
-            "Çatı",
-            "Taban",
-            "Isıcam doğrama"
+            "İl ve ev tipi",
+            "m² ve oda sayısı",
+            "Bütçe",
+            "Arsa durumu",
+            "Başlama zamanı"
           ],
-          "h": "Önce <em>yalıtım</em>"
+          "h": "Talep <em>tüm detayıyla</em>"
         },
         {
-          "t": 5.82,
-          "tur": "foto",
-          "img": "ic-mekan-1344.webp",
-          "h": "İnverter klima <em>+ bacalı soba</em>",
-          "p": "Çok soğuk bölgede ikinci kaynak"
+          "t": 10.65,
+          "tur": "liste",
+          "ikon": "✕",
+          "maddeler": [
+            "Kart bilgisi",
+            "Komisyon",
+            "Taahhüt"
+          ],
+          "h": "Hiçbiri <em>yok</em>"
         },
         {
-          "t": 11.04,
-          "tur": "foto",
-          "img": "celik-b-960.webp",
-          "h": "CO dedektörü <em>şart</em>",
-          "p": "Soba varsa, küçük hacimde"
-        },
-        {
-          "t": 13.98,
+          "t": 12.47,
           "tur": "son",
-          "h": "Yalıtım kalınlığını <em>teklifte sorun.</em>",
-          "p": "Bağlantı profilde"
+          "h": "Firmanızı <em>bugün kaydedin.</em>",
+          "p": "Başvuru bağlantısı profilde"
         }
       ],
-      "sure": 17.29,
-      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261109_055134_0fd4af33-4faa-4815-83aa-8b65664d5dce.mp3"
+      "sure": 13.85,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261109_095819_c5680a30-81e8-47e6-9ed6-2696c7c4949a.mp3"
     }
   ],
   "yayin": {
     "hesap": "17841474767654199",
-    "durum": "zamanlandı (Supermetrics, #6095-6100: tasarım 19:00, Reels 19:20 ve 19:40, 3 hikâye 19:45-19:55)"
+    "durum": "planlandı (kampanya revizyonu)"
   }
 }
