@@ -206,7 +206,7 @@
   ],
   "yayin": {
     "hesap": "17841474767654199",
-    "durum": "yayınlanamadı: Supermetrics TRIAL_EXPIRED (deneme süresi 9 Kasım 2026'da bitti); içerikler üretildi ve yüklendi, zamanlanmadı",
+    "durum": "yayında (Meta Graph API): 1/6 öğe yayınlandı",
     "medya": {
       "tasarim": [
         "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/ffca41fc-e37e-46ad-a5c1-4ac419738a79.jpg",
@@ -219,6 +219,12 @@
         "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/0515c71c-1fc8-4f92-b7a6-8c2623224ecf.mp4",
         "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/a8b58918-8290-4eb5-a053-daac6a05292d.mp4"
       ]
+    },
+    "yayinlanan": {
+      "tasarim": {
+        "id": "18007464209793305",
+        "zaman": "2026-11-10 11:06"
+      }
     }
   }
 }
