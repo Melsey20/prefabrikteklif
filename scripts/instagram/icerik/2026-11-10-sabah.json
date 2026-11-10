@@ -1,0 +1,211 @@
+{
+  "tarih": "2026-11-10",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Ahşap ev fiyatları 2026: ahşap ev hayali kaça mal olur? Başlangıç, ortanca ve m² fiyatıyla ahşap ev bütçesi 👇\n\n9 Kasım 2026 itibarıyla listemizde ahşap ev 364.700 TL'den başlıyor; ortanca fiyat 1.601.250 TL, metrekare başına ortanca fiyat yaklaşık 26.100 TL. Bu m² fiyatıyla kaba hesap: 60 m² ahşap ev yaklaşık 1.566.000 TL, 90 m² yaklaşık 2.349.000 TL, 120 m² yaklaşık 3.132.000 TL.\n\nKaba hesap yalnızca bir başlangıç noktasıdır. Ahşap türü ve kalınlığı, yalıtım, iç bitiş ve teslim şekli fiyatı değiştirir; temel, nakliye, montaj ve KDV'nin fiyata dahil olup olmadığını mutlaka sorun.\n\nPrefabrikTeklif ahşap ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir: 150 firmanın 585 modeli tek yerde, teklifler 48 saatte tek tabloda.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#ahşapev #ahşapevfiyatları #ahşapevmodelleri #prefabrikahşapev",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Ahşap ev 2026",
+          "h": "Ahşap ev hayali: <em>fiyatı ne?</em>",
+          "boy": 96,
+          "p": "Başlangıç, ortanca ve m² fiyatı; üç büyüklük için kaba hesap. Kaydırın.",
+          "img": "ahsap-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Listemizde <em>ahşap ev</em>",
+          "boy": 84,
+          "alt_sag": "9 Kasım 2026 itibarıyla listemizde",
+          "maddeler": [
+            [
+              "Başlangıç fiyatı",
+              "364.700 TL’den başlıyor."
+            ],
+            [
+              "Ortanca fiyat",
+              "1.601.250 TL; fiyatlı modellerin yarısı bunun altında."
+            ],
+            [
+              "m² ortanca fiyatı",
+              "Yaklaşık 26.100 TL / m²."
+            ]
+          ]
+        },
+        {
+          "sablon": "liste",
+          "etiket": "3 / 4",
+          "h": "Kaba hesap: <em>kaç m², kaç TL?</em>",
+          "boy": 84,
+          "alt_sag": "Kaba hesap: m² × 26.100 TL · 9 Kasım 2026",
+          "maddeler": [
+            [
+              "60 m² ahşap ev",
+              "Yaklaşık 1.566.000 TL"
+            ],
+            [
+              "90 m² ahşap ev",
+              "Yaklaşık 2.349.000 TL"
+            ],
+            [
+              "120 m² ahşap ev",
+              "Yaklaşık 3.132.000 TL"
+            ]
+          ]
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Ahşap ev tekliflerini <em>yan yana</em> görün.",
+          "p": "Formu bir kez doldurun; firmalar fiyatı aynı başlıklarla girsin, teklifler 48 saatte gelsin.",
+          "img": "ahsap-b-960.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ],
+          "foto_boy": 520
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Hafif çelik ev nedir? Bir ila üç milimetrelik galvanizli profillerle kurulan ev. Hafif olduğu için depremde üzerine binen yük az, kurulumu hızlı. Ama dış yalıtım şart. Profil kalınlığını ve statik projeyi sorun. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "Hafif çelik ev nedir? Hafif çelik ev (çelik konstrüksiyon ev) sistemi, avantajları ve alırken sorulacaklar 👇\n\nHafif çelik ev, konutlarda yaygın kullanılan 1–3 mm kalınlığında galvanizli çelik profillerle kurulan bir yapı sistemidir. Yapı ağırlığı hafif olduğu için deprem sırasında üzerine binen yük azdır; profiller fabrikada ölçüsünde kesildiği için kurulum hızlıdır, plan esnekliği yüksektir.\n\nDikkat: çelik ısıyı iyi iletir; profillerin dışında kesintisiz yalıtım (mantolama) yoksa ısı köprüsü oluşur. Firmaya profil kalınlığını, galvaniz sınıfını, dış yalıtım kalınlığını ve statik projenin deprem yönetmeliğine uygunluğunu sorun.\n\nPrefabrikTeklif çelik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir. 9 Kasım 2026 itibarıyla listemizde çelik ev 575.000 TL'den başlıyor.\n\n📌 Kaydedin, çelik ev alırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#hafifçelikev #çelikev #çelikkonstrüksiyonev #çelikevfiyatları",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "img": "celik-960.webp",
+          "h": "Hafif Çelik Ev<br><em>Nedir?</em>"
+        },
+        {
+          "t": 1.93,
+          "tur": "foto",
+          "img": "celik-b-960.webp",
+          "h": "1–3 mm <em>galvanizli profil</em>",
+          "p": "Konutlarda yaygın çelik sistem"
+        },
+        {
+          "t": 5.27,
+          "tur": "liste",
+          "ikon": "✓",
+          "maddeler": [
+            "Hafif yapı ağırlığı",
+            "Hızlı kurulum",
+            "Plan esnekliği",
+            "Çürüme, böcek yok"
+          ],
+          "h": "Öne çıkan <em>yönleri</em>"
+        },
+        {
+          "t": 9.64,
+          "tur": "foto",
+          "img": "celik-c-960.webp",
+          "h": "Dış yalıtım <em>şart</em>",
+          "p": "Isı köprüsüne karşı mantolama"
+        },
+        {
+          "t": 11.42,
+          "tur": "liste",
+          "ikon": "?",
+          "maddeler": [
+            "Profil kalınlığı",
+            "Galvaniz sınıfı",
+            "Yalıtım kalınlığı",
+            "Statik proje"
+          ],
+          "h": "Firmaya <em>sorun</em>"
+        },
+        {
+          "t": 14.16,
+          "tur": "son",
+          "h": "Çelik ev fiyatlarını <em>yan yana görün.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 15.64,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261110_055115_22f50af7-2810-4c2f-9a7c-1dec7ae9aab1.mp3"
+    },
+    {
+      "seslendirme": "Tiny house kışın nasıl ısıtılır? Önce yalıtım: duvar, çatı, taban ve pencere. En verimli seçenek çoğu zaman inverter klima. Çok soğuk bölgede yanına bacalı soba eklenir. Sobada karbonmonoksit dedektörü şart. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "Tiny house kışın nasıl ısıtılır? Tiny house ısıtma seçenekleri, yalıtım ve soba güvenliği 👇\n\nTiny house'ta önce kabuk: duvar, çatı, taban ve pencere yalıtımı. Küçük evin hacmine göre dış yüzeyi büyük olduğu için yalıtımı zayıf bir tiny house hangi ısıtıcıyla olursa olsun çabuk soğur. Elektrik bağlantısı varsa en verimli seçenek çoğu zaman inverter klimadır (ısı pompası); çok soğuk bölgelerde yanına bacalı bir odun ya da pelet sobası eklenir.\n\nSoba kullanacaksanız karbonmonoksit dedektörü takın, bacanın sızdırmaz çıktığından emin olun ve odaya temiz hava girişi bırakın; bacasız tüplü ısıtıcıları küçük kapalı alanlarda kullanmayın. Su tesisatı için donma korumasını da sorun.\n\nPrefabrikTeklif tiny house sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; firmalardan yalıtım ve ısıtma kalemlerini yazılı isteyin.\n\n📌 Kaydedin, kışa hazırlanırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tinyhouse #tinyhouseısıtma #tinyhouseyalıtım #tinyhousefiyat",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "img": "tiny-house-960.webp",
+          "h": "Tiny House Kışın<br><em>Nasıl Isıtılır?</em>"
+        },
+        {
+          "t": 2.36,
+          "tur": "liste",
+          "ikon": "✓",
+          "maddeler": [
+            "Duvar",
+            "Çatı",
+            "Taban",
+            "Pencere"
+          ],
+          "h": "Önce <em>yalıtım</em>"
+        },
+        {
+          "t": 6.51,
+          "tur": "foto",
+          "img": "ic-mekan-960.webp",
+          "h": "En verimli: <em>inverter klima</em>",
+          "p": "Çoğu zaman, elektrik bağlantısı varsa"
+        },
+        {
+          "t": 9.62,
+          "tur": "foto",
+          "img": "tiny-house-b-960.webp",
+          "h": "Çok soğukta <em>+ bacalı soba</em>",
+          "p": "Odun ya da pelet"
+        },
+        {
+          "t": 12.24,
+          "tur": "liste",
+          "ikon": "✓",
+          "maddeler": [
+            "CO dedektörü",
+            "Sızdırmaz baca",
+            "Temiz hava girişi"
+          ],
+          "h": "Soba varsa <em>güvenlik şart</em>"
+        },
+        {
+          "t": 14.76,
+          "tur": "son",
+          "h": "Yalıtımı <em>teklifte yazılı görün.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 16.27,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261110_055115_00590b7c-3d61-496f-9279-b6a9783a763b.mp3"
+    }
+  ],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "hazırlanıyor"
+  }
+}

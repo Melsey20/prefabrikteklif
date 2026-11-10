@@ -1,0 +1,206 @@
+{
+  "tarih": "2026-11-10",
+  "slot": "aksam",
+  "saat": "19:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Bungalov ev mi, tiny house mı? Bungalov ev ile tiny house farkı, fiyatları ve kime uygun olduğu 👇\n\nBungalov ev genellikle zemine sabitlenen, tek katlı ya da çatı katlı küçük bir evdir; çoğu 15–60 m² arasındadır. Tiny house ise çoğunlukla şasi üzerine kurulan, tekerlekli ve taşınabilir bir evdir; O2 belgesiyle römork olarak çekilebilir. Zemine sabitlenen ve sürekli kullanılan ev yapı sayılır; ruhsat ve arazi kurallarını önceden sorun.\n\n9 Kasım 2026 itibarıyla listemizde bungalov ev 162.000 TL'den başlıyor (ortanca 567.500 TL, m² ortancası 21.000 TL); tiny house 429.000 TL'den başlıyor (ortanca 1.275.000 TL, m² ortancası 46.875 TL). Kıyaslarken metrekareye, yalıtıma, teslim şekline ve nakliye ile KDV'nin dahil olup olmadığına bakın.\n\nPrefabrikTeklif bungalov ve tiny house sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; teklifler 48 saatte tek tabloda.\n\n📌 Kaydedin, karar verirken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#bungalovev #bungalovevfiyatları #tinyhouse #tinyhousefiyat",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Karşılaştırma",
+          "h": "Bungalov ev mi, <em>tiny house mı?</em>",
+          "boy": 96,
+          "p": "Farkı, fiyatı ve kime uygun olduğu; kısa bir karşılaştırma. Kaydırın.",
+          "img": "bungalov-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Fark <em>nerede?</em>",
+          "boy": 84,
+          "maddeler": [
+            [
+              "Bungalov ev",
+              "Zemine sabitlenen, tek katlı ya da çatı katlı küçük ev; çoğu 15–60 m²."
+            ],
+            [
+              "Tiny house",
+              "Çoğunlukla şasi üzerinde, tekerlekli ve taşınabilir; O2 belgesiyle çekilebilir."
+            ],
+            [
+              "İzin",
+              "Zemine sabitlenen ev yapı sayılır; ruhsat ve arazi kurallarını önceden sorun."
+            ]
+          ]
+        },
+        {
+          "sablon": "liste",
+          "etiket": "3 / 4",
+          "h": "Fiyatlar <em>yan yana</em>",
+          "boy": 84,
+          "alt_sag": "9 Kasım 2026 itibarıyla listemizde",
+          "maddeler": [
+            [
+              "Bungalov ev",
+              "162.000 TL’den başlıyor; ortanca 567.500 TL, m² ortancası 21.000 TL."
+            ],
+            [
+              "Tiny house",
+              "429.000 TL’den başlıyor; ortanca 1.275.000 TL, m² ortancası 46.875 TL."
+            ],
+            [
+              "Kıyaslarken",
+              "m², yalıtım, teslim şekli; nakliye ve KDV dahil mi, sorun."
+            ]
+          ]
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "İkisinin tekliflerini <em>tek tabloda</em> görün.",
+          "p": "Formu bir kez doldurun; bungalov ve tiny house firmaları 48 saatte fiyat versin.",
+          "img": "hero-1344.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ],
+          "foto_boy": 520
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Prefabrik ev krediyle alınır mı? Mümkün, ama her bankada değil. Teminat çoğunlukla arsanın kendisi. Tam hisseli, tapulu arsa ve ruhsat gerekir. Ruhsatsız yapıya konut kredisi verilmez. Birden çok bankaya sorun. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "Prefabrik ev krediyle alınır mı? Prefabrik ev kredisi 2026: bankaların baktığı şartlar ve başvurudan önce hazırlanacaklar 👇\n\nKısa cevap: mümkün, ama her bankada ve her durumda değil. Bankalar krediyi teminata göre verir; prefabrik evde teminat çoğunlukla arsanın kendisidir. Üzerine ipotek konulabilecek tam hisseli, tapulu arsa, imar durumu ve yapı ruhsatı aranır; ruhsatsız yapılara konut kredisi verilmez, hisseli tarlada kredi çıkması zordur.\n\nBaşvurudan önce tapu ve imar durumu belgesi, firmanın proforma faturası ya da sözleşme taslağı, proje ve ruhsat belgeleri ile gelir belgelerinizi hazırlayın. Faiz oranları ve kampanyalar sık değişir; birden çok bankadan güncel teklif alın. Bazı firmalar peşinat sonrası vade de sunuyor.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; teklif formuna ödeme planı tercihinizi yazabilirsiniz.\n\n📌 Kaydedin, bankaya gitmeden önce lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevkredisi #prefabrikev #prefabrikevfiyatları #konutkredisi",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "img": "prefabrik-960.webp",
+          "h": "Prefabrik Ev<br><em>Krediyle Alınır mı?</em>"
+        },
+        {
+          "t": 2.25,
+          "tur": "foto",
+          "img": "prefabrik-b-960.webp",
+          "h": "Mümkün; teminat <em>çoğunlukla arsa</em>",
+          "p": "Her bankada ve her durumda değil"
+        },
+        {
+          "t": 6.84,
+          "tur": "liste",
+          "ikon": "✓",
+          "maddeler": [
+            "Tam hisseli arsa",
+            "Tapu ve imar durumu",
+            "Yapı ruhsatı",
+            "Ekspertiz",
+            "Gelir belgesi"
+          ],
+          "h": "Bankalar <em>bunlara bakar</em>"
+        },
+        {
+          "t": 9.87,
+          "tur": "foto",
+          "img": "montaj-960.webp",
+          "h": "Ruhsatsız yapıya <em>konut kredisi yok</em>",
+          "p": "Önce ruhsat sürecini netleştirin"
+        },
+        {
+          "t": 12.47,
+          "tur": "foto",
+          "img": "bungalov-b-960.webp",
+          "h": "Birden çok <em>bankaya sorun</em>",
+          "p": "Faiz ve kampanyalar sık değişir"
+        },
+        {
+          "t": 13.96,
+          "tur": "son",
+          "h": "Bütçenize uygun <em>teklifleri görün.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 15.42,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261110_055115_af414bb2-3cb2-4482-b9d0-828fe7bc6f19.mp3"
+    },
+    {
+      "seslendirme": "Prefabrik evin dezavantajları neler? Zayıf yalıtım, ses geçişi, nem ve firma kalitesi farkı. Çoğu, teklifte doğru sorularla önlenir. Panel kalınlığını ve garantiyi yazılı isteyin, referansları görün. Bağlantı profilde.",
+      "ses": {
+        "model": "text2speech_v2",
+        "variant": "elevenlabs",
+        "voice_type": "preset",
+        "voice_id": "6705e465-7b52-5915-a1d8-b1222885e01d",
+        "tempo": 1.1
+      },
+      "aciklama": "Prefabrik evin dezavantajları neler? Prefabrik ev dezavantajları, zararları ve her birine karşı ne yapılabileceği 👇\n\nEn sık dile getirilenler: ucuz modellerde zayıf yalıtım, odalar arası ses geçişi, yanlış detaylandırılmış yalıtımda nem ve yoğuşma, duvara ağır yük asma, kredi ve ruhsat kısıtları ile firmalar arasındaki büyük kalite farkı.\n\nBunların çoğu teklif aşamasında doğru sorularla önlenebilir: panel kalınlığını, yalıtım malzemesini ve pencere camını yazılı isteyin; iç duvarlarda ses yalıtımı ve buhar kesici katman var mı sorun; firmanın referanslarını yerinde görün, sözleşmeye teslim süresi, malzeme listesi ve garanti şartlarını yazdırın.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; firmalar teklifleri aynı başlıklarla girer, siz yan yana kıyaslarsınız.\n\n📌 Kaydedin, firmayla görüşürken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevdezavantajları #prefabrikev #prefabrikevzararları #prefabrikevfiyatları",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "img": "prefabrik-c-960.webp",
+          "h": "Prefabrik Evin<br><em>Dezavantajları Neler?</em>"
+        },
+        {
+          "t": 2.44,
+          "tur": "liste",
+          "ikon": "✕",
+          "maddeler": [
+            "Zayıf yalıtım",
+            "Ses geçişi",
+            "Nem ve yoğuşma",
+            "Firma kalitesi farkı"
+          ],
+          "h": "En sık <em>dile getirilenler</em>"
+        },
+        {
+          "t": 6.65,
+          "tur": "foto",
+          "img": "ic-mekan-1344.webp",
+          "h": "Çoğu <em>önlenebilir</em>",
+          "p": "Teklif aşamasında doğru sorularla"
+        },
+        {
+          "t": 9.4,
+          "tur": "liste",
+          "ikon": "✓",
+          "maddeler": [
+            "Panel kalınlığı",
+            "Yalıtım malzemesi",
+            "Garanti şartları"
+          ],
+          "h": "Yazılı <em>isteyin</em>"
+        },
+        {
+          "t": 11.69,
+          "tur": "foto",
+          "img": "montaj-1344.webp",
+          "h": "Referansları <em>yerinde görün</em>",
+          "p": "Sözleşmeye malzeme listesi yazdırın"
+        },
+        {
+          "t": 12.93,
+          "tur": "son",
+          "h": "Teklifleri <em>aynı başlıklarla</em> kıyaslayın.",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 14.38,
+      "ses_url": "https://d8j0ntlcm91z4.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/hf_20261110_055348_744af427-f863-4a2b-b938-ec210da93839.mp3"
+    }
+  ],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "hazırlanıyor"
+  }
+}
