@@ -260,7 +260,7 @@ test('kampanya duyurusu: kampanyadan önce e-posta alan firmalara bir kez gider;
   assert.equal((await r({ gonder: true })).gonderilen, 0, 'ikinci kez gitmez');
 });
 
-test('yönetim: açık talebin süresi uzatılır; geçmiş, 7 günden uzun ve kapalı talep reddedilir', async () => {
+test('yönetim: açık talebin süresi uzatılır (üst sınır yok); geçmiş tarih ve kapalı talep reddedilir', async () => {
   const { FakeDb, FieldValue, Timestamp, zaman } = await import('./fakeDb.js');
   const { createApp } = await import('../app.js');
   const db = new FakeDb(); const giden = [];
@@ -272,7 +272,7 @@ test('yönetim: açık talebin süresi uzatılır; geçmiş, 7 günden uzun ve k
   assert.equal((await r({ talep: 't1', sonTarih: yeni })).ok, true);
   assert.equal((await db.collection('talepler').doc('t1').get()).data().sonTarih.toMillis(), yeni);
   assert.equal((await r({ talep: 't1', sonTarih: zaman.simdi() - 1000 })).ok, false);
-  assert.equal((await r({ talep: 't1', sonTarih: zaman.simdi() + 8 * 24 * 3600000 })).ok, false);
+  assert.equal((await r({ talep: 't1', sonTarih: zaman.simdi() + 30 * 24 * 3600000 })).ok, true, 'üst sınır yok');
   assert.equal((await r({ talep: 't2', sonTarih: yeni })).ok, false);
   assert.equal(giden.length, 0, 'müşteriye bildirim gitmez');
 });

@@ -1439,7 +1439,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     if (!s.exists) hata(404, 'Talep bulunamadı.');
     if (s.data().durum !== 'acik') hata(409, 'Talep açık değil; süresi değiştirilemez.');
     const t = typeof b.sonTarih === 'number' ? b.sonTarih : Date.parse(str(b.sonTarih, 40));
-    if (!Number.isFinite(t) || t <= now() || t > now() + 7 * 24 * 3600000) hata(400, 'Yeni süre şimdiden sonra ve en fazla 7 gün içinde olmalı.');
+    if (!Number.isFinite(t) || t <= now()) hata(400, 'Yeni süre şu andan sonraki bir tarih olmalı.');
     await ref.update({ sonTarih: Timestamp.fromMillis(t), sureUzatma: FieldValue.arrayUnion({ eski: s.data().sonTarih?.toMillis?.() || 0, yeni: t, zaman: now() }) });
     return { ok: true, sonTarih: t };
   }
