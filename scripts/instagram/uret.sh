@@ -11,7 +11,7 @@ node scripts/instagram/cek.cjs tasarim "$O/jobs.json"
 for f in "$O"/*-1.jpg; do
   ad=$(basename "$f" -1.jpg)
   convert "$f" -resize 984x1230 \( +clone -alpha extract -fill black -colorize 100 -fill white -draw "roundrectangle 0,0,983,1229,36,36" \) -alpha off -compose CopyOpacity -composite "$T/r$ad.png"
-  convert -size 1080x1920 xc:'#103A28' "$T/r$ad.png" -geometry +48+345 -compose over -composite -quality 92 "$O/story-$ad.jpg"
+  convert -size 1080x1920 xc:'#0B0D0E' "$T/r$ad.png" -geometry +48+345 -compose over -composite -quality 92 "$O/story-$ad.jpg"
 done
 python3 scripts/instagram/ig.py reels "$J" "$T"
 N=$(python3 -c "import json,sys;r=json.load(open(sys.argv[1]))['reels'];print(1 if isinstance(r,dict) else len(r))" "$J")

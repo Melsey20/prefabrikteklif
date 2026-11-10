@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""PrefabrikTeklif Instagram üretim hattı — "soft premium" tasarım sistemi.
+"""PrefabrikTeklif Instagram üretim hattı — "premium" tasarım sistemi (Inter, iki tonlu başlık; tam sayfa fotoğraf / koyu spot / açık gri).
 
 Kullanım (depo kökünden):
   python3 scripts/instagram/ig.py tasarim scripts/instagram/icerik/2026-11-02.json  çıktı_klasörü
   python3 scripts/instagram/ig.py reels   scripts/instagram/icerik/2026-11-02.json  çıktı_klasörü
-Fontlar: node_modules/@fontsource/{manrope,playfair-display} (yoksa FONT_DIR ortam değişkeni).
+Fontlar: scripts/instagram/marka/fonts (Inter, OFL lisanslı) — kurulum gerekmez.
 Görseller: public/img. Logo: scripts/instagram/marka.
 Tasarımlar PNG (1080×1350), reels için kare kare HTML (reels.cjs ile çekilir).
 Reels sahne türleri: foto (img), grid (imgs), sayi (n, birim), liste (maddeler ≤5, ikon: ✓/✕/?), son.
@@ -15,11 +15,11 @@ import base64, json, os, pathlib, re, sys
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 IMG = ROOT / 'public' / 'img'
 MARKA = pathlib.Path(__file__).resolve().parent / 'marka'
-NM = pathlib.Path(os.environ.get('FONT_DIR', ROOT / 'node_modules' / '@fontsource'))
-C = dict(ivory='#F3EFE7', sand='#E9E2D4', line='#D8D0BF', ink='#15211B', ink2='#46524B', muted='#7A847D',
-         forest='#103A28', green='#1C6243', sage='#DCE7DE', sage2='#B9CFBF', clay='#B98A5E')
-LAT = 'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD'
-EXT = 'U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF'
+FONTS = MARKA / 'fonts'  # Inter (OFL) depoda; ayrıca kurulum gerekmez
+C = dict(ink='#121614', ink2='#5B625E', muted='#8E9590', line='#DDE1DE', bg='#F4F5F4', dark='#0B0D0E',
+         green='#1D5C3C', forest='#103A28', sage='#9FD4B2')
+LAT = 'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2190-2199,U+2212,U+2215,U+FEFF,U+FFFD'
+EXT = 'U+0100-0130,U+0132-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+1EF2-1EFF,U+20A0-20AB,U+20AD-20C0'
 
 def b64(p):
     p = pathlib.Path(p)
@@ -28,119 +28,173 @@ def b64(p):
 
 def fonts():
     css = ''
-    for fam, name, weights, styles in (('S', 'playfair-display', (500, 600), ('normal', 'italic')), ('M', 'manrope', (500, 600, 700, 800), ('normal',))):
-        for w in weights:
-            for st in styles:
-                for sub, rng in (('latin', LAT), ('latin-ext', EXT)):
-                    f = NM / name / 'files' / f'{name}-{sub}-{w}-{st}.woff2'
-                    css += f"@font-face{{font-family:{fam};font-style:{st};font-weight:{w};src:url({b64(f)}) format('woff2');unicode-range:{rng}}}"
+    for w in (400, 500, 600, 700):
+        for sub, rng in (('latin', LAT), ('latin-ext', EXT)):
+            css += f"@font-face{{font-family:I;font-style:normal;font-weight:{w};src:url({b64(FONTS / f'inter-{sub}-{w}-normal.woff2')}) format('woff2');unicode-range:{rng}}}"
     return css
 
-def logo(dark=False, w=410):
+def logo(dark=False, w=330):
     s = (MARKA / ('prefabrikteklif-logo-koyu-zemin.svg' if dark else 'prefabrikteklif-logo.svg')).read_text()
     return re.sub(r'width="\d+" height="\d+"', f'width="{w}" height="{round(w * 168.7 / 825.7)}"', s, count=1)
 
 def img(name):
     return b64(IMG / name)
 
-GRAIN = ("url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'>"
-         "<feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .06 0'/>"
-         "</filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")")
-BASE = f'''*{{box-sizing:border-box;margin:0;padding:0}}
-body{{font-family:M,sans-serif;-webkit-font-smoothing:antialiased;color:{C['ink']};font-variant-ligatures:none;font-feature-settings:'liga' 0,'dlig' 0}}
-.cv{{position:relative;overflow:hidden;background:{C['ivory']}}}
-.cv::after{{content:'';position:absolute;inset:0;background-image:{GRAIN};pointer-events:none;mix-blend-mode:multiply}}
-.cv.dk{{background:{C['forest']};color:{C['ivory']}}} .cv.dk::after{{opacity:.6;mix-blend-mode:screen}}
-.fr{{position:absolute;inset:0;padding:68px 72px 64px;display:flex;flex-direction:column}}
-.top{{display:flex;justify-content:space-between;align-items:center;flex:none}}
-.lbl{{font:700 20px M;letter-spacing:.22em;text-transform:uppercase;color:{C['muted']}}} .dk .lbl{{color:{C['sage2']}}}
-.ser{{font-family:S;font-weight:600;letter-spacing:-.015em;line-height:1.06}}
-.ser em{{font-style:italic;font-weight:500;color:{C['green']}}} .dk .ser em{{color:{C['sage2']}}}
-.body{{font:500 32px/1.42 M;color:{C['ink2']}}} .dk .body{{color:#D9E2DB}}
-.ph{{border-radius:34px;overflow:hidden;position:relative;background:{C['sand']}}} .ph img{{width:100%;height:100%;object-fit:cover;display:block}}
-.chip{{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:12px 22px;font:700 24px M;background:{C['sage']};color:{C['forest']}}}
-.dk .chip{{background:rgba(255,255,255,.08);color:{C['ivory']};border:1.5px solid rgba(255,255,255,.18)}}
-.foot{{flex:none;margin-top:auto;padding-top:22px;border-top:1.5px solid {C['line']};display:flex;justify-content:space-between;align-items:center;font:700 22px M;color:{C['ink2']};letter-spacing:.02em}}
-.dk .foot{{border-color:rgba(255,255,255,.18);color:#D9E2DB}}
-.num{{font-family:S;font-weight:600;font-size:30px;color:{C['clay']}}}
-'''
+def gok(name):
+    """Fotoğrafın üst şeridinin ortalama rengi → başlığın oturduğu gökyüzü degradesi (beyaz yazı okunur kalsın diye koyulaştırılır)."""
+    try:
+        from PIL import Image
+        im = Image.open(IMG / name).convert('RGB'); w, h = im.size
+        r, g, b = im.crop((0, 0, w, max(4, h // 16))).resize((1, 1)).getpixel((0, 0))
+    except Exception:
+        r, g, b = 77, 146, 218
+    k = lambda f: '#%02x%02x%02x' % tuple(round(x * f) for x in (r, g, b))
+    l = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+    return k(0.55 if l > 0.55 else 0.72), k(0.8 if l > 0.72 else 1)
+
+# Tasarım dili: Inter, sıkı ve iki tonlu başlık (<em> = soluk ikinci ton), tam sayfa fotoğraf / koyu spot ışık / açık gri zemin,
+# üstte ortada küçük etiket, altta solda logo, sağda ince çizgili kısa bilgi.
+BASE = f"""*{{box-sizing:border-box;margin:0;padding:0}}
+body{{font-family:I,sans-serif;-webkit-font-smoothing:antialiased;color:{C['ink']};font-feature-settings:'cv11','ss01'}}
+.cv{{position:relative;overflow:hidden;background:linear-gradient(180deg,#F7F8F7,#EEF0EF);color:{C['ink']}}}
+.cv.dk{{background:radial-gradient(ellipse 620px 520px at 50% -40px,rgba(255,255,255,.22),rgba(255,255,255,.05) 55%,transparent 75%),{C['dark']};color:#fff}}
+.cv.gk{{color:#fff}}
+.ust{{position:absolute;top:58px;left:0;right:0;text-align:center;font:600 17px I;letter-spacing:.42em;text-transform:uppercase;color:{C['muted']};z-index:3}}
+.dk .ust{{color:rgba(255,255,255,.55)}} .gk .ust{{color:rgba(255,255,255,.78)}}
+.hh{{font-weight:600;letter-spacing:-.035em;line-height:1.03}}
+.hh em{{font-style:normal;opacity:.42}} .dk .hh em,.gk .hh em{{opacity:.55}}
+.body{{font:500 30px/1.4 I;color:{C['ink2']}}} .dk .body{{color:rgba(255,255,255,.72)}} .gk .body{{color:rgba(255,255,255,.92)}}
+.alt{{position:absolute;left:72px;right:72px;bottom:58px;display:flex;justify-content:space-between;align-items:flex-end;z-index:3}}
+.meta{{text-align:right;font:500 19px/1.45 I;color:{C['ink2']}}} .meta b{{display:block;font-weight:600;font-size:21px}}
+.meta i{{display:block;width:160px;height:1.5px;margin:11px 0 9px auto;background:{C['line']}}}
+.dk .meta,.gk .meta{{color:rgba(255,255,255,.85)}} .dk .meta i,.gk .meta i{{background:rgba(255,255,255,.4)}}
+.foto{{position:absolute;left:0;right:0;bottom:0;background-position:center bottom;background-size:cover;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 160px)}}
+.golge{{position:absolute;left:0;right:0;bottom:0;height:380px;background:linear-gradient(180deg,transparent,rgba(6,16,11,.62));z-index:2}}
+.tm{{position:absolute;right:72px;font:600 15px I;letter-spacing:.05em;padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.28);color:rgba(255,255,255,.88);z-index:3}}
+.cip{{display:inline-flex;font:600 22px I;padding:11px 20px;border-radius:999px;background:#fff;color:{C['ink']};box-shadow:0 10px 30px -18px rgba(0,0,0,.35)}}
+.dk .cip,.gk .cip{{background:rgba(255,255,255,.16);color:#fff;border:1.5px solid rgba(255,255,255,.28)}}
+.kutu{{border-radius:32px;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.04),0 24px 60px -30px rgba(20,40,30,.28)}}
+.dk .kutu{{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);box-shadow:none}}
+.ph{{border-radius:30px;overflow:hidden;background:#dfe3e0}} .ph img{{width:100%;height:100%;object-fit:cover;display:block}}
+"""
 _F = None
 def page(body, css='', w=1080, h=1350):
     global _F
     if _F is None: _F = fonts()
     return f'<!doctype html><html><head><meta charset="utf-8"><style>{_F}{BASE}html,body{{width:{w}px;height:{h}px;overflow:hidden}}.cv{{width:{w}px;height:{h}px}}{css}</style></head><body>{body}</body></html>'
 
-def frame(inner, dark=False, label='', foot_left='prefabrikteklif.com.tr', foot_right=''):
-    return (f'<div class="cv{" dk" if dark else ""}"><div class="fr"><div class="top">{logo(dark)}<span class="lbl">{label}</span></div>'
-            f'{inner}<div class="foot"><span>{foot_left}</span><span>{foot_right}</span></div></div></div>')
+def frame(inner, tema='', label='', foot_left='prefabrikteklif.com.tr', foot_right='', stil=''):
+    """tema: '' açık · 'dk' koyu spot · 'gk' fotoğraflı gökyüzü"""
+    meta = (f'<b>{foot_right}</b><i></i>' if foot_right else '') + foot_left
+    return (f'<div class="cv {tema}" style="{stil}"><div class="ust">{label}</div>{inner}'
+            f'<div class="alt">{logo(tema in ("dk", "gk"))}<div class="meta">{meta}</div></div></div>')
+
+def gokyuzu(name, ust):
+    a, b = gok(name)
+    return (f'background:linear-gradient(180deg,{a} 0%,{b} {ust}px)',
+            f'<div class="foto" style="top:{ust - 150}px;background-image:url({img(name)})"></div><div class="golge"></div>')
+
+def sayisal(d):  # "Yaklaşık 1.566.000 TL" gibi kısa değer → sağa yaslı büyük rakam
+    return len(d) <= 26 and any(ch.isdigit() for ch in d)
+
+def _p(s, stil=''):
+    return f'<p class="body" style="{stil}">{s["p"]}</p>' if s.get('p') else ''
 
 # ---------------- Tasarım şablonları ----------------
-def t_kapak(s):  # büyük başlık + fotoğraf
-    return frame(f'''<div style="margin-top:58px;display:flex;flex-direction:column;gap:26px"><h1 class="ser" style="font-size:{s.get("boy",94)}px">{s["h"]}</h1>
-{f'<p class="body" style="max-width:880px">{s["p"]}</p>' if s.get("p") else ""}</div><div class="ph" style="margin:40px 0 36px;flex:1"><img src="{img(s["img"])}"></div>''',
-                 s.get('koyu', False), s.get('etiket', ''), s.get('alt_sol', 'prefabrikteklif.com.tr'), s.get('alt_sag', 'Kaydırın →'))
+def t_kapak(s):  # büyük başlık; fotoğraf varsa gökyüzünde başlık, ev altta
+    bas = (f'<div style="position:absolute;top:150px;left:72px;right:72px;z-index:3">'
+           f'<h1 class="hh" style="font-size:{s.get("boy", 96) + 6}px">{s["h"]}</h1>{_p(s, "margin-top:26px;max-width:860px")}</div>')
+    alt = (s.get('alt_sol', 'prefabrikteklif.com.tr'), s.get('alt_sag', 'Kaydırın'))
+    if not s.get('img'):
+        return frame(bas, 'dk', s.get('etiket', ''), *alt)
+    stil, foto = gokyuzu(s['img'], 640)
+    return frame(foto + bas + '<span class="tm" style="top:660px">Temsili görsel</span>', 'gk', s.get('etiket', ''), *alt, stil)
 
-def t_liste(s):  # numaralı maddeler
-    rr = ''.join(f'<div style="display:flex;gap:30px;padding:40px 0;border-top:1.5px solid {C["line"] if not s.get("koyu") else "rgba(255,255,255,.18)"}"><span class="num">{i+1:02d}</span>'
-                 f'<div style="display:flex;flex-direction:column;gap:10px"><b style="font:700 42px M;letter-spacing:-.01em">{t}</b><span class="body" style="font-size:33px">{d}</span></div></div>'
-                 for i, (t, d) in enumerate(s['maddeler']))
-    return frame(f'<h2 class="ser" style="font-size:{s.get("boy",92)}px;margin:70px 0 40px">{s["h"]}</h2><div style="flex:1;display:flex;flex-direction:column;justify-content:center">{rr}</div>',
-                 s.get('koyu', False), s.get('etiket', ''), s.get('alt_sol', 'prefabrikteklif.com.tr'), s.get('alt_sag', ''))
+def t_liste(s):  # maddeler: kısa rakamlı değerler sağda büyük, uzun açıklamalar başlığın altında
+    koyu = s.get('koyu', False); rr = ''
+    for t, d in s['maddeler']:
+        if sayisal(d):
+            rr += (f'<div class="kutu" style="display:flex;justify-content:space-between;align-items:center;gap:24px;padding:34px 42px">'
+                   f'<span style="font:600 36px I;letter-spacing:-.02em">{t}</span>'
+                   f'<b style="font:600 44px I;letter-spacing:-.035em;color:{"#fff" if koyu else C["green"]};text-align:right">{d.rstrip(".")}</b></div>')
+        else:
+            rr += (f'<div class="kutu" style="padding:32px 42px;display:flex;flex-direction:column;gap:8px">'
+                   f'<b style="font:600 36px I;letter-spacing:-.02em">{t}</b><span class="body" style="font-size:28px">{d}</span></div>')
+    gap = 22 if len(s['maddeler']) <= 4 else 16
+    return frame(f'<div style="position:absolute;top:150px;left:72px;right:72px;bottom:190px;display:flex;flex-direction:column;justify-content:center">'
+                 f'<h2 class="hh" style="font-size:{s.get("boy", 88)}px">{s["h"]}</h2>{_p(s, "margin-top:22px")}'
+                 f'<div style="display:flex;flex-direction:column;gap:{gap}px;margin-top:56px">{rr}</div></div>',
+                 'dk' if koyu else '', s.get('etiket', ''), s.get('alt_sol', 'prefabrikteklif.com.tr'), s.get('alt_sag', ''))
 
-def t_kontrol(s):  # onay kutulu ızgara (+ isteğe bağlı fotoğraf)
-    gi = ''.join(f'<div style="display:flex;align-items:center;gap:18px;padding:30px 28px;border-radius:26px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.14);font:700 34px M">'
-                 f'<span style="width:44px;height:44px;flex:none;border-radius:50%;background:{C["sage2"]};color:{C["forest"]};display:flex;align-items:center;justify-content:center;font-size:24px">✓</span>{t}</div>'
+def t_kontrol(s):  # onay işaretli ızgara (+ isteğe bağlı fotoğraf), koyu spot ışık
+    gi = ''.join(f'<div class="kutu" style="display:flex;align-items:center;gap:18px;padding:28px 26px;font:600 32px I;letter-spacing:-.015em">'
+                 f'<span style="width:42px;height:42px;flex:none;border-radius:50%;background:#fff;color:{C["dark"]};display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700">✓</span>{t}</div>'
                  for t in s['maddeler'])
-    ph = f'<div class="ph" style="flex:1;margin:34px 0 32px"><img src="{img(s["img"])}"></div>' if s.get('img') else ''
-    return frame(f'''<h2 class="ser" style="font-size:{s.get("boy",84)}px;margin:64px 0 18px">{s["h"]}</h2>{f'<p class="body" style="margin-bottom:44px">{s["p"]}</p>' if s.get("p") else ""}
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">{gi}</div>{ph}''', s.get('koyu', True), s.get('etiket', ''), s.get('alt_sol', 'prefabrikteklif.com.tr'), s.get('alt_sag', ''))
+    ph = f'<div class="ph" style="flex:1;margin-top:30px;min-height:200px"><img src="{img(s["img"])}"></div>' if s.get('img') else ''
+    return frame(f'<div style="position:absolute;top:150px;left:72px;right:72px;bottom:190px;display:flex;flex-direction:column">'
+                 f'<h2 class="hh" style="font-size:{s.get("boy", 84)}px">{s["h"]}</h2>{_p(s, "margin-top:20px")}'
+                 f'<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px">{gi}</div>{ph}</div>',
+                 'dk' if s.get('koyu', True) else '', s.get('etiket', ''), s.get('alt_sol', 'prefabrikteklif.com.tr'), s.get('alt_sag', ''))
 
-def t_cta(s):  # fotoğraf üstte, başlık + çipler
-    chips = ''.join(f'<span class="chip">{c}</span>' for c in s.get('cipler', []))
-    return frame(f'''<div class="ph" style="margin-top:60px;height:{s.get("foto_boy",420)}px;flex:none"><img src="{img(s["img"])}"></div>
-<h2 class="ser" style="font-size:{s.get("boy",86)}px;margin:46px 0 22px">{s["h"]}</h2>{f'<p class="body">{s["p"]}</p>' if s.get("p") else ""}
-<div style="display:flex;gap:14px;margin-top:30px;flex-wrap:wrap">{chips}</div>''', s.get('koyu', False), s.get('etiket', ''), s.get('alt_sol', 'prefabrikteklif.com.tr'), s.get('alt_sag', 'Bağlantı profilde'))
+def t_cta(s):  # gökyüzünde ortalı başlık, ev altta, beyaz adres düğmesi + cam çipler
+    chips = ''.join(f'<span class="cip">{c}</span>' for c in s.get('cipler', []))
+    bas = (f'<div style="position:absolute;top:150px;left:72px;right:72px;text-align:center;z-index:3">'
+           f'<h2 class="hh" style="font-size:{s.get("boy", 86)}px">{s["h"]}</h2>{_p(s, "margin:24px auto 0;max-width:820px")}</div>')
+    alt = (f'<div style="position:absolute;left:72px;right:72px;bottom:170px;display:flex;flex-direction:column;align-items:center;gap:24px;z-index:3">'
+           f'<span style="display:inline-flex;gap:14px;background:#fff;color:#0f2a1c;font:600 34px I;letter-spacing:-.015em;padding:26px 46px;border-radius:999px">prefabrikteklif.com.tr <span style="font-weight:500">↗</span></span>'
+           f'<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">{chips}</div></div>')
+    meta = (s.get('alt_sol', 'prefabrikteklif.com.tr'), s.get('alt_sag', 'Bağlantı profilde'))
+    if not s.get('img'):
+        return frame(bas + alt, 'dk', s.get('etiket', ''), *meta)
+    stil, foto = gokyuzu(s['img'], 600)
+    return frame(foto + bas + alt + '<span class="tm" style="top:620px">Temsili görsel</span>', 'gk', s.get('etiket', ''), *meta, stil)
 
-def t_ucfoto(s):  # başlık + 3'lü fotoğraf şeridi + çipler (firma duyurusu vb.)
-    chips = ''.join(f'<span class="chip">{c}</span>' for c in s.get('cipler', []))
+def t_ucfoto(s):  # başlık + 3'lü fotoğraf şeridi + çipler, koyu spot ışık
+    chips = ''.join(f'<span class="cip">{c}</span>' for c in s.get('cipler', []))
     ims = ''.join(f'<div class="ph"><img src="{img(x)}"></div>' for x in s['imgs'][:3])
-    return frame(f'''<div style="margin-top:60px;display:flex;flex-direction:column;gap:26px"><h1 class="ser" style="font-size:{s.get("boy",92)}px">{s["h"]}</h1>
-{f'<p class="body" style="max-width:900px">{s["p"]}</p>' if s.get("p") else ""}</div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:38px 0 30px;flex:1">{ims}</div>
-<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:6px">{chips}</div>''', s.get('koyu', True), s.get('etiket', ''), s.get('alt_sol', 'prefabrikteklif.com.tr'), s.get('alt_sag', ''))
+    return frame(f'<div style="position:absolute;top:150px;left:72px;right:72px;bottom:190px;display:flex;flex-direction:column">'
+                 f'<h1 class="hh" style="font-size:{s.get("boy", 90)}px">{s["h"]}</h1>{_p(s, "margin-top:22px;max-width:900px")}'
+                 f'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:36px 0 28px;flex:1">{ims}</div>'
+                 f'<div style="display:flex;gap:12px;flex-wrap:wrap">{chips}</div></div>',
+                 'dk' if s.get('koyu', True) else '', s.get('etiket', ''), s.get('alt_sol', 'prefabrikteklif.com.tr'), s.get('alt_sag', ''))
 
-def t_alinti(s):  # büyük tek cümle / soru + kısa açıklama (fotoğrafsız, çok sade)
-    return frame(f'''<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:34px"><span class="num" style="font-size:120px;line-height:.6">“</span>
-<h1 class="ser" style="font-size:{s.get("boy",100)}px">{s["h"]}</h1>{f'<p class="body" style="max-width:880px">{s["p"]}</p>' if s.get("p") else ""}</div>''',
-                 s.get('koyu', False), s.get('etiket', ''), s.get('alt_sol', 'prefabrikteklif.com.tr'), s.get('alt_sag', ''))
+def t_alinti(s):  # büyük tek cümle / soru + kısa açıklama, açık zemin
+    return frame(f'<div style="position:absolute;top:150px;left:72px;right:72px;bottom:190px;display:flex;flex-direction:column;justify-content:center;gap:34px">'
+                 f'<h1 class="hh" style="font-size:{s.get("boy", 100) + 4}px">{s["h"]}</h1>{_p(s, "max-width:860px")}</div>',
+                 'dk' if s.get('koyu') else '', s.get('etiket', ''), s.get('alt_sol', 'prefabrikteklif.com.tr'), s.get('alt_sag', ''))
 
 SABLON = dict(kapak=t_kapak, liste=t_liste, kontrol=t_kontrol, cta=t_cta, ucfoto=t_ucfoto, alinti=t_alinti)
 
-# ---------------- Reels ----------------
-RCSS = f'''.sc{{position:absolute;inset:0;opacity:0}}
-.lg{{position:absolute;left:0;right:0;top:120px;display:flex;justify-content:center;z-index:9}}
-.hd{{position:absolute;left:84px;right:84px;top:300px}}
-.hd h1{{font-family:S;font-weight:600;font-size:116px;line-height:1.06;letter-spacing:-.02em}}
-.hd h1 em{{font-style:italic;font-weight:500;color:{C['green']}}}
-.hd p{{margin-top:28px;font:500 40px/1.35 M;color:{C['ink2']}}}
+# ---------------- Reels (1080×1920) ----------------
+# Sahne zeminleri: foto → gökyüzü + tam genişlik fotoğraf, sayi/son → koyu spot ışık, liste/grid → açık gri.
+SPOT = f"radial-gradient(ellipse 760px 700px at 50% -60px,rgba(255,255,255,.24),rgba(255,255,255,.05) 55%,transparent 75%),{C['dark']}"
+RCSS = f""".sc{{position:absolute;inset:0;opacity:0;overflow:hidden;background:linear-gradient(180deg,#F7F8F7,#EBEEEC);color:{C['ink']}}}
+.sc.dk{{background:{SPOT};color:#fff}} .sc.gk{{color:#fff}}
+.lg{{position:absolute;left:0;right:0;top:150px;display:flex;justify-content:center;z-index:5}}
+.hd{{position:absolute;left:84px;right:84px;top:300px;z-index:4}}
+.hd h1{{font-weight:600;font-size:118px;line-height:1.03;letter-spacing:-.04em}}
+.hd h1 em{{font-style:normal;opacity:.45}} .dk .hd h1 em,.gk .hd h1 em{{opacity:.55}}
+.hd p{{margin-top:30px;font:500 42px/1.35 I;color:{C['ink2']}}} .dk .hd p{{color:rgba(255,255,255,.72)}} .gk .hd p{{color:rgba(255,255,255,.92)}}
 .w{{display:inline-block;opacity:0}}
-.rph{{position:absolute;left:72px;right:72px;top:880px;height:700px;border-radius:44px;overflow:hidden;background:{C['sand']};box-shadow:0 30px 70px rgba(21,33,27,.18)}}
+.rph{{position:absolute;left:72px;right:72px;top:900px;height:680px;border-radius:44px;overflow:hidden;opacity:0;z-index:3}}
 .rph img{{width:100%;height:100%;object-fit:cover}}
-.grid{{position:absolute;left:72px;right:72px;top:880px;height:700px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:16px}}
+.rph.tam{{left:0;right:0;top:820px;bottom:0;height:auto;border-radius:0;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 220px)}}
+.golge{{position:absolute;left:0;right:0;bottom:0;height:520px;background:linear-gradient(180deg,transparent,rgba(6,16,11,.55));z-index:3}}
+.grid{{position:absolute;left:72px;right:72px;top:900px;height:680px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:16px;z-index:3}}
 .grid div{{border-radius:30px;overflow:hidden;opacity:0}} .grid img{{width:100%;height:100%;object-fit:cover}}
-.chips{{position:absolute;left:72px;right:72px;top:1620px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center}}
-.rchip{{font:700 34px M;padding:16px 28px;border-radius:999px;background:{C['sage']};color:{C['forest']};opacity:0}}
-.big{{font-family:S;font-weight:600;font-size:230px;line-height:.9;color:{C['green']};letter-spacing:-.04em}}
-.son{{position:absolute;inset:0;background:{C['forest']};color:{C['ivory']};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:48px;text-align:center;padding:0 80px}}
-.son h1{{font-family:S;font-weight:600;font-size:96px;line-height:1.08;letter-spacing:-.02em}} .son h1 em{{font-style:italic;font-weight:500;color:{C['sage2']}}}
-.url{{font:800 46px M;background:{C['ivory']};color:{C['forest']};padding:24px 44px;border-radius:999px}}
-.son p{{font:600 36px M;color:#D9E2DB}}
-.rl{{display:flex;flex-direction:column;justify-content:center;gap:26px;padding:56px 60px;background:{C['sage']}}}
-.rmd{{display:flex;align-items:center;gap:26px;font:700 50px/1.2 M;color:{C['forest']};opacity:0}}
-.rmd i{{font-style:normal;width:72px;height:72px;flex:none;border-radius:50%;background:{C['forest']};color:{C['ivory']};display:flex;align-items:center;justify-content:center;font-size:38px}}'''
+.chips{{position:absolute;left:72px;right:72px;top:1620px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;z-index:5}}
+.rchip{{font:600 32px I;padding:15px 26px;border-radius:999px;background:#fff;color:{C['ink']};opacity:0;box-shadow:0 12px 30px -18px rgba(0,0,0,.4)}}
+.gk .rchip,.dk .rchip{{background:rgba(255,255,255,.16);color:#fff;border:1.5px solid rgba(255,255,255,.3)}}
+.big{{font-weight:600;font-size:250px;line-height:.9;letter-spacing:-.06em;color:#fff}}
+.son{{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:52px;text-align:center;padding:0 80px}}
+.son h1{{font-weight:600;font-size:104px;line-height:1.04;letter-spacing:-.04em}} .son h1 em{{font-style:normal;opacity:.55}}
+.url{{font:600 46px I;letter-spacing:-.015em;background:#fff;color:#0f2a1c;padding:26px 48px;border-radius:999px}}
+.son p{{font:500 36px I;color:rgba(255,255,255,.7)}}
+.rl{{display:flex;flex-direction:column;justify-content:center;gap:20px;border-radius:0;overflow:visible}}
+.rmd{{display:flex;align-items:center;gap:26px;font:600 48px/1.2 I;letter-spacing:-.025em;padding:30px 36px;border-radius:34px;background:#fff;opacity:0;box-shadow:0 24px 60px -32px rgba(20,40,30,.35)}}
+.rmd i{{font-style:normal;width:70px;height:70px;flex:none;border-radius:50%;background:{C['ink']};color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:700}}"""
 RJS = '''const cl=x=>Math.min(Math.max(x,0),1); const e=x=>1-Math.pow(1-cl(x),3);
-window.setT=(t)=>{ const n=T.length-1; let last=0; for(let i=0;i<n;i++) if(t>=T[i]) last=i;
- document.getElementById('lg').style.opacity = document.querySelector('#s'+last+' .son') ? 0 : 1;
+window.setT=(t)=>{ const n=T.length-1;
  for(let i=0;i<n;i++){ const s=document.getElementById('s'+i); const a=T[i], b=T[i+1], l=t-a, d=b-a;
   let o=0; if(t>=a && t<b+0.25){ o = i===0 ? 1 : e(l/0.25); if(i<n-1 && t>=b) o=1-e((t-b)/0.25); }
   s.style.opacity=o; s.style.zIndex = t>=a?2:1; if(!o) continue;
@@ -162,19 +216,28 @@ def kelimeler(h):
     return ' '.join(out).replace('<em> ', '<em>').replace(' </em>', '</em>').replace(' <br> ', '<br>')
 
 def reels_html(r):
-    S = r['sahneler']; html = f'<div class="cv"><div class="lg" id="lg">{logo(False, 470)}</div>'
+    S = r['sahneler']; html = '<div class="cv">'
     for i, s in enumerate(S):
         if s['tur'] == 'son':
-            html += f'<div class="sc" id="s{i}"><div class="son">{logo(True, 560)}<h1>{kelimeler(s["h"])}</h1><span class="url">prefabrikteklif.com.tr</span><p>{s.get("p", "")}</p></div></div>'
+            html += (f'<div class="sc dk" id="s{i}"><div class="son">{logo(True, 560)}<h1>{kelimeler(s["h"])}</h1>'
+                     f'<span class="url">prefabrikteklif.com.tr</span><p>{s.get("p", "")}</p></div></div>')
             continue
-        vis = ''
-        if s['tur'] == 'foto': vis = f'<div class="rph"><img src="{img(s["img"])}"></div>'
-        elif s['tur'] == 'grid': vis = '<div class="grid">' + ''.join(f'<div><img src="{img(x)}"></div>' for x in s['imgs'][:4]) + '</div>'
-        elif s['tur'] == 'sayi': vis = f'<div class="rph" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:44px;background:{C["sage"]}"><span class="big" data-n="{s["n"]}">0</span><span style="font:700 40px M;color:{C["forest"]}">{s.get("birim","")}</span></div>'
-        elif s['tur'] == 'liste': vis = '<div class="rph rl">' + ''.join(f'<div class="rmd"><i>{s.get("ikon", "✓")}</i>{m}</div>' for m in s['maddeler'][:5]) + '</div>'
+        tema, stil, vis = '', '', ''
+        if s['tur'] == 'foto':
+            a, b = gok(s['img']); tema = 'gk'; stil = f'background:linear-gradient(180deg,{a} 0%,{b} 900px)'
+            vis = f'<div class="rph tam"><img src="{img(s["img"])}"></div><div class="golge"></div>'
+        elif s['tur'] == 'grid':
+            vis = '<div class="grid">' + ''.join(f'<div><img src="{img(x)}"></div>' for x in s['imgs'][:4]) + '</div>'
+        elif s['tur'] == 'sayi':
+            tema = 'dk'
+            vis = (f'<div class="rph" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px">'
+                   f'<span class="big" data-n="{s["n"]}">0</span><span style="font:500 42px I;color:rgba(255,255,255,.65)">{s.get("birim", "")}</span></div>')
+        elif s['tur'] == 'liste':
+            vis = '<div class="rph rl">' + ''.join(f'<div class="rmd"><i>{s.get("ikon", "✓")}</i>{m}</div>' for m in s['maddeler'][:5]) + '</div>'
         chips = ''.join(f'<span class="rchip">{c}</span>' for c in s.get('cipler', []))
         p = f'<p>{s["p"]}</p>' if s.get('p') else ''
-        html += f'<div class="sc" id="s{i}"><div class="hd"><h1>{kelimeler(s["h"])}</h1>{p}</div>{vis}<div class="chips">{chips}</div></div>'
+        html += (f'<div class="sc {tema}" id="s{i}" style="{stil}"><div class="lg">{logo(tema in ("dk", "gk"), 400)}</div>'
+                 f'<div class="hd"><h1>{kelimeler(s["h"])}</h1>{p}</div>{vis}<div class="chips">{chips}</div></div>')
     T = [s['t'] for s in S] + [r['sure']]
     return page(html + f'</div><script>const T={json.dumps(T)};{RJS}</script>', RCSS, 1080, 1920)
 
