@@ -135,7 +135,89 @@ def sirada(simdi=None):
     return adaylar[0][1:] if adaylar else None
 
 
+def kaydet_depo(mesaj):
+    """İş akışında (--dongu) her yayından sonra durumu hemen depoya işler; yerelde sessizce atlanır."""
+    import subprocess
+    kok = ICERIK.parents[2]
+    def git(*a):
+        return subprocess.run(['git', '-C', str(kok), *a], capture_output=True, text=True)
+    git('add', str(ICERIK))
+    if git('diff', '--cached', '--quiet').returncode == 0:
+        return
+    git('commit', '-q', '-m', mesaj)
+    for _ in range(3):
+        if git('pull', '--rebase', '-q', 'origin', 'main').returncode == 0 and git('push', '-q', 'origin', 'HEAD:main').returncode == 0:
+            return
+        time.sleep(5)
+    print('Uyarı: durum depoya işlenemedi')
+
+
+def sonraki_zaman(simdi):
+    """Henüz zamanı gelmemiş en yakın öğenin zamanı (yoksa None)."""
+    en = None
+    for f in sorted(ICERIK.glob('*.json')):
+        d = json.loads(f.read_text())
+        bitti = (d.get('yayin') or {}).get('yayinlanan') or {}
+        for o in plan(d):
+            if o['anahtar'] not in bitti and o['zaman'] > simdi and (en is None or o['zaman'] < en):
+                en = o['zaman']
+    return en
+
+
+def dongu(sure_dk=int(os.environ.get('DONGU_DK', '150')), ara_dk=5):
+    """GitHub zamanlayıcısı gecikse de slotlar aksamasın: tek çalışma, sure_dk boyunca zamanı gelen
+    öğeleri sırayla (aralarında en az ara_dk) yayınlar, sıradaki öğe yakınsa onu bekler."""
+    bitis = time.time() + sure_dk * 60
+    while time.time() < bitis:
+        simdi = dt.datetime.now(TZ)
+        if sirada(simdi):
+            sonuc = tek(simdi)
+            kaydet_depo('Instagram: yayın durumu')
+            if sonuc == 'hata':
+                time.sleep(60)
+            else:
+                time.sleep(ara_dk * 60)
+            continue
+        sz = sonraki_zaman(simdi)
+        if not sz or (sz - simdi).total_seconds() > bitis - time.time():
+            print('Bu çalışmada yayınlanacak başka öğe yok.')
+            return
+        bekle_sn = max(30, (sz - simdi).total_seconds() + 5)
+        print(f'Sıradaki öğe {sz:%H:%M}; bekleniyor.')
+        time.sleep(bekle_sn)
+
+
+def tek(simdi):
+    s = sirada(simdi)
+    if not s:
+        print('Yayınlanacak öğe yok.')
+        return 'yok'
+    f, d, o = s
+    ig = (d.get('yayin') or {}).get('hesap') or os.environ.get('IG_USER_ID') or IG_VARSAYILAN
+    print(f"Yayınlanıyor: {f.name} · {o['anahtar']} (plan {o['zaman']:%H:%M})", flush=True)
+    y = d.setdefault('yayin', {})
+    try:
+        mid = yayinla_ogesi(ig, o)
+    except GraphHata as e:
+        h = y.setdefault('hatalar', {}).get(o['anahtar']) or {}
+        y['hatalar'][o['anahtar']] = {'mesaj': str(e), 'zaman': f'{simdi:%Y-%m-%d %H:%M}', 'deneme': h.get('deneme', 0) + 1}
+        f.write_text(json.dumps(d, ensure_ascii=False, indent=2) + '\n')
+        print('HATA:', e, flush=True)
+        return 'hata'
+    y.setdefault('yayinlanan', {})[o['anahtar']] = {'id': mid, 'zaman': dt.datetime.now(TZ).strftime('%Y-%m-%d %H:%M')}
+    y.get('hatalar', {}).pop(o['anahtar'], None)
+    if not y.get('hatalar'):
+        y.pop('hatalar', None)
+    y['durum'] = f"yayında (Meta Graph API): {len(y['yayinlanan'])}/{len(plan(d))} öğe yayınlandı"
+    f.write_text(json.dumps(d, ensure_ascii=False, indent=2) + '\n')
+    print(f"Yayınlandı: {o['anahtar']} → medya {mid}", flush=True)
+    return 'ok'
+
+
 def main():
+    if '--dongu' in sys.argv:
+        dongu()
+        return
     kuru = '--kuru' in sys.argv
     simdi = dt.datetime.now(TZ)
     s = sirada(simdi)
@@ -147,29 +229,8 @@ def main():
                 print(f"{f.name:28} {o['zaman']:%d.%m %H:%M} {o['anahtar']:15} {'yayınlandı' if o['anahtar'] in bitti else ('zamanı geldi' if o['zaman'] <= simdi else 'bekliyor')}")
         print('Sıradaki:', f"{s[0].name} {s[2]['anahtar']}" if s else 'yok')
         return
-    if not s:
-        print('Yayınlanacak öğe yok.')
-        return
-    f, d, o = s
-    ig = (d.get('yayin') or {}).get('hesap') or os.environ.get('IG_USER_ID') or IG_VARSAYILAN
-    print(f"Yayınlanıyor: {f.name} · {o['anahtar']} (plan {o['zaman']:%H:%M})")
-    y = d.setdefault('yayin', {})
-    try:
-        mid = yayinla_ogesi(ig, o)
-    except GraphHata as e:
-        h = y.setdefault('hatalar', {}).get(o['anahtar']) or {}
-        y['hatalar'][o['anahtar']] = {'mesaj': str(e), 'zaman': f'{simdi:%Y-%m-%d %H:%M}', 'deneme': h.get('deneme', 0) + 1}
-        f.write_text(json.dumps(d, ensure_ascii=False, indent=2) + '\n')
-        print('HATA:', e)
+    if tek(simdi) == 'hata':
         sys.exit(1)
-    y.setdefault('yayinlanan', {})[o['anahtar']] = {'id': mid, 'zaman': dt.datetime.now(TZ).strftime('%Y-%m-%d %H:%M')}
-    y.get('hatalar', {}).pop(o['anahtar'], None)
-    if not y.get('hatalar'):
-        y.pop('hatalar', None)
-    toplam = len(plan(d))
-    y['durum'] = f"yayında (Meta Graph API): {len(y['yayinlanan'])}/{toplam} öğe yayınlandı"
-    f.write_text(json.dumps(d, ensure_ascii=False, indent=2) + '\n')
-    print(f"Yayınlandı: {o['anahtar']} → medya {mid}")
 
 
 if __name__ == '__main__':

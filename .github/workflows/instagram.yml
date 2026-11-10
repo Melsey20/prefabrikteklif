@@ -1,10 +1,15 @@
 # Instagram paylaşımları (Meta Graph API, META_TOKEN sistem kullanıcısı jetonu).
-# 10 dakikada bir çalışır; zamanı gelmiş en fazla 1 öğeyi (tasarım, Reels ya da hikâye) yayınlar
-# ve yayınlananı içerik dosyasına (yayin.yayinlanan) işler. Plan: scripts/instagram/yayinla.py
+# Bir çalışma 150 dakikaya kadar açık kalır: zamanı gelen öğeleri (tasarım, Reels, hikâye) sırayla,
+# aralarında en az 5 dk bırakarak yayınlar, sıradaki öğe yakınsa onu bekler; her yayını hemen
+# içerik dosyasına (yayin.yayinlanan) işler. Böylece GitHub zamanlayıcısı gecikse de slot aksamaz.
+# Tetikleyiciler: 10 dakikada bir zamanlayıcı, içerik görevinin medya push'u, elle çalıştırma.
 name: Instagram yayın
 on:
   schedule:
     - cron: '*/10 6-19 * * *'   # İstanbul 09:00–22:59
+  push:
+    branches: [main]
+    paths: ['scripts/instagram/icerik/**']
   workflow_dispatch:
     inputs:
       kuru:
@@ -19,20 +24,23 @@ concurrency:
 jobs:
   yayinla:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 170
     steps:
       - uses: actions/checkout@v4
-      - name: Sıradaki öğeyi yayınla
-        id: y
-        env:
-          META_TOKEN: ${{ secrets.META_TOKEN }}
-        run: |
-          if [ "${{ inputs.kuru }}" = "true" ]; then python3 scripts/instagram/yayinla.py --kuru; else python3 scripts/instagram/yayinla.py; fi
-      - name: Durumu depoya işle
-        if: always() && inputs.kuru != true
+        with:
+          fetch-depth: 0
+      - name: Git kimliği
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Zamanı gelenleri yayınla
+        env:
+          META_TOKEN: ${{ secrets.META_TOKEN }}
+        run: |
+          if [ "${{ inputs.kuru }}" = "true" ]; then python3 scripts/instagram/yayinla.py --kuru; else python3 -u scripts/instagram/yayinla.py --dongu; fi
+      - name: Kalan durumu depoya işle
+        if: always() && inputs.kuru != true
+        run: |
           git add scripts/instagram/icerik
           git diff --cached --quiet && exit 0
           git commit -m "Instagram: yayın durumu"
