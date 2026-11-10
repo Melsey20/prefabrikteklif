@@ -1,7 +1,7 @@
 {
- "firmaSayisi": 150,
- "modelSayisi": 585,
- "fiyatliModel": 440,
+ "firmaSayisi": 149,
+ "modelSayisi": 584,
+ "fiyatliModel": 439,
  "sonKontrol": "2026-11-09",
  "sonKontrolYazi": "9 Kasım 2026",
  "ay": "Kasım 2026",
@@ -54,12 +54,12 @@
    "m2Medyan": 10256
   },
   "celik": {
-   "model": 108,
-   "fiyatli": 83,
-   "firma": 23,
+   "model": 107,
+   "fiyatli": 82,
+   "firma": 22,
    "min": 575000,
    "max": 5375000,
-   "medyan": 1800000,
+   "medyan": 1865000,
    "m2Medyan": 17000
   },
   "konteyner": {

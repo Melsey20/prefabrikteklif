@@ -39,6 +39,7 @@ const tipYazi = tipler.length > 1 ? `${tipler.slice(0, -1).join(', ')} ve ${tipl
   <div class="wrap">
     <div class="phead" style="min-height:200px">
       <img src={tipImg(ana, 960)} alt="" width="960" height="723" fetchpriority="high" />
+      <span class="tm" style="position:absolute;right:12px;top:12px;z-index:2;font-size:.7rem;font-weight:700;background:rgba(255,255,255,.92);color:var(--ink-2);border-radius:999px;padding:3px 9px">Temsili görsel · firmaya ait değildir</span>
       <div class="in" style="display:flex;gap:16px;align-items:flex-end">
         {f.logo ? <FirmaLogo f={f} boyut={64} style="border-radius:16px" /> : <span class="mono" style="width:64px;height:64px;border-radius:18px;font-size:1.3rem;background:#fff;color:var(--ink)">{monogram(f.kisaAd)}</span>}
         <span><h1 style="margin:0 0 4px">{f.kisaAd}</h1><p>{[urunler, f.il].filter(Boolean).join(' · ')}</p></span>

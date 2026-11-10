@@ -38,7 +38,8 @@ KISA = {
 }
 ALIAS = {'Karmod': 'Karmod Prefabrik Yapı Teknolojileri'}
 # Listeye alınmayanlar: başka firmanın sitesi / aynı adres / site açılmıyor
-HARIC_FIRMALAR = {'Kartal Prefabrik', 'Çelik Evler', 'Prefabriko', 'Demo Prefabrik'}  # Prefabrika ve Mopre 8 Kasım 2026'da yeniden kontrol edildi: siteleri açık, firms_F'de
+HARIC_FIRMALAR = {'Kartal Prefabrik', 'Çelik Evler', 'Prefabriko', 'Demo Prefabrik', 'AYD Prefabrik'}  # AYD Prefabrik 10 Kasım 2026'da yazılı olarak listeden çıkarılmasını istedi; yeniden eklenmez
+# Prefabrika ve Mopre 8 Kasım 2026'da yeniden kontrol edildi: siteleri açık, firms_F'de
 # Sayfadaki yazım hatası olduğu belli fiyatlar (firma, fiyat)
 HARIC_MODELLER = {('Kardeşler Çelik Yapı', '160000'), ('Kardeşler Çelik Yapı', '13500')}
 # Elle eklenen uyarılar (firma adı -> model uyarısı)

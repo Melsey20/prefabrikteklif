@@ -3516,36 +3516,6 @@
   "logoAcik": false
  },
  {
-  "ad": "AYD Prefabrik",
-  "kisaAd": "AYD Prefabrik",
-  "slug": "ayd-prefabrik",
-  "web": "https://aydprefabrik.com/",
-  "sehir": "İstanbul",
-  "il": "İstanbul",
-  "telefon": "",
-  "sertifikalar": [],
-  "sertifikaNotu": "",
-  "urunTipleri": [
-   "çelik",
-   "prefabrik",
-   "konteyner",
-   "tiny house"
-  ],
-  "kaynak": [
-   "https://aydprefabrik.com/iletisim"
-  ],
-  "seviye": "listelenmis",
-  "modelBekliyor": false,
-  "modelSayisi": 1,
-  "enDusuk": 1420000,
-  "tipler": [
-   "celik"
-  ],
-  "fiyatYayinliyor": true,
-  "logo": "",
-  "logoAcik": false
- },
- {
   "ad": "Alkon Çelik Yapı",
   "kisaAd": "Alkon Çelik Yapı",
   "slug": "alkon-celik-yapi",
