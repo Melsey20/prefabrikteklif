@@ -241,7 +241,7 @@ test('kampanya duyurusu: kampanyadan önce e-posta alan firmalara bir kez gider;
   const once = KAMPANYA_BASLANGIC - 86400000;
   await db.collection('davetKayit').doc('a').set({ sonDavet: once, eposta: 'a@a.com' });
   await db.collection('davetKayit').doc('b').set({ sonDavet: once, eposta: 'b@b.com', iptal: true });
-  await db.collection('davetKayit').doc('c').set({ sonDavet: once, eposta: 'c@c.com', gecersiz: true });
+  await db.collection('davetKayit').doc('c').set({ sonDavet: once, eposta: 'c@c.com', gecersiz: true, gecersizEposta: 'c@c.com' });
   await db.collection('davetKayit').doc('d').set({ sonDavet: KAMPANYA_BASLANGIC + 1000, eposta: 'd@d.com' });
   await db.collection('firmalar').doc('e').set({ aktif: true, eposta: 'e@e.com' });
   await db.collection('davetKayit').doc('e').set({ sonDavet: once, eposta: 'e@e.com' });
@@ -275,4 +275,17 @@ test('yönetim: açık talebin süresi uzatılır; geçmiş, 7 günden uzun ve k
   assert.equal((await r({ talep: 't1', sonTarih: zaman.simdi() + 8 * 24 * 3600000 })).ok, false);
   assert.equal((await r({ talep: 't2', sonTarih: yeni })).ok, false);
   assert.equal(giden.length, 0, 'müşteriye bildirim gitmez');
+});
+
+test('geri dönen adres yalnızca o adresi engeller: firmanın adresi değişince talep daveti yeniden gidebilir', async () => {
+  const { FakeDb, FieldValue, Timestamp, zaman } = await import('./fakeDb.js');
+  const { createApp } = await import('../app.js');
+  const db = new FakeDb(); const giden = [];
+  const FIRMS = [{ slug: 'a', kisaAd: 'A', eposta: 'yeni@a.com', tipler: ['celik'] }];
+  await db.collection('davetKayit').doc('a').set({ gecersiz: true, gecersizEposta: 'eski@a.com' });
+  await db.collection('tanitimKayit').doc('x').set({ eposta: 'eski@a.com', gecersiz: true });
+  const app = createApp({ db, auth: { verifyIdToken: async () => ({ uid: 'y', email: 'y@y.com', email_verified: true }) }, FieldValue, Timestamp, FIRMS, MODELS: [], simdi: zaman.simdi, mail: async (to) => { giden.push(to); }, ayar: () => ({ site: 'https://x', admin: 'y@y.com', yoneticiler: ['y@y.com'] }) });
+  await db.collection('sistem').doc('tanitim').set({ aktif: true, gunluk: 20 });
+  await app.zamanliTanitim();
+  assert.deepEqual(giden, ['yeni@a.com']);
 });

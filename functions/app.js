@@ -214,7 +214,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const kayitlar = new Map((await Promise.all(FIRMS.map(async (f) => [f.slug, (await db.collection('davetKayit').doc(f.slug).get()).data() || null]))));
     const davetEdilebilir = (slug, secildi) => {
       const st = FIRMS.find((x) => x.slug === slug); const k = kayitlar.get(slug);
-      if (!st?.eposta || k?.iptal || k?.gecersiz) return false;
+      if (!st?.eposta || k?.iptal || gecersizMi(k, st.eposta)) return false;
       return secildi || !k?.sonDavet || t0 - k.sonDavet > DAVET_ARALIK_SAAT * 3600000;
     };
     const hedef = [];
@@ -876,6 +876,8 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
   const iyz = () => iyzicoIstemci({ ...(ayar().iyzico || {}), fetch: fetchFn });
   const ayEkle = (ms, n = 1) => { const t = new Date(ms); t.setMonth(t.getMonth() + n); return t.toISOString().slice(0, 10); };
   const bugun = () => new Date(now()).toISOString().slice(0, 10);
+  // Geri dönen adres işareti yalnızca o adresi engeller; firmanın kataloğdaki adresi değişince yeniden yazılabilir
+  const gecersizMi = (k, eposta) => !!k?.gecersiz && String(k.gecersizEposta || '').toLowerCase() === String(eposta || '').toLowerCase();
   // ---- Açılış kampanyası (içeride “kurucu”): ilk KURUCU_KONTENJAN onaylı firmaya 1 ay ücretsiz üyelik ----
   async function kurucuKalan() {
     const q = await db.collection('firmalar').get();
@@ -1191,7 +1193,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const acikQ = await db.collection('talepler').where('durum', '==', 'acik').get();
     const kayit = new Map(kayitQ.docs.map((d) => [d.id, d.data()]));
     const kayitli = new Set(); for (const d of firmaQ.docs) { const x = d.data(); kayitli.add(d.id); for (const e of [x.eposta, ...(x.panelEpostalari || [])]) if (e) kayitli.add(String(e).toLowerCase()); }
-    const iptalSlug = new Set(davetQ.docs.filter((d) => d.data().iptal || d.data().gecersiz).map((d) => d.id));
+    const iptalSlug = new Set(davetQ.docs.filter((d) => d.data().iptal || gecersizMi(d.data(), FIRMS.find((f) => f.slug === d.id)?.eposta)).map((d) => d.id));
     // Son 3 günde talep daveti almış firmaya aynı anda bir de tanıtım e-postası gitmesin
     const yeniDavet = new Set(davetQ.docs.filter((d) => d.data().sonDavet && now() - d.data().sonDavet < 3 * 24 * 3600000).map((d) => d.id));
     for (const t of acikQ.docs) for (const sl of t.data().firmalar || []) yeniDavet.add(sl);
@@ -1252,7 +1254,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
         const e = String(satir || '').trim().toLowerCase();
         if (!epostaMi(e)) continue;
         await db.collection('tanitimKayit').doc(tanitimId(e)).set({ eposta: e, gecersiz: true, gecersizZaman: now() }, { merge: true });
-        for (const f of FIRMS.filter((x) => String(x.eposta || '').toLowerCase() === e)) await db.collection('davetKayit').doc(f.slug).set({ gecersiz: true, gecersizZaman: now() }, { merge: true });
+        for (const f of FIRMS.filter((x) => String(x.eposta || '').toLowerCase() === e)) await db.collection('davetKayit').doc(f.slug).set({ gecersiz: true, gecersizEposta: e, gecersizZaman: now() }, { merge: true });
         n++;
       }
       return { ok: true, isaretlendi: n };
@@ -1267,8 +1269,8 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const kayitli = new Set(); for (const d of fq.docs) { const x = d.data(); kayitli.add(d.id); for (const e of [x.eposta, ...(x.panelEpostalari || [])]) if (e) kayitli.add(String(e).toLowerCase()); }
     const gonderildi = new Set(ok.docs.map((d) => d.id));
     const engel = new Set(); const ms = (v) => v?.toMillis?.() || (typeof v === 'number' ? v : 0);
-    for (const d of dk.docs) if (d.data().iptal || d.data().gecersiz) { engel.add(d.id); if (d.data().eposta) engel.add(String(d.data().eposta).toLowerCase()); }
-    for (const d of tk.docs) if (d.data().iptal || d.data().gecersiz) { if (d.data().eposta) engel.add(String(d.data().eposta).toLowerCase()); if (d.data().slug) engel.add(d.data().slug); }
+    for (const d of dk.docs) { if (d.data().iptal) { engel.add(d.id); if (d.data().eposta) engel.add(String(d.data().eposta).toLowerCase()); } if (d.data().gecersizEposta) engel.add(String(d.data().gecersizEposta).toLowerCase()); }
+    for (const d of tk.docs) { if (d.data().iptal && d.data().slug) engel.add(d.data().slug); if ((d.data().iptal || d.data().gecersiz) && d.data().eposta) engel.add(String(d.data().eposta).toLowerCase()); }
     const acik = acikQ.docs.map((t) => ({ id: t.id, ...t.data() }));
     const adaylar = new Map();
     const ekle = (eposta, slug, ad, zaman) => {
@@ -1451,7 +1453,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     if (d.durum !== 'acik') hata(409, 'Talebin süresi dolmuş.');
     const dk = (await db.collection('davetKayit').doc(slug).get()).data() || {};
     if (dk.iptal) hata(409, 'Bu firma bizden e-posta almak istemediğini bildirdi.');
-    if (dk.gecersiz && String(dk.eposta || '').toLowerCase() === eposta) hata(409, 'Bu e-posta adresi daha önce geri döndü (geçersiz).');
+    if (gecersizMi(dk, eposta)) hata(409, 'Bu e-posta adresi daha önce geri döndü (geçersiz).');
     const kod = token();
     await ref.collection('davetler').doc(slug).set({ kod, eposta, durum: 'bekliyor', gonderim: FieldValue.serverTimestamp(), elle: true });
     await ref.update({ firmalar: FieldValue.arrayUnion(slug) });
