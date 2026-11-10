@@ -289,3 +289,30 @@ test('geri dönen adres yalnızca o adresi engeller: firmanın adresi değişinc
   await app.zamanliTanitim();
   assert.deepEqual(giden, ['yeni@a.com']);
 });
+
+test('geri dönen adres: elle talep iletimi de engellenir', async () => {
+  const { FakeDb, FieldValue, Timestamp, zaman } = await import('./fakeDb.js');
+  const { createApp } = await import('../app.js');
+  const db = new FakeDb(); const giden = [];
+  const FIRMS = [{ slug: 'a', kisaAd: 'A', eposta: 'a@a.com', tipler: ['celik'] }];
+  const app = createApp({ db, auth: { verifyIdToken: async () => ({ uid: 'y', email: 'y@y.com', email_verified: true }) }, FieldValue, Timestamp, FIRMS, MODELS: [], simdi: zaman.simdi, mail: async (to) => { giden.push(to); }, ayar: () => ({ site: 'https://x', admin: 'y@y.com', yoneticiler: ['y@y.com'] }) });
+  await db.collection('talepler').doc('t1').set({ durum: 'acik', firmalar: [], il: 'Yalova', tip: 'celik', token: 'tok' });
+  await app.routes['POST /api/yonetim/tanitim']({ headers: { authorization: 'Bearer x' }, body: { gecersiz: 'a@a.com' } });
+  const r = await app.routes['POST /api/yonetim/talep-ilet']({ headers: { authorization: 'Bearer x' }, body: { talep: 't1', firma: 'a', eposta: 'a@a.com' } }).then(() => 'ok', (e) => e.message);
+  assert.match(r, /geri döndü/);
+  assert.deepEqual(giden, []);
+});
+
+test('geri dönen adres: yalnızca tanıtım kaydında işaretli olsa da talep daveti gitmez', async () => {
+  const { FakeDb, FieldValue, Timestamp, zaman } = await import('./fakeDb.js');
+  const { createApp } = await import('../app.js');
+  const db = new FakeDb(); const giden = [];
+  const FIRMS = [{ slug: 'a', kisaAd: 'A', eposta: 'a@a.com', tipler: ['celik'] }];
+  const app = createApp({ db, auth: { verifyIdToken: async () => ({ uid: 'y', email: 'y@y.com', email_verified: true }) }, FieldValue, Timestamp, FIRMS: [], MODELS: [], simdi: zaman.simdi, mail: async (to) => { giden.push(to); }, ayar: () => ({ site: 'https://x', admin: 'y@y.com', yoneticiler: ['y@y.com'] }) });
+  await app.routes['POST /api/yonetim/tanitim']({ headers: { authorization: 'Bearer x' }, body: { gecersiz: 'a@a.com' } });
+  const app2 = createApp({ db, auth: { verifyIdToken: async () => ({ uid: 'y', email: 'y@y.com', email_verified: true }) }, FieldValue, Timestamp, FIRMS, MODELS: [], simdi: zaman.simdi, mail: async (to) => { giden.push(to); }, ayar: () => ({ site: 'https://x', admin: 'y@y.com', yoneticiler: ['y@y.com'] }) });
+  await db.collection('talepler').doc('t1').set({ durum: 'acik', firmalar: [], il: 'Yalova', tip: 'celik', token: 'tok' });
+  const r = await app2.routes['POST /api/yonetim/talep-ilet']({ headers: { authorization: 'Bearer x' }, body: { talep: 't1', firma: 'a', eposta: 'a@a.com' } }).then(() => 'ok', (e) => e.message);
+  assert.match(r, /geri döndü/);
+  assert.deepEqual(giden, []);
+});

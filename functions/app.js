@@ -212,9 +212,10 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const tipUyar = (slug, f) => (f?.tipler?.length ? f.tipler : FIRMS.find((x) => x.slug === slug)?.tipler || []).includes(d.tip);
     const grup = (slug) => { const f = fdocs.get(slug); if (f?.kaldirildi) return 'kaldirildi'; if (f && f.aktif === false) return 'pasif'; if (uyeAktif(f)) return 'uye'; if (f && f.aktif !== false && (f.eposta || f.panelEpostalari?.length)) return 'odeme'; return 'liste'; };
     const kayitlar = new Map((await Promise.all(FIRMS.map(async (f) => [f.slug, (await db.collection('davetKayit').doc(f.slug).get()).data() || null]))));
+    const donenler = new Set((await db.collection('tanitimKayit').where('gecersiz', '==', true).get()).docs.map((x) => String(x.data().eposta || '').toLowerCase()));
     const davetEdilebilir = (slug, secildi) => {
       const st = FIRMS.find((x) => x.slug === slug); const k = kayitlar.get(slug);
-      if (!st?.eposta || k?.iptal || gecersizMi(k, st.eposta)) return false;
+      if (!st?.eposta || k?.iptal || gecersizMi(k, st.eposta) || donenler.has(String(st.eposta).toLowerCase())) return false;
       return secildi || !k?.sonDavet || t0 - k.sonDavet > DAVET_ARALIK_SAAT * 3600000;
     };
     const hedef = [];
@@ -1249,15 +1250,15 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     }
     // Geri dönen (adres bulunamadı / engellendi) e-postalar: bu adreslere bir daha ne tanıtım ne talep daveti gider
     if (typeof b.gecersiz === 'string') {
-      let n = 0;
+      let n = 0; let firma = 0;
       for (const satir of b.gecersiz.split(/[\n,;\s]+/).slice(0, 500)) {
         const e = String(satir || '').trim().toLowerCase();
         if (!epostaMi(e)) continue;
         await db.collection('tanitimKayit').doc(tanitimId(e)).set({ eposta: e, gecersiz: true, gecersizZaman: now() }, { merge: true });
-        for (const f of FIRMS.filter((x) => String(x.eposta || '').toLowerCase() === e)) await db.collection('davetKayit').doc(f.slug).set({ gecersiz: true, gecersizEposta: e, gecersizZaman: now() }, { merge: true });
+        for (const f of FIRMS.filter((x) => String(x.eposta || '').toLowerCase() === e)) { await db.collection('davetKayit').doc(f.slug).set({ gecersiz: true, gecersizEposta: e, gecersizZaman: now() }, { merge: true }); firma++; }
         n++;
       }
-      return { ok: true, isaretlendi: n };
+      return { ok: true, isaretlendi: n, firma };
     }
     if (b.simdiGonder) return { ok: true, gonderilen: await tanitimGonder(Math.min(sayi(b.adet, 1, TANITIM_UST) || 20, TANITIM_UST)) };
     await db.collection('sistem').doc('tanitim').set({ aktif: !!b.aktif, gunluk: Math.min(sayi(b.gunluk, 1, TANITIM_UST) || 20, TANITIM_UST) }, { merge: true });
@@ -1453,7 +1454,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     if (d.durum !== 'acik') hata(409, 'Talebin süresi dolmuş.');
     const dk = (await db.collection('davetKayit').doc(slug).get()).data() || {};
     if (dk.iptal) hata(409, 'Bu firma bizden e-posta almak istemediğini bildirdi.');
-    if (gecersizMi(dk, eposta)) hata(409, 'Bu e-posta adresi daha önce geri döndü (geçersiz).');
+    if (gecersizMi(dk, eposta) || (await db.collection('tanitimKayit').doc(tanitimId(eposta)).get()).data()?.gecersiz) hata(409, 'Bu e-posta adresi daha önce geri döndü (geçersiz).');
     const kod = token();
     await ref.collection('davetler').doc(slug).set({ kod, eposta, durum: 'bekliyor', gonderim: FieldValue.serverTimestamp(), elle: true });
     await ref.update({ firmalar: FieldValue.arrayUnion(slug) });
