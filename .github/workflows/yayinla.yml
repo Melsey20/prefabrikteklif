@@ -4,7 +4,7 @@ name: Yayınla
 on:
   push:
     branches: [main]
-    paths-ignore: ['README.md', '**/*.command', 'scripts/instagram/**', '.github/workflows/instagram.yml', '.github/workflows/meta-kontrol.yml']
+    paths-ignore: ['README.md', '**/*.command', 'scripts/instagram/**', '.github/workflows/instagram.yml', '.github/workflows/meta-kontrol.yml', '.github/workflows/seslendirme.yml']
   workflow_dispatch:
 jobs:
   yayinla:

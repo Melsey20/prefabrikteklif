@@ -7,7 +7,8 @@ Kullanım (depo kökünden):
 Fontlar: scripts/instagram/marka/fonts (Inter, OFL lisanslı) — kurulum gerekmez.
 Görseller: public/img. Logo: scripts/instagram/marka.
 Tasarımlar PNG (1080×1350), reels için kare kare HTML (reels.cjs ile çekilir).
-Reels sahne türleri: foto (img), grid (imgs), sayi (n, birim), liste (maddeler ≤5, ikon: ✓/✕/?), son.
+Reels sahne türleri: foto (img), grid (imgs), sayi (n, birim), liste (maddeler ≤4, ikon: ✓/✕/?), son.
+Okunurluk: her sahne en az 3 sn (p'li ya da liste sahnesi 3,5 sn), başlık en fazla 8 kelime — aksi hâlde üretim durur.
 Günde 2 dosya: icerik/YYYY-MM-DD-sabah.json ve -aksam.json; her birinde 1 tasarım + "reels": [2 reels].
 """
 import base64, json, os, pathlib, re, sys
@@ -215,7 +216,23 @@ def kelimeler(h):
         out.append(part if part in ('<em>', '</em>', '<br>') else f'<span class="w">{part}</span>')
     return ' '.join(out).replace('<em> ', '<em>').replace(' </em>', '</em>').replace(' <br> ', '<br>')
 
+MIN_SAHNE = 3.0   # sn — ekrandaki yazı rahatça okunsun (Yusuf Bey, 11 Kasım: "okuyamadan geçiyor")
+MAX_KELIME = 8    # sahne başlığında en fazla kelime (son sahne hariç)
+
+def okunurluk(r):
+    """Hızlı geçen sahne ya da uzun başlık varsa üretimi durdurur; içerik görevi JSON'u düzeltir."""
+    S = r['sahneler']; T = [s['t'] for s in S] + [r['sure']]; sorun = []
+    for i, s in enumerate(S):
+        d = T[i + 1] - T[i]; kel = len(re.sub(r'<[^>]+>', ' ', s['h']).split())
+        en_az = MIN_SAHNE + (0.5 if s.get('p') or s['tur'] == 'liste' else 0)
+        if d < en_az: sorun.append(f"sahne {i + 1} ({s['tur']}) {d:.1f} sn — en az {en_az:.1f} sn olmalı")
+        if s['tur'] != 'son' and kel > MAX_KELIME: sorun.append(f"sahne {i + 1} başlığı {kel} kelime — en fazla {MAX_KELIME}")
+        if s['tur'] == 'liste' and len(s.get('maddeler', [])) > 4: sorun.append(f"sahne {i + 1} listesinde {len(s['maddeler'])} madde — en fazla 4")
+    if sorun:
+        sys.exit('OKUNURLUK: ' + '; '.join(sorun) + '. Sahne sayısını azaltın, seslendirmeyi uzatın ya da başlığı kısaltın.')
+
 def reels_html(r):
+    okunurluk(r)
     S = r['sahneler']; html = '<div class="cv">'
     for i, s in enumerate(S):
         if s['tur'] == 'son':

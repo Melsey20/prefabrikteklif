@@ -22,6 +22,6 @@ for k in $(seq 1 "$N"); do
   node scripts/instagram/cek.cjs reels "$H" "$K" "$SURE"
   ffmpeg -y -loglevel error -framerate 30 -i "$K/f%04d.jpg" -c:v libx264 -crf 19 -pix_fmt yuv420p "$T/sessiz$k.mp4"
   curl -sfo "$T/vo$k.mp3" "$URL"
-  bash scripts/instagram/mix.sh "$T/sessiz$k.mp4" "$T/vo$k.mp3" "$O/reels-$k.mp4" 1.1
+  bash scripts/instagram/mix.sh "$T/sessiz$k.mp4" "$T/vo$k.mp3" "$O/reels-$k.mp4" 1.0
 done
 echo URET_OK

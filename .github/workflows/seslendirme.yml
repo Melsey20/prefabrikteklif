@@ -1,0 +1,45 @@
+# Reels seslendirmeleri — ElevenLabs (scripts/instagram/seslendir.py).
+# Günlük içerik görevi bugünün JSON'larını (reels[].seslendirme metniyle) main'e push edince çalışır;
+# ses_url'si olmayan Reels için MP3 üretir, scripts/instagram/ses/ altına koyar, JSON'a ses_url yazar ve push eder.
+# Elle: Actions → "Seslendirme (ElevenLabs)" → Run workflow (sesler=true: hesaptaki sesleri listeler).
+name: Seslendirme (ElevenLabs)
+on:
+  push:
+    branches: [main]
+    paths: ['scripts/instagram/icerik/**']
+  workflow_dispatch:
+    inputs:
+      sesler:
+        description: 'Hesaptaki sesleri listele (ses üretme)'
+        type: boolean
+        default: false
+permissions:
+  contents: write
+concurrency:
+  group: seslendirme
+  cancel-in-progress: false
+jobs:
+  ses:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+      ELEVENLABS_VOICE_ID: ${{ vars.ELEVENLABS_VOICE_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sesleri listele
+        if: ${{ inputs.sesler }}
+        run: python3 scripts/instagram/seslendir.py --sesler
+      - name: Seslendirmeleri üret
+        if: ${{ !inputs.sesler }}
+        run: python3 -u scripts/instagram/seslendir.py
+      - name: Kaydet
+        if: ${{ !inputs.sesler }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/instagram/ses scripts/instagram/icerik
+          git diff --cached --quiet && { echo "yeni ses yok"; exit 0; }
+          git commit -m "Instagram: ElevenLabs seslendirmeleri"
+          for i in 1 2 3 4 5; do git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0; sleep 5; done
+          exit 1
