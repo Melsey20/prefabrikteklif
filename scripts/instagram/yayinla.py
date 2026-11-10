@@ -75,7 +75,8 @@ def yayinla_ogesi(ig, oge):
     if t == 'tasarim':
         gorseller = oge['medya']
         if len(gorseller) == 1:
-            kap = api('POST', f'{ig}/media', image_url=gorseller[0], caption=oge['aciklama'])['id']
+            ek = {'alt_text': oge['alt']} if oge.get('alt') else {}
+            kap = api('POST', f'{ig}/media', image_url=gorseller[0], caption=oge['aciklama'], **ek)['id']
         else:
             cocuk = [api('POST', f'{ig}/media', image_url=u, is_carousel_item='true')['id'] for u in gorseller[:10]]
             for c in cocuk:
@@ -103,7 +104,8 @@ def plan(d):
     reels = [reels] if isinstance(reels, dict) else reels
     ogeler = []
     if m.get('tasarim'):
-        ogeler.append(dict(anahtar='tasarim', dk=0, tur='tasarim', medya=m['tasarim'], aciklama=(d.get('tasarimlar') or [{}])[0].get('aciklama', '')))
+        t = (d.get('tasarimlar') or [{}])[0]
+        ogeler.append(dict(anahtar='tasarim', dk=0, tur='tasarim', medya=m['tasarim'], aciklama=t.get('aciklama', ''), alt=t.get('alt_text', '')))
     for k, u in enumerate(m.get('reels') or []):
         ogeler.append(dict(anahtar=f'reels-{k + 1}', dk=20 * (k + 1), tur='reels', medya=u, aciklama=(reels[k] if k < len(reels) else {}).get('aciklama', '')))
     if m.get('story'):
