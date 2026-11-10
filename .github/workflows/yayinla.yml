@@ -24,7 +24,17 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PREFABRIKTEKLIF }}
           projectId: prefabrikteklif
           channelId: live
+      - name: Canlı sayfa kontrolü
+        run: |
+          sleep 10
+          hata=0
+          for u in / /teklif-al/ /evini-bul/ /rehber/ $(ls src/content/rehber/*.md | sed 's#.*/\(.*\)\.md#/rehber/\1/#'); do
+            k=$(curl -s -o /dev/null -w '%{http_code}' -L "https://www.prefabrikteklif.com.tr$u")
+            echo "CANLI $k $u"; [ "$k" = "200" ] || hata=1
+          done
+          [ $hata = 0 ] || { echo "::error::Canlı kontrolde 200 dönmeyen sayfa var"; exit 1; }
       - name: IndexNow bildirimi
+        if: always()
         run: |
           node -e '
           const fs=require("fs");const x=fs.readdirSync("dist").filter(f=>/^sitemap-\d+\.xml$/.test(f)).map(f=>fs.readFileSync("dist/"+f,"utf8")).join("");
