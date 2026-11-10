@@ -1,0 +1,40 @@
+# Instagram paylaşımları (Meta Graph API, META_TOKEN sistem kullanıcısı jetonu).
+# 10 dakikada bir çalışır; zamanı gelmiş en fazla 1 öğeyi (tasarım, Reels ya da hikâye) yayınlar
+# ve yayınlananı içerik dosyasına (yayin.yayinlanan) işler. Plan: scripts/instagram/yayinla.py
+name: Instagram yayın
+on:
+  schedule:
+    - cron: '*/10 6-19 * * *'   # İstanbul 09:00–22:59
+  workflow_dispatch:
+    inputs:
+      kuru:
+        description: 'Sadece planı göster, yayınlama'
+        type: boolean
+        default: false
+permissions:
+  contents: write
+concurrency:
+  group: instagram-yayin
+  cancel-in-progress: false
+jobs:
+  yayinla:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sıradaki öğeyi yayınla
+        id: y
+        env:
+          META_TOKEN: ${{ secrets.META_TOKEN }}
+        run: |
+          if [ "${{ inputs.kuru }}" = "true" ]; then python3 scripts/instagram/yayinla.py --kuru; else python3 scripts/instagram/yayinla.py; fi
+      - name: Durumu depoya işle
+        if: always() && inputs.kuru != true
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/instagram/icerik
+          git diff --cached --quiet && exit 0
+          git commit -m "Instagram: yayın durumu"
+          for i in 1 2 3; do git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0; sleep 5; done
+          exit 1
