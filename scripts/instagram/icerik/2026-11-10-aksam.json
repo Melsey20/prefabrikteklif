@@ -201,6 +201,19 @@
   ],
   "yayin": {
     "hesap": "17841474767654199",
-    "durum": "hazırlanıyor"
+    "durum": "yayınlanamadı: Supermetrics TRIAL_EXPIRED (deneme süresi 9 Kasım 2026'da bitti); içerikler üretildi ve yüklendi, zamanlanmadı",
+    "medya": {
+      "tasarim": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/3eaba285-9385-4665-afde-c0baa0bce287.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/c7f93dc9-cef2-4601-a559-f9721e39c454.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/fdae40da-6d5b-4796-849f-01b1d0b2285d.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/748429eb-4c18-4141-a814-07f0dfd244b4.jpg"
+      ],
+      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/0ec6fa2a-dece-42f9-9343-94175e69243a.jpg",
+      "reels": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/64a92713-d890-4c5e-80fd-c1eb0cddce0b.mp4",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/38cc45be-b694-40ed-b4dd-6a721a464638.mp4"
+      ]
+    }
   }
 }
