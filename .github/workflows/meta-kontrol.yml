@@ -1,0 +1,24 @@
+# META_TOKEN sistem kullanıcısı jetonunu sınar: jetonun kendisini yazdırmaz, yalnızca
+# hangi sayfa ve Instagram hesabını gördüğünü ve izinlerini gösterir.
+# Elle çalıştırılır: Actions → Meta jetonu kontrol → Run workflow.
+name: Meta jetonu kontrol
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  kontrol:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Jetonu sına
+        env:
+          META_TOKEN: ${{ secrets.META_TOKEN }}
+        run: |
+          set -e
+          [ -n "$META_TOKEN" ] || { echo "META_TOKEN tanımlı değil"; exit 1; }
+          G=https://graph.facebook.com/v21.0
+          echo "== Jeton sahibi"; curl -s "$G/me?fields=id,name&access_token=$META_TOKEN" | jq '{id,name,error:.error.message}'
+          echo "== İzinler"; curl -s "$G/me/permissions?access_token=$META_TOKEN" | jq -c '[.data[]? | select(.status=="granted") | .permission], .error.message'
+          echo "== Sayfalar ve Instagram hesapları"
+          curl -s "$G/me/accounts?fields=id,name,instagram_business_account%7Bid,username,followers_count,media_count%7D&access_token=$META_TOKEN" \
+            | jq '[.data[]? | {sayfa:.name, sayfa_id:.id, instagram:.instagram_business_account}], .error.message'
