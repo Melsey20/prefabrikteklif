@@ -1,8 +1,9 @@
 # Instagram paylaşımları (Meta Graph API, META_TOKEN sistem kullanıcısı jetonu).
-# Bir çalışma 150 dakikaya kadar açık kalır: zamanı gelen öğeleri (tasarım, Reels, hikâye) sırayla,
-# aralarında en az 5 dk bırakarak yayınlar, sıradaki öğe yakınsa onu bekler; her yayını hemen
-# içerik dosyasına (yayin.yayinlanan) işler. Böylece GitHub zamanlayıcısı gecikse de slot aksamaz.
-# Tetikleyiciler: 10 dakikada bir zamanlayıcı, içerik görevinin medya push'u, elle çalıştırma.
+# Bir çalışma 320 dakikaya kadar açık kalır: zamanı gelen öğeleri (tasarım, Reels, hikâye) sırayla,
+# aralarında en az 5 dk bırakarak yayınlar, sıradaki öğeyi bekler; her yayını hemen içerik dosyasına
+# (yayin.yayinlanan) işler. Bittiğinde 20 saat içinde bekleyen öğe varsa kendini yeniden
+# başlatır (zincir); böylece GitHub zamanlayıcısı hiç çalışmasa da yayın aksamaz.
+# Tetikleyiciler: zincir, 10 dakikada bir zamanlayıcı, içerik görevinin medya push'u, elle çalıştırma.
 name: Instagram yayın
 on:
   schedule:
@@ -18,13 +19,14 @@ on:
         default: false
 permissions:
   contents: write
+  actions: write
 concurrency:
   group: instagram-yayin
   cancel-in-progress: false
 jobs:
   yayinla:
     runs-on: ubuntu-latest
-    timeout-minutes: 170
+    timeout-minutes: 350
     steps:
       - uses: actions/checkout@v4
         with:
@@ -46,3 +48,14 @@ jobs:
           git commit -m "Instagram: yayın durumu"
           for i in 1 2 3; do git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0; sleep 5; done
           exit 1
+      - name: Zinciri sürdür
+        if: always() && inputs.kuru != true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git pull -q --rebase origin main || true
+          if [ "$(python3 scripts/instagram/yayinla.py --sonraki)" = "evet" ]; then
+            gh workflow run instagram.yml --ref main -R "$GITHUB_REPOSITORY" && echo "Sonraki çalışma başlatıldı"
+          else
+            echo "Bekleyen öğe yok; zincir duruyor (içerik görevinin push'u yeniden başlatır)."
+          fi

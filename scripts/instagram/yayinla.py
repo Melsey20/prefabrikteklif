@@ -164,7 +164,7 @@ def sonraki_zaman(simdi):
     return en
 
 
-def dongu(sure_dk=int(os.environ.get('DONGU_DK', '150')), ara_dk=5):
+def dongu(sure_dk=int(os.environ.get('DONGU_DK', '320')), ara_dk=5):
     """GitHub zamanlayıcısı gecikse de slotlar aksamasın: tek çalışma, sure_dk boyunca zamanı gelen
     öğeleri sırayla (aralarında en az ara_dk) yayınlar, sıradaki öğe yakınsa onu bekler."""
     bitis = time.time() + sure_dk * 60
@@ -179,12 +179,15 @@ def dongu(sure_dk=int(os.environ.get('DONGU_DK', '150')), ara_dk=5):
                 time.sleep(ara_dk * 60)
             continue
         sz = sonraki_zaman(simdi)
-        if not sz or (sz - simdi).total_seconds() > bitis - time.time():
-            print('Bu çalışmada yayınlanacak başka öğe yok.')
+        if not sz:
+            print('Bekleyen öğe yok.')
             return
-        bekle_sn = max(30, (sz - simdi).total_seconds() + 5)
-        print(f'Sıradaki öğe {sz:%H:%M}; bekleniyor.')
+        kalan = bitis - time.time()
+        bekle_sn = max(30, min((sz - simdi).total_seconds() + 5, kalan))
+        print(f'Sıradaki öğe {sz:%d.%m %H:%M}; {round(bekle_sn / 60)} dk bekleniyor.', flush=True)
         time.sleep(bekle_sn)
+        if bekle_sn >= kalan:
+            return
 
 
 def tek(simdi):
@@ -215,6 +218,11 @@ def tek(simdi):
 
 
 def main():
+    if '--sonraki' in sys.argv:  # iş akışı zinciri: 20 saat içinde bekleyen öğe varsa 'evet'
+        sz = sonraki_zaman(dt.datetime.now(TZ))
+        due = sirada(dt.datetime.now(TZ))
+        print('evet' if due or (sz and (sz - dt.datetime.now(TZ)).total_seconds() < 20 * 3600) else 'hayir')
+        return
     if '--dongu' in sys.argv:
         dongu()
         return
