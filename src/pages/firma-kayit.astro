@@ -76,7 +76,7 @@ const firmaOzet = Object.fromEntries(firms.map((f) => [f.slug, { u: f.ad, m: f.k
       <h2 class="kf-b">4. Ürünler ve hizmet bölgesi</h2>
       <fieldset>
         <legend>Ürettiğiniz tipler</legend>
-        <div class="two">{TIP_KEYS.map((k) => <label class="chk"><input type="checkbox" name="tipler" value={k} /> {TIPLER[k].ad}</label>)}</div>
+        <div class="two">{TIP_KEYS.map((k) => <label class="chk"><input type="checkbox" name="tipler" value={k} /> {TIPLER[k].ad}</label>)}<label class="chk"><input type="checkbox" name="tipler" value="agir-celik" /> Ağır çelik yapı (fabrika, depo, işyeri)</label></div>
       </fieldset>
       <fieldset>
         <legend>Hangi illere hizmet veriyorsunuz?</legend>

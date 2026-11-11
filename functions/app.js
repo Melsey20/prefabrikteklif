@@ -5,7 +5,11 @@ import { iyzicoIstemci } from './iyzico.js';
 import { netgsmIstemci } from './netgsm.js';
 import { iletiMerkeziIstemci } from './iletimerkezi.js';
 
-export const TIP_AD = { prefabrik: 'Prefabrik ev', celik: 'Çelik ev', konteyner: 'Konteyner ev', 'tiny house': 'Tiny house', ahsap: 'Ahşap ev', bungalov: 'Bungalov / bağ evi' };
+export const TIP_AD = { prefabrik: 'Prefabrik ev', celik: 'Çelik ev', konteyner: 'Konteyner ev', 'tiny house': 'Tiny house', ahsap: 'Ahşap ev', bungalov: 'Bungalov / bağ evi', 'agir-celik': 'Ağır çelik yapı' };
+// Yapının kullanım amacı (talepte sorulur; konut dışında oda sayısı istenmez)
+export const AMAC_AD = { konut: 'Konut', isyeri: 'İşyeri / ofis / dükkan', fabrika: 'Fabrika / depo / atölye', tarim: 'Tarım / hayvancılık yapısı', diger: 'Diğer' };
+// Ağır çelik talebi, çelik yapı üreten firmalara da gider
+export const tipEslesir = (firmaTipler, tip) => (firmaTipler || []).includes(tip) || (tip === 'agir-celik' && (firmaTipler || []).includes('celik'));
 export const ARAZI_AD = { imarli: 'İmarlı arsa', koy: 'Köy yerleşik alanı', tarla: 'Tarla / tarım arazisi', bag: 'Bağ – bahçe', yok: 'Henüz arazi yok' };
 export const KAPSAM_AD = { 'anahtar-teslim': 'Anahtar teslim', 'nakliye-montaj': 'Nakliye ve montaj', 'zemin-betonu': 'Zemin betonu', 'ruhsat-proje': 'Ruhsat ve proje' };
 export const DAHIL_AD = { nakliye: 'Nakliye', montaj: 'Montaj', vinc: 'Vinç', zemin: 'Zemin betonu', 'ic-bitis': 'İç bitiş', 'mutfak-vitrifiye': 'Mutfak ve vitrifiye', ruhsat: 'Ruhsat ve proje' };
@@ -166,7 +170,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const q = await db.collection('firmalar').where('aktif', '==', true).where('tipler', 'array-contains', tip).get();
     return q.docs.map((d) => ({ slug: d.id, ...d.data() }));
   }
-  const talepOzeti = (d) => [['Ev tipi', TIP_AD[d.tip]], ['Oda', d.oda], ['m²', d.m2], ['Yer', [d.il, d.ilce].filter(Boolean).join(' / ')], ['Arazi', ARAZI_AD[d.arazi]], ['Bütçe', BUTCE_AD[d.butce] || d.butce], ['Teslim', TESLIM_AD[d.teslim]], ['Zaman', d.zaman], ['İstenen kapsam', (d.kapsam || []).map((k) => KAPSAM_AD[k]).join(', ')], ['İlgilendiği model', d.model ? (modelBul(d.model)?.ad || d.model) : ''], ['Not', d.not]];
+  const talepOzeti = (d) => [['Yapı tipi', TIP_AD[d.tip]], ['Kullanım', AMAC_AD[d.amac] || ''], ['Oda', d.oda], ['m²', d.m2], ['Yer', [d.il, d.ilce].filter(Boolean).join(' / ')], ['Arazi', ARAZI_AD[d.arazi]], ['Bütçe', BUTCE_AD[d.butce] || d.butce], ['Teslim', TESLIM_AD[d.teslim]], ['Zaman', d.zaman], ['İstenen kapsam', (d.kapsam || []).map((k) => KAPSAM_AD[k]).join(', ')], ['İlgilendiği model', d.model ? (modelBul(d.model)?.ad || d.model) : ''], ['Not', d.not]];
 
   // ---- POST /api/teklif ----
   async function teklif(req, res) {
@@ -175,13 +179,14 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const u = await kim(req, false);
     const mod = b.mod === 'surec' ? 'surec' : 'teklif';
     const d = {
-      mod, tip: TIP_AD[b.tip] ? b.tip : 'prefabrik', oda: str(b.oda, 10), m2: sayi(b.m2, 5, 2000),
+      mod, tip: TIP_AD[b.tip] ? b.tip : 'prefabrik', amac: AMAC_AD[b.amac] ? b.amac : (b.tip === 'agir-celik' ? 'fabrika' : 'konut'), oda: str(b.oda, 10), m2: sayi(b.m2, 5, 20000),
       arazi: ARAZI_AD[b.arazi] ? b.arazi : '', il: str(b.il, 40), ilce: str(b.ilce, 60), butce: BUTCE_AD[b.butce] ? b.butce : '', teslim: TESLIM_AD[b.teslim] ? b.teslim : '',
       zaman: str(b.zaman, 60), kapsam: arr(b.kapsam).filter((k) => KAPSAM_AD[k]), not: str(b.not, 1000), model: modelBul(str(b.model, 160)) ? str(b.model, 160) : '',
       ad: str(b.ad, 80), eposta: str(b.eposta, 120).toLowerCase(), telefon: str(b.telefon, 20), pazarlama: !!b.pazarlama,
     };
     if (!d.ad || !epostaMi(d.eposta) || d.telefon.replace(/\D/g, '').length < 10 || !d.il) hata(400, 'Lütfen zorunlu alanları doldurun.');
-    if (mod === 'teklif' && !d.model && (!d.oda || !d.m2 || !d.butce)) hata(400, 'Firmaların doğru fiyat verebilmesi için oda sayısı, yaklaşık m² ve bütçe gerekli.');
+    if (d.amac !== 'konut' || d.tip === 'agir-celik') d.oda = d.oda && /^\d\+\d$/.test(d.oda) ? d.oda : '';
+    if (mod === 'teklif' && !d.model && ((d.amac === 'konut' && d.tip !== 'agir-celik' && !d.oda) || !d.m2 || !d.butce)) hata(400, 'Firmaların doğru fiyat verebilmesi için oda sayısı, yaklaşık m² ve bütçe gerekli.');
     if (!b.riza) hata(400, 'Devam etmek için açık rıza gerekli.');
     // Test talebi: yalnızca yönetici gönderebilir; yalnızca üyeliği aktif firmalara gider, listelenmiş firmalara davet gitmez
     const test = !!b.test && u?.rol === 'admin';
@@ -192,7 +197,8 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const t0 = now();
     const ref = db.collection('talepler').doc();
     const tkn = token();
-    const ortak = { ...d, telefonNorm: telNorm(d.telefon), uid: u?.uid || null, token: tkn, riza: true, rizaZamani: FieldValue.serverTimestamp(), olusturma: FieldValue.serverTimestamp() };
+    const sahipKod = token();
+    const ortak = { ...d, telefonNorm: telNorm(d.telefon), uid: u?.uid || null, token: tkn, sahipKod, riza: true, rizaZamani: FieldValue.serverTimestamp(), olusturma: FieldValue.serverTimestamp() };
     await onayKaydet(req, { tur: mod === 'surec' ? 'surec-talebi' : 'teklif-talebi', kayit: ref.id, uid: u?.uid, eposta: d.eposta, telefon: d.telefon, ad: d.ad, belgeler: ['kvkk', 'riza', 'kullanici', ...(mod === 'surec' ? ['hizmet'] : []), ...(d.pazarlama ? ['pazarlama'] : [])] });
     if (!test) sayac({ talep: 1, ...(mod === 'surec' ? { surec: 1 } : {}) });
 
@@ -211,7 +217,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     // Firmalar üç gruba ayrılır: üyeliği aktif (fiyat verebilir), kayıtlı ama ödeme bekleyen, yalnızca listelenmiş (üye değil)
     const fdocs = new Map((await db.collection('firmalar').get()).docs.map((x) => [x.id, x.data()]));
     const ilUyar = (f) => !f.iller?.length || f.iller.includes('*') || f.iller.includes(d.il);
-    const tipUyar = (slug, f) => (f?.tipler?.length ? f.tipler : FIRMS.find((x) => x.slug === slug)?.tipler || []).includes(d.tip);
+    const tipUyar = (slug, f) => tipEslesir(f?.tipler?.length ? f.tipler : FIRMS.find((x) => x.slug === slug)?.tipler || [], d.tip);
     const grup = (slug) => { const f = fdocs.get(slug); if (f?.kaldirildi) return 'kaldirildi'; if (f && f.aktif === false) return 'pasif'; if (uyeAktif(f)) return 'uye'; if (f && f.aktif !== false && (f.eposta || f.panelEpostalari?.length)) return 'odeme'; return 'liste'; };
     const kayitlar = new Map((await Promise.all(FIRMS.map(async (f) => [f.slug, (await db.collection('davetKayit').doc(f.slug).get()).data() || null]))));
     const donenler = new Set((await db.collection('tanitimKayit').where('gecersiz', '==', true).get()).docs.map((x) => String(x.data().eposta || '').toLowerCase()));
@@ -228,14 +234,14 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     for (const slug of secilen) { const g = grup(slug); if (test !== testFirma(slug)) continue; if (g === 'uye' || (!test && (g === 'odeme' || (g === 'liste' && davetEdilebilir(slug, true))))) ekle(slug); }
     for (const [slug, f] of fdocs) if (grup(slug) === 'uye' && test === testFirma(slug) && tipUyar(slug, f) && ilUyar(f)) ekle(slug);
     if (!test) for (const [slug, f] of fdocs) if (grup(slug) === 'odeme' && !testFirma(slug) && tipUyar(slug, f) && ilUyar(f)) ekle(slug);
-    const listeAday = test ? [] : FIRMS.filter((f) => grup(f.slug) === 'liste' && f.tipler?.includes(d.tip) && davetEdilebilir(f.slug, false))
+    const listeAday = test ? [] : FIRMS.filter((f) => grup(f.slug) === 'liste' && tipEslesir(f.tipler, d.tip) && davetEdilebilir(f.slug, false))
       .sort((x, y) => (y.il === d.il) - (x.il === d.il) || (y.modelSayisi || 0) - (x.modelSayisi || 0));
     let listeSay = hedef.filter((x) => grup(x) === 'liste').length;
     for (const f of listeAday) { if (listeSay >= DAVET_SINIRI) break; if (!hedef.includes(f.slug)) { ekle(f.slug); listeSay++; } }
     // Aynı gün art arda gelen talepler aynı firmaları tüketmesin: 72 saat kuralı yüzünden davet sayısı DAVET_ALT_SINIR'ın altında
     // kalırsa, yakın zamanda davet almış (ama ayrılmamış, adresi geri dönmemiş) firmalarla tamamlanır — her talep ayrı bir müşteridir.
     if (!test && listeSay < DAVET_ALT_SINIR) {
-      const ek = FIRMS.filter((f) => grup(f.slug) === 'liste' && f.tipler?.includes(d.tip) && !hedef.includes(f.slug) && davetEdilebilir(f.slug, true))
+      const ek = FIRMS.filter((f) => grup(f.slug) === 'liste' && tipEslesir(f.tipler, d.tip) && !hedef.includes(f.slug) && davetEdilebilir(f.slug, true))
         .sort((x, y) => (y.il === d.il) - (x.il === d.il) || (y.modelSayisi || 0) - (x.modelSayisi || 0));
       for (const f of ek) { if (listeSay >= DAVET_ALT_SINIR) break; ekle(f.slug); listeSay++; }
     }
@@ -270,7 +276,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const elle = secilen.filter((s) => !davetler.some((v) => v.slug === s));
     await Promise.allSettled([
       ...davetler.map(davetMail),
-      mail(d.eposta, 'Teklif talebiniz alındı', sablon('Talebiniz alındı', `<p>Merhaba ${esc(d.ad)},</p><p>Talebiniz ${davetler.length ? `${davetler.length} firmaya` : 'uygun firmalara'} <b>isimsiz</b> olarak iletildi. Bilgileriniz yalnızca fiyat veren firmalarla paylaşılır. Gelen teklifler <b>${esc(son)}</b> civarında tek tabloda e-postanıza gelecek.</p>${ozet}${buton(`${a.site}/hesabim/`, 'Talebimi takip et')}`)),
+      mail(d.eposta, 'Teklif talebiniz alındı', sablon('Talebiniz alındı', `<p>Merhaba ${esc(d.ad)},</p><p>Talebiniz ${davetler.length ? `${davetler.length} firmaya` : 'uygun firmalara'} <b>isimsiz</b> olarak iletildi. Bilgileriniz yalnızca fiyat veren firmalarla paylaşılır. Gelen teklifler <b>${esc(son)}</b> civarında tek tabloda e-postanıza gelecek.</p>${ozet}${buton(`${a.site}/hesabim/?bagla=${ref.id}.${sahipKod}`, 'Talebimi takip et')}`)),
       mail(a.admin, `Yeni talep: ${test ? '[TEST] ' : ''}${TIP_AD[d.tip]} ${d.il} (${uyeSay} üye, ${davetler.length - uyeSay} davet)`, sablon('Yeni talep', `${ozet}${kart([['Müşteri', d.ad], ['E-posta', d.eposta], ['Telefon', d.telefon], ['Öncelikli firmalar', secilen.map(firmAd).join(', ')], ['Fiyat verebilecek üyeler', davetler.filter((v) => v.tur === 'uye').map((v) => firmAd(v.slug)).join(', ') || 'Yok'], ['Ödeme bekleyen kayıtlı firmalar', davetler.filter((v) => v.tur === 'odeme').map((v) => firmAd(v.slug)).join(', ') || 'Yok'], ['Üye olmaya davet edilenler', davetler.filter((v) => v.tur === 'liste').map((v) => firmAd(v.slug)).join(', ') || 'Yok'], ['E-postası olmayan seçili firmalar (elle iletin)', elle.map(firmAd).join(', ')]])}${buton(`${a.site}/yonetim/#talepler`, 'Yönetim panelinde aç')}<p>Talep no: ${ref.id}</p>`)),
     ]);
     return { ok: true, firmaSayisi: davetler.length };
@@ -287,7 +293,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     return { ref, talep: s.data(), slug, davet: dv.data(), davetRef: ref.collection('davetler').doc(slug) };
   }
   const anonim = (d) => ({
-    tip: d.tip, tipAd: TIP_AD[d.tip], oda: d.oda, m2: d.m2, il: d.il, ilce: d.ilce, araziAd: ARAZI_AD[d.arazi], butce: BUTCE_AD[d.butce] || d.butce, teslim: TESLIM_AD[d.teslim] || '',
+    tip: d.tip, tipAd: TIP_AD[d.tip], amacAd: d.amac && d.amac !== 'konut' ? AMAC_AD[d.amac] : '', oda: d.oda, m2: d.m2, il: d.il, ilce: d.ilce, araziAd: ARAZI_AD[d.arazi], butce: BUTCE_AD[d.butce] || d.butce, teslim: TESLIM_AD[d.teslim] || '',
     zaman: d.zaman, kapsam: (d.kapsam || []).map((k) => KAPSAM_AD[k]), not: d.not, model: d.model ? (modelBul(d.model)?.ad || '') : '',
     sonTarih: d.sonTarih?.toDate ? tarihYazi(d.sonTarih.toDate()) : '', kapali: d.durum !== 'acik',
   });
@@ -315,7 +321,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       const fa = firmAd(firmaSlug);
       await Promise.allSettled([
         v.davet?.eposta ? mail(v.davet.eposta, `Müşteri bilgileri: ${TIP_AD[d.tip]}, ${d.il}`, sablon('Teklifiniz müşteriye iletildi', `<p>Fiyatınız kaydedildi ve müşteriye bildirildi. Müşterinin iletişim bilgileri aşağıda; teklifinizi netleştirmek için arayabilir ya da panelinizden mesaj yazabilirsiniz. Lütfen bu bilgileri yalnızca bu talep için kullanın.</p>${kart([['Ad soyad', d.ad], ['Telefon', d.telefon], ['E-posta', d.eposta], ['Teklifiniz', tl(fiyat)]])}${buton(`${a.site}/firma-paneli/#talepler`, 'Panelde aç')}`, { ust: 'Teklif gönderildi' })) : null,
-        mail(d.eposta, `${kac === 1 ? 'İlk teklifiniz geldi' : `${kac}. teklif geldi`}: ${fa}`, sablon(`${fa} projenize teklif verdi`, `<p>Merhaba ${esc(d.ad)},</p><p><b>${esc(fa)}</b> ${esc(TIP_AD[d.tip].toLocaleLowerCase('tr'))} talebinize fiyat verdi. Şu ana kadar <b>${kac} firma</b> teklif verdi.</p>${kart([['Firma', fa], ['Toplam fiyat', `${tl(fiyat)}${b.kdvDahil ? ' (KDV dahil)' : ''}`], ['Teslim süresi', b.teslimGun ? `${sayi(b.teslimGun, 1, 365)} gün` : ''], ['Garanti', b.garantiYil ? `${sayi(b.garantiYil, 0, 50)} yıl` : '']])}<p>Teklifin ayrıntılarını görmek, firmayı aramak, e-posta göndermek ya da site üzerinden soru sormak için hesabınıza girin. Talepte yazdığınız e-posta ya da telefonla giriş yapmanız yeterli.</p>${buton(`${a.site}/hesabim/#teklifler`, 'Teklifleri gör')}<p style="font-size:13px;color:#5b6760;margin:12px 0 0">Süre dolunca tüm teklifler karşılaştırma tablosu olarak e-postanıza da gelecek.</p>`, { ust: `${kac}. teklif`, onizleme: `${fa}: ${tl(fiyat)}` })),
+        mail(d.eposta, `${kac === 1 ? 'İlk teklifiniz geldi' : `${kac}. teklif geldi`}: ${fa}`, sablon(`${fa} projenize teklif verdi`, `<p>Merhaba ${esc(d.ad)},</p><p><b>${esc(fa)}</b> ${esc(TIP_AD[d.tip].toLocaleLowerCase('tr'))} talebinize fiyat verdi. Şu ana kadar <b>${kac} firma</b> teklif verdi.</p>${kart([['Firma', fa], ['Toplam fiyat', `${tl(fiyat)}${b.kdvDahil ? ' (KDV dahil)' : ''}`], ['Teslim süresi', b.teslimGun ? `${sayi(b.teslimGun, 1, 365)} gün` : ''], ['Garanti', b.garantiYil ? `${sayi(b.garantiYil, 0, 50)} yıl` : '']])}<p>Teklifin ayrıntılarını görmek, firmayı aramak, e-posta göndermek ya da site üzerinden soru sormak için hesabınıza girin. Talepte yazdığınız e-posta ya da telefonla giriş yapmanız yeterli.</p>${buton(`${a.site}/hesabim/${d.sahipKod ? `?bagla=${v.ref.id}.${d.sahipKod}` : ''}#teklifler`, 'Teklifleri gör')}<p style="font-size:13px;color:#5b6760;margin:12px 0 0">Süre dolunca tüm teklifler karşılaştırma tablosu olarak e-postanıza da gelecek.</p>`, { ust: `${kac}. teklif`, onizleme: `${fa}: ${tl(fiyat)}` })),
       ]);
     }
     return { ok: true, musteri: musteri(d) };
@@ -670,6 +676,29 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     await onayKaydet(req, { tur: str(b.tur, 30) || 'hesap', uid: u.uid, eposta: u.eposta, telefon: u.telefon, ad: u.ad, firma: u.firma || '', belgeler });
     await db.collection('kullanicilar').doc(u.uid).set({ onaylar: Object.fromEntries(belgeler.map((k) => [k, SOZLESME[k].surum])), ...(belgeler.includes('pazarlama') ? { pazarlama: true } : {}) }, { merge: true });
     return { ok: true };
+  }
+  // ---- POST /api/hesap/bagla: e-postadaki bağlantıyla gelen talep, giriş yapılan hesaba eklenir (talep başka e-postayla/girişsiz gönderilmiş olabilir) ----
+  async function hesapBagla(req) {
+    const u = await kim(req);
+    const [id, kod] = str(req.body?.kod, 120).split('.');
+    if (!id || !kod) hata(400, 'Bağlantı geçersiz.');
+    const ref = db.collection('talepler').doc(id); const sn = await ref.get();
+    if (!sn.exists || !sn.data().sahipKod || sn.data().sahipKod !== kod) hata(404, 'Bağlantı geçersiz ya da süresi dolmuş.');
+    const t = sn.data();
+    if (t.uid && t.uid !== u.uid) return { ok: true, baska: true };
+    if (t.uid !== u.uid) await ref.set({ uid: u.uid, baglanma: now() }, { merge: true });
+    return { ok: true, yeni: t.uid !== u.uid };
+  }
+  // ---- POST /api/yonetim/talep-bagla: hesapsız gönderilen talebi bir kullanıcı hesabına bağla (aynı kişi farklı e-posta kullanmışsa) ----
+  async function yonetimTalepBagla(req) {
+    await yonetici(req);
+    const e = str(req.body?.eposta, 120).toLowerCase(); const kaynak = str(req.body?.kaynak, 120).toLowerCase();
+    const kq = await db.collection('kullanicilar').where('eposta', '==', e).limit(1).get();
+    if (kq.empty) hata(404, 'Bu e-postayla açılmış hesap bulunamadı.');
+    const uid = kq.docs[0].id;
+    const tq = await db.collection('talepler').where('eposta', '==', kaynak).limit(50).get();
+    let n = 0; for (const d of tq.docs) if (!d.data().uid) { await d.ref.set({ uid, baglanma: now() }, { merge: true }); n++; }
+    return { ok: true, baglandi: n };
   }
   async function hesap(req) {
     const u = await kim(req);
@@ -1095,7 +1124,13 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       return { uid: k.id, ad: k.ad || '', eposta: k.eposta || '', telefon: k.telefon || '', rol: k.rol || 'kullanici', ilkGiris: ms(k.ilkGiris), sonGiris: ms(k.sonGiris), talep: tl2.length, teklif: tl2.reduce((n, t) => n + t.teklifSayisi, 0), favori: (k.favoriler || []).length, pazarlama: !!k.pazarlama };
     }).sort((a, b) => b.sonGiris - a.sonGiris);
     const hesapsiz = new Map();
-    for (const t of gercekT) if (t.eposta && !kullaniciQ.some((k) => k.eposta === t.eposta)) { const x = hesapsiz.get(t.eposta) || { eposta: t.eposta, talep: 0, teklif: 0 }; x.talep++; x.teklif += t.teklifSayisi; hesapsiz.set(t.eposta, x); }
+    const adNorm = (x) => String(x || '').toLocaleLowerCase('tr').replace(/\s+/g, ' ').trim();
+    for (const t of gercekT) if (t.eposta && !t.uid && !kullaniciQ.some((k) => k.eposta === t.eposta)) {
+      const x = hesapsiz.get(t.eposta) || { eposta: t.eposta, ad: t.ad || '', talep: 0, teklif: 0 }; x.talep++; x.teklif += t.teklifSayisi;
+      // Aynı ad soyadla açılmış hesap varsa (farklı e-posta) yöneticiye bağlama önerisi
+      const es = kullaniciQ.find((k) => k.rol !== 'firma' && k.eposta && adNorm(k.ad) && adNorm(k.ad) === adNorm(t.ad)); if (es) x.oneri = { eposta: es.eposta, ad: es.ad };
+      hesapsiz.set(t.eposta, x);
+    }
     const istatistik = {
       kullanici: kisiler.length, firmaHesabi: kullaniciQ.filter((k) => k.rol === 'firma').length, hesapsizMusteri: hesapsiz.size,
       talep: gercekT.filter((t) => t.mod !== 'surec').length, surec: gercekT.filter((t) => t.mod === 'surec').length,
@@ -1172,7 +1207,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       const aq = await db.collection('talepler').where('durum', '==', 'acik').get();
       for (const t of aq.docs) {
         const td = t.data();
-        if (!!td.test !== testF || !(d.tipler || []).includes(td.tip) || !(iller.includes('*') || iller.includes(td.il))) continue;
+        if (!!td.test !== testF || !tipEslesir(d.tipler, td.tip) || !(iller.includes('*') || iller.includes(td.il))) continue;
         if ((td.sonTarih?.toMillis?.() || 0) < now()) continue;
         const dvRef = t.ref.collection('davetler').doc(slug); const dv = (await dvRef.get()).data();
         if (!(td.firmalar || []).includes(slug)) await t.ref.update({ firmalar: FieldValue.arrayUnion(slug) });
@@ -1547,7 +1582,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       'GET /api/katalog': katalog, 'GET /api/bannerlar': bannerlar,
       'POST /api/firma/abonelik-baslat': firmaAbonelikBaslat, 'POST /api/firma/kart-guncelle': firmaKartGuncelle, 'POST /api/firma/abonelik-iptal': firmaAbonelikIptal, 'POST /api/iyzico/donus': iyzicoDonus, 'POST /api/iyzico/kart-donus': iyzicoKartDonus, 'POST /api/iyzico/bildirim': iyzicoBildirim, 'POST /api/yonetim/iyzico-plan': yonetimIyzicoPlan,
       'POST /api/sms/kod': smsKod, 'POST /api/sms/dogrula': smsDogrula, 'GET /api/ben': ben, 'POST /api/onay': onay, 'POST /api/mesaj': musteriMesaj, 'POST /api/firma/mesaj': firmaMesaj, 'POST /api/yonetim/firma-durum': yonetimFirmaDurum, 'POST /api/yonetim/istatistik': yonetimIstatistik, 'POST /api/yonetim/tanitim': yonetimTanitim, 'POST /api/yonetim/duyuru': yonetimDuyuru,
-      'GET /api/hesap': hesap, 'POST /api/favoriler': favoriler, 'POST /api/siparis-mesaj': siparisMesaj,
+      'GET /api/hesap': hesap, 'POST /api/hesap/bagla': hesapBagla, 'POST /api/yonetim/talep-bagla': yonetimTalepBagla, 'POST /api/favoriler': favoriler, 'POST /api/siparis-mesaj': siparisMesaj,
       'GET /api/firma/ozet': firmaOzet, 'POST /api/firma/urun': firmaUrun, 'POST /api/firma/teklif': firmaTeklif, 'POST /api/firma/red': firmaRed,
       'POST /api/firma/geri-bildirim': firmaGeriBildirim, 'POST /api/firma/geri-bildirim-yanit': firmaGeriBildirimYanit, 'POST /api/firma/profil': firmaProfil, 'POST /api/firma/reklam': firmaReklam,
       'GET /api/yonetim/ozet': yonetimOzet, 'POST /api/yonetim/degisiklik': yonetimDegisiklik, 'POST /api/yonetim/basvuru': yonetimBasvuru,

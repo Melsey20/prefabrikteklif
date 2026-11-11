@@ -50,7 +50,7 @@ import Base from '../layouts/Base.astro';
         if (!r.ok) return err(d.hata || 'Talep bulunamadı.');
         $('tv-baslik').textContent = `${d.firmaAd}: size uygun bir talep var`;
         const satir = (k: string, v: any) => (v ? h('p', { style: { margin: 0 } }, h('b', {}, k + ': '), String(v)) : null);
-        $('talep').replaceChildren(...[satir('Ev tipi', d.tipAd), satir('Oda', d.oda), satir('m²', d.m2), satir('Yer', [d.il, d.ilce].filter(Boolean).join(' / ')), satir('Arazi', d.araziAd), satir('Bütçe', d.butce), satir('Teslim', d.teslim), satir('Zaman', d.zaman), satir('İstenen kapsam', (d.kapsam || []).join(', ')), satir('İlgilendiği model', d.model), satir('Not', d.not), satir('Son fiyat zamanı', d.sonTarih)].filter(Boolean) as Node[]);
+        $('talep').replaceChildren(...[satir('Yapı tipi', d.tipAd), satir('Kullanım', d.amacAd), satir('Oda', d.oda), satir('m²', d.m2), satir('Yer', [d.il, d.ilce].filter(Boolean).join(' / ')), satir('Arazi', d.araziAd), satir('Bütçe', d.butce), satir('Teslim', d.teslim), satir('Zaman', d.zaman), satir('İstenen kapsam', (d.kapsam || []).join(', ')), satir('İlgilendiği model', d.model), satir('Not', d.not), satir('Son fiyat zamanı', d.sonTarih)].filter(Boolean) as Node[]);
         $('talep').hidden = false;
         if (d.musteri) musteriGoster(d.musteri);
         if (d.verildi) { $('tamam').replaceChildren(h('b', {}, 'Bu talebe fiyat verdiniz.')); $('tamam').hidden = false; return; }

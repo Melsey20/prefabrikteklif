@@ -125,7 +125,8 @@ import { SITE } from '../site.config';
         h('div', { class: 'hs-yol' },
           h('a', { href: '/evini-bul/' }, h('b', {}, '1. Evinizi bulun'), h('span', {}, 'Tip, m², oda ve bütçe ile uygun modeller')),
           h('a', { href: '/teklif-al/' }, h('b', {}, '2. Teklif alın'), h('span', {}, 'Talebiniz firmalara isimsiz gider')),
-          h('a', { href: '/teklif-al/?mod=surec' }, h('b', {}, '3. Süreci bize bırakın'), h('span', {}, `Ev bedelinin %${KOMISYON}’i ile sözleşmeden teslime kadar`)))));
+          h('a', { href: '/teklif-al/?mod=surec' }, h('b', {}, '3. Süreci bize bırakın'), h('span', {}, `Ev bedelinin %${KOMISYON}’i ile sözleşmeden teslime kadar`))),
+        h('p', { class: 'xs muted', style: { margin: '12px 0 0' } }, 'Talebi giriş yapmadan ya da başka bir e-postayla gönderdiyseniz: talep e-postanızdaki “Talebimi takip et” düğmesine bu hesapla açıkken dokunun, talebiniz ve gelen teklifler buraya eklenir.')));
       const fav: string[] = JSON.parse(localStorage.getItem('pt_fav') || '[]');
       parcalar.push(h('div', { class: 'hs-ikili' },
         h('a', { class: 'box hs-kutu', href: '#favoriler', onclick: (e: Event) => { e.preventDefault(); ac('favoriler'); } }, h('b', {}, `Favori evleriniz (${fav.length})`), h('span', { class: 'small muted' }, fav.length ? 'Kaydettiğiniz evleri görün, karşılaştırın.' : 'Kartlardaki kalp simgesiyle ev kaydedin.')),
@@ -134,7 +135,7 @@ import { SITE } from '../site.config';
     }
     function talepCiz() {
       const box = $('p-talepler');
-      if (!veri.talepler.length) { box.replaceChildren(h('div', { class: 'empty' }, h('b', {}, 'Henüz teklif talebiniz yok.'), h('p', { class: 'small', style: { margin: '6px 0 12px' } }, 'Tek formla uygun firmalardan fiyat alın.'), h('a', { class: 'btn btn-p btn-s', href: '/teklif-al/' }, 'Teklif al'))); return; }
+      if (!veri.talepler.length) { box.replaceChildren(h('div', { class: 'empty' }, h('b', {}, 'Henüz teklif talebiniz yok.'), h('p', { class: 'small', style: { margin: '6px 0 12px' } }, 'Tek formla uygun firmalardan fiyat alın.'), h('p', { class: 'xs muted', style: { margin: '12px 0 0' } }, 'Talebi giriş yapmadan ya da başka bir e-postayla gönderdiyseniz: talep e-postanızdaki “Talebimi takip et” düğmesine bu hesapla açıkken dokunun, talebiniz ve gelen teklifler buraya eklenir.'), h('a', { class: 'btn btn-p btn-s', href: '/teklif-al/' }, 'Teklif al'))); return; }
       box.replaceChildren(...veri.talepler.map((t: any) => talepKart(t)));
     }
     let favYuklendi = false;
@@ -209,8 +210,14 @@ import { SITE } from '../site.config';
     (async () => {
       try {
         const u = await kullanici();
-        if (!u) { location.href = '/giris/?geri=' + encodeURIComponent(location.pathname + location.hash); return; }
+        if (!u) { location.href = '/giris/?geri=' + encodeURIComponent(location.pathname + location.search + location.hash); return; }
         uid = u.uid;
+        // E-postadaki “Talebimi takip et” bağlantısı: talep bu hesaba eklenir (başka e-postayla gönderilmiş olsa da)
+        const bagla = new URLSearchParams(location.search).get('bagla');
+        if (bagla) {
+          history.replaceState(null, '', location.pathname + location.hash);
+          try { const r = await api('/api/hesap/bagla', { kod: bagla }); if (r.yeni) toast('Talebiniz hesabınıza eklendi'); else if (r.baska) toast('Bu talep başka bir hesaba bağlı.'); } catch (e: any) { toast(e.message || 'Talep eklenemedi'); }
+        }
         // Son görülen bilgilerle hemen çiz, ardından güncelle (sayfa anında açılır)
         try { const c = JSON.parse(localStorage.getItem('pt_hesap_' + uid) || 'null'); if (c?.veri) { veri = c.veri; hepsiniCiz(); } } catch { /* */ }
         if (!veri) { $('hs-eposta').textContent = u.email || u.phoneNumber || ''; $('hs-ad').textContent = u.displayName ? `Merhaba ${u.displayName.split(/\s+/)[0]}` : 'Hesabım'; }

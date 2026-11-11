@@ -71,7 +71,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
             <label class="f">İnternet siteniz<input type="url" name="web" maxlength="160" placeholder="https://" /></label>
             <label class="f">Adres<input type="text" name="adres" maxlength="240" /></label>
           </div>
-          <fieldset><legend>Ürettiğiniz tipler</legend><div class="two">{tipler.map((t) => <label class="chk"><input type="checkbox" name="tipler" value={t.k} /> {t.ad}</label>)}</div></fieldset>
+          <fieldset><legend>Ürettiğiniz tipler</legend><div class="two">{tipler.map((t) => <label class="chk"><input type="checkbox" name="tipler" value={t.k} /> {t.ad}</label>)}<label class="chk"><input type="checkbox" name="tipler" value="agir-celik" /> Ağır çelik yapı</label></div></fieldset>
           <fieldset><legend>Hizmet verdiğiniz iller</legend>
             <label class="chk"><input type="checkbox" name="tum" /> Tüm Türkiye</label>
             <select name="iller" multiple size="8" style="min-height:180px">{ILLER.map((il) => <option>{il}</option>)}</select>
@@ -233,7 +233,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
         const acik = !t.kapali;
         const durum = t.teklif ? h('span', { class: 'st-b g' }, `Fiyat verdiniz: ${tl(t.teklif.fiyat)}`) : t.davet === 'red' ? h('span', { class: 'st-b' }, 'İlgilenmiyorum dediniz') : acik ? h('span', { class: 'st-b a' }, kalan(t.sonTarihMs)) : h('span', { class: 'st-b' }, 'Süre doldu');
         return h('article', { class: 'item' },
-          h('div', { class: 'row' }, h('b', {}, [t.tipAd, t.oda, t.m2 ? `${t.m2} m²` : '', [t.il, t.ilce].filter(Boolean).join(' / ')].filter(Boolean).join(' · ')), durum),
+          h('div', { class: 'row' }, h('b', {}, [t.tipAd, t.amacAd, t.oda, t.m2 ? `${t.m2} m²` : '', [t.il, t.ilce].filter(Boolean).join(' / ')].filter(Boolean).join(' · ')), durum),
           h('span', { class: 'small' }, [t.araziAd, t.butce, t.teslim, t.zaman, t.kapsam?.join(', ')].filter(Boolean).join(' · ')),
           t.model ? h('span', { class: 'small' }, 'İlgilendiği model: ', h('b', {}, t.model)) : null,
           t.not ? h('span', { class: 'small muted' }, '“' + t.not + '”') : null,

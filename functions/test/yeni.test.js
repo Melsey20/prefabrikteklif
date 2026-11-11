@@ -49,7 +49,12 @@ test('talep: onay kaydı, sayaçlar, müşteriye "teklif geldi", mesajlaşma ve 
   const f = await call('POST', '/api/firma/teklif', { tok: 'tok-firma', body: { talep: tid, fiyat: 750000, kdvDahil: true, teslimGun: 45, not: 'Nakliye dahil' } });
   assert.equal(f.statusCode, 200, JSON.stringify(f.body));
   const bildirim = mails.find((m) => m.to === 'ali@ornek.com' && m.subject.startsWith('İlk teklifiniz geldi'));
-  assert.ok(bildirim && bildirim.html.includes('/hesabim/#teklifler') && bildirim.html.includes('750.000'), 'müşteriye teklif bildirimi ve fiyat');
+  assert.ok(bildirim && /\/hesabim\/\?bagla=[^"]+#teklifler/.test(bildirim.html) && bildirim.html.includes('750.000'), 'müşteriye teklif bildirimi, fiyat ve hesaba bağlama bağlantısı');
+  // E-postadaki bağlantıyla talep, farklı e-postalı bir hesaba eklenir
+  const kodB = decodeURIComponent(bildirim.html.match(/bagla=([^"#&]+)/)[1]);
+  assert.equal((await call('POST', '/api/hesap/bagla', { tok: 'tok-user', body: { kod: kodB.split('.')[0] + '.yanlis' } })).statusCode, 404);
+  const bg = await call('POST', '/api/hesap/bagla', { tok: 'tok-user', body: { kod: kodB } });
+  assert.equal(bg.statusCode, 200, JSON.stringify(bg.body));
   const fd = (await db.collection('firmalar').doc('kardesler').get()).data();
   assert.equal(fd.istTeklif, 1);
   assert.equal((await db.collection('sistem').doc('sayac').get()).data().teklif, 1);

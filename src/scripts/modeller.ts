@@ -10,7 +10,7 @@ export function modeller(): Promise<M[]> {
   });
   return _m;
 }
-export const TIP_IMG: Record<string, string> = { prefabrik: 'prefabrik', celik: 'celik', konteyner: 'konteyner', 'tiny house': 'tiny-house', ahsap: 'ahsap', bungalov: 'bungalov' };
+export const TIP_IMG: Record<string, string> = { prefabrik: 'prefabrik', celik: 'celik', konteyner: 'konteyner', 'tiny house': 'tiny-house', ahsap: 'ahsap', bungalov: 'bungalov', 'agir-celik': 'celik' };
 export const TIP_AD: Record<string, string> = { prefabrik: 'Prefabrik ev', celik: 'Hafif çelik ev', konteyner: 'Konteyner ev', 'tiny house': 'Tiny house', ahsap: 'Ahşap ev', bungalov: 'Bungalov / bağ evi' };
 const nf = new Intl.NumberFormat('tr-TR');
 export const tl = (n: number) => nf.format(n) + ' TL';

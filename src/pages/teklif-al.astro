@@ -27,10 +27,21 @@ const firmaAd = Object.fromEntries(firms.map((f) => [f.slug, f.kisaAd]));
           <legend class="sr-only">Ev tipi</legend>
           <div class="two">
             {TIP_SIRA.map((k, i) => <label class="opt"><input type="radio" name="tip" value={k} checked={k === 'prefabrik'} required /> {TIPLER[k].ad}</label>)}
+            <label class="opt"><input type="radio" name="tip" value="agir-celik" required /> Ağır çelik yapı</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Ne için kullanılacak?</legend>
+          <div class="two">
+            <label class="opt"><input type="radio" name="amac" value="konut" checked /> Konut (ev)</label>
+            <label class="opt"><input type="radio" name="amac" value="isyeri" /> İşyeri / ofis / dükkan</label>
+            <label class="opt"><input type="radio" name="amac" value="fabrika" /> Fabrika / depo / atölye</label>
+            <label class="opt"><input type="radio" name="amac" value="tarim" /> Tarım / hayvancılık</label>
+            <label class="opt"><input type="radio" name="amac" value="diger" /> Diğer</label>
           </div>
         </fieldset>
         <div class="two">
-          <label class="f">Oda sayısı *
+          <label class="f" id="oda-alan">Oda sayısı *
             <select name="oda" required><option value="">Seçin</option><option>1+0</option><option>1+1</option><option>2+1</option><option>3+1</option><option>4+1</option><option>5+1</option></select>
           </label>
           <label class="f">Yaklaşık m² *
@@ -148,6 +159,14 @@ const firmaAd = Object.fromEntries(firms.map((f) => [f.slug, f.kisaAd]));
     // Daha önce talep gönderdiyse iletişim bilgileri hazır gelir (yalnızca bu cihazda)
     try { const k = JSON.parse(localStorage.getItem('pt_iletisim') || 'null'); if (k) (['ad', 'telefon', 'eposta'] as const).forEach((x) => { const el = form.elements.namedItem(x) as HTMLInputElement | null; if (el && !el.value && k[x]) el.value = k[x]; }); } catch { /* */ }
 
+    // Konut dışı kullanımda (işyeri, fabrika…) ya da ağır çelikte oda sayısı sorulmaz
+    const odaGuncelle = () => {
+      const fd0 = new FormData(form); const konut = fd0.get('amac') === 'konut' && fd0.get('tip') !== 'agir-celik';
+      const al = document.getElementById('oda-alan'); const sel = form.elements.namedItem('oda') as HTMLSelectElement;
+      if (al) al.hidden = !konut; if (sel) { sel.required = konut; if (!konut) sel.value = ''; }
+    };
+    form.addEventListener('change', (e) => { const n = (e.target as HTMLInputElement).name; if (n === 'tip' && (e.target as HTMLInputElement).value === 'agir-celik') { const f = form.querySelector<HTMLInputElement>('input[name=amac][value=fabrika]'); const k = form.querySelector<HTMLInputElement>('input[name=amac]:checked'); if (f && k?.value === 'konut') f.checked = true; } if (n === 'tip' || n === 'amac') odaGuncelle(); });
+    odaGuncelle();
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const hata = document.getElementById('hata')!; hata.hidden = true;
@@ -156,9 +175,10 @@ const firmaAd = Object.fromEntries(firms.map((f) => [f.slug, f.kisaAd]));
       d.firmalar = firmalar; d.riza = mod === 'surec' ? !!d.rizaSurec : !!d.riza;
       if (new URLSearchParams(location.search).get('test') === '1') d.test = true;
       const tel = String(d.telefon || '').replace(/\D/g, '');
-      const detay = mod === 'teklif' && !d.model ? (!d.oda ? 'Oda sayısını seçin.' : !(+d.m2 >= 10) ? 'Yaklaşık metrekareyi yazın (ör. 80).' : !d.butce ? 'Bütçe aralığınızı seçin; firmalar buna göre fiyat verir.' : '') : '';
+      const konut = d.amac === 'konut' && d.tip !== 'agir-celik';
+      const detay = mod === 'teklif' && !d.model ? (konut && !d.oda ? 'Oda sayısını seçin.' : !(+d.m2 >= 10) ? 'Yaklaşık metrekareyi yazın (ör. 80).' : !d.butce ? 'Bütçe aralığınızı seçin; firmalar buna göre fiyat verir.' : '') : '';
       const odakla = (n: string) => { const el = form.elements.namedItem(n) as HTMLElement | null; el?.focus?.(); };
-      if (detay) { hata.textContent = detay; hata.hidden = false; odakla(!d.oda ? 'oda' : !(+d.m2 >= 10) ? 'm2' : 'butce'); (form.elements.namedItem(!d.oda ? 'oda' : !(+d.m2 >= 10) ? 'm2' : 'butce') as HTMLElement)?.scrollIntoView({ block: 'center' }); return; }
+      if (detay) { hata.textContent = detay; hata.hidden = false; odakla(konut && !d.oda ? 'oda' : !(+d.m2 >= 10) ? 'm2' : 'butce'); (form.elements.namedItem(konut && !d.oda ? 'oda' : !(+d.m2 >= 10) ? 'm2' : 'butce') as HTMLElement)?.scrollIntoView({ block: 'center' }); return; }
       const msg = !d.ad ? 'Ad soyad yazın.' : tel.length < 10 ? 'Geçerli bir telefon yazın.' : !/^\S+@\S+\.\S+$/.test(d.eposta || '') ? 'Geçerli bir e-posta yazın.' : !d.il ? 'İl seçin.' : !d.riza ? 'Devam etmek için açık rıza kutusunu işaretleyin.' : '';
       if (msg) { hata.textContent = msg; hata.hidden = false; hata.scrollIntoView({ block: 'center' }); return; }
       const btn = document.getElementById('gonder') as HTMLButtonElement; btn.disabled = true; btn.textContent = 'Gönderiliyor…';
