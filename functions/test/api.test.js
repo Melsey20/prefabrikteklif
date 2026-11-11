@@ -463,10 +463,19 @@ test('açılış kampanyası: 1 ay ücretsiz aktif, kontenjan, bitişten önce h
 test('açılış kampanyası: başvuru onayında kontenjan varsa ödeme beklemeden açılır', async () => {
   const { db, mails, call } = kur();
   await db.collection('firmaBasvurulari').doc('b1').set({ durum: 'bekliyor', unvan: 'Örnek A.Ş.', marka: 'Örnek Ev', yetkili: 'Ayşe', eposta: 'satis@kardesler.com', telefon: '05320000000', tipler: ['prefabrik'], iller: 'Malatya' });
+  const ileri = Timestamp.fromMillis(zaman.simdi() + 5 * 864e5);
+  await db.collection('talepler').doc('t-uyan').set({ durum: 'acik', tip: 'prefabrik', il: 'Malatya', firmalar: ['baska'], sonTarih: ileri, ad: 'X', telefon: '1', eposta: 'm@m.com' });
+  await db.collection('talepler').doc('t-il').set({ durum: 'acik', tip: 'prefabrik', il: 'Konya', firmalar: [], sonTarih: ileri });
+  await db.collection('talepler').doc('t-tip').set({ durum: 'acik', tip: 'konteyner', il: 'Malatya', firmalar: [], sonTarih: ileri });
+  await db.collection('talepler').doc('t-test').set({ durum: 'acik', test: true, tip: 'prefabrik', il: 'Malatya', firmalar: [], sonTarih: ileri });
   const o = await call('POST', '/api/yonetim/basvuru', { tok: 'tok-admin', body: { id: 'b1', karar: 'onay' } });
   assert.equal(o.statusCode, 200, JSON.stringify(o.body));
+  assert.equal(o.body.acikTalep, 1, 'yalnızca türü ve ili uyan açık gerçek talebe eklenir');
   const oz = (await call('GET', '/api/firma/ozet', { tok: 'tok-firma' })).body;
   assert.equal(oz.uye, true); assert.equal(oz.abonelik.kurucu, true);
+  assert.deepEqual(oz.talepler.map((t) => t.id), ['t-uyan'], 'onaydan hemen sonra bekleyen talebi panelde görür');
+  const tk = await call('POST', '/api/firma/teklif', { tok: 'tok-firma', body: { talep: 't-uyan', fiyat: 450000, teslimGun: 30 } });
+  assert.equal(tk.statusCode, 200, JSON.stringify(tk.body));
   assert.ok(mails.some((m) => m.subject === 'Üyeliğiniz aktif: 1 ay ücretsiz'));
   assert.ok(!mails.some((m) => m.subject === 'Firma hesabınız açıldı'), 'ödeme bağlantılı hoş geldin e-postası gitmez');
 });

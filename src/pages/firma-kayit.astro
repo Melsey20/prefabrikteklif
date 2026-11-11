@@ -51,6 +51,7 @@ const firmaOzet = Object.fromEntries(firms.map((f) => [f.slug, { u: f.ad, m: f.k
         <label class="f">Firmanın bulunduğu il *<select name="merkezIl" required><option value="">Seçin</option>{ILLER.map((il) => <option>{il}</option>)}</select></label>
       </div>
       <label class="f">Listede kayıtlı firmanız varsa seçin
+        <input type="search" id="mevcut-ara" placeholder="Firma adınızı yazın…" autocomplete="off" style="margin-bottom:6px" />
         <select name="mevcut"><option value="">Listede yok / yeni kayıt</option>{[...firms].sort((a, b) => a.kisaAd.localeCompare(b.kisaAd, 'tr')).map((f) => <option value={f.slug}>{f.kisaAd}</option>)}</select>
       </label>
       <label class="f">Fabrika / merkez açık adresi *<input type="text" name="adres" required maxlength="240" autocomplete="street-address" /></label>
@@ -166,6 +167,14 @@ const firmaOzet = Object.fromEntries(firms.map((f) => [f.slug, { u: f.ad, m: f.k
         (o.t || []).forEach(function (t) { var c = f.querySelector('input[name=tipler][value="' + t + '"]'); if (c) c.checked = true; });
       }
       f.mevcut.addEventListener('change', function () { doldur(f.mevcut.value, false); ilerleme(); kaydet(); });
+      // Listede firma ara: yazdıkça seçenekleri süzer (Türkçe harf duyarsız); tek eşleşme kalırsa seçer
+      var araK = document.getElementById('mevcut-ara');
+      var kucuk = function (x) { return String(x || '').toLocaleLowerCase('tr').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ı/g, 'i'); };
+      if (araK) araK.addEventListener('input', function () {
+        var q = kucuk(araK.value), ilk = null, say = 0;
+        Array.prototype.forEach.call(f.mevcut.options, function (o, i) { var g = !i || !q || kucuk(o.text).indexOf(q) > -1; o.hidden = !g; o.disabled = !g && i > 0; if (g && i) { say++; ilk = ilk || o; } });
+        if (say === 1 && ilk && f.mevcut.value !== ilk.value) { f.mevcut.value = ilk.value; f.mevcut.dispatchEvent(new Event('change')); }
+      });
       // Taslak: dosyalar hariç tüm alanlar bu cihazda saklanır, gönderilince silinir
       var TK = 'pt_firma_kayit_taslak';
       function kaydet() { try { var d = {}; [].forEach.call(f.elements, function (el) { if (!el.name || el.type === 'file') return; if (el.type === 'checkbox') { (d[el.name] = d[el.name] || []); if (el.checked) d[el.name].push(el.value); } else if (el.type === 'radio') { if (el.checked) d[el.name] = el.value; } else d[el.name] = el.value; }); localStorage.setItem(TK, JSON.stringify(d)); } catch (e) {} }

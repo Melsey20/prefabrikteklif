@@ -1127,7 +1127,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const ref = db.collection('firmaBasvurulari').doc(id); const s = await ref.get();
     if (!s.exists) hata(404, 'Başvuru bulunamadı.');
     const d = s.data();
-    let slug = str(req.body?.slug, 80) || d.mevcut;
+    let slug = str(req.body?.slug, 80) || d.mevcut; let baglanan = 0;
     const odemeLinki = httpsUrl(req.body?.odemeLinki);
     if (req.body?.odemeLinki && !odemeLinki) hata(400, 'Ödeme bağlantısı https:// ile başlamalı.');
     if (karar === 'onay') {
@@ -1137,12 +1137,26 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       const kurucu = req.body?.kurucu !== false && !uyeAktif(onceF) && (onceF.abonelik?.kurucu || (await kurucuKalan()) > 0);
       const abonelik = kurucu ? kurucuAbonelik({ odemeLinki }) : { tutar: ABONELIK_TL, durum: 'odeme-bekliyor', odemeLinki, baslangic: now() };
       await db.collection('firmalar').doc(slug).set({ aktif: true, ad: d.marka || d.unvan, eposta: d.eposta, panelEpostalari: FieldValue.arrayUnion(d.eposta), tipler: d.tipler, iller, telefon: d.telefon, basvuru: id, abonelik, guncelleme: FieldValue.serverTimestamp() }, { merge: true });
+      // Onaylanan firma, süresi dolmamış ve kendisine uyan açık taleplere de eklenir: panelinde hemen görür, üyeliği aktifse fiyat verir
+      const yonEp = [ayar().admin, ...(ayar().yoneticiler || [])].filter(Boolean).map((x) => String(x).toLowerCase());
+      const testF = yonEp.includes(String(d.eposta || '').toLowerCase());
+      const tur = abonelik.durum === 'aktif' ? 'uye' : 'odeme';
+      const aq = await db.collection('talepler').where('durum', '==', 'acik').get();
+      for (const t of aq.docs) {
+        const td = t.data();
+        if (!!td.test !== testF || !(d.tipler || []).includes(td.tip) || !(iller.includes('*') || iller.includes(td.il))) continue;
+        if ((td.sonTarih?.toMillis?.() || 0) < now()) continue;
+        const dvRef = t.ref.collection('davetler').doc(slug); const dv = (await dvRef.get()).data();
+        if (!(td.firmalar || []).includes(slug)) await t.ref.update({ firmalar: FieldValue.arrayUnion(slug) });
+        await dvRef.set({ kod: dv?.kod || token(), eposta: d.eposta, tur, durum: dv?.durum || 'bekliyor', ...(dv ? {} : { gonderim: FieldValue.serverTimestamp(), onaydaEklendi: true }) }, { merge: true });
+        baglanan++;
+      }
       if (kurucu) await mail(d.eposta, 'Üyeliğiniz aktif: 1 ay ücretsiz', kurucuHosgeldin(d.yetkili, abonelik.ucretsizBitis, odemeLinki));
       else await mail(d.eposta, 'Firma hesabınız açıldı', sablon('Hoş geldiniz', `<p>Sayın ${esc(d.yetkili)},</p><p>Başvurunuz onaylandı. <b>${esc(d.eposta)}</b> adresiyle firma paneline giriş yaparak (ilk kez giriyorsanız “Kayıt ol” ile şifre belirleyin ya da Google ile girin) ürünlerinizi, fiyatlarınızı ve fotoğraflarınızı yönetebilir, size uygun talepleri görebilirsiniz.</p><p>Aylık üyelik bedeli <b>${ABONELIK_TL} TL</b>’dir. ${odemeLinki ? 'Ödemeyi aşağıdaki bağlantıdan yapabilirsiniz; bağlantı firma panelinizde de durur.' : 'Ödeme bağlantısını ayrıca ileteceğiz.'}</p>${odemeLinki ? buton(odemeLinki, `${ABONELIK_TL} TL üyelik ödemesini yap`) : ''}${buton(`${ayar().site}/firma-paneli/`, 'Firma paneline git')}<p style="font-size:12px;color:#4a5751">Ödenen üyelik bedelleri iade edilmez. Ayrıntılar: <a href="${esc(ayar().site)}/firma-uyelik-sozlesmesi/">firma üyelik sözleşmesi</a>.</p>`));
     }
     if (karar === 'onay') for (const paket of (d.reklam || []).filter((k) => REKLAM_PAKET[k])) await db.collection('reklamTalepleri').add({ firma: slug, uid: '', eposta: d.eposta, paket, fiyat: REKLAM_PAKET[paket].fiyat, modelId: '', not: 'Firma başvurusunda seçildi', durum: 'bekliyor', kaynak: 'basvuru', zaman: FieldValue.serverTimestamp() });
     await ref.update({ durum: karar === 'onay' ? 'onayli' : 'red', slug: slug || '', kararZamani: FieldValue.serverTimestamp() });
-    return { ok: true, slug };
+    return { ok: true, slug, acikTalep: baglanan };
   }
   async function yonetimBelge(req, res) {
     await yonetici(req);
