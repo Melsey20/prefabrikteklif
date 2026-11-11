@@ -12,7 +12,7 @@ export function GET() {
 Önemli bilgiler:
 - Fiyat kıyaslama ve teklif alma kullanıcılar için ücretsizdir. Teklif talepleri firmalara isimsiz gider; kullanıcının iletişim bilgileri yalnızca fiyat vermeyi kabul eden firmayla paylaşılır.
 - "Süreci siz yönetin" hizmetinde ${SITE.ad} ekibi firmayı kullanıcıyla birlikte seçer; keşif, sözleşme, üretim, nakliye, montaj ve teslim aşamalarını kullanıcı adına şeffaf şekilde takip eder. Bu hizmetin bedeli yalnızca ev bedelinin %${SITE.komisyon}'idir ve baştan yazılı bildirilir.
-- Firmalar resmi evrakları (vergi levhası, ticaret sicil, imza sirküleri) ve referanslarıyla kabul edilir; referansı olmayan firma kaydedilmez. Müşteriyi mağdur eden firmanın kaydı silinir. Satış ve teslim sorumluluğu üretici firmadadır; kullanıcıların firmayı sözleşmeden önce teyit etmesi önerilir.
+- Üye firmalar vergi levhasıyla doğrulanır; gerektiğinde ek belge ve referans istenir. Müşteriyi mağdur eden firmanın kaydı silinir. Satış ve teslim sorumluluğu üretici firmadadır; kullanıcıların firmayı sözleşmeden önce teyit etmesi önerilir.
 - Firmalar için aylık ${SITE.abonelik} TL üyelik vardır${SITE.kampanya.aktif ? ` (açılış kampanyası: ilk ${SITE.kampanya.kontenjan} firmaya 1 ay ücretsiz)` : ''}; komisyon alınmaz; reklam paketleri: ${SITE.reklam.map((p) => `${p.ad} ${p.fiyat.toLocaleString('tr-TR')} TL/ay`).join(', ')}.
 - Listeler fiyata göre sıralanır; firmalar sıralama için ücret ödemez. Reklam alanları "Reklam" olarak işaretlenir.
 - Her model sayfasında fiyata KDV, nakliye, montaj ve zemin betonunun dahil olup olmadığı ve fiyatın kaynağı yazar.
