@@ -21,19 +21,7 @@
       ]
     }
   ],
-  "reels": [],
-  "yayin": {
-    "hesap": "17841474767654199",
-    "durum": "yayın bekliyor (Reels yok: ELEVENLABS_API_KEY sırrı tanımlı değil, seslendirme üretilemedi)",
-    "medya": {
-      "tasarim": [
-        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/f99c4839-85a8-4445-8f9c-12aac470ca28.jpg"
-      ],
-      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/d15eac38-c231-460a-b3a3-2095052b46d9.jpg",
-      "reels": []
-    }
-  },
-  "reels_seslendirmesiz": [
+  "reels": [
     {
       "seslendirme": "Prefabrik ev nasıl yapılır? Süreç kısaca şöyle. Önce imar durumuna bakılır, model ve firma seçilir, proje ve ruhsat alınır. Sonra temel yapılır; ev fabrikada üretilip arsaya taşınır ve monte edilir. En son iç bitiş, tesisat bağlantıları ve iskân başvurusu gelir. Ruhsatı almadan sipariş vermeyin; teklifleri bizde karşılaştırın. Bağlantı profilde.",
       "aciklama": "Prefabrik ev nasıl yapılır? Prefabrik ev yapım süreci adım adım: arsadan anahtara 👇\n\n1) Arsanın imar durumunu kontrol edin. 2) Modeli ve firmayı seçin; aynı kapsamla en az üç teklif alın. 3) Proje ve yapı ruhsatını alın. 4) Zemin etüdüne göre temeli yaptırın (çoğunlukla radye temel). 5) Ev fabrikada üretilir. 6) Nakliye. 7) Montaj, çatı ve tesisat. 8) İç bitiş, bağlantılar ve iskân başvurusu.\n\nEn sık hata: ruhsatı almadan sipariş vermek. Temeli firmanın temel planına birebir uygun yaptırın; nakliye, montaj ve zemin betonunun fiyata dahil olup olmadığını yazılı isteyin, ödemeyi aşamalara bağlayın.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; teklifler 48 saatte tek tabloda.\n\n📌 Kaydedin, eve başlamadan önce lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevnasılyapılır #prefabrikevfiyatları #prefabrikevruhsatı",
@@ -125,5 +113,16 @@
       ],
       "sure": 20.0
     }
-  ]
+  ],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "yayın bekliyor (Reels yok: ELEVENLABS_API_KEY sırrı tanımlı değil, seslendirme üretilemedi)",
+    "medya": {
+      "tasarim": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/f99c4839-85a8-4445-8f9c-12aac470ca28.jpg"
+      ],
+      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/d15eac38-c231-460a-b3a3-2095052b46d9.jpg",
+      "reels": []
+    }
+  }
 }
