@@ -116,7 +116,13 @@ if [ -z "$OTO" ]; then open "https://console.firebase.google.com/project/$PROJE/
 
 adim "5/6 Sunucu ve veritabanı kuralları yayınlanıyor (birkaç dakika)"
 # Site (hosting) GitHub Actions ile otomatik yayınlanır; burada eski bir dist yüklenmesin diye yalnızca sunucu tarafı yayınlanır.
-$FB deploy --only functions,firestore --project "$PROJE" --force || hata "Yayın sırasında hata oluştu. Bu pencerenin ekran görüntüsünü Claude'a gönderin."
+# Google tarafındaki geçici hatalarda ("Failed to list functions", 429/503 vb.) 3 kez daha dener
+YAYIN_OK=""
+for DENEME in 1 2 3 4; do
+  if $FB deploy --only functions,firestore --project "$PROJE" --force; then YAYIN_OK=1; break; fi
+  [ "$DENEME" -lt 4 ] && { echo; echo "Google tarafında geçici bir hata oldu; $((DENEME * 20)) saniye sonra yeniden deneniyor ($DENEME/3)…"; sleep $((DENEME * 20)); }
+done
+[ -n "$YAYIN_OK" ] || hata "Yayın sırasında hata oluştu. Bu pencerenin ekran görüntüsünü Claude'a gönderin."
 
 adim "6/6 Arama motorlarına bildirim (IndexNow: Bing, Yandex vb.)"
 [ -d dist ] && node -e '
