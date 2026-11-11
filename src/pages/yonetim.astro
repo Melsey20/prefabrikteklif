@@ -54,7 +54,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
         else { const a = document.createElement('a'); a.href = url; a.download = (r.headers.get('Content-Disposition')?.match(/filename\*?=(?:UTF-8'')?"?([^";]+)/)?.[1] && decodeURIComponent(r.headers.get('Content-Disposition')!.match(/filename\*?=(?:UTF-8'')?"?([^";]+)/)![1])) || 'belge'; document.body.append(a); a.click(); a.remove(); toast('Tarayıcı yeni pencereyi engelledi; belge indirildi.'); }
       } catch (e: any) { w?.close(); toast(e.message); }
     }
-    import { h, tl, tarih, kalan, toast, modal, alan, sekmeler, araliSecIzle } from '../scripts/ui';
+    import { h, tl, tarih, kalan, toast, modal, alan, sekmeler, araliSecIzle, paraAlan, paraSayi } from '../scripts/ui';
     araliSecIzle();
     const TIPLER: { k: string; ad: string }[] = (window as any).__TIPLER;
     const TIP = Object.fromEntries(TIPLER.map((t) => [t.k, t.ad]));
@@ -67,7 +67,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
     function onaylarCiz() {
       const els: Node[] = [];
       for (const d of V.degisiklikler) {
-        const fiyatInp = inp('fiyat', { type: 'number', min: 1000, value: d.veri?.fiyat ?? '', style: { maxWidth: '180px' } });
+        const fiyatInp = paraAlan(inp('fiyat', { value: d.veri?.fiyat ?? '', style: { maxWidth: '180px' } }) as HTMLInputElement);
         const not = inp('not', { type: 'text', placeholder: 'Firmaya not (isteğe bağlı)', maxlength: 500 });
         const baslik = d.tur === 'fiyat-kontrol' ? 'Aylık kontrol: fiyat değişmiş olabilir' : d.tur === 'yeni' ? 'Yeni ürün' : d.tur === 'kaldir' ? 'Yayından kaldırma' : 'Ürün güncelleme';
         els.push(h('article', { class: 'item' },
@@ -82,7 +82,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
           d.tur !== 'kaldir' ? h('label', { class: 'small', style: { display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 700 } }, 'Yayınlanacak fiyat (TL)', fiyatInp) : null,
           not,
           h('div', { style: { display: 'flex', gap: '8px' } },
-            h('button', { class: 'btn btn-p btn-s', type: 'button', onclick: () => yap('/api/yonetim/degisiklik', { id: d.id, karar: 'onay', fiyat: fiyatInp.value ? Number(fiyatInp.value) : null, not: not.value }, 'Onaylandı, yayında') }, 'Onayla ve yayınla'),
+            h('button', { class: 'btn btn-p btn-s', type: 'button', onclick: () => yap('/api/yonetim/degisiklik', { id: d.id, karar: 'onay', fiyat: fiyatInp.value ? paraSayi(fiyatInp.value) : null, not: not.value }, 'Onaylandı, yayında') }, 'Onayla ve yayınla'),
             h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => yap('/api/yonetim/degisiklik', { id: d.id, karar: 'red', not: not.value }, 'Reddedildi') }, d.tur === 'fiyat-kontrol' ? 'Değişiklik yok' : 'Reddet'))));
       }
       for (const b of V.basvurular) {
@@ -133,6 +133,11 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
           h('span', { class: 'small' }, `${t.ad} · `, h('a', { href: 'tel:' + t.telefon }, t.telefon), ' · ', h('a', { href: 'mailto:' + t.eposta }, t.eposta)),
           h('span', { class: 'xs muted' }, `${tarih(t.olusturma)} · ${t.davetler?.length || 0} firmaya iletildi · ${t.teklifSayisi || 0} teklif` + (t.davetler?.length ? ' · ' + t.davetler.map((d: any) => `${d.firma} (${d.durum})`).join(', ') : '')),
           t.not ? h('span', { class: 'small muted' }, '“' + t.not + '”') : null,
+          t.teklifler?.length ? h('div', { class: 'yt-tk' }, h('b', { class: 'small' }, `Gelen teklifler (${t.teklifler.length}) · en uygundan`),
+            ...t.teklifler.map((x: any, i: number) => h('div', { class: 'yt-tk-s' + (i === 0 && t.teklifler.length > 1 ? ' en' : '') },
+              h('div', { class: 'yt-tk-u' }, h('b', {}, x.firmaAd), h('strong', {}, tl(x.fiyat) + (x.kdvDahil ? ' · KDV dahil' : ' · KDV hariç'))),
+              h('span', { class: 'xs muted' }, [x.teslimGun ? `${x.teslimGun} gün teslim` : '', x.garantiYil ? `${x.garantiYil} yıl garanti` : '', x.dahil?.length ? 'Dahil: ' + x.dahil.join(', ') : '', x.zaman ? tarih(x.zaman) : ''].filter(Boolean).join(' · ')),
+              x.not ? h('span', { class: 'xs' }, '“' + x.not + '”') : null))) : null,
           (acik || (t.durum === 'gonderildi' && !t.test)) ? h('span', { class: 'small' }, `${acik ? 'Son teklif' : 'Süresi doldu (yeniden açmak için yeni süre seçin)'}: ${tarih(t.sonTarih?._seconds ? t.sonTarih._seconds * 1000 : t.sonTarih)} `, h('details', { style: { display: 'inline-block' } }, h('summary', { class: 'btn btn-g btn-s', style: { listStyle: 'none', cursor: 'pointer' } }, 'Süreyi değiştir'), (() => { const st = t.sonTarih?._seconds ? t.sonTarih._seconds * 1000 : typeof t.sonTarih === 'number' ? t.sonTarih : Date.parse(t.sonTarih) || Date.now(); const yerel = (ms: number) => new Date(ms + 3 * 3600000).toISOString().slice(0, 16); const g = h('input', { type: 'datetime-local', value: yerel(st > Date.now() ? st : Date.now() + 86400000), min: yerel(Date.now()), style: { width: 'auto' } }) as HTMLInputElement; return h('span', { style: { display: 'inline-flex', gap: '6px', alignItems: 'center', marginTop: '6px' } }, g, h('button', { class: 'btn btn-p btn-s', type: 'button', onclick: () => { if (!g.value) return; yap('/api/yonetim/talep-sure', { talep: t.id, sonTarih: g.value.slice(0, 16) + ':00+03:00' }, 'Süre güncellendi (müşteriye bildirim gitmedi)'); } }, 'Kaydet')); })())) : null,
           acik && t.mod !== 'surec' ? h('details', {}, h('summary', { class: 'small', style: { cursor: 'pointer', fontWeight: 800, color: 'var(--green)' } }, 'Kayıtlı olmayan bir firmaya e-postayla ilet'),
             h('form', { class: 'form', style: { gap: '8px', marginTop: '8px' }, onsubmit: (e: Event) => { e.preventDefault(); yap('/api/yonetim/talep-ilet', { talep: t.id, firma: firma.value, eposta: ep.value }, 'Firmaya iletildi'); } }, h('div', { class: 'two' }, firma, ep), epNot, h('button', { class: 'btn btn-p btn-s', type: 'submit', style: { alignSelf: 'flex-start' } }, 'İlet (müşteri bilgisi gizli)'))) : null);
@@ -197,7 +202,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
           sayiKart('Üye firma', s.uyeFirma ?? 0, `${s.kayitliFirma || 0} kayıtlı firma hesabı`)),
         h('h2', { style: { fontSize: '1.1rem', margin: '24px 0 10px' } }, 'Firmalara giden talep ve dönüşler'),
         aktifFirma.length ? h('div', { class: 'tbl-wrap' }, h('table', {}, h('thead', {}, h('tr', {}, ...['Firma', 'Gelen talep', 'Teklif verdi', 'Reddetti', 'Dönüş oranı'].map((x) => h('th', {}, x)))),
-          h('tbody', {}, ...aktifFirma.sort((a: any, b: any) => b.istTalep - a.istTalep).map((f: any) => h('tr', {}, h('td', {}, f.ad || f.id), h('td', {}, String(f.istTalep || 0)), h('td', {}, String(f.istTeklif || 0)), h('td', {}, String(f.istRed || 0)), h('td', {}, h('b', {}, `%${Math.round(((f.istTeklif || 0) / f.istTalep) * 100)}`))))))) : h('p', { class: 'small muted' }, 'Henüz firmalara talep gitmedi.'),
+          h('tbody', {}, ...aktifFirma.sort((a: any, b: any) => b.istTalep - a.istTalep).map((f: any) => h('tr', {}, h('td', {}, f.ad || f.id), h('td', {}, String(Math.max(f.istTalep || 0, f.istTeklif || 0))), h('td', {}, String(f.istTeklif || 0)), h('td', {}, String(f.istRed || 0)), h('td', {}, h('b', {}, `%${Math.round(((f.istTeklif || 0) / Math.max(f.istTalep || 0, f.istTeklif || 0, 1)) * 100)}`))))))) : h('p', { class: 'small muted' }, 'Henüz firmalara talep gitmedi.'),
         h('h2', { style: { fontSize: '1.1rem', margin: '24px 0 10px' } }, 'Kartlı abonelik (iyzico)'),
         h('div', { class: 'box', style: { display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' } },
           h('span', { class: 'small' }, !iz.hazir ? 'iyzico anahtarları henüz tanımlı değil; firmalar ödeme bağlantısıyla ödüyor.' : iz.planKodu ? `Açık. Plan kodu: ${iz.planKodu}` : 'Anahtarlar tanımlı; aylık planı oluşturun.'),

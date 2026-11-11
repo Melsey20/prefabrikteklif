@@ -464,7 +464,7 @@ test('açılış kampanyası: başvuru onayında kontenjan varsa ödeme beklemed
   const { db, mails, call } = kur();
   await db.collection('firmaBasvurulari').doc('b1').set({ durum: 'bekliyor', unvan: 'Örnek A.Ş.', marka: 'Örnek Ev', yetkili: 'Ayşe', eposta: 'satis@kardesler.com', telefon: '05320000000', tipler: ['prefabrik'], iller: 'Malatya' });
   const ileri = Timestamp.fromMillis(zaman.simdi() + 5 * 864e5);
-  await db.collection('talepler').doc('t-uyan').set({ durum: 'acik', tip: 'prefabrik', il: 'Malatya', firmalar: ['baska'], sonTarih: ileri, ad: 'X', telefon: '1', eposta: 'm@m.com' });
+  await db.collection('talepler').doc('t-uyan').set({ olusturma: Timestamp.fromMillis(zaman.simdi()), durum: 'acik', tip: 'prefabrik', il: 'Malatya', firmalar: ['baska'], sonTarih: ileri, ad: 'X', telefon: '1', eposta: 'm@m.com' });
   await db.collection('talepler').doc('t-il').set({ durum: 'acik', tip: 'prefabrik', il: 'Konya', firmalar: [], sonTarih: ileri });
   await db.collection('talepler').doc('t-tip').set({ durum: 'acik', tip: 'konteyner', il: 'Malatya', firmalar: [], sonTarih: ileri });
   await db.collection('talepler').doc('t-test').set({ durum: 'acik', test: true, tip: 'prefabrik', il: 'Malatya', firmalar: [], sonTarih: ileri });
@@ -482,8 +482,11 @@ test('açılış kampanyası: başvuru onayında kontenjan varsa ödeme beklemed
   assert.equal(mails.length, once + 1, 'panel e-postasına yeni bağlantı gider');
   await call('POST', '/api/firma/sifre-baglanti', { body: { eposta: hos.to } });
   assert.equal(mails.length, once + 1, '2 dakika içinde ikinci kez gitmez');
-  const tk = await call('POST', '/api/firma/teklif', { tok: 'tok-firma', body: { talep: 't-uyan', fiyat: 450000, teslimGun: 30 } });
+  const tk = await call('POST', '/api/firma/teklif', { tok: 'tok-firma', body: { talep: 't-uyan', fiyat: '1.250.000', teslimGun: 30 } });
   assert.equal(tk.statusCode, 200, JSON.stringify(tk.body));
+  const yo = (await call('GET', '/api/yonetim/ozet', { tok: 'tok-admin' })).body;
+  const yt = yo.talepler.find((t) => t.id === 't-uyan');
+  assert.equal(yt.teklifler[0].fiyat, 1250000, 'noktalı fiyat doğru kaydedilir ve yönetimde görünür');
   assert.ok(mails.some((m) => m.subject === 'Üyeliğiniz aktif: 1 ay ücretsiz'));
   assert.ok(!mails.some((m) => m.subject === 'Firma hesabınız açıldı'), 'ödeme bağlantılı hoş geldin e-postası gitmez');
 });

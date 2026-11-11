@@ -297,7 +297,8 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const fd = (await db.collection('firmalar').doc(firmaSlug).get()).data();
     if (!uyeAktif(fd)) hata(402, fd ? `Fiyat verebilmek için aylık ${ABONELIK_TL} TL üyelik ödemenizin tamamlanması gerekiyor. Ödeme onaylandığında bu talebe panelinizden fiyat verebilirsiniz.` : 'Fiyat verebilmek için önce firmanızı kaydedin; üyeliğiniz onaylanınca bu talebe fiyat verebilirsiniz.');
     if (v.davet?.durum === 'red') hata(409, 'Bu talebi daha önce reddettiniz.');
-    const fiyat = Math.round(Number(b.fiyat));
+    // "1.250.000" ya da "1 250 000" gibi noktalı/boşluklu yazımlar da kabul edilir
+    const fiyat = Math.round(typeof b.fiyat === 'string' ? Number(b.fiyat.replace(/[.\s]/g, '').replace(',', '.')) : Number(b.fiyat));
     if (!(fiyat >= 1000 && fiyat < 1e9)) hata(400, 'Geçerli bir fiyat yazın.');
     const ilk = !(await v.ref.collection('teklifler').doc(firmaSlug).get()).exists;
     await v.ref.collection('teklifler').doc(firmaSlug).set({
@@ -307,7 +308,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     await v.davetRef.set({ durum: 'kabul', kabulZamani: FieldValue.serverTimestamp() }, { merge: true });
     const a = ayar(); const d = v.talep;
     if (ilk) {
-      if (!d.test) { firmaSayac(firmaSlug, { istTeklif: 1 }); sayac({ teklif: 1 }); }
+      if (!d.test) { firmaSayac(firmaSlug, { istTeklif: 1, ...(v.davet?.tur === 'uye' || v.davet?.tur === 'odeme' ? {} : { istTalep: 1 }) }); sayac({ teklif: 1 }); }
       await v.ref.set({ teklifSayisi: FieldValue.increment(1), sonTeklif: FieldValue.serverTimestamp() }, { merge: true });
       const kac = (await v.ref.collection('teklifler').get()).size;
       const fa = firmAd(firmaSlug);
@@ -781,7 +782,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const reklamlar = rq.docs.map((d) => { const r = d.data(); return { id: d.id, paket: r.paket, paketAd: REKLAM_PAKET[r.paket]?.ad || r.paket, fiyat: r.fiyat, durum: r.durum, odemeLinki: r.odemeLinki || '', modelId: r.modelId || '', zaman: r.zaman?.toMillis?.() || 0 }; }).sort((a, b) => b.zaman - a.zaman);
     const ab = fd.abonelik || {};
     // İstatistik: sayaçlar (kalıcı) + son 60 talepten hesaplanan değerler (sayaç yoksa)
-    const gercek = talepler.filter((t) => !t.test && (t.davetTur === 'uye' || t.davetTur === 'odeme'));
+    const gercek = talepler.filter((t) => !t.test && (t.davetTur === 'uye' || t.davetTur === 'odeme' || t.teklif));
     const ist = {
       talep: Math.max(fd.istTalep || 0, gercek.length), teklif: Math.max(fd.istTeklif || 0, gercek.filter((t) => t.teklif).length), red: Math.max(fd.istRed || 0, gercek.filter((t) => t.davet === 'red').length),
     };
@@ -1086,6 +1087,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       const [dv, tk] = await Promise.all([ref.collection('davetler').get(), ref.collection('teklifler').get()]);
       t.davetler = dv.docs.map((d) => ({ firma: d.id, durum: d.data().durum }));
       t.teklifSayisi = tk.size; delete t.token;
+      t.teklifler = tk.docs.map((x) => { const y = x.data(); return { firma: x.id, firmaAd: firmAd(x.id), fiyat: y.fiyat || 0, kdvDahil: !!y.kdvDahil, dahil: (y.dahil || []).map((k) => DAHIL_AD[k] || k), teslimGun: y.teslimGun || null, garantiYil: y.garantiYil || null, not: y.not || '', zaman: y.zaman?.toMillis?.() || 0 }; }).sort((a, b) => a.fiyat - b.fiyat);
     }));
     // Kullanıcılar: hesap açanlar + hesabı olmadan talep gönderenler; her biri için talep ve gelen teklif sayısı
     const gercekT = tumTalepQ.filter((t) => !t.test);
@@ -1227,7 +1229,8 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       const [dv, tk] = await Promise.all([d.ref.collection('davetler').get(), d.ref.collection('teklifler').get()]);
       if ((t.teklifSayisi || 0) !== tk.size) await d.ref.set({ teklifSayisi: tk.size }, { merge: true });
       top.teklif += tk.size;
-      for (const x of dv.docs) { const v = x.data(); if (v.tur !== 'uye' && v.tur !== 'odeme') continue; const o = (f[x.id] ||= { istTalep: 0, istTeklif: 0, istRed: 0 }); o.istTalep++; if (v.durum === 'red') o.istRed++; }
+      const tkSet = new Set(tk.docs.map((x) => x.id));
+      for (const x of dv.docs) { const v = x.data(); if (v.tur !== 'uye' && v.tur !== 'odeme' && !tkSet.has(x.id)) continue; const o = (f[x.id] ||= { istTalep: 0, istTeklif: 0, istRed: 0 }); o.istTalep++; if (v.durum === 'red') o.istRed++; }
       for (const x of tk.docs) { const o = (f[x.id] ||= { istTalep: 0, istTeklif: 0, istRed: 0 }); o.istTeklif++; }
     }
     const fq = await db.collection('firmalar').get();

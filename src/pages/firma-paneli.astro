@@ -87,7 +87,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
   <script>
     import { kullanici, api, oturumAc, ApiHata, cikis, dogrulamaGonder, dogrulamaKontrol } from '../scripts/fb';
     import { onayIste } from '../scripts/onayKutusu';
-    import { h, tl, tarih, kalan, toast, modal, alan, sekmeler, hataGoster } from '../scripts/ui';
+    import { h, tl, tarih, kalan, toast, modal, alan, sekmeler, hataGoster, paraAlan, paraSayi } from '../scripts/ui';
     const TIPLER: { k: string; ad: string }[] = (window as any).__TIPLER;
     const $ = (id: string) => document.getElementById(id)!;
     let V: any;
@@ -115,7 +115,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       const m2 = inp('m2', { type: 'number', min: 5, max: 2000, value: m?.m2 ?? '', inputmode: 'numeric' });
       const oda = sec('oda', [['', 'Seçin'], ['1+0', '1+0'], ['1+1', '1+1'], ['2+1', '2+1'], ['3+1', '3+1'], ['4+1', '4+1'], ['5+1', '5+1 ve üstü']], m?.oda || '');
       const kat = sec('kat', [['', 'Seçin'], ['1', 'Tek kat'], ['1.5', 'Loftlu'], ['2', 'Dubleks (2 kat)'], ['3', '3 kat']], m?.kat ? String(m.kat) : '');
-      const fiyat = inp('fiyat', { type: 'number', min: 1000, step: 1, value: m?.fiyat ?? '', inputmode: 'numeric', placeholder: 'Ör. 850000' });
+      const fiyat = paraAlan(inp('fiyat', { value: m?.fiyat ?? '', placeholder: 'Ör. 850.000' }) as HTMLInputElement);
       const kdv = sec('kdv', [['', 'Belirtmiyorum'], ['dahil', 'KDV dahil'], ['haric', 'KDV hariç']], m?.kdv || '');
       const teslim = sec('teslim', [['', 'Belirtmiyorum'], ['Anahtar teslim', 'Anahtar teslim'], ['İleri kaba teslim', 'İleri kaba teslim'], ['Kaba teslim', 'Kaba teslim'], ['Fabrika teslim', 'Fabrika teslim']], m?.teslim || '');
       const nakliye = sec('nakliye', KALEM, m?.nakliye || ''), montaj = sec('montaj', KALEM, m?.montaj || ''), zemin = sec('zemin', KALEM, m?.zemin || '');
@@ -159,7 +159,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       f.addEventListener('submit', async (e) => {
         e.preventDefault(); hata.hidden = true;
         const sayiV = (x: HTMLInputElement) => (x.value ? Number(x.value) : null);
-        const veri: any = { ad: ad.value.trim(), tip: tip.value, m2: sayiV(m2), oda: oda.value, kat: kat.value ? Number(kat.value) : null, fiyat: sayiV(fiyat), kdv: kdv.value, teslim: teslim.value, nakliye: nakliye.value, montaj: montaj.value, zemin: zemin.value, kapsam: kapsam.value.trim(), aciklama: aciklama.value.trim(), gorseller: fotolar, not: not.value };
+        const veri: any = { ad: ad.value.trim(), tip: tip.value, m2: sayiV(m2), oda: oda.value, kat: kat.value ? Number(kat.value) : null, fiyat: paraSayi(fiyat.value) || null, kdv: kdv.value, teslim: teslim.value, nakliye: nakliye.value, montaj: montaj.value, zemin: zemin.value, kapsam: kapsam.value.trim(), aciklama: aciklama.value.trim(), gorseller: fotolar, not: not.value };
         if (!veri.ad) { hata.textContent = 'Model adını yazın.'; hata.hidden = false; return; }
         if (veri.fiyat !== null && veri.fiyat < 1000) { hata.textContent = 'Geçerli bir fiyat yazın (TL).'; hata.hidden = false; return; }
         if (yeni && !fotolar.length) { hata.textContent = 'En az bir fotoğraf ekleyin.'; hata.hidden = false; return; }
@@ -193,7 +193,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
     };
     function teklifFormu(t: any) {
       const f = h('form', { class: 'form', style: { gap: '12px' } }) as HTMLFormElement;
-      const fiyat = inp('fiyat', { type: 'number', min: 1000, required: true, inputmode: 'numeric' });
+      const fiyat = paraAlan(inp('fiyat', { required: true, placeholder: 'Ör. 1.250.000' }) as HTMLInputElement);
       const kdv = inp('kdvDahil', { type: 'checkbox' });
       const dahil = [['nakliye', 'Nakliye'], ['montaj', 'Montaj'], ['vinc', 'Vinç'], ['zemin', 'Zemin betonu'], ['ic-bitis', 'İç bitiş'], ['mutfak-vitrifiye', 'Mutfak ve vitrifiye'], ['ruhsat', 'Ruhsat ve proje']].map(([v, a]) => h('label', { class: 'chk' }, inp('dahil', { type: 'checkbox', value: v }), ' ' + a));
       const gun = inp('teslimGun', { type: 'number', min: 1, max: 365 }); const garanti = inp('garantiYil', { type: 'number', min: 0, max: 50 });
@@ -204,9 +204,9 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
         h('button', { class: 'btn btn-p', type: 'submit' }, 'Fiyatı gönder'));
       f.addEventListener('submit', async (e) => {
         e.preventDefault(); hata.hidden = true;
-        if (Number(fiyat.value) < 1000) { hata.textContent = 'Toplam fiyat yazın.'; hata.hidden = false; return; }
+        if (paraSayi(fiyat.value) < 1000) { hata.textContent = 'Toplam fiyat yazın.'; hata.hidden = false; return; }
         try {
-          const r = await api('/api/firma/teklif' + fq, { talep: t.id, fiyat: Number(fiyat.value), kdvDahil: kdv.checked, dahil: [...f.querySelectorAll<HTMLInputElement>('input[name=dahil]:checked')].map((x) => x.value), teslimGun: gun.value, garantiYil: garanti.value, not: not.value });
+          const r = await api('/api/firma/teklif' + fq, { talep: t.id, fiyat: paraSayi(fiyat.value), kdvDahil: kdv.checked, dahil: [...f.querySelectorAll<HTMLInputElement>('input[name=dahil]:checked')].map((x) => x.value), teslimGun: gun.value, garantiYil: garanti.value, not: not.value });
           f.replaceChildren(h('div', { class: 'okmsg' }, h('b', {}, 'Fiyatınız kaydedildi. Müşteri bilgileri:'), h('p', { style: { margin: '8px 0 0' } }, `${r.musteri.ad} · `, h('a', { href: 'tel:' + r.musteri.telefon }, r.musteri.telefon), ' · ', h('a', { href: 'mailto:' + r.musteri.eposta }, r.musteri.eposta))));
           yukle();
         } catch (err: any) { hata.textContent = err.message; hata.hidden = false; }

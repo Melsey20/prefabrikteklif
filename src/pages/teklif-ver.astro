@@ -9,7 +9,7 @@ import Base from '../layouts/Base.astro';
     <div id="talep" class="box" hidden style="display:flex;flex-direction:column;gap:6px"></div>
     <div id="musteri" class="okmsg" hidden style="margin-top:14px"></div>
     <form class="form box" id="f" hidden novalidate style="margin-top:14px">
-      <label class="f">Toplam fiyat (TL)<input type="number" name="fiyat" inputmode="numeric" min="1000" required /></label>
+      <label class="f">Toplam fiyat (TL)<input type="text" name="fiyat" inputmode="numeric" placeholder="Ör. 1.250.000" required /></label>
       <label class="chk"><input type="checkbox" name="kdvDahil" /> Fiyata KDV dahil</label>
       <fieldset>
         <legend>Fiyata dahil olanlar</legend>
@@ -36,7 +36,8 @@ import Base from '../layouts/Base.astro';
     <p class="small muted" style="margin-top:18px">Tüm talepleri <a href="/firma-paneli/">firma panelinden</a> de yönetebilirsiniz. Firmanız kayıtlı değilse <a href="/firma-kayit/">firma üyeliği için başvurun</a>.</p>
   </div>
   <script>
-    import { h, tl } from '../scripts/ui';
+    import { h, tl, paraAlan, paraSayi } from '../scripts/ui';
+    document.querySelectorAll<HTMLInputElement>('input[name=fiyat]').forEach((x) => paraAlan(x));
     const q = new URLSearchParams(location.search); const t = q.get('t'); const fr = q.get('f');
     const $ = (id: string) => document.getElementById(id)!;
     const err = (m: string) => { $('hata').textContent = m; $('hata').hidden = false; };
@@ -84,8 +85,8 @@ import Base from '../layouts/Base.astro';
     $('f').addEventListener('submit', async (e) => {
       e.preventDefault(); const f = e.target as HTMLFormElement; const d: any = { t, f: fr, dahil: [] };
       new FormData(f).forEach((v, k) => { if (k === 'dahil') d.dahil.push(v); else d[k] = v; });
-      d.kdvDahil = !!d.kdvDahil;
-      if (!d.fiyat || +d.fiyat < 1000) return err('Toplam fiyat yazın.');
+      d.kdvDahil = !!d.kdvDahil; d.fiyat = paraSayi(d.fiyat);
+      if (d.fiyat < 1000) return err('Toplam fiyat yazın.');
       try { const j = await post('/api/teklif-ver', d); f.hidden = true; musteriGoster(j.musteri); $('tamam').replaceChildren(h('b', {}, `Fiyatınız (${tl(+d.fiyat)}) kaydedildi.`), h('p', { style: { margin: '6px 0 0' } }, 'Müşteriyi arayıp teklifinizi netleştirebilirsiniz. Süre dolunca tüm teklifler müşteriye tek tabloda iletilecek.')); $('tamam').hidden = false; $('hata').hidden = true; }
       catch (x: any) { err(x.message); }
     });

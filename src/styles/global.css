@@ -847,3 +847,10 @@ body:has(.app) .by-dis { display: none; }
 @media (max-width: 860px) { .app aside.alt-sek a.ln { display: none; } }
 @media (max-width: 700px) { .hs-sek .rz { margin-left: 4px; } .hs-tk-b .btn { font-size: .85rem; padding-left: 8px; padding-right: 8px; } }
 @media (max-width: 560px) { .form .two.iki-kal { grid-template-columns: 1fr 1fr; gap: 8px 12px; } }
+
+/* Yönetim: talep altındaki gelen teklifler */
+.yt-tk { display: flex; flex-direction: column; gap: 6px; background: var(--gray-bg); border-radius: 12px; padding: 10px 12px; }
+.yt-tk-s { display: flex; flex-direction: column; gap: 2px; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
+.yt-tk-s.en { border-color: var(--green); box-shadow: inset 3px 0 0 var(--green); }
+.yt-tk-u { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.yt-tk-u strong { color: var(--green-d); white-space: nowrap; }

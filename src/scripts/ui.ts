@@ -85,3 +85,22 @@ export function araliSecIzle(kok: HTMLElement = document.body) {
   const tara = () => kok.querySelectorAll<HTMLSelectElement>('select[data-ara]:not([data-arali])').forEach(araliSec);
   tara(); new MutationObserver(tara).observe(kok, { childList: true, subtree: true });
 }
+
+// Fiyat kutusu: yazarken binlik noktalar otomatik eklenir (1200000 → 1.200.000). Değer okunurken paraSayi() kullanılır.
+export const paraSayi = (v: unknown) => Number(String(v ?? '').replace(/\D/g, '')) || 0;
+export function paraAlan<T extends HTMLInputElement>(el: T): T {
+  if (el.dataset.para) return el; el.dataset.para = '1';
+  el.type = 'text'; el.inputMode = 'numeric'; el.autocomplete = 'off'; el.removeAttribute('min'); el.removeAttribute('step');
+  const bicim = () => {
+    const once = el.value; const pos = el.selectionStart ?? once.length;
+    const solRakam = once.slice(0, pos).replace(/\D/g, '').length;
+    const n = once.replace(/\D/g, '').replace(/^0+/, '').slice(0, 10);
+    const yeni = n ? Number(n).toLocaleString('tr-TR') : '';
+    if (yeni === once) return;
+    el.value = yeni;
+    let i = 0, r = 0; while (i < yeni.length && r < solRakam) { if (/\d/.test(yeni[i])) r++; i++; }
+    if (document.activeElement === el) try { el.setSelectionRange(i, i); } catch { /* bazı tarayıcılar */ }
+  };
+  el.addEventListener('input', bicim); bicim();
+  return el;
+}
