@@ -3185,17 +3185,19 @@
   "sertifikaNotu": "",
   "urunTipleri": [
    "çelik",
-   "prefabrik"
+   "prefabrik",
+   "ağır çelik"
   ],
   "kaynak": [
-   "https://tsdcelikyapi.com/iletisim"
+   "https://tsdcelikyapi.com/hizmetlerimiz/"
   ],
   "seviye": "listelenmis",
   "modelBekliyor": false,
   "modelSayisi": 1,
   "enDusuk": null,
   "tipler": [
-   "celik"
+   "celik",
+   "agir-celik"
   ],
   "fiyatYayinliyor": false,
   "logo": "",
@@ -4608,6 +4610,384 @@
    "konteyner",
    "prefabrik",
    "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "MAK Çelik",
+  "kisaAd": "MAK Çelik",
+  "slug": "mak-celik",
+  "web": "https://makcelik.com/",
+  "sehir": "Konya",
+  "il": "Konya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ağır çelik"
+  ],
+  "kaynak": [
+   "https://makcelik.com/services/structural-solutions"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "agir-celik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Polarkon",
+  "kisaAd": "Polarkon",
+  "slug": "polarkon",
+  "web": "https://polarkon.com/",
+  "sehir": "Ankara",
+  "il": "Ankara",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ağır çelik"
+  ],
+  "kaynak": [
+   "https://polarkon.com/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "agir-celik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Karçel",
+  "kisaAd": "Karçel",
+  "slug": "karcel",
+  "web": "https://www.karcel.com.tr/",
+  "sehir": "Karabük",
+  "il": "Karabük",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ağır çelik"
+  ],
+  "kaynak": [
+   "https://www.karcel.com.tr/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "agir-celik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Yapı Çelik",
+  "kisaAd": "Yapı Çelik",
+  "slug": "yapi-celik",
+  "web": "https://yapicelik.com.tr/",
+  "sehir": "Kocaeli",
+  "il": "Kocaeli",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ağır çelik"
+  ],
+  "kaynak": [
+   "https://yapicelik.com.tr/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "agir-celik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Mir Yapı",
+  "kisaAd": "Mir Yapı",
+  "slug": "mir-yapi",
+  "web": "https://www.miryapi.com.tr/",
+  "sehir": "Sakarya",
+  "il": "Sakarya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ağır çelik"
+  ],
+  "kaynak": [
+   "https://www.miryapi.com.tr/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "agir-celik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "3EL Çelik",
+  "kisaAd": "3EL Çelik",
+  "slug": "3el-celik",
+  "web": "https://3elcelik.com.tr/",
+  "sehir": "İzmir",
+  "il": "İzmir",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ağır çelik"
+  ],
+  "kaynak": [
+   "https://3elcelik.com.tr/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "agir-celik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "3 Ender Çelik Konstrüksiyon",
+  "kisaAd": "3 Ender Çelik Konstrüksiyon",
+  "slug": "3-ender-celik-konstruksiyon",
+  "web": "https://3ender.com/",
+  "sehir": "Kayseri",
+  "il": "Kayseri",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ağır çelik"
+  ],
+  "kaynak": [
+   "https://3ender.com/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "agir-celik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Meta Çelik Yapı",
+  "kisaAd": "Meta Çelik Yapı",
+  "slug": "meta-celik-yapi",
+  "web": "https://metacelikyapi.com/",
+  "sehir": "Diyarbakır",
+  "il": "Diyarbakır",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ağır çelik"
+  ],
+  "kaynak": [
+   "https://metacelikyapi.com/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "agir-celik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "On Çelik",
+  "kisaAd": "On Çelik",
+  "slug": "on-celik",
+  "web": "https://www.oncelik.com.tr/",
+  "sehir": "Gaziantep",
+  "il": "Gaziantep",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ağır çelik"
+  ],
+  "kaynak": [
+   "https://www.oncelik.com.tr/gaziantep-celik-yapi"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "agir-celik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Zeman Çelik",
+  "kisaAd": "Zeman Çelik",
+  "slug": "zeman-celik",
+  "web": "https://zemancelik.com.tr/",
+  "sehir": "Sakarya",
+  "il": "Sakarya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ağır çelik"
+  ],
+  "kaynak": [
+   "https://zemancelik.com.tr/faaliyet-alanlari/konvansiyonel-celik-yapilar/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "agir-celik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Bayrakcı Metal",
+  "kisaAd": "Bayrakcı Metal",
+  "slug": "bayrakci-metal",
+  "web": "https://bayrakcimetal.com.tr/",
+  "sehir": "İstanbul",
+  "il": "İstanbul",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ağır çelik"
+  ],
+  "kaynak": [
+   "https://bayrakcimetal.com.tr/hizmetlerimiz/celik-konstruksiyon/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "agir-celik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Erfatek Mühendislik",
+  "kisaAd": "Erfatek Mühendislik",
+  "slug": "erfatek-muhendislik",
+  "web": "https://www.erfatek.com/",
+  "sehir": "Tekirdağ",
+  "il": "Tekirdağ",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ağır çelik"
+  ],
+  "kaynak": [
+   "https://www.erfatek.com/hizmet/agir-celik-yapi-imalat-ve-montajlari/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "agir-celik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Aşan Çelik Yapı",
+  "kisaAd": "Aşan Çelik Yapı",
+  "slug": "asan-celik-yapi",
+  "web": "https://www.asancelikyapi.com.tr/",
+  "sehir": "Ankara",
+  "il": "Ankara",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ağır çelik"
+  ],
+  "kaynak": [
+   "https://www.asancelikyapi.com.tr/tr/asan/hakkimizda/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "agir-celik"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
+ },
+ {
+  "ad": "Yuva Çelik",
+  "kisaAd": "Yuva Çelik",
+  "slug": "yuva-celik",
+  "web": "https://www.yuvacelik.com/",
+  "sehir": "İzmir",
+  "il": "İzmir",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "ağır çelik"
+  ],
+  "kaynak": [
+   "https://www.yuvacelik.com/anahtar-teslim-celik-yapi/"
+  ],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "agir-celik"
   ],
   "fiyatYayinliyor": false,
   "logo": "",
