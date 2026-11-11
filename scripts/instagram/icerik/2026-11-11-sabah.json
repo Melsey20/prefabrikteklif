@@ -1,7 +1,7 @@
 {
   "tarih": "2026-11-11",
   "slot": "sabah",
-  "saat": "10:00",
+  "saat": "15:00",
   "tasarimlar": [
     {
       "ad": "A",
@@ -125,7 +125,7 @@
           "p": "Önceden üretilmiş, hazır yapı"
         },
         {
-          "t": 0,
+          "t": 5.42,
           "tur": "liste",
           "h": "Fabrikada <em>üretilir</em>",
           "ikon": "✓",
@@ -136,7 +136,7 @@
           ]
         },
         {
-          "t": 0,
+          "t": 11.52,
           "tur": "grid",
           "h": "Bu gruba <em>girenler</em>",
           "imgs": [
@@ -153,20 +153,20 @@
           ]
         },
         {
-          "t": 0,
+          "t": 15.82,
           "tur": "foto",
           "h": "Hızlı ve <em>öngörülebilir</em>",
           "img": "montaj-1344.webp",
           "p": "Kısa kurulum, daha az sürpriz maliyet"
         },
         {
-          "t": 0,
+          "t": 19.66,
           "tur": "son",
           "h": "Fiyatları <em>tek yerde</em> kıyaslayın.",
           "p": "Bağlantı profilde"
         }
       ],
-      "sure": 20.0,
+      "sure": 24.5,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-11-sabah-1.mp3",
       "ses": {
         "kaynak": "elevenlabs",
@@ -186,21 +186,21 @@
           "p": "9 Kasım 2026 itibarıyla listemizde"
         },
         {
-          "t": 0,
+          "t": 4.92,
           "tur": "sayi",
           "h": "Ortanca fiyat",
           "n": 170,
           "birim": "bin TL · konteyner ev"
         },
         {
-          "t": 0,
+          "t": 9.06,
           "tur": "sayi",
           "h": "30 m² için <em>kaba hesap</em>",
           "n": 199,
           "birim": "bin TL · yaklaşık"
         },
         {
-          "t": 0,
+          "t": 13.96,
           "tur": "liste",
           "h": "Dahil mi? <em>Sorun</em>",
           "ikon": "?",
@@ -212,13 +212,13 @@
           ]
         },
         {
-          "t": 0,
+          "t": 19.2,
           "tur": "son",
           "h": "Teklifleri <em>tek tabloda</em> görün.",
           "p": "Bağlantı profilde"
         }
       ],
-      "sure": 20.0,
+      "sure": 23.1,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-11-sabah-2.mp3",
       "ses": {
         "kaynak": "elevenlabs",
@@ -250,6 +250,7 @@
         "id": "18146162203579233",
         "zaman": "2026-11-11 10:45"
       }
-    }
+    },
+    "not": "Reels sabah seslendirilemedi; ElevenLabs ile üretilip 15:20/15:40 yayına alındı"
   }
 }

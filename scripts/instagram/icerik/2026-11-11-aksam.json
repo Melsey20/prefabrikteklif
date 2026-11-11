@@ -33,7 +33,7 @@
           "img": "montaj-960.webp"
         },
         {
-          "t": 0,
+          "t": 3.9,
           "tur": "liste",
           "h": "Önce <em>evrak</em>",
           "ikon": "✓",
@@ -44,7 +44,7 @@
           ]
         },
         {
-          "t": 0,
+          "t": 9.06,
           "tur": "liste",
           "h": "Sonra <em>şantiye</em>",
           "ikon": "✓",
@@ -55,19 +55,19 @@
           ]
         },
         {
-          "t": 0,
+          "t": 14.54,
           "tur": "foto",
           "h": "Son adım: <em>iç bitiş ve iskân</em>",
           "img": "prefabrik-b-960.webp"
         },
         {
-          "t": 0,
+          "t": 19.06,
           "tur": "son",
           "h": "Ruhsattan önce <em>sipariş vermeyin.</em>",
           "p": "Bağlantı profilde"
         }
       ],
-      "sure": 20.0,
+      "sure": 25.34,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-11-aksam-1.mp3",
       "ses": {
         "kaynak": "elevenlabs",
@@ -86,7 +86,7 @@
           "img": "tiny-house-b-960.webp"
         },
         {
-          "t": 0,
+          "t": 4.56,
           "tur": "liste",
           "h": "Talep <em>tüm detayıyla</em>",
           "ikon": "✓",
@@ -97,27 +97,27 @@
           ]
         },
         {
-          "t": 0,
+          "t": 9.54,
           "tur": "foto",
           "h": "Yalnız <em>size uyan</em> talepler",
           "img": "celik-b-960.webp",
           "p": "Hizmet illeriniz · ev tipleriniz"
         },
         {
-          "t": 0,
+          "t": 14.68,
           "tur": "foto",
           "h": "İlk 50 firmaya <em>1 ay ücretsiz</em>",
           "img": "bungalov-960.webp",
           "p": "Kart bilgisi yok · komisyon yok"
         },
         {
-          "t": 0,
+          "t": 18.9,
           "tur": "son",
           "h": "Evrak ve referansla <em>başvurun.</em>",
           "p": "Başvuru bağlantısı profilde"
         }
       ],
-      "sure": 20.0,
+      "sure": 23.38,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-11-aksam-2.mp3",
       "ses": {
         "kaynak": "elevenlabs",
