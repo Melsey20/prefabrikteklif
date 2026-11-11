@@ -252,7 +252,10 @@ for firm in firms:
     firm['enDusuk'] = min(priced) if priced else None
     firm['tipler'] = sorted({m['tip'] for m in ms})
     if not firm['tipler']:  # modeli henüz listelenmemiş firma: ürün tiplerini firmanın kendi beyanından al
-        firm['tipler'] = sorted({TIP_KEY[k] for t in firm['urunTipleri'] for k in TIP_KEY if k in t.lower()})
+        firm['tipler'] = sorted({TIP_KEY[k] for t in firm['urunTipleri'] for k in TIP_KEY if k in t.lower() and not ('ağır çelik' in t.lower() and k in ('çelik', 'celik'))})
+    # Ağır çelik yapı (fabrika, depo, hangar): katalog tipi değil, firma etiketi; talepler bu firmalara gider
+    if any('ağır çelik' in t.lower() or 'agir celik' in t.lower() for t in firm['urunTipleri']):
+        firm['tipler'] = [t for t in firm['tipler'] if t != 'agir-celik'] + ['agir-celik']
     firm['fiyatYayinliyor'] = bool(priced) or any(m['fiyat'] for m in ms)
 
 models.sort(key=lambda m: (m['tip'], m['fiyat'] or 10**12))
@@ -291,6 +294,12 @@ for f in firms:
     f['logo'] = f"/img/firma/{f['slug']}.png" if os.path.exists(lg) else ''
     f['logoAcik'] = bool(ILETISIM.get(f['slug'], {}).get('acik')) if f['logo'] else False
 json.dump(firms, open(os.path.join(OUT, 'firms.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+# İzin veren firmaların kendi sitelerinden alınan ürün fotoğrafları (scripts/urun_gorsel.py)
+_ug = os.path.join(ROOT, 'data', 'raw', 'urun_gorsel.json')
+URUN_GORSEL = json.load(open(_ug, encoding='utf-8')) if os.path.exists(_ug) else {}
+for m in models:
+    g = URUN_GORSEL.get(f"{m['firma']}/{m['slug']}")
+    if g: m['gorsel'] = g['yol']
 json.dump(models, open(os.path.join(OUT, 'models.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 json.dump(meta, open(os.path.join(OUT, 'meta.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 # Cloud Functions için küçük firma listesi

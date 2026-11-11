@@ -298,7 +298,8 @@
   "modelSayisi": 12,
   "enDusuk": 1360000,
   "tipler": [
-   "celik"
+   "celik",
+   "agir-celik"
   ],
   "fiyatYayinliyor": true,
   "logo": "/img/firma/aktas-grup-insaat.png",
@@ -358,7 +359,8 @@
   "modelSayisi": 0,
   "enDusuk": null,
   "tipler": [
-   "celik"
+   "celik",
+   "agir-celik"
   ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/oska-celik-ev.png",
@@ -1243,7 +1245,8 @@
    "bungalov",
    "celik",
    "konteyner",
-   "prefabrik"
+   "prefabrik",
+   "agir-celik"
   ],
   "fiyatYayinliyor": false,
   "logo": "/img/firma/evkon-prefabrik.png",

@@ -13,12 +13,13 @@ export function getStaticPaths() {
 const { f } = Astro.props;
 const list = sirala(models.filter((m) => m.firma === f.slug));
 const s = istatistik(list);
-const tipler = f.tipler.map((t) => TIPLER[t]?.ad).filter(Boolean);
+const tipler = f.tipler.map((t) => (t === 'agir-celik' ? 'Ağır çelik yapı' : TIPLER[t]?.ad)).filter(Boolean);
+const katTip = f.tipler.filter((t) => TIPLER[t]);
 const urunler = tipler.length ? tipler.join(', ') : f.urunTipleri.join(', ');
 // Başlık: "Karmod Prefabrik Ev Fiyatları", "Asia Prefabrik Ev Fiyatları", "Elbarsco Tiny House Fiyatları" (marka araması + ürün)
 // Birden çok tip üreten ya da prefabrik üreten firmada genel terim "Prefabrik Ev" (marka aramaları: "karmod prefabrik")
 const anaTipKey = f.tipler.length === 1 ? f.tipler[0] : 'prefabrik';
-const urunAd = (TIPLER[anaTipKey]?.baslik || 'Prefabrik Ev Fiyatları').replace(/ Fiyatları$/, '');
+const urunAd = (anaTipKey === 'agir-celik' ? 'Çelik Yapı Fiyatları' : TIPLER[anaTipKey]?.baslik || 'Prefabrik Ev Fiyatları').replace(/ Fiyatları$/, '');
 const ilk = urunAd.split(' ')[0];
 const kk = f.kisaAd.toLocaleLowerCase('tr');
 const urunEki = kk.includes(urunAd.toLocaleLowerCase('tr')) ? '' : kk.includes(ilk.toLocaleLowerCase('tr')) ? urunAd.split(' ').slice(1).join(' ') : urunAd;
@@ -28,7 +29,7 @@ const ld = [{
   '@context': 'https://schema.org', '@type': 'Organization', name: f.kisaAd, legalName: f.ad !== f.kisaAd ? f.ad : undefined,
   url: f.web || undefined, ...(f.il ? { address: { '@type': 'PostalAddress', addressRegion: f.il, addressCountry: 'TR' } } : {}),
 }];
-const ana = f.tipler[0] || 'prefabrik';
+const ana = (katTip.length ? katTip[0] : f.tipler[0]) || 'prefabrik';
 // Firma hakkında ve piyasa bağlamı: ürettiği tiplerde Türkiye geneli fiyatlar, aynı ildeki diğer üreticiler
 const tipOzet = f.tipler.filter((t) => TIPLER[t]).map((t) => ({ t, ad: TIPLER[t].ad, slug: TIPLER[t].slug, s: istatistik(models.filter((m) => m.tip === t)) }));
 const ayniIl = f.il ? firms.filter((x) => x.il === f.il && x.slug !== f.slug).sort((a, b) => b.modelSayisi - a.modelSayisi).slice(0, 8) : [];

@@ -102,6 +102,7 @@ const firmaOzet = Object.fromEntries(firms.map((f) => [f.slug, { u: f.ad, m: f.k
           <p class="xs muted" style="margin:0">Bedeller aylıktır ve {SITE.abonelik} TL üyeliğe ektir. Onaydan sonra alan uygunluğunu kontrol edip ödeme bağlantısını ayrıca göndeririz. <a href="/reklam-ver/" target="_blank">Alanların nerede göründüğüne bakın</a></p>
         </div>
       </div>
+      <label class="chk"><input type="checkbox" name="gorselIzni" /> <span><b>İsteğe bağlı:</b> Web sitemizdeki ürün fotoğraflarının, kaynağı belirtilerek PrefabrikTeklif’teki ürün sayfalarımızda kullanılmasına izin veriyorum. Böylece ürünleriniz temsili görsel yerine kendi fotoğraflarınızla görünür.</span></label>
       <label class="chk"><input type="checkbox" name="onay" required /> <span><a href="/firma-uyelik-sozlesmesi/" target="_blank">Firma üyelik sözleşmesini</a>, <a href="/abonelik-ve-iptal-kosullari/" target="_blank">abonelik koşullarını</a>, <a href="/kullanici-sozlesmesi/" target="_blank">kullanıcı sözleşmesini</a> ve <a href="/gizlilik-politikasi/" target="_blank">gizlilik politikasını</a> okudum, kabul ediyorum; <a href="/kvkk-aydinlatma-metni/" target="_blank">aydınlatma metnini</a> okudum. {SITE.kampanya.aktif ? "İlk ay ücretsiz; devam edersem" : "Üyelik"} aylık <b>{SITE.abonelik} TL</b>{SITE.kampanya.aktif ? " öderim, istemezsem hiçbir şey ödemem" : " olarak ödenir"}. Verdiğim bilgilerin doğru olduğunu beyan ederim.</span></label>
       <p class="err" id="hata" role="alert" hidden></p>
       <button class="btn btn-p btn-block" type="submit" id="gonder">Kaydı gönder</button>
@@ -212,7 +213,7 @@ const firmaOzet = Object.fromEntries(firms.map((f) => [f.slug, { u: f.ad, m: f.k
         var m = !d.unvan ? 'Ticaret unvanı yazın.' : !/^\d{10,11}$/.test(d.vergiNo || '') ? 'Vergi numarası 10 veya 11 haneli olmalı.' : !d.merkezIl ? 'Firmanın bulunduğu ili seçin.' : !d.yetkili ? 'Yetkili adı yazın.' : !/^\S+@\S+\.\S+$/.test(d.eposta || '') ? 'Geçerli e-posta yazın.' : (d.telefon || '').replace(/\D/g, '').length < 10 ? 'Geçerli telefon yazın.' : !d.tipler.length ? 'En az bir ürün tipi seçin.' : !d.iller ? 'Hizmet verdiğiniz illeri seçin ya da Tüm Türkiye’yi işaretleyin.' : !d.onay ? 'Sözleşme ve koşulları onaylayın.' : yukleniyor ? 'Belgeleriniz yükleniyor, birkaç saniye bekleyin.' : !evrak['vergi-levhasi'] ? 'Vergi levhanızı yükleyin (3. bölüm).' : '';
         if (davet) d.davet = davet;
         d.evrak = Object.keys(evrak).map(function (k) { return evrak[k]; });
-        d.abonelikOnay = d.sozlesmeOnay = !!d.onay; delete d.onay;
+        d.abonelikOnay = d.sozlesmeOnay = !!d.onay; delete d.onay; d.gorselIzni = !!d.gorselIzni;
         if (m) { h.textContent = m; h.hidden = false; return; }
         var b = document.getElementById('gonder'); b.disabled = true; b.textContent = 'Gönderiliyor…';
         fetch('/api/firma-basvuru', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) })

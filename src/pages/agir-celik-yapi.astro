@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import Crumbs from '../components/Crumbs.astro';
+import Faq from '../components/Faq.astro';
+import { firms, meta } from '../lib/data';
+import { SITE } from '../site.config';
+
+// Ağır çelik yapı: fabrika, depo, hangar, atölye, işyeri. Proje bazlı fiyatlanır; sabit model fiyatı yerine teklif alınır.
+const liste = firms.filter((f) => f.tipler.includes('agir-celik')).sort((a, b) => a.kisaAd.localeCompare(b.kisaAd, 'tr'));
+const celikFirma = firms.filter((f) => f.tipler.includes('celik') && !f.tipler.includes('agir-celik')).length;
+const sss = [
+  { s: 'Ağır çelik yapı ile çelik ev arasındaki fark nedir?', c: 'Çelik evlerde genellikle ince cidarlı galvaniz profiller (hafif çelik) kullanılır. Fabrika, depo ve hangar gibi geniş açıklıklı yapılarda ise HEA/IPE gibi sıcak haddelenmiş profillerle kolon-kiriş sistemi kurulur; buna ağır çelik denir. Yükü, açıklığı ve vinç (kren) ihtiyacı büyük olan yapılar için tercih edilir.' },
+  { s: 'Fiyatı neler belirler?', c: 'Toplam alan ve kolonsuz açıklık, saçak yüksekliği, bölgenin kar ve rüzgar yükü, köprülü vinç olup olmadığı, çatı ve cephe kaplaması (sandviç panel, trapez sac), asma kat, kapı ve aydınlatma bantları ile temel ve zemin betonunun fiyata dahil olup olmadığı. Bu yüzden ağır çelik yapılar model fiyatıyla değil, projeye göre fiyatlanır.' },
+  { s: 'Teklif isterken hangi bilgileri vermeliyim?', c: 'Yaklaşık taban alanı (m²), istediğiniz kolonsuz açıklık ve yükseklik, kullanım amacı (fabrika, depo, ahır vb.), il ve ilçe, vinç ihtiyacı, kaplama tercihi ve temel/zemin işinin dahil olup olmayacağı. Teklif formundaki not alanına bunları yazarsanız firmalar daha doğru fiyat verir.' },
+  { s: 'Ruhsat gerekir mi?', c: 'Kalıcı bir yapı olduğu için genellikle imar durumu, statik proje ve yapı ruhsatı gerekir; tarım arazisinde tarımsal amaçlı yapılar için ayrı kurallar uygulanır. Kesin bilgi için yapının kurulacağı belediyeye ya da il tarım müdürlüğüne danışın.' },
+];
+---
+<Base title={`Ağır Çelik Yapı: Fabrika, Depo, Hangar Teklifi ${meta.ay}`} description={`Fabrika binası, depo, hangar, atölye ve işyeri için ağır çelik konstrüksiyon firmalarından ücretsiz teklif alın. ${liste.length ? `${liste.length} ağır çelik firması` : 'Çelik yapı firmaları'} ve ${SITE.teklifSaat} saatte fiyat.`}>
+  <div class="wrap">
+    <Crumbs items={[{ ad: 'Ağır çelik yapı' }]} />
+    <div class="cols">
+      <div class="prose">
+        <h1>Ağır çelik yapı: fabrika, depo, hangar ve işyeri</h1>
+        <p>Fabrika binası, depo, hangar, atölye, ahır ya da geniş açıklıklı bir işyeri mi kuracaksınız? Ağır çelik yapılar projeye göre fiyatlanır; bu yüzden burada model fiyatı yerine <b>teklif</b> alırsınız. Alanı, yüksekliği ve kullanım amacını bir kez yazın; işinize uyan çelik yapı firmaları size fiyat versin.</p>
+        <p><a class="btn btn-p" href="/teklif-al/?tip=agir-celik&amac=fabrika">Ağır çelik yapı için teklif al</a></p>
+        <h2>Ağır çelik yapı firmaları</h2>
+        {liste.length ? (
+          <ul class="ag-liste">
+            {liste.map((f) => <li><a href={`/firma/${f.slug}/`}><b>{f.kisaAd}</b></a>{f.il ? <span class="small muted"> · {f.il}</span> : null}</li>)}
+          </ul>
+        ) : <p class="small muted">Liste hazırlanıyor.</p>}
+        <p class="small muted">Talebiniz bu firmalara ve çelik yapı üreten {celikFirma} firmaya daha iletilir. Bilgileriniz yalnızca fiyat veren firmayla paylaşılır.</p>
+        <h2>Hangi yapılar için?</h2>
+        <ul>
+          <li>Fabrika ve üretim binaları, atölyeler</li>
+          <li>Depo, antrepo ve lojistik binaları</li>
+          <li>Hangar, sundurma ve geniş açıklıklı çatılar</li>
+          <li>Tarım ve hayvancılık yapıları (ahır, ağıl, ürün deposu)</li>
+          <li>Dükkan, showroom, ofis ve ticari binalar</li>
+        </ul>
+        <Faq items={sss} />
+      </div>
+      <aside class="sticky-side">
+        <div class="box dk">
+          <h2 style="margin-top:0;font-size:1.2rem">{SITE.teklifSaat} saatte teklif al</h2>
+          <p class="small">m², yükseklik ve kullanım amacını yazın; uygun çelik yapı firmaları fiyat versin. Ücretsiz.</p>
+          <a class="btn btn-w btn-block" href="/teklif-al/?tip=agir-celik&amac=fabrika">Teklif al</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</Base>

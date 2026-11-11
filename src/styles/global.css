@@ -866,3 +866,4 @@ body:has(.app) .by-dis { display: none; }
 .sp-a.sec { background: var(--green-ll); border-color: var(--green); }
 @media (max-width: 760px) { .sp-serit { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .hs-sorular { display: flex; flex-direction: column; gap: 8px; background: var(--amber-bg, #fff6e5); border-radius: 12px; padding: 10px 12px; }
+.ag-liste { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; } .ag-liste li { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }

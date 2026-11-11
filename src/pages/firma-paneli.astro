@@ -72,6 +72,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
             <label class="f">Adres<input type="text" name="adres" maxlength="240" /></label>
           </div>
           <fieldset><legend>Ürettiğiniz tipler</legend><div class="two">{tipler.map((t) => <label class="chk"><input type="checkbox" name="tipler" value={t.k} /> {t.ad}</label>)}<label class="chk"><input type="checkbox" name="tipler" value="agir-celik" /> Ağır çelik yapı</label></div></fieldset>
+          <label class="chk"><input type="checkbox" name="gorselIzni" /> <span><b>Ürün fotoğraflarımız sitemizden alınsın.</b> Web sitemizdeki ürün fotoğraflarının, kaynağı belirtilerek PrefabrikTeklif’teki ürün sayfalarımızda kullanılmasına izin veriyorum. Fotoğraflarınızı panelden kendiniz de yükleyebilirsiniz.</span></label>
           <fieldset><legend>Hizmet verdiğiniz iller</legend>
             <label class="chk"><input type="checkbox" name="tum" /> Tüm Türkiye</label>
             <select name="iller" multiple size="8" style="min-height:180px">{ILLER.map((il) => <option>{il}</option>)}</select>
@@ -340,6 +341,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       (f.elements.namedItem('telefon') as HTMLInputElement).value = p.telefon || '';
       (f.elements.namedItem('web') as HTMLInputElement).value = p.web || '';
       (f.elements.namedItem('adres') as HTMLInputElement).value = p.adres || '';
+      (f.elements.namedItem('gorselIzni') as HTMLInputElement).checked = !!p.gorselIzni;
       f.querySelectorAll<HTMLInputElement>('input[name=tipler]').forEach((c) => (c.checked = p.tipler.includes(c.value)));
       const tum = !p.iller.length || p.iller.includes('*');
       (f.elements.namedItem('tum') as HTMLInputElement).checked = tum;
@@ -389,7 +391,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       e.preventDefault(); const f = e.target as HTMLFormElement;
       const tum = (f.elements.namedItem('tum') as HTMLInputElement).checked;
       const iller = tum ? ['*'] : [...(f.elements.namedItem('iller') as HTMLSelectElement).selectedOptions].map((o) => o.value);
-      try { await api('/api/firma/profil' + fq, { eposta: (f.elements.namedItem('eposta') as HTMLInputElement).value, telefon: (f.elements.namedItem('telefon') as HTMLInputElement).value, web: (f.elements.namedItem('web') as HTMLInputElement).value, adres: (f.elements.namedItem('adres') as HTMLInputElement).value, tipler: [...f.querySelectorAll<HTMLInputElement>('input[name=tipler]:checked')].map((c) => c.value), iller }); toast('Kaydedildi'); yukle(); } catch (err: any) { toast(err.message); }
+      try { await api('/api/firma/profil' + fq, { eposta: (f.elements.namedItem('eposta') as HTMLInputElement).value, telefon: (f.elements.namedItem('telefon') as HTMLInputElement).value, web: (f.elements.namedItem('web') as HTMLInputElement).value, adres: (f.elements.namedItem('adres') as HTMLInputElement).value, gorselIzni: (f.elements.namedItem('gorselIzni') as HTMLInputElement).checked, tipler: [...f.querySelectorAll<HTMLInputElement>('input[name=tipler]:checked')].map((c) => c.value), iller }); toast('Kaydedildi'); yukle(); } catch (err: any) { toast(err.message); }
     });
     (async () => {
       try {

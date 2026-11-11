@@ -145,7 +145,7 @@ const firmaAd = Object.fromEntries(firms.map((f) => [f.slug, f.kisaAd]));
     document.querySelectorAll<HTMLButtonElement>('[data-mod]').forEach((b) => b.addEventListener('click', () => modSec(b.dataset.mod!)));
     modSec(mod);
     const set = (n: string, v: string | null) => { if (!v) return; const el = form.elements.namedItem(n) as any; if (!el) return; if (el instanceof RadioNodeList) { const r = form.querySelector<HTMLInputElement>(`input[name="${n}"][value="${CSS.escape(v)}"]`); if (r) r.checked = true; } else el.value = v; };
-    ['tip', 'oda', 'm2', 'il', 'ilce', 'butce', 'teslim', 'arazi', 'model'].forEach((k) => set(k, q.get(k)));
+    ['tip', 'amac', 'oda', 'm2', 'il', 'ilce', 'butce', 'teslim', 'arazi', 'model'].forEach((k) => set(k, q.get(k)));
     if (q.get('arazi') === 'bag') set('arazi', 'bag');
     let firmalar = (q.get('firmalar') || '').split(',').filter((s) => FIRMA_AD[s]).slice(0, 5);
     function firmaCiz() {

@@ -425,7 +425,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       unvan: str(b.unvan, 160), marka: str(b.marka, 80), vergiDairesi: str(b.vergiDairesi, 80), vergiNo: str(b.vergiNo, 11), mevcut: str(b.mevcut, 80), adres: str(b.adres, 240), merkezIl: str(b.merkezIl, 40), yetkiliUnvan: str(b.yetkiliUnvan, 60),
       web: str(b.web, 160), yetkili: str(b.yetkili, 80), telefon: str(b.telefon, 20), eposta: str(b.eposta, 120).toLowerCase(),
       tipler: arr(b.tipler).filter((t) => TIP_AD[t]), iller: str(b.iller, 1500), belgeler: str(b.belgeler, 300), referanslar: str(b.referanslar, 1500), not: str(b.not, 1000),
-      davet: /^[A-Za-z0-9_-]{6,40}\.[A-Za-z0-9_-]{10,40}$/.test(str(b.davet, 90)) ? str(b.davet, 90) : '',
+      davet: /^[A-Za-z0-9_-]{6,40}\.[A-Za-z0-9_-]{10,40}$/.test(str(b.davet, 90)) ? str(b.davet, 90) : '', gorselIzni: !!b.gorselIzni,
     };
     // İsteğe bağlı: "Firmanız daha ön planda dursun mu?" — seçilen reklam paketleri (ana+yan birlikte seçildiyse indirimli "ikisi" paketi)
     let rk = [...new Set(arr(b.reklam).map((x) => str(x, 10)).filter((x) => REKLAM_PAKET[x]))];
@@ -845,7 +845,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     ist.oran = ist.talep ? Math.round((ist.teklif / ist.talep) * 100) : 0;
     return {
       uye: uyeAktif(fd), istatistik: ist, kartliOdeme: { acik: iyz().hazir && !!(await iyzicoPlan()), aktif: !!fd.iyzicoAbonelik },
-      ben: u, firma: { slug, ad: st.kisaAd || fd.ad || slug, il: st.il || '', tipler: fd.tipler || st.tipler || [], iller: fd.iller || [], eposta: fd.eposta || '', telefon: fd.telefon || '', web: fd.web || st.web || '', adres: fd.adres || '', aktif: !!fd.aktif },
+      ben: u, firma: { slug, ad: st.kisaAd || fd.ad || slug, il: st.il || '', tipler: fd.tipler || st.tipler || [], iller: fd.iller || [], eposta: fd.eposta || '', telefon: fd.telefon || '', web: fd.web || st.web || '', adres: fd.adres || '', aktif: !!fd.aktif, gorselIzni: !!fd.gorselIzni },
       abonelik: { tutar: ab.tutar || ABONELIK_TL, durum: ab.durum || 'odeme-bekliyor', durumAd: ABONELIK_DURUM[ab.durum || 'odeme-bekliyor'], odemeLinki: ab.odemeLinki || '', sonOdeme: ab.sonOdeme || '', sonrakiOdeme: ab.sonrakiOdeme || '', kurucu: !!ab.kurucu, ucretsizBitis: ab.ucretsizBitis || '' },
       reklamPaketleri: REKLAM_PAKET, reklamlar, modeller, bekleyen, talepler, geriBildirimler: geri,
     };
@@ -949,7 +949,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     if (eposta && !epostaMi(eposta)) hata(400, 'Geçerli bir e-posta yazın.');
     const iller = arr(b.iller, 81, 40);
     const tipler = arr(b.tipler).filter((t) => TIP_AD[t]);
-    await db.collection('firmalar').doc(u.firma).set({ ...(eposta ? { eposta, panelEpostalari: FieldValue.arrayUnion(eposta) } : {}), telefon: str(b.telefon, 20), ...(b.web !== undefined ? { web: httpsUrl(b.web) || '' } : {}), ...(b.adres !== undefined ? { adres: str(b.adres, 240) } : {}), iller: iller.length ? iller : ['*'], ...(tipler.length ? { tipler } : {}), guncelleme: FieldValue.serverTimestamp() }, { merge: true });
+    await db.collection('firmalar').doc(u.firma).set({ ...(eposta ? { eposta, panelEpostalari: FieldValue.arrayUnion(eposta) } : {}), telefon: str(b.telefon, 20), ...(b.web !== undefined ? { web: httpsUrl(b.web) || '' } : {}), ...(b.adres !== undefined ? { adres: str(b.adres, 240) } : {}), iller: iller.length ? iller : ['*'], ...(tipler.length ? { tipler } : {}), ...(b.gorselIzni !== undefined ? { gorselIzni: !!b.gorselIzni, gorselIzniZaman: now() } : {}), guncelleme: FieldValue.serverTimestamp() }, { merge: true });
     return { ok: true };
   }
 
@@ -1227,7 +1227,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       const onceF = (await db.collection('firmalar').doc(slug).get()).data() || {};
       const kurucu = req.body?.kurucu !== false && !uyeAktif(onceF) && (onceF.abonelik?.kurucu || (await kurucuKalan()) > 0);
       const abonelik = kurucu ? kurucuAbonelik({ odemeLinki }) : { tutar: ABONELIK_TL, durum: 'odeme-bekliyor', odemeLinki, baslangic: now() };
-      await db.collection('firmalar').doc(slug).set({ aktif: true, ad: d.marka || d.unvan, eposta: d.eposta, panelEpostalari: FieldValue.arrayUnion(d.eposta), tipler: d.tipler, iller, telefon: d.telefon, basvuru: id, abonelik, guncelleme: FieldValue.serverTimestamp() }, { merge: true });
+      await db.collection('firmalar').doc(slug).set({ aktif: true, ad: d.marka || d.unvan, eposta: d.eposta, panelEpostalari: FieldValue.arrayUnion(d.eposta), tipler: d.tipler, iller, ...(d.gorselIzni ? { gorselIzni: true, gorselIzniZaman: now() } : {}), telefon: d.telefon, basvuru: id, abonelik, guncelleme: FieldValue.serverTimestamp() }, { merge: true });
       // Onaylanan firma, süresi dolmamış ve kendisine uyan açık taleplere de eklenir: panelinde hemen görür, üyeliği aktifse fiyat verir
       const yonEp = [ayar().admin, ...(ayar().yoneticiler || [])].filter(Boolean).map((x) => String(x).toLowerCase());
       const testF = yonEp.includes(String(d.eposta || '').toLowerCase());
@@ -1460,7 +1460,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const ref = db.collection('firmalar').doc(slug);
     const once = (await ref.get()).data() || {};
     const p = { guncelleme: FieldValue.serverTimestamp() };
-    if (!b.sadeceAbonelik) Object.assign(p, { aktif: b.aktif !== false, ...(eposta ? { eposta } : {}), panelEpostalari: panel, tipler: arr(b.tipler).filter((t) => TIP_AD[t]), iller: iller.length ? iller : ['*'], ad: once.ad || firmAd(slug) });
+    if (!b.sadeceAbonelik) Object.assign(p, { aktif: b.aktif !== false, ...(eposta ? { eposta } : {}), panelEpostalari: panel, tipler: arr(b.tipler).filter((t) => TIP_AD[t]), iller: iller.length ? iller : ['*'], ad: once.ad || firmAd(slug), ...(b.gorselIzni !== undefined ? { gorselIzni: !!b.gorselIzni } : {}) });
     // Üyelik (aylık 499 TL): durum, ödeme bağlantısı, son ödeme tarihi
     const tarih = (v) => (/^\d{4}-\d{2}-\d{2}$/.test(str(v, 10)) ? str(v, 10) : '');
     if (b.abonelik && typeof b.abonelik === 'object') {

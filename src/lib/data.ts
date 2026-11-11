@@ -9,6 +9,7 @@ export interface Firm {
   modelSayisi: number; enDusuk: number | null; tipler: string[]; fiyatYayinliyor: boolean; logo?: string; logoAcik?: boolean; modelBekliyor?: boolean;
 }
 export interface Model {
+  gorsel?: string;
   firma: string; firmaAd: string; ad: string; slug: string; tip: string; m2: number | null; oda: string;
   kat: number | null; katRaw: string; fiyat: number | null; fiyatTuru: 'model' | 'm2' | 'yok'; m2Fiyat: number | null;
   kapsam: string; kdv: Kalem; nakliye: Kalem; montaj: Kalem; zemin: Kalem; teslim: string; uyari: string;
@@ -101,12 +102,12 @@ export function benzerler(m: Model, n = 6) {
 export const kalemYazi: Record<string, string> = { kdv: 'KDV', nakliye: 'Nakliye', montaj: 'Montaj', zemin: 'Zemin betonu' };
 
 // ---- Görseller ----
-export const TIP_IMG: Record<string, string> = { prefabrik: 'prefabrik', celik: 'celik', konteyner: 'konteyner', 'tiny house': 'tiny-house', ahsap: 'ahsap', bungalov: 'bungalov' };
+export const TIP_IMG: Record<string, string> = { prefabrik: 'prefabrik', celik: 'celik', konteyner: 'konteyner', 'tiny house': 'tiny-house', ahsap: 'ahsap', bungalov: 'bungalov', 'agir-celik': 'celik' };
 export const img = (k: string, w: 480 | 960 | 1344 | 'kare' = 960) => `/img/${k}-${w}.webp`;
 export const tipImg = (tip: string, w: 480 | 960 | 'kare' = 960) => img(TIP_IMG[tip] || 'prefabrik', w);
 // Aynı tipteki kartlarda görsel çeşitliliği: model kimliğine göre 3 varyanttan biri
 export const varyant = (id: string) => ['', '-b', '-c'][[...id].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7) % 3];
-export const modelImg = (m: { tip: string; firma: string; slug: string }, w: 480 | 960) => `/img/${TIP_IMG[m.tip] || 'prefabrik'}${varyant(`${m.firma}/${m.slug}`)}-${w}.webp`;
+export const modelImg = (m: { tip: string; firma: string; slug: string; gorsel?: string }, w: 480 | 960) => m.gorsel ? `${m.gorsel}-${w}.webp` : `/img/${TIP_IMG[m.tip] || 'prefabrik'}${varyant(`${m.firma}/${m.slug}`)}-${w}.webp`;
 export const TIP_ACIKLAMA: Record<string, string> = { prefabrik: 'En geniş seçenek', celik: 'Dayanıklı, villa tipi', konteyner: 'Hızlı ve ekonomik', 'tiny house': 'Tekerlekli, O2 belgeli', ahsap: 'Doğal ve sıcak', bungalov: 'Bağ ve tatil evi' };
 export const TIP_SIRA = ['tiny house', 'prefabrik', 'ahsap', 'bungalov', 'celik', 'konteyner'];
 export const modelId = (m: Model) => `${m.firma}/${m.slug}`;

@@ -177,12 +177,13 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       const tip = TIPLER.map((t) => h('label', { class: 'chk' }, inp('tip', { type: 'checkbox', value: t.k, checked: (f?.tipler || []).includes(t.k) }), ' ' + t.ad));
       const iller = inp('iller', { type: 'text', value: (f?.iller || ['*']).join(', '), placeholder: '* = tüm Türkiye, ya da Malatya, Elazığ' });
       const aktif = inp('aktif', { type: 'checkbox', checked: f ? f.aktif !== false : true });
+      const gIzin = inp('gorselIzni', { type: 'checkbox', checked: !!f?.gorselIzni });
       const form = h('form', { class: 'form', style: { gap: '12px' } }, f ? h('b', {}, f.ad || f.id) : h('div', { style: { display: 'flex', flexDirection: 'column', gap: '8px' } }, alan('Listedeki firma', slug), yeniSlug),
-        alan('Bildirim e-postası', ep), alan('Panel e-postaları', panel), h('fieldset', {}, h('legend', {}, 'Tipler'), h('div', { class: 'two' }, ...tip)), alan('Hizmet illeri', iller), h('label', { class: 'chk' }, aktif, ' Aktif (talep alır)'),
+        alan('Bildirim e-postası', ep), alan('Panel e-postaları', panel), h('fieldset', {}, h('legend', {}, 'Tipler'), h('div', { class: 'two' }, ...tip)), alan('Hizmet illeri', iller), h('label', { class: 'chk' }, aktif, ' Aktif (talep alır)'), h('label', { class: 'chk' }, gIzin, ' Ürün fotoğrafları firmanın sitesinden alınabilir (firma izin verdi)'),
         h('button', { class: 'btn btn-p', type: 'submit' }, 'Kaydet')) as HTMLFormElement;
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        await yap('/api/yonetim/firma', { slug: f?.id || yeniSlug.value.trim() || slug.value, eposta: ep.value, panelEpostalari: panel.value.split(/[,\s]+/).filter(Boolean), tipler: [...form.querySelectorAll<HTMLInputElement>('input[name=tip]:checked')].map((x) => x.value), iller: iller.value.split(',').map((x) => x.trim()).filter(Boolean), aktif: aktif.checked });
+        await yap('/api/yonetim/firma', { slug: f?.id || yeniSlug.value.trim() || slug.value, gorselIzni: (gIzin as HTMLInputElement).checked, eposta: ep.value, panelEpostalari: panel.value.split(/[,\s]+/).filter(Boolean), tipler: [...form.querySelectorAll<HTMLInputElement>('input[name=tip]:checked')].map((x) => x.value), iller: iller.value.split(',').map((x) => x.trim()).filter(Boolean), aktif: aktif.checked });
         kapat?.();
       });
       let kapat: (() => void) | undefined; kapat = modal(f ? 'Firmayı düzenle' : 'Firma hesabı aç', form);

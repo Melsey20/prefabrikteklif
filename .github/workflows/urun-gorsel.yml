@@ -1,0 +1,31 @@
+# Görsel izni veren firmaların ürün fotoğraflarını kendi sitelerinden alır (scripts/urun_gorsel.py) ve depoya işler.
+name: Ürün görselleri
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['data/raw/gorsel_izin.json']
+permissions:
+  contents: write
+  actions: write
+jobs:
+  gorsel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install pillow
+      - run: python3 scripts/urun_gorsel.py
+      - name: Depoya işle
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/img/urun data/raw/urun_gorsel.json 2>/dev/null || true
+          git diff --cached --quiet && { echo "Değişiklik yok"; exit 0; }
+          git commit -m "Ürün görselleri (izin veren firmaların kendi sitelerinden)"
+          git pull --rebase origin main && git push
+          # Bot gönderimi Yayınla iş akışını tetiklemez; elle başlat
+          gh workflow run yayinla.yml --ref main
+        env:
+          GH_TOKEN: ${{ github.token }}

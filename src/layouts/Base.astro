@@ -128,6 +128,10 @@ const ic = {
                 <span><b>{t.baslik}</b><span>{t.min ? `${kisaTl(t.min)}’den` : TIP_ACIKLAMA[t.k]}</span></span>
               </a>
             ))}
+            <a class="t" href="/agir-celik-yapi/">
+              <img src={tipImg('celik', 'kare')} alt="" width="56" height="56" loading="lazy" decoding="async" />
+              <span><b>Ağır Çelik Yapı</b><span>Fabrika, depo, hangar</span></span>
+            </a>
             <div class="pop"><b>Popüler:</b>{populer.map((p) => <a href={p.url}>{p.ad}</a>)}</div>
           </div>
         </div>
@@ -218,7 +222,7 @@ const ic = {
         </div>
         <div>
           <h2>Fiyatlar</h2>
-          <ul>{tipler.map((t) => <li><a href={tipUrl(t.k)}>{t.baslik}</a></li>)}</ul>
+          <ul>{tipler.map((t) => <li><a href={tipUrl(t.k)}>{t.baslik}</a></li>)}<li><a href="/agir-celik-yapi/">Ağır Çelik Yapı (fabrika, depo)</a></li></ul>
         </div>
         <div>
           <h2>Çok arananlar</h2>
