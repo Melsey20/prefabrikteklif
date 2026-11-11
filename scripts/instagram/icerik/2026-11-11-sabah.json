@@ -114,6 +114,137 @@
   ],
   "reels": [
     {
+      "seslendirme": "Konteyner ev kaça mal olur? Listemizde altmış yedi bin liradan başlıyor. Modellerin ortanca fiyatı ise yaklaşık yüz yetmiş bin lira. Otuz metrekare bir ev için kaba hesap, yaklaşık yüz doksan dokuz bin lira. Teklif alırken nakliye, montaj, zemin hazırlığı ve KDV dahil mi, sorun. Teklifleri tek tabloda karşılaştırın. Bağlantı profilde.",
+      "aciklama": "Konteyner ev kaça mal olur? Konteyner ev fiyatları 2026: başlangıç, ortanca fiyat ve 30 m² için kaba hesap 👇\n\n9 Kasım 2026 itibarıyla listemizde konteyner ev fiyatları 67.000 TL'den başlıyor; modellerin ortanca fiyatı 170.000 TL, ortanca m² fiyatı 6.627 TL. Buna göre 30 m² bir konteyner ev için kaba hesap yaklaşık 199.000 TL (30 × 6.627 TL). Bu bir kaba hesaptır; gerçek fiyat model, yalıtım ve kapsama göre değişir.\n\nKonteyner ev teklifi alırken nakliye, montaj, zemin hazırlığı ve KDV'nin fiyata dahil olup olmadığını yazılı isteyin; konteynerin koyulacağı yerin durumunu da önceden netleştirin.\n\nPrefabrikTeklif konteyner ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; teklifler 48 saatte tek tabloda.\n\n📌 Kaydedin, teklif alırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#konteynerev #konteynerevfiyatları #yaşamkonteyneri #prefabrikev",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Konteyner ev<br><em>kaça mal olur?</em>",
+          "img": "konteyner-960.webp",
+          "p": "9 Kasım 2026 itibarıyla listemizde"
+        },
+        {
+          "t": 4.92,
+          "tur": "sayi",
+          "h": "Ortanca fiyat",
+          "n": 170,
+          "birim": "bin TL · konteyner ev"
+        },
+        {
+          "t": 9.06,
+          "tur": "sayi",
+          "h": "30 m² için <em>kaba hesap</em>",
+          "n": 199,
+          "birim": "bin TL · yaklaşık"
+        },
+        {
+          "t": 13.96,
+          "tur": "liste",
+          "h": "Dahil mi? <em>Sorun</em>",
+          "ikon": "?",
+          "maddeler": [
+            "Nakliye",
+            "Montaj",
+            "Zemin hazırlığı",
+            "KDV"
+          ]
+        },
+        {
+          "t": 19.2,
+          "tur": "son",
+          "h": "Teklifleri <em>tek tabloda</em> görün.",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 23.1,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-11-sabah-2.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "JBFqnCBsd6RMkjVDRZzb"
+      }
+    },
+    {
+      "seslendirme": "Ucuz prefabrik ev neden ucuz? İlan fiyatı çoğu zaman eksik kapsamla verilir. Temel çoğu ilanda hariç; nakliye ve KDV'yi de ayrıca sorun. İyi evi kötüsünden ayıran şey panel kalınlığı, yalıtım ve doğramadır. Bunları sözleşmeye yazdırın, ödemeyi aşamalara bölün. Teklifleri aynı başlıklarla kıyaslayın, bağlantı profilde.",
+      "aciklama": "Ucuz prefabrik ev neden ucuz? İyi prefabrik evi kötüsünden ayıran farklar ve ilan fiyatında görünmeyen maliyetler 👇\n\nPrefabrik ev ilan fiyatları çoğu zaman eksik kapsamla verilir. Zemin betonu (temel) çoğu ilanda hariçtir; nakliye ve vinç uzak illerde ciddi tutar tutabilir, \"+ KDV\" fiyatla KDV dahil fiyat karıştırılır. Kaba, ileri kaba ve anahtar teslim arasında da büyük fark vardır.\n\nİyi evi kötüsünden ayıran şey ise teknik şartnamedir: panel ve profil kalınlığı, yalıtım malzemesi ve kalınlığı, doğrama (kapı-pencere) tipi. Bunları sözleşmeye yazdırın, taşıyıcı sistem ve su yalıtımı için garantiyi yazılı alın, ödemeyi sipariş, üretim ve teslim olarak aşamalara bölün.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; firmalar fiyatı KDV, nakliye, montaj, temel ve iç bitiş başlıklarıyla girer, siz yan yana kıyaslarsınız.\n\n📌 Kaydedin, teklif alırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevfiyatları #prefabrikev #ucuzprefabrikev #anahtarteslimprefabrikev",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Ucuz prefabrik ev<br><em>neden ucuz?</em>",
+          "img": "prefabrik-c-960.webp",
+          "p": "İlan fiyatı çoğu zaman eksik kapsamlı"
+        },
+        {
+          "t": 0,
+          "tur": "liste",
+          "h": "Fiyata <em>dahil mi?</em>",
+          "ikon": "?",
+          "maddeler": [
+            "Temel",
+            "Nakliye",
+            "KDV"
+          ]
+        },
+        {
+          "t": 0,
+          "tur": "liste",
+          "h": "İyi ev <em>burada ayrılır</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "Panel kalınlığı",
+            "Yalıtım",
+            "Doğrama"
+          ]
+        },
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Sözleşmeye <em>yazdırın</em>",
+          "img": "montaj-1344.webp",
+          "p": "Ödemeyi aşamalara bölün"
+        },
+        {
+          "t": 0,
+          "tur": "son",
+          "h": "Teklifleri <em>aynı başlıklarla</em> kıyaslayın.",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 20.0
+    }
+  ],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "yayında (Meta Graph API): 2/2 öğe yayınlandı · Reels 15:20/15:40 sırada · Reels 2 yenileniyor",
+    "medya": {
+      "tasarim": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/0e1e0ae8-d82b-4b6b-bd56-5d7aa43c335c.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/33a69045-7dd6-46bf-89d8-65d033ae34ce.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/c295f079-a96a-4ad4-a8eb-4fd2429d1205.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/d0f83f46-651c-4cd6-bb2c-82cc8774dbfb.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/056593c4-9754-4bd1-a7e9-2e7686d62893.jpg"
+      ],
+      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/9ee1e4bb-2aca-4972-94ab-aad6a312e97e.jpg",
+      "reels": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/f7f74c72-b351-4516-8d34-3fd0f8e00df9.mp4"
+      ]
+    },
+    "yayinlanan": {
+      "tasarim": {
+        "id": "17957266059037196",
+        "zaman": "2026-11-11 10:00"
+      },
+      "story": {
+        "id": "18146162203579233",
+        "zaman": "2026-11-11 10:45"
+      }
+    },
+    "not": "Reels sabah seslendirilemedi; ElevenLabs ile üretilip 15:20/15:40 yayına alındı"
+  },
+  "reels_iptal": [
+    {
       "seslendirme": "Prefabrik ne demek? Kısaca, önceden üretilmiş demek; yani hazır yapı. Duvar, döşeme ve çatı fabrikada hazırlanır; arsada yalnızca temel ve montaj yapılır. Panel, hafif çelik, konteyner ve ahşap evler bu gruba girer. Avantajı hızlı kurulum ve daha öngörülebilir maliyet. Modelleri ve fiyatları tek yerde karşılaştırın. Bağlantı profilde.",
       "aciklama": "Prefabrik ne demek? Prefabrik ev nedir, prefabrikasyon nasıl yapılır; 20 saniyede özet 👇\n\nPrefabrik, İngilizce \"prefabricated\" yani önceden üretilmiş kelimesinden gelir. Prefabrik evde duvar, döşeme ve çatı elemanları fabrikada, standart ölçülerde hazırlanır; arsada yalnızca temel ve montaj yapılır. Türkçede \"hazır yapı\" ya da \"hazır ev\" de aynı anlamda kullanılır.\n\nPanel prefabrik, hafif çelik, konteyner/modüler ve ahşap evler bu gruba girer. Avantajları: daha kısa kurulum süresi, hafif yapı ağırlığı ve çoğu durumda daha öngörülebilir maliyet. Yalıtım ve ses geçişi gibi konular ise firmaya ve kapsama göre değişir; teklifte yazılı sorun.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir.\n\n📌 Kaydedin, prefabrik ev araştırırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikyapı #prefabrikevfiyatları #hazırev",
       "sahneler": [
@@ -173,87 +304,6 @@
         "model": "eleven_multilingual_v2",
         "voice_id": "JBFqnCBsd6RMkjVDRZzb"
       }
-    },
-    {
-      "seslendirme": "Konteyner ev kaça mal olur? Listemizde altmış yedi bin liradan başlıyor. Modellerin ortanca fiyatı ise yaklaşık yüz yetmiş bin lira. Otuz metrekare bir ev için kaba hesap, yaklaşık yüz doksan dokuz bin lira. Teklif alırken nakliye, montaj, zemin hazırlığı ve KDV dahil mi, sorun. Teklifleri tek tabloda karşılaştırın. Bağlantı profilde.",
-      "aciklama": "Konteyner ev kaça mal olur? Konteyner ev fiyatları 2026: başlangıç, ortanca fiyat ve 30 m² için kaba hesap 👇\n\n9 Kasım 2026 itibarıyla listemizde konteyner ev fiyatları 67.000 TL'den başlıyor; modellerin ortanca fiyatı 170.000 TL, ortanca m² fiyatı 6.627 TL. Buna göre 30 m² bir konteyner ev için kaba hesap yaklaşık 199.000 TL (30 × 6.627 TL). Bu bir kaba hesaptır; gerçek fiyat model, yalıtım ve kapsama göre değişir.\n\nKonteyner ev teklifi alırken nakliye, montaj, zemin hazırlığı ve KDV'nin fiyata dahil olup olmadığını yazılı isteyin; konteynerin koyulacağı yerin durumunu da önceden netleştirin.\n\nPrefabrikTeklif konteyner ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; teklifler 48 saatte tek tabloda.\n\n📌 Kaydedin, teklif alırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#konteynerev #konteynerevfiyatları #yaşamkonteyneri #prefabrikev",
-      "sahneler": [
-        {
-          "t": 0,
-          "tur": "foto",
-          "h": "Konteyner ev<br><em>kaça mal olur?</em>",
-          "img": "konteyner-960.webp",
-          "p": "9 Kasım 2026 itibarıyla listemizde"
-        },
-        {
-          "t": 4.92,
-          "tur": "sayi",
-          "h": "Ortanca fiyat",
-          "n": 170,
-          "birim": "bin TL · konteyner ev"
-        },
-        {
-          "t": 9.06,
-          "tur": "sayi",
-          "h": "30 m² için <em>kaba hesap</em>",
-          "n": 199,
-          "birim": "bin TL · yaklaşık"
-        },
-        {
-          "t": 13.96,
-          "tur": "liste",
-          "h": "Dahil mi? <em>Sorun</em>",
-          "ikon": "?",
-          "maddeler": [
-            "Nakliye",
-            "Montaj",
-            "Zemin hazırlığı",
-            "KDV"
-          ]
-        },
-        {
-          "t": 19.2,
-          "tur": "son",
-          "h": "Teklifleri <em>tek tabloda</em> görün.",
-          "p": "Bağlantı profilde"
-        }
-      ],
-      "sure": 23.1,
-      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-11-sabah-2.mp3",
-      "ses": {
-        "kaynak": "elevenlabs",
-        "model": "eleven_multilingual_v2",
-        "voice_id": "JBFqnCBsd6RMkjVDRZzb"
-      }
     }
-  ],
-  "yayin": {
-    "hesap": "17841474767654199",
-    "durum": "yayında (Meta Graph API): 2/2 öğe yayınlandı · Reels 15:20/15:40 sırada",
-    "medya": {
-      "tasarim": [
-        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/0e1e0ae8-d82b-4b6b-bd56-5d7aa43c335c.jpg",
-        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/33a69045-7dd6-46bf-89d8-65d033ae34ce.jpg",
-        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/c295f079-a96a-4ad4-a8eb-4fd2429d1205.jpg",
-        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/d0f83f46-651c-4cd6-bb2c-82cc8774dbfb.jpg",
-        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/056593c4-9754-4bd1-a7e9-2e7686d62893.jpg"
-      ],
-      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/9ee1e4bb-2aca-4972-94ab-aad6a312e97e.jpg",
-      "reels": [
-        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/4f316f8d-82d7-4455-892c-8dc3a4c6f391.mp4",
-        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/f7f74c72-b351-4516-8d34-3fd0f8e00df9.mp4"
-      ]
-    },
-    "yayinlanan": {
-      "tasarim": {
-        "id": "17957266059037196",
-        "zaman": "2026-11-11 10:00"
-      },
-      "story": {
-        "id": "18146162203579233",
-        "zaman": "2026-11-11 10:45"
-      }
-    },
-    "not": "Reels sabah seslendirilemedi; ElevenLabs ile üretilip 15:20/15:40 yayına alındı"
-  }
+  ]
 }

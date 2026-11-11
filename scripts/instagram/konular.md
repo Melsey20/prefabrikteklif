@@ -70,3 +70,13 @@ Geçerlilik: `src/pages/firma-kayit.astro` içinde `id="kampanya-kutu"` kutusu d
   - "Prefabrik ev mi üretiyorsunuz?"
   - "Tiny house üreticileri, ilk ay bizden."
 - **Başvuru adresi:** Firma içeriklerinin altında alt_sol olarak `prefabrikteklif.com.tr/firma-kayit` yazılır. Açıklamada "👉 Başvuru: prefabrikteklif.com.tr/firma-kayit" satırı bulunur.
+
+## İçerik yönü — keşfete düşen konular (11 Kasım 2026, Yusuf Bey)
+
+"Ne demek / nedir / nasıl yapılır" gibi sözlük ve süreç anlatımları dikkat çekmiyor, keşfete düşmüyor; bunları Reels hook'u yapmayın.
+İnsanların asıl merak ettiği ve öncelik verilecek konular:
+- **Fiyat:** "… kaça mal olur?", "… m² kaç TL?", "En ucuz … nereden başlıyor?", kaba hesaplar (meta.json'dan).
+- **Püf noktaları / gizli maliyetler:** "Ucuz prefabrik ev neden ucuz?", fiyata dahil olmayanlar (temel, nakliye, KDV, iç bitiş), sözleşmeye yazdırılacaklar.
+- **İyi ev ile kötü ev farkı:** panel/profil kalınlığı, yalıtım, doğrama, garanti, firma kontrolü (rehber/prefabrik-ev-alirken-dikkat-edilmesi-gerekenler, rehber/prefabrik-ev-dezavantajlari).
+- **Karşılaştırmalar:** "Betonarme mi, çelik ev mi?", "Çelik mi, prefabrik mi?", "Konteyner mi, tiny house mı?" — artı/eksi + fiyat (betonarme fiyatı meta.json'da yok, uydurmayın).
+Hook iddialı ya da merak uyandıran bir soru olsun ("… neden ucuz?", "… hangisi mantıklı?", "Bunu sormadan almayın"); her Reels'te en az bir somut rakam ya da somut uyarı bulunsun.

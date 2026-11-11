@@ -23,6 +23,118 @@
   ],
   "reels": [
     {
+      "seslendirme": "Talepler panelinize nasıl gelir? Ev arayan formu bir kez doldurur. Talep il, ev tipi, metrekare, bütçe ve arsa durumuyla gelir. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz ev tiplerinden talep gelir. İlk elli firmaya bir ay ücretsiz; kart bilgisi ve komisyon yok. Resmî evrak ve referansla başvurun; başvuru bağlantısı profilde.",
+      "aciklama": "Prefabrik ev firmaları için: talepler panelinize nasıl gelir? Tiny house, ahşap ev ve çelik ev üreticilerine açılış kampanyası; ilk 50 firmaya 1 ay ücretsiz üyelik 📣\n\nEv arayan PrefabrikTeklif'te formu bir kez doldurur; talep il, ev tipi, metrekare, oda sayısı, bütçe, arsa durumu ve başlama zamanıyla firma panelinize düşer. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz ev tiplerinden talep gelir. Google'da her ay 150 binden fazla \"prefabrik ev\" ve \"prefabrik ev fiyatları\" araması yapılıyor (Semrush, Kasım 2026).\n\nKart bilgisi istemiyoruz, satışınızdan komisyon almıyoruz; devam etmezseniz hiçbir şey ödemezsiniz. Her firmayı resmî evrakları ve referanslarıyla kabul ediyoruz.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👉 Başvuru: prefabrikteklif.com.tr/firma-kayit\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevfirmaları #tinyhouseüreticisi #prefabrikevüreticisi #çelikevfirmaları",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Talepler panelinize<br><em>nasıl gelir?</em>",
+          "img": "tiny-house-b-960.webp"
+        },
+        {
+          "t": 4.56,
+          "tur": "liste",
+          "h": "Talep <em>tüm detayıyla</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "İl ve ev tipi",
+            "m² ve bütçe",
+            "Arsa durumu"
+          ]
+        },
+        {
+          "t": 9.54,
+          "tur": "foto",
+          "h": "Yalnız <em>size uyan</em> talepler",
+          "img": "celik-b-960.webp",
+          "p": "Hizmet illeriniz · ev tipleriniz"
+        },
+        {
+          "t": 14.68,
+          "tur": "foto",
+          "h": "İlk 50 firmaya <em>1 ay ücretsiz</em>",
+          "img": "bungalov-960.webp",
+          "p": "Kart bilgisi yok · komisyon yok"
+        },
+        {
+          "t": 18.9,
+          "tur": "son",
+          "h": "Evrak ve referansla <em>başvurun.</em>",
+          "p": "Başvuru bağlantısı profilde"
+        }
+      ],
+      "sure": 23.38,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-11-aksam-2.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "JBFqnCBsd6RMkjVDRZzb"
+      }
+    },
+    {
+      "seslendirme": "Betonarme mi, çelik ev mi; hangisi mantıklı? Çelik ev çok daha hafiftir; depremde yük azalır, kurulum hızlıdır. Betonarme daha masiftir; ikinci elde alıcı kitlesi genellikle daha geniştir. Çelik evde ısı köprüsüne karşı mantolama ve ses yalıtımını mutlaka sorun. Listemizde çelik ev beş yüz yetmiş beş bin liradan başlıyor; bağlantı profilde.",
+      "aciklama": "Betonarme mi, çelik ev mi? Çelik ev ile betonarme ev arasındaki farklar, çelik evin artıları, dikkat edilecek noktalar ve çelik ev fiyatları 👇\n\nÇelik ev betonarmeye göre çok daha hafiftir; deprem sırasında yapıya binen yük kütleyle ilişkili olduğu için bu, tasarım yüklerini azaltır. Çelik sünek bir malzemedir, aniden kırılmak yerine esner; profiller fabrikada ölçüsünde kesildiği için kurulum hızlıdır. Betonarme ise daha masiftir ve ikinci el piyasada alıcı kitlesi genellikle daha geniştir. Hangisinin uygun olduğunu kullanım amacınız, bütçeniz ve arsanız belirler.\n\nÇelik ev alırken ısı köprüsüne karşı dış cephede kesintisiz yalıtım (mantolama), iç duvarlarda ses yalıtımı, galvaniz kaplama ve Deprem Yönetmeliği'ne uygun statik proje sorun. 9 Kasım 2026 itibarıyla listemizde çelik ev 575.000 TL'den başlıyor; ortanca m² fiyatı 17.000 TL.\n\nPrefabrikTeklif çelik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir.\n\n📌 Kaydedin, karar verirken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#çelikev #çelikevfiyatları #betonarmemiçelikmi #çelikkonstrüksiyonev",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Betonarme mi,<br><em>çelik ev mi?</em>",
+          "img": "celik-c-960.webp"
+        },
+        {
+          "t": 0,
+          "tur": "liste",
+          "h": "Çelik ev: <em>hafif ve hızlı</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "Çok daha hafif",
+            "Depremde yük azalır",
+            "Hızlı kurulum"
+          ]
+        },
+        {
+          "t": 0,
+          "tur": "liste",
+          "h": "Betonarme: <em>masif</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "Daha masif yapı",
+            "İkinci elde geniş alıcı"
+          ]
+        },
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Mantolama ve <em>ses yalıtımı</em>",
+          "img": "celik-b-960.webp",
+          "p": "Çelik evde mutlaka sorun"
+        },
+        {
+          "t": 0,
+          "tur": "son",
+          "h": "Çelik ev <em>575 bin TL’den</em>",
+          "p": "9 Kasım 2026 itibarıyla listemizde"
+        }
+      ],
+      "sure": 20.0
+    }
+  ],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "yayın bekliyor · Reels 2 yenileniyor",
+    "medya": {
+      "tasarim": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/f99c4839-85a8-4445-8f9c-12aac470ca28.jpg"
+      ],
+      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/d15eac38-c231-460a-b3a3-2095052b46d9.jpg",
+      "reels": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/f1c0d504-6c14-4b8d-9292-8c730b5edbe7.mp4"
+      ]
+    }
+  },
+  "reels_iptal": [
+    {
       "seslendirme": "Prefabrik ev nasıl yapılır? Süreç kısaca şöyle. Önce imar durumuna bakılır, model ve firma seçilir, proje ve ruhsat alınır. Sonra temel yapılır; ev fabrikada üretilip arsaya taşınır ve monte edilir. En son iç bitiş, tesisat bağlantıları ve iskân başvurusu gelir. Ruhsatı almadan sipariş vermeyin; teklifleri bizde karşılaştırın. Bağlantı profilde.",
       "aciklama": "Prefabrik ev nasıl yapılır? Prefabrik ev yapım süreci adım adım: arsadan anahtara 👇\n\n1) Arsanın imar durumunu kontrol edin. 2) Modeli ve firmayı seçin; aynı kapsamla en az üç teklif alın. 3) Proje ve yapı ruhsatını alın. 4) Zemin etüdüne göre temeli yaptırın (çoğunlukla radye temel). 5) Ev fabrikada üretilir. 6) Nakliye. 7) Montaj, çatı ve tesisat. 8) İç bitiş, bağlantılar ve iskân başvurusu.\n\nEn sık hata: ruhsatı almadan sipariş vermek. Temeli firmanın temel planına birebir uygun yaptırın; nakliye, montaj ve zemin betonunun fiyata dahil olup olmadığını yazılı isteyin, ödemeyi aşamalara bağlayın.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; teklifler 48 saatte tek tabloda.\n\n📌 Kaydedin, eve başlamadan önce lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevnasılyapılır #prefabrikevfiyatları #prefabrikevruhsatı",
       "sahneler": [
@@ -74,70 +186,6 @@
         "model": "eleven_multilingual_v2",
         "voice_id": "JBFqnCBsd6RMkjVDRZzb"
       }
-    },
-    {
-      "seslendirme": "Talepler panelinize nasıl gelir? Ev arayan formu bir kez doldurur. Talep il, ev tipi, metrekare, bütçe ve arsa durumuyla gelir. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz ev tiplerinden talep gelir. İlk elli firmaya bir ay ücretsiz; kart bilgisi ve komisyon yok. Resmî evrak ve referansla başvurun; başvuru bağlantısı profilde.",
-      "aciklama": "Prefabrik ev firmaları için: talepler panelinize nasıl gelir? Tiny house, ahşap ev ve çelik ev üreticilerine açılış kampanyası; ilk 50 firmaya 1 ay ücretsiz üyelik 📣\n\nEv arayan PrefabrikTeklif'te formu bir kez doldurur; talep il, ev tipi, metrekare, oda sayısı, bütçe, arsa durumu ve başlama zamanıyla firma panelinize düşer. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz ev tiplerinden talep gelir. Google'da her ay 150 binden fazla \"prefabrik ev\" ve \"prefabrik ev fiyatları\" araması yapılıyor (Semrush, Kasım 2026).\n\nKart bilgisi istemiyoruz, satışınızdan komisyon almıyoruz; devam etmezseniz hiçbir şey ödemezsiniz. Her firmayı resmî evrakları ve referanslarıyla kabul ediyoruz.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👉 Başvuru: prefabrikteklif.com.tr/firma-kayit\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevfirmaları #tinyhouseüreticisi #prefabrikevüreticisi #çelikevfirmaları",
-      "sahneler": [
-        {
-          "t": 0,
-          "tur": "foto",
-          "h": "Talepler panelinize<br><em>nasıl gelir?</em>",
-          "img": "tiny-house-b-960.webp"
-        },
-        {
-          "t": 4.56,
-          "tur": "liste",
-          "h": "Talep <em>tüm detayıyla</em>",
-          "ikon": "✓",
-          "maddeler": [
-            "İl ve ev tipi",
-            "m² ve bütçe",
-            "Arsa durumu"
-          ]
-        },
-        {
-          "t": 9.54,
-          "tur": "foto",
-          "h": "Yalnız <em>size uyan</em> talepler",
-          "img": "celik-b-960.webp",
-          "p": "Hizmet illeriniz · ev tipleriniz"
-        },
-        {
-          "t": 14.68,
-          "tur": "foto",
-          "h": "İlk 50 firmaya <em>1 ay ücretsiz</em>",
-          "img": "bungalov-960.webp",
-          "p": "Kart bilgisi yok · komisyon yok"
-        },
-        {
-          "t": 18.9,
-          "tur": "son",
-          "h": "Evrak ve referansla <em>başvurun.</em>",
-          "p": "Başvuru bağlantısı profilde"
-        }
-      ],
-      "sure": 23.38,
-      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-11-aksam-2.mp3",
-      "ses": {
-        "kaynak": "elevenlabs",
-        "model": "eleven_multilingual_v2",
-        "voice_id": "JBFqnCBsd6RMkjVDRZzb"
-      }
     }
-  ],
-  "yayin": {
-    "hesap": "17841474767654199",
-    "durum": "yayın bekliyor",
-    "medya": {
-      "tasarim": [
-        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/f99c4839-85a8-4445-8f9c-12aac470ca28.jpg"
-      ],
-      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/d15eac38-c231-460a-b3a3-2095052b46d9.jpg",
-      "reels": [
-        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/6cf27e46-cf42-4b61-9030-6bf5d78683e3.mp4",
-        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/f1c0d504-6c14-4b8d-9292-8c730b5edbe7.mp4"
-      ]
-    }
-  }
+  ]
 }
