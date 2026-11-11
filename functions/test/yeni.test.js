@@ -133,6 +133,12 @@ test('tanıtım e-postası: günlük kota, kayıtlı ve ret edenler atlanır, re
   assert.ok(n <= 2 && !mails.slice(-n).some((m) => m.to === giden[0].to), 'ret eden bir daha almaz');
   const y = await call('GET', '/api/yonetim/ozet', { tok: 'tok-admin' });
   assert.equal(y.body.tanitim.aktif, true); assert.equal(y.body.tanitim.iptal, 1);
+  // Tek firmaya elle gönderim: geçersiz e-posta reddedilir, kayıtlı firmaya ve ret edene gitmez, sınır aranmaz
+  assert.equal((await call('POST', '/api/yonetim/tanitim', { tok: 'tok-admin', body: { tekEposta: 'bozuk' } })).statusCode, 400);
+  assert.equal((await call('POST', '/api/yonetim/tanitim', { tok: 'tok-admin', body: { tekEposta: giden[0].to } })).statusCode, 409, 'ret eden');
+  const tk = await call('POST', '/api/yonetim/tanitim', { tok: 'tok-admin', body: { tekEposta: giden[1].to } });
+  assert.equal(tk.statusCode, 200, JSON.stringify(tk.body)); assert.equal(mails.at(-1).to, giden[1].to); assert.ok(mails.at(-1).html.includes('firma-kayit'));
+  assert.equal((await call('POST', '/api/yonetim/tanitim', { tok: 'tok-user', body: { tekEposta: giden[1].to } })).statusCode, 403);
 });
 
 test('iyzico abonelik: kart formu, dönüş, başarısız ödeme, kart güncelleme ve hatırlatma', async () => {

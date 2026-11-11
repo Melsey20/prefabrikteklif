@@ -1282,6 +1282,24 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       }
       return { ok: true, isaretlendi: n, firma };
     }
+    // Tek firmaya elle tanıtım/davet e-postası (yönetici seçer): 30 gün / 2 kez sınırı aranmaz; ret eden, adresi geçersiz ya da zaten üye olana gitmez
+    if (typeof b.tekEposta === 'string') {
+      const e = b.tekEposta.trim().toLowerCase();
+      if (!epostaMi(e)) hata(400, 'Geçerli bir e-posta yazın.');
+      const st = FIRMS.find((f) => String(f.eposta || '').toLowerCase() === e);
+      const fq = await db.collection('firmalar').get();
+      if (fq.docs.some((d) => { const x = d.data(); return (st && d.id === st.slug && uyeAktif(x)) || [x.eposta, ...(x.panelEpostalari || [])].some((y) => String(y || '').toLowerCase() === e); })) hata(409, 'Bu adres zaten kayıtlı bir firmaya ait.');
+      const id = tanitimId(e); const ref = db.collection('tanitimKayit').doc(id); const k = (await ref.get()).data() || {};
+      const dk = st ? (await db.collection('davetKayit').doc(st.slug).get()).data() : null;
+      if (k.iptal || dk?.iptal) hata(409, 'Bu firma bildirim almak istemediğini bildirmiş; e-posta gönderilmez.');
+      if (k.gecersiz || gecersizMi(dk, e)) hata(409, 'Bu adres daha önce geri döndü (geçersiz); e-posta gönderilmez.');
+      const ad = str(b.ad, 120) || st?.kisaAd || '';
+      const kod = k.kod || token(); const iptalUrl = `${ayar().site}/bildirim-iptal/?f=${encodeURIComponent(`t-${id}.${kod}`)}`;
+      const kurucuK = await kurucuKalan();
+      await mail(e, kurucuK > 0 ? 'Prefabrik ev arayan müşterilere ulaşın: 1 ay ücretsiz' : 'Prefabrik ev arayan müşterilerden teklif talebi alın', tanitimHtml(ad, iptalUrl, kurucuK), { iptal: iptalUrl, tur: 'davet' });
+      await ref.set({ eposta: e, ad, slug: st?.slug || '', kod, sayi: (k.sayi || 0) + 1, son: FieldValue.serverTimestamp(), elle: u.eposta }, { merge: true });
+      return { ok: true, gonderildi: e, firma: ad, oncekiSayi: k.sayi || 0 };
+    }
     if (b.simdiGonder) return { ok: true, gonderilen: await tanitimGonder(Math.min(sayi(b.adet, 1, TANITIM_UST) || 20, TANITIM_UST)) };
     await db.collection('sistem').doc('tanitim').set({ aktif: !!b.aktif, gunluk: Math.min(sayi(b.gunluk, 1, TANITIM_UST) || 20, TANITIM_UST) }, { merge: true });
     return { ok: true };
