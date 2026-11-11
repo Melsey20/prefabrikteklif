@@ -54,7 +54,8 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
         else { const a = document.createElement('a'); a.href = url; a.download = (r.headers.get('Content-Disposition')?.match(/filename\*?=(?:UTF-8'')?"?([^";]+)/)?.[1] && decodeURIComponent(r.headers.get('Content-Disposition')!.match(/filename\*?=(?:UTF-8'')?"?([^";]+)/)![1])) || 'belge'; document.body.append(a); a.click(); a.remove(); toast('Tarayıcı yeni pencereyi engelledi; belge indirildi.'); }
       } catch (e: any) { w?.close(); toast(e.message); }
     }
-    import { h, tl, tarih, kalan, toast, modal, alan, sekmeler } from '../scripts/ui';
+    import { h, tl, tarih, kalan, toast, modal, alan, sekmeler, araliSecIzle } from '../scripts/ui';
+    araliSecIzle();
     const TIPLER: { k: string; ad: string }[] = (window as any).__TIPLER;
     const TIP = Object.fromEntries(TIPLER.map((t) => [t.k, t.ad]));
     const $ = (id: string) => document.getElementById(id)!;
@@ -87,7 +88,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       for (const b of V.basvurular) {
         const odeme = inp('odeme', { type: 'url', placeholder: 'https://… (iyzico / PayTR / banka ödeme linki)', style: { maxWidth: '420px' } });
         const kurucuChk = inp('kurucu', { type: 'checkbox', checked: true }) as HTMLInputElement;
-        const slug = h('select', { style: { maxWidth: '320px' } }, h('option', { value: '' }, 'Yeni firma (koddan otomatik)'), ...V.statikFirmalar.map((f: any) => h('option', { value: f.slug, selected: f.slug === b.mevcut }, f.ad))) as HTMLSelectElement;
+        const slug = h('select', { 'data-ara': '1', style: { maxWidth: '320px' } }, h('option', { value: '' }, 'Yeni firma (koddan otomatik)'), ...V.statikFirmalar.map((f: any) => h('option', { value: f.slug, selected: f.slug === b.mevcut }, f.ad))) as HTMLSelectElement;
         els.push(h('article', { class: 'item' },
           h('div', { class: 'row' }, h('b', {}, `Firma başvurusu · ${b.marka || b.unvan}`), h('span', { class: 'st-b a' }, tarih(b.zaman))),
           satir('Unvan', b.unvan), satir('Vergi', [b.vergiDairesi, b.vergiNo].filter(Boolean).join(' · ')), satir('Yetkili', `${b.yetkili}${b.yetkiliUnvan ? ` (${b.yetkiliUnvan})` : ''} · ${b.telefon} · ${b.eposta}`), satir('Adres', [b.adres, b.merkezIl].filter(Boolean).join(' · ')), satir('Web', b.web),
@@ -116,16 +117,16 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
     function taleplerCiz() {
       if (!V.talepler.length) { $('p-talepler').replaceChildren(h('div', { class: 'empty' }, 'Henüz talep yok.')); return; }
       $('p-talepler').replaceChildren(h('div', { class: 'list' }, ...V.talepler.map((t: any) => {
-        const firma = h('select', {}, h('option', { value: '' }, 'Firma seçin'), ...V.statikFirmalar.map((f: any) => h('option', { value: f.slug }, f.ad))) as HTMLSelectElement;
+        const firma = h('select', { 'data-ara': '1' }, h('option', { value: '' }, 'Firma seçin'), ...V.statikFirmalar.map((f: any) => h('option', { value: f.slug }, f.ad))) as HTMLSelectElement;
         const ep = inp('eposta', { type: 'email', placeholder: 'firma@ornek.com' });
-        // Firma ara: yazdıkça listeyi süzer (Türkçe harf duyarsız), tek eşleşmeyi seçer; seçilen firmanın kayıtlı e-postası varsa doldurulur
-        const kucuk = (x: string) => String(x || '').toLocaleLowerCase('tr').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ı/g, 'i');
-        const ara = h('input', { type: 'search', placeholder: 'Firma ara…', autocomplete: 'off', oninput: () => {
-          const q = kucuk(ara.value); let ilk: HTMLOptionElement | null = null; let say = 0;
-          Array.from(firma.options).forEach((o, i) => { const g = !i || !q || kucuk(o.text).includes(q); o.hidden = !g; if (g && i) { say++; ilk = ilk || o; } });
-          if (say === 1 && ilk) { firma.value = (ilk as HTMLOptionElement).value; firma.dispatchEvent(new Event('change')); }
-        } }) as HTMLInputElement;
-        firma.addEventListener('change', () => { const f = V.statikFirmalar.find((x: any) => x.slug === firma.value); if (f?.eposta && !ep.value) ep.value = f.eposta; });
+        const epNot = h('span', { class: 'xs muted' }, '');
+        // Seçilen firmanın kayıtlı e-postası otomatik yazılır (elle değiştirilebilir); başka firma seçilince yenisiyle değişir
+        let oto = '';
+        firma.addEventListener('change', () => {
+          const f = V.statikFirmalar.find((x: any) => x.slug === firma.value);
+          if (!ep.value || ep.value === oto) { ep.value = oto = f?.eposta || ''; }
+          epNot.textContent = !firma.value ? '' : f?.eposta ? 'E-posta firma kaydından alındı.' : 'Bu firmanın kayıtlı e-postası yok; adresi yazın.';
+        });
         const acik = t.durum === 'acik';
         return h('article', { class: 'item' },
           h('div', { class: 'row' }, h('b', {}, [t.test ? 'TEST' : '', t.mod === 'surec' ? 'SÜREÇ' : '', TIP[t.tip], t.oda, t.m2 ? `${t.m2} m²` : '', [t.il, t.ilce].filter(Boolean).join(' / ')].filter(Boolean).join(' · ')), h('span', { class: 'st-b ' + (acik ? 'a' : 'g') }, t.mod === 'surec' ? 'Süreç yönetimi' : acik ? kalan(t.sonTarih) : 'Özet gönderildi')),
@@ -134,7 +135,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
           t.not ? h('span', { class: 'small muted' }, '“' + t.not + '”') : null,
           (acik || (t.durum === 'gonderildi' && !t.test)) ? h('span', { class: 'small' }, `${acik ? 'Son teklif' : 'Süresi doldu (yeniden açmak için yeni süre seçin)'}: ${tarih(t.sonTarih?._seconds ? t.sonTarih._seconds * 1000 : t.sonTarih)} `, h('details', { style: { display: 'inline-block' } }, h('summary', { class: 'btn btn-g btn-s', style: { listStyle: 'none', cursor: 'pointer' } }, 'Süreyi değiştir'), (() => { const st = t.sonTarih?._seconds ? t.sonTarih._seconds * 1000 : typeof t.sonTarih === 'number' ? t.sonTarih : Date.parse(t.sonTarih) || Date.now(); const yerel = (ms: number) => new Date(ms + 3 * 3600000).toISOString().slice(0, 16); const g = h('input', { type: 'datetime-local', value: yerel(st > Date.now() ? st : Date.now() + 86400000), min: yerel(Date.now()), style: { width: 'auto' } }) as HTMLInputElement; return h('span', { style: { display: 'inline-flex', gap: '6px', alignItems: 'center', marginTop: '6px' } }, g, h('button', { class: 'btn btn-p btn-s', type: 'button', onclick: () => { if (!g.value) return; yap('/api/yonetim/talep-sure', { talep: t.id, sonTarih: g.value.slice(0, 16) + ':00+03:00' }, 'Süre güncellendi (müşteriye bildirim gitmedi)'); } }, 'Kaydet')); })())) : null,
           acik && t.mod !== 'surec' ? h('details', {}, h('summary', { class: 'small', style: { cursor: 'pointer', fontWeight: 800, color: 'var(--green)' } }, 'Kayıtlı olmayan bir firmaya e-postayla ilet'),
-            h('form', { class: 'form', style: { gap: '8px', marginTop: '8px' }, onsubmit: (e: Event) => { e.preventDefault(); yap('/api/yonetim/talep-ilet', { talep: t.id, firma: firma.value, eposta: ep.value }, 'Firmaya iletildi'); } }, ara, h('div', { class: 'two' }, firma, ep), h('button', { class: 'btn btn-p btn-s', type: 'submit', style: { alignSelf: 'flex-start' } }, 'İlet (müşteri bilgisi gizli)'))) : null);
+            h('form', { class: 'form', style: { gap: '8px', marginTop: '8px' }, onsubmit: (e: Event) => { e.preventDefault(); yap('/api/yonetim/talep-ilet', { talep: t.id, firma: firma.value, eposta: ep.value }, 'Firmaya iletildi'); } }, h('div', { class: 'two' }, firma, ep), epNot, h('button', { class: 'btn btn-p btn-s', type: 'submit', style: { alignSelf: 'flex-start' } }, 'İlet (müşteri bilgisi gizli)'))) : null);
       })));
     }
     function siparislerCiz() {
@@ -142,7 +143,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       if (!V.siparisler.length) { $('p-siparisler').replaceChildren(h('div', { class: 'empty' }, 'Aktif sipariş yok. Kullanıcılar “Süreci siz yönetin” dediğinde burada görünür.')); return; }
       $('p-siparisler').replaceChildren(...V.siparisler.map((s: any) => {
         const asama = h('select', {}, ...V.asamalar.map((a: string, i: number) => h('option', { value: i, selected: i === s.asama }, `${i + 1}. ${a}`))) as HTMLSelectElement;
-        const firma = h('select', {}, h('option', { value: '' }, 'Firma seçilmedi'), ...V.statikFirmalar.map((f: any) => h('option', { value: f.slug, selected: f.slug === s.firma }, f.ad))) as HTMLSelectElement;
+        const firma = h('select', { 'data-ara': '1' }, h('option', { value: '' }, 'Firma seçilmedi'), ...V.statikFirmalar.map((f: any) => h('option', { value: f.slug, selected: f.slug === s.firma }, f.ad))) as HTMLSelectElement;
         const not = h('textarea', { rows: 2, placeholder: 'Bu aşama için müşteriye görünen not (ör: Fabrikada üretime başlandı)', maxlength: 1500 }) as HTMLTextAreaElement;
         const bAd = inp('belgeAd', { type: 'text', placeholder: 'Belge adı (ör: Sözleşme)' }); const bUrl = inp('belgeUrl', { type: 'url', placeholder: 'https:// (Drive vb. paylaşım bağlantısı)' });
         const mesaj = h('textarea', { rows: 2, placeholder: 'Müşteriye mesaj (e-posta da gider)', maxlength: 1500 }) as HTMLTextAreaElement;
@@ -158,7 +159,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       }));
     }
     function firmaFormu(f: any | null) {
-      const slug = h('select', { disabled: !!f }, ...V.statikFirmalar.map((x: any) => h('option', { value: x.slug, selected: x.slug === f?.id }, x.ad))) as HTMLSelectElement;
+      const slug = h('select', { 'data-ara': '1', disabled: !!f }, ...V.statikFirmalar.map((x: any) => h('option', { value: x.slug, selected: x.slug === f?.id }, x.ad))) as HTMLSelectElement;
       const yeniSlug = inp('yeniSlug', { type: 'text', placeholder: 'Listede yoksa yeni kod (ör: ornek-prefabrik)', pattern: '[a-z0-9-]+' });
       const ep = inp('eposta', { type: 'email', value: f?.eposta || '', placeholder: 'Talep bildirimleri' });
       const panel = inp('panel', { type: 'text', value: (f?.panelEpostalari || []).join(', '), placeholder: 'Panele giriş yapabilecek e-postalar, virgülle' });
@@ -276,7 +277,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       const link = inp('link', { type: 'text', value: b?.link || '', placeholder: '/firma/... ya da https://' });
       const sira = inp('sira', { type: 'number', min: 0, max: 99, value: b?.sira ?? 0 });
       const bitis = inp('bitis', { type: 'date', value: b?.bitis || '' });
-      const firma = h('select', {}, h('option', { value: '' }, 'Kendi bannerımız'), ...V.statikFirmalar.map((f: any) => h('option', { value: f.slug, selected: f.slug === b?.firma }, f.ad))) as HTMLSelectElement;
+      const firma = h('select', { 'data-ara': '1' }, h('option', { value: '' }, 'Kendi bannerımız'), ...V.statikFirmalar.map((f: any) => h('option', { value: f.slug, selected: f.slug === b?.firma }, f.ad))) as HTMLSelectElement;
       const aktif = inp('aktif', { type: 'checkbox', checked: b ? b.aktif !== false : true });
       const konum = h('select', {}, ...[['ana', 'Ana banner (büyük slayt)'], ['yan', 'Yan banner (kaydırmalı)'], ['ara', 'Ara banner (2+1 evler ile Nasıl çalışır arası)'], ['liste', 'Öne çıkan listeleme (model)']].map(([v, a]) => h('option', { value: v, selected: (b?.konum || 'ana') === v }, a))) as HTMLSelectElement;
       const model = inp('model', { type: 'text', value: b?.modelId || '', placeholder: 'Model kodu, ör: firma-kodu/model-kodu (firma panelinde Ürünlerim)' });

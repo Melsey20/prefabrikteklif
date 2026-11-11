@@ -786,3 +786,12 @@ body:has(.app) .by-dis { display: none; }
 .linkbtn { background: none; border: 0; padding: 4px 0; font: inherit; font-weight: 700; color: var(--green); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; min-height: 32px; }
 .linkbtn:disabled { color: var(--muted); text-decoration: none; cursor: default; font-weight: 600; }
 .linkbtn:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; border-radius: 4px; }
+
+/* Aramalı seçim kutusu (yönetim/firma listeleri) */
+.arasec { position: relative; min-width: 0; }
+.arasec-in { width: 100%; }
+.arasec-l { position: absolute; z-index: 60; left: 0; right: 0; top: calc(100% + 4px); max-height: 300px; overflow: auto; background: var(--card); border: 1px solid var(--line-2); border-radius: 12px; box-shadow: var(--sh); padding: 4px; -webkit-overflow-scrolling: touch; }
+.arasec-o { padding: 9px 11px; border-radius: 8px; cursor: pointer; font-size: .95rem; line-height: 1.3; }
+.arasec-o.on, .arasec-o:hover { background: var(--green-ll); }
+.arasec-o.sec { font-weight: 700; color: var(--green-d); }
+.arasec-y { padding: 10px 11px; color: var(--muted); font-size: .9rem; }

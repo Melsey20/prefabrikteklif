@@ -46,3 +46,42 @@ export function sekmeler(kok: HTMLElement, onSec: (id: string) => void) {
   return sec;
 }
 export function hataGoster(kutu: HTMLElement, e: any) { kutu.replaceChildren(h('div', { class: 'empty' }, e?.message || 'Bir hata oluştu.')); }
+
+// Aramalı seçim: uzun <select> listelerini tek kutuda yazarak arama + açılır listeye çevirir.
+// Asıl <select> gizli kalır (değer/çıkış onu kullanmaya devam eder); seçim yapılınca 'change' tetiklenir.
+const kucukTr = (x: string) => String(x || '').toLocaleLowerCase('tr').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ı/g, 'i');
+export function araliSec(sel: HTMLSelectElement) {
+  if (sel.dataset.arali) return; sel.dataset.arali = '1';
+  const bos = sel.options[0] && !sel.options[0].value ? sel.options[0] : null;
+  const giris = h('input', { type: 'text', class: 'arasec-in', autocomplete: 'off', spellcheck: false, placeholder: (bos?.text || 'Seçin') + ' — yazarak arayın', disabled: sel.disabled }) as HTMLInputElement;
+  const liste = h('div', { class: 'arasec-l', role: 'listbox', hidden: true });
+  const kutu = h('div', { class: 'arasec' });
+  sel.parentNode!.insertBefore(kutu, sel); kutu.append(giris, liste, sel); sel.hidden = true;
+  const etiket = () => { const o = sel.selectedOptions[0]; giris.value = o && o.value ? o.text : ''; };
+  let gorunen: HTMLOptionElement[] = []; let imlec = 0;
+  const ciz = () => {
+    const q = kucukTr(giris.value === (sel.selectedOptions[0]?.value ? sel.selectedOptions[0].text : '\u0000') ? '' : giris.value);
+    gorunen = Array.from(sel.options).filter((o) => (o === bos ? !q : !q || kucukTr(o.text).includes(q)));
+    imlec = Math.max(0, gorunen.findIndex((o) => o.value === sel.value));
+    liste.replaceChildren(...(gorunen.length ? gorunen.slice(0, 200).map((o, i) => h('div', { class: 'arasec-o' + (i === imlec ? ' on' : '') + (o.value === sel.value ? ' sec' : ''), role: 'option', onmousedown: (e: Event) => { e.preventDefault(); sec(o); } }, o.text)) : [h('div', { class: 'arasec-y' }, 'Eşleşen yok')]));
+    liste.hidden = false;
+    (liste.children[imlec] as HTMLElement)?.scrollIntoView?.({ block: 'nearest' });
+  };
+  const kapat = () => { liste.hidden = true; etiket(); };
+  const sec = (o: HTMLOptionElement) => { sel.value = o.value; kapat(); sel.dispatchEvent(new Event('change', { bubbles: true })); giris.blur(); };
+  giris.addEventListener('focus', () => { giris.select(); ciz(); });
+  giris.addEventListener('input', ciz);
+  giris.addEventListener('blur', () => setTimeout(kapat, 120));
+  giris.addEventListener('keydown', (e) => {
+    if (liste.hidden && (e.key === 'ArrowDown' || e.key === 'Enter')) { ciz(); e.preventDefault(); return; }
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); imlec = Math.min(gorunen.length - 1, Math.max(0, imlec + (e.key === 'ArrowDown' ? 1 : -1))); Array.from(liste.children).forEach((c, i) => c.classList.toggle('on', i === imlec)); (liste.children[imlec] as HTMLElement)?.scrollIntoView?.({ block: 'nearest' }); }
+    else if (e.key === 'Enter') { e.preventDefault(); if (gorunen[imlec]) sec(gorunen[imlec]); }
+    else if (e.key === 'Escape') { kapat(); giris.blur(); }
+  });
+  sel.addEventListener('change', etiket);
+  etiket();
+}
+export function araliSecIzle(kok: HTMLElement = document.body) {
+  const tara = () => kok.querySelectorAll<HTMLSelectElement>('select[data-ara]:not([data-arali])').forEach(araliSec);
+  tara(); new MutationObserver(tara).observe(kok, { childList: true, subtree: true });
+}
