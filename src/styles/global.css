@@ -681,6 +681,7 @@ body:has(.app) .by-dis { display: none; }
 .hs-ilerle li { flex: 1; display: flex; align-items: center; gap: 8px; font-size: .82rem; font-weight: 700; color: var(--ink-2); position: relative; padding-right: 10px; }
 .hs-ilerle li:not(:last-child)::after { content: ''; flex: 1; height: 2px; background: var(--line); }
 .hs-ilerle li.ok::after { background: var(--green); }
+.hs-ilerle li.ok { background: none; border: 0; border-radius: 0; padding: 0 10px 0 0; }
 .hs-ilerle i { font-style: normal; width: 24px; height: 24px; border-radius: 50%; background: var(--gray-bg); color: var(--ink-2); display: flex; align-items: center; justify-content: center; font-size: .75rem; flex: none; }
 .hs-ilerle li.ok i { background: var(--green); color: #fff; }
 .hs-ilerle li.now { color: var(--ink); } .hs-ilerle li.now i { background: var(--amber-bg); color: var(--amber); box-shadow: 0 0 0 2px var(--amber); }
@@ -795,3 +796,54 @@ body:has(.app) .by-dis { display: none; }
 .arasec-o.on, .arasec-o:hover { background: var(--green-ll); }
 .arasec-o.sec { font-weight: 700; color: var(--green-d); }
 .arasec-y { padding: 10px 11px; color: var(--muted); font-size: .9rem; }
+
+/* Telefonda tablo → kart (firma paneli ürünler) */
+@media (max-width: 760px) {
+  .tbl-wrap.kartlar { overflow: visible; border: 0; background: none; }
+  .tbl-wrap.kartlar table { min-width: 0 !important; display: block; }
+  .tbl-wrap.kartlar thead { display: none; }
+  .tbl-wrap.kartlar tbody { display: flex; flex-direction: column; gap: 10px; }
+  .tbl-wrap.kartlar tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
+  .tbl-wrap.kartlar td { display: block; padding: 0; border: 0; min-width: 0; }
+  .tbl-wrap.kartlar td:nth-child(1) { grid-column: 1 / -1; }
+  .tbl-wrap.kartlar td:nth-child(2) { grid-column: 1; align-self: center; }
+  .tbl-wrap.kartlar td:nth-child(3) { grid-column: 2; grid-row: 2; text-align: right; }
+  .tbl-wrap.kartlar td:nth-child(4) { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .tbl-wrap.kartlar td:nth-child(5) { grid-column: 1 / -1; text-align: left !important; white-space: normal !important; display: flex; gap: 8px; padding-top: 6px; border-top: 1px solid var(--gray-bg); }
+  .tbl-wrap.kartlar td:nth-child(5) .btn { flex: 1; }
+}
+
+/* ---------- Paneller: telefon düzeni ---------- */
+@media (max-width: 860px) {
+  /* Firma paneli: bölümler tek satırda eşit sütunlar, simge üstte; kaydırmaya gerek kalmaz */
+  .app aside.alt-sek { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 2px; padding: 6px 6px; overflow: visible; }
+  .app aside.alt-sek .cikis-btn { display: none; }
+  .app aside.alt-sek button { flex-direction: column; justify-content: center; align-items: center; gap: 3px; min-height: 56px; padding: 6px 2px; text-align: center; position: relative; }
+  .app aside.alt-sek button .pt { flex: none; font-size: .68rem; line-height: 1.15; font-weight: 700; white-space: normal; }
+  .app aside.alt-sek .rz { position: absolute; top: 3px; right: calc(50% - 22px); font-size: .62rem; padding: 0 6px; }
+  /* Yapılacaklar kutusu: telefonda yalnızca eksik adımlar */
+  .yp-liste li.yp-tamam { display: none; }
+}
+@media (max-width: 700px) {
+  /* Hesabım: sekmeler kaydırmadan sığsın (iki satıra sarılan haplar) */
+  .hs-sek { flex-wrap: wrap; overflow: visible; position: static; border-bottom: 0; gap: 6px; padding: 0; }
+  .hs-sek button { padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: #fff; font-size: .88rem; }
+  .hs-sek button[aria-selected="true"] { background: var(--green); border-color: var(--green); color: #fff; }
+  .hs-sek button[aria-selected="true"] .rz { background: #fff; color: var(--green-d); }
+  /* Talep başlığı: rozet başlığın altına iner, başlık geniş kalır */
+  .hs-t-ust { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 4px 12px; align-items: start; }
+  .hs-t-ust img { width: 48px; height: 48px; grid-row: span 2; }
+  .hs-t-ust .st-b { grid-column: 2; justify-self: start; }
+  .hs-t-b { font-size: .98rem; }
+  /* İlerleme: simge üstte, yazı altta, eşit üç sütun */
+  .hs-ilerle li, .hs-ilerle li.ok { flex-direction: column; text-align: center; gap: 4px; padding: 0 2px; }
+  .hs-ilerle li:not(:last-child)::after { display: none; }
+  .hs-ilerle li span { font-size: .72rem; line-height: 1.2; }
+  /* Teklif kartı: iletişim düğmeleri eşit genişlikte */
+  .tk-iletisim { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; }
+  .tk-iletisim .btn, .hs-tk-b .btn { justify-content: center; }
+  .hs-tk-b { display: grid; grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 860px) { .app aside.alt-sek a.ln { display: none; } }
+@media (max-width: 700px) { .hs-sek .rz { margin-left: 4px; } .hs-tk-b .btn { font-size: .85rem; padding-left: 8px; padding-right: 8px; } }
+@media (max-width: 560px) { .form .two.iki-kal { grid-template-columns: 1fr 1fr; gap: 8px 12px; } }

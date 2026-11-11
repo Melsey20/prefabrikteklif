@@ -15,7 +15,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
     </div>
   </div>
   <div class="app" id="fp-app" hidden>
-    <aside class="dk" aria-label="Firma paneli bölümleri" id="sekmeler">
+    <aside class="dk alt-sek" aria-label="Firma paneli bölümleri" id="sekmeler">
       <div class="side-x" style="color:#fff;font-weight:800;padding:4px 12px 16px" id="fp-ad">Firma paneli</div>
       <button type="button" data-sekme="urunler"><Fragment set:html={ik('urun')} /><span class="pt">Ürünlerim</span><span class="rz" data-rz="bekleyen"></span></button>
       <button type="button" data-sekme="talepler"><Fragment set:html={ik('talep')} /><span class="pt">Teklif bekleyenler</span><span class="rz" data-rz="talep"></span></button>
@@ -185,7 +185,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
           !m.gizli ? h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: async () => { if (!confirmModal) return; confirmModal(`“${m.ad}” yayından kaldırılsın mı?`, async () => { await api('/api/firma/urun' + fq, { tur: 'kaldir', modelId: m.id, veri: {} }); toast('Kaldırma talebi onaya gönderildi'); yukle(); }); } }, 'Kaldır') : null)));
       $('p-urunler').replaceChildren(
         yeniB.length ? h('p', { class: 'note-a' }, `${yeniB.length} yeni ürününüz onay bekliyor: ${yeniB.map((b: any) => b.veri.ad).join(', ')}`) : null,
-        V.modeller.length ? h('div', { class: 'tbl-wrap' }, h('table', { style: { minWidth: '720px' } }, h('thead', {}, h('tr', {}, h('th', {}, 'Model'), h('th', {}, 'Alan · Oda'), h('th', { class: 'n' }, 'Fiyat'), h('th', {}, 'Durum'), h('th', {}, h('span', { class: 'sr-only' }, 'İşlem')))), h('tbody', {}, ...satirlar)))
+        V.modeller.length ? h('div', { class: 'tbl-wrap kartlar' }, h('table', { style: { minWidth: '720px' } }, h('thead', {}, h('tr', {}, h('th', {}, 'Model'), h('th', {}, 'Alan · Oda'), h('th', { class: 'n' }, 'Fiyat'), h('th', {}, 'Durum'), h('th', {}, h('span', { class: 'sr-only' }, 'İşlem')))), h('tbody', {}, ...satirlar)))
           : h('div', { class: 'empty' }, 'Henüz ürününüz yok. “Ürün ekle” ile ilk modelinizi ekleyin.'));
     }
     let confirmModal: ((m: string, ok: () => Promise<void>) => void) | null = (m, ok) => {
@@ -199,7 +199,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       const gun = inp('teslimGun', { type: 'number', min: 1, max: 365 }); const garanti = inp('garantiYil', { type: 'number', min: 0, max: 50 });
       const not = h('textarea', { name: 'not', maxlength: 2000, rows: 4, placeholder: 'Müşteriye notunuz: önerdiğiniz model, malzeme, ödeme planı; “arsa eğimliyse zemin betonu +40.000 TL”, “nakliye 300 km’ye kadar dahil” gibi koşullar…' }) as HTMLTextAreaElement;
       const hata = h('p', { class: 'err', hidden: true, role: 'alert' });
-      f.append(alan('Toplam fiyat (TL)', fiyat), h('label', { class: 'chk' }, kdv, ' Fiyata KDV dahil'), h('fieldset', {}, h('legend', {}, 'Fiyata dahil olanlar'), h('div', { class: 'two' }, ...dahil)), h('div', { class: 'two' }, alan('Teslim süresi (gün)', gun), alan('Garanti (yıl)', garanti)), alan('Teklif notu (koşullar, açıklamalar)', not), hata,
+      f.append(alan('Toplam fiyat (TL)', fiyat), h('label', { class: 'chk' }, kdv, ' Fiyata KDV dahil'), h('fieldset', {}, h('legend', {}, 'Fiyata dahil olanlar'), h('div', { class: 'two iki-kal' }, ...dahil)), h('div', { class: 'two iki-kal' }, alan('Teslim süresi (gün)', gun), alan('Garanti (yıl)', garanti)), alan('Teklif notu (koşullar, açıklamalar)', not), hata,
         h('p', { class: 'xs muted', style: { margin: 0 } }, 'Fiyat verdiğinizde müşterinin ad, telefon ve e-postası size açılır. Bu bilgileri yalnızca bu talep için kullanın.'),
         h('button', { class: 'btn btn-p', type: 'submit' }, 'Fiyatı gönder'));
       f.addEventListener('submit', async (e) => {
