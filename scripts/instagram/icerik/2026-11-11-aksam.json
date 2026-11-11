@@ -128,14 +128,15 @@
   ],
   "yayin": {
     "hesap": "17841474767654199",
-    "durum": "yayın bekliyor · Reels 2 yenileniyor",
+    "durum": "yayın bekliyor",
     "medya": {
       "tasarim": [
         "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/f99c4839-85a8-4445-8f9c-12aac470ca28.jpg"
       ],
       "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/d15eac38-c231-460a-b3a3-2095052b46d9.jpg",
       "reels": [
-        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/f1c0d504-6c14-4b8d-9292-8c730b5edbe7.mp4"
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/f1c0d504-6c14-4b8d-9292-8c730b5edbe7.mp4",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/314185f8-5ac9-4f21-9cb4-62e44b30e228.mp4"
       ]
     }
   },
