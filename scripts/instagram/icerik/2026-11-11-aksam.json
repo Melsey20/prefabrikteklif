@@ -67,7 +67,13 @@
           "p": "Bağlantı profilde"
         }
       ],
-      "sure": 20.0
+      "sure": 20.0,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-11-aksam-1.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "JBFqnCBsd6RMkjVDRZzb"
+      }
     },
     {
       "seslendirme": "Talepler panelinize nasıl gelir? Ev arayan formu bir kez doldurur. Talep il, ev tipi, metrekare, bütçe ve arsa durumuyla gelir. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz ev tiplerinden talep gelir. İlk elli firmaya bir ay ücretsiz; kart bilgisi ve komisyon yok. Resmî evrak ve referansla başvurun; başvuru bağlantısı profilde.",
@@ -111,7 +117,13 @@
           "p": "Başvuru bağlantısı profilde"
         }
       ],
-      "sure": 20.0
+      "sure": 20.0,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-11-aksam-2.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "JBFqnCBsd6RMkjVDRZzb"
+      }
     }
   ],
   "yayin": {

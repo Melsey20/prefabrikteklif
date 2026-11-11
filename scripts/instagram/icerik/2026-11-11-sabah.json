@@ -166,7 +166,13 @@
           "p": "Bağlantı profilde"
         }
       ],
-      "sure": 20.0
+      "sure": 20.0,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-11-sabah-1.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "JBFqnCBsd6RMkjVDRZzb"
+      }
     },
     {
       "seslendirme": "Konteyner ev kaça mal olur? Listemizde altmış yedi bin liradan başlıyor. Modellerin ortanca fiyatı ise yaklaşık yüz yetmiş bin lira. Otuz metrekare bir ev için kaba hesap, yaklaşık yüz doksan dokuz bin lira. Teklif alırken nakliye, montaj, zemin hazırlığı ve KDV dahil mi, sorun. Teklifleri tek tabloda karşılaştırın. Bağlantı profilde.",
@@ -212,7 +218,13 @@
           "p": "Bağlantı profilde"
         }
       ],
-      "sure": 20.0
+      "sure": 20.0,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-11-sabah-2.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "JBFqnCBsd6RMkjVDRZzb"
+      }
     }
   ],
   "yayin": {
