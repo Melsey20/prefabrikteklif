@@ -223,7 +223,7 @@
   ],
   "yayin": {
     "hesap": "17841474767654199",
-    "durum": "yayında (Meta Graph API): 5/6 öğe yayınlandı",
+    "durum": "yayında (Meta Graph API): 6/6 öğe yayınlandı",
     "medya": {
       "tasarim": [
         "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/0e1e0ae8-d82b-4b6b-bd56-5d7aa43c335c.jpg",
@@ -258,6 +258,10 @@
       "story-reels-1": {
         "id": "18120029180283517",
         "zaman": "2026-11-11 15:50"
+      },
+      "story-reels-2": {
+        "id": "17868561153676972",
+        "zaman": "2026-11-11 15:56"
       }
     },
     "not": "Reels sabah seslendirilemedi; ElevenLabs ile üretilip 15:20/15:40 yayına alındı"
