@@ -4574,5 +4574,40 @@
   "fiyatYayinliyor": false,
   "logo": "",
   "logoAcik": false
+ },
+ {
+  "ad": "Erdemirler İnşaat",
+  "kisaAd": "Erdemirler İnşaat",
+  "slug": "erdemirler-insaat",
+  "web": "",
+  "sehir": "Malatya (Malatya ve çevre illere hizmet)",
+  "il": "Malatya",
+  "telefon": "",
+  "sertifikalar": [],
+  "sertifikaNotu": "",
+  "urunTipleri": [
+   "prefabrik ev",
+   "çelik ev",
+   "konteyner ev",
+   "tiny house",
+   "bungalov",
+   "ahşap ev"
+  ],
+  "kaynak": [],
+  "seviye": "listelenmis",
+  "modelBekliyor": true,
+  "modelSayisi": 0,
+  "enDusuk": null,
+  "tipler": [
+   "ahsap",
+   "bungalov",
+   "celik",
+   "konteyner",
+   "prefabrik",
+   "tiny house"
+  ],
+  "fiyatYayinliyor": false,
+  "logo": "",
+  "logoAcik": false
  }
 ]
