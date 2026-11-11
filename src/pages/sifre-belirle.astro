@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Şifrenizi belirleyin" description="Firma paneli için şifrenizi belirleyin." noindex>
+  <div class="wrap">
+    <div class="auth">
+      <h1 style="font-size:1.6rem;margin:0 0 6px">Şifrenizi belirleyin</h1>
+      <p class="muted small" id="s-alt" style="margin:0 0 18px">Bağlantı kontrol ediliyor…</p>
+      <form class="form" id="s-form" hidden novalidate>
+        <label class="f">Yeni şifre<input type="password" name="s1" autocomplete="new-password" minlength="6" required /></label>
+        <label class="f">Yeni şifre (tekrar)<input type="password" name="s2" autocomplete="new-password" minlength="6" required /></label>
+        <label class="chk"><input type="checkbox" id="s-goster" /> Şifreyi göster</label>
+        <button class="btn btn-p" type="submit" id="s-btn">Şifremi kaydet ve panele gir</button>
+      </form>
+      <div id="s-yeni" hidden><div style="display:flex;flex-direction:column;gap:10px">
+        <button class="btn btn-p" type="button" id="s-yeni-btn">Yeni bağlantı gönder</button>
+        <a class="btn btn-g" href="/giris/?geri=/firma-paneli/">Giriş sayfasına git</a>
+      </div></div>
+      <p class="err" id="s-hata" hidden role="alert"></p>
+      <p class="okmsg" id="s-ok" hidden role="status"></p>
+    </div>
+  </div>
+  <script>
+    import { sifreKodKontrol, sifreBelirle, oturumAc, hataYazi } from '../scripts/fb';
+    const q = new URLSearchParams(location.search);
+    const kod = q.get('oobCode') || '';
+    let eposta = q.get('e') || '';
+    const $ = (id: string) => document.getElementById(id)!;
+    const form = $('s-form') as HTMLFormElement;
+    const hata = (m: string) => { $('s-hata').textContent = m; $('s-hata').hidden = false; $('s-ok').hidden = true; };
+    const ok = (m: string) => { $('s-ok').textContent = m; $('s-ok').hidden = false; $('s-hata').hidden = true; };
+    const suresiDoldu = () => {
+      $('s-alt').textContent = 'Bu bağlantının süresi dolmuş ya da daha önce kullanılmış. Aşağıdan yenisini isteyin; birkaç dakika içinde e-postanıza gelir.';
+      form.hidden = true; $('s-yeni').hidden = !eposta;
+      if (!eposta) $('s-alt').textContent += ' Giriş sayfasındaki “Şifremi unuttum” ile de yeni şifre belirleyebilirsiniz.';
+    };
+    (async () => {
+      if (!kod) return suresiDoldu();
+      try { eposta = await sifreKodKontrol(kod); $('s-alt').innerHTML = ''; $('s-alt').append('Giriş e-postanız: ', Object.assign(document.createElement('b'), { textContent: eposta }), '. En az 6 karakterli bir şifre belirleyin.'); form.hidden = false; (form.elements.namedItem('s1') as HTMLInputElement).focus(); }
+      catch { suresiDoldu(); }
+    })();
+    $('s-goster').addEventListener('change', (e) => form.querySelectorAll('input[type=password],input[data-g]').forEach((i: any) => { i.type = (e.target as HTMLInputElement).checked ? 'text' : 'password'; i.dataset.g = '1'; }));
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const s1 = (form.elements.namedItem('s1') as HTMLInputElement).value, s2 = (form.elements.namedItem('s2') as HTMLInputElement).value;
+      if (s1.length < 6) return hata('Şifre en az 6 karakter olmalı.');
+      if (s1 !== s2) return hata('İki şifre aynı değil.');
+      const b = $('s-btn') as HTMLButtonElement; b.disabled = true; b.textContent = 'Kaydediliyor…';
+      try { await sifreBelirle(kod, s1); await oturumAc().catch(() => null); ok('Şifreniz kaydedildi, panele yönlendiriliyorsunuz…'); location.href = '/firma-paneli/'; }
+      catch (err) { b.disabled = false; b.textContent = 'Şifremi kaydet ve panele gir'; if (/expired|invalid-action-code/.test(String((err as any)?.code))) suresiDoldu(); else hata(hataYazi(err)); }
+    });
+    $('s-yeni-btn').addEventListener('click', async () => {
+      const b = $('s-yeni-btn') as HTMLButtonElement; b.disabled = true;
+      try { const r = await fetch('/api/firma/sifre-baglanti', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ eposta }) }); if (!r.ok) throw new Error((await r.json().catch(() => ({}))).hata || 'Gönderilemedi, biraz sonra tekrar deneyin.'); ok('Yeni bağlantı e-postanıza gönderildi. Gelen kutunuzu (ve gereksiz klasörünü) kontrol edin.'); }
+      catch (err: any) { b.disabled = false; hata(err.message); }
+    });
+  </script>
+</Base>

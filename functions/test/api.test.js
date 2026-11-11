@@ -14,7 +14,7 @@ function kur() {
   const db = new FakeDb(); const mails = [];
   const app = createApp({
     db, FieldValue, Timestamp, FIRMS, MODELS, saat: 48, simdi: zaman.simdi,
-    auth: { verifyIdToken: async (t) => { if (!KULLANICI[t]) throw new Error('bad'); return KULLANICI[t]; } },
+    auth: { verifyIdToken: async (t) => { if (!KULLANICI[t]) throw new Error('bad'); return KULLANICI[t]; }, olusan: [], getUserByEmail: async () => { const e = new Error('yok'); e.code = 'auth/user-not-found'; throw e; }, async createUser(x) { this.olusan.push(x); return x; }, generatePasswordResetLink: async (e) => `https://p.firebaseapp.com/__/auth/action?mode=resetPassword&oobCode=KOD123&apiKey=k&continueUrl=x` },
     mail: async (to, subject, html) => { mails.push({ to, subject, html }); },
     ayar: () => ({ site: 'https://www.prefabrikteklif.com.tr', admin: 'info@mitraajans.com', yoneticiler: ['info@mitraajans.com'], placesKey: '' }),
   });
@@ -474,6 +474,14 @@ test('açılış kampanyası: başvuru onayında kontenjan varsa ödeme beklemed
   const oz = (await call('GET', '/api/firma/ozet', { tok: 'tok-firma' })).body;
   assert.equal(oz.uye, true); assert.equal(oz.abonelik.kurucu, true);
   assert.deepEqual(oz.talepler.map((t) => t.id), ['t-uyan'], 'onaydan hemen sonra bekleyen talebi panelde görür');
+  const hos = mails.find((m) => /Üyeliğiniz aktif/.test(m.subject || m.konu || ''));
+  assert.ok(hos && hos.html.includes('/sifre-belirle/?oobCode=KOD123'), 'onay e-postasında şifre belirleme bağlantısı var');
+  assert.equal((await call('POST', '/api/firma/sifre-baglanti', { body: { eposta: 'yok@yok.example' } })).statusCode, 200);
+  const once = mails.length;
+  assert.equal((await call('POST', '/api/firma/sifre-baglanti', { body: { eposta: hos.to } })).statusCode, 200);
+  assert.equal(mails.length, once + 1, 'panel e-postasına yeni bağlantı gider');
+  await call('POST', '/api/firma/sifre-baglanti', { body: { eposta: hos.to } });
+  assert.equal(mails.length, once + 1, '2 dakika içinde ikinci kez gitmez');
   const tk = await call('POST', '/api/firma/teklif', { tok: 'tok-firma', body: { talep: 't-uyan', fiyat: 450000, teslimGun: 30 } });
   assert.equal(tk.statusCode, 200, JSON.stringify(tk.body));
   assert.ok(mails.some((m) => m.subject === 'Üyeliğiniz aktif: 1 ay ücretsiz'));

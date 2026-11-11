@@ -1,6 +1,6 @@
 // Firebase istemcisi: yapılandırma Hosting'in /__/firebase/init.json adresinden gelir.
 import { initializeApp, type FirebaseApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, updateProfile, signOut, RecaptchaVerifier, signInWithPhoneNumber, signInWithCustomToken, type ConfirmationResult, type User, type Auth } from 'firebase/auth';
+import { verifyPasswordResetCode, confirmPasswordReset, getAuth, onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, updateProfile, signOut, RecaptchaVerifier, signInWithPhoneNumber, signInWithCustomToken, type ConfirmationResult, type User, type Auth } from 'firebase/auth';
 
 let _app: Promise<FirebaseApp> | null = null;
 let _auth: Auth | null = null;
@@ -86,6 +86,8 @@ export async function kayitOl(e: string, s: string, ad: string) {
 }
 export async function adGuncelle(ad: string) { const u = await kullanici(); if (u) { await updateProfile(u, { displayName: ad }); await u.getIdToken(true); } }
 export async function dogrulamaGonder() { const u = await kullanici(); if (u) await sendEmailVerification(u, { url: location.origin + '/giris/?dogrulandi=1' }); }
+export async function sifreKodKontrol(kod: string) { return verifyPasswordResetCode(await auth(), kod); }
+export async function sifreBelirle(kod: string, sifre: string) { const a = await auth(); const e = await verifyPasswordResetCode(a, kod); await confirmPasswordReset(a, kod, sifre); return (await signInWithEmailAndPassword(a, e, sifre)).user; }
 export async function sifreSifirla(e: string) { await sendPasswordResetEmail(await auth(), e, { url: location.origin + '/giris/' }); }
 export async function cikis() { await signOut(await auth()); try { localStorage.removeItem('pt_user'); Object.keys(localStorage).filter((k) => k.startsWith('pt_hesap_')).forEach((k) => localStorage.removeItem(k)); } catch { /* */ } }
 
