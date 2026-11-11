@@ -106,7 +106,7 @@ const yollar = [
           <button class="btn btn-p" type="submit">Evleri bul <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </form>
       </section>
-      <div class="side-slider fotolu" data-slider data-sure="5000" aria-roledescription="carousel" aria-label="Reklamlar">
+      <div class="side-slider fotolu mob-yok" data-slider data-sure="5000" aria-roledescription="carousel" aria-label="Reklamlar">
         <div class="slides" data-yan-slot>
           <a class="side-ad foto" href="/arazim-uygun-mu/" aria-roledescription="slide">
             <img src="/img/bungalov-b-960.webp" srcset="/img/bungalov-b-480.webp 480w, /img/bungalov-b-960.webp 960w" sizes="(max-width: 980px) 40vw, 300px" alt="" width="960" height="537" loading="lazy" decoding="async" />
@@ -129,7 +129,7 @@ const yollar = [
       </div>
     </div>
 
-    <nav class="tipbar" aria-label="Ev tipleri">
+    <nav class="tipbar mob-yok" aria-label="Ev tipleri">
       {tipler.map((t) => (
         <a href={tipUrl(t.k)}>
           <img src={tipImg(t.k, 'kare')} alt="" width="64" height="64" decoding="async" />
@@ -156,10 +156,10 @@ const yollar = [
 
     <section class="sec" style="padding-top:30px">
       <h2 class="small" style="margin:0 0 10px;color:var(--ink-2)">Sık arananlar</h2>
-      <ul class="pills">{aramalar.map((a) => <li><a href={a.url}>{a.ad}</a></li>)}</ul>
+      <ul class="pills mob-6">{aramalar.map((a) => <li><a href={a.url}>{a.ad}</a></li>)}</ul>
     </section>
 
-    <section class="sec">
+    <section class="sec mob-yok">
       <div class="sec-h"><div><h2>Size nasıl yardımcı olalım?</h2></div></div>
       <div class="ways">
         {yollar.map((y) => (
@@ -191,7 +191,7 @@ const yollar = [
     </section>
 
     <section class="sec">
-      <div class="how">
+      <div class="how mob-sade">
         <img src="/img/montaj-960.webp" srcset="/img/montaj-480.webp 480w, /img/montaj-960.webp 960w" sizes="(max-width: 860px) 100vw, 600px" alt="Prefabrik ev modülü vinçle temele yerleştiriliyor" width="960" height="537" loading="lazy" decoding="async" />
         <div class="st">
           <h2>Nasıl çalışır?</h2>
@@ -213,7 +213,7 @@ const yollar = [
     {son.length > 0 && (
       <section class="sec">
         <div class="sec-h"><div><h2>Almadan önce okuyun</h2><p>Fiyat, ruhsat, arsa ve kurulum hakkında sade rehberler.</p></div><a class="more" href="/rehber/">Rehbere git</a></div>
-        <div class="g3">
+        <div class="g3 mob-liste">
           {son.map((y) => (
             <a class="bcard" href={y.url}>
               <img src={img(y.gorsel, 480)} srcset={`${img(y.gorsel, 480)} 480w, ${img(y.gorsel, 960)} 960w`} sizes="(max-width: 900px) 92vw, 400px" alt="" width="480" height="270" loading="lazy" decoding="async" />
