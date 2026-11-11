@@ -1,0 +1,219 @@
+{
+  "tarih": "2026-11-11",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Prefabrik ev modelleri ve fiyatları 2026: hangi ev tipi kaç TL'den başlıyor, m² fiyatı ne kadar? 👇\n\n9 Kasım 2026 itibarıyla listemizde başlangıç fiyatları: konteyner ev 67.000 TL, bungalov 162.000 TL, prefabrik ev 225.000 TL, ahşap ev 364.700 TL, tiny house 429.000 TL ve çelik ev 575.000 TL. Ortanca m² fiyatları ise konteyner evde 6.627 TL, prefabrik evde 10.256 TL, çelik evde 17.000 TL, bungalovda 21.000 TL, ahşap evde 26.100 TL ve tiny house'ta 46.875 TL.\n\nPrefabrik ev modeli seçerken yalnızca fiyata değil; metrekare ve oda sayısına, yalıtım kalınlığına, teslim şekline, nakliye ve KDV'nin dahil olup olmadığına ve garanti şartlarına bakın.\n\nPrefabrikTeklif 149 firmanın 584 modelini listeler; sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir. Formu bir kez doldurun, teklifler 48 saatte tek tabloda.\n\n📌 Kaydedin, model seçerken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevmodelleri #prefabrikevfiyatları #prefabrikev #çelikevfiyatları #konteynerevfiyatları",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Fiyat rehberi",
+          "h": "Prefabrik ev modelleri: <em>hangisi kaç TL?</em>",
+          "boy": 92,
+          "p": "Altı ev tipinde başlangıç ve m² fiyatları, seçerken sorulacaklar.",
+          "img": "prefabrik-b-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 5",
+          "h": "Başlangıç <em>fiyatları</em>",
+          "boy": 84,
+          "alt_sag": "9 Kasım 2026 itibarıyla listemizde",
+          "maddeler": [
+            [
+              "Konteyner ev",
+              "67.000 TL’den"
+            ],
+            [
+              "Bungalov",
+              "162.000 TL’den"
+            ],
+            [
+              "Prefabrik ev",
+              "225.000 TL’den"
+            ],
+            [
+              "Ahşap ev",
+              "364.700 TL’den"
+            ],
+            [
+              "Tiny house",
+              "429.000 TL’den"
+            ],
+            [
+              "Çelik ev",
+              "575.000 TL’den"
+            ]
+          ]
+        },
+        {
+          "sablon": "liste",
+          "etiket": "3 / 5",
+          "h": "Ortanca <em>m² fiyatı</em>",
+          "boy": 84,
+          "koyu": true,
+          "alt_sag": "9 Kasım 2026 itibarıyla listemizde",
+          "maddeler": [
+            [
+              "Konteyner ev",
+              "6.627 TL / m²"
+            ],
+            [
+              "Prefabrik ev",
+              "10.256 TL / m²"
+            ],
+            [
+              "Çelik ev",
+              "17.000 TL / m²"
+            ],
+            [
+              "Bungalov",
+              "21.000 TL / m²"
+            ],
+            [
+              "Ahşap ev",
+              "26.100 TL / m²"
+            ],
+            [
+              "Tiny house",
+              "46.875 TL / m²"
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "4 / 5",
+          "h": "Model seçerken <em>sorun:</em>",
+          "p": "Fiyatı aynı kapsamla kıyaslayın.",
+          "maddeler": [
+            "m² ve oda sayısı",
+            "Yalıtım kalınlığı",
+            "Teslim şekli",
+            "Nakliye dahil mi?",
+            "KDV dahil mi?",
+            "Garanti şartları"
+          ],
+          "img": "ic-mekan-1344.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "5 / 5",
+          "h": "{modelSayisi} modeli <em>tek yerde</em> kıyaslayın.",
+          "p": "Formu bir kez doldurun; firmalar 48 saatte fiyat versin.",
+          "img": "hero-1344.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Prefabrik ne demek? Kısaca, önceden üretilmiş demek; yani hazır yapı. Duvar, döşeme ve çatı fabrikada hazırlanır; arsada yalnızca temel ve montaj yapılır. Panel, hafif çelik, konteyner ve ahşap evler bu gruba girer. Avantajı hızlı kurulum ve daha öngörülebilir maliyet. Modelleri ve fiyatları tek yerde karşılaştırın. Bağlantı profilde.",
+      "aciklama": "Prefabrik ne demek? Prefabrik ev nedir, prefabrikasyon nasıl yapılır; 20 saniyede özet 👇\n\nPrefabrik, İngilizce \"prefabricated\" yani önceden üretilmiş kelimesinden gelir. Prefabrik evde duvar, döşeme ve çatı elemanları fabrikada, standart ölçülerde hazırlanır; arsada yalnızca temel ve montaj yapılır. Türkçede \"hazır yapı\" ya da \"hazır ev\" de aynı anlamda kullanılır.\n\nPanel prefabrik, hafif çelik, konteyner/modüler ve ahşap evler bu gruba girer. Avantajları: daha kısa kurulum süresi, hafif yapı ağırlığı ve çoğu durumda daha öngörülebilir maliyet. Yalıtım ve ses geçişi gibi konular ise firmaya ve kapsama göre değişir; teklifte yazılı sorun.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir.\n\n📌 Kaydedin, prefabrik ev araştırırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikyapı #prefabrikevfiyatları #hazırev",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Prefabrik<br><em>ne demek?</em>",
+          "img": "prefabrik-960.webp",
+          "p": "Önceden üretilmiş, hazır yapı"
+        },
+        {
+          "t": 0,
+          "tur": "liste",
+          "h": "Fabrikada <em>üretilir</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "Duvar ve döşeme",
+            "Çatı elemanları",
+            "Arsada montaj"
+          ]
+        },
+        {
+          "t": 0,
+          "tur": "grid",
+          "h": "Bu gruba <em>girenler</em>",
+          "imgs": [
+            "prefabrik-c-960.webp",
+            "celik-960.webp",
+            "konteyner-b-960.webp",
+            "ahsap-960.webp"
+          ],
+          "cipler": [
+            "Panel",
+            "Hafif çelik",
+            "Konteyner",
+            "Ahşap"
+          ]
+        },
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Hızlı ve <em>öngörülebilir</em>",
+          "img": "montaj-1344.webp",
+          "p": "Kısa kurulum, daha az sürpriz maliyet"
+        },
+        {
+          "t": 0,
+          "tur": "son",
+          "h": "Fiyatları <em>tek yerde</em> kıyaslayın.",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 20.0
+    },
+    {
+      "seslendirme": "Konteyner ev kaça mal olur? Listemizde altmış yedi bin liradan başlıyor. Modellerin ortanca fiyatı ise yaklaşık yüz yetmiş bin lira. Otuz metrekare bir ev için kaba hesap, yaklaşık yüz doksan dokuz bin lira. Teklif alırken nakliye, montaj, zemin hazırlığı ve KDV dahil mi, sorun. Teklifleri tek tabloda karşılaştırın. Bağlantı profilde.",
+      "aciklama": "Konteyner ev kaça mal olur? Konteyner ev fiyatları 2026: başlangıç, ortanca fiyat ve 30 m² için kaba hesap 👇\n\n9 Kasım 2026 itibarıyla listemizde konteyner ev fiyatları 67.000 TL'den başlıyor; modellerin ortanca fiyatı 170.000 TL, ortanca m² fiyatı 6.627 TL. Buna göre 30 m² bir konteyner ev için kaba hesap yaklaşık 199.000 TL (30 × 6.627 TL). Bu bir kaba hesaptır; gerçek fiyat model, yalıtım ve kapsama göre değişir.\n\nKonteyner ev teklifi alırken nakliye, montaj, zemin hazırlığı ve KDV'nin fiyata dahil olup olmadığını yazılı isteyin; konteynerin koyulacağı yerin durumunu da önceden netleştirin.\n\nPrefabrikTeklif konteyner ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; teklifler 48 saatte tek tabloda.\n\n📌 Kaydedin, teklif alırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#konteynerev #konteynerevfiyatları #yaşamkonteyneri #prefabrikev",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Konteyner ev<br><em>kaça mal olur?</em>",
+          "img": "konteyner-960.webp",
+          "p": "9 Kasım 2026 itibarıyla listemizde"
+        },
+        {
+          "t": 0,
+          "tur": "sayi",
+          "h": "Ortanca fiyat",
+          "n": 170,
+          "birim": "bin TL · konteyner ev"
+        },
+        {
+          "t": 0,
+          "tur": "sayi",
+          "h": "30 m² için <em>kaba hesap</em>",
+          "n": 199,
+          "birim": "bin TL · yaklaşık"
+        },
+        {
+          "t": 0,
+          "tur": "liste",
+          "h": "Dahil mi? <em>Sorun</em>",
+          "ikon": "?",
+          "maddeler": [
+            "Nakliye",
+            "Montaj",
+            "Zemin hazırlığı",
+            "KDV"
+          ]
+        },
+        {
+          "t": 0,
+          "tur": "son",
+          "h": "Teklifleri <em>tek tabloda</em> görün.",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 20.0
+    }
+  ],
+  "yayin": {}
+}

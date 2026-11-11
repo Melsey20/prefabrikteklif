@@ -1,0 +1,118 @@
+{
+  "tarih": "2026-11-11",
+  "slot": "aksam",
+  "saat": "19:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Tiny house üreticileri, ilk ay bizden: prefabrik ev, tiny house ve ahşap ev firmalarına açılış kampanyası 📣 İlk 50 firmaya 1 ay ücretsiz üyelik.\n\nGoogle'da her ay 150 binden fazla \"prefabrik ev\" ve \"prefabrik ev fiyatları\" araması yapılıyor (Semrush, Kasım 2026). PrefabrikTeklif'te ev arayanların teklif talepleri; il, ev tipi, metrekare, oda sayısı, bütçe, arsa durumu ve başlama zamanıyla firma panelinize gelir. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz ev tiplerinden talep gelir.\n\nKart bilgisi istemiyoruz, satışınızdan komisyon almıyoruz; başvurunuz onaylanınca hemen teklif vermeye başlarsınız, devam etmezseniz hiçbir şey ödemezsiniz. Her firmayı resmî evrakları ve referanslarıyla kabul ediyoruz; onaylanan firmalar sitede \"Üye firma\" rozetiyle görünür.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👉 Başvuru: prefabrikteklif.com.tr/firma-kayit\n📌 Kaydedin, başvururken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tinyhouseüreticisi #prefabrikevfirmaları #prefabrikevüreticisi #ahşapevfirmaları",
+      "alt_text": "Başlık: Tiny house üreticileri, ilk ay bizden. Altında: İlk 50 firmaya 1 ay ücretsiz üyelik. Mavi gökyüzü altında ahşap kaplamalı küçük bir tiny house'un temsilî fotoğrafı; altta PrefabrikTeklif logosu ve prefabrikteklif.com.tr/firma-kayit adresi.",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Firmalar için",
+          "h": "Tiny house üreticileri, <em>ilk ay bizden.</em>",
+          "boy": 88,
+          "p": "İlk 50 firmaya 1 ay ücretsiz üyelik.",
+          "img": "tiny-house-960.webp",
+          "alt_sol": "prefabrikteklif.com.tr/firma-kayit",
+          "alt_sag": "Başvuru →"
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Prefabrik ev nasıl yapılır? Süreç kısaca şöyle. Önce imar durumuna bakılır, model ve firma seçilir, proje ve ruhsat alınır. Sonra temel yapılır; ev fabrikada üretilip arsaya taşınır ve monte edilir. En son iç bitiş, tesisat bağlantıları ve iskân başvurusu gelir. Ruhsatı almadan sipariş vermeyin; teklifleri bizde karşılaştırın. Bağlantı profilde.",
+      "aciklama": "Prefabrik ev nasıl yapılır? Prefabrik ev yapım süreci adım adım: arsadan anahtara 👇\n\n1) Arsanın imar durumunu kontrol edin. 2) Modeli ve firmayı seçin; aynı kapsamla en az üç teklif alın. 3) Proje ve yapı ruhsatını alın. 4) Zemin etüdüne göre temeli yaptırın (çoğunlukla radye temel). 5) Ev fabrikada üretilir. 6) Nakliye. 7) Montaj, çatı ve tesisat. 8) İç bitiş, bağlantılar ve iskân başvurusu.\n\nEn sık hata: ruhsatı almadan sipariş vermek. Temeli firmanın temel planına birebir uygun yaptırın; nakliye, montaj ve zemin betonunun fiyata dahil olup olmadığını yazılı isteyin, ödemeyi aşamalara bağlayın.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; teklifler 48 saatte tek tabloda.\n\n📌 Kaydedin, eve başlamadan önce lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevnasılyapılır #prefabrikevfiyatları #prefabrikevruhsatı",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Prefabrik ev<br><em>nasıl yapılır?</em>",
+          "img": "montaj-960.webp"
+        },
+        {
+          "t": 0,
+          "tur": "liste",
+          "h": "Önce <em>evrak</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "İmar durumu",
+            "Model ve firma",
+            "Proje ve ruhsat"
+          ]
+        },
+        {
+          "t": 0,
+          "tur": "liste",
+          "h": "Sonra <em>şantiye</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "Temel",
+            "Fabrikada üretim",
+            "Nakliye ve montaj"
+          ]
+        },
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Son adım: <em>iç bitiş ve iskân</em>",
+          "img": "prefabrik-b-960.webp"
+        },
+        {
+          "t": 0,
+          "tur": "son",
+          "h": "Ruhsattan önce <em>sipariş vermeyin.</em>",
+          "p": "Bağlantı profilde"
+        }
+      ],
+      "sure": 20.0
+    },
+    {
+      "seslendirme": "Talepler panelinize nasıl gelir? Ev arayan formu bir kez doldurur. Talep il, ev tipi, metrekare, bütçe ve arsa durumuyla gelir. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz ev tiplerinden talep gelir. İlk elli firmaya bir ay ücretsiz; kart bilgisi ve komisyon yok. Resmî evrak ve referansla başvurun; başvuru bağlantısı profilde.",
+      "aciklama": "Prefabrik ev firmaları için: talepler panelinize nasıl gelir? Tiny house, ahşap ev ve çelik ev üreticilerine açılış kampanyası; ilk 50 firmaya 1 ay ücretsiz üyelik 📣\n\nEv arayan PrefabrikTeklif'te formu bir kez doldurur; talep il, ev tipi, metrekare, oda sayısı, bütçe, arsa durumu ve başlama zamanıyla firma panelinize düşer. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz ev tiplerinden talep gelir. Google'da her ay 150 binden fazla \"prefabrik ev\" ve \"prefabrik ev fiyatları\" araması yapılıyor (Semrush, Kasım 2026).\n\nKart bilgisi istemiyoruz, satışınızdan komisyon almıyoruz; devam etmezseniz hiçbir şey ödemezsiniz. Her firmayı resmî evrakları ve referanslarıyla kabul ediyoruz.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👉 Başvuru: prefabrikteklif.com.tr/firma-kayit\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevfirmaları #tinyhouseüreticisi #prefabrikevüreticisi #çelikevfirmaları",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Talepler panelinize<br><em>nasıl gelir?</em>",
+          "img": "tiny-house-b-960.webp"
+        },
+        {
+          "t": 0,
+          "tur": "liste",
+          "h": "Talep <em>tüm detayıyla</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "İl ve ev tipi",
+            "m² ve bütçe",
+            "Arsa durumu"
+          ]
+        },
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Yalnız <em>size uyan</em> talepler",
+          "img": "celik-b-960.webp",
+          "p": "Hizmet illeriniz · ev tipleriniz"
+        },
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "İlk 50 firmaya <em>1 ay ücretsiz</em>",
+          "img": "bungalov-960.webp",
+          "p": "Kart bilgisi yok · komisyon yok"
+        },
+        {
+          "t": 0,
+          "tur": "son",
+          "h": "Evrak ve referansla <em>başvurun.</em>",
+          "p": "Başvuru bağlantısı profilde"
+        }
+      ],
+      "sure": 20.0
+    }
+  ],
+  "yayin": {}
+}
