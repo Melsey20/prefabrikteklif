@@ -237,6 +237,9 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
           h('span', { class: 'small' }, [t.araziAd, t.butce, t.teslim, t.zaman, t.kapsam?.join(', ')].filter(Boolean).join(' · ')),
           t.model ? h('span', { class: 'small' }, 'İlgilendiği model: ', h('b', {}, t.model)) : null,
           t.not ? h('span', { class: 'small muted' }, '“' + t.not + '”') : null,
+          t.teklif ? h('div', { class: 'yt-tk-s en' }, h('div', { class: 'yt-tk-u' }, h('b', {}, 'Verdiğiniz fiyat'), h('strong', {}, tl(t.teklif.fiyat) + (t.teklif.kdvDahil ? ' · KDV dahil' : ' · KDV hariç'))),
+            h('span', { class: 'xs muted' }, [t.teklif.teslimGun ? `${t.teklif.teslimGun} gün teslim` : '', t.teklif.garantiYil ? `${t.teklif.garantiYil} yıl garanti` : '', t.teklif.dahil?.length ? 'Dahil: ' + t.teklif.dahil.join(', ') : '', t.teklif.zaman ? tarih(t.teklif.zaman) : ''].filter(Boolean).join(' · ')),
+            t.teklif.not ? h('span', { class: 'xs' }, 'Notunuz: “' + t.teklif.not + '”') : null) : null,
           t.musteri ? h('div', { class: 'okmsg small', style: { padding: '10px 12px' } }, h('b', {}, t.musteri.ad), ' · ', h('a', { href: 'tel:' + t.musteri.telefon }, t.musteri.telefon), ' · ', h('a', { href: 'mailto:' + t.musteri.eposta }, t.musteri.eposta))
             : h('span', { class: 'xs muted' }, '🔒 Müşteri bilgileri fiyat verince açılır'),
           t.teklif ? mesajlar(t) : null,

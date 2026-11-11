@@ -206,3 +206,15 @@ document.querySelectorAll<HTMLButtonElement>('[data-paylas]').forEach((b) => b.a
     const eski = b.innerHTML; b.textContent = 'Bağlantı kopyalandı ✓'; setTimeout(() => { b.innerHTML = eski; }, 2200);
   } catch { /* kullanıcı vazgeçti */ }
 }));
+
+// Telefon kutuları: yazarken 0532 111 22 33 biçimine girer (başa 0 / +90 kendiliğinden düzelir). Tüm sayfalardaki type="tel" kutularında çalışır.
+function telBicim(el: HTMLInputElement) {
+  let d = el.value.replace(/\D/g, '');
+  if (d.startsWith('90') && d.length > 10) d = d.slice(2);
+  if (d && d[0] !== '0') d = '0' + d;
+  d = d.slice(0, 11);
+  const p = [d.slice(0, 4), d.slice(4, 7), d.slice(7, 9), d.slice(9, 11)].filter(Boolean).join(' ');
+  if (p !== el.value) { const sonda = el.selectionStart === el.value.length; el.value = p; if (sonda) try { el.setSelectionRange(p.length, p.length); } catch { /* yok */ } }
+}
+document.addEventListener('input', (e) => { const el = e.target as HTMLInputElement; if (el?.type === 'tel' && !el.dataset.ham) telBicim(el); });
+document.addEventListener('focusin', (e) => { const el = e.target as HTMLInputElement; if (el?.type === 'tel' && !el.dataset.ham) { el.inputMode = 'tel'; if (!el.placeholder) el.placeholder = '05xx xxx xx xx'; } });

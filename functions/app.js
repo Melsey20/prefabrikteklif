@@ -181,6 +181,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       ad: str(b.ad, 80), eposta: str(b.eposta, 120).toLowerCase(), telefon: str(b.telefon, 20), pazarlama: !!b.pazarlama,
     };
     if (!d.ad || !epostaMi(d.eposta) || d.telefon.replace(/\D/g, '').length < 10 || !d.il) hata(400, 'Lütfen zorunlu alanları doldurun.');
+    if (mod === 'teklif' && !d.model && (!d.oda || !d.m2 || !d.butce)) hata(400, 'Firmaların doğru fiyat verebilmesi için oda sayısı, yaklaşık m² ve bütçe gerekli.');
     if (!b.riza) hata(400, 'Devam etmek için açık rıza gerekli.');
     // Test talebi: yalnızca yönetici gönderebilir; yalnızca üyeliği aktif firmalara gider, listelenmiş firmalara davet gitmez
     const test = !!b.test && u?.rol === 'admin';
@@ -426,8 +427,8 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     d.reklam = rk.slice(0, 4);
     if (d.mevcut && !FIRMS.some((f) => f.slug === d.mevcut)) d.mevcut = '';
     if (!d.unvan || !/^\d{10,11}$/.test(d.vergiNo) || !d.yetkili || !epostaMi(d.eposta) || !d.tipler.length || !d.iller) hata(400, 'Lütfen zorunlu alanları doldurun (hizmet verdiğiniz iller dahil).');
-    if (!d.vergiDairesi || d.adres.length < 10 || !d.merkezIl || d.telefon.replace(/\D/g, '').length < 10) hata(400, 'Vergi dairesi, açık adres, firmanın bulunduğu il ve telefon zorunlu.');
-    // Doğrulama evrakı: vergi levhası + (faaliyet belgesi ya da Ticaret Sicil Gazetesi)
+    if (!d.merkezIl || d.telefon.replace(/\D/g, '').length < 10) hata(400, 'Firmanın bulunduğu il ve telefon zorunlu.');
+    // Doğrulama evrakı: vergi levhası zorunlu; faaliyet belgesi / sicil gazetesi / referans isteğe bağlı
     const evrakGiris = (Array.isArray(b.evrak) ? b.evrak : []).slice(0, 8).map((x) => ({ id: str(x?.id, 40), anahtar: str(x?.anahtar, 40) })).filter((x) => x.id && x.anahtar);
     const evrak = [];
     for (const x of evrakGiris) {
@@ -435,9 +436,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       if (sn.exists && sn.data().anahtar === x.anahtar && sn.data().durum === 'gecici') evrak.push({ id: x.id, tur: sn.data().tur, ad: sn.data().ad, boyut: sn.data().boyut, mime: sn.data().mime });
     }
     if (!evrak.some((e) => e.tur === 'vergi-levhasi')) hata(400, 'Vergi levhanızı yükleyin.');
-    if (!evrak.some((e) => e.tur === 'faaliyet' || e.tur === 'sicil-gazetesi')) hata(400, 'Faaliyet belgenizi ya da Ticaret Sicil Gazetesini yükleyin.');
     d.evrak = evrak;
-    if (d.referanslar.length < 10) hata(400, 'En az bir referans (teslim ettiğiniz bir proje ve iletişim bilgisi) yazın; referanssız kayıt almıyoruz.');
     if (b.sozlesmeOnay !== true || b.abonelikOnay !== true) hata(400, `Firma üyelik sözleşmesini ve aylık ${ABONELIK_TL} TL üyelik bedelini onaylayın.`);
     d.sozlesme = { surum: SOZLESME.firma.surum, abonelikSurum: SOZLESME.abonelik.surum, abonelikTl: ABONELIK_TL, onayZamani: now() };
     if (!(await rateLimit(req, 'basvuru', 3))) hata(429, 'Çok fazla deneme, sonra tekrar deneyin.');
@@ -448,7 +447,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const kampanyaAcik = (await kurucuKalan()) > 0;
     await Promise.allSettled([
       mail(a.admin, `Firma başvurusu: ${d.marka || d.unvan}${kampanyaAcik ? ' (1 ay ücretsiz kampanya)' : ''}`, sablon('Yeni firma başvurusu', kart(Object.entries({ Unvan: d.unvan, Marka: d.marka, 'Vergi dairesi': d.vergiDairesi, 'Vergi no': d.vergiNo, 'Merkez il': d.merkezIl, Evrak: evrak.map((e) => `${EVRAK_TUR[e.tur]} (${e.ad})`).join(', '), 'Listedeki kaydı': d.mevcut, 'Talep davetinden': d.davet ? 'Evet' : '', 'Reklam isteği': d.reklam.length ? `${d.reklam.map((k) => REKLAM_PAKET[k].ad).join(', ')} (aylık ${tl(d.reklam.reduce((t, k) => t + REKLAM_PAKET[k].fiyat, 0))}, üyeliğe ek)` : '', Adres: d.adres, Web: d.web, Yetkili: d.yetkili, Telefon: d.telefon, 'E-posta': d.eposta, Tipler: d.tipler.map((t) => TIP_AD[t]).join(', '), İller: d.iller, Belgeler: d.belgeler, Referanslar: d.referanslar, Not: d.not, Üyelik: `Aylık ${ABONELIK_TL} TL ve üyelik sözleşmesi onaylandı` })) + buton(`${a.site}/yonetim/#onaylar`, 'Onaylamak için yönetim paneli') + `<p>Başvuru no: ${ref.id}</p>`)),
-      mail(d.eposta, 'Başvurunuz alındı', sablon('Başvurunuz alındı', `<p>Sayın ${esc(d.yetkili)},</p><p>PrefabrikTeklif firma başvurunuz ve yüklediğiniz belgeler (${evrak.map((e) => esc(EVRAK_TUR[e.tur])).join(', ')}) alındı. Belgelerinizi ve referanslarınızı kontrol edeceğiz.</p><p>${kampanyaAcik ? `Açılış kampanyası kapsamında başvurunuz onaylanınca üyeliğiniz <b>1 ay ücretsiz</b> açılır; ödeme yapmadan size gelen taleplere hemen fiyat verebilirsiniz. Sonrasında devam ederseniz aylık ${ABONELIK_TL} TL ödersiniz.` : `Başvurunuz onaylandığında aylık <b>${ABONELIK_TL} TL</b> üyelik bedeli için ödeme bağlantısını e-postayla ileteceğiz. Ödeme sonrası firmanız “Üye firma” rozetiyle görünür ve size gelen taleplere fiyat verebilirsiniz.`}${d.davet ? ' Sizi davet eden talep de panelinizde olacak.' : ''}${d.reklam.length ? ` Seçtiğiniz reklam alanları (${esc(d.reklam.map((k) => REKLAM_PAKET[k].ad).join(', '))}) için uygunluğu kontrol edip ayrıca dönüş yapacağız.` : ''} Onay e-postasında şifrenizi belirleyip <b>${esc(d.eposta)}</b> adresiyle <a href="${esc(a.site)}/firma-paneli/">firma paneline</a> girmenizi sağlayan bir bağlantı olacak; oradan ürün ve fiyatlarınızı yönetebileceksiniz.</p><p style="font-size:12px;color:#4a5751">Onayladığınız sözleşme: <a href="${esc(a.site)}/firma-uyelik-sozlesmesi/">Firma üyelik sözleşmesi</a></p>`)),
+      mail(d.eposta, 'Başvurunuz alındı', sablon('Başvurunuz alındı', `<p>Sayın ${esc(d.yetkili)},</p><p>PrefabrikTeklif firma başvurunuz ve yüklediğiniz belgeler (${evrak.map((e) => esc(EVRAK_TUR[e.tur])).join(', ')}) alındı. Vergi levhanızı kontrol edip en geç 1 iş günü içinde dönüş yapacağız.</p><p>${kampanyaAcik ? `Açılış kampanyası kapsamında başvurunuz onaylanınca üyeliğiniz <b>1 ay ücretsiz</b> açılır; ödeme yapmadan size gelen taleplere hemen fiyat verebilirsiniz. Sonrasında devam ederseniz aylık ${ABONELIK_TL} TL ödersiniz.` : `Başvurunuz onaylandığında aylık <b>${ABONELIK_TL} TL</b> üyelik bedeli için ödeme bağlantısını e-postayla ileteceğiz. Ödeme sonrası firmanız “Üye firma” rozetiyle görünür ve size gelen taleplere fiyat verebilirsiniz.`}${d.davet ? ' Sizi davet eden talep de panelinizde olacak.' : ''}${d.reklam.length ? ` Seçtiğiniz reklam alanları (${esc(d.reklam.map((k) => REKLAM_PAKET[k].ad).join(', '))}) için uygunluğu kontrol edip ayrıca dönüş yapacağız.` : ''} Onay e-postasında şifrenizi belirleyip <b>${esc(d.eposta)}</b> adresiyle <a href="${esc(a.site)}/firma-paneli/">firma paneline</a> girmenizi sağlayan bir bağlantı olacak; oradan ürün ve fiyatlarınızı yönetebileceksiniz.</p><p style="font-size:12px;color:#4a5751">Onayladığınız sözleşme: <a href="${esc(a.site)}/firma-uyelik-sozlesmesi/">Firma üyelik sözleşmesi</a></p>`)),
     ]);
     return { ok: true };
   }
@@ -772,7 +771,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     for (const [n, d] of tq.docs.entries()) {
       const t = d.data();
       const [dv, tk, mj] = ekler[n];
-      talepler.push({ id: d.id, test: !!t.test, mesajlar: mj.exists ? (mj.data().mesajlar || []).slice(-100) : [], ...anonim(t), davetTur: dv.exists ? dv.data().tur || '' : '', olusturma: t.olusturma?.toMillis?.() || 0, sonTarihMs: t.sonTarih?.toMillis?.() || 0, davet: dv.exists ? dv.data().durum : 'yok', teklif: tk.exists ? { fiyat: tk.data().fiyat, kdvDahil: tk.data().kdvDahil } : null, ...(tk.exists ? { musteri: musteri(t) } : {}) });
+      talepler.push({ id: d.id, test: !!t.test, mesajlar: mj.exists ? (mj.data().mesajlar || []).slice(-100) : [], ...anonim(t), davetTur: dv.exists ? dv.data().tur || '' : '', olusturma: t.olusturma?.toMillis?.() || 0, sonTarihMs: t.sonTarih?.toMillis?.() || 0, davet: dv.exists ? dv.data().durum : 'yok', teklif: tk.exists ? (({ fiyat, kdvDahil, dahil, teslimGun, garantiYil, not, zaman }) => ({ fiyat, kdvDahil: !!kdvDahil, dahil: (dahil || []).map((k) => DAHIL_AD[k] || k), teslimGun: teslimGun || null, garantiYil: garantiYil || null, not: not || '', zaman: zaman?.toMillis?.() || 0 }))(tk.data()) : null, ...(tk.exists ? { musteri: musteri(t) } : {}) });
     }
     talepler.sort((a, b) => b.olusturma - a.olusturma);
     const gq = await db.collection('geriBildirimler').where('firma', '==', slug).limit(50).get();

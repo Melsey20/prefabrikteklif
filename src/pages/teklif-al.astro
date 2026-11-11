@@ -30,19 +30,19 @@ const firmaAd = Object.fromEntries(firms.map((f) => [f.slug, f.kisaAd]));
           </div>
         </fieldset>
         <div class="two">
-          <label class="f">Oda sayısı
-            <select name="oda"><option value="">Fark etmez</option><option>1+0</option><option>1+1</option><option>2+1</option><option>3+1</option><option>4+1</option><option>5+1</option></select>
+          <label class="f">Oda sayısı *
+            <select name="oda" required><option value="">Seçin</option><option>1+0</option><option>1+1</option><option>2+1</option><option>3+1</option><option>4+1</option><option>5+1</option></select>
           </label>
-          <label class="f">Yaklaşık m²
-            <input type="number" name="m2" inputmode="numeric" min="10" max="1000" placeholder="Ör: 80" />
+          <label class="f">Yaklaşık m² *
+            <input type="number" name="m2" inputmode="numeric" min="10" max="1000" placeholder="Ör: 80" required />
           </label>
         </div>
         <div class="two">
           <label class="f">Teslim şekli
-            <select name="teslim"><option value="">Emin değilim</option><option value="anahtar">Anahtar teslim</option><option value="kaba">Kaba / ileri kaba</option></select>
+            <select name="teslim"><option value="anahtar" selected>Anahtar teslim</option><option value="kaba">Kaba / ileri kaba</option><option value="">Emin değilim</option></select>
           </label>
-          <label class="f">Bütçe
-            <select name="butce"><option value="">Belirtmek istemiyorum</option><option value="0-500000">500 bin TL altı</option><option value="500000-1000000">500 bin – 1 milyon TL</option><option value="1000000-2000000">1 – 2 milyon TL</option><option value="2000000-999999999">2 milyon TL üstü</option></select>
+          <label class="f">Bütçe *
+            <select name="butce" required><option value="">Seçin</option><option value="0-500000">500 bin TL altı</option><option value="500000-1000000">500 bin – 1 milyon TL</option><option value="1000000-2000000">1 – 2 milyon TL</option><option value="2000000-999999999">2 milyon TL üstü</option></select>
           </label>
         </div>
         <fieldset>
@@ -145,6 +145,8 @@ const firmaAd = Object.fromEntries(firms.map((f) => [f.slug, f.kisaAd]));
     firmaCiz();
     // Giriş yapmış kullanıcının bilgilerini doldur
     try { const u = JSON.parse(localStorage.getItem('pt_user') || 'null'); if (u) { set('ad', u.ad || ''); set('eposta', u.eposta || ''); } } catch { /* */ }
+    // Daha önce talep gönderdiyse iletişim bilgileri hazır gelir (yalnızca bu cihazda)
+    try { const k = JSON.parse(localStorage.getItem('pt_iletisim') || 'null'); if (k) (['ad', 'telefon', 'eposta'] as const).forEach((x) => { const el = form.elements.namedItem(x) as HTMLInputElement | null; if (el && !el.value && k[x]) el.value = k[x]; }); } catch { /* */ }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -154,6 +156,9 @@ const firmaAd = Object.fromEntries(firms.map((f) => [f.slug, f.kisaAd]));
       d.firmalar = firmalar; d.riza = mod === 'surec' ? !!d.rizaSurec : !!d.riza;
       if (new URLSearchParams(location.search).get('test') === '1') d.test = true;
       const tel = String(d.telefon || '').replace(/\D/g, '');
+      const detay = mod === 'teklif' && !d.model ? (!d.oda ? 'Oda sayısını seçin.' : !(+d.m2 >= 10) ? 'Yaklaşık metrekareyi yazın (ör. 80).' : !d.butce ? 'Bütçe aralığınızı seçin; firmalar buna göre fiyat verir.' : '') : '';
+      const odakla = (n: string) => { const el = form.elements.namedItem(n) as HTMLElement | null; el?.focus?.(); };
+      if (detay) { hata.textContent = detay; hata.hidden = false; odakla(!d.oda ? 'oda' : !(+d.m2 >= 10) ? 'm2' : 'butce'); (form.elements.namedItem(!d.oda ? 'oda' : !(+d.m2 >= 10) ? 'm2' : 'butce') as HTMLElement)?.scrollIntoView({ block: 'center' }); return; }
       const msg = !d.ad ? 'Ad soyad yazın.' : tel.length < 10 ? 'Geçerli bir telefon yazın.' : !/^\S+@\S+\.\S+$/.test(d.eposta || '') ? 'Geçerli bir e-posta yazın.' : !d.il ? 'İl seçin.' : !d.riza ? 'Devam etmek için açık rıza kutusunu işaretleyin.' : '';
       if (msg) { hata.textContent = msg; hata.hidden = false; hata.scrollIntoView({ block: 'center' }); return; }
       const btn = document.getElementById('gonder') as HTMLButtonElement; btn.disabled = true; btn.textContent = 'Gönderiliyor…';
@@ -165,6 +170,7 @@ const firmaAd = Object.fromEntries(firms.map((f) => [f.slug, f.kisaAd]));
         const r = await fetch('/api/teklif', { method: 'POST', headers, body: JSON.stringify(d) });
         const j = await r.json().catch(() => ({}));
         if (!r.ok) throw new Error(j.hata || 'Gönderilemedi.');
+        try { localStorage.setItem('pt_iletisim', JSON.stringify({ ad: d.ad, telefon: d.telefon, eposta: d.eposta })); } catch { /* */ }
         (window as any).gtag?.('event', 'generate_lead', { mod });
         location.href = `/teklif-alindi/?mod=${mod}&n=${j.firmaSayisi || 0}`;
       } catch (err: any) { hata.textContent = err.message + ' Lütfen tekrar deneyin.'; hata.hidden = false; btn.disabled = false; btn.textContent = mod === 'surec' ? 'Ön görüşme talep et' : 'Talebi gönder'; }
