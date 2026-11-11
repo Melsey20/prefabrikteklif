@@ -274,6 +274,10 @@ test('yönetim: açık talebin süresi uzatılır (üst sınır yok); geçmiş t
   assert.equal((await r({ talep: 't1', sonTarih: zaman.simdi() - 1000 })).ok, false);
   assert.equal((await r({ talep: 't1', sonTarih: zaman.simdi() + 30 * 24 * 3600000 })).ok, true, 'üst sınır yok');
   assert.equal((await r({ talep: 't2', sonTarih: yeni })).ok, false);
+  await db.collection('talepler').doc('t3').set({ durum: 'gonderildi', sonTarih: Timestamp.fromMillis(zaman.simdi() - 3600000) });
+  const y = await r({ talep: 't3', sonTarih: yeni });
+  assert.equal(y.ok, true); assert.equal(y.yenidenAcildi, true);
+  assert.equal((await db.collection('talepler').doc('t3').get()).data().durum, 'acik', 'süresi dolmuş talep yeniden açılır');
   assert.equal(giden.length, 0, 'müşteriye bildirim gitmez');
 });
 

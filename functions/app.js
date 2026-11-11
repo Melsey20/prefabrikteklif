@@ -1445,11 +1445,14 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const b = req.body || {};
     const ref = db.collection('talepler').doc(str(b.talep, 60)); const s = await ref.get();
     if (!s.exists) hata(404, 'Talep bulunamadı.');
-    if (s.data().durum !== 'acik') hata(409, 'Talep açık değil; süresi değiştirilemez.');
+    // Süresi dolup özeti gönderilmiş talep de yeniden açılabilir (müşteriye e-posta gitmez; yeni süre dolunca gelen tekliflerle yeni özet gider)
+    const durum = s.data().durum;
+    if (durum !== 'acik' && durum !== 'gonderildi') hata(409, 'Bu talebin süresi değiştirilemez.');
     const t = typeof b.sonTarih === 'number' ? b.sonTarih : Date.parse(str(b.sonTarih, 40));
     if (!Number.isFinite(t) || t <= now()) hata(400, 'Yeni süre şu andan sonraki bir tarih olmalı.');
-    await ref.update({ sonTarih: Timestamp.fromMillis(t), sureUzatma: FieldValue.arrayUnion({ eski: s.data().sonTarih?.toMillis?.() || 0, yeni: t, zaman: now() }) });
-    return { ok: true, sonTarih: t };
+    await ref.update({ sonTarih: Timestamp.fromMillis(t), ...(durum === 'gonderildi' ? { durum: 'acik', yenidenAcildi: now() } : {}),
+      sureUzatma: FieldValue.arrayUnion({ eski: s.data().sonTarih?.toMillis?.() || 0, yeni: t, zaman: now(), ...(durum === 'gonderildi' ? { yenidenAcildi: true } : {}) }) });
+    return { ok: true, sonTarih: t, yenidenAcildi: durum === 'gonderildi' };
   }
   async function yonetimTalepIlet(req) {
     await yonetici(req);
