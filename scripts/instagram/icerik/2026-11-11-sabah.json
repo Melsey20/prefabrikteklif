@@ -177,7 +177,7 @@
           "p": "İlan fiyatı çoğu zaman eksik kapsamlı"
         },
         {
-          "t": 0,
+          "t": 5.62,
           "tur": "liste",
           "h": "Fiyata <em>dahil mi?</em>",
           "ikon": "?",
@@ -188,7 +188,7 @@
           ]
         },
         {
-          "t": 0,
+          "t": 10.12,
           "tur": "liste",
           "h": "İyi ev <em>burada ayrılır</em>",
           "ikon": "✓",
@@ -199,20 +199,20 @@
           ]
         },
         {
-          "t": 0,
+          "t": 15.08,
           "tur": "foto",
           "h": "Sözleşmeye <em>yazdırın</em>",
           "img": "montaj-1344.webp",
           "p": "Ödemeyi aşamalara bölün"
         },
         {
-          "t": 0,
+          "t": 18.76,
           "tur": "son",
           "h": "Teklifleri <em>aynı başlıklarla</em> kıyaslayın.",
           "p": "Bağlantı profilde"
         }
       ],
-      "sure": 20.0,
+      "sure": 22.9,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-11-sabah-3.mp3",
       "ses": {
         "kaynak": "elevenlabs",

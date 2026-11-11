@@ -83,7 +83,7 @@
           "img": "celik-c-960.webp"
         },
         {
-          "t": 0,
+          "t": 3.66,
           "tur": "liste",
           "h": "Çelik ev: <em>hafif ve hızlı</em>",
           "ikon": "✓",
@@ -94,7 +94,7 @@
           ]
         },
         {
-          "t": 0,
+          "t": 8.38,
           "tur": "liste",
           "h": "Betonarme: <em>masif</em>",
           "ikon": "✓",
@@ -104,20 +104,20 @@
           ]
         },
         {
-          "t": 0,
+          "t": 14.06,
           "tur": "foto",
           "h": "Mantolama ve <em>ses yalıtımı</em>",
           "img": "celik-b-960.webp",
           "p": "Çelik evde mutlaka sorun"
         },
         {
-          "t": 0,
+          "t": 18.8,
           "tur": "son",
           "h": "Çelik ev <em>575 bin TL’den</em>",
           "p": "9 Kasım 2026 itibarıyla listemizde"
         }
       ],
-      "sure": 20.0,
+      "sure": 24.16,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-11-aksam-3.mp3",
       "ses": {
         "kaynak": "elevenlabs",
