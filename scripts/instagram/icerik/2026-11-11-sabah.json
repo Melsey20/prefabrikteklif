@@ -229,7 +229,7 @@
   ],
   "yayin": {
     "hesap": "17841474767654199",
-    "durum": "yayında (Meta Graph API): 2/2 öğe yayınlandı",
+    "durum": "yayında (Meta Graph API): 2/2 öğe yayınlandı · Reels 15:20/15:40 sırada",
     "medya": {
       "tasarim": [
         "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/0e1e0ae8-d82b-4b6b-bd56-5d7aa43c335c.jpg",
@@ -239,7 +239,10 @@
         "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/056593c4-9754-4bd1-a7e9-2e7686d62893.jpg"
       ],
       "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/9ee1e4bb-2aca-4972-94ab-aad6a312e97e.jpg",
-      "reels": []
+      "reels": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/4f316f8d-82d7-4455-892c-8dc3a4c6f391.mp4",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/f7f74c72-b351-4516-8d34-3fd0f8e00df9.mp4"
+      ]
     },
     "yayinlanan": {
       "tasarim": {

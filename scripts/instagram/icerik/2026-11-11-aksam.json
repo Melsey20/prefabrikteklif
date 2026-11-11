@@ -128,13 +128,16 @@
   ],
   "yayin": {
     "hesap": "17841474767654199",
-    "durum": "yayın bekliyor (Reels: ElevenLabs seslendirmesi üretiliyor)",
+    "durum": "yayın bekliyor",
     "medya": {
       "tasarim": [
         "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/f99c4839-85a8-4445-8f9c-12aac470ca28.jpg"
       ],
       "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/d15eac38-c231-460a-b3a3-2095052b46d9.jpg",
-      "reels": []
+      "reels": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/6cf27e46-cf42-4b61-9030-6bf5d78683e3.mp4",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/f1c0d504-6c14-4b8d-9292-8c730b5edbe7.mp4"
+      ]
     }
   }
 }
