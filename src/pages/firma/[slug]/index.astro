@@ -70,6 +70,19 @@ const tipYazi = tipler.length > 1 ? `${tipler.slice(0, -1).join(', ')} ve ${tipl
         <div class="box dk">
           <a class="btn btn-w btn-block" href={`/teklif-al/?firmalar=${f.slug}&tip=${encodeURIComponent(ana)}`}>Bu firmadan teklif al</a>
           <p class="small" style="margin:10px 0 0">Bilgileriniz yalnızca fiyat vermeyi kabul ederse firmayla paylaşılır.</p>
+          <details class="soru-k" style="margin-top:12px">
+            <summary class="btn btn-g btn-block" style="list-style:none;cursor:pointer">Firmaya soru sor</summary>
+            <form class="form soru-f" data-firma={f.slug} novalidate style="gap:8px;margin-top:10px;background:#fff;color:var(--ink);border-radius:12px;padding:12px">
+              <label class="f">Sorunuz<textarea name="soru" rows="3" maxlength="1500" required placeholder="Ör. 80 m² 2+1 evin Malatya’ya nakliyesi fiyata dahil mi?"></textarea></label>
+              <label class="f">Ad soyad<input type="text" name="ad" autocomplete="name" maxlength="80" required /></label>
+              <label class="f">E-posta (yanıt buraya gelir)<input type="email" name="eposta" autocomplete="email" maxlength="120" required /></label>
+              <label class="f">Telefon (isteğe bağlı)<input type="tel" name="telefon" autocomplete="tel" maxlength="20" /></label>
+              <div class="hp" aria-hidden="true"><label>Web<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
+              <label class="chk small"><input type="checkbox" name="riza" required /> <span>Sorumun ve iletişim bilgilerimin yanıtlanması için bu firmaya iletilmesini onaylıyorum. <a href="/kvkk-aydinlatma-metni/" target="_blank">Aydınlatma metni</a></span></label>
+              <button class="btn btn-p" type="submit">Soruyu gönder</button>
+              <p class="err small" hidden role="alert"></p>
+            </form>
+          </details>
           {(f.web || f.il) && <p class="small" style="margin:8px 0 0;display:flex;gap:14px;flex-wrap:wrap">{f.web && <a style="color:#fff" href={f.web} rel="nofollow noopener" target="_blank">Firmanın sitesi ↗</a>}{f.il && <a style="color:#fff" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${f.ad || f.kisaAd} ${f.il}`)}`} rel="nofollow noopener" target="_blank">Haritada gör ↗</a>}</p>}
         </div>
       </aside>
@@ -114,6 +127,19 @@ const tipYazi = tipler.length > 1 ? `${tipler.slice(0, -1).join(', ')} ve ${tipl
     </div>
   </div>
   <script>
+    // Firmaya soru: yanıt doğrudan soranın e-postasına gider
+    document.querySelectorAll<HTMLFormElement>('.soru-f').forEach((f) => f.addEventListener('submit', async (e) => {
+      e.preventDefault(); const er = f.querySelector('.err') as HTMLElement; er.hidden = true;
+      const d: any = Object.fromEntries(new FormData(f)); d.firma = f.dataset.firma; d.riza = !!d.riza;
+      const m = String(d.soru || '').trim().length < 5 ? 'Sorunuzu yazın.' : !d.ad ? 'Adınızı yazın.' : !/^\S+@\S+\.\S+$/.test(d.eposta || '') ? 'Geçerli bir e-posta yazın.' : !d.riza ? 'Onay kutusunu işaretleyin.' : '';
+      if (m) { er.textContent = m; er.hidden = false; return; }
+      const btn = f.querySelector('button[type=submit]') as HTMLButtonElement; btn.disabled = true; btn.textContent = 'Gönderiliyor…';
+      try {
+        const r = await fetch('/api/firma-soru', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) }); const j = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(j.hata || 'Gönderilemedi.');
+        f.replaceChildren(Object.assign(document.createElement('p'), { className: 'okmsg small', textContent: j.iletildi ? 'Sorunuz firmaya iletildi. Yanıt e-postanıza gelecek; birkaç gün içinde gelmezse fiyat teklifi isteyerek diğer firmalardan da yanıt alabilirsiniz.' : 'Sorunuz bize ulaştı; firmaya ulaştırıp size dönüş yapacağız.' }));
+      } catch (err: any) { btn.disabled = false; btn.textContent = 'Soruyu gönder'; er.textContent = err.message; er.hidden = false; }
+    }));
     import { katalog, kampanyaYazilari } from '../../../scripts/katalog';
     kampanyaYazilari();
     const box = document.querySelector<HTMLElement>('[data-yeni]');

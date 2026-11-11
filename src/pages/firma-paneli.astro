@@ -214,9 +214,10 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       return f;
     }
     function mesajlar(t: any) {
+      const soru = !t.teklif;
       const liste = h('div', { class: 'mj-liste' }, ...(t.mesajlar || []).map((m: any) => h('div', { class: 'mj ' + (m.kim === 'firma' ? 'ben' : '') }, h('span', { class: 'xs muted' }, (m.kim === 'firma' ? 'Siz' : t.musteri?.ad || 'Müşteri') + ' · ' + tarih(m.zaman)), h('p', {}, m.metin))));
-      const metin = h('textarea', { rows: 2, maxlength: 2000, placeholder: 'Müşteriye mesaj yazın (e-postasına da gider)' }) as HTMLTextAreaElement;
-      return h('details', { class: 'mj-kutu', open: (t.mesajlar || []).length > 0 }, h('summary', {}, `Mesajlar${(t.mesajlar || []).length ? ` (${t.mesajlar.length})` : ''}`), liste,
+      const metin = h('textarea', { rows: 2, maxlength: 2000, placeholder: soru ? 'Fiyat vermeden önce müşteriye sorunuz (ör. arsa eğimli mi? kaç kişi yaşayacak?)' : 'Müşteriye mesaj yazın (e-postasına da gider)' }) as HTMLTextAreaElement;
+      return h('details', { class: 'mj-kutu', open: (t.mesajlar || []).length > 0 }, h('summary', {}, `${soru ? 'Müşteriye soru sor' : 'Mesajlar'}${(t.mesajlar || []).length ? ` (${t.mesajlar.length})` : ''}`), soru ? h('span', { class: 'xs muted' }, 'Müşterinin adı ve iletişim bilgileri fiyat verene kadar gizli kalır; sorunuz ona e-postayla iletilir, yanıtı burada görünür.') : null, liste,
         h('form', { class: 'mj-form', onsubmit: async (e: Event) => { e.preventDefault(); if (metin.value.trim().length < 2) return; try { await api('/api/firma/mesaj' + fq, { talep: t.id, metin: metin.value }); toast('Mesaj gönderildi'); yukle(); } catch (err: any) { toast(err.message); } } }, metin, h('button', { class: 'btn btn-p btn-s', type: 'submit' }, 'Gönder')));
     }
     function taleplerCiz() {
@@ -242,7 +243,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
             t.teklif.not ? h('span', { class: 'xs' }, 'Notunuz: “' + t.teklif.not + '”') : null) : null,
           t.musteri ? h('div', { class: 'okmsg small', style: { padding: '10px 12px' } }, h('b', {}, t.musteri.ad), ' · ', h('a', { href: 'tel:' + t.musteri.telefon }, t.musteri.telefon), ' · ', h('a', { href: 'mailto:' + t.musteri.eposta }, t.musteri.eposta))
             : h('span', { class: 'xs muted' }, '🔒 Müşteri bilgileri fiyat verince açılır'),
-          t.teklif ? mesajlar(t) : null,
+          t.teklif || (acik && t.davet !== 'red') || (t.mesajlar || []).length ? mesajlar(t) : null,
           !t.teklif && acik && t.davet !== 'red' ? h('div', { style: { display: 'flex', gap: '8px', flexWrap: 'wrap' } },
             V.uye ? h('button', { class: 'btn btn-p btn-s', type: 'button', 'data-talep': t.id, onclick: () => modal('Fiyat ver', teklifFormu(t)) }, 'Fiyat ver')
               : h('span', { class: 'st-b a' }, '🔒 Üyelik ödemesinden sonra fiyat verebilirsiniz'),

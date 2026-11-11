@@ -720,7 +720,9 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       if (t.mod === 'surec') continue;
       const ms = new Map((await d.ref.collection('mesajlar').get()).docs.map((x) => [x.id, (x.data().mesajlar || []).slice(-100)]));
       const tk = (await Promise.all(tkler.get(d.id).docs.map(async (x) => { const y = x.data(); return { firma: firmAd(y.firma), firmaSlug: y.firma, fiyat: y.fiyat, kdvDahil: y.kdvDahil, dahil: (y.dahil || []).map((k) => DAHIL_AD[k]), teslimGun: y.teslimGun, garantiYil: y.garantiYil, not: y.not, zaman: y.zaman?.toMillis?.() || 0, iletisim: await firmaIletisim(y.firma), mesajlar: ms.get(y.firma) || [] }; }))).sort((a, b) => a.fiyat - b.fiyat);
-      talepler.push({ id: d.id, ...anonim(t), durum: t.durum, olusturma: t.olusturma?.toMillis?.() || 0, sonTarihMs: t.sonTarih?.toMillis?.() || 0, teklifler: tk });
+      // Fiyat vermeden soru soran firmalar (yanıt bekleyen sorular)
+      const sorular = [...ms.entries()].filter(([f, m]) => m.length && !tk.some((x) => x.firmaSlug === f)).map(([f, m]) => ({ firmaSlug: f, firma: firmAd(f), mesajlar: m }));
+      talepler.push({ id: d.id, ...anonim(t), durum: t.durum, olusturma: t.olusturma?.toMillis?.() || 0, sonTarihMs: t.sonTarih?.toMillis?.() || 0, teklifler: tk, sorular });
     }
     talepler.sort((a, b) => b.olusturma - a.olusturma);
     const sq = [db.collection('siparisler').where('uid', '==', u.uid).limit(20).get()];
@@ -766,18 +768,44 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       if (!sahip) hata(404, 'Talep bulunamadı.');
       firma = str(b.firma, 80);
     } else { u = await firmaKim(req); firma = u.firma; }
-    if (!(await ref.collection('teklifler').doc(firma).get()).exists) hata(409, 'Mesajlaşma, firma fiyat verdikten sonra açılır.');
+    const teklifVar = (await ref.collection('teklifler').doc(firma).get()).exists;
+    const mjVar = (await ref.collection('mesajlar').doc(firma).get()).exists;
+    // Fiyat vermeden önce: davetli firma soru sorabilir (müşteri adı gizli kalır); müşteri, kendisine soru soran firmaya yanıt verebilir
+    if (!teklifVar) {
+      if (kimden === 'firma' && !((t.firmalar || []).includes(firma) && t.durum === 'acik')) hata(409, 'Bu talebe soru soramazsınız.');
+      if (kimden === 'musteri' && !mjVar) hata(409, 'Mesajlaşma, firma fiyat verdikten ya da size soru sorduktan sonra açılır.');
+    }
     if (!(await rateLimit(req, `mesaj:${u.uid}`, 40))) hata(429, 'Çok fazla mesaj gönderildi, biraz sonra tekrar deneyin.');
     await ref.collection('mesajlar').doc(firma).set({ firma, mesajlar: FieldValue.arrayUnion({ kim: kimden, metin, zaman: now() }), son: FieldValue.serverTimestamp(), [`okunmadi_${kimden === 'musteri' ? 'firma' : 'musteri'}`]: true }, { merge: true });
     const a = ayar(); const fa = firmAd(firma);
     if (kimden === 'musteri') {
       const f = (await db.collection('firmalar').doc(firma).get()).data() || {};
       const to = f.eposta || f.panelEpostalari?.[0];
-      if (to) await mail(to, `Müşteriden mesaj: ${TIP_AD[t.tip]}, ${t.il}`, sablon('Müşteriniz size yazdı', `<p><b>${esc(t.ad)}</b> fiyat verdiğiniz talep için mesaj gönderdi:</p><blockquote style="margin:14px 0;padding:12px 16px;border-left:4px solid #17663f;background:#f8faf7;border-radius:8px">${esc(metin)}</blockquote>${buton(`${a.site}/firma-paneli/#talepler`, 'Panelden yanıtla')}`, { ust: 'Yeni mesaj' }));
+      if (to) await mail(to, `Müşteriden mesaj: ${TIP_AD[t.tip]}, ${t.il}`, sablon('Müşteriniz size yazdı', `<p><b>${teklifVar ? esc(t.ad) : 'Müşteri'}</b> ${teklifVar ? 'fiyat verdiğiniz' : 'sorduğunuz'} talep için mesaj gönderdi:</p><blockquote style="margin:14px 0;padding:12px 16px;border-left:4px solid #17663f;background:#f8faf7;border-radius:8px">${esc(metin)}</blockquote>${buton(`${a.site}/firma-paneli/#talepler`, 'Panelden yanıtla')}`, { ust: 'Yeni mesaj' }));
     } else if (t.eposta) {
-      await mail(t.eposta, `${fa} size yazdı`, sablon(`${fa} size yazdı`, `<p>Merhaba ${esc(t.ad)},</p><p><b>${esc(fa)}</b> talebinizle ilgili mesaj gönderdi:</p><blockquote style="margin:14px 0;padding:12px 16px;border-left:4px solid #17663f;background:#f8faf7;border-radius:8px">${esc(metin)}</blockquote>${buton(`${a.site}/hesabim/#teklifler`, 'Yanıtla')}`, { ust: 'Yeni mesaj' }));
+      await mail(t.eposta, `${fa} size yazdı`, sablon(`${fa} size yazdı`, `<p>Merhaba ${esc(t.ad)},</p><p><b>${esc(fa)}</b> talebinizle ilgili ${teklifVar ? 'mesaj gönderdi' : 'fiyat vermeden önce bir soru sordu (adınız ve iletişim bilgileriniz firmaya gizli)'}:</p><blockquote style="margin:14px 0;padding:12px 16px;border-left:4px solid #17663f;background:#f8faf7;border-radius:8px">${esc(metin)}</blockquote>${buton(`${a.site}/hesabim/${t.sahipKod ? `?bagla=${ref.id}.${t.sahipKod}` : ''}#teklifler`, 'Yanıtla')}`, { ust: 'Yeni mesaj' }));
     }
     return { ok: true };
+  }
+  // ---- POST /api/firma-soru: firma sayfasından firmaya soru (müşteri iletişim bilgisini kendisi paylaşır; yanıt doğrudan müşteriye gider) ----
+  async function firmaSoru(req) {
+    const b = req.body || {};
+    if (str(b.website)) return { ok: true };
+    const slug = str(b.firma, 80); const st = FIRMS.find((f) => f.slug === slug);
+    if (!st) hata(404, 'Firma bulunamadı.');
+    const d = { firma: slug, ad: str(b.ad, 80), eposta: str(b.eposta, 120).toLowerCase(), telefon: str(b.telefon, 20), soru: str(b.soru, 1500) };
+    if (!d.ad || !epostaMi(d.eposta) || d.soru.length < 5) hata(400, 'Adınızı, e-postanızı ve sorunuzu yazın.');
+    if (!b.riza) hata(400, 'Sorunuzun ve iletişim bilgilerinizin firmaya iletilmesini onaylayın.');
+    if (!(await rateLimit(req, 'soru', 5))) hata(429, 'Çok fazla soru gönderildi, biraz sonra tekrar deneyin.');
+    const fd = (await db.collection('firmalar').doc(slug).get()).data() || {};
+    const dkS = (await db.collection('davetKayit').doc(slug).get()).data() || {};
+    const to = (dkS.iptal || dkS.gecersiz) ? '' : (fd.eposta || fd.panelEpostalari?.[0] || st.eposta || '');
+    const ref = await db.collection('sorular').add({ ...d, iletildi: !!to, zaman: FieldValue.serverTimestamp() });
+    const a = ayar();
+    const govde = `<p>Merhaba,</p><p>PrefabrikTeklif’teki firma sayfanız üzerinden bir soru geldi:</p><blockquote style="margin:14px 0;padding:12px 16px;border-left:4px solid #17663f;background:#f8faf7;border-radius:8px">${esc(d.soru)}</blockquote>${kart([['Ad soyad', d.ad], ['E-posta', d.eposta], ['Telefon', d.telefon]].filter((x) => x[1]))}<p>Bu e-postayı <b>yanıtladığınızda</b> cevabınız doğrudan soruyu soran kişiye gider.</p>`;
+    if (to) await mail(to, `Firma sayfanızdan soru: ${d.ad}`, sablon('Size bir soru var', govde, { ust: 'Yeni soru' }), { yanit: d.eposta });
+    await mail(a.admin, `[Soru] ${st.kisaAd}: ${d.ad}`, sablon('Firmaya soru soruldu', `<p><b>${esc(st.kisaAd)}</b> ${to ? `(${esc(to)}) adresine iletildi` : '<b>e-postası olmadığı için iletilemedi</b>; lütfen firmaya ulaştırın'}.</p>${govde}`), { yanit: d.eposta });
+    return { ok: true, iletildi: !!to, id: ref.id };
   }
   const musteriMesaj = (req) => mesajYaz(req, 'musteri');
   const firmaMesaj = (req) => mesajYaz(req, 'firma');
@@ -1581,7 +1609,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       'POST /api/firma-basvuru': firmaBasvuru, 'POST /api/firma/sifre-baglanti': firmaSifreBaglanti, 'POST /api/belge': belge, 'GET /api/yonetim/belge': yonetimBelge, 'POST /api/bildirim-iptal': bildirimIptal, 'POST /api/firma/gorsel': firmaGorsel, 'POST /api/iletisim': iletisim, 'GET /api/google-puan': googlePuan, 'GET /api/yorumlar': yorumlar, 'POST /api/yorum': yorum,
       'GET /api/katalog': katalog, 'GET /api/bannerlar': bannerlar,
       'POST /api/firma/abonelik-baslat': firmaAbonelikBaslat, 'POST /api/firma/kart-guncelle': firmaKartGuncelle, 'POST /api/firma/abonelik-iptal': firmaAbonelikIptal, 'POST /api/iyzico/donus': iyzicoDonus, 'POST /api/iyzico/kart-donus': iyzicoKartDonus, 'POST /api/iyzico/bildirim': iyzicoBildirim, 'POST /api/yonetim/iyzico-plan': yonetimIyzicoPlan,
-      'POST /api/sms/kod': smsKod, 'POST /api/sms/dogrula': smsDogrula, 'GET /api/ben': ben, 'POST /api/onay': onay, 'POST /api/mesaj': musteriMesaj, 'POST /api/firma/mesaj': firmaMesaj, 'POST /api/yonetim/firma-durum': yonetimFirmaDurum, 'POST /api/yonetim/istatistik': yonetimIstatistik, 'POST /api/yonetim/tanitim': yonetimTanitim, 'POST /api/yonetim/duyuru': yonetimDuyuru,
+      'POST /api/sms/kod': smsKod, 'POST /api/sms/dogrula': smsDogrula, 'GET /api/ben': ben, 'POST /api/onay': onay, 'POST /api/mesaj': musteriMesaj, 'POST /api/firma-soru': firmaSoru, 'POST /api/firma/mesaj': firmaMesaj, 'POST /api/yonetim/firma-durum': yonetimFirmaDurum, 'POST /api/yonetim/istatistik': yonetimIstatistik, 'POST /api/yonetim/tanitim': yonetimTanitim, 'POST /api/yonetim/duyuru': yonetimDuyuru,
       'GET /api/hesap': hesap, 'POST /api/hesap/bagla': hesapBagla, 'POST /api/yonetim/talep-bagla': yonetimTalepBagla, 'POST /api/favoriler': favoriler, 'POST /api/siparis-mesaj': siparisMesaj,
       'GET /api/firma/ozet': firmaOzet, 'POST /api/firma/urun': firmaUrun, 'POST /api/firma/teklif': firmaTeklif, 'POST /api/firma/red': firmaRed,
       'POST /api/firma/geri-bildirim': firmaGeriBildirim, 'POST /api/firma/geri-bildirim-yanit': firmaGeriBildirimYanit, 'POST /api/firma/profil': firmaProfil, 'POST /api/firma/reklam': firmaReklam,

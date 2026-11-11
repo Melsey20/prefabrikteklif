@@ -32,7 +32,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       <section data-panel="tanitim" hidden><div class="ph-h"><div><h1>Firmalara tanıtım e-postası</h1><p class="small muted" style="margin:4px 0 0">Açıkken her gün saat 10.00’da sıradaki firmalara gönderilir. Kayıtlı firmalara, ret bağlantısına tıklayanlara ve son 30 günde e-posta alanlara gitmez; bir adrese en fazla 2 kez gider.</p></div></div><div id="p-tanitim"></div></section>
       <section data-panel="onaylar" hidden><div class="ph-h"><h1>Onay bekleyenler</h1></div><div id="p-onaylar" class="list"></div></section>
       <section data-panel="talepler" hidden><div class="ph-h"><h1>Teklif talepleri</h1><a class="btn btn-g btn-s" href="/teklif-al/?test=1&tip=prefabrik&il=Malatya" title="Yalnızca yönetici e-postasıyla kayıtlı test firmalarına gider">Test talebi gönder</a></div><div id="p-talepler"></div></section>
-      <section data-panel="siparisler" hidden><div class="ph-h"><h1>Yönettiğimiz siparişler</h1></div><div id="p-kanban" class="kanban" style="margin-bottom:18px"></div><div id="p-siparisler" class="list"></div></section>
+      <section data-panel="siparisler" hidden><div class="ph-h"><h1>Yönettiğimiz siparişler</h1></div><div id="p-kanban" style="margin-bottom:18px"></div><div id="p-siparisler" class="list"></div></section>
       <section data-panel="firmalar" hidden><div class="ph-h"><div><h1>Kayıtlı firmalar</h1><p class="small muted" style="margin:4px 0 0">Talepler yalnızca aktif ve e-postası olan firmalara gider. Panel e-postaları firma paneline giriş yapabilir.</p></div><button class="btn btn-p btn-s" type="button" id="firma-ekle">+ Firma hesabı aç</button></div><div id="p-firmalar"></div></section>
       <section data-panel="geri-bildirim" hidden><div class="ph-h"><h1>Firma geri bildirimleri</h1></div><div id="p-gb" class="list"></div><h2 style="font-size:1.15rem;margin:26px 0 10px">Siteden gelen mesajlar (Bize yazın)</h2><div id="p-iletisim" class="list"></div></section>
       <section data-panel="bannerlar" hidden><div class="ph-h"><div><h1>Reklam alanları</h1><p class="small muted" style="margin:4px 0 0">Ana, yan ve ara banner alanlarında en fazla 6, öne çıkan listelemede en fazla 10 aktif reklam olabilir. Hepsi “Reklam” etiketiyle gösterilir.</p></div><button class="btn btn-p btn-s" type="button" id="banner-ekle">+ Reklam ekle</button></div><div id="p-doluluk" class="stats" style="margin-bottom:14px"></div><h2 style="font-size:1.1rem;margin:0 0 10px">Reklam talepleri</h2><div id="p-reklamt" class="list" style="margin-bottom:22px"></div><h2 style="font-size:1.1rem;margin:0 0 10px">Yayındaki ve pasif reklamlar</h2><div id="p-bannerlar" class="list"></div></section>
@@ -144,7 +144,13 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       })));
     }
     function siparislerCiz() {
-      $('p-kanban').replaceChildren(...V.asamalar.map((a: string, i: number) => h('div', {}, h('h3', {}, a), ...V.siparisler.filter((s: any) => s.asama === i).map((s: any) => h('a', { class: 'k', href: '#s-' + s.id, style: { textDecoration: 'none', color: 'inherit' } }, h('b', {}, s.ad), h('span', {}, [TIP[s.tip], s.il].filter(Boolean).join(' · ')), s.firmaAd ? h('span', { class: 'muted' }, s.firmaAd) : null)))));
+      // Aşama şeridi: her aşamada kaç sipariş var; dokununca listeyi o aşamaya süzer
+      const sayilar = V.asamalar.map((_: string, i: number) => V.siparisler.filter((s: any) => s.asama === i).length);
+      let filtre = -1;
+      const listeSuz = () => document.querySelectorAll<HTMLElement>('#p-siparisler [data-asama]').forEach((e) => (e.hidden = filtre > -1 && Number(e.dataset.asama) !== filtre));
+      $('p-kanban').replaceChildren(
+        h('div', { class: 'sp-ozet' }, sayiKart('Aktif sipariş', V.siparisler.length, 'süreci biz yönetiyoruz'), sayiKart('Firması seçilen', V.siparisler.filter((s: any) => s.firma).length, 'sözleşmeye hazır'), sayiKart('Teslim aşamasında', sayilar[sayilar.length - 1] || 0, 'son aşama')),
+        h('div', { class: 'sp-serit', role: 'tablist' }, ...V.asamalar.map((a: string, i: number) => h('button', { type: 'button', class: 'sp-a' + (sayilar[i] ? ' dolu' : ''), onclick: (e: Event) => { filtre = filtre === i ? -1 : i; document.querySelectorAll('.sp-a').forEach((x) => x.classList.toggle('sec', x === e.currentTarget && filtre === i)); listeSuz(); } }, h('b', {}, String(sayilar[i])), h('span', {}, `${i + 1}. ${a}`)))));
       if (!V.siparisler.length) { $('p-siparisler').replaceChildren(h('div', { class: 'empty' }, 'Aktif sipariş yok. Kullanıcılar “Süreci siz yönetin” dediğinde burada görünür.')); return; }
       $('p-siparisler').replaceChildren(...V.siparisler.map((s: any) => {
         const asama = h('select', {}, ...V.asamalar.map((a: string, i: number) => h('option', { value: i, selected: i === s.asama }, `${i + 1}. ${a}`))) as HTMLSelectElement;
@@ -152,7 +158,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
         const not = h('textarea', { rows: 2, placeholder: 'Bu aşama için müşteriye görünen not (ör: Fabrikada üretime başlandı)', maxlength: 1500 }) as HTMLTextAreaElement;
         const bAd = inp('belgeAd', { type: 'text', placeholder: 'Belge adı (ör: Sözleşme)' }); const bUrl = inp('belgeUrl', { type: 'url', placeholder: 'https:// (Drive vb. paylaşım bağlantısı)' });
         const mesaj = h('textarea', { rows: 2, placeholder: 'Müşteriye mesaj (e-posta da gider)', maxlength: 1500 }) as HTMLTextAreaElement;
-        return h('article', { class: 'item', id: 's-' + s.id },
+        return h('article', { class: 'item', id: 's-' + s.id, 'data-asama': String(s.asama) },
           h('div', { class: 'row' }, h('b', {}, `${s.ad} · ${[TIP[s.tip], s.m2 ? `${s.m2} m²` : '', s.oda, s.il].filter(Boolean).join(' · ')}`), h('span', { class: 'st-b g' }, V.asamalar[s.asama])),
           h('span', { class: 'small' }, h('a', { href: 'tel:' + s.telefon }, s.telefon), ' · ', h('a', { href: 'mailto:' + s.eposta }, s.eposta), s.modelAd ? ` · Model: ${s.modelAd}` : ''),
           ...(s.mesajlar || []).slice(-6).map((m: any) => h('div', { class: 'box ' + (m.kim === 'musteri' ? 'mint' : ''), style: { padding: '8px 12px' } }, h('span', { class: 'xs muted' }, (m.kim === 'musteri' ? 'Müşteri' : 'Siz') + ' · ' + tarih(m.zaman)), h('div', { class: 'small' }, m.metin))),

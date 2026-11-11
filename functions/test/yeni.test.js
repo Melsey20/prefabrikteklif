@@ -331,3 +331,26 @@ test('geri dönen adres: yalnızca tanıtım kaydında işaretli olsa da talep d
   assert.match(r, /geri döndü/);
   assert.deepEqual(giden, []);
 });
+
+test('fiyat öncesi soru: davetli firma sorar, müşteri yanıtlar; firma sayfasından soru firmaya iletilir', async () => {
+  const { db, mails, call } = kur();
+  await aktifFirma(db);
+  const r = await call('POST', '/api/teklif', { body: { ...TALEP } });
+  const tid = r.body.id || (db.dump('talepler/').find(([k]) => k.split('/').length === 2) || [])[0]?.split('/')[1];
+  assert.ok(tid);
+  // Müşteri, kendisine soru sormamış firmaya yazamaz
+  assert.equal((await call('POST', '/api/mesaj', { tok: 'tok-user', body: { talep: tid, firma: 'kardesler', metin: 'Merhaba' } })).statusCode, 409);
+  const s1 = await call('POST', '/api/firma/mesaj', { tok: 'tok-firma', body: { talep: tid, metin: 'Arsa eğimli mi?' } });
+  assert.equal(s1.statusCode, 200, JSON.stringify(s1.body));
+  const m1 = mails.at(-1); assert.equal(m1.to, 'ali@ornek.com'); assert.ok(m1.html.includes('Arsa eğimli mi?'));
+  const s2 = await call('POST', '/api/mesaj', { tok: 'tok-user', body: { talep: tid, firma: 'kardesler', metin: 'Hayır, düz.' } });
+  assert.equal(s2.statusCode, 200, JSON.stringify(s2.body));
+  assert.ok(!mails.at(-1).html.includes('Ali Veli'), 'fiyat öncesi müşteri adı firmaya gizli');
+  const hs = (await call('GET', '/api/hesap', { tok: 'tok-user' })).body;
+  assert.equal(hs.talepler[0].sorular[0].mesajlar.length, 2, 'müşteri soruyu hesabında görür');
+  const fs = await call('POST', '/api/firma-soru', { body: { firma: 'kardesler', ad: 'Ayşe', eposta: 'ayse@ornek.com', soru: 'Nakliye dahil mi?', riza: true } });
+  assert.equal(fs.statusCode, 200, JSON.stringify(fs.body)); assert.equal(fs.body.iletildi, true);
+  const giden = mails.find((m) => m.to === 'satis@kardesler.com' && /soru/i.test(m.subject));
+  assert.ok(giden && giden.o?.yanit === 'ayse@ornek.com', 'yanıt doğrudan soran kişiye');
+  assert.equal((await call('POST', '/api/firma-soru', { body: { firma: 'kardesler', ad: 'A', eposta: 'a@b.com', soru: 'Nakliye?' } })).statusCode, 400, 'onaysız gönderilmez');
+});

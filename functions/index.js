@@ -57,7 +57,7 @@ async function mail(to, subject, html, o = {}) {
     const yanit = MAIL_REPLY.value() || ADMIN_EMAIL.value() || SMTP_USER.value();
     const headers = { 'X-Entity-Ref-ID': `pt-${Date.now()}` };
     if (o.iptal || o.tur === 'davet') headers['List-Unsubscribe'] = `<mailto:${yanit}?subject=bildirim-iptal>${o.iptal ? `, <${o.iptal}>` : ''}`;
-    const ileti = { from, to, subject: String(subject).replace(/[\r\n]+/g, ' ').slice(0, 200), html, text: duzMetin(html), replyTo: yanit, headers };
+    const ileti = { from, to, subject: String(subject).replace(/[\r\n]+/g, ' ').slice(0, 200), html, text: duzMetin(html), replyTo: (o.yanit && /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(o.yanit)) ? o.yanit : yanit, headers };
     // Geçici hatalarda (421/45x, bağlantı kopması) 3 kez daha dene: 3 sn, 10 sn, 25 sn bekleyerek
     for (let deneme = 0; ; deneme++) {
       try { await _tx.sendMail(ileti); break; } catch (e) {

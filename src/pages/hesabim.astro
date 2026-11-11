@@ -108,6 +108,7 @@ import { SITE } from '../site.config';
         !kisa && t.model ? h('span', { class: 'small' }, 'İlgilendiğiniz model: ', h('b', {}, t.model)) : null,
         teklifler.length ? h('div', { class: 'hs-tkler' }, ...teklifler.map((x: any, i: number) => teklifKart(x, i === 0 && t.teklifler.length > 1, t)))
           : h('p', { class: 'small muted', style: { margin: 0 } }, acik ? `Talebiniz firmalara iletildi. Fiyat veren firmalar burada ve e-postanızda görünecek; süre dolunca tüm teklifler tek tabloda gelir.` : 'Bu talebe sistem üzerinden fiyat girilmedi; ekibimiz sizinle iletişime geçecek.'),
+        (t.sorular || []).length ? h('div', { class: 'hs-sorular' }, h('b', { class: 'small' }, 'Fiyat vermeden önce size soru soran firmalar'), h('span', { class: 'xs muted' }, 'Yanıtlarsanız firma daha doğru fiyat verir. Adınız ve iletişim bilgileriniz fiyat verene kadar firmaya gizli kalır.'), ...t.sorular.map((x: any) => { const k = mesajKutu(x, t) as HTMLDetailsElement; k.open = true; (k.querySelector('summary') as HTMLElement).textContent = `${x.firma} soruyor (${x.mesajlar.length})`; return k; })) : null,
         kisa && t.teklifler.length > 3 ? h('button', { class: 'btn btn-l btn-s', type: 'button', style: { alignSelf: 'flex-start' }, onclick: () => ac('talepler') }, `Tüm ${t.teklifler.length} teklifi gör`) : null);
     }
 
