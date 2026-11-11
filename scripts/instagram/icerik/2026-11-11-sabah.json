@@ -113,7 +113,21 @@
     }
   ],
   "reels": [],
-  "yayin": {},
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "yayın bekliyor (Reels yok: ELEVENLABS_API_KEY sırrı tanımlı değil, seslendirme üretilemedi)",
+    "medya": {
+      "tasarim": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/0e1e0ae8-d82b-4b6b-bd56-5d7aa43c335c.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/33a69045-7dd6-46bf-89d8-65d033ae34ce.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/c295f079-a96a-4ad4-a8eb-4fd2429d1205.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/d0f83f46-651c-4cd6-bb2c-82cc8774dbfb.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/056593c4-9754-4bd1-a7e9-2e7686d62893.jpg"
+      ],
+      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/9ee1e4bb-2aca-4972-94ab-aad6a312e97e.jpg",
+      "reels": []
+    }
+  },
   "reels_seslendirmesiz": [
     {
       "seslendirme": "Prefabrik ne demek? Kısaca, önceden üretilmiş demek; yani hazır yapı. Duvar, döşeme ve çatı fabrikada hazırlanır; arsada yalnızca temel ve montaj yapılır. Panel, hafif çelik, konteyner ve ahşap evler bu gruba girer. Avantajı hızlı kurulum ve daha öngörülebilir maliyet. Modelleri ve fiyatları tek yerde karşılaştırın. Bağlantı profilde.",

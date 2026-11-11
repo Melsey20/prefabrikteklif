@@ -22,7 +22,17 @@
     }
   ],
   "reels": [],
-  "yayin": {},
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "yayın bekliyor (Reels yok: ELEVENLABS_API_KEY sırrı tanımlı değil, seslendirme üretilemedi)",
+    "medya": {
+      "tasarim": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/f99c4839-85a8-4445-8f9c-12aac470ca28.jpg"
+      ],
+      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/d15eac38-c231-460a-b3a3-2095052b46d9.jpg",
+      "reels": []
+    }
+  },
   "reels_seslendirmesiz": [
     {
       "seslendirme": "Prefabrik ev nasıl yapılır? Süreç kısaca şöyle. Önce imar durumuna bakılır, model ve firma seçilir, proje ve ruhsat alınır. Sonra temel yapılır; ev fabrikada üretilip arsaya taşınır ve monte edilir. En son iç bitiş, tesisat bağlantıları ve iskân başvurusu gelir. Ruhsatı almadan sipariş vermeyin; teklifleri bizde karşılaştırın. Bağlantı profilde.",
