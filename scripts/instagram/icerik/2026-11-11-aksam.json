@@ -117,7 +117,13 @@
           "p": "9 Kasım 2026 itibarıyla listemizde"
         }
       ],
-      "sure": 20.0
+      "sure": 20.0,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-11-aksam-2.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "JBFqnCBsd6RMkjVDRZzb"
+      }
     }
   ],
   "yayin": {
