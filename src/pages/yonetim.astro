@@ -118,6 +118,14 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       $('p-talepler').replaceChildren(h('div', { class: 'list' }, ...V.talepler.map((t: any) => {
         const firma = h('select', {}, h('option', { value: '' }, 'Firma seçin'), ...V.statikFirmalar.map((f: any) => h('option', { value: f.slug }, f.ad))) as HTMLSelectElement;
         const ep = inp('eposta', { type: 'email', placeholder: 'firma@ornek.com' });
+        // Firma ara: yazdıkça listeyi süzer (Türkçe harf duyarsız), tek eşleşmeyi seçer; seçilen firmanın kayıtlı e-postası varsa doldurulur
+        const kucuk = (x: string) => String(x || '').toLocaleLowerCase('tr').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ı/g, 'i');
+        const ara = h('input', { type: 'search', placeholder: 'Firma ara…', autocomplete: 'off', oninput: () => {
+          const q = kucuk(ara.value); let ilk: HTMLOptionElement | null = null; let say = 0;
+          Array.from(firma.options).forEach((o, i) => { const g = !i || !q || kucuk(o.text).includes(q); o.hidden = !g; if (g && i) { say++; ilk = ilk || o; } });
+          if (say === 1 && ilk) { firma.value = (ilk as HTMLOptionElement).value; firma.dispatchEvent(new Event('change')); }
+        } }) as HTMLInputElement;
+        firma.addEventListener('change', () => { const f = V.statikFirmalar.find((x: any) => x.slug === firma.value); if (f?.eposta && !ep.value) ep.value = f.eposta; });
         const acik = t.durum === 'acik';
         return h('article', { class: 'item' },
           h('div', { class: 'row' }, h('b', {}, [t.test ? 'TEST' : '', t.mod === 'surec' ? 'SÜREÇ' : '', TIP[t.tip], t.oda, t.m2 ? `${t.m2} m²` : '', [t.il, t.ilce].filter(Boolean).join(' / ')].filter(Boolean).join(' · ')), h('span', { class: 'st-b ' + (acik ? 'a' : 'g') }, t.mod === 'surec' ? 'Süreç yönetimi' : acik ? kalan(t.sonTarih) : 'Özet gönderildi')),
@@ -126,7 +134,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
           t.not ? h('span', { class: 'small muted' }, '“' + t.not + '”') : null,
           (acik || (t.durum === 'gonderildi' && !t.test)) ? h('span', { class: 'small' }, `${acik ? 'Son teklif' : 'Süresi doldu (yeniden açmak için yeni süre seçin)'}: ${tarih(t.sonTarih?._seconds ? t.sonTarih._seconds * 1000 : t.sonTarih)} `, h('details', { style: { display: 'inline-block' } }, h('summary', { class: 'btn btn-g btn-s', style: { listStyle: 'none', cursor: 'pointer' } }, 'Süreyi değiştir'), (() => { const st = t.sonTarih?._seconds ? t.sonTarih._seconds * 1000 : typeof t.sonTarih === 'number' ? t.sonTarih : Date.parse(t.sonTarih) || Date.now(); const yerel = (ms: number) => new Date(ms + 3 * 3600000).toISOString().slice(0, 16); const g = h('input', { type: 'datetime-local', value: yerel(st > Date.now() ? st : Date.now() + 86400000), min: yerel(Date.now()), style: { width: 'auto' } }) as HTMLInputElement; return h('span', { style: { display: 'inline-flex', gap: '6px', alignItems: 'center', marginTop: '6px' } }, g, h('button', { class: 'btn btn-p btn-s', type: 'button', onclick: () => { if (!g.value) return; yap('/api/yonetim/talep-sure', { talep: t.id, sonTarih: g.value.slice(0, 16) + ':00+03:00' }, 'Süre güncellendi (müşteriye bildirim gitmedi)'); } }, 'Kaydet')); })())) : null,
           acik && t.mod !== 'surec' ? h('details', {}, h('summary', { class: 'small', style: { cursor: 'pointer', fontWeight: 800, color: 'var(--green)' } }, 'Kayıtlı olmayan bir firmaya e-postayla ilet'),
-            h('form', { class: 'form', style: { gap: '8px', marginTop: '8px' }, onsubmit: (e: Event) => { e.preventDefault(); yap('/api/yonetim/talep-ilet', { talep: t.id, firma: firma.value, eposta: ep.value }, 'Firmaya iletildi'); } }, h('div', { class: 'two' }, firma, ep), h('button', { class: 'btn btn-p btn-s', type: 'submit', style: { alignSelf: 'flex-start' } }, 'İlet (müşteri bilgisi gizli)'))) : null);
+            h('form', { class: 'form', style: { gap: '8px', marginTop: '8px' }, onsubmit: (e: Event) => { e.preventDefault(); yap('/api/yonetim/talep-ilet', { talep: t.id, firma: firma.value, eposta: ep.value }, 'Firmaya iletildi'); } }, ara, h('div', { class: 'two' }, firma, ep), h('button', { class: 'btn btn-p btn-s', type: 'submit', style: { alignSelf: 'flex-start' } }, 'İlet (müşteri bilgisi gizli)'))) : null);
       })));
     }
     function siparislerCiz() {
@@ -308,6 +316,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
     }
     async function yukle() {
       V = await api('/api/yonetim/ozet');
+      V.statikFirmalar = [...(V.statikFirmalar || [])].sort((x: any, y: any) => String(x.ad).localeCompare(String(y.ad), 'tr'));
       document.querySelector('[data-rz=reklam]')!.textContent = String(V.reklamTalepleri.filter((r: any) => r.durum === 'bekliyor').length || '');
       document.querySelector('[data-rz=onay]')!.textContent = String(V.degisiklikler.length + V.basvurular.length + V.yorumlar.length || '');
       document.querySelector('[data-rz=siparis]')!.textContent = V.siparisler.length || '';
