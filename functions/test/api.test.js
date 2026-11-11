@@ -470,3 +470,17 @@ test('açılış kampanyası: başvuru onayında kontenjan varsa ödeme beklemed
   assert.ok(mails.some((m) => m.subject === 'Üyeliğiniz aktif: 1 ay ücretsiz'));
   assert.ok(!mails.some((m) => m.subject === 'Firma hesabınız açıldı'), 'ödeme bağlantılı hoş geldin e-postası gitmez');
 });
+
+test('art arda gelen iki talep: ikincisi 72 saat kuralına takılıp boş kalmaz, en az DAVET_ALT_SINIR firmaya gider', async () => {
+  const { FakeDb: FD } = await import('./fakeDb.js');
+  const F = Array.from({ length: 20 }, (_, i) => ({ slug: 'f' + i, kisaAd: 'F' + i, il: 'Konya', tipler: ['prefabrik'], eposta: `f${i}@x.example` }));
+  const db = new FD(); const giden = [];
+  const app = createApp({ db, FieldValue, Timestamp, FIRMS: F, MODELS, saat: 48, simdi: zaman.simdi,
+    auth: { verifyIdToken: async (t) => { if (!KULLANICI[t]) throw new Error('bad'); return KULLANICI[t]; } },
+    mail: async (to) => { giden.push(to); },
+    ayar: () => ({ site: 'https://www.prefabrikteklif.com.tr', admin: 'info@mitraajans.com', yoneticiler: ['info@mitraajans.com'], placesKey: '' }) });
+  const call = async (body) => { const r = res(); await app.handle({ method: 'POST', path: '/api/teklif', body, query: {}, headers: { 'x-forwarded-for': '7.7.7.' + Math.floor(Math.random() * 250) } }, r); return r; };
+  const a = await call(TALEP); assert.equal(a.statusCode, 200, JSON.stringify(a.body)); assert.equal(a.body.firmaSayisi, 20);
+  const b = await call({ ...TALEP, eposta: 'veli@ornek.com', ad: 'Veli Ali' }); assert.equal(b.statusCode, 200, JSON.stringify(b.body));
+  assert.equal(b.body.firmaSayisi, 15, 'ikinci talep de en az 15 firmaya gider');
+});

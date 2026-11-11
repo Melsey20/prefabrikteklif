@@ -23,6 +23,7 @@ export const KONUM_SINIRI = { ana: 6, yan: 6, ara: 6, liste: 10 };
 export const DAVET_SINIRI = 30;
 export const TANITIM_UST = 150; // günlük tanıtım e-postası üst sınırı (alan adı ısındıkça kademeli artırılır) // üye firma azken talep başına davet edilen (üye olmayan) firma sayısı
 export const DAVET_ARALIK_SAAT = 72;
+export const DAVET_ALT_SINIR = 15; // bir talebe en az bu kadar listelenmiş firma davet edilir (uygun firma varsa)
 // Doğrulanmış (üyeliği aktif) firma: taleplere fiyat verebilir
 export const uyeAktif = (fd) => !!fd && fd.aktif !== false && !fd.kaldirildi && fd.abonelik?.durum === 'aktif';
 export const ABONELIK_DURUM = { 'odeme-bekliyor': 'Ödeme bekleniyor', aktif: 'Aktif', gecikti: 'Ödeme gecikti', iptal: 'İptal' };
@@ -230,6 +231,13 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       .sort((x, y) => (y.il === d.il) - (x.il === d.il) || (y.modelSayisi || 0) - (x.modelSayisi || 0));
     let listeSay = hedef.filter((x) => grup(x) === 'liste').length;
     for (const f of listeAday) { if (listeSay >= DAVET_SINIRI) break; if (!hedef.includes(f.slug)) { ekle(f.slug); listeSay++; } }
+    // Aynı gün art arda gelen talepler aynı firmaları tüketmesin: 72 saat kuralı yüzünden davet sayısı DAVET_ALT_SINIR'ın altında
+    // kalırsa, yakın zamanda davet almış (ama ayrılmamış, adresi geri dönmemiş) firmalarla tamamlanır — her talep ayrı bir müşteridir.
+    if (!test && listeSay < DAVET_ALT_SINIR) {
+      const ek = FIRMS.filter((f) => grup(f.slug) === 'liste' && f.tipler?.includes(d.tip) && !hedef.includes(f.slug) && davetEdilebilir(f.slug, true))
+        .sort((x, y) => (y.il === d.il) - (x.il === d.il) || (y.modelSayisi || 0) - (x.modelSayisi || 0));
+      for (const f of ek) { if (listeSay >= DAVET_ALT_SINIR) break; ekle(f.slug); listeSay++; }
+    }
     await ref.set({ ...ortak, firmalar: hedef, secilen, durum: 'acik', sonTarih: Timestamp.fromMillis(t0 + saat * 3600000) });
 
     const davetler = [];
