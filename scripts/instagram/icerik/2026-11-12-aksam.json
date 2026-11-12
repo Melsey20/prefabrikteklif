@@ -69,13 +69,13 @@
   ],
   "reels": [
     {
-      "seslendirme": "Kırk metrekare bungalov kaça mal olur? Listemizde bungalov yüz altmış iki bin liradan başlıyor. Metrekare başı ortanca fiyat yirmi bir bin lira; kırk metrekare için kaba hesap yaklaşık sekiz yüz kırk bin lira. Arsanın izin durumunu ve nakliyeyi önceden sorun. Teklifleri tek tabloda karşılaştırın; bağlantı profilde.",
+      "seslendirme": "Kırk metrekare bungalov kaça çıkar? Listemizde bungalov yüz altmış iki bin liradan başlıyor. Metrekare başı ortanca fiyat yirmi bir bin lira; kırk metrekare için kaba hesap yaklaşık sekiz yüz kırk bin lira. Arsanın izin durumunu ve nakliyeyi önceden sorun. Teklifleri tek tabloda karşılaştırın; bağlantı profilde.",
       "aciklama": "40 m² bungalov kaça mal olur? Bungalov ev fiyatları 2026 için metrekareden kaba hesap 👇\n\n9 Kasım 2026 itibarıyla listemizde bungalov ev 162.000 TL'den başlıyor; ortanca model fiyatı 567.500 TL. Metrekare başına ortanca fiyat 21.000 TL; 40 m² bir bungalov için kaba hesap: 40 × 21.000 = yaklaşık 840.000 TL. Fiyat; teslim şekline, yalıtıma ve iç donanıma göre değişir.\n\nBungalov evi zemine sabitlerseniz yapı sayılır; ruhsat ve arazi kurallarını, nakliyenin ve KDV'nin fiyata dahil olup olmadığını önceden sorun.\n\nPrefabrikTeklif bungalov ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; teklifler 48 saatte tek tabloda.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#bungalovev #bungalovevfiyatları #bungalovevler #bağevi",
       "sahneler": [
         {
           "t": 0,
           "tur": "foto",
-          "h": "40 m² bungalov<br><em>kaça mal olur?</em>",
+          "h": "40 m² bungalov<br><em>kaça çıkar?</em>",
           "img": "bungalov-b-960.webp"
         },
         {
@@ -109,13 +109,7 @@
           "h": "Teklifleri <em>tek tabloda</em> görün."
         }
       ],
-      "sure": 21.2,
-      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-12-aksam-1.mp3",
-      "ses": {
-        "kaynak": "elevenlabs",
-        "model": "eleven_multilingual_v2",
-        "voice_id": "JBFqnCBsd6RMkjVDRZzb"
-      }
+      "sure": 21.2
     },
     {
       "seslendirme": "Prefabrik eve kapora vermeden önce ne yapmalı? Önce firmanın ticaret unvanını ve vergi numarasını kontrol edin. Mümkünse fabrikayı ya da teslim edilmiş bir evi görün. Ödemeyi firmanın kurumsal hesabına yapın; kaporanın hangi koşulda iade edileceğini yazılı alın. Teklifleri tek tabloda karşılaştırın; bağlantı profilde.",
@@ -160,13 +154,7 @@
           "p": "Bağlantı profilde"
         }
       ],
-      "sure": 20.42,
-      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-12-aksam-2.mp3",
-      "ses": {
-        "kaynak": "elevenlabs",
-        "model": "eleven_multilingual_v2",
-        "voice_id": "JBFqnCBsd6RMkjVDRZzb"
-      }
+      "sure": 20.42
     }
   ],
   "yayin": {
