@@ -191,7 +191,7 @@
   ],
   "yayin": {
     "hesap": "17841474767654199",
-    "durum": "yayın bekliyor",
+    "durum": "yayında (Meta Graph API): 1/6 öğe yayınlandı",
     "medya": {
       "tasarim": [
         "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/fcf9da40-3b7b-4345-be9e-b818905ad545.jpg",
@@ -205,6 +205,12 @@
         "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/34953a28-8cff-4a9a-96c7-d3865dd95963.mp4",
         "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/dd62fdc1-565f-4aa4-baa1-53f42ddea4f1.mp4"
       ]
+    },
+    "yayinlanan": {
+      "tasarim": {
+        "id": "18125816962933327",
+        "zaman": "2026-11-12 10:00"
+      }
     }
   }
 }
