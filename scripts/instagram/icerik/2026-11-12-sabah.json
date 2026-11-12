@@ -109,21 +109,21 @@
           "img": "konteyner-b-960.webp"
         },
         {
-          "t": 3,
+          "t": 3.12,
           "tur": "sayi",
           "h": "Konteyner ev",
           "n": 67,
           "birim": "bin TL’den · vinçle bir günde"
         },
         {
-          "t": 7,
+          "t": 7.82,
           "tur": "sayi",
           "h": "Tiny house",
           "n": 429,
           "birim": "bin TL’den · tekerlekliyse taşınır"
         },
         {
-          "t": 11,
+          "t": 13.6,
           "tur": "liste",
           "h": "İkisinde de <em>sorun</em>",
           "ikon": "?",
@@ -134,13 +134,13 @@
           ]
         },
         {
-          "t": 15,
+          "t": 17.62,
           "tur": "son",
           "h": "Teklifleri <em>tek tabloda</em> görün.",
           "p": "9 Kasım 2026 itibarıyla listemizde"
         }
       ],
-      "sure": 20,
+      "sure": 21.4,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-12-sabah-1.mp3",
       "ses": {
         "kaynak": "elevenlabs",
@@ -159,38 +159,28 @@
           "img": "prefabrik-c-960.webp"
         },
         {
-          "t": 3,
+          "t": 3.06,
           "tur": "sayi",
           "h": "Ortanca <em>m² fiyatı</em>",
           "n": 10256,
-          "birim": "TL / m² · prefabrik ev"
+          "birim": "TL / m² · prefabrik ev",
+          "p": "9 Kasım 2026 itibarıyla listemizde"
         },
         {
-          "t": 7,
+          "t": 9.08,
           "tur": "sayi",
           "h": "75 m² için <em>kaba hesap</em>",
           "n": 769,
           "birim": "bin TL · yaklaşık"
         },
         {
-          "t": 11,
-          "tur": "liste",
-          "h": "Teklifte <em>sorun</em>",
-          "ikon": "?",
-          "maddeler": [
-            "Temel",
-            "Nakliye",
-            "KDV"
-          ]
-        },
-        {
-          "t": 15,
           "tur": "son",
-          "h": "Teklifleri <em>tek tabloda</em> görün.",
-          "p": "9 Kasım 2026 itibarıyla listemizde"
+          "h": "Temel çoğu ilanda <em>hariç.</em>",
+          "p": "Nakliye ve KDV’yi de sorun",
+          "t": 14.44
         }
       ],
-      "sure": 20,
+      "sure": 20.62,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-12-sabah-2.mp3",
       "ses": {
         "kaynak": "elevenlabs",

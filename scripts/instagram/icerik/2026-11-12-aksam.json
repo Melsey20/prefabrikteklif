@@ -79,21 +79,22 @@
           "img": "bungalov-b-960.webp"
         },
         {
-          "t": 3,
+          "t": 3.38,
           "tur": "sayi",
           "h": "Başlangıç <em>fiyatı</em>",
           "n": 162,
-          "birim": "bin TL’den · bungalov"
+          "birim": "bin TL’den · bungalov",
+          "p": "9 Kasım 2026 itibarıyla listemizde"
         },
         {
-          "t": 7,
+          "t": 9.94,
           "tur": "sayi",
           "h": "40 m² için <em>kaba hesap</em>",
           "n": 840,
           "birim": "bin TL · yaklaşık"
         },
         {
-          "t": 11,
+          "t": 14.34,
           "tur": "liste",
           "h": "Önceden <em>sorun</em>",
           "ikon": "?",
@@ -103,13 +104,12 @@
           ]
         },
         {
-          "t": 15,
+          "t": 17.88,
           "tur": "son",
-          "h": "Teklifleri <em>tek tabloda</em> görün.",
-          "p": "9 Kasım 2026 itibarıyla listemizde"
+          "h": "Teklifleri <em>tek tabloda</em> görün."
         }
       ],
-      "sure": 20,
+      "sure": 21.2,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-12-aksam-1.mp3",
       "ses": {
         "kaynak": "elevenlabs",
@@ -128,7 +128,7 @@
           "img": "prefabrik-b-960.webp"
         },
         {
-          "t": 3,
+          "t": 3.06,
           "tur": "liste",
           "h": "Firmayı <em>kontrol edin</em>",
           "ikon": "✓",
@@ -138,14 +138,13 @@
           ]
         },
         {
-          "t": 7,
+          "t": 6.96,
           "tur": "foto",
-          "h": "Teslim edilmiş <em>bir evi görün</em>",
-          "img": "montaj-960.webp",
-          "p": "Mümkünse fabrikayı da"
+          "h": "Fabrikayı ya da <em>teslim edilmiş evi</em> görün",
+          "img": "montaj-960.webp"
         },
         {
-          "t": 11,
+          "t": 10.36,
           "tur": "liste",
           "h": "Ödemede <em>dikkat</em>",
           "ikon": "✓",
@@ -155,13 +154,13 @@
           ]
         },
         {
-          "t": 15,
+          "t": 16.52,
           "tur": "son",
           "h": "Teklifleri <em>tek tabloda</em> görün.",
           "p": "Bağlantı profilde"
         }
       ],
-      "sure": 20,
+      "sure": 20.42,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-12-aksam-2.mp3",
       "ses": {
         "kaynak": "elevenlabs",
