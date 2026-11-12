@@ -109,7 +109,13 @@
           "h": "Teklifleri <em>tek tabloda</em> görün."
         }
       ],
-      "sure": 21.2
+      "sure": 21.2,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-12-aksam-1.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "Hvrobr8BhLPfiaSv2cHi"
+      }
     },
     {
       "seslendirme": "Prefabrik eve kapora vermeden önce ne yapmalı? Önce firmanın ticaret unvanını ve vergi numarasını kontrol edin. Mümkünse fabrikayı ya da teslim edilmiş bir evi görün. Ödemeyi firmanın kurumsal hesabına yapın; kaporanın hangi koşulda iade edileceğini yazılı alın. Teklifleri tek tabloda karşılaştırın; bağlantı profilde.",
@@ -154,7 +160,13 @@
           "p": "Bağlantı profilde"
         }
       ],
-      "sure": 20.42
+      "sure": 20.42,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-12-aksam-2.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "Hvrobr8BhLPfiaSv2cHi"
+      }
     }
   ],
   "yayin": {
