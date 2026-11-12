@@ -80,3 +80,8 @@ Geçerlilik: `src/pages/firma-kayit.astro` içinde `id="kampanya-kutu"` kutusu d
 - **İyi ev ile kötü ev farkı:** panel/profil kalınlığı, yalıtım, doğrama, garanti, firma kontrolü (rehber/prefabrik-ev-alirken-dikkat-edilmesi-gerekenler, rehber/prefabrik-ev-dezavantajlari).
 - **Karşılaştırmalar:** "Betonarme mi, çelik ev mi?", "Çelik mi, prefabrik mi?", "Konteyner mi, tiny house mı?" — artı/eksi + fiyat (betonarme fiyatı meta.json'da yok, uydurmayın).
 Hook iddialı ya da merak uyandıran bir soru olsun ("… neden ucuz?", "… hangisi mantıklı?", "Bunu sormadan almayın"); her Reels'te en az bir somut rakam ya da somut uyarı bulunsun.
+
+## Seslendirme (12 Kasım 2026, kullanıcı)
+
+- Ses: ElevenLabs "Gamze Özdemir" (Türkçe, İstanbul aksanı, kadın anlatıcı; `Hvrobr8BhLPfiaSv2cHi`, seslendir.py `VARSAYILAN_SES`). Yalnızca kullanıcının ElevenLabs hesabından üretilir.
+- Telaffuz: Bu ses "kaça mal olur" ifadesindeki "mal"ı, maliyet anlamında değil eşya anlamındaki "mal" gibi okuyor. **Seslendirme metninde "mal olur" kullanmayın**; yerine "kaça çıkar?", "kaç liraya çıkar?" ya da "maliyeti ne kadar?" yazın. Ekrandaki hook başlığı seslendirmeyle aynı olsun (ör. "40 m² bungalov<br><em>kaça çıkar?</em>"). SEO için "kaça mal olur" ifadesi açıklamada (caption) kalabilir.
