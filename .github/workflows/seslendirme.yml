@@ -13,6 +13,10 @@ on:
         description: 'Hesaptaki sesleri listele (ses üretme)'
         type: boolean
         default: false
+      kutuphane:
+        description: 'Voice Library araması (ör. language=tr&gender=female)'
+        type: string
+        default: ''
       ornek:
         description: 'Ses seçimi için örnek üret ("ad:voice_id,ad:voice_id")'
         type: string
@@ -34,13 +38,18 @@ jobs:
       - name: Sesleri listele
         if: ${{ inputs.sesler }}
         run: python3 scripts/instagram/seslendir.py --sesler
+      - name: Kütüphane araması
+        if: ${{ inputs.kutuphane != '' && inputs.kutuphane != null }}
+        env:
+          KUTUPHANE_ARA: ${{ inputs.kutuphane }}
+        run: python3 -u scripts/instagram/seslendir.py --kutuphane
       - name: Örnek sesler
         if: ${{ inputs.ornek != '' && inputs.ornek != null }}
         env:
           ORNEK_SESLER: ${{ inputs.ornek }}
         run: python3 -u scripts/instagram/seslendir.py --ornek
       - name: Seslendirmeleri üret
-        if: ${{ !inputs.sesler && !inputs.ornek }}
+        if: ${{ !inputs.sesler && !inputs.ornek && !inputs.kutuphane }}
         run: python3 -u scripts/instagram/seslendir.py
       - name: Kaydet
         if: ${{ !inputs.sesler }}

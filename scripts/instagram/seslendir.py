@@ -44,6 +44,20 @@ ORNEK_METIN = ('Kırk metrekare bungalov kaça mal olur? Listemizde bungalov yü
                'Teklifleri tek tabloda karşılaştırın; bağlantı profilde.')
 
 
+def kutuphane():
+    """Voice Library'de ara: KUTUPHANE_ARA="language=tr&gender=female" gibi sorgu (birden çoğu ';' ile)."""
+    for q in os.environ.get('KUTUPHANE_ARA', 'language=tr&gender=female').split(';'):
+        print('==', q)
+        try:
+            veri = json.loads(istek(f'/v1/shared-voices?page_size=60&{q}'))
+        except SystemExit as e:
+            print('HATA', e); continue
+        for v in veri.get('voices', []):
+            print(v.get('voice_id'), '|', v.get('name'), '|', v.get('public_owner_id'), '|', v.get('language'), v.get('accent'),
+                  v.get('gender'), v.get('age'), '|', v.get('use_case'), '|', v.get('cloned_by_count'), '|',
+                  (v.get('description') or '')[:90].replace('\n', ' '), '|', v.get('preview_url'))
+
+
 def ornek():
     """Ses seçimi için örnek: ORNEK_SESLER="ad:voice_id,ad:voice_id" → ses/ornek/<ad>.mp3"""
     (SES / 'ornek').mkdir(parents=True, exist_ok=True)
@@ -65,6 +79,8 @@ def main():
         return sesler()
     if '--ornek' in sys.argv:
         return ornek()
+    if '--kutuphane' in sys.argv:
+        return kutuphane()
     SES.mkdir(parents=True, exist_ok=True)
     uretilen = 0
     bugun = (datetime.datetime.utcnow() + datetime.timedelta(hours=3)).strftime('%Y-%m-%d')  # İstanbul
