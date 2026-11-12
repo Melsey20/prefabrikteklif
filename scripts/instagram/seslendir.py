@@ -40,11 +40,31 @@ def sesler():
         print(v['voice_id'], '|', v['name'], '|', v.get('category', ''), '|', (v.get('labels') or {}))
 
 
+ORNEK_METIN = ('Kırk metrekare bungalov kaça mal olur? Listemizde bungalov yüz altmış iki bin liradan başlıyor. '
+               'Teklifleri tek tabloda karşılaştırın; bağlantı profilde.')
+
+
+def ornek():
+    """Ses seçimi için örnek: ORNEK_SESLER="ad:voice_id,ad:voice_id" → ses/ornek/<ad>.mp3"""
+    (SES / 'ornek').mkdir(parents=True, exist_ok=True)
+    for parca in os.environ.get('ORNEK_SESLER', '').split(','):
+        if ':' not in parca:
+            continue
+        ad, vid = [x.strip() for x in parca.split(':', 1)]
+        mp3 = istek(f'/v1/text-to-speech/{vid}?output_format=mp3_44100_128', {
+            'text': ORNEK_METIN, 'model_id': MODEL, 'language_code': 'tr',
+            'voice_settings': {'stability': 0.5, 'similarity_boost': 0.8, 'style': 0.15, 'use_speaker_boost': True}})
+        (SES / 'ornek' / f'{ad}.mp3').write_bytes(mp3)
+        print('ornek:', ad, vid, len(mp3), 'bayt')
+
+
 def main():
     if not KEY:
         sys.exit('ELEVENLABS_API_KEY sırrı tanımlı değil (GitHub → Settings → Secrets → Actions).')
     if '--sesler' in sys.argv:
         return sesler()
+    if '--ornek' in sys.argv:
+        return ornek()
     SES.mkdir(parents=True, exist_ok=True)
     uretilen = 0
     bugun = (datetime.datetime.utcnow() + datetime.timedelta(hours=3)).strftime('%Y-%m-%d')  # İstanbul
