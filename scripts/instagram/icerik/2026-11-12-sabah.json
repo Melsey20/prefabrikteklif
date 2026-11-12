@@ -10,7 +10,7 @@
         {
           "sablon": "kapak",
           "etiket": "Karşılaştırma",
-          "h": "Ahşap ev mi, <em>çelik ev mi?</em>",
+          "h": "Ahşap ev mi,<br><em>çelik ev mi?</em>",
           "boy": 96,
           "p": "Başlangıçta biri, metrekarede öbürü ucuz.",
           "img": "ahsap-c-960.webp"
@@ -49,16 +49,16 @@
           "alt_sag": "9 Kasım 2026 itibarıyla listemizde",
           "maddeler": [
             [
-              "Ahşap ev · 26.100 TL/m²",
+              "Ahşap ev",
               "Yaklaşık 2.088.000 TL"
             ],
             [
-              "Çelik ev · 17.000 TL/m²",
+              "Çelik ev",
               "Yaklaşık 1.360.000 TL"
             ],
             [
               "Hesap",
-              "m² × ortanca m² fiyatı; temel, nakliye ve KDV hariç olabilir."
+              "80 m² × ortanca m² fiyatı (ahşap 26.100 TL, çelik 17.000 TL); temel, nakliye ve KDV hariç olabilir."
             ]
           ]
         },
