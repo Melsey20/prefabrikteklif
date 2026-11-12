@@ -21,6 +21,10 @@ on:
         description: 'Örnek metinleri ("|" ile ayrılmış; boşsa varsayılan cümle)'
         type: string
         default: ''
+      model:
+        description: 'Örnekler için model (boşsa eleven_multilingual_v2)'
+        type: string
+        default: ''
       ornek:
         description: 'Ses seçimi için örnek üret ("ad:voice_id,ad:voice_id")'
         type: string
@@ -52,6 +56,7 @@ jobs:
         env:
           ORNEK_SESLER: ${{ inputs.ornek }}
           ORNEK_METINLER: ${{ inputs.metinler }}
+          ELEVENLABS_MODEL: ${{ inputs.model }}
         run: python3 -u scripts/instagram/seslendir.py --ornek
       - name: Seslendirmeleri üret
         if: ${{ !inputs.sesler && !inputs.ornek && !inputs.kutuphane }}

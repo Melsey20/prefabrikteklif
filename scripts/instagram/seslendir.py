@@ -15,7 +15,7 @@ ICERIK = ROOT / 'scripts' / 'instagram' / 'icerik'
 SES = ROOT / 'scripts' / 'instagram' / 'ses'
 RAW = 'https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/'
 VARSAYILAN_SES = 'Hvrobr8BhLPfiaSv2cHi'  # ElevenLabs Voice Library "Gamze Özdemir" (Türkçe, İstanbul, kadın anlatıcı) — 12 Kasım 2026'da seçildi
-MODEL = 'eleven_multilingual_v2'
+MODEL = os.environ.get('ELEVENLABS_MODEL', '').strip() or 'eleven_multilingual_v2'
 KEY = os.environ.get('ELEVENLABS_API_KEY', '').strip()
 VOICE = os.environ.get('ELEVENLABS_VOICE_ID', '').strip() or VARSAYILAN_SES
 
