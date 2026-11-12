@@ -1,0 +1,194 @@
+{
+  "tarih": "2026-11-12",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Ahşap ev mi, çelik ev mi? Ahşap ev fiyatları ile çelik ev fiyatlarını yan yana koyduk: başlangıçta ahşap ev ucuz, metrekarede çelik ev 👇\n\n9 Kasım 2026 itibarıyla listemizde ahşap ev 364.700 TL'den, çelik ev 575.000 TL'den başlıyor. Ortanca model fiyatı ahşap evde 1.601.250 TL, çelik evde 1.865.000 TL. Metrekare başına ortanca fiyat ise ahşap evde 26.100 TL, çelik evde 17.000 TL. 80 m² bir ev için kaba hesap: ahşap ev yaklaşık 2.088.000 TL, çelik ev yaklaşık 1.360.000 TL (temel, nakliye ve KDV hariç olabilir).\n\nÇelik karkas çürümez, böceklenmez; ama ısı köprüsüne karşı dış cephede kesintisiz yalıtım (mantolama) ve ses yalıtımı sorulmalı. Ahşap ev sıcak görünümü ve doğayla uyumuyla öne çıkar; cephesi üreticinin önerdiği aralıkla vernik ya da emprenye bakımı ister.\n\nPrefabrikTeklif ahşap ev ve çelik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir: 164 firma, 584 model, teklifler 48 saatte tek tabloda.\n\n📌 Kaydedin, karar verirken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#ahşapev #çelikev #ahşapevfiyatları #çelikevfiyatları",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Karşılaştırma",
+          "h": "Ahşap ev mi, <em>çelik ev mi?</em>",
+          "boy": 96,
+          "p": "Başlangıçta biri, metrekarede öbürü ucuz.",
+          "img": "ahsap-c-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 5",
+          "h": "Fiyatlar <em>yan yana</em>",
+          "boy": 84,
+          "alt_sag": "9 Kasım 2026 itibarıyla listemizde",
+          "maddeler": [
+            [
+              "Ahşap ev · başlangıç",
+              "364.700 TL’den"
+            ],
+            [
+              "Çelik ev · başlangıç",
+              "575.000 TL’den"
+            ],
+            [
+              "Ahşap ev · ortanca",
+              "1.601.250 TL"
+            ],
+            [
+              "Çelik ev · ortanca",
+              "1.865.000 TL"
+            ]
+          ]
+        },
+        {
+          "sablon": "liste",
+          "etiket": "3 / 5",
+          "h": "80 m² için <em>kaba hesap</em>",
+          "boy": 84,
+          "koyu": true,
+          "alt_sag": "9 Kasım 2026 itibarıyla listemizde",
+          "maddeler": [
+            [
+              "Ahşap ev · 26.100 TL/m²",
+              "Yaklaşık 2.088.000 TL"
+            ],
+            [
+              "Çelik ev · 17.000 TL/m²",
+              "Yaklaşık 1.360.000 TL"
+            ],
+            [
+              "Hesap",
+              "m² × ortanca m² fiyatı; temel, nakliye ve KDV hariç olabilir."
+            ]
+          ]
+        },
+        {
+          "sablon": "liste",
+          "etiket": "4 / 5",
+          "h": "Fark <em>nerede?</em>",
+          "boy": 84,
+          "maddeler": [
+            [
+              "Çelik ev",
+              "Karkas çürümez, böceklenmez; mantolama ve ses yalıtımını mutlaka sorun."
+            ],
+            [
+              "Ahşap ev",
+              "Sıcak görünüm, doğayla uyum; cephesi vernik ya da emprenye bakımı ister."
+            ],
+            [
+              "İkisinde de",
+              "Teslim şekli, nakliye, KDV ve garanti teklifte yazılı olsun."
+            ]
+          ]
+        },
+        {
+          "sablon": "cta",
+          "etiket": "5 / 5",
+          "h": "İkisinin tekliflerini <em>tek tabloda</em> görün.",
+          "p": "Formu bir kez doldurun; firmalar 48 saatte fiyat versin.",
+          "img": "celik-960.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Konteyner mi, tiny house mı? Konteyner ev listemizde altmış yedi bin liradan başlıyor; vinçle bir günde kurulabilir. Tiny house dört yüz yirmi dokuz bin liradan başlıyor; tekerlekli modeller taşınabilir. İkisinde de yalıtım, nakliye ve KDV dahil mi, sorun. Teklifleri tek tabloda karşılaştırın; bağlantı profilde.",
+      "aciklama": "Konteyner mi, tiny house mı? Konteyner ev fiyatları ile tiny house fiyatları arasındaki fark ve hangisinin size uygun olduğu 👇\n\n9 Kasım 2026 itibarıyla listemizde konteyner ev 67.000 TL'den, tiny house 429.000 TL'den başlıyor; ortanca fiyatlar 170.000 TL ve 1.275.000 TL. Konteyner ev çelik bir modül halinde gelir, vinçle arsaya bırakılır ve çoğu zaman bir günde kurulur; bahçe ofisi, misafir evi ya da hızlı çözüm için mantıklıdır. Tiny house ise mutfağı, banyosu ve çoğunlukla asma kat yatağıyla küçük ama tam donanımlı bir evdir; tekerlekli, O2 belgeli modeller taşınabilir.\n\nİkisinde de yalıtım kalınlığını, doğramayı, nakliye ve vincin kimde olduğunu ve KDV'nin dahil olup olmadığını sorun; evi koyacağınız arazinin durumunu önceden netleştirin.\n\nPrefabrikTeklif konteyner ev ve tiny house sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir.\n\n📌 Kaydedin, karar verirken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#konteynerev #tinyhouse #konteynerevfiyatları #tinyhousefiyatları",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Konteyner mi,<br><em>tiny house mı?</em>",
+          "img": "konteyner-b-960.webp"
+        },
+        {
+          "t": 3,
+          "tur": "sayi",
+          "h": "Konteyner ev",
+          "n": 67,
+          "birim": "bin TL’den · vinçle bir günde"
+        },
+        {
+          "t": 7,
+          "tur": "sayi",
+          "h": "Tiny house",
+          "n": 429,
+          "birim": "bin TL’den · tekerlekliyse taşınır"
+        },
+        {
+          "t": 11,
+          "tur": "liste",
+          "h": "İkisinde de <em>sorun</em>",
+          "ikon": "?",
+          "maddeler": [
+            "Yalıtım",
+            "Nakliye",
+            "KDV dahil mi?"
+          ]
+        },
+        {
+          "t": 15,
+          "tur": "son",
+          "h": "Teklifleri <em>tek tabloda</em> görün.",
+          "p": "9 Kasım 2026 itibarıyla listemizde"
+        }
+      ],
+      "sure": 20
+    },
+    {
+      "seslendirme": "İki artı bir prefabrik ev kaça mal olur? Listemizde prefabrik evde metrekare başı ortanca fiyat on bin iki yüz elli altı lira. Yetmiş beş metrekare için kaba hesap yaklaşık yedi yüz altmış dokuz bin lira. Temel çoğu ilanda hariçtir; nakliye ve KDV'yi de teklifte sorun. Bağlantı profilde.",
+      "aciklama": "2+1 prefabrik ev kaça mal olur? Prefabrik ev fiyatları 2026 için metrekareden kaba hesap 👇\n\n9 Kasım 2026 itibarıyla listemizde prefabrik evde metrekare başına ortanca fiyat 10.256 TL. 75 m² bir 2+1 için kaba hesap: 75 × 10.256 = yaklaşık 769.200 TL. Listemizde prefabrik ev 225.000 TL'den başlıyor; ortanca model fiyatı 775.000 TL.\n\nBu bir kaba hesap: fiyat; teslim şekline (kaba, ileri kaba, anahtar teslim), yalıtıma ve doğramaya göre değişir. Temel (zemin betonu) çoğu ilanda hariçtir; nakliye ve vinç uzak illerde ciddi tutar tutabilir, \"+ KDV\" fiyatı KDV dahil fiyatla karıştırmayın.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; firmalar fiyatı aynı başlıklarla girer, teklifler 48 saatte tek tabloda gelir.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevfiyatları #2artı1prefabrikev",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "2+1 prefabrik ev<br><em>kaça mal olur?</em>",
+          "img": "prefabrik-c-960.webp"
+        },
+        {
+          "t": 3,
+          "tur": "sayi",
+          "h": "Ortanca <em>m² fiyatı</em>",
+          "n": 10256,
+          "birim": "TL / m² · prefabrik ev"
+        },
+        {
+          "t": 7,
+          "tur": "sayi",
+          "h": "75 m² için <em>kaba hesap</em>",
+          "n": 769,
+          "birim": "bin TL · yaklaşık"
+        },
+        {
+          "t": 11,
+          "tur": "liste",
+          "h": "Teklifte <em>sorun</em>",
+          "ikon": "?",
+          "maddeler": [
+            "Temel",
+            "Nakliye",
+            "KDV"
+          ]
+        },
+        {
+          "t": 15,
+          "tur": "son",
+          "h": "Teklifleri <em>tek tabloda</em> görün.",
+          "p": "9 Kasım 2026 itibarıyla listemizde"
+        }
+      ],
+      "sure": 20
+    }
+  ],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "taslak (seslendirme bekleniyor)"
+  }
+}
