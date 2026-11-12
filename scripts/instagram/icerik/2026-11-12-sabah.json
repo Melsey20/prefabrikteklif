@@ -140,7 +140,13 @@
           "p": "9 Kasım 2026 itibarıyla listemizde"
         }
       ],
-      "sure": 20
+      "sure": 20,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-12-sabah-1.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "JBFqnCBsd6RMkjVDRZzb"
+      }
     },
     {
       "seslendirme": "İki artı bir prefabrik ev kaça mal olur? Listemizde prefabrik evde metrekare başı ortanca fiyat on bin iki yüz elli altı lira. Yetmiş beş metrekare için kaba hesap yaklaşık yedi yüz altmış dokuz bin lira. Temel çoğu ilanda hariçtir; nakliye ve KDV'yi de teklifte sorun. Bağlantı profilde.",
@@ -184,7 +190,13 @@
           "p": "9 Kasım 2026 itibarıyla listemizde"
         }
       ],
-      "sure": 20
+      "sure": 20,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-12-sabah-2.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "JBFqnCBsd6RMkjVDRZzb"
+      }
     }
   ],
   "yayin": {

@@ -21,10 +21,22 @@
           "h": "Ne zaman <em>ne kontrol?</em>",
           "boy": 84,
           "maddeler": [
-            ["Sonbahar", "Oluk ve iniş borusu, çatı kaplaması, dış cephe derzleri."],
-            ["Kış başı", "Dış su borularına donma koruması, soba ve kombi bakımı."],
-            ["İlkbahar", "Kış sonrası çatı ve cephe hasarı, taban çevresinde su birikmesi."],
-            ["Her yıl", "Elektrik panosu ve kaçak akım rölesi testi, DASK yenileme."]
+            [
+              "Sonbahar",
+              "Oluk ve iniş borusu, çatı kaplaması, dış cephe derzleri."
+            ],
+            [
+              "Kış başı",
+              "Dış su borularına donma koruması, soba ve kombi bakımı."
+            ],
+            [
+              "İlkbahar",
+              "Kış sonrası çatı ve cephe hasarı, taban çevresinde su birikmesi."
+            ],
+            [
+              "Her yıl",
+              "Elektrik panosu ve kaçak akım rölesi testi, DASK yenileme."
+            ]
           ]
         },
         {
@@ -46,7 +58,11 @@
           "h": "Uzun ömürlü evi <em>baştan seçin.</em>",
           "p": "Yalıtım, garanti ve teslim şeklini teklifte yan yana görün.",
           "img": "hero-1344.webp",
-          "cipler": ["Ücretsiz", "{firmaSayisi} firma", "{modelSayisi} model"]
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
         }
       ]
     }
@@ -56,25 +72,102 @@
       "seslendirme": "Kırk metrekare bungalov kaça mal olur? Listemizde bungalov yüz altmış iki bin liradan başlıyor. Metrekare başı ortanca fiyat yirmi bir bin lira; kırk metrekare için kaba hesap yaklaşık sekiz yüz kırk bin lira. Arsanın izin durumunu ve nakliyeyi önceden sorun. Teklifleri tek tabloda karşılaştırın; bağlantı profilde.",
       "aciklama": "40 m² bungalov kaça mal olur? Bungalov ev fiyatları 2026 için metrekareden kaba hesap 👇\n\n9 Kasım 2026 itibarıyla listemizde bungalov ev 162.000 TL'den başlıyor; ortanca model fiyatı 567.500 TL. Metrekare başına ortanca fiyat 21.000 TL; 40 m² bir bungalov için kaba hesap: 40 × 21.000 = yaklaşık 840.000 TL. Fiyat; teslim şekline, yalıtıma ve iç donanıma göre değişir.\n\nBungalov evi zemine sabitlerseniz yapı sayılır; ruhsat ve arazi kurallarını, nakliyenin ve KDV'nin fiyata dahil olup olmadığını önceden sorun.\n\nPrefabrikTeklif bungalov ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; teklifler 48 saatte tek tabloda.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#bungalovev #bungalovevfiyatları #bungalovevler #bağevi",
       "sahneler": [
-        {"t": 0, "tur": "foto", "h": "40 m² bungalov<br><em>kaça mal olur?</em>", "img": "bungalov-b-960.webp"},
-        {"t": 3, "tur": "sayi", "h": "Başlangıç <em>fiyatı</em>", "n": 162, "birim": "bin TL’den · bungalov"},
-        {"t": 7, "tur": "sayi", "h": "40 m² için <em>kaba hesap</em>", "n": 840, "birim": "bin TL · yaklaşık"},
-        {"t": 11, "tur": "liste", "h": "Önceden <em>sorun</em>", "ikon": "?", "maddeler": ["Arsanın izin durumu", "Nakliye"]},
-        {"t": 15, "tur": "son", "h": "Teklifleri <em>tek tabloda</em> görün.", "p": "9 Kasım 2026 itibarıyla listemizde"}
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "40 m² bungalov<br><em>kaça mal olur?</em>",
+          "img": "bungalov-b-960.webp"
+        },
+        {
+          "t": 3,
+          "tur": "sayi",
+          "h": "Başlangıç <em>fiyatı</em>",
+          "n": 162,
+          "birim": "bin TL’den · bungalov"
+        },
+        {
+          "t": 7,
+          "tur": "sayi",
+          "h": "40 m² için <em>kaba hesap</em>",
+          "n": 840,
+          "birim": "bin TL · yaklaşık"
+        },
+        {
+          "t": 11,
+          "tur": "liste",
+          "h": "Önceden <em>sorun</em>",
+          "ikon": "?",
+          "maddeler": [
+            "Arsanın izin durumu",
+            "Nakliye"
+          ]
+        },
+        {
+          "t": 15,
+          "tur": "son",
+          "h": "Teklifleri <em>tek tabloda</em> görün.",
+          "p": "9 Kasım 2026 itibarıyla listemizde"
+        }
       ],
-      "sure": 20
+      "sure": 20,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-12-aksam-1.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "JBFqnCBsd6RMkjVDRZzb"
+      }
     },
     {
       "seslendirme": "Prefabrik eve kapora vermeden önce ne yapmalı? Önce firmanın ticaret unvanını ve vergi numarasını kontrol edin. Mümkünse fabrikayı ya da teslim edilmiş bir evi görün. Ödemeyi firmanın kurumsal hesabına yapın; kaporanın hangi koşulda iade edileceğini yazılı alın. Teklifleri tek tabloda karşılaştırın; bağlantı profilde.",
       "aciklama": "Prefabrik eve kapora vermeden önce ne yapmalı? Prefabrik ev alırken dikkat edilmesi gerekenler: firma kontrolü ve güvenli ödeme 👇\n\nKapora vermeden önce firmanın ticaret unvanını, vergi numarasını ve adresini kontrol edin; mümkünse fabrikayı ya da teslim edilmiş bir evi görün. Ödemeyi firmanın kurumsal hesabına yapın ve kaporanın hangi koşulda iade edileceğini yazılı alın. Ödemeyi aşamalara bölün (sipariş, üretim, teslim); tamamını peşin ödemekten kaçının.\n\nSözleşmede model ve metrekare, teknik şartname, fiyata dahil ve hariç kalemler, KDV, teslim tarihi, gecikme cezası, ödeme planı ve garanti süreleri yazılı olsun.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir: 164 firmanın tekliflerini aynı başlıklarla, tek tabloda görürsünüz.\n\n📌 Kaydedin, kapora vermeden önce lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevalırkendikkat #prefabrikevfiyatları #prefabrikevfirmaları",
       "sahneler": [
-        {"t": 0, "tur": "foto", "h": "Prefabrik eve kapora<br><em>vermeden önce?</em>", "img": "prefabrik-b-960.webp"},
-        {"t": 3, "tur": "liste", "h": "Firmayı <em>kontrol edin</em>", "ikon": "✓", "maddeler": ["Ticaret unvanı", "Vergi numarası"]},
-        {"t": 7, "tur": "foto", "h": "Teslim edilmiş <em>bir evi görün</em>", "img": "montaj-960.webp", "p": "Mümkünse fabrikayı da"},
-        {"t": 11, "tur": "liste", "h": "Ödemede <em>dikkat</em>", "ikon": "✓", "maddeler": ["Kurumsal hesap", "İade koşulu yazılı"]},
-        {"t": 15, "tur": "son", "h": "Teklifleri <em>tek tabloda</em> görün.", "p": "Bağlantı profilde"}
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Prefabrik eve kapora<br><em>vermeden önce?</em>",
+          "img": "prefabrik-b-960.webp"
+        },
+        {
+          "t": 3,
+          "tur": "liste",
+          "h": "Firmayı <em>kontrol edin</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "Ticaret unvanı",
+            "Vergi numarası"
+          ]
+        },
+        {
+          "t": 7,
+          "tur": "foto",
+          "h": "Teslim edilmiş <em>bir evi görün</em>",
+          "img": "montaj-960.webp",
+          "p": "Mümkünse fabrikayı da"
+        },
+        {
+          "t": 11,
+          "tur": "liste",
+          "h": "Ödemede <em>dikkat</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "Kurumsal hesap",
+            "İade koşulu yazılı"
+          ]
+        },
+        {
+          "t": 15,
+          "tur": "son",
+          "h": "Teklifleri <em>tek tabloda</em> görün.",
+          "p": "Bağlantı profilde"
+        }
       ],
-      "sure": 20
+      "sure": 20,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-12-aksam-2.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "JBFqnCBsd6RMkjVDRZzb"
+      }
     }
   ],
   "yayin": {
