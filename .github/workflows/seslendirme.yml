@@ -17,6 +17,10 @@ on:
         description: 'Voice Library araması (ör. language=tr&gender=female)'
         type: string
         default: ''
+      metinler:
+        description: 'Örnek metinleri ("|" ile ayrılmış; boşsa varsayılan cümle)'
+        type: string
+        default: ''
       ornek:
         description: 'Ses seçimi için örnek üret ("ad:voice_id,ad:voice_id")'
         type: string
@@ -47,6 +51,7 @@ jobs:
         if: ${{ inputs.ornek != '' && inputs.ornek != null }}
         env:
           ORNEK_SESLER: ${{ inputs.ornek }}
+          ORNEK_METINLER: ${{ inputs.metinler }}
         run: python3 -u scripts/instagram/seslendir.py --ornek
       - name: Seslendirmeleri üret
         if: ${{ !inputs.sesler && !inputs.ornek && !inputs.kutuphane }}

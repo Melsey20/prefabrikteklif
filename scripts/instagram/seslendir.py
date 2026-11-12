@@ -61,15 +61,18 @@ def kutuphane():
 def ornek():
     """Ses seçimi için örnek: ORNEK_SESLER="ad:voice_id,ad:voice_id" → ses/ornek/<ad>.mp3"""
     (SES / 'ornek').mkdir(parents=True, exist_ok=True)
+    metinler = [m.strip() for m in os.environ.get('ORNEK_METINLER', '').split('|') if m.strip()] or [ORNEK_METIN]
     for parca in os.environ.get('ORNEK_SESLER', '').split(','):
         if ':' not in parca:
             continue
         ad, vid = [x.strip() for x in parca.split(':', 1)]
-        mp3 = istek(f'/v1/text-to-speech/{vid}?output_format=mp3_44100_128', {
-            'text': ORNEK_METIN, 'model_id': MODEL, 'language_code': 'tr',
-            'voice_settings': {'stability': 0.5, 'similarity_boost': 0.8, 'style': 0.15, 'use_speaker_boost': True}})
-        (SES / 'ornek' / f'{ad}.mp3').write_bytes(mp3)
-        print('ornek:', ad, vid, len(mp3), 'bayt')
+        for i, metin in enumerate(metinler, 1):
+            mp3 = istek(f'/v1/text-to-speech/{vid}?output_format=mp3_44100_128', {
+                'text': metin, 'model_id': MODEL, 'language_code': 'tr',
+                'voice_settings': {'stability': 0.5, 'similarity_boost': 0.8, 'style': 0.15, 'use_speaker_boost': True}})
+            dosya = f'{ad}.mp3' if len(metinler) == 1 else f'{ad}-{i}.mp3'
+            (SES / 'ornek' / dosya).write_bytes(mp3)
+            print('ornek:', dosya, vid, len(mp3), 'bayt', '|', metin)
 
 
 def main():
