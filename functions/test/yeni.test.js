@@ -354,3 +354,22 @@ test('fiyat öncesi soru: davetli firma sorar, müşteri yanıtlar; firma sayfas
   assert.ok(giden && giden.o?.yanit === 'ayse@ornek.com', 'yanıt doğrudan soran kişiye');
   assert.equal((await call('POST', '/api/firma-soru', { body: { firma: 'kardesler', ad: 'A', eposta: 'a@b.com', soru: 'Nakliye?' } })).statusCode, 400, 'onaysız gönderilmez');
 });
+
+test('elle yeniden iletim firmanın davet kaydını silmez; istatistik çift sayılmaz', async () => {
+  const { db, call } = kur();
+  await aktifFirma(db);
+  await call('POST', '/api/teklif', { body: { ...TALEP } });
+  const tid = db.dump('talepler/').find(([k]) => k.split('/').length === 2)[0].split('/')[1];
+  // Fiyat vermeden önce elle hatırlatma: üyelik türü korunur
+  const r1 = await call('POST', '/api/yonetim/talep-ilet', { tok: 'tok-admin', body: { talep: tid, firma: 'kardesler', eposta: 'satis@kardesler.com' } });
+  assert.equal(r1.statusCode, 200, JSON.stringify(r1.body));
+  assert.equal((await db.collection('talepler').doc(tid).collection('davetler').doc('kardesler').get()).data().tur, 'uye');
+  const tk = await call('POST', '/api/firma/teklif', { tok: 'tok-firma', body: { talep: tid, fiyat: 900000, teslimGun: 40 } });
+  assert.equal(tk.statusCode, 200, JSON.stringify(tk.body));
+  // Fiyat verdikten sonra elle iletim reddedilir (kayıt bozulmaz)
+  assert.equal((await call('POST', '/api/yonetim/talep-ilet', { tok: 'tok-admin', body: { talep: tid, firma: 'kardesler', eposta: 'satis@kardesler.com' } })).statusCode, 409);
+  const oz = (await call('GET', '/api/firma/ozet', { tok: 'tok-firma' })).body;
+  assert.deepEqual([oz.istatistik.talep, oz.istatistik.teklif], [1, 1]);
+  const fd = (await db.collection('firmalar').doc('kardesler').get()).data();
+  assert.equal(fd.istTalep, 1, 'sayaç çift artmaz'); assert.equal(fd.istTeklif, 1);
+});

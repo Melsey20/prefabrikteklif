@@ -259,7 +259,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
         const k = kayitlar.get(slug) || {}; iptalKod = k.kod || token();
         await db.collection('davetKayit').doc(slug).set({ kod: iptalKod, sonDavet: t0, sayi: (k.sayi || 0) + 1, eposta }, { merge: true });
       }
-      if (tur === 'uye' || tur === 'odeme') firmaSayac(slug, { istTalep: 1 });
+      if (tur === 'uye' || tur === 'odeme') { firmaSayac(slug, { istTalep: 1 }); await ref.collection('davetler').doc(slug).set({ sayildi: true }, { merge: true }); }
       davetler.push({ slug, eposta, tur, kod, iptalKod, link: `${a.site}/teklif-ver/?t=${ref.id}.${tkn}&f=${slug}.${kod}`, odemeLinki: f.abonelik?.odemeLinki || '' });
     }
     const ozet = kart(talepOzeti(d));
@@ -315,7 +315,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     await v.davetRef.set({ durum: 'kabul', kabulZamani: FieldValue.serverTimestamp() }, { merge: true });
     const a = ayar(); const d = v.talep;
     if (ilk) {
-      if (!d.test) { firmaSayac(firmaSlug, { istTeklif: 1, ...(v.davet?.tur === 'uye' || v.davet?.tur === 'odeme' ? {} : { istTalep: 1 }) }); sayac({ teklif: 1 }); }
+      if (!d.test) { const sayilmis = v.davet?.sayildi || v.davet?.tur === 'uye' || v.davet?.tur === 'odeme'; firmaSayac(firmaSlug, { istTeklif: 1, ...(sayilmis ? {} : { istTalep: 1 }) }); if (!sayilmis) await v.davetRef?.set?.({ sayildi: true }, { merge: true }); sayac({ teklif: 1 }); }
       await v.ref.set({ teklifSayisi: FieldValue.increment(1), sonTeklif: FieldValue.serverTimestamp() }, { merge: true });
       const kac = (await v.ref.collection('teklifler').get()).size;
       const fa = firmAd(firmaSlug);
@@ -840,7 +840,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     // İstatistik: sayaçlar (kalıcı) + son 60 talepten hesaplanan değerler (sayaç yoksa)
     const gercek = talepler.filter((t) => !t.test && (t.davetTur === 'uye' || t.davetTur === 'odeme' || t.teklif));
     const ist = {
-      talep: Math.max(fd.istTalep || 0, gercek.length), teklif: Math.max(fd.istTeklif || 0, gercek.filter((t) => t.teklif).length), red: Math.max(fd.istRed || 0, gercek.filter((t) => t.davet === 'red').length),
+      talep: gercek.length, teklif: gercek.filter((t) => t.teklif).length, red: gercek.filter((t) => t.davet === 'red').length,
     };
     ist.oran = ist.talep ? Math.round((ist.teklif / ist.talep) * 100) : 0;
     return {
@@ -1591,8 +1591,11 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const dk = (await db.collection('davetKayit').doc(slug).get()).data() || {};
     if (dk.iptal) hata(409, 'Bu firma bizden e-posta almak istemediğini bildirdi.');
     if (gecersizMi(dk, eposta) || (await db.collection('tanitimKayit').doc(tanitimId(eposta)).get()).data()?.gecersiz) hata(409, 'Bu e-posta adresi daha önce geri döndü (geçersiz).');
-    const kod = token();
-    await ref.collection('davetler').doc(slug).set({ kod, eposta, durum: 'bekliyor', gonderim: FieldValue.serverTimestamp(), elle: true });
+    // Daha önce davet edilmişse kaydı korunur (fiyat verdiyse 'kabul', üyelik türü ve sayaç bilgisi silinmez); yalnızca yeniden hatırlatılır
+    const dvRef = ref.collection('davetler').doc(slug); const once = (await dvRef.get()).data();
+    if (once?.durum === 'kabul') hata(409, 'Bu firma bu talebe zaten fiyat verdi.');
+    const kod = once?.kod || token();
+    await dvRef.set({ kod, eposta, durum: once?.durum === 'red' ? 'red' : 'bekliyor', gonderim: FieldValue.serverTimestamp(), elle: true, ...(once?.tur ? {} : { tur: 'liste' }) }, { merge: true });
     await ref.update({ firmalar: FieldValue.arrayUnion(slug) });
     await db.collection('davetKayit').doc(slug).set({ sonDavet: now(), eposta }, { merge: true });
     const link = `${ayar().site}/teklif-ver/?t=${ref.id}.${d.token}&f=${slug}.${kod}`;
