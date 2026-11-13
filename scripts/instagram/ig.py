@@ -9,7 +9,7 @@ Görseller: public/img. Logo: scripts/instagram/marka.
 Tasarımlar PNG (1080×1350), reels için kare kare HTML (reels.cjs ile çekilir).
 Reels sahne türleri: foto (img), grid (imgs), sayi (n, birim), liste (maddeler ≤4, ikon: ✓/✕/?), son.
 Okunurluk: her sahne en az 3 sn (p'li ya da liste sahnesi 3,5 sn), başlık en fazla 8 kelime — aksi hâlde üretim durur.
-Günde 2 dosya: icerik/YYYY-MM-DD-sabah.json ve -aksam.json; her birinde 1 tasarım + "reels": [2 reels].
+Günde 2 dosya: icerik/YYYY-MM-DD-sabah.json ve -aksam.json; her birinde 1 tasarım. Günde 1 Reels: sabah "reels": [], akşam "reels": [1 reels].
 """
 import base64, json, os, pathlib, re, sys
 

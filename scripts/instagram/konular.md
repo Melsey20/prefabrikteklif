@@ -59,7 +59,7 @@ Marka adları (Karmod, A101, BİM vb.), tatil/kiralık bungalov, oyuncak ev ve h
 
 Geçerlilik: `src/pages/firma-kayit.astro` içinde `id="kampanya-kutu"` kutusu durdukça ve Yusuf Bey kampanyanın bittiğini söyleyene kadar.
 
-- **Ne zaman:** Pazartesi, Çarşamba ve Cuma akşamı (19:00) tasarım, kampanya odaklı bir firma karuseli ya da teklisi olur. Akşamın 2. Reels'i (19:40) de firmalara seslenen, seslendirmeli bir kampanya Reels'idir. O gün kalan 3 Reels ev arayanlar içindir ve en az 2'si bilgi içeriğidir. Örnek: `icerik/2026-11-09-aksam.json`.
+- **Ne zaman:** Pazartesi, Çarşamba ve Cuma akşamı (19:00) tasarım, kampanya odaklı bir firma karuseli ya da teklisi olur. Firma kampanyası yalnızca bu tasarımla yapılır; günün tek Reels'i (akşam 19:20) her gün ev arayanlar içindir ve çok aranan bir soru/merak hook'uyla açılır (bkz. aşağıdaki "Günlük düzen"). Örnek tasarım: `icerik/2026-11-13-aksam.json`.
 - **Söylenebilenler (sitedeki ifadelerle):** İlk 50 firmaya 1 ay ücretsiz üyelik. Kart bilgisi istenmez. Başvuru onaylanınca hemen teklif verilir. Komisyon yok. Devam etmezse hiçbir şey ödemez. Firma sitede "Üye firma" rozetiyle görünür. Talep; il, ev tipi, m², oda sayısı, bütçe, arsa durumu ve başlama zamanıyla firma paneline gelir. Yalnızca hizmet verilen illerden ve üretilen ev tiplerinden talep gelir. Her firma resmî evrak ve referansla kabul edilir.
 - **Arama verisi:** Yalnızca şu ifade kullanılır: "Google'da her ay 150 binden fazla 'prefabrik ev' ve 'prefabrik ev fiyatları' araması (Semrush, Kasım 2026)".
 - **Yasaklar:** Aylık üyelik tutarı ve reklam fiyatları YİNE yazılmaz. Kalan kontenjan sayısı yazılmaz. "Kurucu üye" denmez.
@@ -85,3 +85,8 @@ Hook iddialı ya da merak uyandıran bir soru olsun ("… neden ucuz?", "… han
 
 - Ses: ElevenLabs "Roxie" (`IuRRIAcbQK5AQk1XevPj`, seslendir.py `VARSAYILAN_SES`; 12 Kasım'da kullanıcı seçti, önceki Gamze Özdemir). Yalnızca kullanıcının ElevenLabs hesabından üretilir.
 - Telaffuz: Seslendirmede "kaça mal olur" ifadesindeki "mal"ı, maliyet anlamında değil eşya anlamındaki "mal" gibi okuyor. **Seslendirme metninde "mal olur" kullanmayın**; yerine "kaça çıkar?", "kaç liraya çıkar?" ya da "maliyeti ne kadar?" yazın. Ekrandaki hook başlığı seslendirmeyle aynı olsun (ör. "40 m² bungalov<br><em>kaça çıkar?</em>"). SEO için "kaça mal olur" ifadesi açıklamada (caption) kalabilir.
+
+## Günlük düzen (13 Kasım 2026, kullanıcı)
+
+- Günde **2 tasarım + 1 Reels**. Sabah 10:00: 1 tasarım + hikâye (Reels yok, `"reels": []`). Akşam 19:00: 1 tasarım, 19:20 tek Reels, ardından hikâyeler.
+- Tek Reels her gün ev arayanlara yönelik, en çok aranan ifadelerden birini soran hook'lu bilgi içeriğidir; firma kampanyası Reels'i yapılmaz (firmalar Pazartesi, Çarşamba, Cuma akşam tasarımıyla).

@@ -7,8 +7,9 @@ yayin.durum “zamanlandı (Supermetrics…” değil (eski, Supermetrics'in yay
 
 Plan (dosyadaki saat'e göre, İstanbul saati):
   +0 dk  tasarım (birden çok görsel → karusel, tek görsel → gönderi)   açıklama: tasarimlar[0].aciklama
-  +20 dk Reels 1, +40 dk Reels 2                                         açıklama: reels[k].aciklama
-  +45 dk hikâye (story görseli), +50 / +55 dk Reels 1 ve 2 hikâye olarak
+  +20 dk Reels 1, +40 dk Reels 2 (varsa)                                açıklama: reels[k].aciklama
+  +45 dk hikâye (story görseli), +50 / +55 dk Reels'ler hikâye olarak
+  (13 Kasım 2026'dan beri günde 2 tasarım + 1 Reels: sabah reels boş, akşam tek Reels.)
 Her çalışmada en fazla 1 öğe yayınlanır (öğeler arasında aralık kalsın diye). Zamanı gelmiş ama
 GEC_SAAT'ten daha eski öğeler atlanır (birikmiş içerik bir anda akmasın). Yayınlanan öğe
 yayin.yayinlanan altına kaydedilir; aynı öğe iki kez yayınlanmaz.
