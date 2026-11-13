@@ -1,157 +1,169 @@
 {
- "tarih": "2026-11-13",
- "slot": "sabah",
- "saat": "10:00",
- "tasarimlar": [
-  {
-   "ad": "A",
-   "aciklama": "Tiny house fiyatları 2026: kaç TL'den başlıyor, 25 m² tiny house kaça mal olur? Tiny house fiyat rehberi 👇\n\n9 Kasım 2026 itibarıyla listemizde tiny house 429.000 TL'den başlıyor; ortanca model fiyatı 1.275.000 TL. Metrekare başına ortanca fiyat 46.875 TL; 25 m² bir tiny house için kaba hesap: 25 × 46.875 = yaklaşık 1.172.000 TL. Türkiye'de satılan tiny house modellerinin çoğu yaklaşık 15–35 m² arasında.\n\nTiny house fiyatı; tekerlekli (O2 belgeli) ya da sabit olmasına, şasi ve fren sistemine, yalıtım ve ısıtmaya göre değişir. Teslim yerine nakliye ücretini ve evi koyacağınız yerin durumunu önceden netleştirin; bazı üreticilerin fiyatı döviz cinsinden verdiğini de unutmayın.\n\nPrefabrikTeklif tiny house sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; teklifler 48 saatte tek tabloda.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tinyhouse #tinyhousefiyatları #tinyhouseev #tekerleklitinyhouse",
-   "kartlar": [
+  "tarih": "2026-11-13",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
     {
-     "sablon": "kapak",
-     "etiket": "Fiyat rehberi",
-     "h": "Tiny house fiyatları <em>2026'da kaç TL?</em>",
-     "boy": 90,
-     "p": "9 Kasım 2026 itibarıyla listemizdeki fiyatlarla.",
-     "img": "tiny-house-1344.webp"
-    },
-    {
-     "sablon": "liste",
-     "etiket": "2 / 4",
-     "h": "Listemizde <em>tiny house</em>",
-     "boy": 84,
-     "p": "Kaba hesap = m² × ortanca m² fiyatı.",
-     "maddeler": [
-      [
-       "Başlangıç",
-       "429.000 TL'den"
-      ],
-      [
-       "Ortanca model",
-       "1.275.000 TL"
-      ],
-      [
-       "m² başına",
-       "46.875 TL"
-      ],
-      [
-       "25 m²",
-       "Yaklaşık 1.172.000 TL"
+      "ad": "A",
+      "aciklama": "Tiny house fiyatları 2026: kaç TL'den başlıyor, 25 m² tiny house kaça mal olur? Tiny house fiyat rehberi 👇\n\n9 Kasım 2026 itibarıyla listemizde tiny house 429.000 TL'den başlıyor; ortanca model fiyatı 1.275.000 TL. Metrekare başına ortanca fiyat 46.875 TL; 25 m² bir tiny house için kaba hesap: 25 × 46.875 = yaklaşık 1.172.000 TL. Türkiye'de satılan tiny house modellerinin çoğu yaklaşık 15–35 m² arasında.\n\nTiny house fiyatı; tekerlekli (O2 belgeli) ya da sabit olmasına, şasi ve fren sistemine, yalıtım ve ısıtmaya göre değişir. Teslim yerine nakliye ücretini ve evi koyacağınız yerin durumunu önceden netleştirin; bazı üreticilerin fiyatı döviz cinsinden verdiğini de unutmayın.\n\nPrefabrikTeklif tiny house sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; teklifler 48 saatte tek tabloda.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tinyhouse #tinyhousefiyatları #tinyhouseev #tekerleklitinyhouse",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Fiyat rehberi",
+          "h": "Tiny house fiyatları <em>2026'da kaç TL?</em>",
+          "boy": 90,
+          "p": "9 Kasım 2026 itibarıyla listemizdeki fiyatlarla.",
+          "img": "tiny-house-1344.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Listemizde <em>tiny house</em>",
+          "boy": 84,
+          "p": "Kaba hesap = m² × ortanca m² fiyatı.",
+          "maddeler": [
+            [
+              "Başlangıç",
+              "429.000 TL'den"
+            ],
+            [
+              "Ortanca model",
+              "1.275.000 TL"
+            ],
+            [
+              "m² başına",
+              "46.875 TL"
+            ],
+            [
+              "25 m²",
+              "Yaklaşık 1.172.000 TL"
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Almadan önce <em>sorun.</em>",
+          "p": "Teklifleri bu başlıklarla kıyaslayın.",
+          "maddeler": [
+            "Tekerlekli / sabit",
+            "Şasi ve O2 belgesi",
+            "Yalıtım ve ısıtma",
+            "Nakliye ücreti"
+          ],
+          "img": "ic-mekan-1344.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Tiny house tekliflerini <em>yan yana görün.</em>",
+          "p": "Teklifler 48 saatte, tek tabloda.",
+          "img": "tiny-house-b-1344.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
+        }
       ]
-     ]
-    },
-    {
-     "sablon": "kontrol",
-     "etiket": "3 / 4",
-     "h": "Almadan önce <em>sorun.</em>",
-     "p": "Teklifleri bu başlıklarla kıyaslayın.",
-     "maddeler": [
-      "Tekerlekli / sabit",
-      "Şasi ve O2 belgesi",
-      "Yalıtım ve ısıtma",
-      "Nakliye ücreti"
-     ],
-     "img": "ic-mekan-1344.webp"
-    },
-    {
-     "sablon": "cta",
-     "etiket": "4 / 4",
-     "h": "Tiny house tekliflerini <em>yan yana görün.</em>",
-     "p": "Teklifler 48 saatte, tek tabloda.",
-     "img": "tiny-house-b-1344.webp",
-     "cipler": [
-      "Ücretsiz",
-      "{firmaSayisi} firma",
-      "{modelSayisi} model"
-     ]
     }
-   ]
-  }
- ],
- "reels": [
-  {
-   "seslendirme": "Prefabrik ev fiyatına neler dahil değil? Temel, yani zemin betonu, çoğu ilanda hariç. Nakliye ve vinç, uzak illerde ciddi tutar tutabilir. Fiyat KDV dahil mi, artı KDV mi; parke, mutfak ve vitrifiye dahil mi, mutlaka sorun. Teklifleri aynı başlıklarla, tek tabloda karşılaştırın; bağlantı profilde.",
-   "aciklama": "Prefabrik ev fiyatına neler dahil değil? Prefabrik ev fiyatları karşılaştırılırken en çok atlanan gizli maliyetler 👇\n\nTemel (zemin betonu) çoğu ilanda fiyata dahil değildir. Nakliye ve vinç, uzak illerde ciddi tutar tutabilir. \"+ KDV\" fiyat ile KDV dahil fiyatı karıştırmayın; parke, fayans, mutfak dolabı ve vitrifiye gibi iç bitiş kalemlerinin dahil olup olmadığını yazılı sorun.\n\nSözleşmede fiyata dahil ve hariç kalemler, KDV, teslim şekli ve tarihi, ödeme planı ve garanti süreleri yazılı olsun.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir: firmalar fiyatlarını aynı başlıklarla (KDV, nakliye, montaj, temel, iç bitiş) girer, teklifler tek tabloda gelir.\n\n📌 Kaydedin, teklif alırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevfiyatları #anahtarteslimprefabrikev #prefabrikevalırkendikkat",
-   "sahneler": [
+  ],
+  "reels": [
     {
-     "t": 0,
-     "tur": "foto",
-     "h": "Prefabrik ev fiyatına<br><em>neler dahil değil?</em>",
-     "img": "prefabrik-960.webp"
+      "seslendirme": "Prefabrik ev fiyatına neler dahil değil? Temel, yani zemin betonu, çoğu ilanda hariç. Nakliye ve vinç, uzak illerde ciddi tutar tutabilir. Fiyat KDV dahil mi, artı KDV mi; parke, mutfak ve vitrifiye dahil mi, mutlaka sorun. Teklifleri aynı başlıklarla, tek tabloda karşılaştırın; bağlantı profilde.",
+      "aciklama": "Prefabrik ev fiyatına neler dahil değil? Prefabrik ev fiyatları karşılaştırılırken en çok atlanan gizli maliyetler 👇\n\nTemel (zemin betonu) çoğu ilanda fiyata dahil değildir. Nakliye ve vinç, uzak illerde ciddi tutar tutabilir. \"+ KDV\" fiyat ile KDV dahil fiyatı karıştırmayın; parke, fayans, mutfak dolabı ve vitrifiye gibi iç bitiş kalemlerinin dahil olup olmadığını yazılı sorun.\n\nSözleşmede fiyata dahil ve hariç kalemler, KDV, teslim şekli ve tarihi, ödeme planı ve garanti süreleri yazılı olsun.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir: firmalar fiyatlarını aynı başlıklarla (KDV, nakliye, montaj, temel, iç bitiş) girer, teklifler tek tabloda gelir.\n\n📌 Kaydedin, teklif alırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevfiyatları #anahtarteslimprefabrikev #prefabrikevalırkendikkat",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Prefabrik ev fiyatına<br><em>neler dahil değil?</em>",
+          "img": "prefabrik-960.webp"
+        },
+        {
+          "t": 3.5,
+          "tur": "foto",
+          "h": "Temel <em>çoğu ilanda hariç</em>",
+          "img": "montaj-960.webp"
+        },
+        {
+          "t": 7,
+          "tur": "foto",
+          "h": "Nakliye ve vinç <em>ayrı tutar</em>",
+          "img": "konteyner-b-960.webp"
+        },
+        {
+          "t": 11,
+          "tur": "liste",
+          "h": "Mutlaka <em>sorun</em>",
+          "ikon": "?",
+          "maddeler": [
+            "KDV dahil mi?",
+            "İç bitiş dahil mi?"
+          ]
+        },
+        {
+          "t": 17,
+          "tur": "son",
+          "h": "Teklifleri <em>tek tabloda</em> görün."
+        }
+      ],
+      "sure": 21,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-13-sabah-1.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "IuRRIAcbQK5AQk1XevPj"
+      }
     },
     {
-     "t": 3.5,
-     "tur": "foto",
-     "h": "Temel <em>çoğu ilanda hariç</em>",
-     "img": "montaj-960.webp"
-    },
-    {
-     "t": 7,
-     "tur": "foto",
-     "h": "Nakliye ve vinç <em>ayrı tutar</em>",
-     "img": "konteyner-b-960.webp"
-    },
-    {
-     "t": 11,
-     "tur": "liste",
-     "h": "Mutlaka <em>sorun</em>",
-     "ikon": "?",
-     "maddeler": [
-      "KDV dahil mi?",
-      "İç bitiş dahil mi?"
-     ]
-    },
-    {
-     "t": 17,
-     "tur": "son",
-     "h": "Teklifleri <em>tek tabloda</em> görün."
+      "seslendirme": "Prefabrik ev desteği kaç TL? Bakanlığın bilgi notunda, prefabrik ev yapımı için üç yüz bin liraya kadar destek yazıyor. Yardım; gelir testinde ihtiyaç sahibi çıkan, barınma ihtiyacı olan ve tam hisseli tapusu bulunan hanelere veriliyor. Başvuru e-Devlet'ten ya da vakıftan; güncel tutarı vakfınızdan teyit edin. Bağlantı profilde.",
+      "aciklama": "Prefabrik ev desteği kaç TL? Prefabrik ev yapım yardımı başvurusu 2026: kimler alabilir, nereye başvurulur? 👇\n\nAile ve Sosyal Hizmetler Bakanlığı'nın barınma yardımları bilgi notunda prefabrik ev yapımı için 300.000 TL'ye kadar destek yazıyor. Yardım, harcama belgeleri karşılığında nakdi ya da ayni olarak yapılıyor. Tutarlar zaman zaman güncellendiği için başvurmadan önce bağlı olduğunuz Sosyal Yardımlaşma ve Dayanışma Vakfı'ndan (SYDV) güncel tutarı sorun.\n\nBaşlıca şartlar: gelir testine göre ihtiyaç sahibi olmak; oturulamayacak derecede eski, bakımsız ya da sağlıksız bir evde yaşamak veya afet mağduru olmak; evin yapılacağı arsanın tam hisseli tapusuna sahip olmak. Başvuru e-Devlet'teki \"Sosyal Yardım Başvuru Hizmeti\"nden ya da il/ilçenizdeki SYDV'den yapılır; karar vakıf mütevelli heyetince verilir. Yardım harcama belgesiyle ödendiği için faturalı satış yapan firmayla çalışın.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; küçük ve ekonomik modelleri tek tabloda kıyaslarsınız.\n\n📌 Kaydedin, başvururken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevdesteği #prefabrikevyardımı #prefabrikev #prefabrikevfiyatları",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Prefabrik ev desteği<br><em>kaç TL?</em>",
+          "img": "prefabrik-b-960.webp"
+        },
+        {
+          "t": 3,
+          "tur": "sayi",
+          "h": "Bakanlık <em>bilgi notunda</em>",
+          "n": 300,
+          "birim": "bin TL'ye kadar · destek"
+        },
+        {
+          "t": 8,
+          "tur": "liste",
+          "h": "Kimler <em>başvurabilir?</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "Gelir testi",
+            "Barınma ihtiyacı",
+            "Tam hisseli tapu"
+          ]
+        },
+        {
+          "t": 14,
+          "tur": "foto",
+          "h": "e-Devlet ya da <em>vakıftan başvuru</em>",
+          "img": "hero-960.webp",
+          "p": "Güncel tutarı teyit edin"
+        },
+        {
+          "t": 19,
+          "tur": "son",
+          "h": "Teklifleri <em>tek tabloda</em> görün."
+        }
+      ],
+      "sure": 22,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-13-sabah-2.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "IuRRIAcbQK5AQk1XevPj"
+      }
     }
-   ],
-   "sure": 21
-  },
-  {
-   "seslendirme": "Prefabrik ev desteği kaç TL? Bakanlığın bilgi notunda, prefabrik ev yapımı için üç yüz bin liraya kadar destek yazıyor. Yardım; gelir testinde ihtiyaç sahibi çıkan, barınma ihtiyacı olan ve tam hisseli tapusu bulunan hanelere veriliyor. Başvuru e-Devlet'ten ya da vakıftan; güncel tutarı vakfınızdan teyit edin. Bağlantı profilde.",
-   "aciklama": "Prefabrik ev desteği kaç TL? Prefabrik ev yapım yardımı başvurusu 2026: kimler alabilir, nereye başvurulur? 👇\n\nAile ve Sosyal Hizmetler Bakanlığı'nın barınma yardımları bilgi notunda prefabrik ev yapımı için 300.000 TL'ye kadar destek yazıyor. Yardım, harcama belgeleri karşılığında nakdi ya da ayni olarak yapılıyor. Tutarlar zaman zaman güncellendiği için başvurmadan önce bağlı olduğunuz Sosyal Yardımlaşma ve Dayanışma Vakfı'ndan (SYDV) güncel tutarı sorun.\n\nBaşlıca şartlar: gelir testine göre ihtiyaç sahibi olmak; oturulamayacak derecede eski, bakımsız ya da sağlıksız bir evde yaşamak veya afet mağduru olmak; evin yapılacağı arsanın tam hisseli tapusuna sahip olmak. Başvuru e-Devlet'teki \"Sosyal Yardım Başvuru Hizmeti\"nden ya da il/ilçenizdeki SYDV'den yapılır; karar vakıf mütevelli heyetince verilir. Yardım harcama belgesiyle ödendiği için faturalı satış yapan firmayla çalışın.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; küçük ve ekonomik modelleri tek tabloda kıyaslarsınız.\n\n📌 Kaydedin, başvururken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevdesteği #prefabrikevyardımı #prefabrikev #prefabrikevfiyatları",
-   "sahneler": [
-    {
-     "t": 0,
-     "tur": "foto",
-     "h": "Prefabrik ev desteği<br><em>kaç TL?</em>",
-     "img": "prefabrik-b-960.webp"
-    },
-    {
-     "t": 3,
-     "tur": "sayi",
-     "h": "Bakanlık <em>bilgi notunda</em>",
-     "n": 300,
-     "birim": "bin TL'ye kadar · destek"
-    },
-    {
-     "t": 8,
-     "tur": "liste",
-     "h": "Kimler <em>başvurabilir?</em>",
-     "ikon": "✓",
-     "maddeler": [
-      "Gelir testi",
-      "Barınma ihtiyacı",
-      "Tam hisseli tapu"
-     ]
-    },
-    {
-     "t": 14,
-     "tur": "foto",
-     "h": "e-Devlet ya da <em>vakıftan başvuru</em>",
-     "img": "hero-960.webp",
-     "p": "Güncel tutarı teyit edin"
-    },
-    {
-     "t": 19,
-     "tur": "son",
-     "h": "Teklifleri <em>tek tabloda</em> görün."
-    }
-   ],
-   "sure": 22
-  }
- ],
- "yayin": {}
+  ],
+  "yayin": {}
 }
