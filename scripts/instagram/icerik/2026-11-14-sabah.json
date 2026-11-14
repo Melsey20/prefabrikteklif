@@ -1,0 +1,68 @@
+{
+  "tarih": "2026-11-14",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Bağ evi yapma şartları 2026'da değişti: tarım arazisine bağ evi için kaç dönüm gerekir, bağ evi kaç m² olabilir, hangi izinler alınır? 👇\n\n4 Nisan 2026 tarihli Tarım Arazilerinin Korunması ve Kullanılması Hakkında Yönetmelik değişikliğini aktaran haberlere göre bağ evi için en az 5 dönüm arazi ve en fazla 30 m² yapı şartı getirildi. Haziran 2026'daki yasal düzenlemeyle de tarım arazilerinde izinsiz yapılan prefabrik, konteyner ve tiny house gibi yapılara elektrik, su ve doğal gaz aboneliği verilmiyor.\n\nİzin sırası: önce tapudaki arazi niteliğini ve imar durumunu öğrenin, il/ilçe tarım ve orman müdürlüğüne başvurun, olumlu görüşten sonra belediye ya da il özel idaresinden ruhsat alın. Evi de izinli ölçüye göre seçin; 30 m² sınırı varsa daha büyük bir modelin teklifini almak boşa zaman kaybıdır. Kurallar araziye ve ile göre değişebilir; başvurudan önce il tarım ve orman müdürlüğünden güncel şartları teyit edin.\n\nPrefabrikTeklif bağ evi ve arazi sorularınızı yanıtlar, bungalov ve tiny house fiyatlarını karşılaştırır ve teklifleri size getirir. Durumunuzu \"Arazim uygun mu?\" aracıyla 5 soruda görün.\n\n📌 Kaydedin, arazi bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#bağevi #bağeviyapmaşartları #tarımarazisi #hobibahçesi #bungalovev",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Mevzuat 2026",
+          "h": "Bağ evi yapma şartları <em>2026'da değişti.</em>",
+          "boy": 90,
+          "p": "Ev kurmadan önce bilmeniz gereken 3 kural. Kaydırın.",
+          "img": "bungalov-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Haberlere göre <em>yeni şartlar</em>",
+          "boy": 84,
+          "p": "Başvurudan önce il tarım ve orman müdürlüğünden teyit edin.",
+          "maddeler": [
+            [
+              "Arazi",
+              "En az 5 dönüm"
+            ],
+            [
+              "Bağ evi",
+              "En fazla 30 m²"
+            ],
+            [
+              "İzinsiz yapı",
+              "Elektrik, su ve doğal gaz aboneliği verilmiyor (Haziran 2026)."
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "İzin sırası <em>böyle işler</em>",
+          "p": "Önce izin, sonra ev.",
+          "maddeler": [
+            "Arazi niteliği",
+            "Tarım müdürlüğü",
+            "Belediye ruhsatı",
+            "İzinli ölçüde ev"
+          ],
+          "img": "ahsap-b-960.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Araziniz uygun mu?<br><em>5 soruda görün.</em>",
+          "p": "Sonra ölçüye uygun bungalov ve tiny house tekliflerini tek tabloda alın.",
+          "img": "hero-1344.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": []
+}
