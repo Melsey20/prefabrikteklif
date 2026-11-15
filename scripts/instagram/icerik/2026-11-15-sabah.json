@@ -1,0 +1,72 @@
+{
+  "tarih": "2026-11-15",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "2. el prefabrik ev mi, sıfır prefabrik ev mi? Prefabrik ev fiyatları 2026'da sıfırda nereden başlıyor, ikinci el alırken neye bakılır? 👇\n\n9 Kasım 2026 itibarıyla listemizde sıfır prefabrik ev 225.000 TL'den başlıyor; ortanca model fiyatı 775.000 TL, metrekare başına ortanca fiyat 10.256 TL. 60 m² bir ev için kaba hesap: 60 × 10.256 = yaklaşık 615.000 TL.\n\nİkinci el prefabrik evde suyun ve nemin bıraktığı izlere bakın: çatı ve oluklar, pencere ve panel eklerindeki silikon derzler, duvar köşelerinde nem ve küf. Arsasıyla birlikte ruhsatlı ve iskânlı bir ev konut olarak alınıp satılabilir; ruhsat durumu ve bakım geçmişi değeri doğrudan etkiler.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, sıfır ev fiyatlarını karşılaştırır ve teklifleri size getirir; garanti ve teslim süresi tek tabloda.\n\n📌 Kaydedin, ev bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevfiyatları #ikincielprefabrikev #sıfırprefabrikev",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Prefabrik ev",
+          "h": "2. el prefabrik ev mi, <em>sıfır mı?</em>",
+          "boy": 90,
+          "p": "Önce sıfırın fiyatını ve kontrol listesini görün. Kaydırın.",
+          "img": "prefabrik-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Sıfır prefabrik ev <em>kaç TL?</em>",
+          "boy": 84,
+          "p": "9 Kasım 2026 itibarıyla listemizde; 60 m² için kaba hesap.",
+          "maddeler": [
+            [
+              "En düşük",
+              "225.000 TL'den"
+            ],
+            [
+              "Ortanca model",
+              "775.000 TL"
+            ],
+            [
+              "m² ortanca",
+              "10.256 TL"
+            ],
+            [
+              "60 m²",
+              "Yaklaşık 615.000 TL"
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "2. elde önce <em>bunlara bakın</em>",
+          "p": "Panel sistemin en büyük düşmanı su ve nemdir.",
+          "maddeler": [
+            "Çatı ve oluk",
+            "Silikon derzler",
+            "Köşede nem, küf",
+            "Ruhsat durumu"
+          ],
+          "img": "ic-mekan-1344.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Sıfır ev tekliflerini <em>yan yana görün.</em>",
+          "p": "Fiyat, garanti ve teslim süresi tek tabloda; teklifler 48 saatte.",
+          "img": "hero-1344.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": []
+}
