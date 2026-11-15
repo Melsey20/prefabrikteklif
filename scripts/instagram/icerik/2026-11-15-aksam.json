@@ -127,7 +127,13 @@
           "h": "Teklifleri <em>tek tabloda</em> görün."
         }
       ],
-      "sure": 21
+      "sure": 21,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-15-aksam-1.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "IuRRIAcbQK5AQk1XevPj"
+      }
     }
   ]
 }
