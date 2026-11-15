@@ -97,21 +97,21 @@
           "img": "tiny-house-960.webp"
         },
         {
-          "t": 3,
+          "t": 4.74,
           "tur": "sayi",
           "h": "B ehliyetin <em>sınırı</em>",
           "n": 750,
           "birim": "kg’a kadar römork"
         },
         {
-          "t": 7,
+          "t": 9.54,
           "tur": "sayi",
           "h": "BE ehliyetle <em>en fazla</em>",
           "n": 3500,
           "birim": "kg · azami yüklü ağırlık"
         },
         {
-          "t": 12,
+          "t": 16.12,
           "tur": "liste",
           "h": "Daha ağırsa <em>kim taşır?</em>",
           "ikon": "✓",
@@ -122,12 +122,12 @@
           ]
         },
         {
-          "t": 16,
+          "t": 20.36,
           "tur": "son",
           "h": "Teklifleri <em>tek tabloda</em> görün."
         }
       ],
-      "sure": 21,
+      "sure": 24.0,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-15-aksam-1.mp3",
       "ses": {
         "kaynak": "elevenlabs",
