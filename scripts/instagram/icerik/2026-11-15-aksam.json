@@ -87,7 +87,7 @@
   ],
   "reels": [
     {
-      "seslendirme": "Tiny house B ehliyetle çekilir mi? Çoğu durumda hayır. B ehliyet yalnızca yedi yüz elli kiloya kadar römork çeker. Tiny house'ların çoğu için B E ehliyet gerekir; sınır üç bin beş yüz kilo. Daha ağır evi firma ya da nakliyeci taşır. Ağırlığı ve teslimatı yazan teklifleri karşılaştırın; bağlantı profilde.",
+      "seslendirme": "Tiny house B ehliyetle çekilir mi? Çoğu durumda hayır. B ehliyet yalnızca yedi yüz elli kiloya kadar römork çeker. Tiny house'ların çoğu için B E ehliyet gerekir; sınır üç bin beş yüz kilo. Daha ağır evi firma ya da profesyonel nakliyeci taşır. Teklifleri karşılaştırın; bağlantı profilde.",
       "aciklama": "Tiny house hangi ehliyetle çekilir? Tekerlekli tiny house için B ehliyet yeter mi, BE mi gerekir? 👇\n\nB sınıfı ehliyet yalnızca azami yüklü ağırlığı 750 kg'a kadar olan hafif römorkları kapsar; tekerlekli tiny house'ların neredeyse tamamı bu sınırın üzerindedir. Karayolları Trafik Yönetmeliği'ne göre BE sınıfı, azami yüklü ağırlığı 3.500 kg'ı geçmeyen römorklar içindir. Daha ağır bir ev BE ile de çekilemez; firma teslimatı ya da çekici/lowbed ile profesyonel taşıma gerekir. Aracınızın ruhsatındaki çekme kapasitesini de kontrol edin.\n\nEvi bir kez arsanıza getirtecekseniz BE ehliyetinize gerek kalmaz; teslimatın fiyata dahil olup olmadığını teklifte yazılı isteyin. Kesin bilgi için sürücü kursuna ya da emniyet trafik birimine danışın.\n\nPrefabrikTeklif tiny house sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; 9 Kasım 2026 itibarıyla listemizde tiny house 429.000 TL'den başlıyor.\n\n📌 Kaydedin, tiny house alırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tinyhouse #tekerleklitinyhouse #tinyhousefiyatları #BEehliyet",
       "sahneler": [
         {
@@ -127,13 +127,7 @@
           "h": "Teklifleri <em>tek tabloda</em> görün."
         }
       ],
-      "sure": 21,
-      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-15-aksam-1.mp3",
-      "ses": {
-        "kaynak": "elevenlabs",
-        "model": "eleven_multilingual_v2",
-        "voice_id": "IuRRIAcbQK5AQk1XevPj"
-      }
+      "sure": 21
     }
   ]
 }
