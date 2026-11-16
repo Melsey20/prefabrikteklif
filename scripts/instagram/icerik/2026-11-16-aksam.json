@@ -60,7 +60,13 @@
           "h": "Prefabrik: <em>hızlı ve ekonomik.</em>"
         }
       ],
-      "sure": 22.0
+      "sure": 22.0,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-16-aksam-1.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "IuRRIAcbQK5AQk1XevPj"
+      }
     }
   ]
 }
