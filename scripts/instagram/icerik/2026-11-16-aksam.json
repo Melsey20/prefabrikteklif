@@ -33,7 +33,7 @@
           "img": "celik-960.webp"
         },
         {
-          "t": 2.5,
+          "t": 3.48,
           "tur": "sayi",
           "h": "Çelik ev <em>m² fiyatı</em>",
           "n": 17,
@@ -43,7 +43,7 @@
           ]
         },
         {
-          "t": 9,
+          "t": 10.42,
           "tur": "liste",
           "h": "Çelik ne zaman <em>mantıklı?</em>",
           "ikon": "✓",
@@ -55,12 +55,12 @@
           ]
         },
         {
-          "t": 16,
+          "t": 19.04,
           "tur": "son",
           "h": "Prefabrik: <em>hızlı ve ekonomik.</em>"
         }
       ],
-      "sure": 22.0,
+      "sure": 24.0,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-16-aksam-1.mp3",
       "ses": {
         "kaynak": "elevenlabs",
