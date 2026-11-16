@@ -26,12 +26,47 @@
       "seslendirme": "Çelik ev mi, prefabrik mi? Önce fiyata bakın. Listemizde çelik evde metrekare ortanca fiyatı on yedi bin lira, prefabrikte yaklaşık on bin lira. Çelik; plan esnekliği, büyük pencere ve dubleks için öne çıkar. Ama dış cephede kesintisiz yalıtım şart. Prefabrik daha hızlı kurulur ve daha ekonomiktir. Teklifleri karşılaştırın; bağlantı profilde.",
       "aciklama": "Çelik ev mi, prefabrik ev mi? Çelik ev fiyatları ile prefabrik ev fiyatları m² başına nasıl ayrışıyor, hangisi kime uygun? 👇\n\n9 Kasım 2026 itibarıyla listemizde çelik ev 575.000 TL'den, prefabrik ev 225.000 TL'den başlıyor. Metrekare başına ortanca fiyat çelik evde 17.000 TL, prefabrik evde 10.256 TL. 80 m² için kaba hesap: çelik ev yaklaşık 1.360.000 TL, prefabrik ev yaklaşık 820.000 TL.\n\nHafif çelik (çelik konstrüksiyon) ev; plan esnekliği, geniş açıklıklar, büyük pencereler, dubleks ve villa planları için öne çıkar. Çelik ısıyı iyi ilettiği için profillerin dışında kesintisiz yalıtım (mantolama) isteyin. Panel prefabrik genellikle daha hızlı kurulur ve m² başına daha ekonomiktir.\n\nPrefabrikTeklif çelik ev ve prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; aynı kapsamla teklifleri yan yana görün.\n\n📌 Kaydedin, karar verirken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#çelikev #çelikevfiyatları #prefabrikev #prefabrikevfiyatları #çelikkonstrüksiyonev",
       "sahneler": [
-        {"t": 0, "tur": "foto", "h": "Çelik ev mi,<br><em>prefabrik mi?</em>", "img": "celik-960.webp"},
-        {"t": 2.5, "tur": "sayi", "h": "Çelik ev <em>m² fiyatı</em>", "n": 17, "birim": "bin TL / m² · ortanca", "cipler": ["Prefabrik: ~10 bin TL / m²"]},
-        {"t": 9, "tur": "liste", "h": "Çelik ne zaman <em>mantıklı?</em>", "ikon": "✓", "maddeler": ["Plan esnekliği", "Büyük pencereler", "Dubleks planlar", "Dış yalıtım şart"]},
-        {"t": 16, "tur": "son", "h": "Prefabrik: <em>hızlı ve ekonomik.</em>"}
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Çelik ev mi,<br><em>prefabrik mi?</em>",
+          "img": "celik-960.webp"
+        },
+        {
+          "t": 2.5,
+          "tur": "sayi",
+          "h": "Çelik ev <em>m² fiyatı</em>",
+          "n": 17,
+          "birim": "bin TL / m² · ortanca",
+          "cipler": [
+            "Prefabrik: ~10 bin TL / m²"
+          ]
+        },
+        {
+          "t": 9,
+          "tur": "liste",
+          "h": "Çelik ne zaman <em>mantıklı?</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "Plan esnekliği",
+            "Büyük pencereler",
+            "Dubleks planlar",
+            "Dış yalıtım şart"
+          ]
+        },
+        {
+          "t": 16,
+          "tur": "son",
+          "h": "Prefabrik: <em>hızlı ve ekonomik.</em>"
+        }
       ],
-      "sure": 22.0
+      "sure": 22.0,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-16-aksam-1.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "IuRRIAcbQK5AQk1XevPj"
+      }
     }
   ]
 }
