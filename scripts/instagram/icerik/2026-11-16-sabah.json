@@ -22,10 +22,22 @@
           "boy": 84,
           "p": "9 Kasım 2026 itibarıyla listemizde.",
           "maddeler": [
-            ["Tiny house", "46.875 TL / m²"],
-            ["Ahşap ev", "26.100 TL / m²"],
-            ["Çelik ev", "17.000 TL / m²"],
-            ["Prefabrik ev", "10.256 TL / m²"]
+            [
+              "Tiny house",
+              "46.875 TL / m²"
+            ],
+            [
+              "Ahşap ev",
+              "26.100 TL / m²"
+            ],
+            [
+              "Çelik ev",
+              "17.000 TL / m²"
+            ],
+            [
+              "Prefabrik ev",
+              "10.256 TL / m²"
+            ]
           ]
         },
         {
@@ -36,8 +48,14 @@
           "boy": 84,
           "p": "m² × ortanca m² fiyatı. Temel ve nakliyeyi ayrıca sorun.",
           "maddeler": [
-            ["Tiny house", "Yaklaşık 1.172.000 TL"],
-            ["Prefabrik ev", "Yaklaşık 256.000 TL"]
+            [
+              "Tiny house",
+              "Yaklaşık 1.172.000 TL"
+            ],
+            [
+              "Prefabrik ev",
+              "Yaklaşık 256.000 TL"
+            ]
           ]
         },
         {
@@ -59,10 +77,29 @@
           "h": "Tiny house tekliflerini <em>yan yana görün.</em>",
           "p": "Fiyat, m² ve teslim süresi tek tabloda; teklifler 48 saatte.",
           "img": "tiny-house-c-960.webp",
-          "cipler": ["Ücretsiz", "{firmaSayisi} firma", "{modelSayisi} model"]
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
         }
       ]
     }
   ],
-  "reels": []
+  "reels": [],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "yayın bekliyor",
+    "medya": {
+      "tasarim": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/40291953-ad5b-45e1-9ee2-1cf82d89aa78.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/c6cee22d-edd7-4b6e-8391-c0a8dc920ff9.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/8abfc31c-42c0-45fe-9b7d-a272c7d05d93.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/6aa9ef69-dc3b-465b-ada3-644198b67c92.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/2ea841f4-3dbf-4b23-9f1e-f9c7151809ad.jpg"
+      ],
+      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/b2ed69e8-2f4b-4c6f-949d-ee56bffb0ec2.jpg",
+      "reels": []
+    }
+  }
 }
