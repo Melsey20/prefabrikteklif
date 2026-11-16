@@ -1,0 +1,68 @@
+{
+  "tarih": "2026-11-16",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Tiny house fiyatları: tiny house küçük ama m² fiyatı en yüksek ev tipi. Tiny house fiyat farkı nereden geliyor, prefabrik evle kıyasla ne kadar? 👇\n\n9 Kasım 2026 itibarıyla listemizde metrekare başına ortanca fiyat tiny house'ta 46.875 TL, ahşap evde 26.100 TL, çelik evde 17.000 TL, prefabrik evde 10.256 TL. 25 m² için kaba hesap: tiny house yaklaşık 1.172.000 TL, prefabrik ev yaklaşık 256.000 TL.\n\nTiny house'ların çoğu yaklaşık 15–35 m²'dir; mutfak, banyo ve asma kat yatak alanı küçük bir alana sığdırılır. Tekerlekli ve O2 belgeli model çekme karavan sayılır, zemine sabitlenen model ise yapı sayılabilir. Almadan önce şasi ve fren sistemini, toplam ağırlığı, yalıtım ve ısıtmayı, teslim yerine nakliye ücretini sorun.\n\nPrefabrikTeklif tiny house sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; il ve m² yazın, teklifler 48 saatte gelsin.\n\n📌 Kaydedin, tiny house bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tinyhouse #tinyhousefiyatları #tinyhousefiyat #prefabrikevfiyatları",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Tiny house",
+          "h": "Tiny house küçük, <em>m²'si en pahalısı.</em>",
+          "boy": 88,
+          "p": "Diğer ev tipleriyle m² fiyatı kıyası. Kaydırın.",
+          "img": "tiny-house-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 5",
+          "h": "m² başına <em>ortanca fiyat</em>",
+          "boy": 84,
+          "p": "9 Kasım 2026 itibarıyla listemizde.",
+          "maddeler": [
+            ["Tiny house", "46.875 TL / m²"],
+            ["Ahşap ev", "26.100 TL / m²"],
+            ["Çelik ev", "17.000 TL / m²"],
+            ["Prefabrik ev", "10.256 TL / m²"]
+          ]
+        },
+        {
+          "sablon": "liste",
+          "koyu": true,
+          "etiket": "3 / 5",
+          "h": "25 m² için <em>kaba hesap</em>",
+          "boy": 84,
+          "p": "m² × ortanca m² fiyatı. Temel ve nakliyeyi ayrıca sorun.",
+          "maddeler": [
+            ["Tiny house", "Yaklaşık 1.172.000 TL"],
+            ["Prefabrik ev", "Yaklaşık 256.000 TL"]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "4 / 5",
+          "h": "Almadan önce <em>bunları sorun</em>",
+          "p": "Tekerlekli model çekme karavan, sabit model yapı sayılır.",
+          "maddeler": [
+            "Şasi ve fren",
+            "Toplam ağırlık",
+            "Yalıtım, ısıtma",
+            "Nakliye ücreti"
+          ],
+          "img": "tiny-house-b-960.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "5 / 5",
+          "h": "Tiny house tekliflerini <em>yan yana görün.</em>",
+          "p": "Fiyat, m² ve teslim süresi tek tabloda; teklifler 48 saatte.",
+          "img": "tiny-house-c-960.webp",
+          "cipler": ["Ücretsiz", "{firmaSayisi} firma", "{modelSayisi} model"]
+        }
+      ]
+    }
+  ],
+  "reels": []
+}
