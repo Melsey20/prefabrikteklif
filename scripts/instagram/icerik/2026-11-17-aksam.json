@@ -1,0 +1,91 @@
+{
+  "tarih": "2026-11-17",
+  "slot": "aksam",
+  "saat": "19:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Prefabrik eve elektrik ve su bağlatma: iskânsız eve elektrik bağlanmaz. Prefabrik ev, çelik ev ya da konteyner ev fark etmez; abonelik için hangi izinler gerekir, masrafı kim öder? 👇\n\n3194 sayılı İmar Kanunu'nun 31. maddesine göre yapı kullanma izni (iskân) alınmayan yapılar, izin alınıncaya kadar elektrik, su ve kanalizasyon hizmetlerinden faydalandırılmaz. Sıra genellikle şöyle: arsanın uygunluğu → yapı ruhsatı → montaj ve iç tesisat → iskân → elektrik dağıtım şirketine ve su idaresine abonelik başvurusu. Tarım arazisinde izinsiz kurulan yapılara Haziran 2026'dan beri elektrik, su ve doğal gaz aboneliği verilmiyor.\n\nFirmaların çoğu evin içindeki elektrik ve sıhhi tesisatı pakete dahil eder; şebekeden eve kadar olan hat, sayaç, abonelik ve bağlantı bedelleri ise genellikle dahil değildir. Teklifte pano ve topraklamayı, sayaç–ev kablo hattını, su ve kanalizasyon hattını, bağlantı bedellerini yazılı sorun. Kuyu ve güneş paneli düşünüyorsanız: güneş paneli kaçak bir yapıyı yasal hâle getirmez, belirli derinliği aşan kuyular için DSİ'den belge gerekir. İstenen belgeler kurumdan kuruma değişebilir; başvurmadan önce teyit edin.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve tesisat kapsamı yazılı teklifleri size getirir.\n\n📌 Kaydedin, arsa bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevelektrik #konteynerev #prefabrikevruhsatı",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Elektrik ve su",
+          "h": "İskânsız eve <em>elektrik bağlanmaz.</em>",
+          "boy": 86,
+          "p": "Prefabrik, çelik ya da konteyner fark etmez. Kaydırın.",
+          "img": "montaj-1344.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Abonelik <em>sırası</em>",
+          "boy": 84,
+          "maddeler": [
+            ["1. Yapı ruhsatı", "Belediye ya da il özel idaresi projeyi onaylar."],
+            ["2. Montaj ve iç tesisat", "Elektrik ve sıhhi tesisat projeye uygun döşenir."],
+            ["3. İskân", "Yapı kullanma izni, kontrolden sonra verilir."],
+            ["4. Abonelik", "Elektrik dağıtım şirketine ve su idaresine başvurulur."]
+          ],
+          "alt_sag": "İmar Kanunu md. 31"
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Teklifte <em>bunları sorun</em>",
+          "p": "İç tesisat çoğu pakette var; şebekeden eve hat genelde yok.",
+          "maddeler": ["Pano ve topraklama", "Sayaç–ev kablo hattı", "Su ve kanalizasyon", "Bağlantı bedelleri"],
+          "img": "ic-mekan-1344.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Tesisatı yazan <em>teklifleri karşılaştırın.</em>",
+          "p": "Formu bir kez doldurun; teklifler 48 saatte gelsin.",
+          "img": "prefabrik-960.webp",
+          "cipler": ["Ücretsiz", "{firmaSayisi} firma", "{modelSayisi} model"]
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Hobi bahçesine ev konur mu? İzinsiz konmaz. Hobi bahçesi, imar planında konut alanı değildir. Haziran iki bin yirmi altıdan beri izinsiz konteyner, tiny house ya da prefabrik eve elektrik, su ve doğal gaz verilmiyor. Önce il tarım ve orman müdürlüğünden izin, sonra ruhsat alın. Arazinizi sitemizde kontrol edin; bağlantı profilde.",
+      "aciklama": "Hobi bahçesine ev konur mu? Hobi bahçesi evi, konteyner ev ya da tiny house koymadan önce bunu bilin 👇\n\nHobi bahçesi ve tarım arazileri imar planında konut alanı değildir; buraya sabit ya da sürekli kullanılan ev koymak izne tabidir. Haziran 2026'da yasalaşan düzenlemeyle tarım arazilerinde izinsiz yapılan prefabrik, konteyner ve tiny house gibi yapılara elektrik, su ve doğal gaz aboneliği verilmiyor.\n\nYasal yol: önce il tarım ve orman müdürlüğünden izin, ardından belediye ya da il özel idaresinden yapı ruhsatı. Bağ evi için haberlere göre en az 5 dönüm arazi ve en fazla 30 m² yapı şartından söz ediliyor; başvurmadan önce güncel şartları il tarım ve orman müdürlüğünden teyit edin. Firmanın \"ruhsat gerekmez\" sözüne güvenmeyin.\n\nPrefabrikTeklif hobi bahçesi ve tarlaya ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; arazinizin durumunu \"Arazim uygun mu?\" aracıyla 5 soruda ön kontrolden geçirin.\n\n📌 Kaydedin, arsa almadan önce lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#hobibahçesi #hobibahçesievi #tarlayaevyapılırmı #bağevi #konteynerev",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Hobi bahçesine<br><em>ev konur mu?</em>",
+          "img": "bungalov-b-960.webp"
+        },
+        {
+          "t": 3.0,
+          "tur": "foto",
+          "h": "Konut alanı<br><em>değil.</em>",
+          "img": "konteyner-c-960.webp"
+        },
+        {
+          "t": 7.0,
+          "tur": "liste",
+          "h": "İzinsiz yapıya <em>abonelik yok</em>",
+          "ikon": "✕",
+          "maddeler": ["Elektrik", "Su", "Doğal gaz"],
+          "cipler": ["Haziran 2026'dan beri"]
+        },
+        {
+          "t": 14.0,
+          "tur": "liste",
+          "h": "Önce izin, <em>sonra ev</em>",
+          "ikon": "✓",
+          "maddeler": ["Tarım ve orman izni", "Yapı ruhsatı"]
+        },
+        {
+          "t": 18.5,
+          "tur": "son",
+          "h": "Arazinizi <em>kontrol edin.</em>"
+        }
+      ],
+      "sure": 22.0
+    }
+  ]
+}

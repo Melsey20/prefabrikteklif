@@ -1,0 +1,50 @@
+{
+  "tarih": "2026-11-17",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "2 katlı prefabrik ev kaça mal olur? İki katlı prefabrik ev fiyatları için 100, 120 ve 150 m² kaba hesap, prefabrik ev fiyatları 2026 verisiyle 👇\n\n9 Kasım 2026 itibarıyla listemizde prefabrik evde metrekare başına ortanca fiyat 10.256 TL. Kaba hesap (m² × ortanca m² fiyatı): 100 m² yaklaşık 1.026.000 TL, 120 m² yaklaşık 1.231.000 TL, 150 m² yaklaşık 1.538.000 TL. Gerçek fiyat; kapsam, malzeme ve teslim şekline göre değişir.\n\nİki katlı (dubleks) ev dar arsada geniş yaşam alanı sağlar; yatak odaları üst katta, yaşam alanı alt katta toplanır. Dayanıklılık taşıyıcı sistemin statik hesabına ve zemine bağlıdır: Türkiye Bina Deprem Yönetmeliği'ne göre hazırlanmış statik projeyi ve zemin etüdü raporunu firmadan yazılı isteyin. Zemin betonu, nakliye ve vinç çoğu zaman fiyata ayrıca eklenir; teklifte kalem kalem sorun.\n\nPrefabrikTeklif 2 katlı prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; formu bir kez doldurun, teklifler 48 saatte gelsin.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#2katlıprefabrikev #ikikatlıprefabrikev #dubleksprefabrikev #prefabrikevfiyatları",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Fiyatlar 2026",
+          "h": "2 katlı prefabrik ev <em>kaça çıkar?</em>",
+          "boy": 86,
+          "p": "100, 120 ve 150 m² için kaba hesap. Kaydırın.",
+          "img": "celik-b-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "2 katlı için <em>kaba hesap</em>",
+          "boy": 84,
+          "p": "m² × ortanca m² fiyatı (10.256 TL). 9 Kasım 2026 itibarıyla listemizde.",
+          "maddeler": [
+            ["100 m²", "Yaklaşık 1.026.000 TL"],
+            ["120 m²", "Yaklaşık 1.231.000 TL"],
+            ["150 m²", "Yaklaşık 1.538.000 TL"]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Teklifte <em>yazılı isteyin</em>",
+          "p": "Dayanıklılık statik hesaba ve zemine bağlıdır.",
+          "maddeler": ["Statik proje", "Zemin etüdü raporu", "Zemin betonu", "Nakliye ve vinç"],
+          "img": "ic-mekan-1344.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "2 katlı ev tekliflerini <em>yan yana görün.</em>",
+          "p": "Formu bir kez doldurun; teklifler 48 saatte gelsin.",
+          "img": "celik-960.webp",
+          "cipler": ["Ücretsiz", "{firmaSayisi} firma", "{modelSayisi} model"]
+        }
+      ]
+    }
+  ],
+  "reels": []
+}
