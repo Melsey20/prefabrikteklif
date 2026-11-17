@@ -22,9 +22,18 @@
           "boy": 84,
           "p": "m² × ortanca m² fiyatı (10.256 TL). 9 Kasım 2026 itibarıyla listemizde.",
           "maddeler": [
-            ["100 m²", "Yaklaşık 1.026.000 TL"],
-            ["120 m²", "Yaklaşık 1.231.000 TL"],
-            ["150 m²", "Yaklaşık 1.538.000 TL"]
+            [
+              "100 m²",
+              "Yaklaşık 1.026.000 TL"
+            ],
+            [
+              "120 m²",
+              "Yaklaşık 1.231.000 TL"
+            ],
+            [
+              "150 m²",
+              "Yaklaşık 1.538.000 TL"
+            ]
           ]
         },
         {
@@ -32,7 +41,12 @@
           "etiket": "3 / 4",
           "h": "Teklifte <em>yazılı isteyin</em>",
           "p": "Dayanıklılık statik hesaba ve zemine bağlıdır.",
-          "maddeler": ["Statik proje", "Zemin etüdü raporu", "Zemin betonu", "Nakliye ve vinç"],
+          "maddeler": [
+            "Statik proje",
+            "Zemin etüdü raporu",
+            "Zemin betonu",
+            "Nakliye ve vinç"
+          ],
           "img": "ic-mekan-1344.webp"
         },
         {
@@ -41,10 +55,28 @@
           "h": "Teklifleri <em>yan yana görün.</em>",
           "p": "Formu bir kez doldurun; teklifler 48 saatte gelsin.",
           "img": "celik-960.webp",
-          "cipler": ["Ücretsiz", "{firmaSayisi} firma", "{modelSayisi} model"]
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
         }
       ]
     }
   ],
-  "reels": []
+  "reels": [],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "yayın bekliyor",
+    "medya": {
+      "tasarim": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/ac7ab5ba-c9fb-4735-bcdd-187fad68bfdf.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/a079ee14-c870-47e6-9d2a-63f976524d91.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/8e6bfa39-713c-49e6-9611-cc25ca7d9873.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/dc6be569-15be-451e-bd1b-223adf931ead.jpg"
+      ],
+      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/3794c2a2-336f-45cc-b085-90ddbca84f27.jpg",
+      "reels": []
+    }
+  }
 }
