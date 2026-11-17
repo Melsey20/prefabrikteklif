@@ -59,8 +59,8 @@ Marka adları (Karmod, A101, BİM vb.), tatil/kiralık bungalov, oyuncak ev ve h
 
 Geçerlilik: `src/pages/firma-kayit.astro` içinde `id="kampanya-kutu"` kutusu durdukça ve Yusuf Bey kampanyanın bittiğini söyleyene kadar.
 
-- **Ne zaman:** Pazartesi, Çarşamba ve Cuma akşamı (19:00) tasarım, kampanya odaklı bir firma karuseli ya da teklisi olur. Firma kampanyası yalnızca bu tasarımla yapılır; günün tek Reels'i (akşam 19:20) her gün ev arayanlar içindir ve çok aranan bir soru/merak hook'uyla açılır (bkz. aşağıdaki "Günlük düzen"). Örnek tasarım: `icerik/2026-11-13-aksam.json`.
-- **Söylenebilenler (sitedeki ifadelerle):** İlk 50 firmaya 1 ay ücretsiz üyelik. Kart bilgisi istenmez. Başvuru onaylanınca hemen teklif verilir. Komisyon yok. Devam etmezse hiçbir şey ödemez. Firma sitede "Üye firma" rozetiyle görünür. Talep; il, ev tipi, m², oda sayısı, bütçe, arsa durumu ve başlama zamanıyla firma paneline gelir. Yalnızca hizmet verilen illerden ve üretilen ev tiplerinden talep gelir. Her firma resmî evrak ve referansla kabul edilir.
+- **Ne zaman (17 Kasım 2026 güncellemesi, Yusuf Bey: "firmaları kazanmamız lazım"):** Pazartesi, Çarşamba, Cuma ve Cumartesi akşamı (19:00) tasarım, kampanya odaklı bir firma karuseli ya da teklisi olur. Firma kampanyası yalnızca bu tasarımla yapılır; günün tek Reels'i (akşam 19:20) her gün ev arayanlar içindir ve çok aranan bir soru/merak hook'uyla açılır (bkz. aşağıdaki "Günlük düzen"). Örnek tasarım: `icerik/2026-11-13-aksam.json`.
+- **Söylenebilenler (sitedeki ifadelerle):** İlk 50 firmaya 1 ay ücretsiz üyelik. Kart bilgisi istenmez. Başvuru onaylanınca hemen teklif verilir. Komisyon yok. Devam etmezse hiçbir şey ödemez. Firma sitede "Üye firma" rozetiyle görünür. Talep; il, ev tipi, m², oda sayısı, bütçe, arsa durumu ve başlama zamanıyla firma paneline gelir. Yalnızca hizmet verilen illerden ve üretilen yapı tiplerinden talep gelir. Kayıt telefondan birkaç dakika sürer; yalnızca vergi levhası istenir (referans zorunlu değil), başvuru en geç 1 iş günü içinde onaylanır. Firma fiyat vermeden önce müşteriye panelden soru sorabilir. Ağır çelik yapı (fabrika, depo, hangar) üreticileri de katılabilir.
 - **Arama verisi:** Yalnızca şu ifade kullanılır: "Google'da her ay 150 binden fazla 'prefabrik ev' ve 'prefabrik ev fiyatları' araması (Semrush, Kasım 2026)".
 - **Yasaklar:** Aylık üyelik tutarı ve reklam fiyatları YİNE yazılmaz. Kalan kontenjan sayısı yazılmaz. "Kurucu üye" denmez.
 - **Çeşitlilik:** Her gün aynı kampanya hook'unu tekrarlamayın. Örnek hook'lar:
@@ -69,7 +69,9 @@ Geçerlilik: `src/pages/firma-kayit.astro` içinde `id="kampanya-kutu"` kutusu d
   - "Müşteri aramayın, talepler size gelsin."
   - "Prefabrik ev mi üretiyorsunuz?"
   - "Tiny house üreticileri, ilk ay bizden."
-- **Başvuru adresi:** Firma içeriklerinin altında alt_sol olarak `prefabrikteklif.com.tr/firma-kayit` yazılır. Açıklamada "👉 Başvuru: prefabrikteklif.com.tr/firma-kayit" satırı bulunur.
+  - "Vergi levhanız yeter, 5 dakikada kaydolun."
+  - "Fabrika, depo, hangar yapıyorsanız talepler burada."
+- **Başvuru adresi:** Firma içeriklerinin altında alt_sol olarak `prefabrikteklif.com.tr/firmalar-icin` yazılır. Açıklamada "👉 Ücretsiz başvuru: prefabrikteklif.com.tr/firmalar-icin" satırı bulunur (sayfa kampanyayı anlatır ve kayda yönlendirir).
 
 ## İçerik yönü — keşfete düşen konular (11 Kasım 2026, Yusuf Bey)
 
