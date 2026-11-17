@@ -1,0 +1,79 @@
+---
+import Base from '../layouts/Base.astro';
+import Crumbs from '../components/Crumbs.astro';
+import Faq from '../components/Faq.astro';
+import { meta } from '../lib/data';
+import { SITE } from '../site.config';
+
+// Firmalara yönelik tanıtım sayfası: ilk ay ücretsiz üyelik (açılış kampanyası) ve sistemin firma için nasıl çalıştığı
+const k = SITE.kampanya.aktif;
+const sss = [
+  { s: 'İlk ay gerçekten ücretsiz mi, kart bilgisi istiyor musunuz?', c: `Evet. Açılış kampanyasında ilk ${SITE.kampanya.kontenjan} firmanın üyeliği 1 ay ücretsiz açılır; kart bilgisi istemiyoruz. Ay sonunda devam etmek isterseniz aylık ${SITE.abonelik} TL ödersiniz; istemezseniz hiçbir şey ödemezsiniz, üyeliğiniz kendiliğinden kapanır.` },
+  { s: 'Satışlarımdan komisyon alıyor musunuz?', c: 'Hayır. Satış sizinle müşteri arasında olur; aylık üyelik dışında hiçbir pay almıyoruz.' },
+  { s: 'Hangi talepler bana gelir?', c: 'Yalnızca ürettiğiniz yapı tiplerine (prefabrik, çelik, konteyner, tiny house, ahşap, bungalov, ağır çelik) ve hizmet verdiğiniz illere uyan talepler. Hizmet bölgenizi ve tiplerinizi panelden istediğiniz an değiştirirsiniz.' },
+  { s: 'Müşterinin iletişim bilgilerini ne zaman görürüm?', c: 'Talep panelinize ili, ilçesi, ev tipi, metrekaresi, oda sayısı, bütçesi, arsa durumu ve notuyla gelir. Fiyatınızı girdiğiniz anda müşterinin adı, telefonu ve e-postası açılır. Fiyat vermeden önce müşteriye panelden soru da sorabilirsiniz.' },
+  { s: 'Kayıt için ne gerekiyor?', c: 'Firma ve yetkili bilgileri, ürettiğiniz yapı tipleri ve vergi levhanızın fotoğrafı. Telefondan birkaç dakikada tamamlanır; başvurunuzu en geç 1 iş günü içinde onaylarız ve e-postanıza şifre belirleme bağlantısı gelir.' },
+  { s: 'Firmam sitede zaten listeleniyor, ne değişir?', c: 'Listelenen firmalara teklif talebi gelmez; fiyatlar bilgi amaçlı sitenizden alınır. Üye olduğunuzda sayfanızı kendiniz yönetir, fiyat ve fotoğraflarınızı güncel tutar, size uyan talepleri alır ve “Üye firma” rozeti kazanırsınız.' },
+];
+---
+<Base title={`Prefabrik Firmaları İçin: ${k ? 'İlk Ay Ücretsiz Üyelik' : 'Müşteri Talebi Alın'} | PrefabrikTeklif`} description={`Prefabrik, çelik, konteyner ev ve tiny house firmaları: ev arayan müşterilerin talepleri panelinize gelsin. ${k ? `İlk ${SITE.kampanya.kontenjan} firmaya 1 ay ücretsiz, kart bilgisi istemeden.` : ''} Komisyon yok.`}>
+  <div class="wrap">
+    <Crumbs items={[{ ad: 'Firmalar için' }]} />
+    <section class="fi-hero">
+      {k && <span class="fi-rozet">Açılış kampanyası · ilk {SITE.kampanya.kontenjan} firmaya</span>}
+      <h1>{k ? 'İlk ay ücretsiz: ev arayan müşteriler size gelsin' : 'Ev arayan müşteriler size gelsin'}</h1>
+      <p>Prefabrik, çelik, konteyner ev, tiny house ve ağır çelik yapı üretiyorsanız; size uyan müşteri talepleri ili, metrekaresi, bütçesi ve arsa durumuyla panelinize düşsün. Fiyatınızı verin, müşterinin telefonu açılsın. <b>Komisyon yok.</b></p>
+      <div class="fi-btn">
+        <a class="btn btn-p" href="/firma-kayit/" data-ga="firmalar_icin_kayit">{k ? 'Ücretsiz üye ol' : 'Üye ol'}</a>
+        <a class="btn btn-g" href="/firma-paneli/">Firma girişi</a>
+      </div>
+      <p class="xs muted">{k ? `Kart bilgisi istemiyoruz. 1 ay sonunda devam ederseniz aylık ${SITE.abonelik} TL; etmezseniz hiçbir şey ödemezsiniz.` : `Aylık ${SITE.abonelik} TL, komisyon yok.`}</p>
+    </section>
+
+    <section class="sec">
+      <h2>Nasıl çalışır?</h2>
+      <ol class="fi-adim">
+        <li><b>Telefondan kaydolun</b><span>Firma bilgileri, ürettiğiniz yapı tipleri, hizmet verdiğiniz iller ve vergi levhanızın fotoğrafı. Birkaç dakika.</span></li>
+        <li><b>Onaylayalım, panelinize girin</b><span>En geç 1 iş günü içinde onaylarız; e-postanıza gelen bağlantıyla şifrenizi belirleyip panele girersiniz.</span></li>
+        <li><b>Talepler gelsin, fiyat verin</b><span>Size uyan talepler hem panelinize hem e-postanıza gelir. Fiyatınızı girdiğiniz anda müşterinin iletişim bilgileri açılır.</span></li>
+      </ol>
+    </section>
+
+    <section class="sec">
+      <h2>Üye olunca neler kazanırsınız?</h2>
+      <ul class="fi-kart">
+        <li><b>Hazır müşteri</b><span>Talep ev arayan kişiden gelir: ne istediği, bütçesi, arsası ve ne zaman başlamak istediği belli.</span></li>
+        <li><b>Size uyan talepler</b><span>Sadece ürettiğiniz tiplere ve hizmet verdiğiniz illere uyan talepler gelir.</span></li>
+        <li><b>Kendi sayfanızı yönetin</b><span>Model, fiyat ve fotoğraflarınızı panelden güncelleyin; sitede {meta.firmaSayisi} firma ve {meta.modelSayisi} model arasında öne çıkın.</span></li>
+        <li><b>“Üye firma” rozeti</b><span>Vergi levhası kontrol edilmiş firma olarak görünürsünüz; müşteri güveni artar.</span></li>
+        <li><b>Fiyat öncesi soru</b><span>Fiyat vermeden önce müşteriye panelden soru sorabilir, doğru fiyatı verebilirsiniz.</span></li>
+        <li><b>Komisyon yok</b><span>Satış sizinle müşteri arasında; satıştan pay almıyoruz.</span></li>
+      </ul>
+    </section>
+
+    <section class="sec">
+      <div class="band">
+        <div><h2>{k ? `İlk ${SITE.kampanya.kontenjan} firmaya 1 ay ücretsiz` : 'Hemen başlayın'}</h2><p>{k ? `Kart bilgisi istemeden üyeliğinizi açıyoruz. Ay sonunda devam ederseniz aylık ${SITE.abonelik} TL.` : `Aylık ${SITE.abonelik} TL, komisyon yok.`}</p></div>
+        <div class="btns"><a class="btn btn-w" href="/firma-kayit/">{k ? 'Ücretsiz üye ol' : 'Üye ol'}</a></div>
+      </div>
+    </section>
+
+    <section class="sec narrow" style="margin:0 auto">
+      <Faq items={sss} />
+    </section>
+  </div>
+</Base>
+
+<style>
+  .fi-hero { padding: 26px 0 8px; display: flex; flex-direction: column; gap: 12px; max-width: 760px; }
+  .fi-hero h1 { margin: 0; font-size: clamp(1.7rem, 4.6vw, 2.6rem); line-height: 1.12; }
+  .fi-hero p { margin: 0; font-size: 1.05rem; }
+  .fi-rozet { align-self: flex-start; background: var(--green-ll); color: var(--green-d); font-weight: 800; font-size: .8rem; padding: 6px 12px; border-radius: 999px; }
+  .fi-btn { display: flex; gap: 10px; flex-wrap: wrap; }
+  .fi-adim { list-style: none; counter-reset: a; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .fi-adim li { counter-increment: a; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .fi-adim li::before { content: counter(a); width: 30px; height: 30px; border-radius: 50%; background: var(--green); color: #fff; font-weight: 800; display: grid; place-items: center; }
+  .fi-adim span, .fi-kart span { color: var(--muted); font-size: .95rem; }
+  .fi-kart { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .fi-kart li { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+</style>

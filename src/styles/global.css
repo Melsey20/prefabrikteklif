@@ -880,3 +880,10 @@ body:has(.app) .by-dis { display: none; }
   .g3.mob-liste .bcard img, .g3.mob-liste .bcard .bd > span { display: none; }
   .g3.mob-liste .bcard .bd { padding: 14px 16px; }
 }
+
+/* Firma kazanımı bandı (açılış kampanyası) */
+.firma-serit { background: var(--green); color: #fff; font-size: .86rem; }
+.firma-serit .wrap { display: flex; align-items: center; justify-content: center; gap: 10px; padding-top: 7px; padding-bottom: 7px; position: relative; }
+.firma-serit a { color: #fff; text-decoration: none; text-align: center; line-height: 1.35; }
+.firma-serit a u { text-decoration-color: rgba(255,255,255,.6); text-underline-offset: 3px; font-weight: 700; }
+.firma-serit button { background: none; border: 0; color: #fff; font-size: 1.2rem; line-height: 1; cursor: pointer; opacity: .8; padding: 2px 6px; flex: none; }

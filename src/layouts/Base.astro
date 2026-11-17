@@ -44,6 +44,9 @@ const COK_ARANAN = ['en-ucuz-prefabrik-ev-fiyatlari', 'anahtar-teslim-prefabrik-
 const konuIlk = COK_ARANAN.map((sl) => KONULAR.find((k) => k.slug === sl)).filter((k): k is (typeof KONULAR)[number] => !!k);
 const konuDiger = KONULAR.filter((k) => !COK_ARANAN.includes(k.slug));
 const tipler = TIP_SIRA.filter((k) => TIPLER[k]).map((k) => ({ k, ...TIPLER[k], min: meta.istatistik[k]?.min }));
+// Firma kazanımı: açılış kampanyası bandı (müşteri işlem sayfalarında ve firma sayfalarında gösterilmez)
+const seritYok = ['/firma-kayit/', '/firma-paneli/', '/yonetim/', '/hesabim/', '/teklif-al/', '/teklif-ver/', '/giris/', '/sifre-belirle/', '/firmalar-icin/', '/karsilastir/'].some((p) => Astro.url.pathname.startsWith(p)) || lang !== 'tr';
+const firmaSerit = SITE.kampanya.aktif && !seritYok;
 const populer = [
   { ad: '2+1 prefabrik ev', url: '/prefabrik-ev-fiyatlari/2-1/' },
   { ad: '100 m² prefabrik', url: '/prefabrik-ev-fiyatlari/100-m2/' },
@@ -97,6 +100,15 @@ const ic = {
 </head>
 <body data-tip={tip || undefined} class={bodyClass || undefined}>
   <a class="skip" href="#icerik">İçeriğe geç</a>
+  {firmaSerit && (
+    <div class="firma-serit" id="firma-serit">
+      <div class="wrap">
+        <a href="/firmalar-icin/" data-ga="serit_firma"><b>Prefabrik firması mısınız?</b> <span>İlk {SITE.kampanya.kontenjan} firmaya <u>1 ay ücretsiz üyelik</u><span class="hide-m">: müşteri talepleri panelinize gelsin, komisyon yok</span> →</span></a>
+        <button type="button" aria-label="Kapat" id="firma-serit-x">×</button>
+      </div>
+    </div>
+    <script is:inline>(function(){try{var k=+localStorage.getItem('pt_serit_x')||0;var e=document.getElementById('firma-serit');if(Date.now()-k<6048e5)e.remove();else document.getElementById('firma-serit-x').onclick=function(){localStorage.setItem('pt_serit_x',Date.now());e.remove();};}catch(_){}})();</script>
+  )}
   <div class="topbar">
     <div class="wrap">
       <span><span class="hide-m">{meta.firmaSayisi} firma · </span>{meta.modelSayisi} model · fiyatlar {meta.sonKontrolYazi}’de kontrol edildi</span>
@@ -245,6 +257,7 @@ const ic = {
         <div>
           <h2>Kurumsal</h2>
           <ul>
+            <li><a href="/firmalar-icin/">Firmalar için (ilk ay ücretsiz)</a></li>
             <li><a href="/firma-kayit/">Firmanızı ekleyin</a></li>
             <li><a href="/firma-paneli/">Firma girişi</a></li>
             <li><a href="/reklam-ver/">Reklam ver</a></li>
