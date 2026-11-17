@@ -460,6 +460,20 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
 
   // ---- POST /api/iletisim (sitenin alt kısmındaki "Bize yazın" formu) ----
   const ILETISIM_KONU = { oneri: 'Öneri', soru: 'Soru', sikayet: 'Şikâyet', isbirligi: 'İş birliği', reklam: 'Reklam', diger: 'Diğer' };
+  // ---- POST /api/yonetim/iletisim-yanit: "Bize yazın" mesajına site adresinden yanıt (cevaplar yönetici adresine gelir) ----
+  async function yonetimIletisimYanit(req) {
+    const u = await yonetici(req);
+    const b = req.body || {};
+    const ref = db.collection('iletisimMesajlari').doc(str(b.id, 60)); const s = await ref.get();
+    if (!s.exists) hata(404, 'Mesaj bulunamadı.');
+    const m = s.data(); const konu = str(b.konu, 140); const metin = str(b.metin, 5000).trim();
+    if (!epostaMi(m.eposta)) hata(400, 'Mesajda geçerli bir e-posta yok.');
+    if (!konu || metin.length < 10) hata(400, 'Konu ve yanıt metnini yazın.');
+    const govde = metin.split(/\n{2,}/).map((p) => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('');
+    await mail(m.eposta, konu, sablon(konu, govde), { yanit: ayar().admin });
+    await ref.set({ durum: 'yanitlandi', yanitlar: FieldValue.arrayUnion({ konu, metin, zaman: now(), kim: u.eposta || '' }) }, { merge: true });
+    return { ok: true };
+  }
   async function iletisim(req) {
     const b = req.body || {};
     if (str(b.website)) return { ok: true };
@@ -1609,7 +1623,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     zamanliTanitim, abonelikHatirlat, uyelikSureKontrol,
     routes: {
       'POST /api/teklif': teklif, 'GET /api/talep': talep, 'POST /api/teklif-ver': teklifVer, 'POST /api/teklif-red': teklifRed,
-      'POST /api/firma-basvuru': firmaBasvuru, 'POST /api/firma/sifre-baglanti': firmaSifreBaglanti, 'POST /api/belge': belge, 'GET /api/yonetim/belge': yonetimBelge, 'POST /api/bildirim-iptal': bildirimIptal, 'POST /api/firma/gorsel': firmaGorsel, 'POST /api/iletisim': iletisim, 'GET /api/google-puan': googlePuan, 'GET /api/yorumlar': yorumlar, 'POST /api/yorum': yorum,
+      'POST /api/firma-basvuru': firmaBasvuru, 'POST /api/yonetim/iletisim-yanit': yonetimIletisimYanit, 'POST /api/firma/sifre-baglanti': firmaSifreBaglanti, 'POST /api/belge': belge, 'GET /api/yonetim/belge': yonetimBelge, 'POST /api/bildirim-iptal': bildirimIptal, 'POST /api/firma/gorsel': firmaGorsel, 'POST /api/iletisim': iletisim, 'GET /api/google-puan': googlePuan, 'GET /api/yorumlar': yorumlar, 'POST /api/yorum': yorum,
       'GET /api/katalog': katalog, 'GET /api/bannerlar': bannerlar,
       'POST /api/firma/abonelik-baslat': firmaAbonelikBaslat, 'POST /api/firma/kart-guncelle': firmaKartGuncelle, 'POST /api/firma/abonelik-iptal': firmaAbonelikIptal, 'POST /api/iyzico/donus': iyzicoDonus, 'POST /api/iyzico/kart-donus': iyzicoKartDonus, 'POST /api/iyzico/bildirim': iyzicoBildirim, 'POST /api/yonetim/iyzico-plan': yonetimIyzicoPlan,
       'POST /api/sms/kod': smsKod, 'POST /api/sms/dogrula': smsDogrula, 'GET /api/ben': ben, 'POST /api/onay': onay, 'POST /api/mesaj': musteriMesaj, 'POST /api/firma-soru': firmaSoru, 'POST /api/firma/mesaj': firmaMesaj, 'POST /api/yonetim/firma-durum': yonetimFirmaDurum, 'POST /api/yonetim/istatistik': yonetimIstatistik, 'POST /api/yonetim/tanitim': yonetimTanitim, 'POST /api/yonetim/duyuru': yonetimDuyuru,

@@ -373,3 +373,19 @@ test('elle yeniden iletim firmanın davet kaydını silmez; istatistik çift say
   const fd = (await db.collection('firmalar').doc('kardesler').get()).data();
   assert.equal(fd.istTalep, 1, 'sayaç çift artmaz'); assert.equal(fd.istTeklif, 1);
 });
+
+test('yönetici "Bize yazın" mesajını site adresinden yanıtlar; cevap yönetici adresine gelir', async () => {
+  const { db, mails, call } = kur();
+  const r = await call('POST', '/api/iletisim', { body: { ad: 'Ulaş', eposta: 'ulas@ornek.com', konu: 'soru', mesaj: '30+36 m² iki katlı dubleks hakkında bilgi', kvkk: true, riza: true } });
+  assert.equal(r.statusCode, 200, JSON.stringify(r.body));
+  const id = db.dump('iletisimMesajlari/')[0][0].split('/')[1];
+  assert.equal((await call('POST', '/api/yonetim/iletisim-yanit', { tok: 'tok-user', body: { id, konu: 'x', metin: 'Merhaba, fiyat geldi.' } })).statusCode, 403);
+  assert.equal((await call('POST', '/api/yonetim/iletisim-yanit', { tok: 'tok-admin', body: { id, konu: 'Konu', metin: 'kısa' } })).statusCode, 400);
+  const y = await call('POST', '/api/yonetim/iletisim-yanit', { tok: 'tok-admin', body: { id, konu: 'Fiyat teklifi', metin: 'Merhaba Ulaş Bey,\n\nFiyat: 1.600.000 TL <b>' } });
+  assert.equal(y.statusCode, 200, JSON.stringify(y.body));
+  const m = mails.at(-1);
+  assert.equal(m.to, 'ulas@ornek.com'); assert.equal(m.subject, 'Fiyat teklifi'); assert.ok(m.html.includes('1.600.000 TL &lt;b&gt;'), 'metin kaçışlı');
+  assert.ok(m.o?.yanit, 'cevap adresi yönetici');
+  const oz = (await call('GET', '/api/yonetim/ozet', { tok: 'tok-admin' })).body;
+  assert.equal(oz.iletisim[0].durum, 'yanitlandi'); assert.equal(oz.iletisim[0].yanitlar.length, 1);
+});

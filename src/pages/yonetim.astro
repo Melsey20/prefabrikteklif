@@ -289,7 +289,21 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       $('p-iletisim').replaceChildren(...((V.iletisim || []).length ? V.iletisim.map((m: any) => h('article', { class: 'item' },
         h('div', { class: 'row' }, h('b', {}, `${m.konuAd} · ${m.ad}`), h('span', { class: 'xs muted' }, tarih(m.zaman))),
         h('p', { style: { margin: 0, whiteSpace: 'pre-line' } }, m.mesaj),
-        h('span', { class: 'small' }, h('a', { href: `mailto:${m.eposta}?subject=${encodeURIComponent('PrefabrikTeklif: ' + m.konuAd)}` }, m.eposta), m.sayfa ? ` · ${m.sayfa}` : ''))) : [h('p', { class: 'small muted' }, 'Henüz mesaj yok.')]));
+        h('span', { class: 'small' }, m.eposta, m.sayfa ? ` · ${m.sayfa}` : '', m.durum === 'yanitlandi' ? h('b', { style: { color: 'var(--green-d)' } }, ' · Yanıtlandı') : ''),
+        ...(m.yanitlar || []).map((y: any) => h('div', { class: 'xs', style: { background: 'var(--gray-bg)', borderRadius: '8px', padding: '8px 10px', whiteSpace: 'pre-line' } }, h('b', {}, `${tarih(y.zaman)} · ${y.konu}`), '\n' + y.metin)),
+        h('div', {}, h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => iletisimYanit(m) }, 'Site adresinden yanıtla')))) : [h('p', { class: 'small muted' }, 'Henüz mesaj yok.')]));
+    }
+    function iletisimYanit(m: any) {
+      const konu = inp('konu', { type: 'text', maxlength: 140, value: `PrefabrikTeklif: ${m.konuAd || 'mesajınız'} hakkında` });
+      const metin = h('textarea', { rows: 10, maxlength: 5000 }, `Merhaba ${String(m.ad || '').trim()},\n\n`) as HTMLTextAreaElement;
+      const hata = h('p', { class: 'err small', hidden: true });
+      const gonder = h('button', { class: 'btn btn-p', type: 'submit' }, 'Gönder');
+      const f = h('form', { class: 'form', onsubmit: async (e: Event) => {
+        e.preventDefault(); (hata as HTMLElement).hidden = true; (gonder as HTMLButtonElement).disabled = true;
+        try { await api('/api/yonetim/iletisim-yanit', { id: m.id, konu: (konu as HTMLInputElement).value, metin: metin.value }); toast('Yanıt gönderildi'); kapat(); await yukle(); }
+        catch (err: any) { hata.textContent = err.message; (hata as HTMLElement).hidden = false; (gonder as HTMLButtonElement).disabled = false; }
+      } }, h('p', { class: 'small muted', style: { margin: 0 } }, `Alıcı: ${m.eposta} · Gönderen: info@prefabrikteklif.com.tr · Cevaplar yönetici adresine gelir.`), alan('Konu', konu), alan('Yanıt', metin), hata, gonder);
+      const kapat = modal('Mesajı yanıtla', f);
     }
     function bannerFormu(b: any | null) {
       const baslik = inp('baslik', { type: 'text', maxlength: 120, value: b?.baslik || '', required: true });
