@@ -21,10 +21,22 @@
           "h": "Abonelik <em>sırası</em>",
           "boy": 84,
           "maddeler": [
-            ["1. Yapı ruhsatı", "Belediye ya da il özel idaresi projeyi onaylar."],
-            ["2. Montaj ve iç tesisat", "Elektrik ve sıhhi tesisat projeye uygun döşenir."],
-            ["3. İskân", "Yapı kullanma izni, kontrolden sonra verilir."],
-            ["4. Abonelik", "Elektrik dağıtım şirketine ve su idaresine başvurulur."]
+            [
+              "1. Yapı ruhsatı",
+              "Belediye ya da il özel idaresi projeyi onaylar."
+            ],
+            [
+              "2. Montaj ve iç tesisat",
+              "Elektrik ve sıhhi tesisat projeye uygun döşenir."
+            ],
+            [
+              "3. İskân",
+              "Yapı kullanma izni, kontrolden sonra verilir."
+            ],
+            [
+              "4. Abonelik",
+              "Elektrik dağıtım şirketine ve su idaresine başvurulur."
+            ]
           ],
           "alt_sag": "İmar Kanunu md. 31"
         },
@@ -33,7 +45,12 @@
           "etiket": "3 / 4",
           "h": "Teklifte <em>bunları sorun</em>",
           "p": "İç tesisat çoğu pakette var; şebekeden eve hat genelde yok.",
-          "maddeler": ["Pano ve topraklama", "Sayaç–ev kablo hattı", "Su ve kanalizasyon", "Bağlantı bedelleri"],
+          "maddeler": [
+            "Pano ve topraklama",
+            "Sayaç–ev kablo hattı",
+            "Su ve kanalizasyon",
+            "Bağlantı bedelleri"
+          ],
           "img": "ic-mekan-1344.webp"
         },
         {
@@ -42,7 +59,11 @@
           "h": "Tesisatı yazan <em>teklifleri karşılaştırın.</em>",
           "p": "Formu bir kez doldurun; teklifler 48 saatte gelsin.",
           "img": "prefabrik-960.webp",
-          "cipler": ["Ücretsiz", "{firmaSayisi} firma", "{modelSayisi} model"]
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
         }
       ]
     }
@@ -69,15 +90,24 @@
           "tur": "liste",
           "h": "İzinsiz yapıya <em>abonelik yok</em>",
           "ikon": "✕",
-          "maddeler": ["Elektrik", "Su", "Doğal gaz"],
-          "cipler": ["Haziran 2026'dan beri"]
+          "maddeler": [
+            "Elektrik",
+            "Su",
+            "Doğal gaz"
+          ],
+          "cipler": [
+            "Haziran 2026'dan beri"
+          ]
         },
         {
           "t": 14.0,
           "tur": "liste",
           "h": "Önce izin, <em>sonra ev</em>",
           "ikon": "✓",
-          "maddeler": ["Tarım ve orman izni", "Yapı ruhsatı"]
+          "maddeler": [
+            "Tarım ve orman izni",
+            "Yapı ruhsatı"
+          ]
         },
         {
           "t": 18.5,
@@ -85,7 +115,13 @@
           "h": "Arazinizi <em>kontrol edin.</em>"
         }
       ],
-      "sure": 22.0
+      "sure": 22.0,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-17-aksam-1.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "IuRRIAcbQK5AQk1XevPj"
+      }
     }
   ]
 }
