@@ -80,13 +80,13 @@
           "img": "bungalov-b-960.webp"
         },
         {
-          "t": 3.0,
+          "t": 3.2,
           "tur": "foto",
           "h": "Konut alanı<br><em>değil.</em>",
           "img": "konteyner-c-960.webp"
         },
         {
-          "t": 7.0,
+          "t": 6.66,
           "tur": "liste",
           "h": "İzinsiz yapıya <em>abonelik yok</em>",
           "ikon": "✕",
@@ -100,7 +100,7 @@
           ]
         },
         {
-          "t": 14.0,
+          "t": 15.24,
           "tur": "liste",
           "h": "Önce izin, <em>sonra ev</em>",
           "ikon": "✓",
@@ -110,12 +110,12 @@
           ]
         },
         {
-          "t": 18.5,
+          "t": 19.76,
           "tur": "son",
           "h": "Arazinizi <em>kontrol edin.</em>"
         }
       ],
-      "sure": 22.0,
+      "sure": 23.6,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-17-aksam-1.mp3",
       "ses": {
         "kaynak": "elevenlabs",

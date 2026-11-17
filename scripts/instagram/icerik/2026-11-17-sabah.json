@@ -38,7 +38,7 @@
         {
           "sablon": "cta",
           "etiket": "4 / 4",
-          "h": "2 katlı ev tekliflerini <em>yan yana görün.</em>",
+          "h": "Teklifleri <em>yan yana görün.</em>",
           "p": "Formu bir kez doldurun; teklifler 48 saatte gelsin.",
           "img": "celik-960.webp",
           "cipler": ["Ücretsiz", "{firmaSayisi} firma", "{modelSayisi} model"]
