@@ -22,9 +22,18 @@
           "boy": 84,
           "p": "9 Kasım 2026 itibarıyla listemizde; 107 model, 22 firma.",
           "maddeler": [
-            ["En düşük", "575.000 TL"],
-            ["Ortanca", "1.865.000 TL"],
-            ["m² ortanca", "17.000 TL"]
+            [
+              "En düşük",
+              "575.000 TL"
+            ],
+            [
+              "Ortanca",
+              "1.865.000 TL"
+            ],
+            [
+              "m² ortanca",
+              "17.000 TL"
+            ]
           ]
         },
         {
@@ -48,7 +57,11 @@
           "h": "Aynı kapsamla <em>teklifleri karşılaştırın.</em>",
           "p": "Formu bir kez doldurun; teklifler 48 saatte gelsin.",
           "img": "hero-1344.webp",
-          "cipler": ["Ücretsiz", "{firmaSayisi} firma", "{modelSayisi} model"]
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
         }
       ]
     }
@@ -56,6 +69,16 @@
   "reels": [],
   "yayin": {
     "hesap": "17841474767654199",
-    "durum": "taslak"
+    "durum": "yayın bekliyor",
+    "medya": {
+      "tasarim": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/17616f91-6b7c-4af6-95b8-4d59e1daa4a7.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/5e94d241-dd34-44eb-92c3-0d0d51f2970a.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/0c06d305-61e0-4acc-8553-dd7a84367a66.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/8d846eb5-1c56-4ec3-a33d-5f1408ee0fed.jpg"
+      ],
+      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/a99fbcc1-01ea-443d-9835-c595b607f8f4.jpg",
+      "reels": []
+    }
   }
 }

@@ -81,6 +81,15 @@
   ],
   "yayin": {
     "hesap": "17841474767654199",
-    "durum": "taslak"
+    "durum": "yayın bekliyor",
+    "medya": {
+      "tasarim": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/c46d769d-9043-41f6-863d-10b9d0e29a16.jpg"
+      ],
+      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/0baba466-57e5-4881-882a-96d747514cdc.jpg",
+      "reels": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/1de18000-8b22-4d3f-8d6d-36f778a1abea.mp4"
+      ]
+    }
   }
 }
