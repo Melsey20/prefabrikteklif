@@ -474,6 +474,28 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     await ref.set({ durum: 'yanitlandi', yanitlar: FieldValue.arrayUnion({ konu, metin, zaman: now(), kim: u.eposta || '' }) }, { merge: true });
     return { ok: true };
   }
+  // ---- POST /api/yonetim/firma-eposta: yöneticiden firmaya site adresinden e-posta (isteğe bağlı: o talebe özel fiyat verme bağlantısı) ----
+  async function yonetimFirmaEposta(req) {
+    const u = await yonetici(req);
+    const b = req.body || {};
+    const slug = str(b.firma, 80); const st = FIRMS.find((f) => f.slug === slug);
+    const fd = slug ? (await db.collection('firmalar').doc(slug).get()).data() || {} : {};
+    const e = (str(b.eposta, 120) || fd.eposta || st?.eposta || '').toLowerCase();
+    const konu = str(b.konu, 140); const metin = str(b.metin, 5000).trim();
+    if (!epostaMi(e)) hata(400, 'Geçerli bir e-posta yok.');
+    if (!konu || metin.length < 10) hata(400, 'Konu ve mesajı yazın.');
+    let link = '';
+    if (b.talep && slug) {
+      const ref = db.collection('talepler').doc(str(b.talep, 60)); const t = (await ref.get()).data();
+      const dv = t ? (await ref.collection('davetler').doc(slug).get()).data() : null;
+      if (!dv?.kod) hata(404, 'Bu firma bu talebe davetli değil.');
+      link = `${ayar().site}/teklif-ver/?t=${ref.id}.${t.token}&f=${slug}.${dv.kod}`;
+    }
+    const govde = metin.split(/\n{2,}/).map((p) => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('') + (link ? buton(link, str(b.buton, 60) || 'Talebi aç') : '');
+    await mail(e, konu, sablon(konu, govde), { yanit: ayar().admin });
+    await db.collection('yoneticiEpostalari').add({ firma: slug, eposta: e, konu, metin, talep: str(b.talep, 60), kim: u.eposta || '', zaman: FieldValue.serverTimestamp() });
+    return { ok: true, eposta: e };
+  }
   async function iletisim(req) {
     const b = req.body || {};
     if (str(b.website)) return { ok: true };
@@ -1623,7 +1645,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     zamanliTanitim, abonelikHatirlat, uyelikSureKontrol,
     routes: {
       'POST /api/teklif': teklif, 'GET /api/talep': talep, 'POST /api/teklif-ver': teklifVer, 'POST /api/teklif-red': teklifRed,
-      'POST /api/firma-basvuru': firmaBasvuru, 'POST /api/yonetim/iletisim-yanit': yonetimIletisimYanit, 'POST /api/firma/sifre-baglanti': firmaSifreBaglanti, 'POST /api/belge': belge, 'GET /api/yonetim/belge': yonetimBelge, 'POST /api/bildirim-iptal': bildirimIptal, 'POST /api/firma/gorsel': firmaGorsel, 'POST /api/iletisim': iletisim, 'GET /api/google-puan': googlePuan, 'GET /api/yorumlar': yorumlar, 'POST /api/yorum': yorum,
+      'POST /api/firma-basvuru': firmaBasvuru, 'POST /api/yonetim/iletisim-yanit': yonetimIletisimYanit, 'POST /api/yonetim/firma-eposta': yonetimFirmaEposta, 'POST /api/firma/sifre-baglanti': firmaSifreBaglanti, 'POST /api/belge': belge, 'GET /api/yonetim/belge': yonetimBelge, 'POST /api/bildirim-iptal': bildirimIptal, 'POST /api/firma/gorsel': firmaGorsel, 'POST /api/iletisim': iletisim, 'GET /api/google-puan': googlePuan, 'GET /api/yorumlar': yorumlar, 'POST /api/yorum': yorum,
       'GET /api/katalog': katalog, 'GET /api/bannerlar': bannerlar,
       'POST /api/firma/abonelik-baslat': firmaAbonelikBaslat, 'POST /api/firma/kart-guncelle': firmaKartGuncelle, 'POST /api/firma/abonelik-iptal': firmaAbonelikIptal, 'POST /api/iyzico/donus': iyzicoDonus, 'POST /api/iyzico/kart-donus': iyzicoKartDonus, 'POST /api/iyzico/bildirim': iyzicoBildirim, 'POST /api/yonetim/iyzico-plan': yonetimIyzicoPlan,
       'POST /api/sms/kod': smsKod, 'POST /api/sms/dogrula': smsDogrula, 'GET /api/ben': ben, 'POST /api/onay': onay, 'POST /api/mesaj': musteriMesaj, 'POST /api/firma-soru': firmaSoru, 'POST /api/firma/mesaj': firmaMesaj, 'POST /api/yonetim/firma-durum': yonetimFirmaDurum, 'POST /api/yonetim/istatistik': yonetimIstatistik, 'POST /api/yonetim/tanitim': yonetimTanitim, 'POST /api/yonetim/duyuru': yonetimDuyuru,

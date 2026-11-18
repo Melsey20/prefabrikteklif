@@ -389,3 +389,17 @@ test('yönetici "Bize yazın" mesajını site adresinden yanıtlar; cevap yönet
   const oz = (await call('GET', '/api/yonetim/ozet', { tok: 'tok-admin' })).body;
   assert.equal(oz.iletisim[0].durum, 'yanitlandi'); assert.equal(oz.iletisim[0].yanitlar.length, 1);
 });
+
+test('yönetici firmaya site adresinden yazar; talep verilirse o firmaya özel fiyat bağlantısı eklenir', async () => {
+  const { db, mails, call } = kur();
+  await call('POST', '/api/teklif', { body: { ...TALEP } });
+  const tid = db.dump('talepler/').find(([k]) => k.split('/').length === 2)[0].split('/')[1];
+  const dv = db.dump(`talepler/${tid}/davetler/`).map(([k]) => k.split('/').pop());
+  const firma = dv[0];
+  assert.equal((await call('POST', '/api/yonetim/firma-eposta', { tok: 'tok-user', body: { firma, konu: 'x', metin: 'yeterince uzun metin' } })).statusCode, 403);
+  assert.equal((await call('POST', '/api/yonetim/firma-eposta', { tok: 'tok-admin', body: { firma: 'yok-firma', talep: tid, eposta: 'a@b.com', konu: 'Konu', metin: 'yeterince uzun metin' } })).statusCode, 404);
+  const r = await call('POST', '/api/yonetim/firma-eposta', { tok: 'tok-admin', body: { firma, talep: tid, eposta: 'firma@ornek.com', konu: 'Fiyatınızı panelden verin', metin: 'Merhaba,\n\nE-postayla gelen fiyatlar müşteriye iletilmez.', buton: 'Fiyatımı ver' } });
+  assert.equal(r.statusCode, 200, JSON.stringify(r.body));
+  const m = mails.at(-1);
+  assert.equal(m.to, 'firma@ornek.com'); assert.ok(m.html.includes(`/teklif-ver/?t=${tid}.`) && m.html.includes(`&amp;f=${firma}.`) || m.html.includes(`&f=${firma}.`), 'kişiye özel bağlantı'); assert.ok(m.html.includes('Fiyatımı ver')); assert.ok(m.o?.yanit);
+});
