@@ -1,0 +1,61 @@
+{
+  "tarih": "2026-11-18",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Çelik konstrüksiyon ev alacaksanız önce bu 6 soruyu sorun: çelik ev fiyatları, profil kalınlığı ve yalıtım 👇\n\n9 Kasım 2026 itibarıyla listemizde çelik ev fiyatları 575.000 TL'den başlıyor; ortanca fiyat 1.865.000 TL, metrekare başına ortanca fiyat 17.000 TL (107 model, 22 firma). Hafif çelik ev; hafif yapı ağırlığı, plan esnekliği ve hızlı kurulumuyla öne çıkar. Ama yanlış yapıldığında ısı köprüsü, ses geçişi ve korozyon sorun çıkarabilir.\n\nTeklif alırken sorun: Profil kalınlığı ve galvaniz kaplama sınıfı nedir? Statik proje Türkiye Bina Deprem Yönetmeliği'ne uygun mu? Dış cephede kesintisiz yalıtım (mantolama) var mı? İç duvarlarda ses yalıtımı var mı? Fiyata temel, nakliye, montaj ve iç bitiş dahil mi? Garanti süresi ve kapsamı nedir?\n\nPrefabrikTeklif çelik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve aynı kapsamla hazırlanmış teklifleri size getirir.\n\n📌 Kaydedin, teklif alırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#çelikkonstrüksiyonev #çelikev #çelikevfiyatları #hafifçelikev",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Çelik ev",
+          "h": "Çelik konstrüksiyon ev <em>almadan önce sorun.</em>",
+          "boy": 84,
+          "p": "Fiyat, profil ve yalıtımda 6 soru. Kaydırın.",
+          "img": "celik-c-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Çelik ev <em>fiyatları</em>",
+          "boy": 84,
+          "p": "9 Kasım 2026 itibarıyla listemizde; 107 model, 22 firma.",
+          "maddeler": [
+            ["En düşük", "575.000 TL"],
+            ["Ortanca", "1.865.000 TL"],
+            ["m² ortanca", "17.000 TL"]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Teklifte <em>bu 6 soru</em>",
+          "p": "Statik proje Bina Deprem Yönetmeliği'ne uygun mu?",
+          "maddeler": [
+            "Profil kalınlığı",
+            "Galvaniz sınıfı",
+            "Dış yalıtım",
+            "Ses yalıtımı",
+            "Temel ve nakliye",
+            "Garanti kapsamı"
+          ],
+          "img": "montaj-1344.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Aynı kapsamla <em>teklifleri karşılaştırın.</em>",
+          "p": "Formu bir kez doldurun; teklifler 48 saatte gelsin.",
+          "img": "celik-b-960.webp",
+          "cipler": ["Ücretsiz", "{firmaSayisi} firma", "{modelSayisi} model"]
+        }
+      ]
+    }
+  ],
+  "reels": [],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "taslak"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "tarih": "2026-11-18",
+  "slot": "aksam",
+  "saat": "19:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Prefabrik ev firmaları: vergi levhanız yeter, birkaç dakikada kaydolun 📣 Prefabrik ev, çelik ev, konteyner ev, tiny house ve ahşap ev üreticilerine açılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik.\n\nKayıt telefondan birkaç dakika sürer; yalnızca vergi levhası istenir, referans zorunlu değil. Başvurunuz en geç 1 iş günü içinde onaylanır ve hemen teklif vermeye başlarsınız. Kart bilgisi istemiyoruz, satışınızdan komisyon almıyoruz; devam etmezseniz hiçbir şey ödemezsiniz.\n\nEv arayanların talepleri; il, ev tipi, metrekare, oda sayısı, bütçe, arsa durumu ve başlama zamanıyla firma panelinize gelir. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz yapı tiplerinden talep gelir; fiyat vermeden önce müşteriye panelden soru sorabilirsiniz. Onaylanan firmalar sitede \"Üye firma\" rozetiyle görünür.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👉 Ücretsiz başvuru: prefabrikteklif.com.tr/firmalar-icin\n📌 Kaydedin, başvururken lazım olacak.\n\n#prefabrikevfirmaları #prefabrikevüreticisi #çelikevfirmaları #tinyhouseüreticisi",
+      "alt_text": "Başlık: Vergi levhanız yeter, birkaç dakikada kaydolun. Altında: İlk 50 firmaya 1 ay ücretsiz; kart bilgisi istenmez. Gökyüzü altında modern bir tiny house'un temsilî fotoğrafı; altta PrefabrikTeklif logosu ve prefabrikteklif.com.tr/firmalar-icin adresi.",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Firmalar için",
+          "h": "Vergi levhanız yeter, <em>birkaç dakikada kaydolun.</em>",
+          "boy": 84,
+          "p": "İlk 50 firmaya 1 ay ücretsiz; kart bilgisi istenmez.",
+          "img": "tiny-house-b-960.webp",
+          "alt_sol": "prefabrikteklif.com.tr/firmalar-icin",
+          "alt_sag": "Başvuru →"
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Ahşap ev kaç TL? Listemizde yaklaşık üç yüz altmış beş bin liradan başlıyor. Ortanca fiyat yaklaşık bir milyon altı yüz bin lira; seksen metrekare için kaba hesap iki milyon seksen sekiz bin lira. Ahşap cephe düzenli vernik ister; bakım aralığını ve garantiyi yazılı isteyin. Fiyatları karşılaştırın, bağlantı profilde.",
+      "aciklama": "Ahşap ev kaç TL? Ahşap ev fiyatları 2026: en ucuz model, ortanca fiyat ve 80 m² ahşap ev için kaba hesap 👇\n\n9 Kasım 2026 itibarıyla listemizde ahşap ev fiyatları 364.700 TL'den başlıyor; ortanca fiyat 1.601.250 TL, metrekare başına ortanca fiyat 26.100 TL (31 model, 6 firma). Kaba hesap (m² × ortanca m² fiyatı): 80 m² ahşap ev yaklaşık 2.088.000 TL. Gerçek fiyat; model, kapsam, nakliye ve temel durumuna göre değişir.\n\nAhşap kaplamalı cephede koruyucu vernik ya da emprenye, üreticinin önerdiği aralıkla tekrarlanmalıdır. Teklif alırken bakım aralığını, önerilen ürünü ve garanti kapsamını yazılı isteyin; fiyata temel, nakliye ve KDV'nin dahil olup olmadığını sorun.\n\nPrefabrikTeklif ahşap ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir.\n\n📌 Kaydedin, ahşap ev bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#ahşapev #ahşapevfiyatları #ahşapevmodelleri #prefabrikahşapev",
+      "sahneler": [
+        {"t": 0, "tur": "foto", "h": "Ahşap ev<br><em>kaç TL?</em>", "img": "ahsap-960.webp"},
+        {"t": 3.2, "tur": "sayi", "h": "Listemizde <em>başlangıç</em>", "n": 365, "birim": "bin TL'den · ahşap ev"},
+        {"t": 7.0, "tur": "liste", "h": "Ortanca ve <em>kaba hesap</em>", "ikon": "✓", "maddeler": ["Ortanca ≈ 1,6 milyon TL", "m² ortanca 26.100 TL", "80 m² ≈ 2,09 milyon TL"], "cipler": ["9 Kasım 2026 itibarıyla"]},
+        {"t": 14.0, "tur": "liste", "h": "Bakımı <em>yazılı isteyin</em>", "ikon": "✓", "maddeler": ["Vernik / emprenye", "Bakım aralığı", "Garanti kapsamı"]},
+        {"t": 18.5, "tur": "son", "h": "Fiyatları <em>karşılaştırın.</em>"}
+      ],
+      "sure": 22.0
+    }
+  ],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "taslak"
+  }
+}
