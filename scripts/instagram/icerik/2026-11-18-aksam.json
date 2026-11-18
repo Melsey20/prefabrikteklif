@@ -33,14 +33,14 @@
           "img": "ahsap-960.webp"
         },
         {
-          "t": 3.2,
+          "t": 3.24,
           "tur": "sayi",
           "h": "Listemizde <em>başlangıç</em>",
           "n": 365,
           "birim": "bin TL'den · ahşap ev"
         },
         {
-          "t": 7.0,
+          "t": 6.38,
           "tur": "liste",
           "h": "Ortanca ve <em>kaba hesap</em>",
           "ikon": "✓",
@@ -54,7 +54,7 @@
           ]
         },
         {
-          "t": 14.0,
+          "t": 13.8,
           "tur": "liste",
           "h": "Bakımı <em>yazılı isteyin</em>",
           "ikon": "✓",
@@ -65,12 +65,12 @@
           ]
         },
         {
-          "t": 18.5,
+          "t": 19.08,
           "tur": "son",
           "h": "Fiyatları <em>karşılaştırın.</em>"
         }
       ],
-      "sure": 22.0,
+      "sure": 22.24,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-18-aksam-1.mp3",
       "ses": {
         "kaynak": "elevenlabs",
