@@ -135,7 +135,7 @@
         {
           "t": 0,
           "tur": "foto",
-          "h": "Prefabrik, çelik ev<br><em>mi satıyorsunuz?</em>",
+          "h": "Prefabrik, çelik<br><em>mi satıyorsunuz?</em>",
           "img": "celik-b-960.webp"
         },
         {
@@ -158,7 +158,7 @@
         {
           "t": 9.8,
           "tur": "liste",
-          "h": "İlk 50 firmaya <em>1 ay ücretsiz</em>",
+          "h": "İlk 50 firmaya<br><em>1 ay ücretsiz</em>",
           "ikon": "✓",
           "maddeler": [
             "Vergi levhası yeter",
