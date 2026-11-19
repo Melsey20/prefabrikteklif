@@ -10,7 +10,7 @@
         {
           "sablon": "kapak",
           "etiket": "Bungalov ev",
-          "h": "Bungalov ev <em>kaç TL'den başlıyor?</em>",
+          "h": "Bungalov ev<br><em>kaç TL'den başlıyor?</em>",
           "boy": 88,
           "p": "Başlangıç, ortanca ve 3 ölçüde kaba hesap. Kaydırın.",
           "img": "bungalov-960.webp"
@@ -61,8 +61,8 @@
         {
           "sablon": "cta",
           "etiket": "4 / 4",
-          "h": "Bungalov tekliflerini <em>48 saatte alın.</em>",
-          "p": "Formu bir kez doldurun; firmalar fiyatı aynı kapsamla versin.",
+          "h": "Bungalov ev teklifleri<br><em>48 saatte gelsin.</em>",
+          "p": "Formu bir kez doldurun, fiyatları yan yana görün.",
           "img": "bungalov-c-960.webp",
           "cipler": [
             "Ücretsiz",
@@ -85,7 +85,7 @@
           "img": "ahsap-c-960.webp"
         },
         {
-          "t": 3.2,
+          "t": 3.32,
           "tur": "foto",
           "h": "Sabit ev<br><em>ruhsat ister.</em>",
           "img": "prefabrik-960.webp",
@@ -94,7 +94,7 @@
           ]
         },
         {
-          "t": 7.0,
+          "t": 6.92,
           "tur": "sayi",
           "h": "Bağ evi için <em>en az</em>",
           "n": 5,
@@ -104,7 +104,7 @@
           ]
         },
         {
-          "t": 13.0,
+          "t": 12.68,
           "tur": "liste",
           "h": "İzinsiz yapıya <em>abonelik yok</em>",
           "ikon": "✕",
@@ -115,12 +115,12 @@
           ]
         },
         {
-          "t": 17.0,
+          "t": 16.34,
           "tur": "son",
           "h": "Önce <em>izni sorun.</em>"
         }
       ],
-      "sure": 21.5,
+      "sure": 20.24,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-19-aksam-1.mp3",
       "ses": {
         "kaynak": "elevenlabs",
