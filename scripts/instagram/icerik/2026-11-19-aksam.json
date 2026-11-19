@@ -127,6 +127,53 @@
         "model": "eleven_multilingual_v2",
         "voice_id": "IuRRIAcbQK5AQk1XevPj"
       }
+    },
+    {
+      "seslendirme": "Prefabrik ya da çelik ev mi satıyorsunuz? Platformumuza her ay elliden fazla teklif talebi geliyor. Şu an on beşten fazla müşteri teklif bekliyor. İlk elli firmaya bir ay ücretsiz üyelik. Kayıt için vergi levhanız yeter. Hemen kaydolun, bekleyen müşterilere bugün teklif verin. Başvuru bağlantısı profilde.",
+      "aciklama": "Prefabrik ev ya da çelik ev mi satıyorsunuz? Platformumuza her ay 50'den fazla teklif talebi geliyor; şu an 15'ten fazla müşteri teklif bekliyor 📣\n\nPrefabrik ev, çelik ev, konteyner ev, tiny house ve ahşap ev firmalarına açılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik. Kayıt için vergi levhası yeter; kart bilgisi istenmez, satışınızdan komisyon alınmaz. Başvurunuz en geç 1 iş günü içinde onaylanır ve bekleyen taleplere hemen teklif verirsiniz.\n\nTalepler; il, ev tipi, metrekare, oda sayısı, bütçe ve arsa durumuyla firma panelinize gelir. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz yapı tiplerinden talep düşer.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve teklif taleplerini doğru firmalara getirir.\n\n👉 Ücretsiz başvuru: prefabrikteklif.com.tr/firmalar-icin\n📌 Kaydedin, başvururken lazım olacak.\n\n#prefabrikevfirmaları #çelikevfirmaları #prefabrikevüreticisi #çelikkonstrüksiyonev",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Prefabrik, çelik ev<br><em>mi satıyorsunuz?</em>",
+          "img": "celik-b-960.webp"
+        },
+        {
+          "t": 3.0,
+          "tur": "sayi",
+          "h": "Platformumuza <em>her ay</em>",
+          "n": 50,
+          "birim": "talepten fazla geliyor"
+        },
+        {
+          "t": 7.0,
+          "tur": "sayi",
+          "h": "Şu an <em>teklif bekliyor</em>",
+          "n": 15,
+          "birim": "müşteriden fazla",
+          "cipler": [
+            "Hemen teklif verin"
+          ]
+        },
+        {
+          "t": 11.0,
+          "tur": "liste",
+          "h": "İlk 50 firmaya <em>1 ay ücretsiz</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "Vergi levhası yeter",
+            "Kart bilgisi yok",
+            "Komisyon yok"
+          ]
+        },
+        {
+          "t": 16.0,
+          "tur": "son",
+          "h": "Hemen <em>kaydolun.</em>",
+          "p": "Başvuru: prefabrikteklif.com.tr/firmalar-icin"
+        }
+      ],
+      "sure": 21.0
     }
   ],
   "yayin": {
