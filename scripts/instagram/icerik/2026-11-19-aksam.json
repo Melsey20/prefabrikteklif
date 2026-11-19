@@ -1,0 +1,130 @@
+{
+  "tarih": "2026-11-19",
+  "slot": "aksam",
+  "saat": "19:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Bungalov ev fiyatları 2026: bungalov ev kaç TL'den başlıyor, 20, 30 ve 40 m² bungalov kaça mal olur? 👇\n\n9 Kasım 2026 itibarıyla listemizde bungalov ev fiyatları 162.000 TL'den başlıyor; ortanca fiyat 567.500 TL, metrekare başına ortanca fiyat 21.000 TL (16 model, 6 firma).\n\nKaba hesap (m² × ortanca m² fiyatı): 20 m² bungalov yaklaşık 420.000 TL, 30 m² yaklaşık 630.000 TL, 40 m² yaklaşık 840.000 TL. Gerçek fiyat; model, malzeme, iç bitiş, nakliye ve temel durumuna göre değişir. Fiyata nelerin dahil olduğunu teklifte yazılı isteyin.\n\nPrefabrikTeklif bungalov ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#bungalovev #bungalovevfiyatları #bungalovevler #bağevi",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Bungalov ev",
+          "h": "Bungalov ev <em>kaç TL'den başlıyor?</em>",
+          "boy": 88,
+          "p": "Başlangıç, ortanca ve 3 ölçüde kaba hesap. Kaydırın.",
+          "img": "bungalov-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Bungalov ev <em>fiyatları</em>",
+          "boy": 84,
+          "p": "9 Kasım 2026 itibarıyla listemizde; 16 model, 6 firma.",
+          "maddeler": [
+            [
+              "En düşük",
+              "162.000 TL"
+            ],
+            [
+              "Ortanca",
+              "567.500 TL"
+            ],
+            [
+              "m² ortanca",
+              "21.000 TL"
+            ]
+          ]
+        },
+        {
+          "sablon": "liste",
+          "koyu": true,
+          "etiket": "3 / 4",
+          "h": "Kaç m² <em>kaça çıkar?</em>",
+          "boy": 84,
+          "p": "Kaba hesap: m² × ortanca m² fiyatı (21.000 TL).",
+          "maddeler": [
+            [
+              "20 m²",
+              "Yaklaşık 420.000 TL"
+            ],
+            [
+              "30 m²",
+              "Yaklaşık 630.000 TL"
+            ],
+            [
+              "40 m²",
+              "Yaklaşık 840.000 TL"
+            ]
+          ]
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Bungalov tekliflerini <em>48 saatte alın.</em>",
+          "p": "Formu bir kez doldurun; firmalar fiyatı aynı kapsamla versin.",
+          "img": "bungalov-c-960.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Tarlaya ev yapılır mı? İzinsiz yapılmaz. Zemine sabit her ev, prefabrik de olsa, ruhsat ister. Haberlere göre bağ evi için en az beş dönüm arazi ve en fazla otuz metrekare şartı var. İzinsiz yapıya elektrik ve su bağlanmıyor. Önce il tarım müdürlüğüne danışın. Bağlantı profilde.",
+      "aciklama": "Tarlaya ev yapılır mı? Tarlaya prefabrik ev, konteyner ya da bağ evi kurmadan önce 2026 şartlarını bilin 👇\n\nZemine sabit her ev; prefabrik, çelik, ahşap ya da konteyner fark etmez, İmar Kanunu'na göre yapıdır ve yapı ruhsatı gerekir. Tarım arazilerinde yapılaşma ayrı izinlere bağlıdır ve sabit konut için ruhsat çoğu zaman çıkmaz.\n\n4 Nisan 2026 tarihli yönetmelik değişikliğini aktaran haberlere göre bağ evi için en az 5 dönüm arazi ve en fazla 30 m² yapı şartı var. Haziran 2026'da yasalaşan düzenlemeyle tarım arazilerinde izinsiz yapılara elektrik, su ve doğal gaz aboneliği verilmiyor. Başvurudan önce il tarım ve orman müdürlüğünden güncel şartları teyit edin.\n\nPrefabrikTeklif ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; arazinize uygun yolu sitedeki \"Arazim uygun mu?\" aracıyla 4 soruda görebilirsiniz.\n\n📌 Kaydedin, arsa bakarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tarlayaevyapılırmı #tarlayaprefabrikev #bağevi #prefabrikev",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Tarlaya ev<br><em>yapılır mı?</em>",
+          "img": "ahsap-c-960.webp"
+        },
+        {
+          "t": 3.2,
+          "tur": "foto",
+          "h": "Sabit ev<br><em>ruhsat ister.</em>",
+          "img": "prefabrik-960.webp",
+          "cipler": [
+            "Prefabrik de olsa"
+          ]
+        },
+        {
+          "t": 7.0,
+          "tur": "sayi",
+          "h": "Bağ evi için <em>en az</em>",
+          "n": 5,
+          "birim": "dönüm · en fazla 30 m² ev",
+          "cipler": [
+            "Haberlere göre"
+          ]
+        },
+        {
+          "t": 13.0,
+          "tur": "liste",
+          "h": "İzinsiz yapıya <em>abonelik yok</em>",
+          "ikon": "✕",
+          "maddeler": [
+            "Elektrik",
+            "Su",
+            "Doğal gaz"
+          ]
+        },
+        {
+          "t": 17.0,
+          "tur": "son",
+          "h": "Önce <em>izni sorun.</em>"
+        }
+      ],
+      "sure": 21.5
+    }
+  ],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "taslak"
+  }
+}

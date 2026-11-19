@@ -1,0 +1,78 @@
+{
+  "tarih": "2026-11-19",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Konteyner ev fiyatları 2026: ne dahil, ne değil? En ucuz konteyner ev, ortanca fiyat ve m² fiyatıyla konteyner ev bütçesi 👇\n\n9 Kasım 2026 itibarıyla listemizde konteyner ev fiyatları 67.000 TL'den başlıyor; ortanca fiyat 170.000 TL, metrekare başına ortanca fiyat 6.627 TL (44 model, 8 firma). Kaba hesap (m² × ortanca m² fiyatı): 30 m² konteyner ev yaklaşık 199.000 TL.\n\nAma ilan fiyatları aynı kapsamı göstermez: biri yalnız gövde fiyatını, diğeri iç bitiş dahil fiyatı yazar. Teklif alırken sorun: Mutfak, banyo, elektrik ve su tesisatı dahil mi? Yalıtım kalınlığı ve doğrama tipi ne? Nakliye ve vinç kimde? KDV dahil mi?\n\nPrefabrikTeklif konteyner ev sorularınızı yanıtlar, fiyatları karşılaştırır ve aynı kapsamla hazırlanmış teklifleri size getirir.\n\n📌 Kaydedin, teklif alırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#konteynerevfiyatları #konteynerev #konteynerevmodelleri #prefabrikev",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Konteyner ev",
+          "h": "Konteyner ev fiyatları <em>ne dahil, ne değil?</em>",
+          "boy": 84,
+          "p": "İlan fiyatı her zaman aynı kapsamı göstermez. Kaydırın.",
+          "img": "konteyner-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Konteyner ev <em>fiyatları</em>",
+          "boy": 84,
+          "p": "9 Kasım 2026 itibarıyla listemizde; 44 model, 8 firma.",
+          "maddeler": [
+            [
+              "En düşük",
+              "67.000 TL"
+            ],
+            [
+              "Ortanca",
+              "170.000 TL"
+            ],
+            [
+              "m² ortanca",
+              "6.627 TL"
+            ],
+            [
+              "30 m² kaba hesap",
+              "Yaklaşık 199.000 TL"
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Teklifte <em>bunları sorun</em>",
+          "p": "Biri yalnız gövdeyi, diğeri iç bitişi dahil yazar.",
+          "maddeler": [
+            "Mutfak ve banyo",
+            "Elektrik ve su",
+            "Yalıtım kalınlığı",
+            "Doğrama tipi",
+            "Nakliye ve vinç",
+            "KDV dahil mi?"
+          ],
+          "img": "ic-mekan-1344.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Konteyner ev tekliflerini <em>tek tabloda görün.</em>",
+          "p": "Formu bir kez doldurun; teklifler 48 saatte gelsin.",
+          "img": "konteyner-c-960.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": [],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "taslak"
+  }
+}
