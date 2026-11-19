@@ -1752,7 +1752,11 @@ export async function fiyatKontrolu({ db, mail, ayar, FieldValue, MODELS, fetch:
     const guncel = kat[m.id]?.fiyat || m.fiyat;
     if (metin == null) { sonuc.erisilemedi.push({ id: m.id, url: m.kaynak }); continue; }
     if (fiyatBicimleri(guncel).some((b) => metin.includes(b))) { sonuc.ayni++; continue; }
-    const aday = fiyatAdaylari(metin).sort((a, b) => Math.abs(a - guncel) - Math.abs(b - guncel)).slice(0, 5);
+    const tum = fiyatAdaylari(metin);
+    // Sayfada hiç fiyat okunamadıysa (fiyat JS ile ya da gömülü Instagram gönderisinde yükleniyorsa)
+    // bu bir fiyat değişikliği değildir: "okunamadı" say, yanlış öneri üretme
+    if (!tum.length) { sonuc.erisilemedi.push({ id: m.id, url: m.kaynak, neden: 'fiyat okunamadı' }); continue; }
+    const aday = tum.sort((a, b) => Math.abs(a - guncel) - Math.abs(b - guncel)).slice(0, 5);
     sonuc.degismis.push({ id: m.id, firma: m.firma, ad: m.ad, url: m.kaynak, eski: guncel, adaylar: aday });
   }
   const ref = db.collection('fiyatKontrol').doc();

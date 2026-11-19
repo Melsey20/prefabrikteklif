@@ -282,6 +282,15 @@ test('aylık fiyat kontrolü: aynı, değişmiş, ulaşılamayan', async () => {
   assert.ok(mails.some((m) => m.subject.startsWith('Aylık fiyat kontrolü')));
 });
 
+test('fiyat kontrolü: sayfada hiç fiyat yoksa değişiklik önerilmez', async () => {
+  const { db, mails } = kur();
+  const sayfalar = { 'https://k.example/82': '<p>Modellerimiz için arayın</p>', 'https://p.example/78': '<div>Instagram gönderileri yükleniyor…</div>' };
+  const fetch = async (u) => { if (!sayfalar[u]) throw new Error('ağ'); return { ok: true, text: async () => sayfalar[u] }; };
+  const r = await fiyatKontrolu({ db, mail: async (to, s, h) => mails.push({ to, subject: s, html: h }), ayar: () => ({ site: 'https://x', admin: 'info@mitraajans.com' }), FieldValue, MODELS, fetch });
+  assert.equal(r.degismis, 0); assert.equal(r.erisilemedi, 3);
+  assert.equal(db.dump('urunDegisiklikleri/').length, 0);
+});
+
 test('yardımcılar', () => {
   assert.deepEqual(fiyatAdaylari(sayfaMetni('<span>Fiyat</span> <b>1.250.000</b> TL; telefon 0532 123 45 67; 2026 yılı')), [1250000]);
   assert.equal(katalogId('a/b'), 'a__b');
