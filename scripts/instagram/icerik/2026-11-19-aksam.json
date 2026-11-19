@@ -139,14 +139,14 @@
           "img": "celik-b-960.webp"
         },
         {
-          "t": 3.0,
+          "t": 3.48,
           "tur": "sayi",
           "h": "Platformumuza <em>her ay</em>",
           "n": 50,
           "birim": "talepten fazla geliyor"
         },
         {
-          "t": 7.0,
+          "t": 6.62,
           "tur": "sayi",
           "h": "Şu an <em>teklif bekliyor</em>",
           "n": 15,
@@ -156,7 +156,7 @@
           ]
         },
         {
-          "t": 11.0,
+          "t": 9.8,
           "tur": "liste",
           "h": "İlk 50 firmaya <em>1 ay ücretsiz</em>",
           "ikon": "✓",
@@ -167,13 +167,13 @@
           ]
         },
         {
-          "t": 16.0,
+          "t": 15.24,
           "tur": "son",
           "h": "Hemen <em>kaydolun.</em>",
           "p": "Başvuru: prefabrikteklif.com.tr/firmalar-icin"
         }
       ],
-      "sure": 21.0,
+      "sure": 21.44,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-19-aksam-2.mp3",
       "ses": {
         "kaynak": "elevenlabs",
