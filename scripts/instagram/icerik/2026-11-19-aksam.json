@@ -120,7 +120,13 @@
           "h": "Önce <em>izni sorun.</em>"
         }
       ],
-      "sure": 21.5
+      "sure": 21.5,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-19-aksam-1.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "IuRRIAcbQK5AQk1XevPj"
+      }
     }
   ],
   "yayin": {
