@@ -73,6 +73,16 @@
   "reels": [],
   "yayin": {
     "hesap": "17841474767654199",
-    "durum": "taslak"
+    "durum": "yayın bekliyor",
+    "medya": {
+      "tasarim": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/7532d90d-2e4a-4841-bd70-f96f907b0abc.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/268a0d5d-e6da-461f-8b88-3e1ebe6f2924.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/2de92524-3255-4340-bf36-e69fa3b6f2f4.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/af5c860b-e0b6-4a94-8168-5d8f3ea008e8.jpg"
+      ],
+      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/12142bc6-80cb-4ce6-846e-0c635c4d4cd5.jpg",
+      "reels": []
+    }
   }
 }
