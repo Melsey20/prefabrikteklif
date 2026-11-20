@@ -484,7 +484,15 @@ test('açılış kampanyası: başvuru onayında kontenjan varsa ödeme beklemed
   assert.equal(oz.uye, true); assert.equal(oz.abonelik.kurucu, true);
   assert.deepEqual(oz.talepler.map((t) => t.id), ['t-uyan'], 'onaydan hemen sonra bekleyen talebi panelde görür');
   const hos = mails.find((m) => /Üyeliğiniz aktif/.test(m.subject || m.konu || ''));
-  assert.ok(hos && hos.html.includes('/sifre-belirle/?oobCode=KOD123'), 'onay e-postasında şifre belirleme bağlantısı var');
+  const sk = hos && (hos.html.match(/\/sifre-belirle\/\?k=([^&"]+)/) || [])[1];
+  assert.ok(sk, 'onay e-postasında şifre belirleme bağlantısı var');
+  assert.ok(hos.html.includes('24 saat geçerlidir'));
+  const kd = await call('POST', '/api/sifre-kod', { body: { k: decodeURIComponent(sk) } });
+  assert.equal(kd.statusCode, 200); assert.equal(kd.body.oobCode, 'KOD123', 'bağlantı açılınca taze Firebase kodu verilir');
+  assert.equal(kd.body.eposta, hos.to);
+  assert.equal((await call('POST', '/api/sifre-kod', { body: { k: 'uydurma' } })).statusCode, 410);
+  await db.collection('sifreDavetleri').doc(decodeURIComponent(sk)).set({ son: zaman.simdi() - 1 }, { merge: true });
+  assert.equal((await call('POST', '/api/sifre-kod', { body: { k: decodeURIComponent(sk) } })).statusCode, 410, '24 saat geçince dolar');
   assert.equal((await call('POST', '/api/firma/sifre-baglanti', { body: { eposta: 'yok@yok.example' } })).statusCode, 200);
   const once = mails.length;
   assert.equal((await call('POST', '/api/firma/sifre-baglanti', { body: { eposta: hos.to } })).statusCode, 200);

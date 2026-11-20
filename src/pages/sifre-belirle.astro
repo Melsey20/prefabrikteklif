@@ -23,7 +23,8 @@ import Base from '../layouts/Base.astro';
   <script>
     import { sifreKodKontrol, sifreBelirle, oturumAc, hataYazi } from '../scripts/fb';
     const q = new URLSearchParams(location.search);
-    const kod = q.get('oobCode') || '';
+    let kod = q.get('oobCode') || '';
+    const anahtar = q.get('k') || '';
     let eposta = q.get('e') || '';
     const $ = (id: string) => document.getElementById(id)!;
     const form = $('s-form') as HTMLFormElement;
@@ -35,6 +36,10 @@ import Base from '../layouts/Base.astro';
       if (!eposta) $('s-alt').textContent += ' Giriş sayfasındaki “Şifremi unuttum” ile de yeni şifre belirleyebilirsiniz.';
     };
     (async () => {
+      // E-postadaki 24 saatlik bağlantı: açılınca sunucudan taze kod alınır
+      if (!kod && anahtar) {
+        try { const r = await fetch('/api/sifre-kod', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ k: anahtar }) }); if (r.ok) { const d = await r.json(); kod = d.oobCode || ''; eposta = d.eposta || eposta; } } catch { /* aşağıda süresi doldu gösterilir */ }
+      }
       if (!kod) return suresiDoldu();
       try { eposta = await sifreKodKontrol(kod); $('s-alt').innerHTML = ''; $('s-alt').append('Giriş e-postanız: ', Object.assign(document.createElement('b'), { textContent: eposta }), '. En az 6 karakterli bir şifre belirleyin.'); form.hidden = false; (form.elements.namedItem('s1') as HTMLInputElement).focus(); }
       catch { suresiDoldu(); }

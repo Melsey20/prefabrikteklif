@@ -1004,16 +1004,29 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
   const kurucuAbonelik = (once = {}) => ({ ...once, tutar: ABONELIK_TL, durum: 'aktif', kurucu: true, ucretsizBitis: ayEkle(now()), sonrakiOdeme: ayEkle(now()), baslangic: once.baslangic || now() });
   // Onaylanan firmaya tek tıkla şifre belirleme bağlantısı: hesap yoksa açılır (e-posta bu adrese gittiği için sahiplik bağlantıyla kanıtlanır),
   // bağlantı sitemizin /sifre-belirle/ sayfasına gider. Firebase kodu 1 saat geçerli; süresi dolarsa sayfadan yenisi istenir.
+  // Şifre belirleme bağlantısı 24 saat geçerli: Firebase'in kendi kodu 1 saatte dolduğu için e-postaya
+  // kendi anahtarımızı koyarız; bağlantı açılınca (POST /api/sifre-kod) o an taze Firebase kodu üretilir.
+  const SIFRE_SURE = 24 * 3600000;
   async function sifreLinki(eposta) {
     if (!eposta || typeof auth?.generatePasswordResetLink !== 'function') return '';
     try {
       try { await auth.getUserByEmail(eposta); } catch (e) { if (e?.code === 'auth/user-not-found') await auth.createUser({ email: eposta, emailVerified: true }); else throw e; }
-      const l = await auth.generatePasswordResetLink(eposta, { url: `${ayar().site}/firma-paneli/` });
-      const kod = new URL(l).searchParams.get('oobCode');
-      return kod ? `${ayar().site}/sifre-belirle/?oobCode=${encodeURIComponent(kod)}&e=${encodeURIComponent(eposta)}` : '';
+      const k = token();
+      await db.collection('sifreDavetleri').doc(k).set({ eposta: String(eposta).toLowerCase(), son: now() + SIFRE_SURE, zaman: now() });
+      return `${ayar().site}/sifre-belirle/?k=${encodeURIComponent(k)}&e=${encodeURIComponent(eposta)}`;
     } catch (e) { console.error('sifreLinki', e?.message || e); return ''; }
   }
-  const sifreButon = (link, eposta) => link ? `<p><b>Panele giriş:</b> aşağıdaki düğmeyle şifrenizi belirleyin, ardından panele otomatik girersiniz. Giriş e-postanız: <b>${esc(eposta)}</b>. Bu adres bir Google hesabıysa “Google ile giriş” de kullanabilirsiniz.</p>${buton(link, 'Şifremi belirle ve panele gir')}<p style="font-size:12px;color:#4a5751">Bağlantı güvenlik için 1 saat geçerlidir; süresi dolduysa açılan sayfadan tek tıkla yenisini isteyebilirsiniz.</p>` : '';
+  async function sifreKod(req) {
+    if (!(await rateLimit(req, 'sifrekod', 20))) hata(429, 'Çok fazla deneme, biraz sonra tekrar deneyin.');
+    const k = str(req.body?.k, 80);
+    const d = k ? (await db.collection('sifreDavetleri').doc(k).get()).data() : null;
+    if (!d || !(d.son > now())) hata(410, 'Bağlantının süresi dolmuş.');
+    const l = await auth.generatePasswordResetLink(d.eposta, { url: `${ayar().site}/firma-paneli/` });
+    const oobCode = new URL(l).searchParams.get('oobCode');
+    if (!oobCode) hata(500, 'Bağlantı oluşturulamadı, biraz sonra tekrar deneyin.');
+    return { oobCode, eposta: d.eposta };
+  }
+  const sifreButon = (link, eposta) => link ? `<p><b>Panele giriş:</b> aşağıdaki düğmeyle şifrenizi belirleyin, ardından panele otomatik girersiniz. Giriş e-postanız: <b>${esc(eposta)}</b>. Bu adres bir Google hesabıysa “Google ile giriş” de kullanabilirsiniz.</p>${buton(link, 'Şifremi belirle ve panele gir')}<p style="font-size:12px;color:#4a5751">Bağlantı 24 saat geçerlidir; süresi dolduysa açılan sayfadan tek tıkla yenisini isteyebilirsiniz.</p>` : '';
   const kurucuHosgeldin = (ad, bitis, _o, sifre = '') => sablon('Üyeliğiniz aktif: 1 ay ücretsiz', `<p>Sayın ${esc(ad || 'yetkili')},</p><p>PrefabrikTeklif’e hoş geldiniz. Başvurunuz onaylandı ve açılış kampanyası kapsamında üyeliğiniz <b>1 ay ücretsiz</b> açıldı: <b>${esc(bitis)}</b> tarihine kadar size uyan taleplere hiçbir ücret ödemeden fiyat verebilirsiniz.</p><p>Her talepte müşterinin ilini, ev tipini, metrekare ve oda sayısını, bütçesini, arsa durumunu ve ne zaman başlamak istediğini görürsünüz; fiyat verdiğiniz anda adı, telefonu ve e-postası da açılır.</p>${sifre || '<p>Firma paneline bu e-postanın geldiği adresle giriş yaparsınız; ilk kez giriyorsanız “Kayıt ol” ile şifre belirleyin ya da Google ile girin.</p>'}<p>Panelden ürünlerinizi, fiyatlarınızı ve fotoğraflarınızı da güncelleyebilirsiniz. Firma sayfanızda artık “Üye firma” rozeti görünür.</p><p>Ücretsiz dönem bitmeden size hatırlatma göndereceğiz; devam etmek isterseniz aylık ${ABONELIK_TL} TL ödersiniz, istemezseniz hiçbir şey yapmanız gerekmez, üyeliğiniz kendiliğinden durur.</p>${buton(`${ayar().site}/firma-paneli/#talepler`, 'Teklif bekleyen talepleri gör')}<p style="font-size:12px;color:#4a5751">Ayrıntılar: <a href="${esc(ayar().site)}/firma-uyelik-sozlesmesi/">firma üyelik sözleşmesi</a> · <a href="${esc(ayar().site)}/abonelik-ve-iptal-kosullari/">abonelik koşulları</a></p>`, { ust: 'Üyelik aktif', onizleme: '1 ay ücretsiz: taleplere hemen fiyat verebilirsiniz' });
   // Manuel ödemeli (iyzico dışı) üyelikler: ödeme gününden 3 gün önce hatırlatma, ödeme günü + 3 gün geçince askıya alma
   async function uyelikSureKontrol() {
@@ -1645,7 +1658,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     zamanliTanitim, abonelikHatirlat, uyelikSureKontrol,
     routes: {
       'POST /api/teklif': teklif, 'GET /api/talep': talep, 'POST /api/teklif-ver': teklifVer, 'POST /api/teklif-red': teklifRed,
-      'POST /api/firma-basvuru': firmaBasvuru, 'POST /api/yonetim/iletisim-yanit': yonetimIletisimYanit, 'POST /api/yonetim/firma-eposta': yonetimFirmaEposta, 'POST /api/firma/sifre-baglanti': firmaSifreBaglanti, 'POST /api/belge': belge, 'GET /api/yonetim/belge': yonetimBelge, 'POST /api/bildirim-iptal': bildirimIptal, 'POST /api/firma/gorsel': firmaGorsel, 'POST /api/iletisim': iletisim, 'GET /api/google-puan': googlePuan, 'GET /api/yorumlar': yorumlar, 'POST /api/yorum': yorum,
+      'POST /api/firma-basvuru': firmaBasvuru, 'POST /api/yonetim/iletisim-yanit': yonetimIletisimYanit, 'POST /api/yonetim/firma-eposta': yonetimFirmaEposta, 'POST /api/firma/sifre-baglanti': firmaSifreBaglanti, 'POST /api/sifre-kod': sifreKod, 'POST /api/belge': belge, 'GET /api/yonetim/belge': yonetimBelge, 'POST /api/bildirim-iptal': bildirimIptal, 'POST /api/firma/gorsel': firmaGorsel, 'POST /api/iletisim': iletisim, 'GET /api/google-puan': googlePuan, 'GET /api/yorumlar': yorumlar, 'POST /api/yorum': yorum,
       'GET /api/katalog': katalog, 'GET /api/bannerlar': bannerlar,
       'POST /api/firma/abonelik-baslat': firmaAbonelikBaslat, 'POST /api/firma/kart-guncelle': firmaKartGuncelle, 'POST /api/firma/abonelik-iptal': firmaAbonelikIptal, 'POST /api/iyzico/donus': iyzicoDonus, 'POST /api/iyzico/kart-donus': iyzicoKartDonus, 'POST /api/iyzico/bildirim': iyzicoBildirim, 'POST /api/yonetim/iyzico-plan': yonetimIyzicoPlan,
       'POST /api/sms/kod': smsKod, 'POST /api/sms/dogrula': smsDogrula, 'GET /api/ben': ben, 'POST /api/onay': onay, 'POST /api/mesaj': musteriMesaj, 'POST /api/firma-soru': firmaSoru, 'POST /api/firma/mesaj': firmaMesaj, 'POST /api/yonetim/firma-durum': yonetimFirmaDurum, 'POST /api/yonetim/istatistik': yonetimIstatistik, 'POST /api/yonetim/tanitim': yonetimTanitim, 'POST /api/yonetim/duyuru': yonetimDuyuru,
