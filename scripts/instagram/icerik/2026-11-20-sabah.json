@@ -1,0 +1,73 @@
+{
+ "tarih": "2026-11-20",
+ "slot": "sabah",
+ "saat": "10:00",
+ "tasarimlar": [
+  {
+   "ad": "A",
+   "aciklama": "Prefabrik ev içi nasıl görünür, betonarme daireden farklı mı? 1+1, 2+1 ve 3+1 prefabrik ev planları ve iç tasarım ipuçları 👇\n\nİyi işçilikle yapılmış bir prefabrik evde duvarlar alçıpan ya da panel kaplama üzerine boyanır; zemine laminat, vinil ya da seramik serilir. İçeriden bakınca sıradan bir daireden ayırt etmek zordur. Fark çoğunlukla ağır asmada çıkar: TV, mutfak dolabı ve kombi yerini montajdan önce firmaya bildirin, panele takviye konsun.\n\nPlan seçimi: 1+1 (30–50 m²) tek kişi, çift, bağ evi ya da yazlık; 2+1 (55–85 m²) küçük aile; 3+1 (85–120 m²) çocuklu aile için. Küçük alanı açık mutfak, açık renkler, büyük pencere, sürgülü kapı ve tek tip zemin ferah gösterir.\n\nFiyat farkı en çok mutfak ve banyoda oluşur; dolap, vitrifiye, sıcak su sistemi ve yalıtımın (panel kalınlığı, cam tipi) teklifte yazılı olmasını isteyin. PrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir.\n\n📌 Kaydedin, plan seçerken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevici #prefabrikev #prefabrikevplanları #prefabrikevmodelleri",
+   "kartlar": [
+    {
+     "sablon": "kapak",
+     "etiket": "Prefabrik ev içi",
+     "h": "Prefabrik evin içi<br><em>daireden farklı mı?</em>",
+     "boy": 88,
+     "p": "İyi işçilikte farkı anlamak zor. Kaydırın.",
+     "img": "prefabrik-c-960.webp"
+    },
+    {
+     "sablon": "liste",
+     "etiket": "2 / 5",
+     "h": "Hangi plan <em>kime uygun?</em>",
+     "boy": 84,
+     "p": "Oda sayısını yaşayacak kişi sayısı belirler.",
+     "maddeler": [
+      ["1+1 · 30–50 m²", "Tek kişi, çift, bağ evi ya da yazlık"],
+      ["2+1 · 55–85 m²", "Küçük aileler için en çok tercih edilen"],
+      ["3+1 · 85–120 m²", "Çocuklu aileler; ikinci banyo büyük konfor"]
+     ]
+    },
+    {
+     "sablon": "kontrol",
+     "etiket": "3 / 5",
+     "h": "Küçük evi <em>ferah gösterir</em>",
+     "p": "Tüm evde tek tip zemin de mekânı geniş gösterir.",
+     "maddeler": [
+      "Açık mutfak",
+      "Açık renkler",
+      "Büyük pencere",
+      "Sürgülü kapı"
+     ],
+     "img": "ic-mekan-1344.webp"
+    },
+    {
+     "sablon": "liste",
+     "koyu": true,
+     "etiket": "4 / 5",
+     "h": "Teklifte <em>yazılı isteyin</em>",
+     "boy": 84,
+     "p": "Fiyat farkı en çok mutfak ve banyoda oluşur.",
+     "maddeler": [
+      ["Mutfak", "Dolap ve tezgâh dahil mi, hangi malzeme?"],
+      ["Banyo", "Duşakabin mi küvet mi, vitrifiye markası?"],
+      ["Sıcak su", "Kombi, termosifon ya da ısı pompası?"],
+      ["Yalıtım", "Panel kalınlığı, yalıtım malzemesi, cam tipi"]
+     ]
+    },
+    {
+     "sablon": "cta",
+     "etiket": "5 / 5",
+     "h": "Kendi planınıza<br><em>teklif alın.</em>",
+     "p": "Oda sayısını, m²'yi ve iç bitişi yazın; teklifler 48 saatte.",
+     "img": "prefabrik-b-960.webp",
+     "cipler": [
+      "Ücretsiz",
+      "{firmaSayisi} firma",
+      "{modelSayisi} model"
+     ]
+    }
+   ]
+  }
+ ],
+ "reels": []
+}

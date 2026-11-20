@@ -1,0 +1,38 @@
+{
+ "tarih": "2026-11-20",
+ "slot": "aksam",
+ "saat": "19:00",
+ "tasarimlar": [
+  {
+   "ad": "A",
+   "aciklama": "Fabrika, depo, hangar yapıyorsanız teklif talepleri burada 📣 Çelik konstrüksiyon, ağır çelik yapı ve prefabrik yapı firmalarına açılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik.\n\nPrefabrikTeklif'te ev arayanların yanı sıra fabrika binası, depo, hangar, atölye ve ahır gibi ağır çelik yapılar için de teklif talebi alınır. Talepler il, yapı tipi, metrekare, bütçe ve başlama zamanıyla firma panelinize gelir; size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz yapı tiplerinden talep düşer. Fiyat vermeden önce müşteriye panelden soru sorabilirsiniz.\n\nKayıt için vergi levhası yeter; kart bilgisi istenmez, satışınızdan komisyon alınmaz. Başvurunuz en geç 1 iş günü içinde onaylanır, sitede \"Üye firma\" rozetiyle görünürsünüz.\n\nPrefabrikTeklif yapı arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👉 Ücretsiz başvuru: prefabrikteklif.com.tr/firmalar-icin\n📌 Kaydedin, başvururken lazım olacak.\n\n#çelikkonstrüksiyon #çelikyapı #prefabrikyapı #çelikevfirmaları",
+   "alt_text": "Başlık: Fabrika, depo, hangar yapıyorsanız talepler burada. Altında: Ağır çelik yapı firmalarına da açık; ilk 50 firmaya 1 ay ücretsiz. Mavi gökyüzü altında vinçle yerine indirilen prefabrik bir yapının temsilî fotoğrafı; altta PrefabrikTeklif logosu ve prefabrikteklif.com.tr/firmalar-icin adresi.",
+   "kartlar": [
+    {
+     "sablon": "kapak",
+     "etiket": "Firmalar için",
+     "h": "Fabrika, depo, hangar yapıyorsanız <em>talepler burada.</em>",
+     "boy": 80,
+     "p": "Ağır çelik yapı firmalarına da açık; ilk 50 firmaya 1 ay ücretsiz.",
+     "img": "montaj-1344.webp",
+     "alt_sol": "prefabrikteklif.com.tr/firmalar-icin",
+     "alt_sag": "Başvuru →"
+    }
+   ]
+  }
+ ],
+ "reels": [
+  {
+   "seslendirme": "Kaba teslim mi, anahtar teslim mi? Kaba teslimde ev ayakta ve kapalıdır; parke, fayans, mutfak, banyo ve boya size kalır. Anahtar teslimde bunları firma yapar, fiyat farkı da buradan gelir. Ama zemin betonu, nakliye ve ruhsat çoğu zaman yine ayrıdır. Teklifte kalem kalem yazılı isteyin. Bağlantı profilde.",
+   "aciklama": "Anahtar teslim prefabrik ev fiyatları neyi kapsar? Kaba teslim mi, anahtar teslim mi; aradaki fiyat farkı nereden geliyor 👇\n\nKaba (ya da ileri kaba) teslimde ev ayakta ve kapalıdır ama parke, fayans, mutfak, vitrifiye ve boya gibi iç bitişler alıcıya kalır. Anahtar teslimde firma montajı, elektrik-su tesisatını, ıslak hacimleri ve iç bitişleri tamamlayıp evi oturulmaya hazır teslim eder; fiyat farkı genellikle buradan gelir.\n\nDikkat: \"Anahtar teslim\" her firmada aynı kapsamı ifade etmez. Zemin betonu, nakliye, vinç, ruhsat ve altyapı bağlantıları çoğu zaman yine ayrıdır; teklifte neyin dahil olduğunu kalem kalem yazılı isteyin. 9 Kasım 2026 itibarıyla listemizde prefabrik ev fiyatları 225.000 TL'den başlıyor, ortanca fiyat 775.000 TL.\n\nPrefabrikTeklif anahtar teslim prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir.\n\n📌 Kaydedin, teklifleri karşılaştırırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#anahtarteslimprefabrikev #prefabrikevfiyatları #prefabrikev #anahtarteslimev",
+   "sahneler": [
+    {"t": 0, "tur": "foto", "h": "Kaba teslim mi,<br><em>anahtar teslim mi?</em>", "img": "celik-b-960.webp"},
+    {"t": 3.5, "tur": "liste", "h": "Kaba teslimde <em>size kalır</em>", "ikon": "✕", "maddeler": ["Parke ve fayans", "Mutfak ve banyo", "İç boya"]},
+    {"t": 8.5, "tur": "foto", "h": "Anahtar teslimde<br><em>firma yapar.</em>", "img": "ahsap-b-960.webp", "cipler": ["Fiyat farkı buradan"]},
+    {"t": 12.0, "tur": "liste", "h": "Çoğu zaman <em>yine ayrı</em>", "ikon": "?", "maddeler": ["Zemin betonu", "Nakliye", "Ruhsat"]},
+    {"t": 16.5, "tur": "son", "h": "Kalem kalem <em>yazılı isteyin.</em>"}
+   ],
+   "sure": 20.5
+  }
+ ]
+}
