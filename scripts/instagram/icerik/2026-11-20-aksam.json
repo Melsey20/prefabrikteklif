@@ -77,5 +77,18 @@
     "voice_id": "IuRRIAcbQK5AQk1XevPj"
    }
   }
- ]
+ ],
+ "yayin": {
+  "hesap": "17841474767654199",
+  "durum": "yayın bekliyor",
+  "medya": {
+   "tasarim": [
+    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/1e60b5a3-f299-47ee-920e-b97d1a61b888.jpg"
+   ],
+   "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/2f32111a-7c81-4a6e-b981-1fd8d284f53f.jpg",
+   "reels": [
+    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/b493305b-b05b-46b6-b354-bd375546b3fe.mp4"
+   ]
+  }
+ }
 }

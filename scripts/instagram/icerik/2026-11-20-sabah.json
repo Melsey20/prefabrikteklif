@@ -22,9 +22,18 @@
      "boy": 84,
      "p": "Oda sayısını yaşayacak kişi sayısı belirler.",
      "maddeler": [
-      ["1+1 · 30–50 m²", "Tek kişi, çift, bağ evi ya da yazlık"],
-      ["2+1 · 55–85 m²", "Küçük aileler için en çok tercih edilen"],
-      ["3+1 · 85–120 m²", "Çocuklu aileler; ikinci banyo büyük konfor"]
+      [
+       "1+1 · 30–50 m²",
+       "Tek kişi, çift, bağ evi ya da yazlık"
+      ],
+      [
+       "2+1 · 55–85 m²",
+       "Küçük aileler için en çok tercih edilen"
+      ],
+      [
+       "3+1 · 85–120 m²",
+       "Çocuklu aileler; ikinci banyo büyük konfor"
+      ]
      ]
     },
     {
@@ -48,10 +57,22 @@
      "boy": 84,
      "p": "Fiyat farkı en çok mutfak ve banyoda oluşur.",
      "maddeler": [
-      ["Mutfak", "Dolap ve tezgâh dahil mi, hangi malzeme?"],
-      ["Banyo", "Duşakabin mi küvet mi, vitrifiye markası?"],
-      ["Sıcak su", "Kombi, termosifon ya da ısı pompası?"],
-      ["Yalıtım", "Panel kalınlığı, yalıtım malzemesi, cam tipi"]
+      [
+       "Mutfak",
+       "Dolap ve tezgâh dahil mi, hangi malzeme?"
+      ],
+      [
+       "Banyo",
+       "Duşakabin mi küvet mi, vitrifiye markası?"
+      ],
+      [
+       "Sıcak su",
+       "Kombi, termosifon ya da ısı pompası?"
+      ],
+      [
+       "Yalıtım",
+       "Panel kalınlığı, yalıtım malzemesi, cam tipi"
+      ]
      ]
     },
     {
@@ -69,5 +90,20 @@
    ]
   }
  ],
- "reels": []
+ "reels": [],
+ "yayin": {
+  "hesap": "17841474767654199",
+  "durum": "yayın bekliyor",
+  "medya": {
+   "tasarim": [
+    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/6217ef01-fc7b-4538-8f1d-5c084b831cb8.jpg",
+    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/00f3fe12-3852-4a1b-a60e-d71314952619.jpg",
+    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/a829483b-851b-40b3-b975-a93e81d0ff61.jpg",
+    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/ab56557f-324b-414a-840d-ffd4f321a03e.jpg",
+    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/c2a10d92-8db3-48f5-b807-3f8d11208478.jpg"
+   ],
+   "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/30cadcb9-fddf-4aae-b7c3-3c34944313d4.jpg",
+   "reels": []
+  }
+ }
 }
