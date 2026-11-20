@@ -879,7 +879,13 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       talep: gercek.length, teklif: gercek.filter((t) => t.teklif).length, red: gercek.filter((t) => t.davet === 'red').length,
     };
     ist.oran = ist.talep ? Math.round((ist.teklif / ist.talep) * 100) : 0;
+    // Sitede şu an fiyat bekleyen talepler: toplam ve firmanın tiplerine/illerine uyanlar (gerçek sayılar, kişisel veri yok)
+    const fTip = fd.tipler || st.tipler || []; const fIl = fd.iller || [];
+    const aq = await db.collection('talepler').where('durum', '==', 'acik').get();
+    const acikT = aq.docs.map((d) => d.data()).filter((t) => !t.test && (t.sonTarih?.toMillis?.() || 0) > now());
+    const piyasa = { acik: acikT.length, uyan: acikT.filter((t) => tipEslesir(fTip, t.tip) && (!fIl.length || fIl.includes('*') || fIl.includes(t.il))).length };
     return {
+      piyasa,
       uye: uyeAktif(fd), istatistik: ist, kartliOdeme: { acik: iyz().hazir && !!(await iyzicoPlan()), aktif: !!fd.iyzicoAbonelik },
       ben: u, firma: { slug, ad: st.kisaAd || fd.ad || slug, il: st.il || '', tipler: fd.tipler || st.tipler || [], iller: fd.iller || [], eposta: fd.eposta || '', telefon: fd.telefon || '', web: fd.web || st.web || '', adres: fd.adres || '', aktif: !!fd.aktif, gorselIzni: !!fd.gorselIzni },
       abonelik: { tutar: ab.tutar || ABONELIK_TL, durum: ab.durum || 'odeme-bekliyor', durumAd: ABONELIK_DURUM[ab.durum || 'odeme-bekliyor'], odemeLinki: ab.odemeLinki || '', sonOdeme: ab.sonOdeme || '', sonrakiOdeme: ab.sonrakiOdeme || '', kurucu: !!ab.kurucu, ucretsizBitis: ab.ucretsizBitis || '' },

@@ -483,6 +483,7 @@ test('açılış kampanyası: başvuru onayında kontenjan varsa ödeme beklemed
   const oz = (await call('GET', '/api/firma/ozet', { tok: 'tok-firma' })).body;
   assert.equal(oz.uye, true); assert.equal(oz.abonelik.kurucu, true);
   assert.deepEqual(oz.talepler.map((t) => t.id), ['t-uyan'], 'onaydan hemen sonra bekleyen talebi panelde görür');
+  assert.deepEqual(oz.piyasa, { acik: 3, uyan: 1 }, 'panelde toplam fiyat bekleyen ve firmaya uyan talep sayısı (test talebi sayılmaz)');
   const hos = mails.find((m) => /Üyeliğiniz aktif/.test(m.subject || m.konu || ''));
   const sk = hos && (hos.html.match(/\/sifre-belirle\/\?k=([^&"]+)/) || [])[1];
   assert.ok(sk, 'onay e-postasında şifre belirleme bağlantısı var');

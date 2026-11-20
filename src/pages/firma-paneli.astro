@@ -224,7 +224,9 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
     function taleplerCiz() {
       const box = $('p-talepler');
       const ist = V.istatistik || { talep: 0, teklif: 0, red: 0, oran: 0 };
-      $('teklif-ist').replaceChildren(h('div', { class: 'ist-serit' }, ...[['Size gelen talep', ist.talep], ['Teklif verdiğiniz', ist.teklif], ['İlgilenmediğiniz', ist.red], ['Dönüş oranınız', ist.talep ? `%${ist.oran}` : '–']].map(([a, b]) => h('div', {}, h('span', {}, String(a)), h('b', {}, String(b))))));
+      const py = V.piyasa || { acik: 0, uyan: 0 };
+      const piyasaKutu = py.acik ? h('div', { class: 'piyasa' }, h('div', {}, h('b', {}, String(py.acik)), h('span', {}, 'talep şu an sitede fiyat bekliyor')), h('div', { class: 'uyan' }, h('b', {}, String(py.uyan)), h('span', {}, 'tanesi ürün tiplerinize ve hizmet bölgenize uyuyor'))) : '';
+      $('teklif-ist').replaceChildren(piyasaKutu, h('div', { class: 'ist-serit' }, ...[['Size gelen talep', ist.talep], ['Teklif verdiğiniz', ist.teklif], ['İlgilenmediğiniz', ist.red], ['Dönüş oranınız', ist.talep ? `%${ist.oran}` : '–']].map(([a, b]) => h('div', {}, h('span', {}, String(a)), h('b', {}, String(b))))));
       const a = V.abonelik;
       $('teklif-uyelik').replaceChildren(V.uye ? '' : h('div', { class: 'box', style: { borderColor: '#e0b252', background: '#fff8e6', display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between', marginBottom: '14px' } },
         h('span', {}, h('b', {}, 'Fiyat verebilmek için üyeliğinizin aktif olması gerekiyor. '), `Aylık ${tl(a.tutar)} üyelik ödemeniz onaylandığında aşağıdaki taleplere fiyat verebilirsiniz.`),
