@@ -25,8 +25,8 @@ const sss = [
         <p><a class="btn btn-p" href="/teklif-al/?tip=agir-celik&amac=fabrika">Ağır çelik yapı için teklif al</a></p>
         <h2>Ağır çelik yapı firmaları</h2>
         {liste.length ? (
-          <ul class="ag-liste">
-            {liste.map((f) => <li><a href={`/firma/${f.slug}/`}><b>{f.kisaAd}</b></a>{f.il ? <span class="small muted"> · {f.il}</span> : null}</li>)}
+          <ul class="ag-liste" data-uye-liste>
+            {liste.map((f) => <li data-firma={f.slug}><a href={`/firma/${f.slug}/`}><b>{f.kisaAd}</b></a> <span class="st-b g xs" data-uye-rozet={f.slug} hidden></span>{f.il ? <span class="small muted"> · {f.il}</span> : null}</li>)}
           </ul>
         ) : <p class="small muted">Liste hazırlanıyor.</p>}
         <p class="small muted">Talebiniz bu firmalara ve çelik yapı üreten {celikFirma} firmaya daha iletilir. Bilgileriniz yalnızca fiyat veren firmayla paylaşılır.</p>
@@ -49,4 +49,8 @@ const sss = [
       </aside>
     </div>
   </div>
+  <script>
+    import { uyeRozetleri, uyeleriOneAl } from '../scripts/katalog';
+    uyeRozetleri(); uyeleriOneAl();
+  </script>
 </Base>

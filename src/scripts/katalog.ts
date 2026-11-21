@@ -14,6 +14,17 @@ export async function uyeRozetleri(root: ParentNode = document) {
   const k = await katalog() as Record<string, any>;
   root.querySelectorAll<HTMLElement>('[data-uye-rozet]').forEach((el) => { if (!k['uye:' + el.dataset.uyeRozet]) return; el.textContent = '✓ Üye firma'; el.title = 'Belgeleri kontrol edilmiş, üyeliği aktif firma'; el.hidden = false; });
 }
+// Üye firmaları listenin başına alır (kendi aralarında mevcut sıra, yani alfabetik korunur): [data-uye-liste] kapsayıcısındaki [data-firma] öğeleri
+export async function uyeleriOneAl(root: ParentNode = document) {
+  const k = await katalog() as Record<string, any>;
+  root.querySelectorAll<HTMLElement>('[data-uye-liste]').forEach((kap) => {
+    const ogeler = [...kap.children].filter((c) => (c as HTMLElement).dataset.firma) as HTMLElement[];
+    const uyeler = ogeler.filter((c) => k['uye:' + c.dataset.firma]);
+    if (!uyeler.length) return;
+    const ilk = ogeler.find((c) => !k['uye:' + c.dataset.firma]);
+    if (ilk) for (const u of uyeler) kap.insertBefore(u, ilk);
+  });
+}
 // Kampanya metni: [data-kampanya-yazi] öğeleri kampanya sürerken görünür
 export async function kampanyaYazilari(root: ParentNode = document) {
   const var_ = await kampanyaVar();

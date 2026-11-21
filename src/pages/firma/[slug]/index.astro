@@ -18,7 +18,8 @@ const katTip = f.tipler.filter((t) => TIPLER[t]);
 const urunler = tipler.length ? tipler.join(', ') : f.urunTipleri.join(', ');
 // Başlık: "Karmod Prefabrik Ev Fiyatları", "Asia Prefabrik Ev Fiyatları", "Elbarsco Tiny House Fiyatları" (marka araması + ürün)
 // Birden çok tip üreten ya da prefabrik üreten firmada genel terim "Prefabrik Ev" (marka aramaları: "karmod prefabrik")
-const anaTipKey = f.tipler.length === 1 ? f.tipler[0] : 'prefabrik';
+const anaTipler = (f as any).modelTipler?.length ? (f as any).modelTipler : f.tipler;
+const anaTipKey = anaTipler.length === 1 ? anaTipler[0] : 'prefabrik';
 const urunAd = (anaTipKey === 'agir-celik' ? 'Çelik Yapı Fiyatları' : TIPLER[anaTipKey]?.baslik || 'Prefabrik Ev Fiyatları').replace(/ Fiyatları$/, '');
 const ilk = urunAd.split(' ')[0];
 const kk = f.kisaAd.toLocaleLowerCase('tr');

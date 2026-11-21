@@ -250,9 +250,12 @@ for firm in firms:
     firm['modelSayisi'] = len(ms)
     if ms: firm['modelBekliyor'] = False
     firm['enDusuk'] = min(priced) if priced else None
-    firm['tipler'] = sorted({m['tip'] for m in ms})
-    if not firm['tipler']:  # modeli henüz listelenmemiş firma: ürün tiplerini firmanın kendi beyanından al
-        firm['tipler'] = sorted({TIP_KEY[k] for t in firm['urunTipleri'] for k in TIP_KEY if k in t.lower() and not ('ağır çelik' in t.lower() and k in ('çelik', 'celik'))})
+    # Tipler: listelenen modellerin tipleri + firmanın kendi sitesinde beyan ettiği ürün grupları.
+    # (Yalnızca prefabrik fiyatı yayınlayan ama çelik ev/konteyner de yapan firma, o taleplerden de davet alsın.)
+    firm['modelTipler'] = sorted({m['tip'] for m in ms})
+    beyan = {TIP_KEY[k] for t in firm['urunTipleri'] for k in TIP_KEY if k in t.lower() and not ('ağır çelik' in t.lower() and k in ('çelik', 'celik'))
+             and not ('konteyner' in t.lower() and k in ('ahşap', 'ahsap'))}  # "ahşap konteyner" ahşap ev değildir
+    firm['tipler'] = sorted(set(firm['modelTipler']) | beyan)
     # Ağır çelik yapı (fabrika, depo, hangar): katalog tipi değil, firma etiketi; talepler bu firmalara gider
     if any('ağır çelik' in t.lower() or 'agir celik' in t.lower() for t in firm['urunTipleri']):
         firm['tipler'] = [t for t in firm['tipler'] if t != 'agir-celik'] + ['agir-celik']

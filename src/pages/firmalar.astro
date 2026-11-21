@@ -8,7 +8,8 @@ import { SITE } from '../site.config';
 import { KONULAR } from '../lib/konular';
 const sehirler = KONULAR.filter((k) => k.sehir);
 const ilSayi: Record<string, number> = {}; for (const f of firms) if (f.il) ilSayi[f.il] = (ilSayi[f.il] || 0) + 1;
-const sirali = [...firms].sort((a, b) => b.modelSayisi - a.modelSayisi || a.kisaAd.localeCompare(b.kisaAd, 'tr'));
+// Alfabetik; üye firmalar sayfa açılınca listenin başına alınır (üyelik canlı veriden gelir)
+const sirali = [...firms].sort((a, b) => a.kisaAd.localeCompare(b.kisaAd, 'tr'));
 const ld = [{ '@context': 'https://schema.org', '@type': 'ItemList', name: 'Prefabrik ve modüler ev firmaları', numberOfItems: firms.length,
   itemListElement: sirali.map((f, i) => ({ '@type': 'ListItem', position: i + 1, url: `https://www.prefabrikteklif.com.tr/firma/${f.slug}/`, name: f.kisaAd })) }];
 ---
@@ -17,7 +18,7 @@ const ld = [{ '@context': 'https://schema.org', '@type': 'ItemList', name: 'Pref
   <div class="wrap">
     <Crumbs items={[{ ad: 'Firmalar' }]} />
     <h1>Prefabrik ve modüler ev firmaları</h1>
-    <p class="muted" style="max-width:760px">{firms.length} üretici. Fiyatlar firmaların kendi sitelerinden alınır. “Üye firma” rozeti, belgeleri kontrol edilip üyeliği aktif olan firmalara verilir; sıralamayı değiştirmez.</p>
+    <p class="muted" style="max-width:760px">{firms.length} üretici. Fiyatlar firmaların kendi sitelerinden alınır. “Üye firma” rozeti, belgeleri kontrol edilip üyeliği aktif olan firmalara verilir. Üye firmalar listede önce, diğerleri alfabetik sırayla gösterilir.</p>
     <p class="small" style="margin:10px 0 0"><b>Şehre göre:</b> {sehirler.map((k, i) => <>{i ? ' · ' : ''}<a href={`/${k.slug}/`}>{k.sehir} prefabrik ev firmaları</a></>)}</p>
     <TurkiyeHaritasi sayilar={ilSayi} etiket="firma" baslik="Firmaların bulunduğu iller" />
     <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0">
@@ -27,9 +28,9 @@ const ld = [{ '@context': 'https://schema.org', '@type': 'ItemList', name: 'Pref
         {TIP_SIRA.map((k) => <li><a href="#" data-t={k}>{TIPLER[k].ad}</a></li>)}
       </ul>
     </div>
-    <div class="grid" id="flist">
+    <div class="grid" id="flist" data-uye-liste>
       {sirali.map((f) => (
-        <a class="fcard" href={`/firma/${f.slug}/`} data-ara={`${f.kisaAd} ${f.il}`.toLocaleLowerCase('tr')} data-tip={f.tipler.join('|')}>
+        <a class="fcard" href={`/firma/${f.slug}/`} data-firma={f.slug} data-ara={`${f.kisaAd} ${f.il}`.toLocaleLowerCase('tr')} data-tip={f.tipler.join('|')}>
           <FirmaLogo f={f} />
           <span style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0">
             <b>{f.kisaAd} <span class="st-b g xs" data-uye-rozet={f.slug} hidden></span></b>
@@ -45,8 +46,8 @@ const ld = [{ '@context': 'https://schema.org', '@type': 'ItemList', name: 'Pref
     </div>
   </div>
   <script>
-    import { uyeRozetleri, kampanyaYazilari } from '../scripts/katalog';
-    uyeRozetleri(); kampanyaYazilari();
+    import { uyeRozetleri, kampanyaYazilari, uyeleriOneAl } from '../scripts/katalog';
+    uyeRozetleri(); kampanyaYazilari(); uyeleriOneAl();
     const ara = document.getElementById('fara') as HTMLInputElement; let tip = '';
     const uygula = () => { const q = ara.value.trim().toLocaleLowerCase('tr'); document.querySelectorAll<HTMLElement>('#flist > a').forEach((a) => { a.hidden = !(a.dataset.ara!.includes(q) && (!tip || a.dataset.tip!.split('|').includes(tip))); }); };
     ara.addEventListener('input', uygula);

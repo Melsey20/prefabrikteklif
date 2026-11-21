@@ -35,6 +35,11 @@
   "modelBekliyor": false,
   "modelSayisi": 20,
   "enDusuk": 121200,
+  "modelTipler": [
+   "celik",
+   "konteyner",
+   "prefabrik"
+  ],
   "tipler": [
    "celik",
    "konteyner",
@@ -72,8 +77,14 @@
   "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 378500,
-  "tipler": [
+  "modelTipler": [
    "celik",
+   "prefabrik"
+  ],
+  "tipler": [
+   "bungalov",
+   "celik",
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
@@ -104,7 +115,11 @@
   "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 480000,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
@@ -141,9 +156,16 @@
   "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 429000,
-  "tipler": [
+  "modelTipler": [
    "celik",
    "prefabrik"
+  ],
+  "tipler": [
+   "bungalov",
+   "celik",
+   "konteyner",
+   "prefabrik",
+   "tiny house"
   ],
   "fiyatYayinliyor": true,
   "logo": "/img/firma/prefabrik-evim-ideal-ev.png",
@@ -172,7 +194,11 @@
   "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 580000,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
+   "celik",
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
@@ -204,7 +230,12 @@
   "modelBekliyor": false,
   "modelSayisi": 8,
   "enDusuk": 225000,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
+   "celik",
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
@@ -233,7 +264,11 @@
   "modelBekliyor": false,
   "modelSayisi": 4,
   "enDusuk": 410000,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
+   "celik",
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
@@ -262,9 +297,15 @@
   "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 930000,
-  "tipler": [
+  "modelTipler": [
    "bungalov",
    "celik"
+  ],
+  "tipler": [
+   "bungalov",
+   "celik",
+   "prefabrik",
+   "tiny house"
   ],
   "fiyatYayinliyor": true,
   "logo": "/img/firma/evo-prefabrik.png",
@@ -297,8 +338,13 @@
   "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 1360000,
+  "modelTipler": [
+   "celik"
+  ],
   "tipler": [
    "celik",
+   "konteyner",
+   "prefabrik",
    "agir-celik"
   ],
   "fiyatYayinliyor": true,
@@ -328,6 +374,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -358,6 +405,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "agir-celik"
@@ -389,7 +437,12 @@
   "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 442600,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
+   "celik",
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
@@ -417,6 +470,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "prefabrik"
   ],
@@ -450,6 +504,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner",
@@ -483,7 +538,12 @@
   "modelBekliyor": false,
   "modelSayisi": 22,
   "enDusuk": 924000,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
+   "celik",
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
@@ -514,6 +574,9 @@
   "modelBekliyor": false,
   "modelSayisi": 2,
   "enDusuk": 850000,
+  "modelTipler": [
+   "tiny house"
+  ],
   "tipler": [
    "tiny house"
   ],
@@ -548,8 +611,14 @@
   "modelBekliyor": false,
   "modelSayisi": 5,
   "enDusuk": 389520,
-  "tipler": [
+  "modelTipler": [
    "prefabrik"
+  ],
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik",
+   "tiny house"
   ],
   "fiyatYayinliyor": true,
   "logo": "/img/firma/zmt-prefabrik.png",
@@ -583,6 +652,10 @@
   "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 335000,
+  "modelTipler": [
+   "konteyner",
+   "tiny house"
+  ],
   "tipler": [
    "konteyner",
    "tiny house"
@@ -615,6 +688,9 @@
   "modelBekliyor": false,
   "modelSayisi": 5,
   "enDusuk": null,
+  "modelTipler": [
+   "tiny house"
+  ],
   "tipler": [
    "tiny house"
   ],
@@ -644,6 +720,9 @@
   "modelBekliyor": false,
   "modelSayisi": 4,
   "enDusuk": null,
+  "modelTipler": [
+   "tiny house"
+  ],
   "tipler": [
    "tiny house"
   ],
@@ -674,7 +753,12 @@
   "modelBekliyor": false,
   "modelSayisi": 2,
   "enDusuk": 875000,
+  "modelTipler": [
+   "tiny house"
+  ],
   "tipler": [
+   "celik",
+   "prefabrik",
    "tiny house"
   ],
   "fiyatYayinliyor": true,
@@ -708,7 +792,13 @@
   "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": null,
+  "modelTipler": [
+   "tiny house"
+  ],
   "tipler": [
+   "bungalov",
+   "celik",
+   "konteyner",
    "tiny house"
   ],
   "fiyatYayinliyor": false,
@@ -738,8 +828,13 @@
   "modelBekliyor": false,
   "modelSayisi": 5,
   "enDusuk": 90000,
-  "tipler": [
+  "modelTipler": [
    "konteyner"
+  ],
+  "tipler": [
+   "bungalov",
+   "konteyner",
+   "prefabrik"
   ],
   "fiyatYayinliyor": true,
   "logo": "/img/firma/roysal-yapi.png",
@@ -772,6 +867,9 @@
   "modelBekliyor": false,
   "modelSayisi": 8,
   "enDusuk": 85000,
+  "modelTipler": [
+   "konteyner"
+  ],
   "tipler": [
    "konteyner"
   ],
@@ -804,8 +902,13 @@
   "modelBekliyor": false,
   "modelSayisi": 7,
   "enDusuk": 92000,
-  "tipler": [
+  "modelTipler": [
    "konteyner"
+  ],
+  "tipler": [
+   "bungalov",
+   "konteyner",
+   "prefabrik"
   ],
   "fiyatYayinliyor": true,
   "logo": "/img/firma/3a-prefabrik.png",
@@ -845,9 +948,14 @@
   "modelBekliyor": false,
   "modelSayisi": 10,
   "enDusuk": 2610000,
-  "tipler": [
+  "modelTipler": [
    "ahsap",
    "bungalov"
+  ],
+  "tipler": [
+   "ahsap",
+   "bungalov",
+   "tiny house"
   ],
   "fiyatYayinliyor": true,
   "logo": "/img/firma/dost-ahsap.png",
@@ -877,6 +985,11 @@
   "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 162000,
+  "modelTipler": [
+   "ahsap",
+   "bungalov",
+   "tiny house"
+  ],
   "tipler": [
    "ahsap",
    "bungalov",
@@ -911,6 +1024,10 @@
   "modelBekliyor": false,
   "modelSayisi": 10,
   "enDusuk": null,
+  "modelTipler": [
+   "ahsap",
+   "bungalov"
+  ],
   "tipler": [
    "ahsap",
    "bungalov"
@@ -943,6 +1060,11 @@
   "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 315000,
+  "modelTipler": [
+   "ahsap",
+   "bungalov",
+   "tiny house"
+  ],
   "tipler": [
    "ahsap",
    "bungalov",
@@ -984,6 +1106,10 @@
   "modelBekliyor": false,
   "modelSayisi": 3,
   "enDusuk": 400000,
+  "modelTipler": [
+   "ahsap",
+   "bungalov"
+  ],
   "tipler": [
    "ahsap",
    "bungalov"
@@ -1020,6 +1146,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner",
@@ -1062,6 +1189,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner",
@@ -1095,8 +1223,13 @@
   "modelBekliyor": false,
   "modelSayisi": 23,
   "enDusuk": 415000,
+  "modelTipler": [
+   "celik",
+   "prefabrik"
+  ],
   "tipler": [
    "celik",
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
@@ -1130,6 +1263,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner",
@@ -1164,6 +1298,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner",
@@ -1205,6 +1340,10 @@
   "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 645000,
+  "modelTipler": [
+   "celik",
+   "prefabrik"
+  ],
   "tipler": [
    "celik",
    "prefabrik"
@@ -1239,6 +1378,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "bungalov",
    "celik",
@@ -1275,6 +1415,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -1310,7 +1451,12 @@
   "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 560000,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
+   "celik",
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
@@ -1345,6 +1491,10 @@
   "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 507130,
+  "modelTipler": [
+   "celik",
+   "prefabrik"
+  ],
   "tipler": [
    "celik",
    "prefabrik"
@@ -1379,7 +1529,13 @@
   "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 440685,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
+   "bungalov",
+   "celik",
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
@@ -1411,8 +1567,13 @@
   "modelBekliyor": false,
   "modelSayisi": 6,
   "enDusuk": 600000,
+  "modelTipler": [
+   "celik",
+   "prefabrik"
+  ],
   "tipler": [
    "celik",
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
@@ -1444,6 +1605,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner",
@@ -1481,6 +1643,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "ahsap",
    "bungalov",
@@ -1517,6 +1680,9 @@
   "modelBekliyor": false,
   "modelSayisi": 10,
   "enDusuk": 999000,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
    "prefabrik"
   ],
@@ -1552,8 +1718,14 @@
   "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 358363,
-  "tipler": [
+  "modelTipler": [
    "celik",
+   "prefabrik"
+  ],
+  "tipler": [
+   "bungalov",
+   "celik",
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
@@ -1586,7 +1758,12 @@
   "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 437500,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
+   "celik",
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
@@ -1619,8 +1796,13 @@
   "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 750000,
+  "modelTipler": [
+   "celik",
+   "prefabrik"
+  ],
   "tipler": [
    "celik",
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
@@ -1649,6 +1831,10 @@
   "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 450000,
+  "modelTipler": [
+   "celik",
+   "prefabrik"
+  ],
   "tipler": [
    "celik",
    "prefabrik"
@@ -1684,6 +1870,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -1720,6 +1907,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "ahsap",
    "celik",
@@ -1754,10 +1942,16 @@
   "modelBekliyor": false,
   "modelSayisi": 7,
   "enDusuk": 495000,
-  "tipler": [
+  "modelTipler": [
    "celik",
    "konteyner",
    "prefabrik"
+  ],
+  "tipler": [
+   "celik",
+   "konteyner",
+   "prefabrik",
+   "tiny house"
   ],
   "fiyatYayinliyor": true,
   "logo": "/img/firma/prefamod.png",
@@ -1785,6 +1979,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner",
@@ -1816,6 +2011,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner",
@@ -1847,6 +2043,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner",
@@ -1878,6 +2075,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "bungalov",
    "celik",
@@ -1908,6 +2106,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -1937,6 +2136,10 @@
   "modelBekliyor": false,
   "modelSayisi": 15,
   "enDusuk": 416900,
+  "modelTipler": [
+   "celik",
+   "prefabrik"
+  ],
   "tipler": [
    "celik",
    "prefabrik"
@@ -1966,7 +2169,11 @@
   "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 496500,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
+   "celik",
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
@@ -1995,8 +2202,13 @@
   "modelBekliyor": false,
   "modelSayisi": 3,
   "enDusuk": 850000,
+  "modelTipler": [
+   "celik",
+   "prefabrik"
+  ],
   "tipler": [
    "celik",
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": true,
@@ -2028,6 +2240,9 @@
   "modelBekliyor": false,
   "modelSayisi": 9,
   "enDusuk": 1400000,
+  "modelTipler": [
+   "tiny house"
+  ],
   "tipler": [
    "tiny house"
   ],
@@ -2057,6 +2272,7 @@
   "modelBekliyor": false,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "tiny house"
   ],
@@ -2085,6 +2301,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "bungalov",
    "tiny house"
@@ -2114,8 +2331,12 @@
   "modelBekliyor": false,
   "modelSayisi": 2,
   "enDusuk": null,
-  "tipler": [
+  "modelTipler": [
    "ahsap"
+  ],
+  "tipler": [
+   "ahsap",
+   "tiny house"
   ],
   "fiyatYayinliyor": false,
   "logo": "",
@@ -2142,7 +2363,12 @@
   "modelBekliyor": false,
   "modelSayisi": 3,
   "enDusuk": null,
+  "modelTipler": [
+   "celik"
+  ],
   "tipler": [
+   "ahsap",
+   "bungalov",
    "celik"
   ],
   "fiyatYayinliyor": false,
@@ -2170,6 +2396,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "prefabrik",
    "tiny house"
@@ -2199,6 +2426,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "ahsap",
    "bungalov"
@@ -2228,6 +2456,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "ahsap",
    "bungalov"
@@ -2257,6 +2486,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "ahsap",
    "bungalov"
@@ -2287,6 +2517,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "ahsap",
    "bungalov",
@@ -2316,6 +2547,9 @@
   "modelBekliyor": false,
   "modelSayisi": 1,
   "enDusuk": null,
+  "modelTipler": [
+   "tiny house"
+  ],
   "tipler": [
    "tiny house"
   ],
@@ -2344,6 +2578,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "tiny house"
@@ -2373,7 +2608,11 @@
   "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": 1100000,
+  "modelTipler": [
+   "tiny house"
+  ],
   "tipler": [
+   "konteyner",
    "tiny house"
   ],
   "fiyatYayinliyor": true,
@@ -2402,6 +2641,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "ahsap",
    "prefabrik",
@@ -2431,6 +2671,9 @@
   "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": null,
+  "modelTipler": [
+   "tiny house"
+  ],
   "tipler": [
    "tiny house"
   ],
@@ -2459,6 +2702,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "prefabrik",
    "tiny house"
@@ -2489,8 +2733,13 @@
   "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": null,
-  "tipler": [
+  "modelTipler": [
    "celik"
+  ],
+  "tipler": [
+   "celik",
+   "prefabrik",
+   "tiny house"
   ],
   "fiyatYayinliyor": false,
   "logo": "",
@@ -2518,6 +2767,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner",
@@ -2549,7 +2799,12 @@
   "modelBekliyor": false,
   "modelSayisi": 12,
   "enDusuk": null,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
+   "celik",
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": false,
@@ -2578,6 +2833,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "ahsap",
    "bungalov",
@@ -2608,6 +2864,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "ahsap",
    "bungalov"
@@ -2636,6 +2893,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "tiny house"
   ],
@@ -2664,6 +2922,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "prefabrik",
    "tiny house"
@@ -2694,8 +2953,13 @@
   "modelBekliyor": false,
   "modelSayisi": 5,
   "enDusuk": null,
-  "tipler": [
+  "modelTipler": [
    "konteyner"
+  ],
+  "tipler": [
+   "konteyner",
+   "prefabrik",
+   "tiny house"
   ],
   "fiyatYayinliyor": false,
   "logo": "",
@@ -2722,6 +2986,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "prefabrik",
    "tiny house"
@@ -2751,6 +3016,10 @@
   "modelBekliyor": false,
   "modelSayisi": 10,
   "enDusuk": 67000,
+  "modelTipler": [
+   "konteyner",
+   "prefabrik"
+  ],
   "tipler": [
    "konteyner",
    "prefabrik"
@@ -2780,6 +3049,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner"
@@ -2808,6 +3078,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "konteyner"
   ],
@@ -2836,6 +3107,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "konteyner",
    "prefabrik"
@@ -2866,6 +3138,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner",
@@ -2897,6 +3170,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner",
@@ -2926,6 +3200,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "konteyner"
   ],
@@ -2955,7 +3230,12 @@
   "modelBekliyor": false,
   "modelSayisi": 11,
   "enDusuk": null,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
+   "celik",
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": false,
@@ -2983,6 +3263,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "konteyner",
    "prefabrik"
@@ -3014,6 +3295,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "ahsap",
    "bungalov",
@@ -3046,6 +3328,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik",
@@ -3076,6 +3359,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3105,6 +3389,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3134,6 +3419,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3163,6 +3449,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3193,8 +3480,12 @@
   "modelBekliyor": false,
   "modelSayisi": 1,
   "enDusuk": null,
+  "modelTipler": [
+   "celik"
+  ],
   "tipler": [
    "celik",
+   "prefabrik",
    "agir-celik"
   ],
   "fiyatYayinliyor": false,
@@ -3223,6 +3514,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner",
@@ -3252,6 +3544,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik"
   ],
@@ -3280,6 +3573,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3308,6 +3602,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik"
   ],
@@ -3336,6 +3631,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3366,7 +3662,12 @@
   "modelBekliyor": false,
   "modelSayisi": 7,
   "enDusuk": null,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
+   "celik",
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": false,
@@ -3394,6 +3695,10 @@
   "modelBekliyor": false,
   "modelSayisi": 3,
   "enDusuk": null,
+  "modelTipler": [
+   "celik",
+   "prefabrik"
+  ],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3423,6 +3728,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3452,6 +3758,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3481,6 +3788,10 @@
   "modelBekliyor": false,
   "modelSayisi": 5,
   "enDusuk": null,
+  "modelTipler": [
+   "celik",
+   "prefabrik"
+  ],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3511,7 +3822,12 @@
   "modelBekliyor": false,
   "modelSayisi": 4,
   "enDusuk": null,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
+   "celik",
+   "konteyner",
    "prefabrik"
   ],
   "fiyatYayinliyor": false,
@@ -3541,6 +3857,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner",
@@ -3573,6 +3890,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik",
@@ -3604,6 +3922,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner",
@@ -3634,6 +3953,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3663,6 +3983,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3695,6 +4016,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "bungalov",
    "celik",
@@ -3727,6 +4049,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3756,6 +4079,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3784,6 +4108,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik"
   ],
@@ -3812,6 +4137,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3842,6 +4168,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "konteyner",
@@ -3872,6 +4199,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3905,8 +4233,16 @@
   "modelBekliyor": false,
   "modelSayisi": 4,
   "enDusuk": null,
-  "tipler": [
+  "modelTipler": [
    "celik"
+  ],
+  "tipler": [
+   "ahsap",
+   "bungalov",
+   "celik",
+   "konteyner",
+   "prefabrik",
+   "tiny house"
   ],
   "fiyatYayinliyor": false,
   "logo": "",
@@ -3933,6 +4269,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3962,6 +4299,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "celik",
    "prefabrik"
@@ -3990,8 +4328,12 @@
   "modelBekliyor": false,
   "modelSayisi": 2,
   "enDusuk": null,
-  "tipler": [
+  "modelTipler": [
    "celik"
+  ],
+  "tipler": [
+   "celik",
+   "prefabrik"
   ],
   "fiyatYayinliyor": false,
   "logo": "",
@@ -4017,6 +4359,9 @@
   "modelBekliyor": false,
   "modelSayisi": 10,
   "enDusuk": null,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
    "prefabrik"
   ],
@@ -4046,6 +4391,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "konteyner",
    "prefabrik",
@@ -4075,6 +4421,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "prefabrik"
   ],
@@ -4102,6 +4449,9 @@
   "modelBekliyor": false,
   "modelSayisi": 21,
   "enDusuk": null,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
    "prefabrik"
   ],
@@ -4129,6 +4479,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "prefabrik"
   ],
@@ -4156,6 +4507,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "prefabrik"
   ],
@@ -4183,6 +4535,9 @@
   "modelBekliyor": false,
   "modelSayisi": 6,
   "enDusuk": null,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
    "prefabrik"
   ],
@@ -4211,6 +4566,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "konteyner",
    "prefabrik"
@@ -4239,6 +4595,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "prefabrik"
   ],
@@ -4266,6 +4623,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "prefabrik"
   ],
@@ -4294,6 +4652,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "konteyner",
    "prefabrik"
@@ -4323,6 +4682,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "konteyner",
    "prefabrik"
@@ -4351,6 +4711,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "prefabrik"
   ],
@@ -4378,6 +4739,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "prefabrik"
   ],
@@ -4405,6 +4767,9 @@
   "modelBekliyor": false,
   "modelSayisi": 3,
   "enDusuk": null,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
    "prefabrik"
   ],
@@ -4432,6 +4797,9 @@
   "modelBekliyor": false,
   "modelSayisi": 8,
   "enDusuk": 460000,
+  "modelTipler": [
+   "prefabrik"
+  ],
   "tipler": [
    "prefabrik"
   ],
@@ -4459,6 +4827,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "prefabrik"
   ],
@@ -4488,6 +4857,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "konteyner",
    "prefabrik",
@@ -4517,6 +4887,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "prefabrik"
   ],
@@ -4544,6 +4915,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "prefabrik"
   ],
@@ -4571,6 +4943,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "prefabrik"
   ],
@@ -4601,6 +4974,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "ahsap",
    "bungalov",
@@ -4633,6 +5007,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "agir-celik"
   ],
@@ -4660,6 +5035,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "agir-celik"
   ],
@@ -4687,6 +5063,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "agir-celik"
   ],
@@ -4714,6 +5091,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "agir-celik"
   ],
@@ -4741,6 +5119,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "agir-celik"
   ],
@@ -4768,6 +5147,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "agir-celik"
   ],
@@ -4795,6 +5175,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "agir-celik"
   ],
@@ -4822,6 +5203,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "agir-celik"
   ],
@@ -4849,6 +5231,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "agir-celik"
   ],
@@ -4876,6 +5259,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "agir-celik"
   ],
@@ -4903,6 +5287,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "agir-celik"
   ],
@@ -4930,6 +5315,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "agir-celik"
   ],
@@ -4957,6 +5343,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "agir-celik"
   ],
@@ -4984,6 +5371,7 @@
   "modelBekliyor": true,
   "modelSayisi": 0,
   "enDusuk": null,
+  "modelTipler": [],
   "tipler": [
    "agir-celik"
   ],
