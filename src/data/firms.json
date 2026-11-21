@@ -481,14 +481,12 @@
   ],
   "seviye": "listelenmis",
   "modelBekliyor": false,
-  "modelSayisi": 0,
-  "enDusuk": null,
+  "modelSayisi": 22,
+  "enDusuk": 924000,
   "tipler": [
-   "celik",
-   "konteyner",
    "prefabrik"
   ],
-  "fiyatYayinliyor": false,
+  "fiyatYayinliyor": true,
   "logo": "/img/firma/alsancak-prefabrik.png",
   "logoAcik": false
  },

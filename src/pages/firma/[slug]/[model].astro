@@ -14,6 +14,8 @@ const f = firmBySlug(m.firma)!;
 const T = TIPLER[m.tip];
 const benzer = benzerler(m);
 const id = modelId(m);
+const AY = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+const kontrolYazi = /^\d{4}-\d\d-\d\d$/.test(m.kontrol || '') ? (([y, a, g]) => `${+g} ${AY[+a - 1]} ${y}`)(m.kontrol.split('-')) : meta.sonKontrolYazi;
 const kalemler = [
   { ad: 'KDV', v: m.kdv }, { ad: 'Nakliye', v: m.nakliye }, { ad: 'Montaj', v: m.montaj }, { ad: 'Zemin betonu', v: m.zemin },
 ];
@@ -64,7 +66,7 @@ const tq = `tip=${encodeURIComponent(m.tip)}${m.oda ? `&oda=${encodeURIComponent
             {dahil.map((x) => <li class="d">{x} dahil</li>)}
             {haric.map((x) => <li class="h">{x} hariç</li>)}
           </ul>
-          <span class="xs muted">Firmanın sitesinden {meta.sonKontrolYazi}’de kontrol edildi · <a href={m.kaynak} rel="nofollow noopener" target="_blank">kaynağı gör</a></span>
+          <span class="xs muted">Firmanın sitesinden {kontrolYazi} tarihinde kontrol edildi · <a href={m.kaynak} rel="nofollow noopener" target="_blank">kaynağı gör</a></span>
         </div>
         {m.uyari && <p class="warn">{m.uyari}</p>}
         <div class="feat">

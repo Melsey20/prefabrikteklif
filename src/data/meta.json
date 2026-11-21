@@ -1,7 +1,7 @@
 {
  "firmaSayisi": 164,
- "modelSayisi": 584,
- "fiyatliModel": 439,
+ "modelSayisi": 606,
+ "fiyatliModel": 461,
  "sonKontrol": "2026-11-09",
  "sonKontrolYazi": "9 Kasım 2026",
  "ay": "Kasım 2026",
@@ -45,13 +45,13 @@
  },
  "istatistik": {
   "prefabrik": {
-   "model": 318,
-   "fiyatli": 239,
-   "firma": 36,
+   "model": 340,
+   "fiyatli": 261,
+   "firma": 37,
    "min": 225000,
    "max": 4999999,
-   "medyan": 775000,
-   "m2Medyan": 10256
+   "medyan": 804600,
+   "m2Medyan": 10439
   },
   "celik": {
    "model": 107,

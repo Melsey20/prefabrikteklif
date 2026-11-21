@@ -274,7 +274,11 @@ for tip in TIP:
     }
 
 AYLAR = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık']
-kontroller = sorted({m['kontrol'] for m in models if m['kontrol']})
+# Site genelindeki "fiyatlar X'de kontrol edildi" yazısı: modellerin en az %10'unu kapsayan en son toplu kontrol.
+# Tek bir firmanın güncellenmesi (ör. firma düzeltme isteği) tüm fiyatlar o gün kontrol edilmiş gibi gösterilmez.
+from collections import Counter
+_say = Counter(m['kontrol'] for m in models if m['kontrol'])
+kontroller = sorted(k for k, n in _say.items() if n >= max(1, len(models) * 0.10)) or sorted(_say)
 son = kontroller[-1] if kontroller else datetime.date.today().isoformat()
 d = datetime.date.fromisoformat(son)
 meta = {
