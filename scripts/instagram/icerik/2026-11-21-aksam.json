@@ -33,7 +33,7 @@
           "img": "konteyner-b-960.webp"
         },
         {
-          "t": 3,
+          "t": 3.38,
           "tur": "sayi",
           "h": "Listemizde <em>m² ortancası</em>",
           "n": 6627,
@@ -43,14 +43,14 @@
           ]
         },
         {
-          "t": 8,
+          "t": 8.36,
           "tur": "sayi",
           "h": "85 m² 3+1 <em>kaba hesap</em>",
           "n": 563,
           "birim": "bin TL · yaklaşık"
         },
         {
-          "t": 13,
+          "t": 14.76,
           "tur": "liste",
           "h": "Teklifte <em>bunları sorun</em>",
           "ikon": "?",
@@ -61,12 +61,12 @@
           ]
         },
         {
-          "t": 17,
+          "t": 19.02,
           "tur": "son",
           "h": "Teklifleri <em>karşılaştırın.</em>"
         }
       ],
-      "sure": 20,
+      "sure": 22.24,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-21-aksam-1.mp3",
       "ses": {
         "kaynak": "elevenlabs",
