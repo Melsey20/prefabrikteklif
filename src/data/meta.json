@@ -1,9 +1,9 @@
 {
  "firmaSayisi": 164,
- "modelSayisi": 606,
- "fiyatliModel": 461,
- "sonKontrol": "2026-11-09",
- "sonKontrolYazi": "9 Kasım 2026",
+ "modelSayisi": 734,
+ "fiyatliModel": 615,
+ "sonKontrol": "2026-11-21",
+ "sonKontrolYazi": "21 Kasım 2026",
  "ay": "Kasım 2026",
  "tipler": {
   "prefabrik": {
@@ -45,13 +45,13 @@
  },
  "istatistik": {
   "prefabrik": {
-   "model": 340,
-   "fiyatli": 261,
-   "firma": 37,
+   "model": 413,
+   "fiyatli": 355,
+   "firma": 40,
    "min": 225000,
    "max": 4999999,
-   "medyan": 804600,
-   "m2Medyan": 10439
+   "medyan": 826000,
+   "m2Medyan": 10000
   },
   "celik": {
    "model": 107,
@@ -63,22 +63,22 @@
    "m2Medyan": 17000
   },
   "konteyner": {
-   "model": 44,
-   "fiyatli": 39,
-   "firma": 8,
+   "model": 80,
+   "fiyatli": 80,
+   "firma": 11,
    "min": 67000,
-   "max": 890000,
-   "medyan": 170000,
-   "m2Medyan": 6627
+   "max": 1450000,
+   "medyan": 259500,
+   "m2Medyan": 8929
   },
   "tiny house": {
-   "model": 68,
-   "fiyatli": 34,
-   "firma": 12,
-   "min": 429000,
+   "model": 77,
+   "fiyatli": 43,
+   "firma": 14,
+   "min": 330000,
    "max": 2200000,
-   "medyan": 1275000,
-   "m2Medyan": 46875
+   "medyan": 1150000,
+   "m2Medyan": 38750
   },
   "ahsap": {
    "model": 31,
@@ -90,13 +90,13 @@
    "m2Medyan": 26100
   },
   "bungalov": {
-   "model": 16,
-   "fiyatli": 12,
-   "firma": 6,
+   "model": 26,
+   "fiyatli": 22,
+   "firma": 7,
    "min": 162000,
    "max": 1380000,
-   "medyan": 567500,
-   "m2Medyan": 21000
+   "medyan": 455000,
+   "m2Medyan": 19333
   }
  }
 }
