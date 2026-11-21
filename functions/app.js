@@ -299,11 +299,13 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
   });
   const musteri = (d) => ({ ad: d.ad, telefon: d.telefon, eposta: d.eposta });
 
-  async function teklifKaydet(v, b, firmaSlug) {
+  async function teklifKaydet(v, b, firmaSlug, panel = false) {
     if (v.talep.durum !== 'acik') hata(409, 'Bu talebin süresi doldu.');
     const fd = (await db.collection('firmalar').doc(firmaSlug).get()).data();
     if (!uyeAktif(fd)) hata(402, fd ? `Fiyat verebilmek için aylık ${ABONELIK_TL} TL üyelik ödemenizin tamamlanması gerekiyor. Ödeme onaylandığında bu talebe panelinizden fiyat verebilirsiniz.` : 'Fiyat verebilmek için önce firmanızı kaydedin; üyeliğiniz onaylanınca bu talebe fiyat verebilirsiniz.');
-    if (v.davet?.durum === 'red') hata(409, 'Bu talebi daha önce reddettiniz.');
+    // Panelden fikrini değiştiren firma, süresi dolmamış talebe yine de fiyat verebilir
+    if (v.davet?.durum === 'red' && !panel) hata(409, 'Bu talebi daha önce reddettiniz. Fikrinizi değiştirdiyseniz firma panelinizden fiyat verebilirsiniz.');
+    const reddi = v.davet?.durum === 'red';
     // "1.250.000" ya da "1 250 000" gibi noktalı/boşluklu yazımlar da kabul edilir
     const fiyat = Math.round(typeof b.fiyat === 'string' ? Number(b.fiyat.replace(/[.\s]/g, '').replace(',', '.')) : Number(b.fiyat));
     if (!(fiyat >= 1000 && fiyat < 1e9)) hata(400, 'Geçerli bir fiyat yazın.');
@@ -313,6 +315,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       teslimGun: sayi(b.teslimGun, 1, 365), garantiYil: sayi(b.garantiYil, 0, 50), not: str(b.not, 2000), zaman: FieldValue.serverTimestamp(),
     });
     await v.davetRef.set({ durum: 'kabul', kabulZamani: FieldValue.serverTimestamp() }, { merge: true });
+    if (reddi && !v.talep.test) firmaSayac(firmaSlug, { istRed: -1 });
     const a = ayar(); const d = v.talep;
     if (ilk) {
       if (!d.test) { const sayilmis = v.davet?.sayildi || v.davet?.tur === 'uye' || v.davet?.tur === 'odeme'; firmaSayac(firmaSlug, { istTeklif: 1, ...(sayilmis ? {} : { istTalep: 1 }) }); if (!sayilmis) await v.davetRef?.set?.({ sayildi: true }, { merge: true }); sayac({ teklif: 1 }); }
@@ -936,7 +939,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const ref = db.collection('talepler').doc(id); const s = await ref.get();
     if (!s.exists || !(s.data().firmalar || []).includes(u.firma)) hata(404, 'Talep bulunamadı.');
     const dvRef = ref.collection('davetler').doc(u.firma); const dv = await dvRef.get();
-    return teklifKaydet({ ref, talep: s.data(), davet: dv.exists ? dv.data() : { eposta: u.eposta }, davetRef: dvRef }, req.body || {}, u.firma);
+    return teklifKaydet({ ref, talep: s.data(), davet: dv.exists ? dv.data() : { eposta: u.eposta }, davetRef: dvRef }, req.body || {}, u.firma, true);
   }
   async function firmaRed(req) {
     const u = await firmaKim(req);

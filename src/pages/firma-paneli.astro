@@ -251,6 +251,9 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
             V.uye ? h('button', { class: 'btn btn-p btn-s', type: 'button', 'data-talep': t.id, onclick: () => modal('Fiyat ver', teklifFormu(t)) }, 'Fiyat ver')
               : h('span', { class: 'st-b a' }, '🔒 Üyelik ödemesinden sonra fiyat verebilirsiniz'),
             h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: () => confirmModal!('Bu talep için “ilgilenmiyorum” denilsin mi?', async () => { await api('/api/firma/red' + fq, { talep: t.id }); toast('Kaydedildi'); yukle(); }) }, 'İlgilenmiyorum')) : null,
+          !t.teklif && acik && t.davet === 'red' && V.uye ? h('div', { style: { display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' } },
+            h('span', { class: 'small muted' }, 'Fikrinizi değiştirdiyseniz süre dolmadan fiyat verebilirsiniz.'),
+            h('button', { class: 'btn btn-g btn-s', type: 'button', 'data-talep': t.id, onclick: () => modal('Fiyat ver', teklifFormu(t)) }, 'Yine de fiyat ver')) : null,
           h('span', { class: 'xs muted' }, tarih(t.olusturma)));
       }));
     }

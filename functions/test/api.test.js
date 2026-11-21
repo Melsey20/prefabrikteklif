@@ -126,10 +126,16 @@ test('firma sayaçları: ilgilenmiyorum iki kez basılsa da bir kez sayılır, l
   await new Promise((r) => setTimeout(r, 5));
   f = (await db.collection('firmalar').doc('kardesler').get()).data();
   assert.equal(f.istTalep, once + 1); assert.equal(f.istRed, 2);
+  // Fikrini değiştiren firma panelden yine de fiyat verebilir; red sayısı geri alınır
+  const fv = await call('POST', '/api/firma/teklif', { tok: 'tok-firma', body: { talep: t2, fiyat: '750.000' } });
+  assert.equal(fv.statusCode, 200, JSON.stringify(fv.body));
+  await new Promise((r) => setTimeout(r, 5));
+  f = (await db.collection('firmalar').doc('kardesler').get()).data();
+  assert.equal(f.istRed, 1); assert.equal(f.istTeklif, 1); assert.equal(f.istTalep, once + 1, 'teklif verince talep ikinci kez sayılmaz');
   // Yeniden hesaplama aynı sonucu verir
   await call('POST', '/api/yonetim/istatistik', { tok: 'tok-admin', body: {} });
   const g = (await db.collection('firmalar').doc('kardesler').get()).data();
-  assert.equal(g.istRed, 2); assert.ok(g.istTalep >= g.istRed && g.istTalep >= (g.istTeklif || 0), 'gelen talep, red ve tekliften az olamaz');
+  assert.equal(g.istRed, 1); assert.equal(g.istTeklif, 1); assert.ok(g.istTalep >= g.istRed && g.istTalep >= (g.istTeklif || 0), 'gelen talep, red ve tekliften az olamaz');
 });
 
 test('süreç yönetimi talebi sipariş açar, yönetim aşama günceller, kullanıcı görür', async () => {
