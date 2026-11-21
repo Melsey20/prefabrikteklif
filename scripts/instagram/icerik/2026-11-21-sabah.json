@@ -1,0 +1,74 @@
+{
+  "tarih": "2026-11-21",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Prefabrik eve DASK yapılır mı? Prefabrik ev için zorunlu deprem sigortası (DASK) şartları, ruhsatsız eve poliçe ve tiny house durumu 👇\n\nKısa cevap: evet. Tapuya kayıtlı bir arsada konut olarak kurulmuş prefabrik, çelik, konteyner ya da ahşap eve DASK yapılır ve yaptırmak zorunludur; 6305 sayılı Afet Sigortaları Kanunu yapım malzemesine bakmaz. Ama ruhsatsız ya da projeye aykırı kurulmuş yapılarda Kurum sigortalamama hakkına sahiptir. Tekerlekli tiny house ise tapulu bina değil, taşınabilir bir ürün olduğu için DASK kapsamına girmez.\n\nPoliçeden önce yapı ruhsatını, iskân belgesini ve firmadan alacağınız statik projeyi hazırlayın; yapı tarzını acentenizle bu belgelere bakarak belirleyin, brüt m²'yi iskândaki değerle aynı girin. DASK eşyayı karşılamaz; yangın, su baskını ve hırsızlık için ayrıca konut sigortası gerekir.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir.\n\n📌 Kaydedin, poliçe yaptırırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #depremsigortası #dask #prefabrikevruhsatı",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Deprem sigortası",
+          "h": "Prefabrik eve <em>DASK yapılır mı?</em>",
+          "boy": 84,
+          "p": "Kısa cevap: evet, ama bir şartla. Kaydırın.",
+          "img": "prefabrik-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Kime zorunlu, <em>kime değil?</em>",
+          "boy": 80,
+          "p": "6305 sayılı Afet Sigortaları Kanunu, madde 10.",
+          "maddeler": [
+            [
+              "Ruhsatlı, iskânlı ev",
+              "Tapulu arsada konutsa DASK zorunlu; poliçe her yıl yenilenir."
+            ],
+            [
+              "Ruhsatsız ev",
+              "Kurum, mevzuata ve projeye aykırı yapıyı sigortalamayabilir."
+            ],
+            [
+              "Tekerlekli tiny house",
+              "Tapulu bina değil, taşınabilir ürün; DASK kapsamına girmez."
+            ],
+            [
+              "Depo, ofis gibi yapı",
+              "Tamamı konut dışı kullanılıyorsa zorunluluk yok."
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Poliçeden önce <em>bunları hazırlayın</em>",
+          "p": "Yanlış yapı tarzı beyanı hasar anında sorun çıkarabilir.",
+          "maddeler": [
+            "Yapı ruhsatı",
+            "İskân belgesi",
+            "Statik proje",
+            "Taşıyıcı sistem tanımı",
+            "İskândaki brüt m²",
+            "Yapı tarzı: acenteyle"
+          ],
+          "img": "ic-mekan-1344.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Belgesi tam evi <em>birlikte bulalım.</em>",
+          "p": "Formu bir kez doldurun; teklifler 48 saatte gelsin.",
+          "img": "celik-960.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": []
+}

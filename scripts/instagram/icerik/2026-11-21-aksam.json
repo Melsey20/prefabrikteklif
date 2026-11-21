@@ -1,0 +1,72 @@
+{
+  "tarih": "2026-11-21",
+  "slot": "aksam",
+  "saat": "19:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Müşteri aramayın, talepler size gelsin 📣 Prefabrik ev, tiny house, konteyner, çelik ve ahşap ev firmalarına açılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik.\n\nGoogle'da her ay 150 binden fazla \"prefabrik ev\" ve \"prefabrik ev fiyatları\" araması yapılıyor (Semrush, Kasım 2026). PrefabrikTeklif'te ev arayan formu bir kez doldurur; talep il, ev tipi, m², oda sayısı, bütçe, arsa durumu ve başlama zamanıyla firma panelinize gelir. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz yapı tiplerinden talep düşer; fiyat vermeden önce müşteriye panelden soru sorabilirsiniz.\n\nKayıt telefondan birkaç dakika sürer, yalnızca vergi levhası istenir. Kart bilgisi istenmez, satışınızdan komisyon alınmaz; başvurunuz en geç 1 iş günü içinde onaylanır ve sitede \"Üye firma\" rozetiyle görünürsünüz.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👉 Ücretsiz başvuru: prefabrikteklif.com.tr/firmalar-icin\n📌 Kaydedin, başvururken lazım olacak.\n\n#prefabrikevfirmaları #prefabrikev #tinyhouse #konteynerev #çelikev",
+      "alt_text": "Başlık: Müşteri aramayın, talepler size gelsin. Altında: Hizmet verdiğiniz illerden talepler panelinize düşer; ilk 50 firmaya 1 ay ücretsiz. Mavi gökyüzü altında modern bir prefabrik evin temsilî fotoğrafı; altta PrefabrikTeklif logosu ve prefabrikteklif.com.tr/firmalar-icin adresi.",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Firmalar için",
+          "h": "Müşteri aramayın, <em>talepler size gelsin.</em>",
+          "boy": 84,
+          "p": "Hizmet verdiğiniz illerden talepler panelinize düşer; ilk 50 firmaya 1 ay ücretsiz.",
+          "img": "hero-1344.webp",
+          "alt_sol": "prefabrikteklif.com.tr/firmalar-icin",
+          "alt_sag": "Başvuru →"
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Üç artı bir konteyner ev kaça çıkar? Listemizde konteyner evde metrekare ortancası altı bin altı yüz yirmi yedi lira. Seksen beş metrekarelik bir üç artı bir için kaba hesap, yaklaşık beş yüz altmış üç bin lira. Ama temel çoğu ilanda hariç; nakliyeyi ve iç bitişi sorun. Teklifleri karşılaştırın, bağlantı profilde.",
+      "aciklama": "3+1 konteyner ev kaça çıkar? 3+1 konteyner ev fiyatları için m² fiyatıyla kaba hesap ve fiyata dahil olmayan kalemler 👇\n\n9 Kasım 2026 itibarıyla listemizde konteyner evde metrekare başına ortanca fiyat 6.627 TL (44 model, 8 firma). Kaba hesap (m² × ortanca m² fiyatı): 85 m²'lik bir 3+1 konteyner ev yaklaşık 563.000 TL. Gerçek fiyat; modül sayısı, yalıtım, iç bitiş ve teslim şekline göre değişir.\n\nDikkat: Temel (zemin betonu) çoğu ilanda fiyata dahil değildir. Nakliye ve vinç, iç bitiş (parke, fayans, mutfak, vitrifiye) ve KDV'nin dahil olup olmadığını teklifte kalem kalem yazılı isteyin.\n\nPrefabrikTeklif konteyner ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir.\n\n📌 Kaydedin, teklifleri karşılaştırırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#konteynerevfiyatları #konteynerev #3artı1konteynerev #prefabrikev",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "3+1 konteyner ev<br><em>kaça çıkar?</em>",
+          "img": "konteyner-b-960.webp"
+        },
+        {
+          "t": 3,
+          "tur": "sayi",
+          "h": "Listemizde <em>m² ortancası</em>",
+          "n": 6627,
+          "birim": "TL / m² · konteyner ev",
+          "cipler": [
+            "9 Kasım 2026 itibarıyla"
+          ]
+        },
+        {
+          "t": 8,
+          "tur": "sayi",
+          "h": "85 m² 3+1 <em>kaba hesap</em>",
+          "n": 563,
+          "birim": "bin TL · yaklaşık"
+        },
+        {
+          "t": 13,
+          "tur": "liste",
+          "h": "Teklifte <em>bunları sorun</em>",
+          "ikon": "?",
+          "maddeler": [
+            "Temel betonu",
+            "Nakliye ve vinç",
+            "İç bitiş"
+          ]
+        },
+        {
+          "t": 17,
+          "tur": "son",
+          "h": "Teklifleri <em>karşılaştırın.</em>"
+        }
+      ],
+      "sure": 20
+    }
+  ]
+}
