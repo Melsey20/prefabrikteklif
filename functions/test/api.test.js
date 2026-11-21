@@ -105,6 +105,33 @@ test('firma talebi reddedebilir, sonra fiyat veremez', async () => {
   assert.equal((await call('POST', '/api/teklif-ver', { body: { t: l[1], f: l[2], fiyat: 500000 } })).statusCode, 409);
 });
 
+test('firma sayaçları: ilgilenmiyorum iki kez basılsa da bir kez sayılır, liste davetinde yanıt verirse talep de sayılır', async () => {
+  const { db, call } = kur();
+  await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik'], iller: ['Malatya'], abonelik: { durum: 'aktif' } });
+  await call('POST', '/api/teklif', { body: TALEP });
+  const tid = db.dump('talepler/').filter(([k]) => k.split('/').length === 2)[0][0].split('/')[1];
+  const dv = await db.collection('talepler').doc(tid).collection('davetler').doc('kardesler').get();
+  assert.equal(dv.data().tur, 'uye');
+  assert.equal((await call('POST', '/api/firma/red', { tok: 'tok-firma', body: { talep: tid } })).statusCode, 200);
+  assert.equal((await call('POST', '/api/firma/red', { tok: 'tok-firma', body: { talep: tid } })).statusCode, 200);
+  await new Promise((r) => setTimeout(r, 5));
+  let f = (await db.collection('firmalar').doc('kardesler').get()).data();
+  assert.equal(f.istTalep, 1); assert.equal(f.istRed, 1, 'ikinci tıklama sayılmaz');
+  // Üye olmadan önce liste davetiyle gelmiş talebe panelden "ilgilenmiyorum": gelen talep de sayılır
+  await call('POST', '/api/teklif', { body: { ...TALEP, eposta: 'veli@ornek.com', telefon: '0533 222 33 44' } });
+  const t2 = db.dump('talepler/').filter(([k]) => k.split('/').length === 2).map(([k]) => k.split('/')[1]).find((x) => x !== tid);
+  await db.collection('talepler').doc(t2).collection('davetler').doc('kardesler').set({ tur: 'liste', sayildi: false }, { merge: true });
+  const once = (await db.collection('firmalar').doc('kardesler').get()).data().istTalep;
+  assert.equal((await call('POST', '/api/firma/red', { tok: 'tok-firma', body: { talep: t2 } })).statusCode, 200);
+  await new Promise((r) => setTimeout(r, 5));
+  f = (await db.collection('firmalar').doc('kardesler').get()).data();
+  assert.equal(f.istTalep, once + 1); assert.equal(f.istRed, 2);
+  // Yeniden hesaplama aynı sonucu verir
+  await call('POST', '/api/yonetim/istatistik', { tok: 'tok-admin', body: {} });
+  const g = (await db.collection('firmalar').doc('kardesler').get()).data();
+  assert.equal(g.istRed, 2); assert.ok(g.istTalep >= g.istRed && g.istTalep >= (g.istTeklif || 0), 'gelen talep, red ve tekliften az olamaz');
+});
+
 test('süreç yönetimi talebi sipariş açar, yönetim aşama günceller, kullanıcı görür', async () => {
   const { db, mails, call } = kur();
   const r = await call('POST', '/api/teklif', { body: { ...TALEP, mod: 'surec', model: 'kardesler/k82' }, tok: 'tok-user' });
@@ -480,6 +507,9 @@ test('açılış kampanyası: başvuru onayında kontenjan varsa ödeme beklemed
   const o = await call('POST', '/api/yonetim/basvuru', { tok: 'tok-admin', body: { id: 'b1', karar: 'onay' } });
   assert.equal(o.statusCode, 200, JSON.stringify(o.body));
   assert.equal(o.body.acikTalep, 1, 'yalnızca türü ve ili uyan açık gerçek talebe eklenir');
+  await new Promise((r) => setTimeout(r, 5));
+  assert.equal((await db.collection('firmalar').doc(o.body.slug).get()).data().istTalep, 1, 'onayda eklenen talep "gelen talep" sayacına yazılır');
+  assert.equal((await db.collection('talepler').doc('t-uyan').collection('davetler').doc(o.body.slug).get()).data().sayildi, true, 'teklif verince ikinci kez sayılmaz');
   const oz = (await call('GET', '/api/firma/ozet', { tok: 'tok-firma' })).body;
   assert.equal(oz.uye, true); assert.equal(oz.abonelik.kurucu, true);
   assert.deepEqual(oz.talepler.map((t) => t.id), ['t-uyan'], 'onaydan hemen sonra bekleyen talebi panelde görür');

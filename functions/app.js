@@ -347,8 +347,9 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const v = await davetBul(b.t, b.f);
     if (!v) hata(404, 'Bağlantı geçersiz.');
     if ((await v.ref.collection('teklifler').doc(v.slug).get()).exists) hata(409, 'Bu talebe zaten fiyat verdiniz.');
-    await v.davetRef.set({ durum: 'red', redZamani: FieldValue.serverTimestamp(), redNeden: str(b.neden, 200) }, { merge: true });
-    if (!v.talep.test && v.davet?.durum !== 'red') firmaSayac(v.slug, { istRed: 1 });
+    const yeniSay = !v.talep.test && !v.davet?.sayildi && v.davet?.tur !== 'uye' && v.davet?.tur !== 'odeme';
+    await v.davetRef.set({ durum: 'red', redZamani: FieldValue.serverTimestamp(), redNeden: str(b.neden, 200), ...(yeniSay ? { sayildi: true } : {}) }, { merge: true });
+    if (!v.talep.test && v.davet?.durum !== 'red') firmaSayac(v.slug, { istRed: 1, ...(yeniSay ? { istTalep: 1 } : {}) });
     return { ok: true };
   }
 
@@ -943,8 +944,11 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const ref = db.collection('talepler').doc(id); const s = await ref.get();
     if (!s.exists || !(s.data().firmalar || []).includes(u.firma)) hata(404, 'Talep bulunamadı.');
     if ((await ref.collection('teklifler').doc(u.firma).get()).exists) hata(409, 'Bu talebe zaten fiyat verdiniz.');
-    await ref.collection('davetler').doc(u.firma).set({ durum: 'red', redZamani: FieldValue.serverTimestamp() }, { merge: true });
-    if (!s.data().test) firmaSayac(u.firma, { istRed: 1 });
+    const dv = (await ref.collection('davetler').doc(u.firma).get()).data() || {};
+    const yeniSay = !s.data().test && !dv.sayildi && dv.tur !== 'uye' && dv.tur !== 'odeme';
+    await ref.collection('davetler').doc(u.firma).set({ durum: 'red', redZamani: FieldValue.serverTimestamp(), ...(yeniSay ? { sayildi: true } : {}) }, { merge: true });
+    // Aynı talebe ikinci kez "ilgilenmiyorum" denirse tekrar sayılmaz; liste davetinde firma yanıt verdiyse talep de "gelen" sayılır
+    if (!s.data().test && dv.durum !== 'red') firmaSayac(u.firma, { istRed: 1, ...(yeniSay ? { istTalep: 1 } : {}) });
     return { ok: true };
   }
   async function firmaGeriBildirim(req) {
@@ -1294,7 +1298,10 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
         if ((td.sonTarih?.toMillis?.() || 0) < now()) continue;
         const dvRef = t.ref.collection('davetler').doc(slug); const dv = (await dvRef.get()).data();
         if (!(td.firmalar || []).includes(slug)) await t.ref.update({ firmalar: FieldValue.arrayUnion(slug) });
-        await dvRef.set({ kod: dv?.kod || token(), eposta: d.eposta, tur, durum: dv?.durum || 'bekliyor', ...(dv ? {} : { gonderim: FieldValue.serverTimestamp(), onaydaEklendi: true }) }, { merge: true });
+        // "Gelen talep" sayacı: davetle aynı kural (üye/ödeme davetinde bir kez sayılır)
+        const say = !td.test && !dv?.sayildi;
+        await dvRef.set({ kod: dv?.kod || token(), eposta: d.eposta, tur, durum: dv?.durum || 'bekliyor', ...(say ? { sayildi: true } : {}), ...(dv ? {} : { gonderim: FieldValue.serverTimestamp(), onaydaEklendi: true }) }, { merge: true });
+        if (say) firmaSayac(slug, { istTalep: 1 });
         baglanan++;
       }
       const sifre = sifreButon(await sifreLinki(d.eposta), d.eposta);
@@ -1347,7 +1354,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       if ((t.teklifSayisi || 0) !== tk.size) await d.ref.set({ teklifSayisi: tk.size }, { merge: true });
       top.teklif += tk.size;
       const tkSet = new Set(tk.docs.map((x) => x.id));
-      for (const x of dv.docs) { const v = x.data(); if (v.tur !== 'uye' && v.tur !== 'odeme' && !tkSet.has(x.id)) continue; const o = (f[x.id] ||= { istTalep: 0, istTeklif: 0, istRed: 0 }); o.istTalep++; if (v.durum === 'red') o.istRed++; }
+      for (const x of dv.docs) { const v = x.data(); if (v.tur !== 'uye' && v.tur !== 'odeme' && v.durum !== 'red' && !tkSet.has(x.id)) continue; const o = (f[x.id] ||= { istTalep: 0, istTeklif: 0, istRed: 0 }); o.istTalep++; if (v.durum === 'red') o.istRed++; }
       for (const x of tk.docs) { const o = (f[x.id] ||= { istTalep: 0, istTeklif: 0, istRed: 0 }); o.istTeklif++; }
     }
     const fq = await db.collection('firmalar').get();
