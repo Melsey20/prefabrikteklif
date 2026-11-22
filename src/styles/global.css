@@ -893,3 +893,8 @@ body:has(.app) .by-dis { display: none; }
 .firma-serit a { color: #fff; text-decoration: none; text-align: center; line-height: 1.35; }
 .firma-serit a u { text-decoration-color: rgba(255,255,255,.6); text-underline-offset: 3px; font-weight: 700; }
 .firma-serit button { background: none; border: 0; color: #fff; font-size: 1.2rem; line-height: 1; cursor: pointer; opacity: .8; padding: 2px 6px; flex: none; }
+
+/* Firmaya hazır soru çipleri */
+.mj-hazir { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 6px; }
+.mj-cip { border: 1px solid #cfe7d8; background: #f3f8f5; color: var(--green-d); border-radius: 999px; padding: 6px 10px; font-size: .78rem; font-weight: 700; cursor: pointer; text-align: left; }
+.mj-cip:hover { background: #e4f2ea; }

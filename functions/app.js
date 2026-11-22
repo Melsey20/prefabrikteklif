@@ -324,7 +324,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       const fa = firmAd(firmaSlug);
       await Promise.allSettled([
         v.davet?.eposta ? mail(v.davet.eposta, `Müşteri bilgileri: ${TIP_AD[d.tip]}, ${d.il}`, sablon('Teklifiniz müşteriye iletildi', `<p>Fiyatınız kaydedildi ve müşteriye bildirildi. Müşterinin iletişim bilgileri aşağıda; teklifinizi netleştirmek için arayabilir ya da panelinizden mesaj yazabilirsiniz. Lütfen bu bilgileri yalnızca bu talep için kullanın.</p>${kart([['Ad soyad', d.ad], ['Telefon', d.telefon], ['E-posta', d.eposta], ['Teklifiniz', tl(fiyat)]])}${buton(`${a.site}/firma-paneli/#talepler`, 'Panelde aç')}`, { ust: 'Teklif gönderildi' })) : null,
-        mail(d.eposta, `${kac === 1 ? 'İlk teklifiniz geldi' : `${kac}. teklif geldi`}: ${fa}`, sablon(`${fa} projenize teklif verdi`, `<p>Merhaba ${esc(d.ad)},</p><p><b>${esc(fa)}</b> ${esc(TIP_AD[d.tip].toLocaleLowerCase('tr'))} talebinize fiyat verdi. Şu ana kadar <b>${kac} firma</b> teklif verdi.</p>${kart([['Firma', fa], ['Toplam fiyat', `${tl(fiyat)}${b.kdvDahil ? ' (KDV dahil)' : ''}`], ['Teslim süresi', b.teslimGun ? `${sayi(b.teslimGun, 1, 365)} gün` : ''], ['Garanti', b.garantiYil ? `${sayi(b.garantiYil, 0, 50)} yıl` : '']])}<p>Teklifin ayrıntılarını görmek, firmayı aramak, e-posta göndermek ya da site üzerinden soru sormak için hesabınıza girin. Talepte yazdığınız e-posta ya da telefonla giriş yapmanız yeterli.</p>${buton(`${a.site}/hesabim/${d.sahipKod ? `?bagla=${v.ref.id}.${d.sahipKod}` : ''}#teklifler`, 'Teklifleri gör')}<p style="font-size:13px;color:#5b6760;margin:12px 0 0">Süre dolunca tüm teklifler karşılaştırma tablosu olarak e-postanıza da gelecek.</p>`, { ust: `${kac}. teklif`, onizleme: `${fa}: ${tl(fiyat)}` })),
+        mail(d.eposta, `${kac === 1 ? 'İlk teklifiniz geldi' : `${kac}. teklif geldi`}: ${fa}`, sablon(`${fa} projenize teklif verdi`, `<p>Merhaba ${esc(d.ad)},</p><p><b>${esc(fa)}</b> ${esc(TIP_AD[d.tip].toLocaleLowerCase('tr'))} talebinize fiyat verdi. Şu ana kadar <b>${kac} firma</b> teklif verdi.</p>${kart([['Firma', fa], ['Toplam fiyat', `${tl(fiyat)}${b.kdvDahil ? ' (KDV dahil)' : ''}`], ['Teslim süresi', b.teslimGun ? `${sayi(b.teslimGun, 1, 365)} gün` : ''], ['Garanti', b.garantiYil ? `${sayi(b.garantiYil, 0, 50)} yıl` : '']])}<p>Aşağıdaki bağlantıdan, hesap açmanıza gerek kalmadan teklifin ayrıntılarını görebilir, firmayı arayabilir ya da <b>firmaya soru sorup detay isteyebilirsiniz</b> (nakliye, kat planı, ödeme planı gibi).</p>${buton(`${a.site}/hesabim/${d.sahipKod ? `?bagla=${v.ref.id}.${d.sahipKod}` : ''}#teklifler`, 'Teklifi gör, soru sor')}<p style="font-size:13px;color:#5b6760;margin:12px 0 0">Süre dolunca tüm teklifler karşılaştırma tablosu olarak e-postanıza da gelecek.</p>`, { ust: `${kac}. teklif`, onizleme: `${fa}: ${tl(fiyat)}` })),
       ]);
     }
     return { ok: true, musteri: musteri(d) };
@@ -740,13 +740,9 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     let n = 0; for (const d of tq.docs) if (!d.data().uid) { await d.ref.set({ uid, baglanma: now() }, { merge: true }); n++; }
     return { ok: true, baglandi: n };
   }
-  async function hesap(req) {
-    const u = await kim(req);
-    const qs = [db.collection('talepler').where('uid', '==', u.uid).limit(50).get()];
-    if (u.dogrulandi && u.eposta) qs.push(db.collection('talepler').where('eposta', '==', u.eposta).limit(50).get());
-    if (u.telefon) qs.push(db.collection('talepler').where('telefonNorm', '==', telNorm(u.telefon)).limit(50).get());
-    const docs = new Map();
-    for (const q of await Promise.all(qs)) for (const d of q.docs) docs.set(d.id, d);
+  // Müşterinin talep görünümü (teklifler, firma iletişimi, mesajlar). Hesap sayfası ve e-postadaki bağlantıyla girişsiz görünüm ortak kullanır.
+  async function talepGorunumleri(liste) {
+    const docs = new Map(liste.map((d) => [d.id, d]));
     const talepler = [];
     const fCache = new Map();
     const firmaIletisim = async (slug) => {
@@ -764,6 +760,33 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       const sorular = [...ms.entries()].filter(([f, m]) => m.length && !tk.some((x) => x.firmaSlug === f)).map(([f, m]) => ({ firmaSlug: f, firma: firmAd(f), mesajlar: m }));
       talepler.push({ id: d.id, ...anonim(t), durum: t.durum, olusturma: t.olusturma?.toMillis?.() || 0, sonTarihMs: t.sonTarih?.toMillis?.() || 0, teklifler: tk, sorular });
     }
+    return talepler;
+  }
+  // E-postadaki "id.sahipKod" bağlantısının sahibi mi? (talep sahibinin e-postasına giden gizli anahtar)
+  async function kodluTalep(k) {
+    const [id, kod] = str(k, 120).split('.');
+    if (!id || !kod) return null;
+    const ref = db.collection('talepler').doc(id); const sn = await ref.get();
+    const t = sn.exists ? sn.data() : null;
+    if (!t?.sahipKod || t.sahipKod.length !== kod.length || !crypto.timingSafeEqual(Buffer.from(t.sahipKod), Buffer.from(kod))) return null;
+    return { ref, sn, t };
+  }
+  // ---- POST /api/talebim: e-postadaki bağlantıyla hesap açmadan talebi, teklifleri ve mesajları görme ----
+  async function talebim(req) {
+    if (!(await rateLimit(req, 'talebim', 60))) hata(429, 'Çok fazla istek, biraz sonra tekrar deneyin.');
+    const x = await kodluTalep(req.body?.k);
+    if (!x || x.t.mod === 'surec') hata(404, 'Bağlantı geçersiz ya da süresi dolmuş.');
+    const [talep] = await talepGorunumleri([x.sn]);
+    return { talep, hesapli: !!x.t.uid };
+  }
+  async function hesap(req) {
+    const u = await kim(req);
+    const qs = [db.collection('talepler').where('uid', '==', u.uid).limit(50).get()];
+    if (u.dogrulandi && u.eposta) qs.push(db.collection('talepler').where('eposta', '==', u.eposta).limit(50).get());
+    if (u.telefon) qs.push(db.collection('talepler').where('telefonNorm', '==', telNorm(u.telefon)).limit(50).get());
+    const docs = new Map();
+    for (const q of await Promise.all(qs)) for (const d of q.docs) docs.set(d.id, d);
+    const talepler = await talepGorunumleri([...docs.values()]);
     talepler.sort((a, b) => b.olusturma - a.olusturma);
     const sq = [db.collection('siparisler').where('uid', '==', u.uid).limit(20).get()];
     if (u.dogrulandi && u.eposta) sq.push(db.collection('siparisler').where('eposta', '==', u.eposta).limit(20).get());
@@ -803,9 +826,13 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     if (!s.exists) hata(404, 'Talep bulunamadı.');
     const t = s.data(); let firma; let u;
     if (kimden === 'musteri') {
-      u = await kim(req);
-      const sahip = t.uid === u.uid || (u.dogrulandi && u.eposta && t.eposta === u.eposta) || (u.telefon && t.telefonNorm === telNorm(u.telefon));
-      if (!sahip) hata(404, 'Talep bulunamadı.');
+      const kodlu = b.k ? await kodluTalep(b.k) : null;
+      if (kodlu && kodlu.ref.id === ref.id) u = { uid: `kod:${ref.id}` };
+      else {
+        u = await kim(req);
+        const sahip = t.uid === u.uid || (u.dogrulandi && u.eposta && t.eposta === u.eposta) || (u.telefon && t.telefonNorm === telNorm(u.telefon));
+        if (!sahip) hata(404, 'Talep bulunamadı.');
+      }
       firma = str(b.firma, 80);
     } else { u = await firmaKim(req); firma = u.firma; }
     const teklifVar = (await ref.collection('teklifler').doc(firma).get()).exists;
@@ -1678,7 +1705,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       'GET /api/katalog': katalog, 'GET /api/bannerlar': bannerlar,
       'POST /api/firma/abonelik-baslat': firmaAbonelikBaslat, 'POST /api/firma/kart-guncelle': firmaKartGuncelle, 'POST /api/firma/abonelik-iptal': firmaAbonelikIptal, 'POST /api/iyzico/donus': iyzicoDonus, 'POST /api/iyzico/kart-donus': iyzicoKartDonus, 'POST /api/iyzico/bildirim': iyzicoBildirim, 'POST /api/yonetim/iyzico-plan': yonetimIyzicoPlan,
       'POST /api/sms/kod': smsKod, 'POST /api/sms/dogrula': smsDogrula, 'GET /api/ben': ben, 'POST /api/onay': onay, 'POST /api/mesaj': musteriMesaj, 'POST /api/firma-soru': firmaSoru, 'POST /api/firma/mesaj': firmaMesaj, 'POST /api/yonetim/firma-durum': yonetimFirmaDurum, 'POST /api/yonetim/istatistik': yonetimIstatistik, 'POST /api/yonetim/tanitim': yonetimTanitim, 'POST /api/yonetim/duyuru': yonetimDuyuru,
-      'GET /api/hesap': hesap, 'POST /api/hesap/bagla': hesapBagla, 'POST /api/yonetim/talep-bagla': yonetimTalepBagla, 'POST /api/favoriler': favoriler, 'POST /api/siparis-mesaj': siparisMesaj,
+      'GET /api/hesap': hesap, 'POST /api/talebim': talebim, 'POST /api/hesap/bagla': hesapBagla, 'POST /api/yonetim/talep-bagla': yonetimTalepBagla, 'POST /api/favoriler': favoriler, 'POST /api/siparis-mesaj': siparisMesaj,
       'GET /api/firma/ozet': firmaOzet, 'POST /api/firma/urun': firmaUrun, 'POST /api/firma/teklif': firmaTeklif, 'POST /api/firma/red': firmaRed,
       'POST /api/firma/geri-bildirim': firmaGeriBildirim, 'POST /api/firma/geri-bildirim-yanit': firmaGeriBildirimYanit, 'POST /api/firma/profil': firmaProfil, 'POST /api/firma/reklam': firmaReklam,
       'GET /api/yonetim/ozet': yonetimOzet, 'POST /api/yonetim/degisiklik': yonetimDegisiklik, 'POST /api/yonetim/basvuru': yonetimBasvuru,
@@ -1726,7 +1753,7 @@ export async function teklifOzetleri({ db, mail, ayar, FieldValue, Timestamp, FI
       ? `<p>${tk.length} firmadan teklif geldi. ✓ = fiyata dahil.</p><div style="overflow-x:auto"><table style="border-collapse:collapse;font-size:13px;min-width:560px"><tr style="background:#f3f5f4"><th style="padding:8px;text-align:left">Firma</th><th style="padding:8px">Fiyat</th>${kol.map((k) => `<th style="padding:8px">${k}</th>`).join('')}<th style="padding:8px">Teslim</th></tr>${satir}</table></div><p>Fiyat veren firmalar sizi arayabilir. İsterseniz “süreci siz yönetin” deyin; firmayı birlikte seçip sözleşmeden teslime kadar takip edelim: <a href="${site}/teklif-al/?mod=surec&tip=${encodeURIComponent(d.tip)}">süreç yönetimi</a>.</p><p>Bir firmayla sözleşme yaparsanız deneyiminizi <a href="${site}/yorum-yaz/?t=${doc.id}.${d.token}">buradan</a> doğrulanmış yorum olarak paylaşabilirsiniz.</p>`
       : '<p>Bu süre içinde sisteme teklif girilmedi. Ekibimiz talebinizi takip ediyor ve uygun firmalarla sizin adınıza iletişime geçecek.</p>';
     await Promise.allSettled([
-      mail(d.eposta, tk.length ? `${tk.length} teklif geldi: ${TIP_AD[d.tip]}` : 'Teklif talebiniz hakkında', sablon(tk.length ? 'Teklifler yan yana' : 'Talebiniz hakkında', `<p>Merhaba ${esc(d.ad)},</p>${tablo}`)),
+      mail(d.eposta, tk.length ? `${tk.length} teklif geldi: ${TIP_AD[d.tip]}` : 'Teklif talebiniz hakkında', sablon(tk.length ? 'Teklifler yan yana' : 'Talebiniz hakkında', `<p>Merhaba ${esc(d.ad)},</p>${tablo}${tk.length && d.sahipKod ? `<p>Firmalara soru sormak, detay istemek ya da firmayı aramak için:</p>${buton(`${site}/hesabim/?bagla=${doc.id}.${d.sahipKod}#teklifler`, 'Teklifleri gör, soru sor')}` : ''}`)),
       mail(ayar().admin, `Özet gönderildi: ${doc.id} (${tk.length} teklif)`, sablon('Özet gönderildi', `<p>${esc(d.ad)} · ${esc(d.il)} · ${tk.length} teklif</p>`)),
     ]);
     await doc.ref.update({ durum: 'gonderildi', ozetZamani: FieldValue.serverTimestamp(), teklifSayisi: tk.length });

@@ -105,6 +105,31 @@ test('firma talebi reddedebilir, sonra fiyat veremez', async () => {
   assert.equal((await call('POST', '/api/teklif-ver', { body: { t: l[1], f: l[2], fiyat: 500000 } })).statusCode, 409);
 });
 
+test('müşteri e-postadaki bağlantıyla hesap açmadan teklifleri görür ve firmaya soru sorar', async () => {
+  const { db, call, mails } = kur();
+  await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik'], iller: ['Malatya'], abonelik: { durum: 'aktif' } });
+  await call('POST', '/api/teklif', { body: TALEP });
+  const [tid, td] = db.dump('talepler/').filter(([k]) => k.split('/').length === 2)[0]; const id = tid.split('/')[1];
+  const k = `${id}.${td.sahipKod}`;
+  assert.equal((await call('POST', '/api/firma/teklif', { tok: 'tok-firma', body: { talep: id, fiyat: '650.000', kdvDahil: true } })).statusCode, 200);
+  const tm = mails.find((m) => m.subject.includes('teklif'));
+  assert.ok(tm && tm.html.includes(`/hesabim/?bagla=${k}`) && tm.html.includes('soru'), 'teklif e-postasında girişsiz bağlantı var');
+  const g = await call('POST', '/api/talebim', { body: { k } });
+  assert.equal(g.statusCode, 200); assert.equal(g.body.talep.teklifler.length, 1); assert.equal(g.body.talep.teklifler[0].fiyat, 650000);
+  assert.equal((await call('POST', '/api/talebim', { body: { k: `${id}.yanlis` } })).statusCode, 404, 'yanlış anahtar reddedilir');
+  assert.equal((await call('POST', '/api/mesaj', { body: { k: `${id}.yanlis`, talep: id, firma: 'kardesler', metin: 'Nakliye dahil mi?' } })).statusCode, 401, 'yanlış anahtarla mesaj atılamaz');
+  const once = mails.length;
+  const ms = await call('POST', '/api/mesaj', { body: { k, talep: id, firma: 'kardesler', metin: 'Fiyata nakliye ve montaj dahil mi?' } });
+  assert.equal(ms.statusCode, 200, JSON.stringify(ms.body));
+  assert.ok(mails.slice(once).some((m) => m.to === 'satis@kardesler.com'), 'soru firmaya e-postayla gider');
+  const g2 = await call('POST', '/api/talebim', { body: { k } });
+  assert.equal(g2.body.talep.teklifler[0].mesajlar.at(-1).metin, 'Fiyata nakliye ve montaj dahil mi?');
+  // Firma yanıtlar, müşteriye e-posta gider
+  const once2 = mails.length;
+  assert.equal((await call('POST', '/api/firma/mesaj', { tok: 'tok-firma', body: { talep: id, metin: 'Nakliye dahil, montaj dahil.' } })).statusCode, 200);
+  assert.ok(mails.slice(once2).some((m) => m.to === TALEP.eposta && m.html.includes(`bagla=${k}`)), 'firma yanıtı müşteriye bağlantıyla gider');
+});
+
 test('firma sayaçları: ilgilenmiyorum iki kez basılsa da bir kez sayılır, liste davetinde yanıt verirse talep de sayılır', async () => {
   const { db, call } = kur();
   await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik'], iller: ['Malatya'], abonelik: { durum: 'aktif' } });

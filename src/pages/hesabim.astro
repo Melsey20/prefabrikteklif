@@ -46,7 +46,7 @@ import { SITE } from '../site.config';
     import { modeller, kart, TIP_IMG } from '../scripts/modeller';
     const { KOMISYON, SAAT } = (window as any).__HS;
     const $ = (id: string) => document.getElementById(id)!;
-    let veri: any = null; let uid = '';
+    let veri: any = null; let uid = ''; let misafirK = ''; // misafirK: e-postadaki bağlantıyla hesap açmadan görüntüleme
     const say = (k: string, v: number) => { const e = document.querySelector(`[data-say=${k}]`); if (e) e.textContent = String(v); };
     const sure = (ms: number) => { const s = Math.round((ms - Date.now()) / 3600000); return s > 0 ? (s >= 24 ? `${Math.floor(s / 24)} gün ${s % 24} saat` : `${s} saat`) : ''; };
     const baslik = (t: any) => [t.tipAd, t.oda, t.m2 ? `${t.m2} m²` : '', [t.il, t.ilce].filter(Boolean).join(' / ')].filter(Boolean).join(' · ');
@@ -70,12 +70,17 @@ import { SITE } from '../site.config';
       const ad = ['Talep gönderildi', n ? `${n} teklif geldi` : 'Firmalar fiyat veriyor', 'Karşılaştırma hazır'];
       return h('ol', { class: 'hs-ilerle' }, ...ad.map((a, i) => h('li', { class: i + 1 < adim ? 'ok' : i + 1 === adim ? 'now' : '' }, h('i', {}, i + 1 < adim ? '✓' : String(i + 1)), h('span', {}, a))));
     }
+    // Hazır sorular: müşteri tek dokunuşla detay isteyebilsin
+    const HAZIR = ['Fiyata nakliye ve montaj dahil mi?', 'Kat planı ve teknik şartnameyi gönderebilir misiniz?', 'Zemin betonu ve tesisat bağlantıları kime ait?', 'Ödeme planınız nasıl?', 'Üretim ve teslim ne kadar sürer?', 'Daha önce yaptığınız bir evi görebilir miyim?'];
     function mesajKutu(x: any, t: any) {
       const m = x.mesajlar || [];
-      const metin = h('textarea', { rows: 2, maxlength: 2000, placeholder: `${x.firma} firmasına sorunuzu yazın` }) as HTMLTextAreaElement;
-      return h('details', { class: 'mj-kutu', open: m.length > 0 }, h('summary', {}, `Firmayla mesajlaşma${m.length ? ` (${m.length})` : ''}`),
+      const metin = h('textarea', { rows: 3, maxlength: 2000, placeholder: `${x.firma} firmasına sorunuzu yazın ya da aşağıdan seçin` }) as HTMLTextAreaElement;
+      const yanitBekliyor = m.length && m[m.length - 1].kim === 'musteri';
+      return h('details', { class: 'mj-kutu', open: m.length > 0 }, h('summary', {}, `Firmaya soru sor / detay iste${m.length ? ` (${m.length})` : ''}`),
         h('div', { class: 'mj-liste' }, ...m.map((y: any) => h('div', { class: 'mj ' + (y.kim === 'musteri' ? 'ben' : '') }, h('span', { class: 'xs muted' }, (y.kim === 'musteri' ? 'Siz' : x.firma) + ' · ' + tarih(y.zaman)), h('p', {}, y.metin)))),
-        h('form', { class: 'mj-form', onsubmit: async (e: Event) => { e.preventDefault(); if (metin.value.trim().length < 2) return; try { await api('/api/mesaj', { talep: t.id, firma: x.firmaSlug, metin: metin.value }); toast('Mesajınız firmaya iletildi'); await yukle(); ac('talepler'); } catch (err: any) { toast(err.message); } } }, metin, h('button', { class: 'btn btn-p btn-s', type: 'submit' }, 'Gönder')));
+        yanitBekliyor ? h('span', { class: 'xs muted' }, 'Firmaya iletildi; yanıt verdiğinde e-postanıza bildirim gelir.') : null,
+        h('div', { class: 'mj-hazir' }, ...HAZIR.map((q) => h('button', { type: 'button', class: 'mj-cip', onclick: () => { metin.value = metin.value.trim() ? `${metin.value.trim()}\n${q}` : q; metin.focus(); } }, q))),
+        h('form', { class: 'mj-form', onsubmit: async (e: Event) => { e.preventDefault(); if (metin.value.trim().length < 2) return; const btn = (e.currentTarget as HTMLFormElement).querySelector('button')!; btn.disabled = true; try { await api('/api/mesaj', { talep: t.id, firma: x.firmaSlug, metin: metin.value, ...(misafirK ? { k: misafirK } : {}) }); toast('Sorunuz firmaya iletildi'); await yukle(); ac('talepler'); } catch (err: any) { toast(err.message); btn.disabled = false; } } }, metin, h('button', { class: 'btn btn-p btn-s', type: 'submit' }, 'Gönder')));
     }
     function teklifKart(x: any, en: boolean, t: any) {
       return h('article', { class: 'hs-tk' + (en ? ' en' : '') },
@@ -201,7 +206,15 @@ import { SITE } from '../site.config';
       genelCiz(); talepCiz(); surecCiz(); ayarCiz();
       if (!$('p-favoriler').hidden) favCiz();
     }
+    function misafirCiz() {
+      ['hs-ozet', 'hs-sek'].forEach((id) => ($(id).hidden = true));
+      document.querySelector('[data-cikis]')?.setAttribute('hidden', '');
+      $('hs-ad').textContent = 'Talebiniz ve gelen teklifler'; $('hs-eposta').textContent = 'Hesap açmadan görüntülüyorsunuz';
+      $('hs-uyari').replaceChildren(h('p', { class: 'note-a', style: { margin: 0 } }, 'Teklifleri inceleyebilir, firmaları arayabilir ve buradan soru sorabilirsiniz. Tüm taleplerinizi tek yerde görmek isterseniz ', h('a', { href: '/giris/?geri=' + encodeURIComponent('/hesabim/?bagla=' + misafirK + '#teklifler') }, 'giriş yapın ya da ücretsiz hesap açın'), '.'));
+      talepCiz(); ac('talepler');
+    }
     async function yukle() {
+      if (misafirK) { const r = await api('/api/talebim', { k: misafirK }); veri = { ben: null, talepler: [r.talep], siparisler: [], favoriler: [] }; misafirCiz(); return; }
       veri = await api('/api/hesap');
       try { localStorage.setItem('pt_hesap_' + uid, JSON.stringify({ t: Date.now(), veri })); } catch { /* */ }
       const yerel: string[] = JSON.parse(localStorage.getItem('pt_fav') || '[]');
@@ -211,7 +224,14 @@ import { SITE } from '../site.config';
     (async () => {
       try {
         const u = await kullanici();
-        if (!u) { location.href = '/giris/?geri=' + encodeURIComponent(location.pathname + location.search + location.hash); return; }
+        if (!u) {
+          // E-postadaki bağlantıyla gelen müşteri: hesap açmadan talebini, teklifleri görür ve firmalara soru sorar
+          const k = new URLSearchParams(location.search).get('bagla');
+          if (!k) { location.href = '/giris/?geri=' + encodeURIComponent(location.pathname + location.search + location.hash); return; }
+          misafirK = k;
+          try { await yukle(); } catch (e: any) { $('p-genel').hidden = true; $('p-talepler').hidden = false; $('p-talepler').replaceChildren(h('div', { class: 'empty' }, h('b', {}, e.message || 'Bağlantı açılamadı.'), h('p', { class: 'small', style: { margin: '6px 0 0' } }, 'Talebinizde yazdığınız e-posta ya da telefonla ', h('a', { href: '/giris/?geri=/hesabim/' }, 'giriş yaparak'), ' tekliflerinizi görebilirsiniz.'))); ['hs-ozet', 'hs-sek'].forEach((id) => ($(id).hidden = true)); }
+          return;
+        }
         uid = u.uid;
         // E-postadaki “Talebimi takip et” bağlantısı: talep bu hesaba eklenir (başka e-postayla gönderilmiş olsa da)
         const bagla = new URLSearchParams(location.search).get('bagla');
