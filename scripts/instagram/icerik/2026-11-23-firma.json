@@ -1,0 +1,39 @@
+{
+ "tarih": "2026-11-23",
+ "slot": "firma",
+ "saat": "19:00",
+ "not": "Kullanıcı isteği (22 Kasım 2026, canlı oturum): 'Prefabrik satan firmalar, panelimizde fiyat bekleyen +20 müşteri var' içeriği; 23 Kasım akşamının firma tasarımı + ek firma Reels'i. '20'den fazla müşteri' sayısı kullanıcının beyanıdır.",
+ "tasarimlar": [
+  {
+   "ad": "A",
+   "aciklama": "Prefabrik ev satan firmalar: panelimizde şu an fiyat bekleyen 20'den fazla müşteri var 📣 Prefabrik ev, çelik ev, tiny house, konteyner, ahşap ev ve bungalov üreticilerine açılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik.\n\nPrefabrikTeklif'te ev arayan formu bir kez doldurur; talep il, ev tipi, m², oda sayısı, bütçe, arsa durumu ve başlama zamanıyla firma panelinizdeki \"Teklif bekleyenler\" bölümüne gelir. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz yapı tiplerinden talep düşer; fiyat vermeden önce müşteriye panelden soru sorabilirsiniz.\n\nKayıt telefondan birkaç dakika sürer, yalnızca vergi levhası istenir. Kart bilgisi istenmez, satışınızdan komisyon alınmaz; başvurunuz en geç 1 iş günü içinde onaylanır ve bekleyen taleplere hemen fiyat verirsiniz.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👉 Ücretsiz başvuru: prefabrikteklif.com.tr/firmalar-icin\n📌 Kaydedin, başvururken lazım olacak.\n\n#prefabrikevfirmaları #prefabrikevüreticisi #prefabrikev #çelikevfirmaları #tinyhouse",
+   "alt_text": "Başlık: Panelimizde fiyat bekleyen 20+ müşteri var. Altında: Prefabrik ev satıyorsanız kaydolun; ilk 50 firmaya 1 ay ücretsiz. Mavi gökyüzü altında modern tek katlı bir prefabrik evin temsilî fotoğrafı; altta PrefabrikTeklif logosu ve prefabrikteklif.com.tr/firmalar-icin adresi.",
+   "kartlar": [
+    {
+     "sablon": "kapak",
+     "etiket": "Prefabrik satan firmalara",
+     "h": "Panelimizde fiyat bekleyen <em>20+ müşteri var.</em>",
+     "boy": 84,
+     "p": "Prefabrik ev satıyorsanız kaydolun; ilk 50 firmaya 1 ay ücretsiz.",
+     "img": "prefabrik-c-960.webp",
+     "alt_sol": "prefabrikteklif.com.tr/firmalar-icin",
+     "alt_sag": "Başvuru →"
+    }
+   ]
+  }
+ ],
+ "reels": [
+  {
+   "seslendirme": "Prefabrik ev satıyor musunuz? Panelimizde şu an yirmiden fazla müşteri fiyat bekliyor. Talepler il, ev tipi, metrekare ve bütçeyle gelir; size yalnızca hizmet verdiğiniz illerden düşer. İlk elli firmaya bir ay ücretsiz. Vergi levhanız yeter, kart bilgisi yok. Hemen kaydolun, başvuru bağlantısı profilde.",
+   "aciklama": "Prefabrik ev satıyor musunuz? Panelimizde şu an fiyat bekleyen 20'den fazla müşteri var; prefabrik ev, çelik ev ve tiny house firmaları için talepler hazır 👇\n\nTalepler il, ev tipi, metrekare, oda sayısı, bütçe ve arsa durumuyla firma panelinize gelir. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz yapı tiplerinden talep düşer.\n\nAçılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik. Kayıt için vergi levhası yeter; kart bilgisi istenmez, komisyon alınmaz. Başvurunuz en geç 1 iş günü içinde onaylanır.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👉 Ücretsiz başvuru: prefabrikteklif.com.tr/firmalar-icin\n📌 Kaydedin, başvururken lazım olacak.\n\n#prefabrikevfirmaları #prefabrikevüreticisi #çelikevfirmaları #prefabrikev",
+   "sahneler": [
+    {"t": 0, "tur": "foto", "h": "Prefabrik ev<br><em>satıyor musunuz?</em>", "img": "hero-960.webp"},
+    {"t": 3, "tur": "sayi", "h": "Panelde <em>fiyat bekleyen</em>", "n": 20, "birim": "müşteriden fazla", "cipler": ["Hemen fiyat verin"]},
+    {"t": 7, "tur": "liste", "h": "Talepler <em>panelinize gelir</em>", "ikon": "✓", "maddeler": ["İl ve ev tipi", "m² ve bütçe", "Yalnız sizin illeriniz"]},
+    {"t": 13, "tur": "liste", "h": "İlk 50 firmaya<br><em>1 ay ücretsiz</em>", "ikon": "✓", "maddeler": ["Vergi levhası yeter", "Kart bilgisi yok"]},
+    {"t": 18, "tur": "son", "h": "Hemen <em>kaydolun.</em>", "p": "Başvuru: prefabrikteklif.com.tr/firmalar-icin"}
+   ],
+   "sure": 22
+  }
+ ]
+}
