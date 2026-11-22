@@ -1,0 +1,56 @@
+{
+ "tarih": "2026-11-22",
+ "slot": "sabah",
+ "saat": "10:00",
+ "tasarimlar": [
+  {
+   "ad": "A",
+   "aciklama": "Prefabrik ev kaç günde kurulur? \"3 günde kurulur\" sözü yalnızca montaj için doğru; prefabrik ev yapımında siparişten anahtara kadar geçen süreyi aşama aşama anlattık 👇\n\nProje ve ruhsat sürecin en değişken kısmıdır, belediyenin yoğunluğuna bağlıdır. Firma evi üretim sırasına alır; yoğun sezonda (ilkbahar–yaz) sıra uzayabilir. Ev üretilirken arsada temel hazırlanır ve betonun kürlenmesine süre bırakılır. Sahadaki montaj ise evin büyüklüğüne ve ekibe göre genellikle birkaç gün sürer; ardından elektrik, su, kanalizasyon bağlantıları ve iskân gelir.\n\nKışın da kurulabilir; ancak temel betonu soğukta özen ister, kar ve yağış montajı geciktirebilir. Gecikmemek için ruhsata evi seçmeden önce başlayın, arsa yolunun tır geçişine uygun olduğunu kontrol edin, temel ölçülerini firmadan yazılı alın ve teslim süresini gün olarak sözleşmeye yazdırın.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; firmalar teslim süresini gün olarak yazar, teklifler 48 saatte tek tabloda gelir.\n\n📌 Kaydedin, evinizi planlarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevkurulumu #prefabrikevyapımı #prefabrikevfiyatları",
+   "kartlar": [
+    {
+     "sablon": "kapak",
+     "etiket": "Süreç rehberi",
+     "h": "Prefabrik ev <em>kaç günde kurulur?</em>",
+     "boy": 86,
+     "p": "“3 günde kurulur” yalnızca montaj için doğru. Kaydırın.",
+     "img": "montaj-1344.webp"
+    },
+    {
+     "sablon": "liste",
+     "etiket": "2 / 4",
+     "h": "Siparişten <em>anahtara</em>",
+     "boy": 84,
+     "p": "Toplam süreyi asıl ruhsat, üretim sırası ve temel belirler.",
+     "maddeler": [
+      ["Proje ve ruhsat", "En değişken aşama; belediyenin yoğunluğuna bağlı."],
+      ["Üretim", "Yoğun sezonda (ilkbahar–yaz) sıra uzayabilir."],
+      ["Temel", "Ev üretilirken arsada hazırlanır; beton kürlenmeli."],
+      ["Montaj", "Evin büyüklüğüne ve ekibe göre genellikle birkaç gün."]
+     ]
+    },
+    {
+     "sablon": "kontrol",
+     "etiket": "3 / 4",
+     "h": "Gecikmemek için <em>önceden yapın</em>",
+     "p": "Kışın da kurulur; kar ve yağış montajı geciktirebilir.",
+     "maddeler": [
+      "Ruhsata erken başlayın",
+      "Tır yolunu kontrol edin",
+      "Temel ölçüsü yazılı",
+      "Teslim günü sözleşmede"
+     ],
+     "img": "ic-mekan-1344.webp"
+    },
+    {
+     "sablon": "cta",
+     "etiket": "4 / 4",
+     "h": "Teslim sürelerini <em>yan yana görün.</em>",
+     "p": "Firmalar teslim süresini gün olarak yazar; teklifler 48 saatte.",
+     "img": "prefabrik-960.webp",
+     "cipler": ["Ücretsiz", "{firmaSayisi} firma", "{modelSayisi} model"]
+    }
+   ]
+  }
+ ],
+ "reels": []
+}
