@@ -1,131 +1,137 @@
 {
- "tarih": "2026-11-22",
- "slot": "aksam",
- "saat": "19:00",
- "tasarimlar": [
-  {
-   "ad": "A",
-   "aciklama": "Çelik ev fiyatları 2026: m² kaç TL? Hafif çelik ev ve çelik konstrüksiyon ev fiyatları için güncel listemizden başlangıç, ortanca ve metrekareye göre kaba hesap 👇\n\n21 Kasım 2026 itibarıyla listemizde çelik ev 575.000 TL'den başlıyor; ortanca model 1.865.000 TL, metrekare başına ortanca fiyat 17.000 TL (107 model, 22 firma). Kaba hesap (m² × ortanca m² fiyatı): 80 m² yaklaşık 1.360.000 TL, 120 m² yaklaşık 2.040.000 TL, 150 m² yaklaşık 2.550.000 TL. Gerçek fiyat; profil, yalıtım, iç bitiş ve teslim şekline göre değişir.\n\nFiyatı karşılaştırmadan önce sorun: Profil kalınlığı ve galvaniz kaplama sınıfı ne? Dış cephede kesintisiz yalıtım var mı? Temel, nakliye ve montaj fiyata dahil mi?\n\nPrefabrikTeklif çelik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; formu bir kez doldurun, teklifler 48 saatte gelsin.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#çelikevfiyatları #çelikev #hafifçelikev #çelikkonstrüksiyonev",
-   "kartlar": [
+  "tarih": "2026-11-22",
+  "slot": "aksam",
+  "saat": "19:00",
+  "tasarimlar": [
     {
-     "sablon": "kapak",
-     "etiket": "Fiyatlar 2026",
-     "h": "Çelik ev fiyatları <em>m² kaç TL?</em>",
-     "boy": 86,
-     "p": "21 Kasım 2026 itibarıyla listemizdeki fiyatlarla. Kaydırın.",
-     "img": "celik-960.webp"
-    },
-    {
-     "sablon": "liste",
-     "etiket": "2 / 5",
-     "h": "Listemizde <em>çelik ev</em>",
-     "boy": 84,
-     "p": "21 Kasım 2026 itibarıyla. Ortanca = sıralamada ortadaki fiyat.",
-     "maddeler": [
-      [
-       "Başlangıç",
-       "575.000 TL'den"
-      ],
-      [
-       "Ortanca model",
-       "1.865.000 TL"
-      ],
-      [
-       "m² başına",
-       "17.000 TL"
+      "ad": "A",
+      "aciklama": "Çelik ev fiyatları 2026: m² kaç TL? Hafif çelik ev ve çelik konstrüksiyon ev fiyatları için güncel listemizden başlangıç, ortanca ve metrekareye göre kaba hesap 👇\n\n21 Kasım 2026 itibarıyla listemizde çelik ev 575.000 TL'den başlıyor; ortanca model 1.865.000 TL, metrekare başına ortanca fiyat 17.000 TL (107 model, 22 firma). Kaba hesap (m² × ortanca m² fiyatı): 80 m² yaklaşık 1.360.000 TL, 120 m² yaklaşık 2.040.000 TL, 150 m² yaklaşık 2.550.000 TL. Gerçek fiyat; profil, yalıtım, iç bitiş ve teslim şekline göre değişir.\n\nFiyatı karşılaştırmadan önce sorun: Profil kalınlığı ve galvaniz kaplama sınıfı ne? Dış cephede kesintisiz yalıtım var mı? Temel, nakliye ve montaj fiyata dahil mi?\n\nPrefabrikTeklif çelik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; formu bir kez doldurun, teklifler 48 saatte gelsin.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#çelikevfiyatları #çelikev #hafifçelikev #çelikkonstrüksiyonev",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Fiyatlar 2026",
+          "h": "Çelik ev fiyatları <em>m² kaç TL?</em>",
+          "boy": 86,
+          "p": "21 Kasım 2026 itibarıyla listemizdeki fiyatlarla. Kaydırın.",
+          "img": "celik-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 5",
+          "h": "Listemizde <em>çelik ev</em>",
+          "boy": 84,
+          "p": "21 Kasım 2026 itibarıyla. Ortanca = sıralamada ortadaki fiyat.",
+          "maddeler": [
+            [
+              "Başlangıç",
+              "575.000 TL'den"
+            ],
+            [
+              "Ortanca model",
+              "1.865.000 TL"
+            ],
+            [
+              "m² başına",
+              "17.000 TL"
+            ]
+          ]
+        },
+        {
+          "sablon": "liste",
+          "etiket": "3 / 5",
+          "h": "Metrekareye göre <em>kaba hesap</em>",
+          "boy": 84,
+          "p": "m² × ortanca m² fiyatı (17.000 TL). Temel ve nakliyeyi ayrıca sorun.",
+          "maddeler": [
+            [
+              "80 m²",
+              "Yaklaşık 1.360.000 TL"
+            ],
+            [
+              "120 m²",
+              "Yaklaşık 2.040.000 TL"
+            ],
+            [
+              "150 m²",
+              "Yaklaşık 2.550.000 TL"
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "4 / 5",
+          "h": "Fiyatı karşılaştırmadan <em>bunları sorun</em>",
+          "p": "Aynı kapsamla gelen teklifler kıyaslanır.",
+          "maddeler": [
+            "Profil kalınlığı",
+            "Kesintisiz yalıtım",
+            "Temel dahil mi?",
+            "Nakliye ve montaj"
+          ],
+          "img": "celik-c-960.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "5 / 5",
+          "h": "Çelik ev tekliflerini <em>yan yana görün.</em>",
+          "p": "Formu bir kez doldurun; teklifler 48 saatte gelsin.",
+          "img": "celik-b-960.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
+        }
       ]
-     ]
-    },
-    {
-     "sablon": "liste",
-     "etiket": "3 / 5",
-     "h": "Metrekareye göre <em>kaba hesap</em>",
-     "boy": 84,
-     "p": "m² × ortanca m² fiyatı (17.000 TL). Temel ve nakliyeyi ayrıca sorun.",
-     "maddeler": [
-      [
-       "80 m²",
-       "Yaklaşık 1.360.000 TL"
-      ],
-      [
-       "120 m²",
-       "Yaklaşık 2.040.000 TL"
-      ],
-      [
-       "150 m²",
-       "Yaklaşık 2.550.000 TL"
-      ]
-     ]
-    },
-    {
-     "sablon": "kontrol",
-     "etiket": "4 / 5",
-     "h": "Fiyatı karşılaştırmadan <em>bunları sorun</em>",
-     "p": "Aynı kapsamla gelen teklifler kıyaslanır.",
-     "maddeler": [
-      "Profil kalınlığı",
-      "Kesintisiz yalıtım",
-      "Temel dahil mi?",
-      "Nakliye ve montaj"
-     ],
-     "img": "celik-c-960.webp"
-    },
-    {
-     "sablon": "cta",
-     "etiket": "5 / 5",
-     "h": "Çelik ev tekliflerini <em>yan yana görün.</em>",
-     "p": "Formu bir kez doldurun; teklifler 48 saatte gelsin.",
-     "img": "celik-b-960.webp",
-     "cipler": [
-      "Ücretsiz",
-      "{firmaSayisi} firma",
-      "{modelSayisi} model"
-     ]
     }
-   ]
-  }
- ],
- "reels": [
-  {
-   "seslendirme": "Prefabrik ev depreme dayanıklı mı? Doğru tasarlanıp doğru kurulursa evet; ama prefabrik olması tek başına garanti değil. Hafif yapıda deprem kuvveti genellikle daha düşük olur. Statik proje deprem yönetmeliğine uygun ve arsanıza özel olsun; zemin etüdü yaptırın. Temel çoğu teklifte dahil değil, yazılı sorun. Bağlantı profilde.",
-   "aciklama": "Prefabrik ev depreme dayanıklı mı? Kısa cevap: Doğru tasarlanıp doğru kurulan prefabrik ev depreme dayanıklıdır; ama \"prefabrik\" olması tek başına garanti değildir 👇\n\nHafif yapılarda deprem kuvvetleri kütleyle ilişkili olduğu için genellikle daha düşüktür; çelik iskeletli prefabrik ve hafif çelik evler betonarmeye göre çok daha hafiftir. Güvenliği asıl belirleyen ise doğru tasarım, kaliteli malzeme, sağlam bağlantılar ve zemine uygun temeldir.\n\nFirmadan yazılı isteyin: Türkiye Bina Deprem Yönetmeliği'ne uygun ve arsanıza özel hazırlanmış statik proje, zemin etüdü, ankraj ve bağlantı detayları. Temel çoğu teklifte fiyata dahil değildir; kimin yapacağını netleştirin.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; bu soruları teklif formundaki notunuza yazın, cevaplar tekliflerle gelsin.\n\n📌 Kaydedin, ev seçerken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #depremedayanıklıev #çelikev #prefabrikevfiyatları",
-   "sahneler": [
+  ],
+  "reels": [
     {
-     "t": 0,
-     "tur": "foto",
-     "h": "Prefabrik ev<br><em>depreme dayanıklı mı?</em>",
-     "img": "prefabrik-b-960.webp"
-    },
-    {
-     "t": 3,
-     "tur": "foto",
-     "h": "Doğru kurulursa <em>evet.</em>",
-     "img": "montaj-960.webp"
-    },
-    {
-     "t": 8,
-     "tur": "foto",
-     "h": "Hafif yapı <em>avantajdır.</em>",
-     "img": "celik-960.webp"
-    },
-    {
-     "t": 11,
-     "tur": "liste",
-     "h": "Yazılı <em>isteyin</em>",
-     "ikon": "✓",
-     "maddeler": [
-      "Yönetmeliğe uygun proje",
-      "Arsaya özel statik",
-      "Zemin etüdü"
-     ]
-    },
-    {
-     "t": 16,
-     "tur": "son",
-     "h": "Temel çoğu teklifte <em>dahil değil.</em>"
+      "seslendirme": "Prefabrik ev depreme dayanıklı mı? Doğru tasarlanıp doğru kurulursa evet; ama prefabrik olması tek başına garanti değil. Hafif yapıda deprem kuvveti genellikle daha düşük olur. Statik proje deprem yönetmeliğine uygun ve arsanıza özel olsun; zemin etüdü yaptırın. Temel çoğu teklifte dahil değil, yazılı sorun. Bağlantı profilde.",
+      "aciklama": "Prefabrik ev depreme dayanıklı mı? Kısa cevap: Doğru tasarlanıp doğru kurulan prefabrik ev depreme dayanıklıdır; ama \"prefabrik\" olması tek başına garanti değildir 👇\n\nHafif yapılarda deprem kuvvetleri kütleyle ilişkili olduğu için genellikle daha düşüktür; çelik iskeletli prefabrik ve hafif çelik evler betonarmeye göre çok daha hafiftir. Güvenliği asıl belirleyen ise doğru tasarım, kaliteli malzeme, sağlam bağlantılar ve zemine uygun temeldir.\n\nFirmadan yazılı isteyin: Türkiye Bina Deprem Yönetmeliği'ne uygun ve arsanıza özel hazırlanmış statik proje, zemin etüdü, ankraj ve bağlantı detayları. Temel çoğu teklifte fiyata dahil değildir; kimin yapacağını netleştirin.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; bu soruları teklif formundaki notunuza yazın, cevaplar tekliflerle gelsin.\n\n📌 Kaydedin, ev seçerken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #depremedayanıklıev #çelikev #prefabrikevfiyatları",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Prefabrik ev<br><em>depreme dayanıklı mı?</em>",
+          "img": "prefabrik-b-960.webp"
+        },
+        {
+          "t": 3,
+          "tur": "foto",
+          "h": "Doğru kurulursa <em>evet.</em>",
+          "img": "montaj-960.webp"
+        },
+        {
+          "t": 8,
+          "tur": "foto",
+          "h": "Hafif yapı <em>avantajdır.</em>",
+          "img": "celik-960.webp"
+        },
+        {
+          "t": 11,
+          "tur": "liste",
+          "h": "Yazılı <em>isteyin</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "Yönetmeliğe uygun proje",
+            "Arsaya özel statik",
+            "Zemin etüdü"
+          ]
+        },
+        {
+          "t": 16,
+          "tur": "son",
+          "h": "Temel çoğu teklifte <em>dahil değil.</em>"
+        }
+      ],
+      "sure": 20,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-22-aksam-1.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "IuRRIAcbQK5AQk1XevPj"
+      }
     }
-   ],
-   "sure": 20
-  }
- ]
+  ]
 }
