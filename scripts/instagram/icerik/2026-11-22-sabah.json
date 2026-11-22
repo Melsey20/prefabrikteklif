@@ -22,10 +22,22 @@
      "boy": 84,
      "p": "Toplam süreyi asıl ruhsat, üretim sırası ve temel belirler.",
      "maddeler": [
-      ["Proje ve ruhsat", "En değişken aşama; belediyenin yoğunluğuna bağlı."],
-      ["Üretim", "Yoğun sezonda (ilkbahar–yaz) sıra uzayabilir."],
-      ["Temel", "Ev üretilirken arsada hazırlanır; beton kürlenmeli."],
-      ["Montaj", "Evin büyüklüğüne ve ekibe göre genellikle birkaç gün."]
+      [
+       "Proje ve ruhsat",
+       "En değişken aşama; belediyenin yoğunluğuna bağlı."
+      ],
+      [
+       "Üretim",
+       "Yoğun sezonda (ilkbahar–yaz) sıra uzayabilir."
+      ],
+      [
+       "Temel",
+       "Ev üretilirken arsada hazırlanır; beton kürlenmeli."
+      ],
+      [
+       "Montaj",
+       "Evin büyüklüğüne ve ekibe göre genellikle birkaç gün."
+      ]
      ]
     },
     {
@@ -47,10 +59,28 @@
      "h": "Teslim sürelerini <em>yan yana görün.</em>",
      "p": "Firmalar teslim süresini gün olarak yazar; teklifler 48 saatte.",
      "img": "prefabrik-960.webp",
-     "cipler": ["Ücretsiz", "{firmaSayisi} firma", "{modelSayisi} model"]
+     "cipler": [
+      "Ücretsiz",
+      "{firmaSayisi} firma",
+      "{modelSayisi} model"
+     ]
     }
    ]
   }
  ],
- "reels": []
+ "reels": [],
+ "yayin": {
+  "hesap": "17841474767654199",
+  "durum": "yayın bekliyor",
+  "medya": {
+   "tasarim": [
+    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/b4be8b3a-4d01-4303-94a9-2d236930f031.jpg",
+    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/51a24371-4167-41c1-81a2-8713f4dbc2b6.jpg",
+    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/2b2e28c1-8c4f-4628-9daf-47b7d14043f8.jpg",
+    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/74501ad2-151c-4552-9a96-548cb132e459.jpg"
+   ],
+   "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/4425acea-4d0f-4c48-8164-f05370b65b92.jpg",
+   "reels": []
+  }
+ }
 }
