@@ -1,86 +1,92 @@
 {
- "tarih": "2026-11-22",
- "slot": "sabah",
- "saat": "10:00",
- "tasarimlar": [
-  {
-   "ad": "A",
-   "aciklama": "Prefabrik ev kaç günde kurulur? \"3 günde kurulur\" sözü yalnızca montaj için doğru; prefabrik ev yapımında siparişten anahtara kadar geçen süreyi aşama aşama anlattık 👇\n\nProje ve ruhsat sürecin en değişken kısmıdır, belediyenin yoğunluğuna bağlıdır. Firma evi üretim sırasına alır; yoğun sezonda (ilkbahar–yaz) sıra uzayabilir. Ev üretilirken arsada temel hazırlanır ve betonun kürlenmesine süre bırakılır. Sahadaki montaj ise evin büyüklüğüne ve ekibe göre genellikle birkaç gün sürer; ardından elektrik, su, kanalizasyon bağlantıları ve iskân gelir.\n\nKışın da kurulabilir; ancak temel betonu soğukta özen ister, kar ve yağış montajı geciktirebilir. Gecikmemek için ruhsata evi seçmeden önce başlayın, arsa yolunun tır geçişine uygun olduğunu kontrol edin, temel ölçülerini firmadan yazılı alın ve teslim süresini gün olarak sözleşmeye yazdırın.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; firmalar teslim süresini gün olarak yazar, teklifler 48 saatte tek tabloda gelir.\n\n📌 Kaydedin, evinizi planlarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevkurulumu #prefabrikevyapımı #prefabrikevfiyatları",
-   "kartlar": [
+  "tarih": "2026-11-22",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
     {
-     "sablon": "kapak",
-     "etiket": "Süreç rehberi",
-     "h": "Prefabrik ev <em>kaç günde kurulur?</em>",
-     "boy": 86,
-     "p": "“3 günde kurulur” yalnızca montaj için doğru. Kaydırın.",
-     "img": "montaj-1344.webp"
-    },
-    {
-     "sablon": "liste",
-     "etiket": "2 / 4",
-     "h": "Siparişten <em>anahtara</em>",
-     "boy": 84,
-     "p": "Toplam süreyi asıl ruhsat, üretim sırası ve temel belirler.",
-     "maddeler": [
-      [
-       "Proje ve ruhsat",
-       "En değişken aşama; belediyenin yoğunluğuna bağlı."
-      ],
-      [
-       "Üretim",
-       "Yoğun sezonda (ilkbahar–yaz) sıra uzayabilir."
-      ],
-      [
-       "Temel",
-       "Ev üretilirken arsada hazırlanır; beton kürlenmeli."
-      ],
-      [
-       "Montaj",
-       "Evin büyüklüğüne ve ekibe göre genellikle birkaç gün."
+      "ad": "A",
+      "aciklama": "Prefabrik ev kaç günde kurulur? \"3 günde kurulur\" sözü yalnızca montaj için doğru; prefabrik ev yapımında siparişten anahtara kadar geçen süreyi aşama aşama anlattık 👇\n\nProje ve ruhsat sürecin en değişken kısmıdır, belediyenin yoğunluğuna bağlıdır. Firma evi üretim sırasına alır; yoğun sezonda (ilkbahar–yaz) sıra uzayabilir. Ev üretilirken arsada temel hazırlanır ve betonun kürlenmesine süre bırakılır. Sahadaki montaj ise evin büyüklüğüne ve ekibe göre genellikle birkaç gün sürer; ardından elektrik, su, kanalizasyon bağlantıları ve iskân gelir.\n\nKışın da kurulabilir; ancak temel betonu soğukta özen ister, kar ve yağış montajı geciktirebilir. Gecikmemek için ruhsata evi seçmeden önce başlayın, arsa yolunun tır geçişine uygun olduğunu kontrol edin, temel ölçülerini firmadan yazılı alın ve teslim süresini gün olarak sözleşmeye yazdırın.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; firmalar teslim süresini gün olarak yazar, teklifler 48 saatte tek tabloda gelir.\n\n📌 Kaydedin, evinizi planlarken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevkurulumu #prefabrikevyapımı #prefabrikevfiyatları",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Süreç rehberi",
+          "h": "Prefabrik ev <em>kaç günde kurulur?</em>",
+          "boy": 86,
+          "p": "“3 günde kurulur” yalnızca montaj için doğru. Kaydırın.",
+          "img": "montaj-1344.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Siparişten <em>anahtara</em>",
+          "boy": 84,
+          "p": "Toplam süreyi asıl ruhsat, üretim sırası ve temel belirler.",
+          "maddeler": [
+            [
+              "Proje ve ruhsat",
+              "En değişken aşama; belediyenin yoğunluğuna bağlı."
+            ],
+            [
+              "Üretim",
+              "Yoğun sezonda (ilkbahar–yaz) sıra uzayabilir."
+            ],
+            [
+              "Temel",
+              "Ev üretilirken arsada hazırlanır; beton kürlenmeli."
+            ],
+            [
+              "Montaj",
+              "Evin büyüklüğüne ve ekibe göre genellikle birkaç gün."
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Gecikmemek için <em>önceden yapın</em>",
+          "p": "Kışın da kurulur; kar ve yağış montajı geciktirebilir.",
+          "maddeler": [
+            "Ruhsata erken başlayın",
+            "Tır yolunu kontrol edin",
+            "Temel ölçüsü yazılı",
+            "Teslim günü sözleşmede"
+          ],
+          "img": "ic-mekan-1344.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Teslim sürelerini <em>yan yana görün.</em>",
+          "p": "Firmalar teslim süresini gün olarak yazar; teklifler 48 saatte.",
+          "img": "prefabrik-960.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
+        }
       ]
-     ]
-    },
-    {
-     "sablon": "kontrol",
-     "etiket": "3 / 4",
-     "h": "Gecikmemek için <em>önceden yapın</em>",
-     "p": "Kışın da kurulur; kar ve yağış montajı geciktirebilir.",
-     "maddeler": [
-      "Ruhsata erken başlayın",
-      "Tır yolunu kontrol edin",
-      "Temel ölçüsü yazılı",
-      "Teslim günü sözleşmede"
-     ],
-     "img": "ic-mekan-1344.webp"
-    },
-    {
-     "sablon": "cta",
-     "etiket": "4 / 4",
-     "h": "Teslim sürelerini <em>yan yana görün.</em>",
-     "p": "Firmalar teslim süresini gün olarak yazar; teklifler 48 saatte.",
-     "img": "prefabrik-960.webp",
-     "cipler": [
-      "Ücretsiz",
-      "{firmaSayisi} firma",
-      "{modelSayisi} model"
-     ]
     }
-   ]
+  ],
+  "reels": [],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "yayında (Meta Graph API): 1/2 öğe yayınlandı",
+    "medya": {
+      "tasarim": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/b4be8b3a-4d01-4303-94a9-2d236930f031.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/51a24371-4167-41c1-81a2-8713f4dbc2b6.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/2b2e28c1-8c4f-4628-9daf-47b7d14043f8.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/74501ad2-151c-4552-9a96-548cb132e459.jpg"
+      ],
+      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/4425acea-4d0f-4c48-8164-f05370b65b92.jpg",
+      "reels": []
+    },
+    "yayinlanan": {
+      "tasarim": {
+        "id": "18121649846032941",
+        "zaman": "2026-11-22 10:00"
+      }
+    }
   }
- ],
- "reels": [],
- "yayin": {
-  "hesap": "17841474767654199",
-  "durum": "yayın bekliyor",
-  "medya": {
-   "tasarim": [
-    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/b4be8b3a-4d01-4303-94a9-2d236930f031.jpg",
-    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/51a24371-4167-41c1-81a2-8713f4dbc2b6.jpg",
-    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/2b2e28c1-8c4f-4628-9daf-47b7d14043f8.jpg",
-    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/74501ad2-151c-4552-9a96-548cb132e459.jpg"
-   ],
-   "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/4425acea-4d0f-4c48-8164-f05370b65b92.jpg",
-   "reels": []
-  }
- }
 }
