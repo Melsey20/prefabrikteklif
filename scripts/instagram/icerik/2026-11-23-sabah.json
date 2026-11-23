@@ -1,82 +1,88 @@
 {
- "tarih": "2026-11-23",
- "slot": "sabah",
- "saat": "10:00",
- "tasarimlar": [
-  {
-   "ad": "A",
-   "aciklama": "En ucuz prefabrik ev fiyatları 2026: en ucuz prefabrik ev kaç TL, ortanca model ne kadar? Güncel listemizden prefabrik ev fiyatları 👇\n\n21 Kasım 2026 itibarıyla listemizde prefabrik ev 225.000 TL'den başlıyor; ortanca model 826.000 TL, metrekare başına ortanca fiyat 10.000 TL (413 model, 40 firma). Gerçek fiyat; metrekare, panel, yalıtım, iç bitiş ve teslim şekline göre değişir.\n\nUcuz fiyatı görünce önce sorun: Temel (zemin betonu) dahil mi? Listemizde bu konuda bilgi veren 222 fiyatlı modelin 220'sinde zemin betonu fiyata dahil değil. Nakliye ve montaj, iç bitiş ve KDV'nin dahil olup olmadığını da teklifte yazılı isteyin.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; formu bir kez doldurun, teklifler 48 saatte gelsin.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevfiyatları #enucuzprefabrikev #prefabrikev #ucuzprefabrikev",
-   "kartlar": [
+  "tarih": "2026-11-23",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
     {
-     "sablon": "kapak",
-     "etiket": "Fiyatlar 2026",
-     "h": "En ucuz prefabrik ev <em>kaç TL?</em>",
-     "boy": 86,
-     "p": "21 Kasım 2026 itibarıyla listemizdeki fiyatlarla. Kaydırın.",
-     "img": "prefabrik-960.webp"
-    },
-    {
-     "sablon": "liste",
-     "etiket": "2 / 4",
-     "h": "Listemizde <em>prefabrik ev</em>",
-     "boy": 84,
-     "p": "21 Kasım 2026 itibarıyla. Ortanca = sıralamada ortadaki fiyat.",
-     "maddeler": [
-      [
-       "En ucuz model",
-       "225.000 TL'den"
-      ],
-      [
-       "Ortanca model",
-       "826.000 TL"
-      ],
-      [
-       "m² başına",
-       "10.000 TL"
+      "ad": "A",
+      "aciklama": "En ucuz prefabrik ev fiyatları 2026: en ucuz prefabrik ev kaç TL, ortanca model ne kadar? Güncel listemizden prefabrik ev fiyatları 👇\n\n21 Kasım 2026 itibarıyla listemizde prefabrik ev 225.000 TL'den başlıyor; ortanca model 826.000 TL, metrekare başına ortanca fiyat 10.000 TL (413 model, 40 firma). Gerçek fiyat; metrekare, panel, yalıtım, iç bitiş ve teslim şekline göre değişir.\n\nUcuz fiyatı görünce önce sorun: Temel (zemin betonu) dahil mi? Listemizde bu konuda bilgi veren 222 fiyatlı modelin 220'sinde zemin betonu fiyata dahil değil. Nakliye ve montaj, iç bitiş ve KDV'nin dahil olup olmadığını da teklifte yazılı isteyin.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri size getirir; formu bir kez doldurun, teklifler 48 saatte gelsin.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevfiyatları #enucuzprefabrikev #prefabrikev #ucuzprefabrikev",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Fiyatlar 2026",
+          "h": "En ucuz prefabrik ev <em>kaç TL?</em>",
+          "boy": 86,
+          "p": "21 Kasım 2026 itibarıyla listemizdeki fiyatlarla. Kaydırın.",
+          "img": "prefabrik-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Listemizde <em>prefabrik ev</em>",
+          "boy": 84,
+          "p": "21 Kasım 2026 itibarıyla. Ortanca = sıralamada ortadaki fiyat.",
+          "maddeler": [
+            [
+              "En ucuz model",
+              "225.000 TL'den"
+            ],
+            [
+              "Ortanca model",
+              "826.000 TL"
+            ],
+            [
+              "m² başına",
+              "10.000 TL"
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Önce <em>bunları sorun</em>",
+          "p": "Bilgi veren 222 modelin 220'sinde zemin betonu hariç.",
+          "maddeler": [
+            "Temel dahil mi?",
+            "Nakliye ve montaj",
+            "İç bitiş",
+            "KDV dahil mi?"
+          ],
+          "img": "ic-mekan-1344.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Fiyatları <em>karşılaştırın.</em>",
+          "p": "Formu bir kez doldurun; teklifler 48 saatte gelsin.",
+          "img": "celik-b-960.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
+        }
       ]
-     ]
-    },
-    {
-     "sablon": "kontrol",
-     "etiket": "3 / 4",
-     "h": "Önce <em>bunları sorun</em>",
-     "p": "Bilgi veren 222 modelin 220'sinde zemin betonu hariç.",
-     "maddeler": [
-      "Temel dahil mi?",
-      "Nakliye ve montaj",
-      "İç bitiş",
-      "KDV dahil mi?"
-     ],
-     "img": "ic-mekan-1344.webp"
-    },
-    {
-     "sablon": "cta",
-     "etiket": "4 / 4",
-     "h": "Fiyatları <em>karşılaştırın.</em>",
-     "p": "Formu bir kez doldurun; teklifler 48 saatte gelsin.",
-     "img": "celik-b-960.webp",
-     "cipler": [
-      "Ücretsiz",
-      "{firmaSayisi} firma",
-      "{modelSayisi} model"
-     ]
     }
-   ]
+  ],
+  "reels": [],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "yayında (Meta Graph API): 1/2 öğe yayınlandı",
+    "medya": {
+      "tasarim": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/2be69c2e-63b7-4546-903a-8c4a5f400a16.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/57061f63-443c-4bdc-8f14-dcddb9a583fe.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/9b8c32f0-3fd8-4800-bb8d-d8e1f33446ca.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/78efd42b-cf15-4689-b820-8c1f6affe60a.jpg"
+      ],
+      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/056ad29b-7aea-4865-8772-5e122fd81dc9.jpg",
+      "reels": []
+    },
+    "yayinlanan": {
+      "tasarim": {
+        "id": "18118546319588189",
+        "zaman": "2026-11-23 11:42"
+      }
+    }
   }
- ],
- "reels": [],
- "yayin": {
-  "hesap": "17841474767654199",
-  "durum": "yayın bekliyor",
-  "medya": {
-   "tasarim": [
-    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/2be69c2e-63b7-4546-903a-8c4a5f400a16.jpg",
-    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/57061f63-443c-4bdc-8f14-dcddb9a583fe.jpg",
-    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/9b8c32f0-3fd8-4800-bb8d-d8e1f33446ca.jpg",
-    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/78efd42b-cf15-4689-b820-8c1f6affe60a.jpg"
-   ],
-   "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/056ad29b-7aea-4865-8772-5e122fd81dc9.jpg",
-   "reels": []
-  }
- }
 }
