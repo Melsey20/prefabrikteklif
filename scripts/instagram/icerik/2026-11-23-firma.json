@@ -1,95 +1,101 @@
 {
- "tarih": "2026-11-23",
- "slot": "firma",
- "saat": "19:00",
- "not": "Kullanıcı isteği (22 Kasım 2026, canlı oturum): 'Prefabrik satan firmalar, panelimizde fiyat bekleyen +20 müşteri var' içeriği; 23 Kasım akşamının firma tasarımı + ek firma Reels'i. '20'den fazla müşteri' sayısı kullanıcının beyanıdır.",
- "tasarimlar": [
-  {
-   "ad": "A",
-   "aciklama": "Prefabrik ev satan firmalar: panelimizde şu an fiyat bekleyen 20'den fazla müşteri var 📣 Prefabrik ev, çelik ev, tiny house, konteyner, ahşap ev ve bungalov üreticilerine açılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik.\n\nPrefabrikTeklif'te ev arayan formu bir kez doldurur; talep il, ev tipi, m², oda sayısı, bütçe, arsa durumu ve başlama zamanıyla firma panelinizdeki \"Teklif bekleyenler\" bölümüne gelir. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz yapı tiplerinden talep düşer; fiyat vermeden önce müşteriye panelden soru sorabilirsiniz.\n\nKayıt telefondan birkaç dakika sürer, yalnızca vergi levhası istenir. Kart bilgisi istenmez, satışınızdan komisyon alınmaz; başvurunuz en geç 1 iş günü içinde onaylanır ve bekleyen taleplere hemen fiyat verirsiniz.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👉 Ücretsiz başvuru: prefabrikteklif.com.tr/firmalar-icin\n📌 Kaydedin, başvururken lazım olacak.\n\n#prefabrikevfirmaları #prefabrikevüreticisi #prefabrikev #çelikevfirmaları #tinyhouse",
-   "alt_text": "Üstte: Prefabrik satan firmalara. Başlık: Fiyat bekleyen 20+ müşteri var. Altında: Panelimizde talepler hazır; prefabrik ev satıyorsanız kaydolun, ilk 50 firmaya 1 ay ücretsiz. Mavi gökyüzü altında modern tek katlı bir prefabrik evin temsilî fotoğrafı; altta PrefabrikTeklif logosu ve prefabrikteklif.com.tr/firmalar-icin adresi.",
-   "kartlar": [
+  "tarih": "2026-11-23",
+  "slot": "firma",
+  "saat": "19:00",
+  "not": "Kullanıcı isteği (22 Kasım 2026, canlı oturum): 'Prefabrik satan firmalar, panelimizde fiyat bekleyen +20 müşteri var' içeriği; 23 Kasım akşamının firma tasarımı + ek firma Reels'i. '20'den fazla müşteri' sayısı kullanıcının beyanıdır.",
+  "tasarimlar": [
     {
-     "sablon": "kapak",
-     "etiket": "Prefabrik satan firmalara",
-     "h": "Fiyat bekleyen <em>20+ müşteri var.</em>",
-     "boy": 88,
-     "p": "Panelimizde talepler hazır. Prefabrik ev satıyorsanız kaydolun; ilk 50 firmaya 1 ay ücretsiz.",
-     "img": "prefabrik-c-960.webp",
-     "alt_sol": "prefabrikteklif.com.tr/firmalar-icin",
-     "alt_sag": "Başvuru →"
+      "ad": "A",
+      "aciklama": "Prefabrik ev satan firmalar: panelimizde şu an fiyat bekleyen 20'den fazla müşteri var 📣 Prefabrik ev, çelik ev, tiny house, konteyner, ahşap ev ve bungalov üreticilerine açılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik.\n\nPrefabrikTeklif'te ev arayan formu bir kez doldurur; talep il, ev tipi, m², oda sayısı, bütçe, arsa durumu ve başlama zamanıyla firma panelinizdeki \"Teklif bekleyenler\" bölümüne gelir. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz yapı tiplerinden talep düşer; fiyat vermeden önce müşteriye panelden soru sorabilirsiniz.\n\nKayıt telefondan birkaç dakika sürer, yalnızca vergi levhası istenir. Kart bilgisi istenmez, satışınızdan komisyon alınmaz; başvurunuz en geç 1 iş günü içinde onaylanır ve bekleyen taleplere hemen fiyat verirsiniz.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👉 Ücretsiz başvuru: prefabrikteklif.com.tr/firmalar-icin\n📌 Kaydedin, başvururken lazım olacak.\n\n#prefabrikevfirmaları #prefabrikevüreticisi #prefabrikev #çelikevfirmaları #tinyhouse",
+      "alt_text": "Üstte: Prefabrik satan firmalara. Başlık: Fiyat bekleyen 20+ müşteri var. Altında: Panelimizde talepler hazır; prefabrik ev satıyorsanız kaydolun, ilk 50 firmaya 1 ay ücretsiz. Mavi gökyüzü altında modern tek katlı bir prefabrik evin temsilî fotoğrafı; altta PrefabrikTeklif logosu ve prefabrikteklif.com.tr/firmalar-icin adresi.",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Prefabrik satan firmalara",
+          "h": "Fiyat bekleyen <em>20+ müşteri var.</em>",
+          "boy": 88,
+          "p": "Panelimizde talepler hazır. Prefabrik ev satıyorsanız kaydolun; ilk 50 firmaya 1 ay ücretsiz.",
+          "img": "prefabrik-c-960.webp",
+          "alt_sol": "prefabrikteklif.com.tr/firmalar-icin",
+          "alt_sag": "Başvuru →"
+        }
+      ]
     }
-   ]
-  }
- ],
- "reels": [
-  {
-   "seslendirme": "Prefabrik ev satıyor musunuz? Panelimizde şu an yirmiden fazla müşteri fiyat bekliyor. Talepler il, ev tipi, metrekare ve bütçeyle gelir; size yalnızca hizmet verdiğiniz illerden düşer. İlk elli firmaya bir ay ücretsiz. Vergi levhanız yeter, kart bilgisi yok. Hemen kaydolun, başvuru bağlantısı profilde.",
-   "aciklama": "Prefabrik ev satıyor musunuz? Panelimizde şu an fiyat bekleyen 20'den fazla müşteri var; prefabrik ev, çelik ev ve tiny house firmaları için talepler hazır 👇\n\nTalepler il, ev tipi, metrekare, oda sayısı, bütçe ve arsa durumuyla firma panelinize gelir. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz yapı tiplerinden talep düşer.\n\nAçılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik. Kayıt için vergi levhası yeter; kart bilgisi istenmez, komisyon alınmaz. Başvurunuz en geç 1 iş günü içinde onaylanır.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👉 Ücretsiz başvuru: prefabrikteklif.com.tr/firmalar-icin\n📌 Kaydedin, başvururken lazım olacak.\n\n#prefabrikevfirmaları #prefabrikevüreticisi #çelikevfirmaları #prefabrikev",
-   "sahneler": [
+  ],
+  "reels": [
     {
-     "t": 0,
-     "tur": "foto",
-     "h": "Prefabrik ev<br><em>satıyor musunuz?</em>",
-     "img": "hero-960.webp"
-    },
-    {
-     "t": 3.14,
-     "tur": "sayi",
-     "h": "Panelde <em>fiyat bekleyen</em>",
-     "n": 20,
-     "birim": "müşteriden fazla",
-     "cipler": [
-      "Hemen fiyat verin"
-     ]
-    },
-    {
-     "t": 6.26,
-     "tur": "liste",
-     "h": "Talepler <em>panelinize gelir</em>",
-     "ikon": "✓",
-     "maddeler": [
-      "İl ve ev tipi",
-      "m² ve bütçe",
-      "Yalnız sizin illeriniz"
-     ]
-    },
-    {
-     "t": 13.62,
-     "tur": "liste",
-     "h": "İlk 50 firmaya<br><em>1 ay ücretsiz</em>",
-     "ikon": "✓",
-     "maddeler": [
-      "Vergi levhası yeter",
-      "Kart bilgisi yok"
-     ]
-    },
-    {
-     "t": 19.34,
-     "tur": "son",
-     "h": "Hemen <em>kaydolun.</em>"
+      "seslendirme": "Prefabrik ev satıyor musunuz? Panelimizde şu an yirmiden fazla müşteri fiyat bekliyor. Talepler il, ev tipi, metrekare ve bütçeyle gelir; size yalnızca hizmet verdiğiniz illerden düşer. İlk elli firmaya bir ay ücretsiz. Vergi levhanız yeter, kart bilgisi yok. Hemen kaydolun, başvuru bağlantısı profilde.",
+      "aciklama": "Prefabrik ev satıyor musunuz? Panelimizde şu an fiyat bekleyen 20'den fazla müşteri var; prefabrik ev, çelik ev ve tiny house firmaları için talepler hazır 👇\n\nTalepler il, ev tipi, metrekare, oda sayısı, bütçe ve arsa durumuyla firma panelinize gelir. Size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz yapı tiplerinden talep düşer.\n\nAçılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik. Kayıt için vergi levhası yeter; kart bilgisi istenmez, komisyon alınmaz. Başvurunuz en geç 1 iş günü içinde onaylanır.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👉 Ücretsiz başvuru: prefabrikteklif.com.tr/firmalar-icin\n📌 Kaydedin, başvururken lazım olacak.\n\n#prefabrikevfirmaları #prefabrikevüreticisi #çelikevfirmaları #prefabrikev",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Prefabrik ev<br><em>satıyor musunuz?</em>",
+          "img": "hero-960.webp"
+        },
+        {
+          "t": 3.14,
+          "tur": "sayi",
+          "h": "Panelde <em>fiyat bekleyen</em>",
+          "n": 20,
+          "birim": "müşteriden fazla",
+          "cipler": [
+            "Hemen fiyat verin"
+          ]
+        },
+        {
+          "t": 6.26,
+          "tur": "liste",
+          "h": "Talepler <em>panelinize gelir</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "İl ve ev tipi",
+            "m² ve bütçe",
+            "Yalnız sizin illeriniz"
+          ]
+        },
+        {
+          "t": 13.62,
+          "tur": "liste",
+          "h": "İlk 50 firmaya<br><em>1 ay ücretsiz</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "Vergi levhası yeter",
+            "Kart bilgisi yok"
+          ]
+        },
+        {
+          "t": 19.34,
+          "tur": "son",
+          "h": "Hemen <em>kaydolun.</em>"
+        }
+      ],
+      "sure": 22.8,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-23-firma-1.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "IuRRIAcbQK5AQk1XevPj"
+      }
     }
-   ],
-   "sure": 22.8,
-   "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-23-firma-1.mp3",
-   "ses": {
-    "kaynak": "elevenlabs",
-    "model": "eleven_multilingual_v2",
-    "voice_id": "IuRRIAcbQK5AQk1XevPj"
-   }
+  ],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "yayında (Meta Graph API): 1/4 öğe yayınlandı",
+    "medya": {
+      "tasarim": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/3f348e06-0630-486c-8c85-f81387c09581.jpg"
+      ],
+      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/b0e52f6b-93a5-430a-aeaf-564fe0699896.jpg",
+      "reels": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/d32cdc0c-f957-4752-b3ce-babef99e7152.mp4"
+      ]
+    },
+    "yayinlanan": {
+      "tasarim": {
+        "id": "18079457453765238",
+        "zaman": "2026-11-23 19:00"
+      }
+    }
   }
- ],
- "yayin": {
-  "hesap": "17841474767654199",
-  "durum": "yayın bekliyor",
-  "medya": {
-   "tasarim": [
-    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/3f348e06-0630-486c-8c85-f81387c09581.jpg"
-   ],
-   "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/b0e52f6b-93a5-430a-aeaf-564fe0699896.jpg",
-   "reels": [
-    "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/d32cdc0c-f957-4752-b3ce-babef99e7152.mp4"
-   ]
-  }
- }
 }
