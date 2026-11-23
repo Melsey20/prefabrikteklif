@@ -10,10 +10,10 @@ const MODELS = [
   { id: 'pramo/p95', firma: 'pramo', ad: '95 m²', tip: 'prefabrik', m2: 95, oda: '3+1', fiyat: 636998, fiyatTuru: 'model', kdv: '', teslim: '', kapsam: '', kaynak: 'https://p.example/err' },
 ];
 const KULLANICI = { 'tok-admin': { uid: 'a1', email: 'info@mitraajans.com', email_verified: true }, 'tok-firma': { uid: 'f1', email: 'satis@kardesler.com', email_verified: true }, 'tok-user': { uid: 'u1', email: 'ali@ornek.com', email_verified: true }, 'tok-dogrulanmamis': { uid: 'u2', email: 'satis@kardesler.com', email_verified: false } };
-function kur() {
+function kur(o = {}) {
   const db = new FakeDb(); const mails = [];
   const app = createApp({
-    db, FieldValue, Timestamp, FIRMS, MODELS, saat: 48, simdi: zaman.simdi,
+    db, FieldValue, Timestamp, FIRMS, MODELS, saat: 48, simdi: zaman.simdi, fetch: o.fetch,
     auth: { verifyIdToken: async (t) => { if (!KULLANICI[t]) throw new Error('bad'); return KULLANICI[t]; }, olusan: [], getUserByEmail: async () => { const e = new Error('yok'); e.code = 'auth/user-not-found'; throw e; }, async createUser(x) { this.olusan.push(x); return x; }, generatePasswordResetLink: async (e) => `https://p.firebaseapp.com/__/auth/action?mode=resetPassword&oobCode=KOD123&apiKey=k&continueUrl=x` },
     mail: async (to, subject, html) => { mails.push({ to, subject, html }); },
     ayar: () => ({ site: 'https://www.prefabrikteklif.com.tr', admin: 'info@mitraajans.com', yoneticiler: ['info@mitraajans.com'], placesKey: '' }),
@@ -347,6 +347,21 @@ test('fiyat kontrolü: sayfada hiç fiyat yoksa değişiklik önerilmez', async 
   const r = await fiyatKontrolu({ db, mail: async (to, s, h) => mails.push({ to, subject: s, html: h }), ayar: () => ({ site: 'https://x', admin: 'info@mitraajans.com' }), FieldValue, MODELS, fetch });
   assert.equal(r.degismis, 0); assert.equal(r.erisilemedi, 3);
   assert.equal(db.dump('urunDegisiklikleri/').length, 0);
+});
+
+test('yönetim fiyat taraması: kayıt ve e-posta yok, dilim ve KDV bilgisi döner', async () => {
+  const sayfalar = { 'https://k.example/82': '<p>Fiyat: 600.000 TL + KDV</p>', 'https://p.example/78': '<div>78 m² ev <b>549.900 ₺</b> KDV dahil, 95 m² 636.998 TL</div>' };
+  const fetch = async (u) => { if (!sayfalar[u]) throw new Error('ağ'); return { ok: true, text: async () => sayfalar[u] }; };
+  const { db, mails, call } = kur({ fetch });
+  assert.equal((await call('POST', '/api/yonetim/fiyat-tara', { tok: 'tok-user', body: {} })).statusCode, 403);
+  const r = await call('POST', '/api/yonetim/fiyat-tara', { tok: 'tok-admin', body: { bas: 0, adet: 60 } });
+  assert.equal(r.statusCode, 200); assert.equal(r.body.satirlar.length, 3);
+  const k = r.body.satirlar.find((x) => x.url === 'https://k.example/82');
+  assert.equal(k.durum, 'ayni'); assert.equal(k.kdvSayfa, 'haric');
+  assert.equal(r.body.satirlar.find((x) => x.url === 'https://p.example/78').durum, 'degismis');
+  const dilim = await call('POST', '/api/yonetim/fiyat-tara', { tok: 'tok-admin', body: { bas: 0, adet: 1 } });
+  assert.ok(dilim.body.satirlar.every((x) => x.url === dilim.body.satirlar[0].url));
+  assert.equal(db.dump('urunDegisiklikleri/').length, 0); assert.equal(db.dump('fiyatKontrol/').length, 0); assert.equal(mails.length, 0);
 });
 
 test('yardımcılar', () => {

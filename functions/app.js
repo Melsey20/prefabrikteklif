@@ -1657,6 +1657,16 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     return { ok: true };
   }
   // Yönetim: açık talebin son teklif zamanını değiştir (en fazla 7 gün sonrası; müşteriye bildirim gitmez)
+  // Elle fiyat taraması (kayıt yazmaz, e-posta atmaz): kaynak sayfaları dilim dilim kontrol eder
+  async function yonetimFiyatTara(req) {
+    await yonetici(req);
+    const b = req.body || {};
+    const bas = Math.max(0, Math.floor(Number(b.bas) || 0)); const adet = Math.min(60, Math.max(1, Math.floor(Number(b.adet) || 40)));
+    const kq = await db.collection('katalog').get();
+    const kat = Object.fromEntries(kq.docs.map((d) => [d.data().id, d.data()]));
+    const { sonuc } = await fiyatTara({ MODELS, kat, fetch: fetchFn, eszamanli: 12, zamanAsimi: 12000, urlFiltre: (u) => u.slice(bas, bas + adet) });
+    return { bas, adet, toplamUrl: sonuc.toplamUrl, ayni: sonuc.ayni, satirlar: sonuc.satirlar };
+  }
   async function yonetimTalepSure(req) {
     await yonetici(req);
     const b = req.body || {};
@@ -1710,7 +1720,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       'POST /api/firma/geri-bildirim': firmaGeriBildirim, 'POST /api/firma/geri-bildirim-yanit': firmaGeriBildirimYanit, 'POST /api/firma/profil': firmaProfil, 'POST /api/firma/reklam': firmaReklam,
       'GET /api/yonetim/ozet': yonetimOzet, 'POST /api/yonetim/degisiklik': yonetimDegisiklik, 'POST /api/yonetim/basvuru': yonetimBasvuru,
       'POST /api/yonetim/firma': yonetimFirma, 'POST /api/yonetim/yorum': yonetimYorum, 'POST /api/yonetim/geri-bildirim': yonetimGeriBildirim,
-      'POST /api/yonetim/siparis': yonetimSiparis, 'POST /api/yonetim/banner': yonetimBanner, 'POST /api/yonetim/reklam-talep': yonetimReklamTalep, 'POST /api/yonetim/talep-ilet': yonetimTalepIlet, 'POST /api/yonetim/talep-sure': yonetimTalepSure,
+      'POST /api/yonetim/siparis': yonetimSiparis, 'POST /api/yonetim/banner': yonetimBanner, 'POST /api/yonetim/reklam-talep': yonetimReklamTalep, 'POST /api/yonetim/talep-ilet': yonetimTalepIlet, 'POST /api/yonetim/talep-sure': yonetimTalepSure, 'POST /api/yonetim/fiyat-tara': yonetimFiyatTara,
     },
     async handle(req, res) {
       const gm = /^\/api\/gorsel\/([A-Za-z0-9]{10,40})\/?$/.exec(String(req.path || ''));
@@ -1783,11 +1793,13 @@ export function fiyatAdaylari(metin) {
   }
   return [...out];
 }
-export async function fiyatKontrolu({ db, mail, ayar, FieldValue, MODELS, fetch: fetchFn = globalThis.fetch, eszamanli = 6, zamanAsimi = 15000 }) {
-  const fiyatli = MODELS.filter((m) => m.fiyatTuru === 'model' && m.fiyat && /^https?:\/\//.test(m.kaynak || ''));
-  const kq = await db.collection('katalog').get();
-  const kat = Object.fromEntries(kq.docs.map((d) => [d.data().id, d.data()]));
-  const urller = [...new Set(fiyatli.map((m) => m.kaynak))];
+// Firma sayfalarını tarar; kayıt yazmaz, e-posta atmaz. urlFiltre ile yalnızca bir dilim taranabilir.
+export async function fiyatTara({ MODELS, kat = {}, fetch: fetchFn = globalThis.fetch, eszamanli = 6, zamanAsimi = 15000, urlFiltre = null }) {
+  const tumFiyatli = MODELS.filter((m) => m.fiyatTuru === 'model' && m.fiyat && /^https?:\/\//.test(m.kaynak || ''));
+  const tumUrl = [...new Set(tumFiyatli.map((m) => m.kaynak))].sort();
+  const urller = urlFiltre ? urlFiltre(tumUrl) : tumUrl;
+  const secili = new Set(urller);
+  const fiyatli = tumFiyatli.filter((m) => secili.has(m.kaynak));
   const sayfa = new Map();
   let i = 0;
   async function isci() {
@@ -1802,19 +1814,29 @@ export async function fiyatKontrolu({ db, mail, ayar, FieldValue, MODELS, fetch:
     }
   }
   await Promise.all(Array.from({ length: eszamanli }, isci));
-  const sonuc = { ayni: 0, degismis: [], erisilemedi: [] };
+  const sonuc = { ayni: 0, degismis: [], erisilemedi: [], satirlar: [], toplamUrl: tumUrl.length };
   for (const m of fiyatli) {
     const metin = sayfa.get(m.kaynak);
     const guncel = kat[m.id]?.fiyat || m.fiyat;
-    if (metin == null) { sonuc.erisilemedi.push({ id: m.id, url: m.kaynak }); continue; }
-    if (fiyatBicimleri(guncel).some((b) => metin.includes(b))) { sonuc.ayni++; continue; }
+    const kdvSayfa = metin == null ? '' : [/kdv\s*dahil/i.test(metin) ? 'dahil' : '', /kdv\s*hari[çc]|\+\s*kdv/i.test(metin) ? 'haric' : ''].filter(Boolean).join('+');
+    const satir = { id: m.id, firma: m.firma, ad: m.ad, url: m.kaynak, fiyat: guncel, kdv: kat[m.id]?.kdv ?? m.kdv ?? '', kdvSayfa };
+    sonuc.satirlar.push(satir);
+    if (metin == null) { satir.durum = 'erisilemedi'; sonuc.erisilemedi.push({ id: m.id, url: m.kaynak }); continue; }
+    if (fiyatBicimleri(guncel).some((b) => metin.includes(b))) { satir.durum = 'ayni'; sonuc.ayni++; continue; }
     const tum = fiyatAdaylari(metin);
     // Sayfada hiç fiyat okunamadıysa (fiyat JS ile ya da gömülü Instagram gönderisinde yükleniyorsa)
     // bu bir fiyat değişikliği değildir: "okunamadı" say, yanlış öneri üretme
-    if (!tum.length) { sonuc.erisilemedi.push({ id: m.id, url: m.kaynak, neden: 'fiyat okunamadı' }); continue; }
-    const aday = tum.sort((a, b) => Math.abs(a - guncel) - Math.abs(b - guncel)).slice(0, 5);
+    if (!tum.length) { satir.durum = 'okunamadi'; sonuc.erisilemedi.push({ id: m.id, url: m.kaynak, neden: 'fiyat okunamadı' }); continue; }
+    const aday = tum.sort((x, y) => Math.abs(x - guncel) - Math.abs(y - guncel)).slice(0, 5);
+    satir.durum = 'degismis'; satir.adaylar = aday;
     sonuc.degismis.push({ id: m.id, firma: m.firma, ad: m.ad, url: m.kaynak, eski: guncel, adaylar: aday });
   }
+  return { fiyatli, sonuc };
+}
+export async function fiyatKontrolu({ db, mail, ayar, FieldValue, MODELS, fetch: fetchFn = globalThis.fetch, eszamanli = 6, zamanAsimi = 15000 }) {
+  const kq = await db.collection('katalog').get();
+  const kat = Object.fromEntries(kq.docs.map((d) => [d.data().id, d.data()]));
+  const { fiyatli, sonuc } = await fiyatTara({ MODELS, kat, fetch: fetchFn, eszamanli, zamanAsimi });
   const ref = db.collection('fiyatKontrol').doc();
   await ref.set({ zaman: FieldValue.serverTimestamp(), toplam: fiyatli.length, ayni: sonuc.ayni, degismisSayi: sonuc.degismis.length, erisilemediSayi: sonuc.erisilemedi.length, degismis: sonuc.degismis.slice(0, 300), erisilemedi: sonuc.erisilemedi.slice(0, 300) });
   for (const x of sonuc.degismis) {
