@@ -39,7 +39,7 @@
     {
      "sablon": "kontrol",
      "etiket": "3 / 4",
-     "h": "Ucuz fiyatta <em>bunları sorun</em>",
+     "h": "Önce <em>bunları sorun</em>",
      "p": "Bilgi veren 222 modelin 220'sinde zemin betonu hariç.",
      "maddeler": [
       "Temel dahil mi?",
@@ -52,7 +52,7 @@
     {
      "sablon": "cta",
      "etiket": "4 / 4",
-     "h": "En uygun teklifi <em>yan yana görün.</em>",
+     "h": "Fiyatları <em>yan yana görün.</em>",
      "p": "Formu bir kez doldurun; teklifler 48 saatte gelsin.",
      "img": "celik-b-960.webp",
      "cipler": [
