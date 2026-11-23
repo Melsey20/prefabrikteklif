@@ -1,60 +1,60 @@
 {
-  "tarih": "2026-11-23",
-  "slot": "aksam",
-  "saat": "19:40",
-  "not": "23 Kasım 2026 istisnası (konular.md): akşam firma tasarımı ve firma Reels'i 2026-11-23-firma.json'da; bu dosyada tasarım yok, yalnızca ev arayan Reels'i (20:00, hikâyesi 20:30).",
-  "tasarimlar": [],
-  "reels": [
+ "tarih": "2026-11-23",
+ "slot": "aksam",
+ "saat": "19:40",
+ "not": "23 Kasım 2026 istisnası (konular.md): akşam firma tasarımı ve firma Reels'i 2026-11-23-firma.json'da; bu dosyada tasarım yok, yalnızca ev arayan Reels'i (20:00, hikâyesi 20:30).",
+ "tasarimlar": [],
+ "reels": [
+  {
+   "seslendirme": "Üç artı bir prefabrik ev kaça çıkar? Listemizde prefabrik evde metrekare ortancası on bin lira. Yüz metrekarelik bir üç artı bir için kaba hesap, yaklaşık bir milyon lira. Ama zemin betonu çoğu ilanda dahil değil; nakliyeyi ve iç bitişi de sorun. Teklifleri karşılaştırın, bağlantı profilde.",
+   "aciklama": "3+1 prefabrik ev kaça çıkar? 3+1 prefabrik ev fiyatları için m² fiyatıyla kaba hesap ve fiyata dahil olmayan kalemler 👇\n\n21 Kasım 2026 itibarıyla listemizde prefabrik evde metrekare başına ortanca fiyat 10.000 TL (413 model, 40 firma). Kaba hesap (m² × ortanca m² fiyatı): 100 m²'lik bir 3+1 prefabrik ev yaklaşık 1.000.000 TL, 120 m² yaklaşık 1.200.000 TL. Gerçek fiyat; panel, yalıtım, iç bitiş ve teslim şekline göre değişir.\n\nDikkat: Listemizde zemin betonu konusunda bilgi veren 222 fiyatlı modelin 220'sinde zemin betonu fiyata dahil değil. Nakliye ve montaj, iç bitiş ve KDV'yi de teklifte kalem kalem yazılı isteyin.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev3artı1fiyatları #3artı1prefabrikev #prefabrikevfiyatları #prefabrikev",
+   "sahneler": [
     {
-      "seslendirme": "Üç artı bir prefabrik ev kaça çıkar? Listemizde prefabrik evde metrekare ortancası on bin lira. Yüz metrekarelik bir üç artı bir için kaba hesap, yaklaşık bir milyon lira. Ama zemin betonu çoğu ilanda dahil değil; nakliyeyi ve iç bitişi de sorun. Teklifleri karşılaştırın, bağlantı profilde.",
-      "aciklama": "3+1 prefabrik ev kaça çıkar? 3+1 prefabrik ev fiyatları için m² fiyatıyla kaba hesap ve fiyata dahil olmayan kalemler 👇\n\n21 Kasım 2026 itibarıyla listemizde prefabrik evde metrekare başına ortanca fiyat 10.000 TL (413 model, 40 firma). Kaba hesap (m² × ortanca m² fiyatı): 100 m²'lik bir 3+1 prefabrik ev yaklaşık 1.000.000 TL, 120 m² yaklaşık 1.200.000 TL. Gerçek fiyat; panel, yalıtım, iç bitiş ve teslim şekline göre değişir.\n\nDikkat: Listemizde zemin betonu konusunda bilgi veren 222 fiyatlı modelin 220'sinde zemin betonu fiyata dahil değil. Nakliye ve montaj, iç bitiş ve KDV'yi de teklifte kalem kalem yazılı isteyin.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev3artı1fiyatları #3artı1prefabrikev #prefabrikevfiyatları #prefabrikev",
-      "sahneler": [
-        {
-          "t": 0,
-          "tur": "foto",
-          "h": "3+1 prefabrik ev<br><em>kaça çıkar?</em>",
-          "img": "celik-960.webp"
-        },
-        {
-          "t": 3.4,
-          "tur": "sayi",
-          "h": "Listemizde <em>m² ortancası</em>",
-          "n": 10000,
-          "birim": "TL / m² · prefabrik ev",
-          "cipler": [
-            "21 Kasım 2026 itibarıyla"
-          ]
-        },
-        {
-          "t": 8.0,
-          "tur": "foto",
-          "h": "100 m² 3+1 için<br><em>yaklaşık 1 milyon TL</em>",
-          "img": "montaj-960.webp"
-        },
-        {
-          "t": 14.0,
-          "tur": "liste",
-          "h": "Teklifte <em>bunları sorun</em>",
-          "ikon": "?",
-          "maddeler": [
-            "Zemin betonu",
-            "Nakliye ve montaj",
-            "İç bitiş"
-          ]
-        },
-        {
-          "t": 19.0,
-          "tur": "son",
-          "h": "Teklifleri <em>karşılaştırın.</em>"
-        }
-      ],
-      "sure": 22.5,
-      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-23-aksam-1.mp3",
-      "ses": {
-        "kaynak": "elevenlabs",
-        "model": "eleven_multilingual_v2",
-        "voice_id": "IuRRIAcbQK5AQk1XevPj"
-      }
+     "t": 0,
+     "tur": "foto",
+     "h": "3+1 prefabrik ev<br><em>kaça çıkar?</em>",
+     "img": "celik-960.webp"
+    },
+    {
+     "t": 3.58,
+     "tur": "sayi",
+     "h": "Listemizde <em>m² ortancası</em>",
+     "n": 10000,
+     "birim": "TL / m² · prefabrik ev",
+     "cipler": [
+      "21 Kasım 2026 itibarıyla"
+     ]
+    },
+    {
+     "t": 7.02,
+     "tur": "foto",
+     "h": "100 m² 3+1 için<br><em>yaklaşık 1 milyon TL</em>",
+     "img": "montaj-960.webp"
+    },
+    {
+     "t": 12.54,
+     "tur": "liste",
+     "h": "Teklifte <em>bunları sorun</em>",
+     "ikon": "?",
+     "maddeler": [
+      "Zemin betonu",
+      "Nakliye ve montaj",
+      "İç bitiş"
+     ]
+    },
+    {
+     "t": 18.74,
+     "tur": "son",
+     "h": "Teklifleri <em>karşılaştırın.</em>"
     }
-  ]
+   ],
+   "sure": 22.5,
+   "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-23-aksam-1.mp3",
+   "ses": {
+    "kaynak": "elevenlabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "IuRRIAcbQK5AQk1XevPj"
+   }
+  }
+ ]
 }
