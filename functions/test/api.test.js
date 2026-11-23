@@ -350,7 +350,7 @@ test('fiyat kontrolü: sayfada hiç fiyat yoksa değişiklik önerilmez', async 
 });
 
 test('yönetim fiyat taraması: kayıt ve e-posta yok, dilim ve KDV bilgisi döner', async () => {
-  const sayfalar = { 'https://k.example/82': '<p>Fiyat: 600.000 TL + KDV</p>', 'https://p.example/78': '<div>78 m² ev <b>549.900 ₺</b> KDV dahil, 95 m² 636.998 TL</div>' };
+  const sayfalar = { 'https://k.example/82': '<p>Fiyat: 600.000 TL. Fiyatlara KDV dahil değildir.</p>', 'https://p.example/78': '<div>78 m² ev <b>549.900 ₺</b> KDV dahil, 95 m² 636.998 TL</div>' };
   const fetch = async (u) => { if (!sayfalar[u]) throw new Error('ağ'); return { ok: true, text: async () => sayfalar[u] }; };
   const { db, mails, call } = kur({ fetch });
   assert.equal((await call('POST', '/api/yonetim/fiyat-tara', { tok: 'tok-user', body: {} })).statusCode, 403);

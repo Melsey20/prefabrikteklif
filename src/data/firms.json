@@ -76,7 +76,7 @@
   "seviye": "listelenmis",
   "modelBekliyor": false,
   "modelSayisi": 12,
-  "enDusuk": 378500,
+  "enDusuk": 416400,
   "modelTipler": [
    "celik",
    "prefabrik"
@@ -373,7 +373,7 @@
   "seviye": "listelenmis",
   "modelBekliyor": false,
   "modelSayisi": 7,
-  "enDusuk": 490000,
+  "enDusuk": 520000,
   "modelTipler": [
    "prefabrik"
   ],
@@ -754,7 +754,7 @@
   "seviye": "listelenmis",
   "modelBekliyor": false,
   "modelSayisi": 2,
-  "enDusuk": 875000,
+  "enDusuk": 975000,
   "modelTipler": [
    "tiny house"
   ],
@@ -1223,8 +1223,8 @@
   ],
   "seviye": "listelenmis",
   "modelBekliyor": false,
-  "modelSayisi": 23,
-  "enDusuk": 415000,
+  "modelSayisi": 19,
+  "enDusuk": 430000,
   "modelTipler": [
    "celik",
    "prefabrik"
@@ -1530,7 +1530,7 @@
   "seviye": "listelenmis",
   "modelBekliyor": false,
   "modelSayisi": 15,
-  "enDusuk": 440685,
+  "enDusuk": 485000,
   "modelTipler": [
    "prefabrik"
   ],
@@ -1719,7 +1719,7 @@
   "seviye": "listelenmis",
   "modelBekliyor": false,
   "modelSayisi": 15,
-  "enDusuk": 358363,
+  "enDusuk": 387812,
   "modelTipler": [
    "celik",
    "prefabrik"
@@ -1759,7 +1759,7 @@
   "seviye": "listelenmis",
   "modelBekliyor": false,
   "modelSayisi": 15,
-  "enDusuk": 437500,
+  "enDusuk": 407800,
   "modelTipler": [
    "prefabrik"
   ],
@@ -2137,7 +2137,7 @@
   "seviye": "listelenmis",
   "modelBekliyor": false,
   "modelSayisi": 15,
-  "enDusuk": 416900,
+  "enDusuk": 476900,
   "modelTipler": [
    "celik",
    "prefabrik"
@@ -2203,7 +2203,7 @@
   "seviye": "listelenmis",
   "modelBekliyor": false,
   "modelSayisi": 3,
-  "enDusuk": 850000,
+  "enDusuk": null,
   "modelTipler": [
    "celik",
    "prefabrik"
@@ -2213,7 +2213,7 @@
    "konteyner",
    "prefabrik"
   ],
-  "fiyatYayinliyor": true,
+  "fiyatYayinliyor": false,
   "logo": "/img/firma/lider-prefabrik.png",
   "logoAcik": false
  },

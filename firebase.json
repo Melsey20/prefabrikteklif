@@ -22,6 +22,46 @@
         "source": "/index.html",
         "destination": "/",
         "type": 301
+      },
+      {
+        "source": "/firma/mahir-prefabrik/30m2-2-1-prefabrik-ev-klasik",
+        "destination": "/firma/mahir-prefabrik/",
+        "type": 301
+      },
+      {
+        "source": "/firma/mahir-prefabrik/30m2-2-1-prefabrik-ev-klasik/",
+        "destination": "/firma/mahir-prefabrik/",
+        "type": 301
+      },
+      {
+        "source": "/firma/mahir-prefabrik/32m2-1-1-prefabrik-ev-klasik",
+        "destination": "/firma/mahir-prefabrik/",
+        "type": 301
+      },
+      {
+        "source": "/firma/mahir-prefabrik/32m2-1-1-prefabrik-ev-klasik/",
+        "destination": "/firma/mahir-prefabrik/",
+        "type": 301
+      },
+      {
+        "source": "/firma/mahir-prefabrik/44m2-2-1-prefabrik-ev-klasik",
+        "destination": "/firma/mahir-prefabrik/",
+        "type": 301
+      },
+      {
+        "source": "/firma/mahir-prefabrik/44m2-2-1-prefabrik-ev-klasik/",
+        "destination": "/firma/mahir-prefabrik/",
+        "type": 301
+      },
+      {
+        "source": "/firma/mahir-prefabrik/42m2-2-1-prefabrik-ev-terra",
+        "destination": "/firma/mahir-prefabrik/",
+        "type": 301
+      },
+      {
+        "source": "/firma/mahir-prefabrik/42m2-2-1-prefabrik-ev-terra/",
+        "destination": "/firma/mahir-prefabrik/",
+        "type": 301
       }
     ],
     "headers": [

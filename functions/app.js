@@ -1818,7 +1818,7 @@ export async function fiyatTara({ MODELS, kat = {}, fetch: fetchFn = globalThis.
   for (const m of fiyatli) {
     const metin = sayfa.get(m.kaynak);
     const guncel = kat[m.id]?.fiyat || m.fiyat;
-    const kdvSayfa = metin == null ? '' : [/kdv\s*dahil/i.test(metin) ? 'dahil' : '', /kdv\s*hari[çc]|\+\s*kdv/i.test(metin) ? 'haric' : ''].filter(Boolean).join('+');
+    const kdvSayfa = metin == null ? '' : [/kdv\s*dahil(?!\s*de[ğg]il)/i.test(metin) ? 'dahil' : '', /kdv\s*hari[çc]|\+\s*kdv|kdv\s*dahil\s*de[ğg]il/i.test(metin) ? 'haric' : ''].filter(Boolean).join('+');
     const satir = { id: m.id, firma: m.firma, ad: m.ad, url: m.kaynak, fiyat: guncel, kdv: kat[m.id]?.kdv ?? m.kdv ?? '', kdvSayfa };
     sonuc.satirlar.push(satir);
     if (metin == null) { satir.durum = 'erisilemedi'; sonuc.erisilemedi.push({ id: m.id, url: m.kaynak }); continue; }
