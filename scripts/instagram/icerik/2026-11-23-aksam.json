@@ -60,7 +60,7 @@
   ],
   "yayin": {
     "hesap": "17841474767654199",
-    "durum": "yayında (Meta Graph API): 1/2 öğe yayınlandı",
+    "durum": "yayında (Meta Graph API): 2/2 öğe yayınlandı",
     "medya": {
       "tasarim": [],
       "reels": [
@@ -71,6 +71,10 @@
       "reels-1": {
         "id": "18588686764078375",
         "zaman": "2026-11-23 20:00"
+      },
+      "story-reels-1": {
+        "id": "18151261870573892",
+        "zaman": "2026-11-23 20:31"
       }
     }
   }
