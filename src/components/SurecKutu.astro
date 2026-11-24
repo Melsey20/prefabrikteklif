@@ -1,0 +1,15 @@
+---
+// "Süreci siz yönetin" kutusu: karar anlarında (talep sonrası, karşılaştırma, firma sayfası) gösterilir
+import { SITE } from '../site.config';
+interface Props { tip?: string; firma?: string; baslik?: string; metin?: string; style?: string }
+const { tip = '', firma = '', baslik = 'Karar vermek zor mu? Süreci biz yönetelim', metin, style = '' } = Astro.props;
+const q = new URLSearchParams({ mod: 'surec', ...(tip ? { tip } : {}), ...(firma ? { firmalar: firma } : {}) });
+---
+<aside class="surec-k" style={style}>
+  <div class="surec-k-m">
+    <b>{baslik}</b>
+    <p>{metin ?? 'Teklifleri birlikte değerlendirir, firmayı seçer, sözleşmeyi kontrol eder; üretimden teslime kadar her adımı sizin adınıza takip ederiz.'}</p>
+    <ul><li>Firma ve sözleşme kontrolü</li><li>Üretim, nakliye, montaj takibi</li><li>Şeffaf ücret: ev bedelinin %{SITE.komisyon}’i</li></ul>
+  </div>
+  <a class="btn btn-p" href={`/teklif-al/?${q}`}>Süreci siz yönetin</a>
+</aside>

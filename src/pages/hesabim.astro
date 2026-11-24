@@ -133,8 +133,17 @@ import { SITE } from '../site.config';
         mesajKutu(x, t),
         kararAlani(x, t),
         x.karar === 'kabul' ? h('div', { class: 'hs-tk-b' },
-          h('a', { class: 'btn btn-l btn-s', href: `/teklif-al/?mod=surec&firmalar=${encodeURIComponent(x.firmaSlug)}&tip=${encodeURIComponent(t.tip || '')}` }, 'Süreci siz yönetin'),
-          h('a', { class: 'btn btn-g btn-s', href: `/yorum-yaz/?firma=${encodeURIComponent(x.firmaSlug)}` }, 'Yorum yaz')) : null);
+          h('a', { class: 'btn btn-g btn-s', href: `/yorum-yaz/?firma=${encodeURIComponent(x.firmaSlug)}` }, 'Sözleşme yaptıysanız yorum yazın')) : null);
+    }
+    function surecKutu(t: any) {
+      const sec = t.secilenFirma ? t.teklifler.find((x: any) => x.firmaSlug === t.secilenFirma) : null;
+      const q = new URLSearchParams({ mod: 'surec', tip: t.tip || '', ...(sec ? { firmalar: sec.firmaSlug } : { firmalar: t.teklifler.map((x: any) => x.firmaSlug).join(',') }) });
+      return h('aside', { class: 'surec-k', style: { margin: '4px 0 0' } },
+        h('div', { class: 'surec-k-m' },
+          h('b', {}, sec ? `${sec.firma} ile süreci biz yönetelim` : 'Karar vermek zor mu? Süreci biz yönetelim'),
+          h('p', {}, sec ? 'Sözleşmeyi kontrol eder; üretim, nakliye ve montajı teslime kadar sizin adınıza takip ederiz.' : 'Teklifleri sizinle birlikte değerlendirir, firmayı seçer, sözleşmeyi kontrol eder ve teslime kadar takip ederiz.'),
+          h('ul', {}, h('li', {}, 'Firma ve sözleşme kontrolü'), h('li', {}, 'Üretim, nakliye, montaj takibi'), h('li', {}, `Şeffaf ücret: ev bedelinin %${KOMISYON}’i`))),
+        h('a', { class: 'btn btn-p', href: `/teklif-al/?${q}` }, 'Süreci siz yönetin'));
     }
     function talepKart(t: any, kisa = false) {
       const acik = t.durum === 'acik'; const kalanS = acik ? sure(t.sonTarihMs) : '';
@@ -150,6 +159,7 @@ import { SITE } from '../site.config';
         !kisa && t.model ? h('span', { class: 'small' }, 'İlgilendiğiniz model: ', h('b', {}, t.model)) : null,
         teklifler.length ? h('div', { class: 'hs-tkler' }, ...(t.teklifler.some((x: any) => x.kdvDahil) && t.teklifler.some((x: any) => !x.kdvDahil) ? [h('p', { class: 'small tk-uyari' }, 'Bazı teklifler KDV dahil, bazıları KDV hariç; fiyata dahil işler de farklı. Karşılaştırırken ikisine birlikte bakın.')] : []), ...teklifler.map((x: any, i: number) => teklifKart(x, i === 0 && t.teklifler.length > 1 && !(t.teklifler.some((y: any) => y.kdvDahil) && t.teklifler.some((y: any) => !y.kdvDahil)), t)))
           : h('p', { class: 'small muted', style: { margin: 0 } }, acik ? `Talebiniz firmalara iletildi. Fiyat veren firmalar burada ve e-postanızda görünecek; süre dolunca tüm teklifler tek tabloda gelir.` : 'Bu talebe sistem üzerinden fiyat girilmedi; ekibimiz sizinle iletişime geçecek.'),
+        t.teklifler.length && !veri?.siparisler?.length ? surecKutu(t) : null,
         (t.sorular || []).length ? h('div', { class: 'hs-sorular' }, h('b', { class: 'small' }, 'Fiyat vermeden önce size soru soran firmalar'), h('span', { class: 'xs muted' }, 'Yanıtlarsanız firma daha doğru fiyat verir. Adınız ve iletişim bilgileriniz fiyat verene kadar firmaya gizli kalır.'), ...t.sorular.map((x: any) => { const k = mesajKutu(x, t) as HTMLDetailsElement; k.open = true; (k.querySelector('summary') as HTMLElement).textContent = `${x.firma} soruyor (${x.mesajlar.length})`; return k; })) : null,
         kisa && t.teklifler.length > 3 ? h('button', { class: 'btn btn-l btn-s', type: 'button', style: { alignSelf: 'flex-start' }, onclick: () => ac('talepler') }, `Tüm ${t.teklifler.length} teklifi gör`) : null);
     }

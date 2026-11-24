@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE } from '../site.config';
+import SurecKutu from '../components/SurecKutu.astro';
 ---
 <Base title="Talebiniz alındı" description="Teklif talebiniz alındı." noindex>
   <div class="wrap narrow" style="padding-top:36px">
@@ -12,7 +13,6 @@ import { SITE } from '../site.config';
         <ol class="numlist">
           <li><span>Fiyat vermeyi kabul eden firma, iletişim bilgilerinizi görür ve sizi arayabilir.</span></li>
           <li><span>{SITE.teklifSaat} saat dolunca karşılaştırma tablosu e-postanıza gelir.</span></li>
-          <li><span>İsterseniz “süreci siz yönetin” deyin; yalnızca %{SITE.komisyon} hizmet bedeliyle firmayla sözleşmeden teslime kadar biz takip edelim.</span></li>
         </ol>
       </div>
       <div data-m="surec" hidden>
@@ -20,6 +20,7 @@ import { SITE } from '../site.config';
       </div>
       <p class="small muted" style="margin:0">E-posta gelmezse gereksiz (spam) klasörüne bakın.</p>
     </div>
+    <div data-m="teklif"><SurecKutu baslik="Teklifler gelince süreci biz yönetelim" metin="Gelen teklifleri sizinle birlikte değerlendirir, en uygun firmayı seçer, sözleşmeyi kontrol eder ve teslime kadar her adımı takip ederiz." /></div>
     <div class="box" style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap" id="hesap-oner">
       <div><b>Talebinizi hesabınızdan takip edin</b><p class="small muted" style="margin:4px 0 0">Aynı e-postayla giriş yapın; talepleriniz, gelen teklifler ve favorileriniz tek yerde olsun.</p></div>
       <a class="btn btn-p" href="/giris/?geri=/hesabim/">Giriş yap / kayıt ol</a>

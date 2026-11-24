@@ -910,3 +910,13 @@ body:has(.app) .by-dis { display: none; }
 .tk-karar .btn-kabul { flex: 1 1 100%; justify-content: center; }
 .tk-red-l { background: none; border: 0; padding: 4px 0; color: var(--ink-2); text-decoration: underline; font-size: .85rem; cursor: pointer; }
 .dlg .stack label.f { display: flex; flex-direction: column; gap: 6px; font-size: .88rem; font-weight: 800; margin-top: 4px; }
+
+/* Süreci siz yönetin kutusu */
+.surec-k { display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; background: linear-gradient(135deg, #eaf5ee, #f7fbf8); border: 1.5px solid #b9dcc7; border-radius: 16px; padding: 16px 18px; margin: 16px 0; }
+.surec-k-m { flex: 1 1 280px; min-width: 0; }
+.surec-k-m b { font-size: 1.05rem; color: var(--ink); }
+.surec-k-m p { margin: 4px 0 8px; font-size: .9rem; color: var(--ink-2); }
+.surec-k-m ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .82rem; font-weight: 700; color: var(--green-d); }
+.surec-k-m li::before { content: '✓ '; }
+.surec-k .btn { flex: 0 0 auto; }
+@media (max-width: 560px) { .surec-k .btn { width: 100%; justify-content: center; } }

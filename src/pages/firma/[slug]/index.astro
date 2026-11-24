@@ -1,4 +1,5 @@
 ---
+import SurecKutu from '../../../components/SurecKutu.astro';
 import Base from '../../../layouts/Base.astro';
 import Crumbs from '../../../components/Crumbs.astro';
 import ModelList from '../../../components/ModelList.astro';
@@ -87,6 +88,7 @@ const tipYazi = tipler.length > 1 ? `${tipler.slice(0, -1).join(', ')} ve ${tipl
           </details>
           {(f.web || f.il) && <p class="small" style="margin:8px 0 0;display:flex;gap:14px;flex-wrap:wrap">{f.web && <a style="color:#fff" href={f.web} rel="nofollow noopener" target="_blank">Firmanın sitesi ↗</a>}{f.il && <a style="color:#fff" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${f.ad || f.kisaAd} ${f.il}`)}`} rel="nofollow noopener" target="_blank">Haritada gör ↗</a>}</p>}
         </div>
+        <SurecKutu firma={f.slug} tip={ana} baslik={`${f.kisaAd || f.ad} ile süreci biz yönetelim`} metin="Bu firmayla çalışmak istiyorsanız teklifi, sözleşmeyi ve teslimi sizin adınıza takip edelim." />
       </aside>
     </div>
 
