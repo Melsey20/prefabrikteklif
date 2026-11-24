@@ -1,0 +1,50 @@
+{
+  "tarih": "2026-11-24",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "50 m² ahşap ev kaça mal olur? 50, 80 ve 100 m² ahşap ev fiyatları için m² fiyatıyla kaba hesap 👇\n\n23 Kasım 2026 itibarıyla listemizde ahşap evde metrekare başına ortanca fiyat 26.100 TL (31 model, 6 firma). Kaba hesap (m² × ortanca m² fiyatı): 50 m² ahşap ev yaklaşık 1.305.000 TL, 80 m² yaklaşık 2.088.000 TL, 100 m² ahşap ev yaklaşık 2.610.000 TL. Gerçek fiyat; duvar sistemi, yalıtım, iç bitiş ve teslim şekline göre değişir.\n\nTeklif alırken temelin (zemin betonu), nakliye ve montajın, KDV'nin dahil olup olmadığını yazılı isteyin; bakım talimatını ve garanti koşullarını teslimde yazılı alın.\n\nPrefabrikTeklif ahşap ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir.\n\n📌 Kaydedin, bütçe yaparken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#ahşapevfiyatları #ahşapev #50m2ahşapev #100m2ahşapev",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Ahşap ev",
+          "h": "50 m² ahşap ev <em>kaça çıkar?</em>",
+          "boy": 88,
+          "p": "23 Kasım 2026 itibarıyla listemizdeki m² fiyatıyla. Kaydırın.",
+          "img": "ahsap-b-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Ahşap ev <em>kaba hesap</em>",
+          "boy": 84,
+          "p": "m² × ortanca m² fiyatı (26.100 TL). Yaklaşık değerler.",
+          "maddeler": [
+            ["50 m²", "Yaklaşık 1.305.000 TL"],
+            ["80 m²", "Yaklaşık 2.088.000 TL"],
+            ["100 m²", "Yaklaşık 2.610.000 TL"]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Teklifte <em>bunları sorun</em>",
+          "p": "Bakım talimatını ve garantiyi teslimde yazılı alın.",
+          "maddeler": ["Temel dahil mi?", "Nakliye ve montaj", "İç bitiş", "KDV dahil mi?"],
+          "img": "ic-mekan-1344.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Ahşap ev fiyatlarını <em>karşılaştırın.</em>",
+          "p": "Formu bir kez doldurun; teklifler 48 saatte gelsin.",
+          "img": "ahsap-c-960.webp",
+          "cipler": ["Ücretsiz", "{firmaSayisi} firma", "{modelSayisi} model"]
+        }
+      ]
+    }
+  ],
+  "reels": []
+}

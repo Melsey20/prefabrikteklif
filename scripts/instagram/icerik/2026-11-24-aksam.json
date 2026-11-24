@@ -1,0 +1,66 @@
+{
+  "tarih": "2026-11-24",
+  "slot": "aksam",
+  "saat": "19:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "2+1 tiny house olur mu? Tiny house 2+1 fiyatları ve metrekareleri için kısa cevap 👇\n\nTürkiye'de satılan tiny house modellerinin çoğu yaklaşık 15–35 m²; yatak alanı genellikle asma katta (loft) çözülür. Yani tiny house'ta ayrı iki yatak odası için alan dardır.\n\n23 Kasım 2026 itibarıyla listemizde tiny house'ta metrekare başına ortanca fiyat 38.750 TL, prefabrik evde 10.000 TL. Kaba hesap (m² × ortanca m² fiyatı): 35 m² tiny house yaklaşık 1.356.000 TL; 60 m²'lik bir 2+1 prefabrik ev yaklaşık 600.000 TL. Temel, nakliye ve KDV'yi teklifte ayrıca sorun.\n\nPrefabrikTeklif tiny house ve prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir.\n\n📌 Kaydedin, karar verirken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tinyhouse #tinyhousefiyatları #tinyhouse2artı1 #prefabrikev",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Tiny house",
+          "h": "2+1 tiny house <em>olur mu?</em>",
+          "boy": 90,
+          "p": "Metrekare ve fiyatla kısa cevap. Kaydırın.",
+          "img": "tiny-house-b-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Kısa cevap: <em>alan dar.</em>",
+          "boy": 84,
+          "p": "Türkiye'de satılan modellerin çoğu bu aralıkta.",
+          "maddeler": [
+            ["Yaygın boyut", "Yaklaşık 15–35 m²"],
+            ["Yatak alanı", "Genellikle asma katta (loft) çözülür; ayrı iki oda için alan dar."]
+          ]
+        },
+        {
+          "sablon": "liste",
+          "koyu": true,
+          "etiket": "3 / 4",
+          "h": "2+1 için <em>kaba hesap</em>",
+          "boy": 84,
+          "p": "23 Kasım 2026 itibarıyla listemizdeki m² ortancasıyla.",
+          "maddeler": [
+            ["Tiny, 35 m²", "Yaklaşık 1.356.000 TL"],
+            ["Prefabrik, 60 m²", "Yaklaşık 600.000 TL"]
+          ]
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Size uygun evi <em>yan yana görün.</em>",
+          "p": "İhtiyacınızı yazın; teklifler 48 saatte gelsin.",
+          "img": "tiny-house-960.webp",
+          "cipler": ["Ücretsiz", "{firmaSayisi} firma", "{modelSayisi} model"]
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Kaliteli prefabrik ev nasıl anlaşılır? Önce teknik şartnameye bakın: profil kalınlığı, yalıtım kalınlığı ve doğrama tipi sözleşmede yazılı olsun. Taşıyıcı sistem ve çatı için ayrı garanti isteyin, teslim edilmiş bir evi görün. Ödemeyi sipariş, üretim ve teslim diye üçe bölün; tamamını peşin vermeyin. Teklifleri karşılaştırın, bağlantı profilde.",
+      "aciklama": "Kaliteli prefabrik ev nasıl anlaşılır? Prefabrik ev alırken dikkat edilmesi gerekenler: sözleşmeye yazdırılacaklar ve ödeme planı 👇\n\nTeknik şartname: Profil kalınlığı, yalıtım malzemesi ve kalınlığı, doğrama tipi sözleşmede yazılı olsun. Taşıyıcı sistem, çatı ve su yalıtımı için ayrı garanti isteyin; mümkünse firmanın teslim ettiği bir evi görün.\n\nÖdeme: Ödemeyi aşamalara bölün (sipariş, üretim, teslim), tamamını peşin ödemekten kaçının. Ticaret unvanını ve vergi numarasını kontrol edin.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir; firmalar fiyatlarını aynı başlıklarla girer.\n\n📌 Kaydedin, kapora vermeden önce bakın.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevalırkendikkat #kaliteliprefabrikev #prefabrikevfiyatları",
+      "sahneler": [
+        {"t": 0, "tur": "foto", "h": "Kaliteli prefabrik ev<br><em>nasıl anlaşılır?</em>", "img": "prefabrik-c-960.webp"},
+        {"t": 3, "tur": "liste", "h": "Sözleşmede <em>yazılı olsun</em>", "ikon": "✓", "maddeler": ["Profil kalınlığı", "Yalıtım kalınlığı", "Doğrama tipi"]},
+        {"t": 9, "tur": "foto", "h": "Ayrı garanti,<br><em>teslim edilmiş ev</em>", "img": "montaj-960.webp"},
+        {"t": 13, "tur": "sayi", "h": "Ödemeyi <em>aşamalara bölün</em>", "n": 3, "birim": "aşama · sipariş, üretim, teslim"},
+        {"t": 18, "tur": "son", "h": "Teklifleri <em>karşılaştırın.</em>"}
+      ],
+      "sure": 22
+    }
+  ]
+}
