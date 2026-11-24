@@ -130,6 +130,44 @@ test('müşteri e-postadaki bağlantıyla hesap açmadan teklifleri görür ve f
   assert.ok(mails.slice(once2).some((m) => m.to === TALEP.eposta && m.html.includes(`bagla=${k}`)), 'firma yanıtı müşteriye bağlantıyla gider');
 });
 
+test('müşteri teklifi kabul eder, ilgilenmiyorum der ve geri alır; firmalar bilgilendirilir', async () => {
+  const { db, call, mails } = kur();
+  await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik'], iller: ['Malatya'], abonelik: { durum: 'aktif' } });
+  await db.collection('firmalar').doc('pramo').set({ aktif: true, eposta: 'info@pramo.com', tipler: ['prefabrik'], abonelik: { durum: 'aktif' } });
+  await call('POST', '/api/teklif', { body: TALEP });
+  const [tid, td] = db.dump('talepler/').filter(([k]) => k.split('/').length === 2)[0]; const id = tid.split('/')[1];
+  const k = `${id}.${td.sahipKod}`;
+  assert.equal((await call('POST', '/api/firma/teklif', { tok: 'tok-firma', body: { talep: id, fiyat: '650.000', kdvDahil: true } })).statusCode, 200);
+  await db.collection('talepler').doc(id).collection('teklifler').doc('pramo').set({ firma: 'pramo', fiyat: 700000, kdvDahil: true });
+  assert.equal((await call('POST', '/api/teklif-karar', { body: { k: `${id}.yanlis`, talep: id, firma: 'kardesler', karar: 'kabul' } })).statusCode, 401, 'yanlış anahtarla karar verilemez');
+  assert.equal((await call('POST', '/api/teklif-karar', { body: { k, talep: id, firma: 'yok', karar: 'kabul' } })).statusCode, 404);
+  let once = mails.length;
+  const r = await call('POST', '/api/teklif-karar', { body: { k, talep: id, firma: 'kardesler', karar: 'kabul', not: 'Hafta içi 18:00 sonrası arayabilirsiniz.' } });
+  assert.equal(r.statusCode, 200, JSON.stringify(r.body));
+  const yeni = mails.slice(once);
+  const fm = yeni.find((m) => m.to === 'satis@kardesler.com'); assert.ok(fm && fm.html.includes(TALEP.telefon) && fm.html.includes('18:00'), 'kabul edilen firmaya müşteri iletişimi ve not gider');
+  assert.ok(yeni.some((m) => m.to === TALEP.eposta && m.html.includes(`bagla=${k}`)), 'müşteriye onay e-postası gider');
+  const pm = yeni.find((m) => m.to === 'info@pramo.com'); assert.ok(pm && !pm.html.includes('650') && !pm.html.includes('Kardeşler'), 'diğer firmaya kazanan ve fiyat söylenmeden bilgi gider');
+  assert.equal((await call('POST', '/api/teklif-karar', { body: { k, talep: id, firma: 'pramo', karar: 'kabul' } })).statusCode, 409, 'aynı anda tek teklif seçilir');
+  const g = await call('POST', '/api/talebim', { body: { k } });
+  assert.equal(g.body.talep.secilenFirma, 'kardesler'); assert.equal(g.body.talep.teklifler.find((x) => x.firmaSlug === 'kardesler').karar, 'kabul');
+  const fp = await call('GET', '/api/firma/ozet', { tok: 'tok-firma' });
+  assert.equal(fp.body.talepler.find((x) => x.id === id).teklif.karar, 'kabul', 'firma panelinde kabul görünür');
+  // Geri al: seçim kalkar, firmaya haber gider
+  once = mails.length;
+  assert.equal((await call('POST', '/api/teklif-karar', { body: { k, talep: id, firma: 'kardesler', karar: 'geri' } })).statusCode, 200);
+  assert.ok(mails.slice(once).some((m) => m.to === 'satis@kardesler.com' && m.subject.includes('geri aldı')));
+  assert.equal((await call('POST', '/api/talebim', { body: { k } })).body.talep.secilenFirma, '');
+  // İlgilenmiyorum: neden firmaya iletilir
+  once = mails.length;
+  assert.equal((await call('POST', '/api/teklif-karar', { body: { k, talep: id, firma: 'kardesler', karar: 'red', neden: 'fiyat' } })).statusCode, 200);
+  assert.ok(mails.slice(once).some((m) => m.to === 'satis@kardesler.com' && m.html.includes('Fiyat bütçesinin üzerinde')));
+  const fp2 = await call('GET', '/api/firma/ozet', { tok: 'tok-firma' });
+  const tk2 = fp2.body.talepler.find((x) => x.id === id).teklif; assert.equal(tk2.karar, 'red'); assert.equal(tk2.kararNeden, 'Fiyat bütçesinin üzerinde');
+  // Başka hesap karar veremez
+  assert.equal((await call('POST', '/api/teklif-karar', { tok: 'tok-firma', body: { talep: id, firma: 'kardesler', karar: 'kabul' } })).statusCode, 404);
+});
+
 test('firma sayaçları: ilgilenmiyorum iki kez basılsa da bir kez sayılır, liste davetinde yanıt verirse talep de sayılır', async () => {
   const { db, call } = kur();
   await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik'], iller: ['Malatya'], abonelik: { durum: 'aktif' } });

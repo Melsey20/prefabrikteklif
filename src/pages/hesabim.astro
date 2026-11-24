@@ -42,11 +42,11 @@ import { SITE } from '../site.config';
   <script>
     import { onayIste } from '../scripts/onayKutusu';
     import { kullanici, api, oturumAc, cikis, dogrulamaGonder, sifreSifirla, adGuncelle, hataYazi } from '../scripts/fb';
-    import { h, tl, tarih, toast, hataGoster } from '../scripts/ui';
+    import { h, tl, tarih, toast, hataGoster, modal } from '../scripts/ui';
     import { modeller, kart, TIP_IMG } from '../scripts/modeller';
     const { KOMISYON, SAAT } = (window as any).__HS;
     const $ = (id: string) => document.getElementById(id)!;
-    let veri: any = null; let uid = ''; let misafirK = ''; // misafirK: e-postadaki bağlantıyla hesap açmadan görüntüleme
+    let veri: any = null; let uid = ''; let misafirK = ''; let hedefTk = new URLSearchParams(location.search).get('tk') || ''; // hedefTk: e-postada tıklanan firmanın teklifine kaydır // misafirK: e-postadaki bağlantıyla hesap açmadan görüntüleme
     const say = (k: string, v: number) => { const e = document.querySelector(`[data-say=${k}]`); if (e) e.textContent = String(v); };
     const sure = (ms: number) => { const s = Math.round((ms - Date.now()) / 3600000); return s > 0 ? (s >= 24 ? `${Math.floor(s / 24)} gün ${s % 24} saat` : `${s} saat`) : ''; };
     const baslik = (t: any) => [t.tipAd, t.oda, t.m2 ? `${t.m2} m²` : '', [t.il, t.ilce].filter(Boolean).join(' / ')].filter(Boolean).join(' · ');
@@ -71,7 +71,7 @@ import { SITE } from '../site.config';
       return h('ol', { class: 'hs-ilerle' }, ...ad.map((a, i) => h('li', { class: i + 1 < adim ? 'ok' : i + 1 === adim ? 'now' : '' }, h('i', {}, i + 1 < adim ? '✓' : String(i + 1)), h('span', {}, a))));
     }
     // Hazır sorular: müşteri tek dokunuşla detay isteyebilsin
-    const HAZIR = ['Fiyata nakliye ve montaj dahil mi?', 'Kat planı ve teknik şartnameyi gönderebilir misiniz?', 'Zemin betonu ve tesisat bağlantıları kime ait?', 'Ödeme planınız nasıl?', 'Üretim ve teslim ne kadar sürer?', 'Daha önce yaptığınız bir evi görebilir miyim?'];
+    const HAZIR = ['Fiyata nakliye ve montaj dahil mi?', 'Kat planı ve teknik şartnameyi gönderebilir misiniz?', 'Zemin betonu ve tesisat bağlantıları kime ait?', 'Ödeme planınız nasıl?', 'Üretim ve teslim ne kadar sürer?', 'Daha önce yaptığınız bir evi görebilir miyim?', 'Yerinde keşif için ne zaman gelebilirsiniz?', 'Fiyatta pazarlık payı ya da peşin indirimi var mı?'];
     function mesajKutu(x: any, t: any) {
       const m = x.mesajlar || [];
       const metin = h('textarea', { rows: 3, maxlength: 2000, placeholder: `${x.firma} firmasına sorunuzu yazın ya da aşağıdan seçin` }) as HTMLTextAreaElement;
@@ -82,22 +82,59 @@ import { SITE } from '../site.config';
         h('div', { class: 'mj-hazir' }, ...HAZIR.map((q) => h('button', { type: 'button', class: 'mj-cip', onclick: () => { metin.value = metin.value.trim() ? `${metin.value.trim()}\n${q}` : q; metin.focus(); } }, q))),
         h('form', { class: 'mj-form', onsubmit: async (e: Event) => { e.preventDefault(); if (metin.value.trim().length < 2) return; const btn = (e.currentTarget as HTMLFormElement).querySelector('button')!; btn.disabled = true; try { await api('/api/mesaj', { talep: t.id, firma: x.firmaSlug, metin: metin.value, ...(misafirK ? { k: misafirK } : {}) }); toast('Sorunuz firmaya iletildi'); await yukle(); ac('talepler'); } catch (err: any) { toast(err.message); btn.disabled = false; } } }, metin, h('button', { class: 'btn btn-p btn-s', type: 'submit' }, 'Gönder')));
     }
+    // ---- Müşteri kararı: kabul et / ilgilenmiyorum / geri al ----
+    const RED = [['fiyat', 'Fiyat bütçemin üzerinde'], ['sure', 'Teslim süresi uzun'], ['kapsam', 'Fiyata dahil olanlar yetersiz'], ['baska', 'Başka bir firmayla ilerliyorum'], ['vazgecti', 'Projeyi şimdilik erteledim'], ['diger', 'Diğer']];
+    async function kararGonder(t: any, x: any, karar: string, ek: any = {}) {
+      await api('/api/teklif-karar', { talep: t.id, firma: x.firmaSlug, karar, ...ek, ...(misafirK ? { k: misafirK } : {}) });
+      hedefTk = x.firmaSlug; await yukle(); ac('talepler');
+    }
+    function kabulPenceresi(t: any, x: any) {
+      const not = h('textarea', { rows: 3, maxlength: 600, placeholder: 'İsteğe bağlı: aranmak istediğiniz saat, keşif için uygun günleriniz…' }) as HTMLTextAreaElement;
+      const btn = h('button', { class: 'btn btn-p', type: 'submit' }, 'Evet, bu teklifle ilerlemek istiyorum') as HTMLButtonElement;
+      let kapat = () => {};
+      const form = h('form', { class: 'stack', style: { gap: '10px' }, onsubmit: async (e: Event) => { e.preventDefault(); btn.disabled = true; try { await kararGonder(t, x, 'kabul', { not: not.value }); kapat(); toast(`${x.firma} firmasına iletildi; sizi arayacak.`); } catch (err: any) { toast(err.message); btn.disabled = false; } } },
+        h('p', { style: { margin: 0 } }, h('b', {}, x.firma), ` · ${tl(x.fiyat)} ${x.kdvDahil ? '(KDV dahil)' : '(KDV hariç)'}`),
+        h('p', { class: 'small', style: { margin: 0 } }, 'Firmaya bu teklifle ilerlemek istediğinizi bildiririz; firma sizi arayıp keşif, sözleşme ve ödeme planını konuşur. Diğer fiyat veren firmalara da başka bir teklifle ilerlediğiniz (firma adı ve fiyat söylenmeden) iletilir.'),
+        h('p', { class: 'xs muted', style: { margin: 0 } }, 'Bu bir sözleşme ya da ödeme değildir; istediğiniz zaman geri alabilirsiniz.'),
+        h('label', { class: 'f' }, 'Firmaya notunuz', not), btn);
+      kapat = modal('Teklifi kabul et', form);
+    }
+    function redPenceresi(t: any, x: any) {
+      let neden = '';
+      const btn = h('button', { class: 'btn btn-p', type: 'submit', disabled: true }, 'Gönder') as HTMLButtonElement;
+      const not = h('textarea', { rows: 2, maxlength: 600, placeholder: 'İsteğe bağlı: firmaya iletmek istediğiniz not' }) as HTMLTextAreaElement;
+      const cipler = h('div', { class: 'mj-hazir' }, ...RED.map(([k, v]) => h('button', { type: 'button', class: 'mj-cip', 'aria-pressed': 'false', onclick: (e: Event) => { neden = k; cipler.querySelectorAll('.mj-cip').forEach((c) => c.setAttribute('aria-pressed', String(c === e.currentTarget))); btn.disabled = false; } }, v)));
+      let kapat = () => {};
+      const form = h('form', { class: 'stack', style: { gap: '10px' }, onsubmit: async (e: Event) => { e.preventDefault(); btn.disabled = true; try { await kararGonder(t, x, 'red', { neden, not: not.value }); kapat(); toast('Kaydedildi; firma bilgilendirildi.'); } catch (err: any) { toast(err.message); btn.disabled = false; } } },
+        h('p', { class: 'small', style: { margin: 0 } }, `${x.firma} firmasına bu teklifle ilerlemeyeceğinizi bildiririz, sizi boşuna aramaz. Nedeni seçerseniz firma sonraki tekliflerini buna göre hazırlar.`),
+        cipler, h('label', { class: 'f' }, 'Not', not), btn);
+      kapat = modal('Bu teklifle ilgilenmiyorum', form);
+    }
+    function kararAlani(x: any, t: any) {
+      const geri = (yazi: string) => h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: async (e: Event) => { (e.currentTarget as HTMLButtonElement).disabled = true; try { await kararGonder(t, x, 'geri'); toast('Geri alındı'); } catch (err: any) { toast(err.message); } } }, yazi);
+      if (x.karar === 'kabul') return h('div', { class: 'tk-karar ok' }, h('span', {}, h('b', {}, '✓ Bu teklifi seçtiniz. '), 'Firma sizi arayacak; sözleşmeden önce kapsamı, ödeme planını ve garantiyi yazılı isteyin.'), geri('Seçimi geri al'));
+      if (x.karar === 'red') return h('div', { class: 'tk-karar red' }, h('span', { class: 'small' }, 'Bu teklifle ilgilenmediğinizi bildirdiniz.'), geri('Geri al'));
+      const baskasi = t.secilenFirma && t.secilenFirma !== x.firmaSlug;
+      return h('div', { class: 'tk-karar' },
+        baskasi ? h('span', { class: 'xs muted' }, 'Başka bir teklifi seçtiniz. Bunu seçmek için önce o seçimi geri alın.') : h('button', { class: 'btn btn-p btn-kabul', type: 'button', onclick: () => kabulPenceresi(t, x) }, '✓ Bu teklifi kabul et'),
+        h('button', { class: 'tk-red-l', type: 'button', onclick: () => redPenceresi(t, x) }, 'Bu teklifle ilgilenmiyorum'));
+    }
     function teklifKart(x: any, en: boolean, t: any) {
-      return h('article', { class: 'hs-tk' + (en ? ' en' : '') },
-        en ? h('span', { class: 'hs-en' }, 'En uygun') : null,
+      return h('article', { class: 'hs-tk' + (en ? ' en' : '') + (x.karar ? ' k-' + x.karar : ''), 'data-firma': x.firmaSlug },
+        x.karar === 'kabul' ? h('span', { class: 'hs-en sec' }, 'Seçtiğiniz teklif') : en ? h('span', { class: 'hs-en' }, 'En düşük fiyat') : null,
         h('a', { class: 'hs-tk-f', href: `/firma/${x.firmaSlug}/` }, x.firma),
         h('strong', { class: 'hs-tk-p' }, tl(x.fiyat)), h('span', { class: 'xs muted' }, x.kdvDahil ? 'KDV dahil' : 'KDV hariç'),
         x.dahil?.length ? h('ul', { class: 'tags' }, ...x.dahil.map((d: string) => h('li', { class: 'd' }, d + ' dahil'))) : h('span', { class: 'xs muted' }, 'Dahil kalem belirtilmedi'),
         h('span', { class: 'small' }, [x.teslimGun ? `Teslim ${x.teslimGun} gün` : '', x.garantiYil ? `${x.garantiYil} yıl garanti` : ''].filter(Boolean).join(' · ')),
         x.not ? h('details', {}, h('summary', { class: 'small' }, 'Firmanın notu'), h('p', { class: 'small', style: { whiteSpace: 'pre-line', margin: '6px 0 0' } }, x.not)) : null,
         x.iletisim ? h('div', { class: 'tk-iletisim' },
-          x.iletisim.telefon ? h('a', { class: 'btn btn-p btn-s', href: 'tel:' + x.iletisim.telefon.replace(/\s/g, '') }, '📞 Ara') : null,
-          x.iletisim.eposta ? h('a', { class: 'btn btn-g btn-s', href: `mailto:${x.iletisim.eposta}?subject=${encodeURIComponent('PrefabrikTeklif teklifiniz: ' + baslik(t))}` }, '✉️ E-posta') : null,
-          h('button', { class: 'btn btn-g btn-s', type: 'button', onclick: (e: Event) => { const d = (e.currentTarget as HTMLElement).closest('.hs-tk')!.querySelector('details.mj-kutu') as HTMLDetailsElement; d.open = true; d.querySelector('textarea')?.focus(); } }, '💬 Soru sor')) : null,
+          x.iletisim.telefon ? h('a', { class: 'btn btn-g btn-s', href: 'tel:' + x.iletisim.telefon.replace(/\s/g, '') }, '📞 Ara') : null,
+          x.iletisim.eposta ? h('a', { class: 'btn btn-g btn-s', href: `mailto:${x.iletisim.eposta}?subject=${encodeURIComponent('PrefabrikTeklif teklifiniz: ' + baslik(t))}` }, '✉️ E-posta') : null) : null,
         mesajKutu(x, t),
-        h('div', { class: 'hs-tk-b' },
+        kararAlani(x, t),
+        x.karar === 'kabul' ? h('div', { class: 'hs-tk-b' },
           h('a', { class: 'btn btn-l btn-s', href: `/teklif-al/?mod=surec&firmalar=${encodeURIComponent(x.firmaSlug)}&tip=${encodeURIComponent(t.tip || '')}` }, 'Süreci siz yönetin'),
-          h('a', { class: 'btn btn-g btn-s', href: `/yorum-yaz/?firma=${encodeURIComponent(x.firmaSlug)}` }, 'Yorum yaz')));
+          h('a', { class: 'btn btn-g btn-s', href: `/yorum-yaz/?firma=${encodeURIComponent(x.firmaSlug)}` }, 'Yorum yaz')) : null);
     }
     function talepKart(t: any, kisa = false) {
       const acik = t.durum === 'acik'; const kalanS = acik ? sure(t.sonTarihMs) : '';
@@ -111,7 +148,7 @@ import { SITE } from '../site.config';
         ilerleme(t),
         !kisa && ozellik.length ? h('ul', { class: 'tags' }, ...ozellik.map((o) => h('li', { class: 'b' }, o))) : null,
         !kisa && t.model ? h('span', { class: 'small' }, 'İlgilendiğiniz model: ', h('b', {}, t.model)) : null,
-        teklifler.length ? h('div', { class: 'hs-tkler' }, ...teklifler.map((x: any, i: number) => teklifKart(x, i === 0 && t.teklifler.length > 1, t)))
+        teklifler.length ? h('div', { class: 'hs-tkler' }, ...(t.teklifler.some((x: any) => x.kdvDahil) && t.teklifler.some((x: any) => !x.kdvDahil) ? [h('p', { class: 'small tk-uyari' }, 'Bazı teklifler KDV dahil, bazıları KDV hariç; fiyata dahil işler de farklı. Karşılaştırırken ikisine birlikte bakın.')] : []), ...teklifler.map((x: any, i: number) => teklifKart(x, i === 0 && t.teklifler.length > 1 && !(t.teklifler.some((y: any) => y.kdvDahil) && t.teklifler.some((y: any) => !y.kdvDahil)), t)))
           : h('p', { class: 'small muted', style: { margin: 0 } }, acik ? `Talebiniz firmalara iletildi. Fiyat veren firmalar burada ve e-postanızda görünecek; süre dolunca tüm teklifler tek tabloda gelir.` : 'Bu talebe sistem üzerinden fiyat girilmedi; ekibimiz sizinle iletişime geçecek.'),
         (t.sorular || []).length ? h('div', { class: 'hs-sorular' }, h('b', { class: 'small' }, 'Fiyat vermeden önce size soru soran firmalar'), h('span', { class: 'xs muted' }, 'Yanıtlarsanız firma daha doğru fiyat verir. Adınız ve iletişim bilgileriniz fiyat verene kadar firmaya gizli kalır.'), ...t.sorular.map((x: any) => { const k = mesajKutu(x, t) as HTMLDetailsElement; k.open = true; (k.querySelector('summary') as HTMLElement).textContent = `${x.firma} soruyor (${x.mesajlar.length})`; return k; })) : null,
         kisa && t.teklifler.length > 3 ? h('button', { class: 'btn btn-l btn-s', type: 'button', style: { alignSelf: 'flex-start' }, onclick: () => ac('talepler') }, `Tüm ${t.teklifler.length} teklifi gör`) : null);
@@ -214,12 +251,18 @@ import { SITE } from '../site.config';
       talepCiz(); ac('talepler');
     }
     async function yukle() {
-      if (misafirK) { const r = await api('/api/talebim', { k: misafirK }); veri = { ben: null, talepler: [r.talep], siparisler: [], favoriler: [] }; misafirCiz(); return; }
+      if (misafirK) { const r = await api('/api/talebim', { k: misafirK }); veri = { ben: null, talepler: [r.talep], siparisler: [], favoriler: [] }; misafirCiz(); hedefeGit(); return; }
       veri = await api('/api/hesap');
       try { localStorage.setItem('pt_hesap_' + uid, JSON.stringify({ t: Date.now(), veri })); } catch { /* */ }
       const yerel: string[] = JSON.parse(localStorage.getItem('pt_fav') || '[]');
       if (veri.favoriler?.length) localStorage.setItem('pt_fav', JSON.stringify([...new Set([...yerel, ...veri.favoriler])]));
       hepsiniCiz();
+      hedefeGit();
+    }
+    function hedefeGit() {
+      if (!hedefTk) return;
+      const el = document.querySelector<HTMLElement>(`#p-talepler .hs-tk[data-firma="${CSS.escape(hedefTk)}"]`); hedefTk = '';
+      if (el) { ac('talepler'); requestAnimationFrame(() => { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.classList.add('vurgu'); setTimeout(() => el.classList.remove('vurgu'), 2400); }); }
     }
     (async () => {
       try {

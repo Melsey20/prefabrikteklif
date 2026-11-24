@@ -235,7 +235,8 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       const sira = (t: any) => (!t.kapali && !t.teklif && t.davet !== 'red' ? 0 : 1);
       box.replaceChildren(...[...V.talepler].sort((x: any, y: any) => sira(x) - sira(y) || y.olusturma - x.olusturma).map((t: any) => {
         const acik = !t.kapali;
-        const durum = t.teklif ? h('span', { class: 'st-b g' }, `Fiyat verdiniz: ${tl(t.teklif.fiyat)}`) : t.davet === 'red' ? h('span', { class: 'st-b' }, 'İlgilenmiyorum dediniz') : acik ? h('span', { class: 'st-b a' }, kalan(t.sonTarihMs)) : h('span', { class: 'st-b' }, 'Süre doldu');
+        const kr = t.teklif?.karar;
+        const durum = kr === 'kabul' ? h('span', { class: 'st-b g', style: { background: '#0f5132', color: '#fff' } }, '🎉 Müşteri teklifinizi kabul etti') : kr === 'red' ? h('span', { class: 'st-b' }, 'Müşteri bu teklifle ilerlemeyecek') : kr === 'baska' ? h('span', { class: 'st-b' }, 'Müşteri başka teklifle ilerliyor') : t.teklif ? h('span', { class: 'st-b g' }, `Fiyat verdiniz: ${tl(t.teklif.fiyat)}`) : t.davet === 'red' ? h('span', { class: 'st-b' }, 'İlgilenmiyorum dediniz') : acik ? h('span', { class: 'st-b a' }, kalan(t.sonTarihMs)) : h('span', { class: 'st-b' }, 'Süre doldu');
         return h('article', { class: 'item' },
           h('div', { class: 'row' }, h('b', {}, [t.tipAd, t.amacAd, t.oda, t.m2 ? `${t.m2} m²` : '', [t.il, t.ilce].filter(Boolean).join(' / ')].filter(Boolean).join(' · ')), durum),
           h('span', { class: 'small' }, [t.araziAd, t.butce, t.teslim, t.zaman, t.kapsam?.join(', ')].filter(Boolean).join(' · ')),
@@ -243,7 +244,10 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
           t.not ? h('span', { class: 'small muted' }, '“' + t.not + '”') : null,
           t.teklif ? h('div', { class: 'yt-tk-s en' }, h('div', { class: 'yt-tk-u' }, h('b', {}, 'Verdiğiniz fiyat'), h('strong', {}, tl(t.teklif.fiyat) + (t.teklif.kdvDahil ? ' · KDV dahil' : ' · KDV hariç'))),
             h('span', { class: 'xs muted' }, [t.teklif.teslimGun ? `${t.teklif.teslimGun} gün teslim` : '', t.teklif.garantiYil ? `${t.teklif.garantiYil} yıl garanti` : '', t.teklif.dahil?.length ? 'Dahil: ' + t.teklif.dahil.join(', ') : '', t.teklif.zaman ? tarih(t.teklif.zaman) : ''].filter(Boolean).join(' · ')),
-            t.teklif.not ? h('span', { class: 'xs' }, 'Notunuz: “' + t.teklif.not + '”') : null) : null,
+            t.teklif.not ? h('span', { class: 'xs' }, 'Notunuz: “' + t.teklif.not + '”') : null,
+            kr === 'kabul' ? h('span', { class: 'small', style: { color: '#0f5132', fontWeight: 700 } }, 'Müşteriyi en kısa sürede arayın; keşif, sözleşme ve ödeme planını netleştirin.') : null,
+            kr === 'red' && t.teklif.kararNeden ? h('span', { class: 'small' }, 'Müşterinin nedeni: ', h('b', {}, t.teklif.kararNeden)) : null,
+            (kr === 'kabul' || kr === 'red') && t.teklif.kararNot ? h('span', { class: 'xs' }, 'Müşterinin notu: “' + t.teklif.kararNot + '”') : null) : null,
           t.musteri ? h('div', { class: 'okmsg small', style: { padding: '10px 12px' } }, h('b', {}, t.musteri.ad), ' · ', h('a', { href: 'tel:' + t.musteri.telefon }, t.musteri.telefon), ' · ', h('a', { href: 'mailto:' + t.musteri.eposta }, t.musteri.eposta))
             : h('span', { class: 'xs muted' }, '🔒 Müşteri bilgileri fiyat verince açılır'),
           t.teklif || (acik && t.davet !== 'red') || (t.mesajlar || []).length ? mesajlar(t) : null,
