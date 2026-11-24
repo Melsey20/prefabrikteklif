@@ -10,7 +10,7 @@
         {
           "sablon": "kapak",
           "etiket": "Tiny house",
-          "h": "2+1 tiny house <em>olur mu?</em>",
+          "h": "2+1 tiny house<br><em>olur mu?</em>",
           "boy": 90,
           "p": "Metrekare ve fiyatla kısa cevap. Kaydırın.",
           "img": "tiny-house-b-960.webp"
@@ -53,7 +53,7 @@
         {
           "sablon": "cta",
           "etiket": "4 / 4",
-          "h": "Size uygun evi <em>yan yana görün.</em>",
+          "h": "Size uygun evi<br><em>yan yana görün.</em>",
           "p": "İhtiyacınızı yazın; teklifler 48 saatte gelsin.",
           "img": "tiny-house-960.webp",
           "cipler": [
@@ -67,7 +67,7 @@
   ],
   "reels": [
     {
-      "seslendirme": "Kaliteli prefabrik ev nasıl anlaşılır? Önce teknik şartnameye bakın: profil kalınlığı, yalıtım kalınlığı ve doğrama tipi sözleşmede yazılı olsun. Taşıyıcı sistem ve çatı için ayrı garanti isteyin, teslim edilmiş bir evi görün. Ödemeyi sipariş, üretim ve teslim diye üçe bölün; tamamını peşin vermeyin. Teklifleri karşılaştırın, bağlantı profilde.",
+      "seslendirme": "Kaliteli prefabrik ev nasıl anlaşılır? Profil kalınlığı, yalıtım kalınlığı ve doğrama tipi sözleşmede yazılı olsun. Taşıyıcı sistem ve çatı için ayrı garanti isteyin, teslim edilmiş bir evi görün. Ödemeyi sipariş, üretim ve teslim diye üçe bölün. Teklifleri karşılaştırın, bağlantı profilde.",
       "aciklama": "Kaliteli prefabrik ev nasıl anlaşılır? Prefabrik ev alırken dikkat edilmesi gerekenler: sözleşmeye yazdırılacaklar ve ödeme planı 👇\n\nTeknik şartname: Profil kalınlığı, yalıtım malzemesi ve kalınlığı, doğrama tipi sözleşmede yazılı olsun. Taşıyıcı sistem, çatı ve su yalıtımı için ayrı garanti isteyin; mümkünse firmanın teslim ettiği bir evi görün.\n\nÖdeme: Ödemeyi aşamalara bölün (sipariş, üretim, teslim), tamamını peşin ödemekten kaçının. Ticaret unvanını ve vergi numarasını kontrol edin.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir; firmalar fiyatlarını aynı başlıklarla girer.\n\n📌 Kaydedin, kapora vermeden önce bakın.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevalırkendikkat #kaliteliprefabrikev #prefabrikevfiyatları",
       "sahneler": [
         {
@@ -106,13 +106,7 @@
           "h": "Teklifleri <em>karşılaştırın.</em>"
         }
       ],
-      "sure": 22,
-      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-24-aksam-1.mp3",
-      "ses": {
-        "kaynak": "elevenlabs",
-        "model": "eleven_multilingual_v2",
-        "voice_id": "IuRRIAcbQK5AQk1XevPj"
-      }
+      "sure": 22
     }
   ]
 }

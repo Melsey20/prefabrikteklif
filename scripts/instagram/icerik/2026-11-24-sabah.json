@@ -10,7 +10,7 @@
         {
           "sablon": "kapak",
           "etiket": "Ahşap ev",
-          "h": "50 m² ahşap ev <em>kaça çıkar?</em>",
+          "h": "50 m² ahşap ev<br><em>kaça çıkar?</em>",
           "boy": 88,
           "p": "23 Kasım 2026 itibarıyla listemizdeki m² fiyatıyla. Kaydırın.",
           "img": "ahsap-b-960.webp"
