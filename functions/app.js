@@ -1835,6 +1835,41 @@ export async function teklifOzetleri({ db, mail, ayar, FieldValue, Timestamp, FI
   return n;
 }
 
+// ---- Özetten 7 gün sonra müşteriye tek seferlik hatırlatma: "teklifleri inceleyebildiniz mi?" ----
+// Pencere 7–14 gün: günlük çalışır, her talep bir kez alır. Teklif gelmeyen, hepsini reddeden ya da süreç yönetimi isteyen müşteriye gitmez.
+export async function teklifTakipleri({ db, mail, ayar, FieldValue, Timestamp, FIRMS }) {
+  const firmAd = (slug) => FIRMS.find((f) => f.slug === slug)?.kisaAd || slug;
+  const simdi = Timestamp.now().toMillis(); const GUN = 86400000;
+  const q = await db.collection('talepler').where('durum', '==', 'gonderildi').where('ozetZamani', '<=', Timestamp.fromMillis(simdi - 7 * GUN)).where('ozetZamani', '>=', Timestamp.fromMillis(simdi - 14 * GUN)).limit(100).get();
+  const site = ayar().site; let n = 0;
+  for (const doc of q.docs) {
+    const d = doc.data();
+    if (d.takipZamani || d.test || !d.eposta || !(d.teklifSayisi > 0)) continue;
+    const tk = (await doc.ref.collection('teklifler').get()).docs.map((x) => x.data()).filter((t) => t.musteriKarar !== 'red').sort((a, b) => a.fiyat - b.fiyat);
+    const surecVar = !(await db.collection('talepler').where('eposta', '==', d.eposta).where('mod', '==', 'surec').limit(1).get()).empty;
+    if (!tk.length || surecVar) { await doc.ref.set({ takipZamani: FieldValue.serverTimestamp(), takip: 'atlandi' }, { merge: true }); continue; }
+    const link = (firma) => d.sahipKod ? `${site}/hesabim/?bagla=${doc.id}.${d.sahipKod}${firma ? `&tk=${encodeURIComponent(firma)}` : ''}#teklifler` : `${site}/hesabim/#teklifler`;
+    const baslik = [TIP_AD[d.tip], d.m2 ? `${d.m2} m²` : '', d.il].filter(Boolean).join(' · ');
+    const sec = d.secilenFirma ? tk.find((t) => t.firma === d.secilenFirma) : null;
+    const dip = '<p style="font-size:12px;color:#6b766f;margin:14px 0 0">Bu, talebinizle ilgili tek seferlik bir hatırlatmadır. Projenizi ertelediyseniz dikkate almayabilirsiniz.</p>';
+    let konu; let govde;
+    if (sec) {
+      const fa = firmAd(sec.firma);
+      konu = `${fa} ile görüşmeniz nasıl gidiyor?`;
+      govde = sablon(konu, `<p>Merhaba ${esc(d.ad)},</p><p>Geçtiğimiz günlerde ${esc(baslik)} talebiniz için <b>${esc(fa)}</b> firmasının <b>${tl(sec.fiyat)}</b> teklifini seçmiştiniz. Firmayla görüşebildiniz mi?</p><p><b>Sözleşmeden önce yazılı olarak isteyin:</b></p><ul style="padding-left:18px;margin:6px 0 12px;line-height:1.6"><li>Fiyata dahil olan ve olmayan işlerin listesi</li><li>Ödeme planı ve teslim tarihi</li><li>Garanti belgesi ve kapsamı</li></ul><p>Firma size dönmediyse ya da fikriniz değiştiyse diğer tekliflere dönebilir, seçiminizi geri alabilirsiniz.</p>${buton(link(sec.firma), 'Tekliflerime dön')}${surecKutu(`${site}/teklif-al/?mod=surec&tip=${encodeURIComponent(d.tip || '')}&firmalar=${encodeURIComponent(sec.firma)}`, `${fa} ile süreci biz yönetelim`, 'Sözleşmeyi kontrol eder; üretim, nakliye ve montajı teslime kadar sizin adınıza takip ederiz.')}<p style="font-size:13px;color:#5b6760">Sözleşme yaptıysanız deneyiminizi <a href="${site}/yorum-yaz/?t=${doc.id}.${d.token}">doğrulanmış yorum</a> olarak paylaşmanız diğer ev arayanlara çok yardımcı olur.</p>${dip}`, { onizleme: `${fa} teklifiyle ilgili kısa bir hatırlatma` });
+    } else {
+      konu = `Teklifleri inceleyebildiniz mi? ${TIP_AD[d.tip] || ''}${d.il ? `, ${d.il}` : ''}`;
+      const td = 'padding:8px 10px;border-bottom:1px solid #eee;font-size:13px';
+      const satir = tk.slice(0, 5).map((t) => `<tr><td style="${td}"><b>${esc(firmAd(t.firma))}</b></td><td style="${td};text-align:right;white-space:nowrap"><b>${tl(t.fiyat)}</b> <span style="color:#5b6760">${t.kdvDahil ? 'KDV dahil' : 'KDV hariç'}</span></td><td style="${td};text-align:right"><a href="${esc(link(t.firma))}" style="color:#17663f;font-weight:bold">İncele →</a></td></tr>`).join('');
+      govde = sablon('Teklifleri inceleyebildiniz mi?', `<p>Merhaba ${esc(d.ad)},</p><p>Geçtiğimiz günlerde ${esc(baslik)} talebiniz için ${tk.length} firmadan gelen teklifleri iletmiştik. Karar verebildiniz mi?</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:12px 0">${satir}</table><p>Hesap açmadan:</p><ul style="padding-left:18px;margin:6px 0 12px;line-height:1.7"><li><b>Beğendiğiniz teklifi kabul edin</b>, firma sizi arasın (bağlayıcı değildir)</li><li><b>Soru sorun, detay isteyin:</b> keşif, kat planı, ödeme planı, pazarlık payı</li><li><b>İlgilenmediğiniz teklifi kapatın</b>, o firma sizi boşuna aramasın</li></ul>${buton(link(''), 'Teklifleri incele')}${surecKutu(`${site}/teklif-al/?mod=surec&tip=${encodeURIComponent(d.tip || '')}&firmalar=${encodeURIComponent(tk.slice(0, 5).map((t) => t.firma).join(','))}`, 'Hâlâ karar veremediyseniz süreci biz yönetelim')}${dip}`, { onizleme: `${tk.length} teklif sizi bekliyor` });
+    }
+    try { await mail(d.eposta, konu, govde, { tur: 'takip' }); } catch (e) { console.error('takip e-postası', doc.id, e.message); continue; }
+    await doc.ref.set({ takipZamani: FieldValue.serverTimestamp(), takip: sec ? 'secimli' : 'secimsiz' }, { merge: true });
+    n++;
+  }
+  return n;
+}
+
 // ---- Aylık fiyat kontrolü: firma sayfalarındaki fiyat hâlâ aynı mı? ----
 export const fiyatBicimleri = (n) => {
   const s = String(n);

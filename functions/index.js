@@ -8,7 +8,7 @@ import { getFirestore, FieldValue, Timestamp } from 'firebase-admin/firestore';
 import { getAuth } from 'firebase-admin/auth';
 import nodemailer from 'nodemailer';
 import { readFileSync } from 'node:fs';
-import { createApp, teklifOzetleri, fiyatKontrolu } from './app.js';
+import { createApp, teklifOzetleri, teklifTakipleri, fiyatKontrolu } from './app.js';
 
 initializeApp();
 const db = getFirestore();
@@ -88,6 +88,11 @@ export const api = onRequest({ region: REGION, secrets: [SMTP_PASS, PLACES_API_K
 
 export const teklifOzeti = onSchedule({ schedule: 'every 30 minutes', region: REGION, timeZone: 'Europe/Istanbul', secrets: [SMTP_PASS] }, async () => {
   await teklifOzetleri(ortak);
+});
+
+// Her gün 10.30 (İstanbul): özetten 7 gün sonra müşteriye tek seferlik “teklifleri inceleyebildiniz mi?” hatırlatması
+export const teklifTakip = onSchedule({ schedule: '30 10 * * *', region: REGION, timeZone: 'Europe/Istanbul', secrets: [SMTP_PASS], timeoutSeconds: 300 }, async () => {
+  console.log('Teklif takip e-postası', await teklifTakipleri(ortak));
 });
 
 // Her gün 10.00 (İstanbul): yönetimden açıldıysa firmalara tanıtım e-postası (günlük kota) + ödemesi gecikenlere hatırlatma

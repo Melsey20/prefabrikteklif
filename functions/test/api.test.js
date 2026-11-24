@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { FakeDb, FieldValue, Timestamp, zaman, res } from './fakeDb.js';
-import { createApp, teklifOzetleri, fiyatKontrolu, fiyatAdaylari, sayfaMetni, katalogId } from '../app.js';
+import { createApp, teklifOzetleri, teklifTakipleri, fiyatKontrolu, fiyatAdaylari, sayfaMetni, katalogId } from '../app.js';
 
 const FIRMS = [{ slug: 'kardesler', kisaAd: 'Kardeşler', il: 'Malatya', tipler: ['prefabrik'] }, { slug: 'pramo', kisaAd: 'Pramo', il: 'Kocaeli', tipler: ['prefabrik'] }];
 const MODELS = [
@@ -166,6 +166,45 @@ test('müşteri teklifi kabul eder, ilgilenmiyorum der ve geri alır; firmalar b
   const tk2 = fp2.body.talepler.find((x) => x.id === id).teklif; assert.equal(tk2.karar, 'red'); assert.equal(tk2.kararNeden, 'Fiyat bütçesinin üzerinde');
   // Başka hesap karar veremez
   assert.equal((await call('POST', '/api/teklif-karar', { tok: 'tok-firma', body: { talep: id, firma: 'kardesler', karar: 'kabul' } })).statusCode, 404);
+});
+
+test('özetten 7 gün sonra tek seferlik takip e-postası: seçimsiz, seçimli ve atlanan durumlar', async () => {
+  const GUN = 86400000;
+  const kurTalep = async (secim) => {
+    const { db, call, mails } = kur();
+    await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik'], iller: ['Malatya'], abonelik: { durum: 'aktif' } });
+    await call('POST', '/api/teklif', { body: TALEP });
+    const [tid, td] = db.dump('talepler/').filter(([k]) => k.split('/').length === 2)[0]; const id = tid.split('/')[1];
+    assert.equal((await call('POST', '/api/firma/teklif', { tok: 'tok-firma', body: { talep: id, fiyat: '650.000', kdvDahil: true } })).statusCode, 200);
+    if (secim) assert.equal((await call('POST', '/api/teklif-karar', { body: { k: `${id}.${td.sahipKod}`, talep: id, firma: 'kardesler', karar: secim } })).statusCode, 200);
+    zaman.ileri(49 * 3600000);
+    const o = { db, mail: async (to, s2, html) => mails.push({ to, subject: s2, html }), ayar: () => ({ site: 'https://x', admin: 'info@mitraajans.com' }), FieldValue, Timestamp, FIRMS };
+    assert.equal(await teklifOzetleri(o), 1);
+    return { db, call, mails, o, id, kod: td.sahipKod };
+  };
+  // Seçim yok: 6. günde gitmez, 7. günde bir kez gider
+  let x = await kurTalep('');
+  zaman.ileri(6 * GUN); assert.equal(await teklifTakipleri(x.o), 0, '7 gün dolmadan gitmez');
+  zaman.ileri(1.5 * GUN); let once = x.mails.length;
+  assert.equal(await teklifTakipleri(x.o), 1);
+  const m = x.mails.slice(once).find((y) => y.to === TALEP.eposta);
+  assert.ok(m && m.subject.startsWith('Teklifleri inceleyebildiniz mi') && m.html.replace(/&amp;/g, "&").includes(`bagla=${x.id}.${x.kod}&tk=kardesler`) && m.html.includes('mod=surec'));
+  assert.equal(await teklifTakipleri(x.o), 0, 'ikinci kez gitmez');
+  // Seçim var: firmaya özel metin
+  x = await kurTalep('kabul');
+  zaman.ileri(7.5 * GUN); once = x.mails.length;
+  assert.equal(await teklifTakipleri(x.o), 1);
+  assert.ok(x.mails.slice(once).some((y) => y.to === TALEP.eposta && y.subject.includes('görüşmeniz nasıl gidiyor') && y.html.includes('yorum-yaz')));
+  // Tüm teklifleri reddetti: gitmez
+  x = await kurTalep('red');
+  zaman.ileri(7.5 * GUN); assert.equal(await teklifTakipleri(x.o), 0);
+  // Süreç yönetimi istedi: gitmez
+  x = await kurTalep('');
+  await x.db.collection('talepler').doc('surec1').set({ mod: 'surec', eposta: TALEP.eposta, durum: 'surec' });
+  zaman.ileri(7.5 * GUN); assert.equal(await teklifTakipleri(x.o), 0);
+  // 14 günü geçen eski talepler toplu gönderimde yakalanmaz
+  x = await kurTalep('');
+  zaman.ileri(15 * GUN); assert.equal(await teklifTakipleri(x.o), 0);
 });
 
 test('firma sayaçları: ilgilenmiyorum iki kez basılsa da bir kez sayılır, liste davetinde yanıt verirse talep de sayılır', async () => {

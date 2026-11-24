@@ -59,6 +59,34 @@
           "order": "ASCENDING"
         }
       ]
+    },
+    {
+      "collectionGroup": "talepler",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "durum",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "ozetZamani",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "talepler",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "eposta",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "mod",
+          "order": "ASCENDING"
+        }
+      ]
     }
   ],
   "fieldOverrides": []
