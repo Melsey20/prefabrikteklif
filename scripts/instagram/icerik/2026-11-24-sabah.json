@@ -22,9 +22,18 @@
           "boy": 84,
           "p": "m² × ortanca m² fiyatı (26.100 TL). Yaklaşık değerler.",
           "maddeler": [
-            ["50 m²", "Yaklaşık 1.305.000 TL"],
-            ["80 m²", "Yaklaşık 2.088.000 TL"],
-            ["100 m²", "Yaklaşık 2.610.000 TL"]
+            [
+              "50 m²",
+              "Yaklaşık 1.305.000 TL"
+            ],
+            [
+              "80 m²",
+              "Yaklaşık 2.088.000 TL"
+            ],
+            [
+              "100 m²",
+              "Yaklaşık 2.610.000 TL"
+            ]
           ]
         },
         {
@@ -32,7 +41,12 @@
           "etiket": "3 / 4",
           "h": "Teklifte <em>bunları sorun</em>",
           "p": "Bakım talimatını ve garantiyi teslimde yazılı alın.",
-          "maddeler": ["Temel dahil mi?", "Nakliye ve montaj", "İç bitiş", "KDV dahil mi?"],
+          "maddeler": [
+            "Temel dahil mi?",
+            "Nakliye ve montaj",
+            "İç bitiş",
+            "KDV dahil mi?"
+          ],
           "img": "ic-mekan-1344.webp"
         },
         {
@@ -41,10 +55,28 @@
           "h": "Ahşap ev fiyatlarını <em>karşılaştırın.</em>",
           "p": "Formu bir kez doldurun; teklifler 48 saatte gelsin.",
           "img": "ahsap-c-960.webp",
-          "cipler": ["Ücretsiz", "{firmaSayisi} firma", "{modelSayisi} model"]
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
         }
       ]
     }
   ],
-  "reels": []
+  "reels": [],
+  "yayin": {
+    "hesap": "17841474767654199",
+    "durum": "yayın bekliyor",
+    "medya": {
+      "tasarim": [
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/591c39da-811c-4334-b715-7833b4f9cffe.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/159a528a-76db-4034-a20b-43aab1090e6b.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/ffc13372-355d-48d1-be74-f4e046560eee.jpg",
+        "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/81bfb42e-82a5-40c2-b58c-45eb48d5ade8.jpg"
+      ],
+      "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/7ecaf3a8-84a8-49d7-9076-4325d0c80750.jpg",
+      "reels": []
+    }
+  }
 }
