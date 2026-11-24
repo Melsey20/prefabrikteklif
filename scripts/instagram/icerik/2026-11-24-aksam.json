@@ -55,7 +55,7 @@
           "etiket": "4 / 4",
           "h": "Size uygun evi<br><em>yan yana görün.</em>",
           "p": "İhtiyacınızı yazın; teklifler 48 saatte gelsin.",
-          "img": "tiny-house-960.webp",
+          "img": "hero-1344.webp",
           "cipler": [
             "Ücretsiz",
             "{firmaSayisi} firma",
@@ -77,7 +77,7 @@
           "img": "prefabrik-c-960.webp"
         },
         {
-          "t": 3,
+          "t": 3.62,
           "tur": "liste",
           "h": "Sözleşmede <em>yazılı olsun</em>",
           "ikon": "✓",
@@ -88,26 +88,26 @@
           ]
         },
         {
-          "t": 9,
+          "t": 7.26,
           "tur": "foto",
           "h": "Ayrı garanti,<br><em>teslim edilmiş ev</em>",
           "img": "montaj-960.webp"
         },
         {
-          "t": 13,
+          "t": 12.56,
           "tur": "sayi",
           "h": "Ödemeyi <em>aşamalara bölün</em>",
           "n": 3,
           "birim": "aşama · sipariş, üretim, teslim"
         },
         {
-          "t": 18,
+          "t": 16.5,
           "tur": "son",
           "h": "Teklifleri <em>karşılaştırın.</em>"
         }
       ],
-      "sure": 22,
-      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-24-aksam-1.mp3",
+      "sure": 19.86,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/04442c7a49b4c5be497d9291c7763da85796cbb6/scripts/instagram/ses/2026-11-24-aksam-1.mp3",
       "ses": {
         "kaynak": "elevenlabs",
         "model": "eleven_multilingual_v2",
