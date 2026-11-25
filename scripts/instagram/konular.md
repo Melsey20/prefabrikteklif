@@ -94,3 +94,34 @@ Hook iddialı ya da merak uyandıran bir soru olsun ("… neden ucuz?", "… han
 - Günde **2 tasarım + 1 Reels**. Sabah 10:00: 1 tasarım + hikâye (Reels yok, `"reels": []`). Akşam 19:00: 1 tasarım, 19:20 Reels, ardından hikâyeler. **Pazartesi ve Perşembe** akşamına ek olarak 19:40'ta firma Reels'i gelir (akşam dosyasında `reels` = [ev arayan Reels, firma Reels]; ikisi de ElevenLabs seslendirmeli).
 - Akşamın ilk Reels'i her gün ev arayanlara yönelik, en çok aranan ifadelerden birini soran hook'lu bilgi içeriğidir. Firma içerikleri 22 Kasım 2026 düzenine göre (haftalık ~%20): Pazartesi ve Perşembe akşam firma tasarımı + ek firma Reels'i, Cumartesi akşam firma tasarımı (bkz. "Açılış kampanyası — Ne zaman").
 - **23 Kasım 2026 (Pazartesi) istisnası — kullanıcı isteği, 22 Kasım:** O günün akşam firma tasarımı ve ek bir firma Reels'i `icerik/2026-11-23-firma.json` dosyasında hazır ve yayın sırasında ("Panelimizde fiyat bekleyen 20+ müşteri var"; 19:00 tasarım, 19:20 firma Reels'i, 19:45/19:50 hikâyeler). Bu yüzden 23 Kasım'da: sabah dosyası normal; `2026-11-23-aksam.json` dosyasında **tasarım yapmayın** (`"tasarimlar": []`, `medya.tasarim` yok/boş, `story` yok), yalnızca günün ev arayan Reels'ini üretin ve akşam dosyasının `saat`ini **"19:40"** yapın (Reels 20:00'de, hikâyesi 20:30'da çıkar). Firma dosyası prefabrik-c ve hero görsellerini kullanıyor; o gün bunları tekrar kullanmayın. `2026-11-23-firma.json` dosyasına dokunmayın.
+
+## Keşfet ve erişim (25 Kasım 2026, kullanıcı: "içerikler hiç erişim almıyor … keşfete düşelim, merak uyandıralım")
+
+**Veri (Mitra Veri Merkezi, 3–24 Kasım, 101 gönderi):** Gönderi başına erişim medyanı ~170; Reels ile karusel neredeyse aynı (~195 / ~190) → Reels takipçi dışına dağıtılmıyor. Kaydetme ortalaması 0,5–1, paylaşım 0,2, yorum 0. Takipçi 192 → 1.092'ye çıktı ama gönderi erişimi artmadı.
+En iyiler hep **kısa (≈14 sn), şaşırtıcı bir kural/gerçek veren** Reels'ler: "Tekerlekli tiny house ruhsat ister mi?" (1.347 erişim, 7,9× medyan, 6 paylaşım), "Prefabrik ev kaç yıl dayanır?" (517), "Firma firma gezmeden karşılaştırın" (506), "2+1 prefabrik ev kaça mal olur?" (340), "Prefabrik ev desteği kaç TL?" (299). 18–24 sn'lik, liste sahneli bilgi Reels'leri medyanda kalıyor.
+
+**Her gün önce `scripts/instagram/istatistik/performans.md`'yi güncelle ve oku** (Veri Merkezi'ni Drive'dan .xlsx indir → `python3 scripts/instagram/performans.py <xlsx>`; META_TOKEN'a istatistik izni verilince `istatistik/rapor.md` de dolar ve Reels izlenme süresi gelir). En iyi 8'deki konuların ve kalıpların YENİ açılarını öne al; "En zayıf" listesindeki kalıpları tekrarlama.
+
+**Reels kuralları (ev arayan, reels[0]):**
+- Süre **13–17 sn** (OKUNURLUK kuralları aynen: sahne ≥3 sn, liste ≥3,5 sn), 4 sahne, seslendirme **28–38 kelime**. Kısa Reels sonuna kadar izlenir ve tekrar oynar; Instagram'ın en güçlü sinyali bu. Liste sahnesi en fazla bir tane.
+- **Hook kalıpları** (birini seç, ilk sahnede ve seslendirmenin ilk cümlesinde aynen):
+  1. *Şaşırtan kural:* "Tekerlekli tiny house ruhsat ister mi?", "Tarlaya konteyner koymak yasak mı?", "Prefabrik eve kredi çıkar mı?" — cevap "Evet ama…/Hayır, çünkü…" diye 2. sahnede gelir (yalnızca rehber/*.md'deki bilgi).
+  2. *Tahmin et → cevap sonda:* "100 m² çelik ev kaça çıkar? Tahmin edin." → rakam SON sahneden bir önceki "sayi" sahnesinde açılır (kaba hesap, meta.json). Seslendirme: "Tahmininizi yoruma yazın."
+  3. *Yanlış bilinen:* "'Prefabrik ev ruhsatsız kurulur' — yanlış." / "'3 günde kurulur' — yarısı doğru."
+  4. *Bütçe sorusu:* "500 bin TL'ye hangi ev alınır?" → meta.json min/medyan değerleriyle ev tipleri.
+  5. *Karşılaştırma şoku:* "Tiny house'un m²'si prefabrikten neden 4 kat pahalı?" (m2Medyan oranları meta.json'dan hesaplanır).
+  "… nedir / ne demek" sözlük hook'u ve "… nelere dikkat etmeli" gibi genel başlık KULLANMA.
+- İlk sahne tercihen **"sayi"** (büyük rakam, ör. 38.750 TL/m²) ya da güçlü bir dış cephe fotoğrafı; aynı fotoğrafı arka arkaya günlerde kapak yapma.
+- Seslendirmenin son cümlesi tek, kolay cevaplanan bir **yorum sorusu** + "bağlantı profilde": ör. "Siz kaç metrekare düşünüyorsunuz? Yoruma yazın, bağlantı profilde."
+- **Gerçek video önceliklidir:** Drive'daki "PrefabrikTeklif — Reels ham videolar" klasöründe (id `1TW1lMMhF63CH-dAqrWMs6Jd60Zjmnk1h`) `scripts/instagram/video/kullanilan.json`'da olmayan bir video varsa akşam reels[0]'ı onunla yap (video.sh; ayrıntı aşağıda).
+
+**Tasarım ve açıklama kuralları:**
+- Karusel kapağı bir merak boşluğu açar ("Bu 3 kalemi fiyata yazmayan firmaya dikkat"), son kart **yorum sorusu** ile biter. Kaydedilecek "kopya kâğıdı" formatı (tablo, kontrol listesi, kaba hesap) tercih edilir.
+- Açıklama (caption) **kısa**: ilk satır hook + ana arama ifadesi (≤125 karakter), en fazla 2 kısa paragraf, tek soru ("👇 Yoruma yazın: …"), sonra kaydet çağrısı, bağlantı satırı ve 3–5 hashtag. Uzun SEO paragrafları yok.
+
+## Gerçek videolu Reels (video.sh, 25 Kasım 2026)
+
+- Ham videolar Drive klasörüne konur: "PrefabrikTeklif — Reels ham videolar" (`1TW1lMMhF63CH-dAqrWMs6Jd60Zjmnk1h`). Klasör "Bağlantıya sahip herkes görüntüleyebilir" olmalı (video.sh gdown ile indirir). Kullanılan dosya kimlikleri `scripts/instagram/video/kullanilan.json`'a eklenir (aynı video iki kez kullanılmaz; ayrı kesitleri farklı günlerde kullanılabilir — kimlik + kesit yaz).
+- Dosya adından içerik anlaşılır: ör. "montaj-celik-ev.mp4" (görüntü, seslendirme ElevenLabs), "yusuf-konusma-ruhsat.mp4" (kamera karşısında anlatım → `"ses": "orijinal"`). Konuşmalı videoda önce whisper ile konuşmayı oku, hook'u konuşmadan seç, en iyi 13–25 sn'lik kesiti `bas`/`bit` ile al.
+- Reels öğesi: `"video": {"klipler": [{"kaynak": "drive:<id>", "bas": 0, "bit": 8}, …], "ses": "seslendirme" | "orijinal"}`, `"altyazi": "otomatik"`, sahneler `"tur": "video"` (üstte başlık; altta konuşmadan otomatik altyazı) + isteğe bağlı "sayi"/"liste" ara sahneleri + sonda "son". `"ses": "seslendirme"`de seslendirme/ses_url adımları aynen geçerlidir. uret.sh video'lu Reels'i otomatik video.sh ile üretir; kontrol kareleri `tmp/kareN/sNN.jpg`.
+- Görüntülerdeki ev gerçek bir firmanın ürünüyse açıklamada firma adı yazılmaz (izin yoksa); kullanıcının "ortak gönderi" dediği firma olursa adı açıklamaya yazılabilir.
