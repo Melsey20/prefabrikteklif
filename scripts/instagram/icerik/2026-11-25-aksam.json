@@ -1,0 +1,110 @@
+{
+  "tarih": "2026-11-25",
+  "slot": "aksam",
+  "saat": "19:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Prefabrik ev kaç yıl dayanır? Prefabrik evin ömrünü belirleyen 4 konu ve teklif alırken firmaya sorulacak sorular 👇\n\nTek bir cevap yok; çünkü aynı adı taşıyan evler çok farklı malzemelerle üretiliyor. Ömrü belirleyenler: taşıyıcı sistem (galvanizli çelik profilin kalınlığı ve kaplama sınıfı), panel ve yalıtım (nem, metal ve ahşabın en büyük düşmanı), çatı ve temel (su yapıdan uzaklaşmalı, nem panellere çıkmamalı), montaj kalitesi ve düzenli bakım.\n\nTeklif alırken sorun: Profil kalınlığı ve galvaniz sınıfı nedir? Duvar ve çatıda hangi yalıtım, kaç cm? Taşıyıcı sistem, çatı ve su yalıtımı için kaç yıl yazılı garanti var? Montajı kendi ekibiniz mi yapıyor? Benim ilimde teslim ettiğiniz bir evi görebilir miyim?\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir; firmalar garanti süresini aynı başlıkla girer, siz yan yana karşılaştırırsınız.\n\n📌 Kaydedin, teklif alırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevömrü #prefabrikevfiyatları #çelikev",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Prefabrik ev",
+          "h": "Prefabrik ev<br><em>kaç yıl dayanır?</em>",
+          "boy": 92,
+          "p": "Ömrü belirleyen 4 konu. Kaydırın.",
+          "img": "montaj-1344.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Kısa cevap: <em>malzemeye bağlı.</em>",
+          "boy": 80,
+          "p": "Aynı adı taşıyan evler çok farklı malzemeyle üretilir.",
+          "maddeler": [
+            [
+              "Taşıyıcı sistem",
+              "Çelik profilin kalınlığı ve galvaniz sınıfı"
+            ],
+            [
+              "Panel ve yalıtım",
+              "Nem; metal ve ahşabın en büyük düşmanı"
+            ],
+            [
+              "Çatı ve temel",
+              "Su uzaklaşmalı, nem panele çıkmamalı"
+            ],
+            [
+              "Montaj ve bakım",
+              "Özensiz birleşim sızıntı ve ısı köprüsü yapar"
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "3 / 4",
+          "h": "Teklifte <em>bunları sorun</em>",
+          "p": "Kendi ilinizde teslim ettiği bir evi görün.",
+          "maddeler": [
+            "Profil kalınlığı",
+            "Galvaniz sınıfı",
+            "Yalıtım, kaç cm?",
+            "Yazılı garanti",
+            "Montaj ekibi",
+            "Çatı garantisi"
+          ],
+          "img": "ic-mekan-1344.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Garantiyi de<br><em>yan yana görün.</em>",
+          "p": "Firmalar garanti süresini aynı başlıkla girer.",
+          "img": "hero-1344.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Prefabrik evin dezavantajı ne? Ucuz modelde ince panel, kışın soğuk ve yazın sıcak demek. Odalar arasında ses geçebilir, ağır dolap asmak sorun çıkarabilir. Çözüm basit: panel ve yalıtım kalınlığını teklifte yazılı isteyin. Dolap ve kombi yerini montajdan önce bildirin. Bir de ruhsatsız kurulur sanmayın. Teklifleri karşılaştırın, bağlantı profilde.",
+      "aciklama": "Prefabrik evin dezavantajı ne? Prefabrik ev dezavantajları ve zararları: almadan önce bilinmesi gerekenler ve çözümleri 👇\n\nYalıtım: Ucuz modellerde ince panel ve zayıf yalıtım, kışın soğuk yazın sıcak demektir. Panel kalınlığını, yalıtım malzemesini ve camı teklifte yazılı isteyin.\n\nSes ve yük: Hafif duvarlar odalar arasında daha fazla ses geçirebilir; panel duvara doğrudan ağır dolap ya da TV asmak sorun çıkarabilir. Mutfak dolabı, kombi, klima ve TV yerlerini montajdan önce bildirin, duvar içine takviye konulsun.\n\nRuhsat: \"Prefabrik ev ruhsatsız kurulur\" düşüncesi yanlış; sabit ve sürekli kullanılan ev yapı sayılır. Siparişten önce arazinizi kontrol edin.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir.\n\n📌 Kaydedin, kapora vermeden önce bakın.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevdezavantajları #prefabrikevfiyatları #prefabrikevalırkendikkat",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Prefabrik evin<br><em>dezavantajı ne?</em>",
+          "img": "prefabrik-960.webp"
+        },
+        {
+          "t": 2.5,
+          "tur": "liste",
+          "h": "Sık duyulan <em>sorunlar</em>",
+          "ikon": "✕",
+          "maddeler": [
+            "İnce panel",
+            "Ses geçişi",
+            "Ağır yük asma"
+          ]
+        },
+        {
+          "t": 9,
+          "tur": "foto",
+          "h": "Kalınlık <em>yazılı olsun</em>",
+          "img": "prefabrik-b-960.webp"
+        },
+        {
+          "t": 16,
+          "tur": "son",
+          "h": "Ruhsatı unutmayın,<br><em>teklifleri karşılaştırın.</em>"
+        }
+      ],
+      "sure": 21
+    }
+  ]
+}

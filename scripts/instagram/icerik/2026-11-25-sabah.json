@@ -1,0 +1,81 @@
+{
+  "tarih": "2026-11-25",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Konteyner ev mi, prefabrik ev mi? Konteyner ev fiyatları ile prefabrik ev fiyatlarını, kurulumu ve kime uygun olduğunu tek yerde karşılaştırdık 👇\n\nKonteyner ev çelik bir modül hâlinde gelir, vinçle arsaya bırakılır; tipik büyüklük 15–60 m². Prefabrik evde duvar, çatı ve döşeme panelleri fabrikada üretilip arsada birleştirilir; tipik büyüklük 40–200 m², plan seçeneği daha geniştir. Bahçe ofisi, misafir evi ya da hızlı çözüm için konteyner; aile için kalıcı 2+1 ve üstü bir ev için prefabrik daha uygundur.\n\n23 Kasım 2026 itibarıyla listemizde konteyner ev 67.000 TL'den, prefabrik ev 225.000 TL'den başlıyor. Metrekare başına ortanca fiyat konteynerde 8.929 TL, prefabrikte 10.000 TL. İlanlar farklı kapsamla verilir: mutfak, banyo, tesisat, nakliye, vinç ve KDV dahil mi, mutlaka sorun.\n\nPrefabrikTeklif konteyner ev ve prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir.\n\n📌 Kaydedin, karar verirken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#konteynerev #konteynerevfiyatları #prefabrikev #prefabrikevfiyatları",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Karşılaştırma",
+          "h": "Konteyner ev mi,<br><em>prefabrik ev mi?</em>",
+          "boy": 88,
+          "p": "Fark, fiyat ve kime uygun. Kaydırın.",
+          "img": "konteyner-b-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Temel fark: <em>modül mü, panel mi?</em>",
+          "boy": 80,
+          "p": "İkisi de fabrikada üretilir; yapı mantığı farklıdır.",
+          "maddeler": [
+            [
+              "Konteyner ev",
+              "Çelik modül hâlinde gelir, vinçle konur; tipik 15–60 m²."
+            ],
+            [
+              "Prefabrik ev",
+              "Paneller arsada birleştirilir; tipik 40–200 m²."
+            ],
+            [
+              "Plan esnekliği",
+              "Konteynerde modül ölçüsüyle sınırlı, prefabrikte yüksek."
+            ]
+          ]
+        },
+        {
+          "sablon": "liste",
+          "koyu": true,
+          "etiket": "3 / 4",
+          "h": "Fiyatlar <em>nereden başlıyor?</em>",
+          "boy": 84,
+          "p": "23 Kasım 2026 itibarıyla listemizde.",
+          "maddeler": [
+            [
+              "Konteyner",
+              "67.000 TL'den"
+            ],
+            [
+              "Prefabrik",
+              "225.000 TL'den"
+            ],
+            [
+              "Konteyner, m²",
+              "Ortanca 8.929 TL"
+            ],
+            [
+              "Prefabrik, m²",
+              "Ortanca 10.000 TL"
+            ]
+          ]
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Hangisi size uygun?<br><em>Teklifleri görün.</em>",
+          "p": "İhtiyacınızı yazın; teklifler 48 saatte gelsin.",
+          "img": "konteyner-c-960.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": []
+}
