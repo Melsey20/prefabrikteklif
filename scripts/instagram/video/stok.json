@@ -1,0 +1,338 @@
+{
+ "aciklama": "Stok Reels klipleri (Pexels Lisansı: ücretsiz, ticari kullanım serbest, atıf zorunlu değil). url = videos.pexels.com dosyası (4K/HD dikey); video.sh 'kaynak' olarak doğrudan kullanır, 1080x1920'ye kırpar. sure = kullanılabilir saniye (en fazla 20). Ekleyen: 25 Kasım 2026.",
+ "klipler": [
+  {
+   "ad": "tiny-house-yesil-alan",
+   "url": "https://videos.pexels.com/video-files/35397698/15001396_2160_3840_30fps.mp4",
+   "sure": 19.1,
+   "konu": [
+    "tiny-house",
+    "dis-cephe"
+   ],
+   "pexels": "https://www.pexels.com/video/35397698/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "tiny-house-drone",
+   "url": "https://videos.pexels.com/video-files/30158752/12933996_2160_3840_30fps.mp4",
+   "sure": 13.7,
+   "konu": [
+    "tiny-house",
+    "bungalov",
+    "drone"
+   ],
+   "pexels": "https://www.pexels.com/video/30158752/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "tiny-house-yesillik",
+   "url": "https://videos.pexels.com/video-files/38858991/16518467_2160_3840_30fps.mp4",
+   "sure": 10.3,
+   "konu": [
+    "tiny-house",
+    "konteyner",
+    "drone"
+   ],
+   "pexels": "https://www.pexels.com/video/38858991/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "modern-ev-yesillik",
+   "url": "https://videos.pexels.com/video-files/35397729/15001261_2160_3840_30fps.mp4",
+   "sure": 20.0,
+   "konu": [
+    "prefabrik",
+    "bungalov",
+    "drone"
+   ],
+   "pexels": "https://www.pexels.com/video/35397729/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "modern-kabin-orman",
+   "url": "https://videos.pexels.com/video-files/38905889/16543868_2160_3840_30fps.mp4",
+   "sure": 12.8,
+   "konu": [
+    "tiny-house",
+    "konteyner",
+    "drone"
+   ],
+   "pexels": "https://www.pexels.com/video/38905889/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "ahsap-kabin-drone",
+   "url": "https://videos.pexels.com/video-files/34099596/14462683_2160_3840_30fps.mp4",
+   "sure": 10.9,
+   "konu": [
+    "bungalov",
+    "prefabrik",
+    "drone"
+   ],
+   "pexels": "https://www.pexels.com/video/34099596/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "kadin-glamping-ev-giris",
+   "url": "https://videos.pexels.com/video-files/7662546/7662546-uhd_2160_3840_24fps.mp4",
+   "sure": 17.1,
+   "konu": [
+    "tiny-house",
+    "yasam",
+    "insan"
+   ],
+   "pexels": "https://www.pexels.com/video/7662546/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "dag-koyu-modern-ev",
+   "url": "https://videos.pexels.com/video-files/29810985/12806220_1080_1920_30fps.mp4",
+   "sure": 9.3,
+   "konu": [
+    "bungalov",
+    "prefabrik",
+    "dis-cephe"
+   ],
+   "pexels": "https://www.pexels.com/video/29810985/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "kirmizi-catili-kabinler",
+   "url": "https://videos.pexels.com/video-files/29810975/12806184_1080_1920_30fps.mp4",
+   "sure": 13.5,
+   "konu": [
+    "bungalov",
+    "tiny-house",
+    "dis-cephe"
+   ],
+   "pexels": "https://www.pexels.com/video/29810975/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "a-frame-ev-drone",
+   "url": "https://videos.pexels.com/video-files/34810083/14762242_2160_3840_60fps.mp4",
+   "sure": 17.2,
+   "konu": [
+    "bungalov",
+    "ahsap",
+    "drone"
+   ],
+   "pexels": "https://www.pexels.com/video/34810083/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "a-frame-ev-tekli",
+   "url": "https://videos.pexels.com/video-files/34386450/14567946_2160_3840_60fps.mp4",
+   "sure": 11.6,
+   "konu": [
+    "bungalov",
+    "ahsap",
+    "dis-cephe"
+   ],
+   "pexels": "https://www.pexels.com/video/34386450/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "orman-kabini-gunes",
+   "url": "https://videos.pexels.com/video-files/37368059/15827170_1080_1920_30fps.mp4",
+   "sure": 8.3,
+   "konu": [
+    "ahsap",
+    "bag-evi",
+    "dis-cephe"
+   ],
+   "pexels": "https://www.pexels.com/video/37368059/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "a-frame-ic-mekan-ahsap",
+   "url": "https://videos.pexels.com/video-files/34920989/14792506_2160_3840_30fps.mp4",
+   "sure": 20.0,
+   "konu": [
+    "ahsap",
+    "bungalov",
+    "ic-mekan"
+   ],
+   "pexels": "https://www.pexels.com/video/34920989/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "a-frame-balkon",
+   "url": "https://videos.pexels.com/video-files/34237012/14509398_2160_3840_24fps.mp4",
+   "sure": 7.3,
+   "konu": [
+    "ahsap",
+    "bungalov",
+    "yasam"
+   ],
+   "pexels": "https://www.pexels.com/video/34237012/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "kar-kis-kabin",
+   "url": "https://videos.pexels.com/video-files/29472707/12686987_2160_3840_50fps.mp4",
+   "sure": 6.3,
+   "konu": [
+    "kis",
+    "yalitim",
+    "ahsap"
+   ],
+   "pexels": "https://www.pexels.com/video/29472707/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "santiye-iscilik-drone",
+   "url": "https://videos.pexels.com/video-files/17506637/17506637-hd_1080_1920_24fps.mp4",
+   "sure": 15.1,
+   "konu": [
+    "santiye",
+    "iscilik",
+    "celik",
+    "drone"
+   ],
+   "pexels": "https://www.pexels.com/video/17506637/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "ahsap-matkap-iscilik",
+   "url": "https://videos.pexels.com/video-files/8965566/8965566-uhd_2160_3840_25fps.mp4",
+   "sure": 4.3,
+   "konu": [
+    "iscilik",
+    "montaj",
+    "insan"
+   ],
+   "pexels": "https://www.pexels.com/video/8965566/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "marangoz-ahsap-taslama",
+   "url": "https://videos.pexels.com/video-files/8820350/8820350-uhd_2160_4096_25fps.mp4",
+   "sure": 20.0,
+   "konu": [
+    "iscilik",
+    "ahsap",
+    "insan"
+   ],
+   "pexels": "https://www.pexels.com/video/8820350/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "cift-kat-plani",
+   "url": "https://videos.pexels.com/video-files/7817215/7817215-hd_1080_1920_25fps.mp4",
+   "sure": 20.0,
+   "konu": [
+    "plan",
+    "butce",
+    "insan"
+   ],
+   "pexels": "https://www.pexels.com/video/7817215/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "baretli-cift-plan",
+   "url": "https://videos.pexels.com/video-files/8482295/8482295-hd_1080_1920_25fps.mp4",
+   "sure": 20.0,
+   "konu": [
+    "plan",
+    "santiye",
+    "insan"
+   ],
+   "pexels": "https://www.pexels.com/video/8482295/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "cift-emlakci-planlama",
+   "url": "https://videos.pexels.com/video-files/7817163/7817163-hd_1080_1920_25fps.mp4",
+   "sure": 20.0,
+   "konu": [
+    "plan",
+    "teklif",
+    "insan"
+   ],
+   "pexels": "https://www.pexels.com/video/7817163/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "santiye-toplu-konut-drone",
+   "url": "https://videos.pexels.com/video-files/34348608/14555291_1440_2560_60fps.mp4",
+   "sure": 17.8,
+   "konu": [
+    "santiye",
+    "temel",
+    "drone"
+   ],
+   "pexels": "https://www.pexels.com/video/34348608/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "kucuk-studyo-ic-mekan",
+   "url": "https://videos.pexels.com/video-files/5823590/5823590-uhd_2160_3840_24fps.mp4",
+   "sure": 11.0,
+   "konu": [
+    "ic-mekan",
+    "tiny-house"
+   ],
+   "pexels": "https://www.pexels.com/video/5823590/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "mutfak-ic-mekan",
+   "url": "https://videos.pexels.com/video-files/40664902/17373059_1080_1920_60fps.mp4",
+   "sure": 20.0,
+   "konu": [
+    "ic-mekan",
+    "mutfak",
+    "anahtar-teslim"
+   ],
+   "pexels": "https://www.pexels.com/video/40664902/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "kabin-soba-kis",
+   "url": "https://videos.pexels.com/video-files/30584231/13097120_2160_3840_30fps.mp4",
+   "sure": 15.6,
+   "konu": [
+    "kis",
+    "isitma",
+    "ic-mekan"
+   ],
+   "pexels": "https://www.pexels.com/video/30584231/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "kabin-somine",
+   "url": "https://videos.pexels.com/video-files/40995619/17536679_1080_1920_30fps.mp4",
+   "sure": 10.2,
+   "konu": [
+    "kis",
+    "isitma",
+    "ic-mekan"
+   ],
+   "pexels": "https://www.pexels.com/video/40995619/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "tir-konteyner-indirme",
+   "url": "https://videos.pexels.com/video-files/37669830/15969748_2160_3840_30fps.mp4",
+   "sure": 15.8,
+   "konu": [
+    "nakliye",
+    "konteyner"
+   ],
+   "pexels": "https://www.pexels.com/video/37669830/",
+   "lisans": "Pexels Lisansı"
+  },
+  {
+   "ad": "kamyon-konteyner-ev-onu",
+   "url": "https://videos.pexels.com/video-files/37328909/15810978_2160_3840_30fps.mp4",
+   "sure": 10.7,
+   "konu": [
+    "nakliye",
+    "konteyner"
+   ],
+   "pexels": "https://www.pexels.com/video/37328909/",
+   "lisans": "Pexels Lisansı"
+  }
+ ]
+}

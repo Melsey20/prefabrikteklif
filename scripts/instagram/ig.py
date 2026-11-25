@@ -197,6 +197,7 @@ RCSS = f""".sc{{position:absolute;inset:0;opacity:0;overflow:hidden;background:l
 .cv.vid{{background:transparent}} .sc.vd{{background:transparent;color:#fff}}
 .vscrim{{position:absolute;left:0;right:0;top:0;height:980px;background:linear-gradient(180deg,rgba(0,0,0,.62),rgba(0,0,0,.32) 55%,transparent);z-index:1}}
 .vd .hd h1{{font-size:104px;text-shadow:0 4px 36px rgba(0,0,0,.45)}} .vd .hd h1 em{{opacity:.7}}
+.vtm{{position:absolute;right:64px;top:236px;z-index:6;font:600 22px I;letter-spacing:.04em;padding:8px 16px;border-radius:999px;background:rgba(0,0,0,.35);color:rgba(255,255,255,.9)}}
 .ayz{{position:absolute;left:70px;right:70px;top:1330px;text-align:center;z-index:9;line-height:1.5}}
 .ayz span{{font:700 62px/1.45 I;letter-spacing:-.02em;color:#fff;background:rgba(0,0,0,.58);padding:8px 24px;border-radius:20px;-webkit-box-decoration-break:clone;box-decoration-break:clone}}"""
 RJS = '''const cl=x=>Math.min(Math.max(x,0),1); const e=x=>1-Math.pow(1-cl(x),3);
@@ -256,6 +257,8 @@ def reels_html(r):
                    f'<span class="big" data-n="{s["n"]}">0</span><span style="font:500 42px I;color:rgba(255,255,255,.65)">{s.get("birim", "")}</span></div>')
         elif s['tur'] == 'video':  # gerçek video üstüne saydam katman (video.sh): üstte koyu geçiş + başlık
             tema = 'vd'; vis = '<div class="vscrim"></div>'
+            if s.get('temsili', True):  # stok/temsilî görüntüde etiket (kendi çekimimizde "temsili": false)
+                vis += '<span class="vtm">Temsili görüntü</span>'
         elif s['tur'] == 'liste':
             vis = '<div class="rph rl">' + ''.join(f'<div class="rmd"><i>{s.get("ikon", "✓")}</i>{m}</div>' for m in s['maddeler'][:5]) + '</div>'
         chips = ''.join(f'<span class="rchip">{c}</span>' for c in s.get('cipler', []))
