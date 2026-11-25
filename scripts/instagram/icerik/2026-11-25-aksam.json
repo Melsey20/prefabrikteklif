@@ -107,7 +107,7 @@
         }
       ],
       "sure": 16,
-      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-25-aksam-1.mp3",
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/6b2e866906717a9cef1a40cc598fe8361fe1911e/scripts/instagram/ses/2026-11-25-aksam-1.mp3",
       "ses": {
         "kaynak": "elevenlabs",
         "model": "eleven_multilingual_v2",
