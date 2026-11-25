@@ -78,7 +78,7 @@ if r.get('altyazi') == 'otomatik':
         a = round(g[0].start, 2)
         b = round(min(g[-1].end + 0.12, bir[i + 1][0].start if i + 1 < len(bir) else 1e9), 2)
         if a >= son: break
-        ay.append([a, min(b, son), ' '.join(x.word.strip() for x in g)])
+        ay.append([a, min(b, son), ''.join(x.word for x in g).strip()])  # whisper kelimeleri boşluğu kendisi taşır ("500" ".000")
     r['altyazi'] = ay
 d['reels'] = [r]
 json.dump(d, open(out, 'w'), ensure_ascii=False)
