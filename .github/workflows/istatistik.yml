@@ -1,0 +1,35 @@
+# Instagram istatistik raporu: her sabah 08:10 (İstanbul) gönderi ve hesap metriklerini çeker,
+# scripts/instagram/istatistik/rapor.md dosyasını günceller (günlük içerik görevi konu seçmeden önce okur).
+name: Instagram istatistik
+on:
+  schedule:
+    - cron: '10 5 * * *'   # İstanbul 08:10
+  workflow_dispatch:
+    inputs:
+      gun:
+        description: 'Kaç günlük gönderi'
+        default: '30'
+permissions:
+  contents: write
+concurrency:
+  group: instagram-istatistik
+  cancel-in-progress: false
+jobs:
+  rapor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Metrikleri çek
+        env:
+          META_TOKEN: ${{ secrets.META_TOKEN }}
+        run: python3 -u scripts/instagram/istatistik.py --gun "${{ inputs.gun || '30' }}"
+      - name: Depoya işle
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/instagram/istatistik
+          git diff --cached --quiet && exit 0
+          git commit -m "Instagram: istatistik raporu"
+          for i in 1 2 3; do git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0; sleep 5; done
+          exit 1
