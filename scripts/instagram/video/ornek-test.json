@@ -45,12 +45,12 @@
    "video": {
     "klipler": [
      {
-      "kaynak": "file:///home/user/test/a.mp4",
+      "kaynak": "drive:DRIVE_DOSYA_ID_1",
       "bas": 0,
       "bit": 12
      },
      {
-      "kaynak": "file:///home/user/test/b.mp4",
+      "kaynak": "drive:DRIVE_DOSYA_ID_2",
       "bas": 1,
       "bit": 14
      }
