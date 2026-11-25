@@ -1,5 +1,6 @@
 // Tasarım: node cek.cjs tasarim <jobs.json>      → her kartı JPEG olarak kaydeder
 // Reels:   node cek.cjs reels <reels.html> <kare_klasörü> <süre_sn>  → 30 fps kareler
+// Video Reels katmanı: node cek.cjs reels-png … → saydam PNG kareler (video.sh gerçek videonun üstüne bindirir)
 const { chromium } = require('playwright');
 const fs = require('fs');
 (async () => {
@@ -17,7 +18,8 @@ const fs = require('fs');
     const n = Math.ceil(30 * Number(c));
     for (let f = 0; f < n; f++) {
       await p.evaluate((t) => window.setT(t), f / 30);
-      await p.screenshot({ path: `${b}/f${String(f).padStart(4, '0')}.jpg`, type: 'jpeg', quality: 90 });
+      if (mod === 'reels-png') await p.screenshot({ path: `${b}/f${String(f).padStart(4, '0')}.png`, type: 'png', omitBackground: true });
+      else await p.screenshot({ path: `${b}/f${String(f).padStart(4, '0')}.jpg`, type: 'jpeg', quality: 90 });
     }
   }
   await br.close();

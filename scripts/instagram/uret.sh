@@ -2,6 +2,7 @@
 # Tek slot üretimi (Higgsfield sandbox): kartlar + hikâye görselleri + seslendirmeli Reels.
 # Kullanım (depo kökünden): bash scripts/instagram/uret.sh scripts/instagram/icerik/2026-11-04-aksam.json ~/cikti
 # Çıktı: A-1.jpg … (kartlar), story-A.jpg (her tasarımın ilk kartı, 1080×1920), reels-1.mp4, reels-2.mp4 …
+# Reels öğesinde "video" alanı varsa gerçek videodan video.sh ile üretilir (kontrol kareleri tmp/kareN/sNN.jpg).
 # Gerekenler: FONT_DIR ve NODE_PATH ortam değişkenleri; JSON'daki her reels için ses_url.
 set -euo pipefail
 J="$1"; O="$2"; T="$O/tmp"
@@ -16,6 +17,11 @@ done
 python3 scripts/instagram/ig.py reels "$J" "$T"
 N=$(python3 -c "import json,sys;r=json.load(open(sys.argv[1]))['reels'];print(1 if isinstance(r,dict) else len(r))" "$J")
 for k in $(seq 1 "$N"); do
+  if [ "$(python3 -c "import json,sys;r=json.load(open(sys.argv[1]))['reels'];r=r if isinstance(r,dict) else r[int(sys.argv[2])-1];print('evet' if r.get('video') else 'hayir')" "$J" "$k")" = "evet" ]; then
+    bash scripts/instagram/video.sh "$J" "$k" "$O/reels-$k.mp4"   # gerçek videolu Reels
+    mkdir -p "$T/kare$k"; ffmpeg -y -loglevel error -i "$O/reels-$k.mp4" -vf fps=1 "$T/kare$k/s%02d.jpg"   # kontrol kareleri
+    continue
+  fi
   H="$T/reels-$k.html"; [ -f "$H" ] || H="$T/reels.html"
   read -r SURE URL < <(python3 -c "import json,sys;r=json.load(open(sys.argv[1]))['reels'];r=r if isinstance(r,dict) else r[int(sys.argv[2])-1];print(r['sure'],r['ses_url'])" "$J" "$k")
   K="$T/kare$k"; mkdir -p "$K"

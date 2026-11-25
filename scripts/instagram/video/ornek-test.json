@@ -1,0 +1,63 @@
+{
+ "tarih": "2026-11-25",
+ "slot": "aksam",
+ "saat": "19:00",
+ "tasarimlar": [],
+ "reels": [
+  {
+   "seslendirme": "Prefabrik evin dezavantajı ne? Ucuz modelde ince panel, kışın soğuk ve yazın sıcak demek. Odalar arasında ses geçebilir, ağır dolap asmak sorun çıkarabilir. Çözüm basit: panel ve yalıtım kalınlığını teklifte yazılı isteyin. Dolap ve kombi yerini montajdan önce bildirin. Bir de ruhsatsız kurulur sanmayın. Teklifleri karşılaştırın, bağlantı profilde.",
+   "aciklama": "Prefabrik evin dezavantajı ne? Prefabrik ev dezavantajları ve zararları: almadan önce bilinmesi gerekenler ve çözümleri 👇\n\nYalıtım: Ucuz modellerde ince panel ve zayıf yalıtım, kışın soğuk yazın sıcak demektir. Panel kalınlığını, yalıtım malzemesini ve camı teklifte yazılı isteyin.\n\nSes ve yük: Hafif duvarlar odalar arasında daha fazla ses geçirebilir; panel duvara doğrudan ağır dolap ya da TV asmak sorun çıkarabilir. Mutfak dolabı, kombi, klima ve TV yerlerini montajdan önce bildirin, duvar içine takviye konulsun.\n\nRuhsat: \"Prefabrik ev ruhsatsız kurulur\" düşüncesi yanlış; sabit ve sürekli kullanılan ev yapı sayılır. Siparişten önce arazinizi kontrol edin.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir.\n\n📌 Kaydedin, kapora vermeden önce bakın.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevdezavantajları #prefabrikevfiyatları #prefabrikevalırkendikkat",
+   "sahneler": [
+    {
+     "t": 0,
+     "tur": "video",
+     "h": "Prefabrik evin<br><em>dezavantajı ne?</em>"
+    },
+    {
+     "t": 3.1,
+     "tur": "liste",
+     "h": "Sık duyulan <em>sorunlar</em>",
+     "ikon": "✕",
+     "maddeler": [
+      "İnce panel",
+      "Ses geçişi",
+      "Ağır yük asma"
+     ]
+    },
+    {
+     "t": 10.7,
+     "tur": "video",
+     "h": "Kalınlık <em>yazılı olsun</em>"
+    },
+    {
+     "t": 18.48,
+     "tur": "son",
+     "h": "Ruhsatı unutmayın,<br><em>teklifleri karşılaştırın.</em>"
+    }
+   ],
+   "sure": 24.0,
+   "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-25-aksam-1.mp3",
+   "ses": {
+    "kaynak": "elevenlabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "IuRRIAcbQK5AQk1XevPj"
+   },
+   "video": {
+    "klipler": [
+     {
+      "kaynak": "file:///home/user/test/a.mp4",
+      "bas": 0,
+      "bit": 12
+     },
+     {
+      "kaynak": "file:///home/user/test/b.mp4",
+      "bas": 1,
+      "bit": 14
+     }
+    ],
+    "ses": "seslendirme"
+   },
+   "altyazi": "otomatik"
+  }
+ ]
+}

@@ -193,7 +193,12 @@ RCSS = f""".sc{{position:absolute;inset:0;opacity:0;overflow:hidden;background:l
 .son p{{font:500 36px I;color:rgba(255,255,255,.7)}}
 .rl{{display:flex;flex-direction:column;justify-content:center;gap:20px;border-radius:0;overflow:visible}}
 .rmd{{display:flex;align-items:center;gap:26px;font:600 48px/1.2 I;letter-spacing:-.025em;padding:30px 36px;border-radius:34px;background:#fff;opacity:0;box-shadow:0 24px 60px -32px rgba(20,40,30,.35)}}
-.rmd i{{font-style:normal;width:70px;height:70px;flex:none;border-radius:50%;background:{C['ink']};color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:700}}"""
+.rmd i{{font-style:normal;width:70px;height:70px;flex:none;border-radius:50%;background:{C['ink']};color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:700}}
+.cv.vid{{background:transparent}} .sc.vd{{background:transparent;color:#fff}}
+.vscrim{{position:absolute;left:0;right:0;top:0;height:980px;background:linear-gradient(180deg,rgba(0,0,0,.62),rgba(0,0,0,.32) 55%,transparent);z-index:1}}
+.vd .hd h1{{font-size:104px;text-shadow:0 4px 36px rgba(0,0,0,.45)}} .vd .hd h1 em{{opacity:.7}}
+.ayz{{position:absolute;left:70px;right:70px;top:1330px;text-align:center;z-index:9;line-height:1.5}}
+.ayz span{{font:700 62px/1.45 I;letter-spacing:-.02em;color:#fff;background:rgba(0,0,0,.58);padding:8px 24px;border-radius:20px;-webkit-box-decoration-break:clone;box-decoration-break:clone}}"""
 RJS = '''const cl=x=>Math.min(Math.max(x,0),1); const e=x=>1-Math.pow(1-cl(x),3);
 window.setT=(t)=>{ const n=T.length-1;
  for(let i=0;i<n;i++){ const s=document.getElementById('s'+i); const a=T[i], b=T[i+1], l=t-a, d=b-a;
@@ -233,7 +238,7 @@ def okunurluk(r):
 
 def reels_html(r):
     okunurluk(r)
-    S = r['sahneler']; html = '<div class="cv">'
+    S = r['sahneler']; vid = any(s['tur'] == 'video' for s in S); html = '<div class="cv vid">' if vid else '<div class="cv">'
     for i, s in enumerate(S):
         if s['tur'] == 'son':
             html += (f'<div class="sc dk" id="s{i}"><div class="son">{logo(True, 560)}<h1>{kelimeler(s["h"])}</h1>'
@@ -249,6 +254,8 @@ def reels_html(r):
             tema = 'dk'
             vis = (f'<div class="rph" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px">'
                    f'<span class="big" data-n="{s["n"]}">0</span><span style="font:500 42px I;color:rgba(255,255,255,.65)">{s.get("birim", "")}</span></div>')
+        elif s['tur'] == 'video':  # gerçek video üstüne saydam katman (video.sh): üstte koyu geçiş + başlık
+            tema = 'vd'; vis = '<div class="vscrim"></div>'
         elif s['tur'] == 'liste':
             vis = '<div class="rph rl">' + ''.join(f'<div class="rmd"><i>{s.get("ikon", "✓")}</i>{m}</div>' for m in s['maddeler'][:5]) + '</div>'
         chips = ''.join(f'<span class="rchip">{c}</span>' for c in s.get('cipler', []))
@@ -256,7 +263,12 @@ def reels_html(r):
         html += (f'<div class="sc {tema}" id="s{i}" style="{stil}"><div class="lg">{logo(tema in ("dk", "gk"), 400)}</div>'
                  f'<div class="hd"><h1>{kelimeler(s["h"])}</h1>{p}</div>{vis}<div class="chips">{chips}</div></div>')
     T = [s['t'] for s in S] + [r['sure']]
-    return page(html + f'</div><script>const T={json.dumps(T)};{RJS}</script>', RCSS, 1080, 1920)
+    ay = ''
+    if vid and isinstance(r.get('altyazi'), list):  # [[başlangıç, bitiş, "metin"], …] — video.sh whisper ile doldurur
+        html += '<div class="ayz" id="ay"></div>'
+        ay = (f"const AY={json.dumps(r['altyazi'], ensure_ascii=False)};const _st=window.setT;window.setT=(t)=>{{_st(t);"
+              "const x=AY.find(a=>t>=a[0]&&t<a[1]);document.getElementById('ay').innerHTML=x?'<span>'+x[2]+'</span>':'';}};")
+    return page(html + f'</div><script>const T={json.dumps(T)};{RJS}{ay}</script>', RCSS, 1080, 1920)
 
 META = json.loads((ROOT / 'src' / 'data' / 'meta.json').read_text())
 
