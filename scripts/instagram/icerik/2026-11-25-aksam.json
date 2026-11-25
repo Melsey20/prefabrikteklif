@@ -82,7 +82,7 @@
           "img": "prefabrik-960.webp"
         },
         {
-          "t": 2.5,
+          "t": 3.1,
           "tur": "liste",
           "h": "Sık duyulan <em>sorunlar</em>",
           "ikon": "✕",
@@ -93,18 +93,18 @@
           ]
         },
         {
-          "t": 9,
+          "t": 10.7,
           "tur": "foto",
           "h": "Kalınlık <em>yazılı olsun</em>",
           "img": "prefabrik-b-960.webp"
         },
         {
-          "t": 16,
+          "t": 18.48,
           "tur": "son",
           "h": "Ruhsatı unutmayın,<br><em>teklifleri karşılaştırın.</em>"
         }
       ],
-      "sure": 21,
+      "sure": 24.0,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-25-aksam-1.mp3",
       "ses": {
         "kaynak": "elevenlabs",
