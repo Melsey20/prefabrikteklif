@@ -85,7 +85,9 @@ SURE=$(py "import json;print(json.load(open('$W/r.json'))['reels'][0]['sure'])")
 node scripts/instagram/cek.cjs reels-png "$W/reels-1.html" "$W/kare" "$SURE"
 
 # 5) Birleştir: video (kısa kalırsa son kare uzatılır) + katman + ses
-ffmpeg -y -loglevel error -i "$W/taban.mp4" -framerate 30 -i "$W/kare/f%04d.png" -filter_complex \
+# PNG'ler kimi karede rgb24 kimi karede rgba kaydedilir (tam opak sahneler); karışık dizi overlay'i yarıda keser → önce tek rgba videoya çevir
+ffmpeg -y -loglevel error -framerate 30 -i "$W/kare/f%04d.png" -c:v qtrle -pix_fmt argb "$W/katman.mov"
+ffmpeg -y -loglevel error -i "$W/taban.mp4" -i "$W/katman.mov" -filter_complex \
   "[0:v]tpad=stop_mode=clone:stop_duration=30,trim=0:${SURE},setpts=PTS-STARTPTS[b];[b][1:v]overlay=0:0:shortest=1,format=yuv420p[v]" \
   -map "[v]" -an -c:v libx264 -crf 19 -preset medium -r 30 "$W/goruntu.mp4"
 if [ "$SES" = "seslendirme" ]; then
