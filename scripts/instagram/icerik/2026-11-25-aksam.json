@@ -83,7 +83,7 @@
           "birim": "bin TL bütçe"
         },
         {
-          "t": 3.0,
+          "t": 3.58,
           "tur": "liste",
           "h": "Bu bütçeye <em>girenler</em>",
           "ikon": "✓",
@@ -94,19 +94,19 @@
           ]
         },
         {
-          "t": 8.0,
+          "t": 8.96,
           "tur": "sayi",
           "h": "Kaba hesap: <em>prefabrik</em>",
           "n": 50,
           "birim": "m² · yaklaşık"
         },
         {
-          "t": 11.5,
+          "t": 12.44,
           "tur": "son",
           "h": "Çelik ev girmiyor.<br><em>Bütçeniz ne kadar?</em>"
         }
       ],
-      "sure": 16,
+      "sure": 19.66,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/6b2e866906717a9cef1a40cc598fe8361fe1911e/scripts/instagram/ses/2026-11-25-aksam-1.mp3",
       "ses": {
         "kaynak": "elevenlabs",
