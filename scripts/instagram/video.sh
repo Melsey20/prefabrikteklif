@@ -66,12 +66,17 @@ if r.get('altyazi') == 'otomatik':
     gr, cur = [], []
     for w in W:
         cur.append(w)
-        if len(cur) >= 4 or w.word.strip()[-1:] in '.?!,' or (cur and w.end - cur[0].start > 1.6):
+        if len(cur) >= 4 or w.word.strip()[-1:] in '.?!,' or w.end - cur[0].start > 1.6:
             gr.append(cur); cur = []
     if cur: gr.append(cur)
-    ay = []
+    bir = []  # 0,6 sn'den kısa grubu öncekine kat (tek kelime yanıp sönmesin)
     for g in gr:
-        a, b = round(g[0].start, 2), round(g[-1].end + 0.12, 2)
+        if bir and (g[-1].end - g[0].start < 0.6) and len(bir[-1]) + len(g) <= 5: bir[-1] = bir[-1] + g
+        else: bir.append(g)
+    ay = []
+    for i, g in enumerate(bir):
+        a = round(g[0].start, 2)
+        b = round(min(g[-1].end + 0.12, bir[i + 1][0].start if i + 1 < len(bir) else 1e9), 2)
         if a >= son: break
         ay.append([a, min(b, son), ' '.join(x.word.strip() for x in g)])
     r['altyazi'] = ay
