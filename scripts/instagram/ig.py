@@ -260,14 +260,16 @@ def reels_html(r):
             vis = '<div class="rph rl">' + ''.join(f'<div class="rmd"><i>{s.get("ikon", "✓")}</i>{m}</div>' for m in s['maddeler'][:5]) + '</div>'
         chips = ''.join(f'<span class="rchip">{c}</span>' for c in s.get('cipler', []))
         p = f'<p>{s["p"]}</p>' if s.get('p') else ''
-        html += (f'<div class="sc {tema}" id="s{i}" style="{stil}"><div class="lg">{logo(tema in ("dk", "gk"), 400)}</div>'
+        html += (f'<div class="sc {tema}" id="s{i}" style="{stil}"><div class="lg">{logo(tema in ("dk", "gk", "vd"), 400)}</div>'
                  f'<div class="hd"><h1>{kelimeler(s["h"])}</h1>{p}</div>{vis}<div class="chips">{chips}</div></div>')
     T = [s['t'] for s in S] + [r['sure']]
     ay = ''
     if vid and isinstance(r.get('altyazi'), list):  # [[başlangıç, bitiş, "metin"], …] — video.sh whisper ile doldurur
         html += '<div class="ayz" id="ay"></div>'
+        sahne = lambda t: max((s for s in S if s['t'] <= t), key=lambda s: s['t'], default=S[0])  # noqa: E731
+        r = dict(r, altyazi=[a for a in r['altyazi'] if sahne(a[0])['tur'] == 'video'])  # altyazı yalnız video sahnelerinde
         ay = (f"const AY={json.dumps(r['altyazi'], ensure_ascii=False)};const _st=window.setT;window.setT=(t)=>{{_st(t);"
-              "const x=AY.find(a=>t>=a[0]&&t<a[1]);document.getElementById('ay').innerHTML=x?'<span>'+x[2]+'</span>':'';}};")
+              "const x=AY.find(a=>t>=a[0]&&t<a[1]);document.getElementById('ay').innerHTML=x?'<span>'+x[2]+'</span>':'';};")
     return page(html + f'</div><script>const T={json.dumps(T)};{RJS}{ay}</script>', RCSS, 1080, 1920)
 
 META = json.loads((ROOT / 'src' / 'data' / 'meta.json').read_text())
