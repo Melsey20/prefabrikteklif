@@ -1813,6 +1813,11 @@ export async function teklifOzetleri({ db, mail, ayar, FieldValue, Timestamp, FI
   for (const doc of q.docs) {
     const d = doc.data();
     const tk = (await doc.ref.collection('teklifler').get()).docs.map((x) => x.data()).sort((a, b) => a.fiyat - b.fiyat);
+    // Yönetimin sessizce yeniden açtığı talepte yeni teklif gelmediyse müşteriye ikinci kez aynı özet gitmez
+    if (d.yenidenAcildi && d.ozetZamani?.toMillis) {
+      const onceki = d.ozetZamani.toMillis();
+      if (!tk.some((t) => (t.zaman?.toMillis?.() || 0) > onceki)) { await doc.ref.update({ durum: 'gonderildi', teklifSayisi: tk.length, sessizKapanis: FieldValue.serverTimestamp() }); continue; }
+    }
     const kol = ['Nakliye', 'Montaj', 'Zemin betonu', 'İç bitiş', 'Ruhsat ve proje'];
     const keys = ['nakliye', 'montaj', 'zemin', 'ic-bitis', 'ruhsat'];
     const site = ayar().site;

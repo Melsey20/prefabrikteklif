@@ -207,6 +207,32 @@ test('özetten 7 gün sonra tek seferlik takip e-postası: seçimsiz, seçimli v
   zaman.ileri(15 * GUN); assert.equal(await teklifTakipleri(x.o), 0);
 });
 
+test('sessizce yeniden açılan talep: yeni teklif yoksa ikinci özet gitmez, yeni teklif varsa gider', async () => {
+  const { db, call, mails } = kur();
+  await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik'], iller: ['Malatya'], abonelik: { durum: 'aktif' } });
+  await call('POST', '/api/teklif', { body: TALEP });
+  const id = db.dump('talepler/').filter(([k]) => k.split('/').length === 2)[0][0].split('/')[1];
+  assert.equal((await call('POST', '/api/firma/teklif', { tok: 'tok-firma', body: { talep: id, fiyat: '650.000', kdvDahil: true } })).statusCode, 200);
+  zaman.ileri(49 * 3600000);
+  const o = { db, mail: async (to, s2, html) => mails.push({ to, subject: s2, html }), ayar: () => ({ site: 'https://x', admin: 'info@mitraajans.com' }), FieldValue, Timestamp, FIRMS };
+  assert.equal(await teklifOzetleri(o), 1);
+  const musteri = () => mails.filter((m) => m.to === TALEP.eposta && m.subject.includes('teklif geldi')).length;
+  assert.equal(musteri(), 1);
+  // Yönetim süreyi uzatır: müşteriye e-posta gitmez, talep açılır
+  let once = mails.length;
+  const r = await call('POST', '/api/yonetim/talep-sure', { tok: 'tok-admin', body: { talep: id, sonTarih: zaman.simdi() + 5 * 86400000 } });
+  assert.equal(r.statusCode, 200); assert.equal(r.body.yenidenAcildi, true); assert.equal(mails.length, once);
+  // Yeni teklif gelmeden süre dolar: özet tekrar gitmez
+  zaman.ileri(6 * 86400000);
+  assert.equal(await teklifOzetleri(o), 0); assert.equal(musteri(), 1);
+  assert.equal(db.collection('talepler').doc(id)._veri?.durum ?? (await db.collection('talepler').doc(id).get()).data().durum, 'gonderildi');
+  // Yeniden açılır, bu kez yeni teklif gelir: güncel özet gider
+  await call('POST', '/api/yonetim/talep-sure', { tok: 'tok-admin', body: { talep: id, sonTarih: zaman.simdi() + 5 * 86400000 } });
+  await db.collection('talepler').doc(id).collection('teklifler').doc('pramo').set({ firma: 'pramo', fiyat: 700000, kdvDahil: true, zaman: FieldValue.serverTimestamp() });
+  zaman.ileri(6 * 86400000);
+  assert.equal(await teklifOzetleri(o), 1); assert.equal(musteri(), 2);
+});
+
 test('firma sayaçları: ilgilenmiyorum iki kez basılsa da bir kez sayılır, liste davetinde yanıt verirse talep de sayılır', async () => {
   const { db, call } = kur();
   await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik'], iller: ['Malatya'], abonelik: { durum: 'aktif' } });
