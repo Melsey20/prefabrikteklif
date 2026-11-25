@@ -113,6 +113,7 @@ En iyiler hep **kısa (≈14 sn), şaşırtıcı bir kural/gerçek veren** Reels
   "… nedir / ne demek" sözlük hook'u ve "… nelere dikkat etmeli" gibi genel başlık KULLANMA.
 - İlk sahne tercihen **"sayi"** (büyük rakam, ör. 38.750 TL/m²) ya da güçlü bir dış cephe fotoğrafı; aynı fotoğrafı arka arkaya günlerde kapak yapma.
 - Seslendirmenin son cümlesi tek, kolay cevaplanan bir **yorum sorusu** + "bağlantı profilde": ör. "Siz kaç metrekare düşünüyorsunuz? Yoruma yazın, bağlantı profilde."
+- **Her gün en az bir hareketli video sahnesi ("video" türü):** kendi videomuz yoksa `video/stok.json`'daki konuya uyan Pexels klibini kullan (ayrıntı: aşağıdaki "Stok video kütüphanesi" bölümü — bu bölüm de bağlayıcıdır). Tercihen ilk sahne video olsun (hook başlığı videonun üstünde).
 - **Gerçek video önceliklidir:** Drive'daki "PrefabrikTeklif — Reels ham videolar" klasöründe (id `1TW1lMMhF63CH-dAqrWMs6Jd60Zjmnk1h`) `scripts/instagram/video/kullanilan.json`'da olmayan bir video varsa akşam reels[0]'ı onunla yap (video.sh; ayrıntı aşağıda).
 
 **Tasarım ve açıklama kuralları:**
