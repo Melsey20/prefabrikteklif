@@ -81,8 +81,17 @@ def medya_metrik(m):
     return d
 
 
+def izinler():
+    """Jetonun verilmiş izinleri (jetonun kendisi yazılmaz)."""
+    try:
+        r = api('me/permissions')
+        return sorted(x['permission'] for x in r.get('data', []) if x.get('status') == 'granted')
+    except Exception as e:  # noqa: BLE001
+        return [f'okunamadı: {e}']
+
+
 def hesap(gun):
-    h = {}
+    h = {'izinler': izinler()}
     try:
         h.update(api(IG, fields='username,followers_count,follows_count,media_count'))
     except Exception as e:  # noqa: BLE001
@@ -153,7 +162,8 @@ def rapor(medya, h, gun):
          f'son {gun} günün {len(satirlar)} gönderisi.', '']
     if izin_yok:
         L += ['> **İZİN YOK:** gönderi metrikleri okunamadı. META_TOKEN jetonuna `instagram_manage_insights` izni verilmeli '
-              '(Meta Business Suite → İşletme ayarları → Sistem kullanıcıları → jeton oluştururken izinler).', '']
+              '(Meta Business Suite → İşletme ayarları → Sistem kullanıcıları → jeton oluştururken izinler).',
+              f"> Jetonun şu anki izinleri: {', '.join(h.get('izinler') or ['—'])}", '']
     if h.get('gunluk_erisim'):
         ge = h['gunluk_erisim']
         L += ['## Hesap', '',
