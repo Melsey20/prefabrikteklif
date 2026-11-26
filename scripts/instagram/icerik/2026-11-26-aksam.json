@@ -172,7 +172,7 @@
   ],
   "yayin": {
     "hesap": "17841474767654199",
-    "durum": "yayında (Meta Graph API): 5/6 öğe yayınlandı",
+    "durum": "yayında (Meta Graph API): 6/6 öğe yayınlandı",
     "medya": {
       "tasarim": [
         "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/52e2a4fe-9248-401d-b77c-58a7b03ac6cb.jpg",
@@ -205,6 +205,10 @@
       "story-reels-1": {
         "id": "18124207438985997",
         "zaman": "2026-11-26 19:52"
+      },
+      "story-reels-2": {
+        "id": "17914891800483149",
+        "zaman": "2026-11-26 19:57"
       }
     }
   }
