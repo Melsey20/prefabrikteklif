@@ -71,12 +71,12 @@
           "h": "Prefabrik eve<br><em>kredi çıkar mı?</em>"
         },
         {
-          "t": 3.3,
+          "t": 3.36,
           "tur": "video",
           "h": "Evet, ama teminat<br><em>çoğunlukla arsanız.</em>"
         },
         {
-          "t": 6.9,
+          "t": 6.92,
           "tur": "liste",
           "h": "Kredi için <em>şartlar</em>",
           "ikon": "✓",
@@ -87,12 +87,12 @@
           ]
         },
         {
-          "t": 12.6,
+          "t": 12.28,
           "tur": "son",
           "h": "Krediyle mi<br><em>alacaksınız?</em>"
         }
       ],
-      "sure": 17.0,
+      "sure": 16.56,
       "video": {
         "klipler": [
           {
@@ -134,7 +134,7 @@
           "birim": "müşteriden fazla"
         },
         {
-          "t": 6.0,
+          "t": 6.2,
           "tur": "liste",
           "h": "Talepler <em>panelinize gelir</em>",
           "ikon": "✓",
@@ -145,7 +145,7 @@
           ]
         },
         {
-          "t": 11.2,
+          "t": 12.62,
           "tur": "sayi",
           "h": "İlk 50 firmaya",
           "n": 1,
@@ -156,12 +156,12 @@
           ]
         },
         {
-          "t": 16.5,
+          "t": 17.7,
           "tur": "son",
           "h": "Başvuru bağlantısı<br><em>profilde.</em>"
         }
       ],
-      "sure": 19.5,
+      "sure": 21.04,
       "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-26-aksam-2.mp3",
       "ses": {
         "kaynak": "elevenlabs",

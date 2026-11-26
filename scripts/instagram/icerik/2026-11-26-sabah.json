@@ -62,7 +62,7 @@
         {
           "sablon": "kontrol",
           "etiket": "4 / 5",
-          "h": "Almadan önce <em>firmaya sorun</em>",
+          "h": "Almadan önce<br><em>firmaya sorun</em>",
           "p": "Cevapları teklifte yazılı isteyin.",
           "maddeler": [
             "Yalıtım kaç cm?",
