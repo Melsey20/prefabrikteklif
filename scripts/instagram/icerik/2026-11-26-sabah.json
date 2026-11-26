@@ -1,0 +1,93 @@
+{
+  "tarih": "2026-11-26",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Tiny house kışın üşütür mü? Tiny house ısıtma ve yalıtım için kaydedilecek kopya kâğıdı 👇\n\nKüçük hacim ısıtmayı kolaylaştırır ama ısı kaybını da hızlandırır: yalıtımı zayıf bir tiny house'ta hangi ısıtıcıyı seçerseniz seçin ev çabuk soğur. Isı en çok tabandan, pencere ve kapılardan, çatıdan ve birleşim yerlerinden kaçar. Elektrik bağlantısı varsa inverter klima çoğu zaman en verimlisi; soğuk bölgelerde bacalı soba eklenir, sobada karbonmonoksit dedektörü şart.\n\nPrefabrikTeklif tiny house sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir; yalıtım kalınlığını teklifte yazılı isteyin.\n\n👇 Yoruma yazın: Siz klima mı, soba mı seçerdiniz?\n📌 Kaydedin, kış gelmeden lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#tinyhouse #tinyhouseısıtma #tinyhousefiyatları #tinyev",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Tiny house",
+          "h": "Tiny house kışın<br><em>üşütür mü?</em>",
+          "boy": 92,
+          "p": "Cevap ısıtıcıda değil, yalıtımda. Kaydırın.",
+          "img": "tiny-house-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 5",
+          "h": "Isı en çok <em>buradan kaçar</em>",
+          "boy": 80,
+          "maddeler": [
+            [
+              "Taban",
+              "Şasi altı yalıtımı inceyse ayaklar üşür"
+            ],
+            [
+              "Pencere ve kapı",
+              "Tek cam en büyük kaçak noktası"
+            ],
+            [
+              "Çatı ve asma kat",
+              "Sıcak hava yükselir, alt kat soğuk kalır"
+            ],
+            [
+              "Birleşim yerleri",
+              "Panel ekleri ve boru geçişleri sızdırır"
+            ]
+          ]
+        },
+        {
+          "sablon": "liste",
+          "etiket": "3 / 5",
+          "h": "Hangi ısıtma <em>kime uygun?</em>",
+          "boy": 80,
+          "maddeler": [
+            [
+              "İnverter klima",
+              "Çoğu zaman en verimlisi; çok soğukta verimi düşer"
+            ],
+            [
+              "Odun / pelet sobası",
+              "Soğuk bölgeler için; baca ve CO dedektörü şart"
+            ],
+            [
+              "Elektrikli konvektör",
+              "Yalnızca yardımcı ısıtıcı; fatura yüksek olabilir"
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "4 / 5",
+          "h": "Almadan önce <em>firmaya sorun</em>",
+          "p": "Cevapları teklifte yazılı isteyin.",
+          "maddeler": [
+            "Yalıtım kaç cm?",
+            "Çift cam mı?",
+            "Taban yalıtımı",
+            "Buhar kesici",
+            "Donma koruması",
+            "Kışlık örnek"
+          ],
+          "img": "tiny-house-b-960.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "5 / 5",
+          "h": "Siz nasıl<br><em>ısıtırdınız?</em>",
+          "p": "Klima mı, soba mı? Yoruma yazın.",
+          "img": "tiny-house-c-960.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": []
+}

@@ -1,0 +1,161 @@
+{
+  "tarih": "2026-11-26",
+  "slot": "aksam",
+  "saat": "19:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Prefabrik ev satan firmalar: panelimizde fiyat bekleyen 20'den fazla müşteri var, bu talepler size gelebilir 👇\n\nPrefabrikTeklif'te talep il, ev tipi, m², oda sayısı, bütçe, arsa durumu ve başlama zamanıyla firma paneline gelir; size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz yapı tiplerinden talep düşer. Fiyat vermeden önce müşteriye panelden soru sorabilirsiniz.\n\nAçılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik. Kayıt için vergi levhası yeter, kart bilgisi istenmez, komisyon alınmaz; başvuru en geç 1 iş günü içinde onaylanır. PrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👇 Yoruma yazın: Hangi illere hizmet veriyorsunuz?\n📌 Kaydedin.\n👉 Ücretsiz başvuru: prefabrikteklif.com.tr/firmalar-icin\n\n#prefabrikevfirmaları #prefabrikevüreticisi #çelikevfirmaları #konteynerev",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Prefabrik satan firmalara",
+          "h": "Bu talepler<br><em>size gelebilirdi.</em>",
+          "boy": 92,
+          "p": "Panelimizde fiyat bekleyen 20'den fazla müşteri var.",
+          "img": "celik-960.webp",
+          "alt_sol": "prefabrikteklif.com.tr/firmalar-icin",
+          "alt_sag": "Başvuru →"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 3",
+          "h": "Talep panele <em>hazır gelir</em>",
+          "boy": 80,
+          "maddeler": [
+            [
+              "İl ve ev tipi",
+              "Yalnız hizmet verdiğiniz illerden"
+            ],
+            [
+              "m² ve oda sayısı",
+              "Müşterinin istediği ölçüyle"
+            ],
+            [
+              "Bütçe ve arsa durumu",
+              "Fiyatınızı buna göre verin"
+            ],
+            [
+              "Başlama zamanı",
+              "Ne zaman başlamak istediği"
+            ]
+          ],
+          "alt_sol": "prefabrikteklif.com.tr/firmalar-icin",
+          "alt_sag": "Başvuru →"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "3 / 3",
+          "h": "İlk 50 firmaya<br><em>1 ay ücretsiz.</em>",
+          "p": "Vergi levhası yeter, kart bilgisi istenmez.",
+          "img": "konteyner-960.webp",
+          "cipler": [
+            "Komisyon yok",
+            "1 iş gününde onay",
+            "Üye firma rozeti"
+          ],
+          "alt_sol": "prefabrikteklif.com.tr/firmalar-icin",
+          "alt_sag": "Başvuru →"
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Prefabrik eve kredi çıkar mı? Evet, ama her bankada değil. Teminat çoğunlukla arsanızdır. Tapulu, tam hisseli arsa ve ruhsat şart; ruhsatsız yapıya konut kredisi verilmez. Siz krediyle mi alacaksınız? Yoruma yazın, bağlantı profilde.",
+      "aciklama": "Prefabrik eve kredi çıkar mı? Prefabrik ev kredisi 2026: bankanın baktığı şartlar 👇\n\nKısa cevap: mümkün, ama her bankada ve her durumda değil. Bankalar krediyi teminata göre verir; prefabrik evde teminat çoğunlukla arsanın kendisidir. Tapulu, tam hisseli ve ipotek konulabilen arsa, ruhsat ve ekspertiz değeri belirleyicidir; ruhsatsız yapılara konut kredisi verilmez, hisseli tarlada kredi çıkması zordur. Faiz ve kampanyaları birden çok bankadan sorun.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir; teklif formuna ödeme planı tercihinizi yazarsanız firmalar ödeme seçeneklerini de iletir.\n\n👇 Yoruma yazın: Krediyle mi, peşin mi alacaksınız?\n📌 Kaydedin.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikev #prefabrikevkredisi #prefabrikevfiyatları #konutkredisi",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "video",
+          "h": "Prefabrik eve<br><em>kredi çıkar mı?</em>"
+        },
+        {
+          "t": 3.3,
+          "tur": "video",
+          "h": "Evet, ama teminat<br><em>çoğunlukla arsanız.</em>"
+        },
+        {
+          "t": 6.9,
+          "tur": "liste",
+          "h": "Kredi için <em>şartlar</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "Tapulu arsa",
+            "Tam hisseli",
+            "Ruhsatlı yapı"
+          ]
+        },
+        {
+          "t": 12.6,
+          "tur": "son",
+          "h": "Krediyle mi<br><em>alacaksınız?</em>"
+        }
+      ],
+      "sure": 17.0,
+      "video": {
+        "klipler": [
+          {
+            "kaynak": "https://videos.pexels.com/video-files/7817215/7817215-hd_1080_1920_25fps.mp4",
+            "bas": 0,
+            "bit": 9
+          },
+          {
+            "kaynak": "https://videos.pexels.com/video-files/7817163/7817163-hd_1080_1920_25fps.mp4",
+            "bas": 0,
+            "bit": 9
+          }
+        ],
+        "ses": "seslendirme"
+      },
+      "altyazi": "otomatik"
+    },
+    {
+      "seslendirme": "Konteyner ya da çelik ev mi satıyorsunuz? Panelimizde yirmiden fazla müşteri fiyat bekliyor. Talep il, ev tipi, metrekare ve bütçeyle, yalnız hizmet verdiğiniz illerden gelir. İlk elli firmaya bir ay ücretsiz; vergi levhası yeter, kart bilgisi yok. Başvuru bağlantısı profilde.",
+      "aciklama": "Prefabrik ev satan firmalar: konteyner ve çelik ev üreticileri için panelde fiyat bekleyen 20'den fazla müşteri var 👇\n\nTalepler il, ev tipi, metrekare, oda sayısı, bütçe ve arsa durumuyla firma panelinize gelir; size yalnızca hizmet verdiğiniz illerden ve ürettiğiniz yapı tiplerinden talep düşer.\n\nAçılış kampanyası: ilk 50 firmaya 1 ay ücretsiz üyelik. Vergi levhası yeter; kart bilgisi istenmez, komisyon alınmaz. PrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👇 Yoruma yazın: Hangi yapı tipini üretiyorsunuz?\n📌 Kaydedin.\n👉 Ücretsiz başvuru: prefabrikteklif.com.tr/firmalar-icin\n\n#prefabrikevfirmaları #konteynerev #çelikevfirmaları #prefabrikevüreticisi",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "foto",
+          "h": "Konteyner ya da çelik ev<br><em>mi satıyorsunuz?</em>",
+          "img": "prefabrik-b-960.webp"
+        },
+        {
+          "t": 3.0,
+          "tur": "sayi",
+          "h": "Panelde <em>fiyat bekleyen</em>",
+          "n": 20,
+          "birim": "müşteriden fazla"
+        },
+        {
+          "t": 6.0,
+          "tur": "liste",
+          "h": "Talepler <em>panelinize gelir</em>",
+          "ikon": "✓",
+          "maddeler": [
+            "İl ve ev tipi",
+            "m² ve bütçe",
+            "Yalnız sizin illeriniz"
+          ]
+        },
+        {
+          "t": 11.2,
+          "tur": "sayi",
+          "h": "İlk 50 firmaya",
+          "n": 1,
+          "birim": "ay ücretsiz",
+          "cipler": [
+            "Vergi levhası yeter",
+            "Kart bilgisi yok"
+          ]
+        },
+        {
+          "t": 16.5,
+          "tur": "son",
+          "h": "Başvuru bağlantısı<br><em>profilde.</em>"
+        }
+      ],
+      "sure": 19.5
+    }
+  ]
+}
