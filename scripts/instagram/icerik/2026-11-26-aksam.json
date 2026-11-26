@@ -108,7 +108,13 @@
         ],
         "ses": "seslendirme"
       },
-      "altyazi": "otomatik"
+      "altyazi": "otomatik",
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-26-aksam-1.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "IuRRIAcbQK5AQk1XevPj"
+      }
     },
     {
       "seslendirme": "Konteyner ya da çelik ev mi satıyorsunuz? Panelimizde yirmiden fazla müşteri fiyat bekliyor. Talep il, ev tipi, metrekare ve bütçeyle, yalnız hizmet verdiğiniz illerden gelir. İlk elli firmaya bir ay ücretsiz; vergi levhası yeter, kart bilgisi yok. Başvuru bağlantısı profilde.",
@@ -155,7 +161,13 @@
           "h": "Başvuru bağlantısı<br><em>profilde.</em>"
         }
       ],
-      "sure": 19.5
+      "sure": 19.5,
+      "ses_url": "https://raw.githubusercontent.com/Melsey20/prefabrikteklif/main/scripts/instagram/ses/2026-11-26-aksam-2.mp3",
+      "ses": {
+        "kaynak": "elevenlabs",
+        "model": "eleven_multilingual_v2",
+        "voice_id": "IuRRIAcbQK5AQk1XevPj"
+      }
     }
   ]
 }
