@@ -83,7 +83,8 @@
       ]
     }
   ],
-  "reels": [
+  "reels": [],
+  "reels_bekleyen": [
     {
       "seslendirme": "Hisseli arsaya ev yapılır mı? Evet, ama tüm hissedarların noter onaylı izniyle. Tek biri hayır derse ruhsat çıkmaz; izinsiz yapıya da elektrik, su bağlanmıyor. Arsanız hisseli mi? Yoruma yazın, bağlantı profilde.",
       "aciklama": "Hisseli arsaya ev yapılır mı? Hisseli tapuya ya da tarlaya prefabrik ev kurmadan önce bu kuralı bilin 👇\n\nPlanlı Alanlar İmar Yönetmeliği'ne göre parsel maliklerinin muvafakati olmadan yapı ruhsatı verilmez; belediyeler genellikle tüm hissedarların noter onaylı muvafakatnamesini ister. Tek bir hissedar onay vermezse ruhsat çıkmaz. 2026'dan itibaren izinsiz yapılara elektrik, su ve doğal gaz aboneliği de verilmiyor. Belgeleri belediyenizden teyit edin; bu bir hukuki danışmanlık değildir.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir.\n\n👇 Yoruma yazın: Arsanız hisseli mi?\n📌 Kaydedin.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#hisseliarsa #prefabrikev #tarlayaevyapılırmı #prefabrikevruhsatı",
@@ -133,5 +134,6 @@
       },
       "altyazi": "otomatik"
     }
-  ]
+  ],
+  "not": "ElevenLabs 27.11.2026 05:51 UTC HTTP 401 payment_issue: seslendirme üretilemedi; Reels (reels_bekleyen) yayına alınmadı."
 }
