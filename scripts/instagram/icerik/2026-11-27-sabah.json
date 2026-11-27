@@ -1,0 +1,97 @@
+{
+  "tarih": "2026-11-27",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Prefabrik ev yapım yardımı 2026: 300 bin TL'ye kadar destek var ama herkese verilmiyor. Kimler başvurabilir? 👇\n\nAile ve Sosyal Hizmetler Bakanlığı'nın barınma yardımları bilgi notunda prefabrik ev yapımı için 300.000 TL'ye kadar destek yazıyor. Başvuru e-Devlet'teki \"Sosyal Yardım Başvuru Hizmeti\" ya da il/ilçe Sosyal Yardımlaşma ve Dayanışma Vakfı (SYDV) üzerinden yapılıyor; gelir testi, barınma ihtiyacı ve tam hisseli tapu aranıyor. Tutar ve şartlar değişebilir, başvurmadan önce vakfınızdan teyit edin.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve faturalı çalışan firmalardan teklifleri 48 saatte size getirir.\n\n👇 Yoruma yazın: Bu desteği daha önce duymuş muydunuz?\n📌 Kaydedin, başvururken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevyardımı #prefabrikevdesteği #prefabrikev #sydv",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Prefabrik ev desteği",
+          "h": "300 bin TL'ye kadar destek<br><em>herkese verilmez.</em>",
+          "boy": 84,
+          "p": "Bakanlığın aradığı 4 şart içeride. Kaydırın.",
+          "img": "prefabrik-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 5",
+          "h": "Kimler <em>başvurabilir?</em>",
+          "boy": 80,
+          "maddeler": [
+            [
+              "Muhtaçlık",
+              "Gelir testinde ihtiyaç sahibi olan hane"
+            ],
+            [
+              "Barınma ihtiyacı",
+              "Eski, sağlıksız evde oturmak ya da afet mağduru olmak"
+            ],
+            [
+              "Tam hisseli tapu",
+              "Evin yapılacağı arsada; hisseli tapu çoğu zaman yetmez"
+            ],
+            [
+              "İkamet",
+              "Haberlere göre vakfın bölgesinde bir süredir yaşamak"
+            ]
+          ]
+        },
+        {
+          "sablon": "liste",
+          "etiket": "3 / 5",
+          "h": "Nereye, <em>nasıl başvurulur?</em>",
+          "boy": 80,
+          "maddeler": [
+            [
+              "e-Devlet",
+              "“Sosyal Yardım Başvuru Hizmeti” ekranı"
+            ],
+            [
+              "Ya da SYDV",
+              "İl/ilçe vakfına kimlik belgesiyle"
+            ],
+            [
+              "Hane ziyareti",
+              "Kararı vakıf mütevelli heyeti verir"
+            ],
+            [
+              "Ödeme",
+              "Harcama belgesi karşılığında, nakdi ya da ayni"
+            ]
+          ]
+        },
+        {
+          "sablon": "kontrol",
+          "etiket": "4 / 5",
+          "h": "Evi seçerken<br><em>bunları isteyin</em>",
+          "p": "Yardım harcama belgesiyle ödenir.",
+          "maddeler": [
+            "Faturalı firma",
+            "Fiyata ne dahil?",
+            "Zemin betonu",
+            "Nakliye, montaj",
+            "Yapı ruhsatı",
+            "Güncel tutar"
+          ],
+          "img": "ic-mekan-1344.webp"
+        },
+        {
+          "sablon": "cta",
+          "etiket": "5 / 5",
+          "h": "Bu desteği<br><em>biliyor muydunuz?</em>",
+          "p": "Tutarı ve şartları vakfınızdan teyit edin.",
+          "img": "montaj-1344.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "48 saatte teklif"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": []
+}
