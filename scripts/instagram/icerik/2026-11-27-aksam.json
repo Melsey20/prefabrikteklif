@@ -138,7 +138,7 @@
   "not": "ElevenLabs 27.11.2026 05:51 UTC HTTP 401 payment_issue: seslendirme üretilemedi; Reels (reels_bekleyen) yayına alınmadı.",
   "yayin": {
     "hesap": "17841474767654199",
-    "durum": "yayında (Meta Graph API): 1/2 öğe yayınlandı",
+    "durum": "yayında (Meta Graph API): 2/2 öğe yayınlandı",
     "medya": {
       "tasarim": [
         "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/daf1f846-d842-43dd-a598-40c315955326.jpg",
@@ -153,6 +153,10 @@
       "tasarim": {
         "id": "18107042804375106",
         "zaman": "2026-11-27 19:00"
+      },
+      "story": {
+        "id": "18215410171364763",
+        "zaman": "2026-11-27 19:45"
       }
     }
   }
