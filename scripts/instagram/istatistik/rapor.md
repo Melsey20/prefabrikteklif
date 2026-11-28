@@ -1,6 +1,6 @@
-# Instagram istatistik raporu — 27.11.2026 18:01
+# Instagram istatistik raporu — 28.11.2026 17:13
 
-Hesap: @prefabrik.teklif · takipçi **1.210** · gönderi 132 · son 30 günün 109 gönderisi.
+Hesap: @prefabrik.teklif · takipçi **1.259** · gönderi 136 · son 30 günün 111 gönderisi.
 
 > **İZİN YOK:** gönderi metrikleri okunamadı. META_TOKEN jetonuna `instagram_manage_insights` izni verilmeli (Meta Business Suite → İşletme ayarları → Sistem kullanıcıları → jeton oluştururken izinler).
 > Jetonun şu anki izinleri: business_management, instagram_basic, instagram_content_publish, pages_read_engagement, pages_show_list, public_profile
@@ -9,32 +9,34 @@ Hesap: @prefabrik.teklif · takipçi **1.210** · gönderi 132 · son 30 günün
 
 | Tarih | Tür | Hedef | Başlık | Erişim | İzlenme | Ort. sn | Kaydet | Paylaş | Beğeni | Yorum | Profil | Takip |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 27.11 10:00 | Karusel | ev arayan | [Prefabrik ev desteği herkese verilmez.](https://www.instagram.com/p/DgPGBUFjWpF/) | — | — | — | — | — | 0 | 0 | — | — |
-| 26.11 19:40 | Reels | firma | [Konteyner ya da çelik ev mi satıyorsunuz?](https://www.instagram.com/reel/DgNjjx1OjTx/) | — | — | — | — | — | 0 | 0 | — | — |
+| 28.11 10:00 | Karusel | ev arayan | [Bungalov mu, tiny house mu?](https://www.instagram.com/p/DgRqzRVjWUV/) | — | — | — | — | — | 0 | 0 | — | — |
+| 27.11 19:00 | Karusel | ev arayan | [100 m² ev kaça çıkar? Tipe göre 3 kat fark.](https://www.instagram.com/p/DgQDznHjD0o/) | — | — | — | — | — | 0 | 0 | — | — |
+| 27.11 10:00 | Karusel | ev arayan | [Prefabrik ev desteği herkese verilmez.](https://www.instagram.com/p/DgPGBUFjWpF/) | — | — | — | — | — | 1 | 0 | — | — |
+| 26.11 19:40 | Reels | firma | [Konteyner ya da çelik ev mi satıyorsunuz?](https://www.instagram.com/reel/DgNjjx1OjTx/) | — | — | — | — | — | 1 | 0 | — | — |
 | 26.11 19:21 | Reels | ev arayan | [Prefabrik eve kredi çıkar mı?](https://www.instagram.com/reel/DgNhVKoqwKp/) | — | — | — | — | — | 0 | 0 | — | — |
 | 26.11 19:00 | Karusel | firma | [Bu talepler size gelebilirdi.](https://www.instagram.com/p/DgNfAIAjseW/) | — | — | — | — | — | 2 | 0 | — | — |
 | 26.11 10:00 | Karusel | ev arayan | [Tiny house kışın üşütür mü?](https://www.instagram.com/p/DgMhOmok7bj/) | — | — | — | — | — | 1 | 0 | — | — |
-| 25.11 19:20 | Reels | ev arayan | [500 bin TL'ye hangi ev alınır?](https://www.instagram.com/reel/DgK8emSqPyC/) | — | — | — | — | — | 0 | 0 | — | — |
+| 25.11 19:20 | Reels | ev arayan | [500 bin TL'ye hangi ev alınır?](https://www.instagram.com/reel/DgK8emSqPyC/) | — | — | — | — | — | 1 | 0 | — | — |
 | 25.11 19:00 | Karusel | ev arayan | [Prefabrik ev kaç yıl dayanır?](https://www.instagram.com/p/DgK6N6PAMCa/) | — | — | — | — | — | 0 | 0 | — | — |
 | 25.11 10:00 | Karusel | ev arayan | [Konteyner ev mi, prefabrik ev mi?](https://www.instagram.com/p/DgJ8bBgD5wH/) | — | — | — | — | — | 2 | 1 | — | — |
-| 24.11 19:20 | Reels | ev arayan | [Kaliteli prefabrik ev nasıl anlaşılır?](https://www.instagram.com/reel/DgIXruTAjr7/) | — | — | — | — | — | 3 | 0 | — | — |
+| 24.11 19:20 | Reels | ev arayan | [Kaliteli prefabrik ev nasıl anlaşılır?](https://www.instagram.com/reel/DgIXruTAjr7/) | — | — | — | — | — | 4 | 0 | — | — |
 | 24.11 19:00 | Karusel | ev arayan | [2+1 tiny house olur mu?](https://www.instagram.com/p/DgIVbKcD2Cz/) | — | — | — | — | — | 0 | 0 | — | — |
-| 24.11 10:00 | Karusel | ev arayan | [50 m² ahşap ev kaça çıkar?](https://www.instagram.com/p/DgHXn55Gj_6/) | — | — | — | — | — | 4 | 0 | — | — |
-| 23.11 20:00 | Reels | ev arayan | [3+1 prefabrik ev kaça çıkar?](https://www.instagram.com/reel/DgF3dzAkWNH/) | — | — | — | — | — | 2 | 0 | — | — |
-| 23.11 19:20 | Reels | firma | [Prefabrik ev satıyor musunuz?](https://www.instagram.com/reel/DgFy4urEwbM/) | — | — | — | — | — | 0 | 0 | — | — |
-| 23.11 19:00 | Tekli | firma | [Fiyat bekleyen 20+ müşteri var.](https://www.instagram.com/p/DgFwl8GEkQV/) | — | — | — | — | — | 0 | 0 | — | — |
-| 23.11 11:42 | Karusel | ev arayan | [En ucuz prefabrik ev kaç TL?](https://www.instagram.com/p/DgE-iLCl-m2/) | — | — | — | — | — | 0 | 0 | — | — |
-| 22.11 19:20 | Reels | ev arayan | [Prefabrik ev depreme dayanıklı mı?](https://www.instagram.com/reel/DgDOH5ZEVHs/) | — | — | — | — | — | 1 | 0 | — | — |
-| 22.11 19:00 | Karusel | ev arayan | [Çelik ev fiyatları m² kaç TL?](https://www.instagram.com/p/DgDL1q9CURE/) | — | — | — | — | — | 0 | 0 | — | — |
-| 22.11 10:00 | Karusel | ev arayan | [Prefabrik ev kaç günde kurulur?](https://www.instagram.com/p/DgCOClvjLuL/) | — | — | — | — | — | 1 | 0 | — | — |
-| 21.11 19:21 | Reels | ev arayan | [3+1 konteyner ev kaça çıkar?](https://www.instagram.com/reel/DgApZWslbis/) | — | — | — | — | — | 1 | 0 | — | — |
-| 21.11 19:00 | Tekli | firma | [Müşteri aramayın, talepler size gelsin.](https://www.instagram.com/p/DgAnAM3CfLV/) | — | — | — | — | — | 0 | 0 | — | — |
-| 21.11 10:00 | Karusel | ev arayan | [Prefabrik eve DASK yapılır mı?](https://www.instagram.com/p/Df_pO7al4NW/) | — | — | — | — | — | 0 | 0 | — | — |
-| 20.11 19:20 | Reels | ev arayan | [Kaba teslim mi, anahtar teslim mi?](https://www.instagram.com/reel/Df-EgEclawC/) | — | — | — | — | — | 1 | 0 | — | — |
+| 24.11 10:00 | Karusel | ev arayan | [50 m² ahşap ev kaça çıkar?](https://www.instagram.com/p/DgHXn55Gj_6/) | — | — | — | — | — | 5 | 0 | — | — |
+| 23.11 20:00 | Reels | ev arayan | [3+1 prefabrik ev kaça çıkar?](https://www.instagram.com/reel/DgF3dzAkWNH/) | — | — | — | — | — | 3 | 0 | — | — |
+| 23.11 19:20 | Reels | firma | [Prefabrik ev satıyor musunuz?](https://www.instagram.com/reel/DgFy4urEwbM/) | — | — | — | — | — | 1 | 0 | — | — |
+| 23.11 19:00 | Tekli | firma | [Fiyat bekleyen 20+ müşteri var.](https://www.instagram.com/p/DgFwl8GEkQV/) | — | — | — | — | — | 1 | 0 | — | — |
+| 23.11 11:42 | Karusel | ev arayan | [En ucuz prefabrik ev kaç TL?](https://www.instagram.com/p/DgE-iLCl-m2/) | — | — | — | — | — | 1 | 0 | — | — |
+| 22.11 19:20 | Reels | ev arayan | [Prefabrik ev depreme dayanıklı mı?](https://www.instagram.com/reel/DgDOH5ZEVHs/) | — | — | — | — | — | 2 | 0 | — | — |
+| 22.11 19:00 | Karusel | ev arayan | [Çelik ev fiyatları m² kaç TL?](https://www.instagram.com/p/DgDL1q9CURE/) | — | — | — | — | — | 1 | 0 | — | — |
+| 22.11 10:00 | Karusel | ev arayan | [Prefabrik ev kaç günde kurulur?](https://www.instagram.com/p/DgCOClvjLuL/) | — | — | — | — | — | 2 | 0 | — | — |
+| 21.11 19:21 | Reels | ev arayan | [3+1 konteyner ev kaça çıkar?](https://www.instagram.com/reel/DgApZWslbis/) | — | — | — | — | — | 2 | 0 | — | — |
+| 21.11 19:00 | Tekli | firma | [Müşteri aramayın, talepler size gelsin.](https://www.instagram.com/p/DgAnAM3CfLV/) | — | — | — | — | — | 1 | 0 | — | — |
+| 21.11 10:00 | Karusel | ev arayan | [Prefabrik eve DASK yapılır mı?](https://www.instagram.com/p/Df_pO7al4NW/) | — | — | — | — | — | 1 | 0 | — | — |
+| 20.11 19:20 | Reels | ev arayan | [Kaba teslim mi, anahtar teslim mi?](https://www.instagram.com/reel/Df-EgEclawC/) | — | — | — | — | — | 2 | 0 | — | — |
 | 20.11 19:00 | Tekli | firma | [Fabrika, depo, hangar yapıyorsanız talepler burada.](https://www.instagram.com/p/Df-CNUskt00/) | — | — | — | — | — | 0 | 0 | — | — |
-| 20.11 10:00 | Karusel | ev arayan | [Prefabrik evin içi daireden farklı mı?](https://www.instagram.com/p/Df9Ec7GHWLz/) | — | — | — | — | — | 0 | 0 | — | — |
-| 19.11 19:40 | Reels | firma | [Prefabrik, çelik, bungalov ev satıcısı mısınız?](https://www.instagram.com/reel/Df7h_7rjdgA/) | — | — | — | — | — | 0 | 0 | — | — |
-| 19.11 19:20 | Reels | ev arayan | [Tarlaya ev yapılır mı?](https://www.instagram.com/reel/Df7ftBXlKGn/) | — | — | — | — | — | 1 | 0 | — | — |
+| 20.11 10:00 | Karusel | ev arayan | [Prefabrik evin içi daireden farklı mı?](https://www.instagram.com/p/Df9Ec7GHWLz/) | — | — | — | — | — | 1 | 0 | — | — |
+| 19.11 19:40 | Reels | firma | [Prefabrik, çelik, bungalov ev satıcısı mısınız?](https://www.instagram.com/reel/Df7h_7rjdgA/) | — | — | — | — | — | 1 | 0 | — | — |
+| 19.11 19:20 | Reels | ev arayan | [Tarlaya ev yapılır mı?](https://www.instagram.com/reel/Df7ftBXlKGn/) | — | — | — | — | — | 2 | 0 | — | — |
 | 19.11 19:00 | Karusel | ev arayan | [Bungalov ev kaç TL'den başlıyor?](https://www.instagram.com/p/Df7dcgVmusp/) | — | — | — | — | — | 2 | 0 | — | — |
 | 19.11 10:00 | Karusel | ev arayan | [Konteyner ev fiyatları ne dahil, ne değil?](https://www.instagram.com/p/Df6fpuSExGM/) | — | — | — | — | — | 2 | 0 | — | — |
 | 18.11 19:21 | Reels | ev arayan | [Ahşap ev kaç TL?](https://www.instagram.com/reel/Df47BaBikSq/) | — | — | — | — | — | 1 | 0 | — | — |
@@ -61,7 +63,7 @@ Hesap: @prefabrik.teklif · takipçi **1.210** · gönderi 132 · son 30 günün
 | 12.11 19:21 | Reels | ev arayan | [40 m² bungalov kaça çıkar?](https://www.instagram.com/reel/DfpeJFLDaew/) | — | — | — | — | — | 1 | 0 | — | — |
 | 12.11 19:00 | Karusel | ev arayan | [Prefabrik evin en büyük düşmanı ne?](https://www.instagram.com/p/Dfpb4Cnl06Y/) | — | — | — | — | — | 2 | 0 | — | — |
 | 12.11 10:41 | Reels | ev arayan | [2+1 prefabrik ev kaça mal olur?](https://www.instagram.com/reel/Dfoiuqrgce4/) | — | — | — | — | — | 3 | 0 | — | — |
-| 12.11 10:21 | Reels | ev arayan | [Konteyner mi, tiny house mı?](https://www.instagram.com/reel/DfogYltgbsp/) | — | — | — | — | — | 1 | 0 | — | — |
+| 12.11 10:21 | Reels | ev arayan | [Konteyner mi, tiny house mı?](https://www.instagram.com/reel/DfogYltgbsp/) | — | — | — | — | — | 2 | 0 | — | — |
 | 12.11 10:00 | Karusel | ev arayan | [Ahşap ev mi, çelik ev mi?](https://www.instagram.com/p/DfoeF_iDWc8/) | — | — | — | — | — | 2 | 0 | — | — |
 | 11.11 20:03 | Tekli | ? | [Tiny house üreticileri, ilk ay bizden: prefabrik ev, tiny ho](https://www.instagram.com/p/Dfm-QAxl7zY/) | — | — | — | — | — | 2 | 0 | — | — |
 | 11.11 19:40 | Reels | ev arayan | [Betonarme mi, çelik ev mi?](https://www.instagram.com/reel/Dfm7olMFK2D/) | — | — | — | — | — | 2 | 0 | — | — |
