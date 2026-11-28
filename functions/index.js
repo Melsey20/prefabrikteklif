@@ -8,7 +8,7 @@ import { getFirestore, FieldValue, Timestamp } from 'firebase-admin/firestore';
 import { getAuth } from 'firebase-admin/auth';
 import nodemailer from 'nodemailer';
 import { readFileSync } from 'node:fs';
-import { createApp, teklifOzetleri, teklifTakipleri, fiyatKontrolu } from './app.js';
+import { createApp, teklifOzetleri, teklifTakipleri, fiyatKontrolu, epostaKuyrugunaYaz, epostaKuyruguIsle } from './app.js';
 
 initializeApp();
 const db = getFirestore();
@@ -82,9 +82,16 @@ const ayar = () => ({
 });
 const ortak = { db, mail, ayar, FieldValue, Timestamp, FIRMS, MODELS };
 let _app;
-const app = () => (_app ||= createApp({ ...ortak, auth: getAuth() }));
+// Talep anındaki e-postalar kuyruğa yazılır; ziyaretçi SMTP'yi beklemez (epostaGonder her dakika gönderir)
+const app = () => (_app ||= createApp({ ...ortak, auth: getAuth(), kuyruk: (liste) => epostaKuyrugunaYaz(ortak, liste) }));
 
 export const api = onRequest({ region: REGION, secrets: [SMTP_PASS, PLACES_API_KEY], memory: '512MiB', minInstances: 1, maxInstances: 10, concurrency: 40, timeoutSeconds: 120 }, (req, res) => app().handle(req, res));
+
+// Her dakika: e-posta kuyruğundaki iletileri gönder (talep alındı, firma davetleri, yönetici bildirimi)
+export const epostaGonder = onSchedule({ schedule: 'every 1 minutes', region: REGION, timeZone: 'Europe/Istanbul', secrets: [SMTP_PASS], timeoutSeconds: 300, maxInstances: 1 }, async () => {
+  const r = await epostaKuyruguIsle(ortak);
+  if (r.gonderilen) console.log('E-posta kuyruğu', r);
+});
 
 export const teklifOzeti = onSchedule({ schedule: 'every 30 minutes', region: REGION, timeZone: 'Europe/Istanbul', secrets: [SMTP_PASS] }, async () => {
   await teklifOzetleri(ortak);

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { FakeDb, FieldValue, Timestamp, zaman, res } from './fakeDb.js';
-import { createApp, teklifOzetleri, teklifTakipleri, fiyatKontrolu, fiyatAdaylari, sayfaMetni, katalogId } from '../app.js';
+import { createApp, teklifOzetleri, teklifTakipleri, fiyatKontrolu, fiyatAdaylari, sayfaMetni, katalogId, epostaKuyrugunaYaz, epostaKuyruguIsle } from '../app.js';
 
 const FIRMS = [{ slug: 'kardesler', kisaAd: 'Kardeşler', il: 'Malatya', tipler: ['prefabrik'] }, { slug: 'pramo', kisaAd: 'Pramo', il: 'Kocaeli', tipler: ['prefabrik'] }];
 const MODELS = [
@@ -13,7 +13,7 @@ const KULLANICI = { 'tok-admin': { uid: 'a1', email: 'info@mitraajans.com', emai
 function kur(o = {}) {
   const db = new FakeDb(); const mails = [];
   const app = createApp({
-    db, FieldValue, Timestamp, FIRMS, MODELS, saat: 48, simdi: zaman.simdi, fetch: o.fetch,
+    db, FieldValue, Timestamp, FIRMS, MODELS, saat: 48, simdi: zaman.simdi, fetch: o.fetch, kuyruk: o.kuyruk,
     auth: { verifyIdToken: async (t) => { if (!KULLANICI[t]) throw new Error('bad'); return KULLANICI[t]; }, olusan: [], getUserByEmail: async () => { const e = new Error('yok'); e.code = 'auth/user-not-found'; throw e; }, async createUser(x) { this.olusan.push(x); return x; }, generatePasswordResetLink: async (e) => `https://p.firebaseapp.com/__/auth/action?mode=resetPassword&oobCode=KOD123&apiKey=k&continueUrl=x` },
     mail: async (to, subject, html) => { mails.push({ to, subject, html }); },
     ayar: () => ({ site: 'https://www.prefabrikteklif.com.tr', admin: 'info@mitraajans.com', yoneticiler: ['info@mitraajans.com'], placesKey: '' }),
@@ -723,4 +723,46 @@ test('art arda gelen iki talep: ikincisi 72 saat kuralına takılıp boş kalmaz
   const a = await call(TALEP); assert.equal(a.statusCode, 200, JSON.stringify(a.body)); assert.equal(a.body.firmaSayisi, 20);
   const b = await call({ ...TALEP, eposta: 'veli@ornek.com', ad: 'Veli Ali' }); assert.equal(b.statusCode, 200, JSON.stringify(b.body));
   assert.equal(b.body.firmaSayisi, 15, 'ikinci talep de en az 15 firmaya gider');
+});
+
+test('talep: e-postalar kuyruğa yazılır, ziyaretçi SMTP beklemez; kuyruk bir kez gönderir', async () => {
+  let kuyrukDb;
+  const { db, mails, call } = kur({ kuyruk: (l) => epostaKuyrugunaYaz({ db: kuyrukDb, FieldValue }, l) });
+  kuyrukDb = db;
+  await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', tipler: ['prefabrik'], iller: ['*'], panelEpostalari: ['satis@kardesler.com'], abonelik: { durum: 'aktif' } });
+  const r = await call('POST', '/api/teklif', { body: TALEP });
+  assert.equal(r.statusCode, 200, JSON.stringify(r.body));
+  assert.equal(mails.length, 0, 'istek sırasında hiç e-posta gönderilmemeli');
+  const kuyruk = db.dump('epostaKuyrugu/');
+  const alicilar = kuyruk.map(([, v]) => v.to);
+  assert.ok(alicilar.includes('satis@kardesler.com') && alicilar.includes('ali@ornek.com') && alicilar.includes('info@mitraajans.com'), alicilar.join(','));
+  assert.ok(db.dump('talepler/').some(([k, v]) => k.split('/').length === 2 && v.durum === 'acik'), 'talep kaydedilmiş olmalı');
+  assert.ok(db.v.get(`talepler/${db.dump('talepler/').find(([k]) => k.split('/').length === 2)[0].split('/')[1]}/davetler/kardesler`)?.sayildi, 'üye davet sayıldı');
+  // Gönderici: hepsini bir kez gönderir, kuyruğu boşaltır
+  const gidenler = [];
+  const g1 = await epostaKuyruguIsle({ db, mail: async (to, subject, html, o) => { gidenler.push({ to, subject, html, o }); }, simdi: zaman.simdi });
+  assert.equal(g1.gonderilen, kuyruk.length);
+  assert.equal(db.dump('epostaKuyrugu/').length, 0);
+  const firma = gidenler.find((m) => m.to === 'satis@kardesler.com');
+  assert.ok(firma && !firma.html.includes('Ali Veli') && firma.html.includes('/firma-paneli/#talepler'), 'firma e-postası aynı içerikle gider');
+  const g2 = await epostaKuyruguIsle({ db, mail: async () => { throw new Error('gitmemeli'); }, simdi: zaman.simdi });
+  assert.equal(g2.gonderilen, 0);
+});
+
+test('e-posta kuyruğu: başka çalışmanın sahiplendiği ileti tekrar gönderilmez, 10 dk sonra yeniden denenir', async () => {
+  const db = new FakeDb();
+  await db.collection('epostaKuyrugu').doc('x').set({ to: 'a@b.com', subject: 's', html: '<p>h</p>', o: {}, kilit: zaman.simdi() - 60000 });
+  const giden = [];
+  const mail = async (to) => { giden.push(to); };
+  assert.equal((await epostaKuyruguIsle({ db, mail, simdi: zaman.simdi })).gonderilen, 0);
+  assert.equal((await epostaKuyruguIsle({ db, mail, simdi: () => zaman.simdi() + 11 * 60000 })).gonderilen, 1);
+  assert.deepEqual(giden, ['a@b.com']);
+});
+
+test('talep: kuyruğa yazılamazsa e-postalar doğrudan gönderilir', async () => {
+  const { db, mails, call } = kur({ kuyruk: async () => { throw new Error('yazılamadı'); } });
+  await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', tipler: ['prefabrik'], iller: ['*'], abonelik: { durum: 'aktif' } });
+  const r = await call('POST', '/api/teklif', { body: TALEP });
+  assert.equal(r.statusCode, 200);
+  assert.ok(mails.some((m) => m.to === 'ali@ornek.com') && mails.some((m) => m.to === 'satis@kardesler.com'));
 });

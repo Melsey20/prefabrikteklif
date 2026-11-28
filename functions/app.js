@@ -104,10 +104,19 @@ const hata = (kod, mesaj) => { throw new HttpHata(kod, mesaj); };
  * @param {any[]} o.MODELS
  * @param {typeof fetch} [o.fetch]
  */
-export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, MODELS, fetch: fetchFn = globalThis.fetch, saat = 48, maksFirma = 40, simdi = Date.now }) {
+export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, MODELS, fetch: fetchFn = globalThis.fetch, saat = 48, maksFirma = 40, simdi = Date.now, kuyruk = null }) {
   const firmAd = (slug) => FIRMS.find((f) => f.slug === slug)?.kisaAd || slug;
   const modelBul = (id) => MODELS.find((m) => m.id === id);
   const now = simdi;
+  // Talep sırasında giden e-postalar: kuyruk varsa (canlı) Firestore kuyruğuna yazılır ve arka planda gönderilir;
+  // ziyaretçi SMTP'yi beklemez. Kuyruk yoksa (testler) doğrudan gönderilir.
+  const ileti = (to, subject, html, o) => (to ? { to, subject, html, o: o || {} } : null);
+  async function gonder(liste) {
+    const l = liste.filter(Boolean);
+    if (!l.length) return;
+    if (kuyruk) { try { await kuyruk(l); return; } catch (e) { console.error('E-posta kuyruğa yazılamadı, doğrudan gönderiliyor:', e?.message || e); } }
+    await Promise.allSettled(l.map((m) => mail(m.to, m.subject, m.html, m.o)));
+  }
 
   async function rateLimit(req, key, max) {
     const ip = String(req.headers?.['x-forwarded-for'] || req.ip || '').split(',')[0].trim();
@@ -201,27 +210,28 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     const sahipKod = token();
     const ortak = { ...d, telefonNorm: telNorm(d.telefon), uid: u?.uid || null, token: tkn, sahipKod, riza: true, rizaZamani: FieldValue.serverTimestamp(), olusturma: FieldValue.serverTimestamp() };
     await onayKaydet(req, { tur: mod === 'surec' ? 'surec-talebi' : 'teklif-talebi', kayit: ref.id, uid: u?.uid, eposta: d.eposta, telefon: d.telefon, ad: d.ad, belgeler: ['kvkk', 'riza', 'kullanici', ...(mod === 'surec' ? ['hizmet'] : []), ...(d.pazarlama ? ['pazarlama'] : [])] });
-    if (!test) sayac({ talep: 1, ...(mod === 'surec' ? { surec: 1 } : {}) });
+    if (!test) await sayac({ talep: 1, ...(mod === 'surec' ? { surec: 1 } : {}) });
 
     if (mod === 'surec') {
       const sref = db.collection('siparisler').doc();
       await ref.set({ ...ortak, firmalar: [], secilen: arr(b.firmalar, 5).filter((s) => FIRMS.some((f) => f.slug === s)), durum: 'surec', siparis: sref.id });
       await sref.set({ talep: ref.id, uid: u?.uid || null, eposta: d.eposta, ad: d.ad, telefon: d.telefon, il: d.il, ilce: d.ilce, tip: d.tip, m2: d.m2, oda: d.oda, model: d.model, firma: '', asama: 0, notlar: [], belgeler: [], mesajlar: [], aktif: true, olusturma: FieldValue.serverTimestamp(), guncelleme: FieldValue.serverTimestamp() });
-      await Promise.allSettled([
-        mail(a.admin, `Süreç yönetimi talebi: ${TIP_AD[d.tip]} ${d.il}`, sablon('Yeni süreç yönetimi talebi', kart([...talepOzeti(d), ['Müşteri', d.ad], ['E-posta', d.eposta], ['Telefon', d.telefon], ['Öncelikli firmalar', arr(b.firmalar, 5).map(firmAd).join(', ')]]) + buton(`${a.site}/yonetim/#siparisler`, 'Yönetim panelinde aç'))),
-        mail(d.eposta, 'Ön görüşme talebiniz alındı', sablon('Talebiniz alındı', `<p>Merhaba ${esc(d.ad)},</p><p>Süreç yönetimi talebiniz ekibimize ulaştı. En geç 1 iş günü içinde sizi arayıp ihtiyacınızı dinleyeceğiz. Süreç başladığında her adımı hesabınızdan takip edebilirsiniz.</p><p>Hizmet bedelimiz yalnızca ev bedelinin <b>%${KOMISYON}</b>’idir; tutarı sözleşmeden önce yazılı olarak bildiririz, gizli ücret yoktur.</p>${kart(talepOzeti(d))}${buton(`${a.site}/hesabim/`, 'Hesabım')}`)),
+      await gonder([
+        ileti(a.admin, `Süreç yönetimi talebi: ${TIP_AD[d.tip]} ${d.il}`, sablon('Yeni süreç yönetimi talebi', kart([...talepOzeti(d), ['Müşteri', d.ad], ['E-posta', d.eposta], ['Telefon', d.telefon], ['Öncelikli firmalar', arr(b.firmalar, 5).map(firmAd).join(', ')]]) + buton(`${a.site}/yonetim/#siparisler`, 'Yönetim panelinde aç'))),
+        ileti(d.eposta, 'Ön görüşme talebiniz alındı', sablon('Talebiniz alındı', `<p>Merhaba ${esc(d.ad)},</p><p>Süreç yönetimi talebiniz ekibimize ulaştı. En geç 1 iş günü içinde sizi arayıp ihtiyacınızı dinleyeceğiz. Süreç başladığında her adımı hesabınızdan takip edebilirsiniz.</p><p>Hizmet bedelimiz yalnızca ev bedelinin <b>%${KOMISYON}</b>’idir; tutarı sözleşmeden önce yazılı olarak bildiririz, gizli ücret yoktur.</p>${kart(talepOzeti(d))}${buton(`${a.site}/hesabim/`, 'Hesabım')}`)),
       ]);
       return { ok: true, firmaSayisi: 0, siparis: sref.id };
     }
 
     const secilen = arr(b.firmalar, 5).filter((s) => FIRMS.some((f) => f.slug === s));
     // Firmalar üç gruba ayrılır: üyeliği aktif (fiyat verebilir), kayıtlı ama ödeme bekleyen, yalnızca listelenmiş (üye değil)
-    const fdocs = new Map((await db.collection('firmalar').get()).docs.map((x) => [x.id, x.data()]));
+    const [firmaQ, kayitQ, donenQ] = await Promise.all([db.collection('firmalar').get(), db.collection('davetKayit').get(), db.collection('tanitimKayit').where('gecersiz', '==', true).get()]);
+    const fdocs = new Map(firmaQ.docs.map((x) => [x.id, x.data()]));
     const ilUyar = (f) => !f.iller?.length || f.iller.includes('*') || f.iller.includes(d.il);
     const tipUyar = (slug, f) => tipEslesir(f?.tipler?.length ? f.tipler : FIRMS.find((x) => x.slug === slug)?.tipler || [], d.tip);
     const grup = (slug) => { const f = fdocs.get(slug); if (f?.kaldirildi) return 'kaldirildi'; if (f && f.aktif === false) return 'pasif'; if (uyeAktif(f)) return 'uye'; if (f && f.aktif !== false && (f.eposta || f.panelEpostalari?.length)) return 'odeme'; return 'liste'; };
-    const kayitlar = new Map((await Promise.all(FIRMS.map(async (f) => [f.slug, (await db.collection('davetKayit').doc(f.slug).get()).data() || null]))));
-    const donenler = new Set((await db.collection('tanitimKayit').where('gecersiz', '==', true).get()).docs.map((x) => String(x.data().eposta || '').toLowerCase()));
+    const kayitlar = new Map(kayitQ.docs.map((x) => [x.id, x.data()]));
+    const donenler = new Set(donenQ.docs.map((x) => String(x.data().eposta || '').toLowerCase()));
     const davetEdilebilir = (slug, secildi) => {
       const st = FIRMS.find((x) => x.slug === slug); const k = kayitlar.get(slug);
       if (!st?.eposta || k?.iptal || gecersizMi(k, st.eposta) || donenler.has(String(st.eposta).toLowerCase())) return false;
@@ -248,37 +258,39 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     }
     await ref.set({ ...ortak, firmalar: hedef, secilen, durum: 'acik', sonTarih: Timestamp.fromMillis(t0 + saat * 3600000) });
 
-    const davetler = [];
-    for (const slug of hedef) {
+    // Davet kayıtları paralel yazılır (40 firmaya kadar sırayla beklemek talebi saniyelerce geciktiriyordu)
+    const davetler = (await Promise.all(hedef.map(async (slug) => {
       const tur = grup(slug); const f = fdocs.get(slug) || {};
       const eposta = tur === 'liste' ? FIRMS.find((x) => x.slug === slug)?.eposta : (f.eposta || f.panelEpostalari?.[0]);
-      if (!eposta) continue;
+      if (!eposta) return null;
       const kod = token();
-      await ref.collection('davetler').doc(slug).set({ kod, eposta, tur, durum: 'bekliyor', gonderim: FieldValue.serverTimestamp() });
+      const sayilir = tur === 'uye' || tur === 'odeme';
+      const isler = [ref.collection('davetler').doc(slug).set({ kod, eposta, tur, durum: 'bekliyor', gonderim: FieldValue.serverTimestamp(), ...(sayilir ? { sayildi: true } : {}) })];
       let iptalKod = '';
       if (tur === 'liste') {
         const k = kayitlar.get(slug) || {}; iptalKod = k.kod || token();
-        await db.collection('davetKayit').doc(slug).set({ kod: iptalKod, sonDavet: t0, sayi: (k.sayi || 0) + 1, eposta }, { merge: true });
+        isler.push(db.collection('davetKayit').doc(slug).set({ kod: iptalKod, sonDavet: t0, sayi: (k.sayi || 0) + 1, eposta }, { merge: true }));
       }
-      if (tur === 'uye' || tur === 'odeme') { firmaSayac(slug, { istTalep: 1 }); await ref.collection('davetler').doc(slug).set({ sayildi: true }, { merge: true }); }
-      davetler.push({ slug, eposta, tur, kod, iptalKod, link: `${a.site}/teklif-ver/?t=${ref.id}.${tkn}&f=${slug}.${kod}`, odemeLinki: f.abonelik?.odemeLinki || '' });
-    }
+      if (sayilir) isler.push(firmaSayac(slug, { istTalep: 1 }));
+      await Promise.all(isler);
+      return { slug, eposta, tur, kod, iptalKod, link: `${a.site}/teklif-ver/?t=${ref.id}.${tkn}&f=${slug}.${kod}`, odemeLinki: f.abonelik?.odemeLinki || '' };
+    }))).filter(Boolean);
     const ozet = kart(talepOzeti(d));
     const kurucuK = davetler.some((v) => v.tur !== 'uye') ? await kurucuKalan() : 0;
     const son = tarihYazi(new Date(t0 + saat * 3600000));
     const baslikEk = `${test ? '[TEST] ' : ''}${TIP_AD[d.tip]}${d.oda ? ` ${d.oda}` : ''}${d.m2 ? `, ${d.m2} m²` : ''}, ${d.il}`;
     const davetMail = (v) => {
-      if (v.tur === 'uye') return mail(v.eposta, `Yeni talep: ${baslikEk}`, sablon('Size uygun yeni bir müşteri talebi var', `<p>Merhaba,</p><p>Kriterlerinize uyan bir müşteri ev arıyor. <b>48 saat içinde</b> firma panelinize giriş yapıp fiyatınızı girin; süre dolunca müşteriye yalnızca zamanında gelen teklifler tek tabloda iletilir.</p>${ozet}<p style="margin:0">Son teklif zamanı: <b>${esc(son)}</b></p>${buton(`${a.site}/firma-paneli/#talepler`, 'Panele giriş yap ve teklif ver')}<p style="font-size:13px;color:#5b6760;margin:14px 0 0">Müşterinin adı, telefonu ve e-postası gizlidir; fiyatınızı girdiğiniz anda panelinizde açılır ve müşteriye “yeni teklif” bildirimi gider. Panele bu e-postanın geldiği adresle girersiniz.</p>`, { ust: 'Yeni talep · 48 saat', onizleme: `${d.il} ilinde ${TIP_AD[d.tip].toLocaleLowerCase('tr')} için teklif bekleniyor` }), { tur: 'davet' });
-      if (v.tur === 'odeme') return mail(v.eposta, `Size uygun bir talep var: ${baslikEk}`, sablon('Size uygun bir talep var', `<p>Merhaba,</p><p>PrefabrikTeklif’te firmanıza uyan bir müşteri talebi var. Bu talebe ve sonraki taleplere fiyat verebilmek için <b>aylık ${ABONELIK_TL} TL üyelik ödemenizi</b> tamamlamanız yeterli; ödeme onaylandığında talep panelinizde fiyat vermeye açılır.</p>${kurucuK > 0 ? `<p>${kurucuMetni(kurucuK)} Kampanyadan yararlanmak için bu e-postayı yanıtlamanız yeterli.</p>` : ''}${ozet}${v.odemeLinki ? buton(v.odemeLinki, 'Üyelik ödemesini yap') : ''}${buton(`${a.site}/firma-paneli/#talepler`, 'Firma panelime git')}<p style="font-size:13px;color:#4a5751">Talep süresi: ${esc(son)}.</p>`), { tur: 'davet' });
+      if (v.tur === 'uye') return ileti(v.eposta, `Yeni talep: ${baslikEk}`, sablon('Size uygun yeni bir müşteri talebi var', `<p>Merhaba,</p><p>Kriterlerinize uyan bir müşteri ev arıyor. <b>48 saat içinde</b> firma panelinize giriş yapıp fiyatınızı girin; süre dolunca müşteriye yalnızca zamanında gelen teklifler tek tabloda iletilir.</p>${ozet}<p style="margin:0">Son teklif zamanı: <b>${esc(son)}</b></p>${buton(`${a.site}/firma-paneli/#talepler`, 'Panele giriş yap ve teklif ver')}<p style="font-size:13px;color:#5b6760;margin:14px 0 0">Müşterinin adı, telefonu ve e-postası gizlidir; fiyatınızı girdiğiniz anda panelinizde açılır ve müşteriye “yeni teklif” bildirimi gider. Panele bu e-postanın geldiği adresle girersiniz.</p>`, { ust: 'Yeni talep · 48 saat', onizleme: `${d.il} ilinde ${TIP_AD[d.tip].toLocaleLowerCase('tr')} için teklif bekleniyor` }), { tur: 'davet' });
+      if (v.tur === 'odeme') return ileti(v.eposta, `Size uygun bir talep var: ${baslikEk}`, sablon('Size uygun bir talep var', `<p>Merhaba,</p><p>PrefabrikTeklif’te firmanıza uyan bir müşteri talebi var. Bu talebe ve sonraki taleplere fiyat verebilmek için <b>aylık ${ABONELIK_TL} TL üyelik ödemenizi</b> tamamlamanız yeterli; ödeme onaylandığında talep panelinizde fiyat vermeye açılır.</p>${kurucuK > 0 ? `<p>${kurucuMetni(kurucuK)} Kampanyadan yararlanmak için bu e-postayı yanıtlamanız yeterli.</p>` : ''}${ozet}${v.odemeLinki ? buton(v.odemeLinki, 'Üyelik ödemesini yap') : ''}${buton(`${a.site}/firma-paneli/#talepler`, 'Firma panelime git')}<p style="font-size:13px;color:#4a5751">Talep süresi: ${esc(son)}.</p>`), { tur: 'davet' });
       const st = FIRMS.find((x) => x.slug === v.slug) || {};
-      return mail(v.eposta, `${d.il} ilinde ${TIP_AD[d.tip].toLocaleLowerCase('tr')} arayan bir müşteri var`, sablon(`${d.il} ilinde ${TIP_AD[d.tip].toLocaleLowerCase('tr')} arayan bir müşteri var`, `<p>Merhaba ${esc(st.kisaAd || '')} yetkilisi,</p><p>PrefabrikTeklif.com.tr’de bir müşteri şu özelliklerde ev arıyor ve firmanızdan fiyat almak istiyor olabilir:</p>${ozet}<p>Bu talebe teklif verebilmek için firmanızı PrefabrikTeklif’e kaydetmeniz gerekiyor. Kayıt birkaç dakika sürer; ${kurucuK > 0 ? 'başvurunuz onaylanınca <b>1 ay ücretsiz</b> üyelikle bu talebi ve size uyan yeni talepleri panelinizden görüp fiyat verebilirsiniz' : 'üyeliğiniz onaylanıp aylık üyelik ödemesi yapıldığında bu talebi ve size uyan yeni talepleri panelinizden görüp fiyat verebilirsiniz'}. Müşterinin iletişim bilgileri, fiyat verdiğinizde açılır.</p>${kurucuK > 0 ? `<p style="background:#e7f3ec;border-radius:8px;padding:10px 12px;font-size:14px">${kurucuMetni(kurucuK)}</p>` : ''}${buton(`${a.site}/firma-kayit/?firma=${encodeURIComponent(v.slug)}&davet=${encodeURIComponent(`${ref.id}.${v.kod}`)}`, 'Firmamı kaydet, teklif ver')}<p style="font-size:13px;color:#4a5751">Talep süresi: ${esc(son)}. Sorularınız için bu e-postayı yanıtlayabilirsiniz.</p><p style="font-size:12px;color:#7a857f">Firmanız, kendi web sitenizde herkese açık yayınladığınız bilgilerle sitemizde listelendiği için bu e-postayı web sitenizdeki adrese gönderdik. Talep bildirimi almak istemiyorsanız: <a href="${esc(a.site)}/bildirim-iptal/?f=${encodeURIComponent(`${v.slug}.${v.iptalKod}`)}">bildirimleri durdur</a>.</p>`), { tur: 'davet', iptal: `${a.site}/bildirim-iptal/?f=${encodeURIComponent(`${v.slug}.${v.iptalKod}`)}` });
+      return ileti(v.eposta, `${d.il} ilinde ${TIP_AD[d.tip].toLocaleLowerCase('tr')} arayan bir müşteri var`, sablon(`${d.il} ilinde ${TIP_AD[d.tip].toLocaleLowerCase('tr')} arayan bir müşteri var`, `<p>Merhaba ${esc(st.kisaAd || '')} yetkilisi,</p><p>PrefabrikTeklif.com.tr’de bir müşteri şu özelliklerde ev arıyor ve firmanızdan fiyat almak istiyor olabilir:</p>${ozet}<p>Bu talebe teklif verebilmek için firmanızı PrefabrikTeklif’e kaydetmeniz gerekiyor. Kayıt birkaç dakika sürer; ${kurucuK > 0 ? 'başvurunuz onaylanınca <b>1 ay ücretsiz</b> üyelikle bu talebi ve size uyan yeni talepleri panelinizden görüp fiyat verebilirsiniz' : 'üyeliğiniz onaylanıp aylık üyelik ödemesi yapıldığında bu talebi ve size uyan yeni talepleri panelinizden görüp fiyat verebilirsiniz'}. Müşterinin iletişim bilgileri, fiyat verdiğinizde açılır.</p>${kurucuK > 0 ? `<p style="background:#e7f3ec;border-radius:8px;padding:10px 12px;font-size:14px">${kurucuMetni(kurucuK)}</p>` : ''}${buton(`${a.site}/firma-kayit/?firma=${encodeURIComponent(v.slug)}&davet=${encodeURIComponent(`${ref.id}.${v.kod}`)}`, 'Firmamı kaydet, teklif ver')}<p style="font-size:13px;color:#4a5751">Talep süresi: ${esc(son)}. Sorularınız için bu e-postayı yanıtlayabilirsiniz.</p><p style="font-size:12px;color:#7a857f">Firmanız, kendi web sitenizde herkese açık yayınladığınız bilgilerle sitemizde listelendiği için bu e-postayı web sitenizdeki adrese gönderdik. Talep bildirimi almak istemiyorsanız: <a href="${esc(a.site)}/bildirim-iptal/?f=${encodeURIComponent(`${v.slug}.${v.iptalKod}`)}">bildirimleri durdur</a>.</p>`), { tur: 'davet', iptal: `${a.site}/bildirim-iptal/?f=${encodeURIComponent(`${v.slug}.${v.iptalKod}`)}` });
     };
     const uyeSay = davetler.filter((v) => v.tur === 'uye').length;
     const elle = secilen.filter((s) => !davetler.some((v) => v.slug === s));
-    await Promise.allSettled([
+    await gonder([
       ...davetler.map(davetMail),
-      mail(d.eposta, 'Teklif talebiniz alındı', sablon('Talebiniz alındı', `<p>Merhaba ${esc(d.ad)},</p><p>Talebiniz ${davetler.length ? `${davetler.length} firmaya` : 'uygun firmalara'} <b>isimsiz</b> olarak iletildi. Bilgileriniz yalnızca fiyat veren firmalarla paylaşılır. Gelen teklifler <b>${esc(son)}</b> civarında tek tabloda e-postanıza gelecek.</p>${ozet}${buton(`${a.site}/hesabim/?bagla=${ref.id}.${sahipKod}`, 'Talebimi takip et')}${surecKutu(`${a.site}/teklif-al/?mod=surec&tip=${encodeURIComponent(d.tip)}`, 'Teklifler gelince süreci biz yönetelim', 'Gelen teklifleri sizinle birlikte değerlendirir, firmayı seçer, sözleşmeyi kontrol eder ve teslime kadar her adımı takip ederiz.')}`)),
-      mail(a.admin, `Yeni talep: ${test ? '[TEST] ' : ''}${TIP_AD[d.tip]} ${d.il} (${uyeSay} üye, ${davetler.length - uyeSay} davet)`, sablon('Yeni talep', `${ozet}${kart([['Müşteri', d.ad], ['E-posta', d.eposta], ['Telefon', d.telefon], ['Öncelikli firmalar', secilen.map(firmAd).join(', ')], ['Fiyat verebilecek üyeler', davetler.filter((v) => v.tur === 'uye').map((v) => firmAd(v.slug)).join(', ') || 'Yok'], ['Ödeme bekleyen kayıtlı firmalar', davetler.filter((v) => v.tur === 'odeme').map((v) => firmAd(v.slug)).join(', ') || 'Yok'], ['Üye olmaya davet edilenler', davetler.filter((v) => v.tur === 'liste').map((v) => firmAd(v.slug)).join(', ') || 'Yok'], ['E-postası olmayan seçili firmalar (elle iletin)', elle.map(firmAd).join(', ')]])}${buton(`${a.site}/yonetim/#talepler`, 'Yönetim panelinde aç')}<p>Talep no: ${ref.id}</p>`)),
+      ileti(d.eposta, 'Teklif talebiniz alındı', sablon('Talebiniz alındı', `<p>Merhaba ${esc(d.ad)},</p><p>Talebiniz ${davetler.length ? `${davetler.length} firmaya` : 'uygun firmalara'} <b>isimsiz</b> olarak iletildi. Bilgileriniz yalnızca fiyat veren firmalarla paylaşılır. Gelen teklifler <b>${esc(son)}</b> civarında tek tabloda e-postanıza gelecek.</p>${ozet}${buton(`${a.site}/hesabim/?bagla=${ref.id}.${sahipKod}`, 'Talebimi takip et')}${surecKutu(`${a.site}/teklif-al/?mod=surec&tip=${encodeURIComponent(d.tip)}`, 'Teklifler gelince süreci biz yönetelim', 'Gelen teklifleri sizinle birlikte değerlendirir, firmayı seçer, sözleşmeyi kontrol eder ve teslime kadar her adımı takip ederiz.')}`)),
+      ileti(a.admin, `Yeni talep: ${test ? '[TEST] ' : ''}${TIP_AD[d.tip]} ${d.il} (${uyeSay} üye, ${davetler.length - uyeSay} davet)`, sablon('Yeni talep', `${ozet}${kart([['Müşteri', d.ad], ['E-posta', d.eposta], ['Telefon', d.telefon], ['Öncelikli firmalar', secilen.map(firmAd).join(', ')], ['Fiyat verebilecek üyeler', davetler.filter((v) => v.tur === 'uye').map((v) => firmAd(v.slug)).join(', ') || 'Yok'], ['Ödeme bekleyen kayıtlı firmalar', davetler.filter((v) => v.tur === 'odeme').map((v) => firmAd(v.slug)).join(', ') || 'Yok'], ['Üye olmaya davet edilenler', davetler.filter((v) => v.tur === 'liste').map((v) => firmAd(v.slug)).join(', ') || 'Yok'], ['E-postası olmayan seçili firmalar (elle iletin)', elle.map(firmAd).join(', ')]])}${buton(`${a.site}/yonetim/#talepler`, 'Yönetim panelinde aç')}<p>Talep no: ${ref.id}</p>`)),
     ]);
     return { ok: true, firmaSayisi: davetler.length };
   }
@@ -1956,4 +1968,27 @@ export async function fiyatKontrolu({ db, mail, ayar, FieldValue, MODELS, fetch:
   }
   await mail(ayar().admin, `Aylık fiyat kontrolü: ${sonuc.degismis.length} değişiklik şüphesi`, sablon('Aylık fiyat kontrolü tamamlandı', kart([['Kontrol edilen model', fiyatli.length], ['Fiyatı aynı', sonuc.ayni], ['Değişmiş olabilir', sonuc.degismis.length], ['Sayfaya ulaşılamadı', sonuc.erisilemedi.length]]) + buton(`${ayar().site}/yonetim/#onaylar`, 'Değişiklikleri incele')));
   return { toplam: fiyatli.length, ayni: sonuc.ayni, degismis: sonuc.degismis.length, erisilemedi: sonuc.erisilemedi.length };
+}
+
+// ---- E-posta kuyruğu: talep anında giden e-postalar ziyaretçiyi bekletmeden burada sırayla gönderilir ----
+export async function epostaKuyrugunaYaz({ db, FieldValue }, liste) {
+  await Promise.all(liste.map((m, i) => db.collection('epostaKuyrugu').doc().set({
+    to: String(m.to).slice(0, 300), subject: String(m.subject).slice(0, 300), html: m.html, o: m.o || {}, sira: i, zaman: FieldValue.serverTimestamp(),
+  })));
+}
+export async function epostaKuyruguIsle({ db, mail, simdi = Date.now, sinir = 60 }) {
+  const q = await db.collection('epostaKuyrugu').limit(sinir).get();
+  let gonderilen = 0;
+  await Promise.all(q.docs.map(async (doc) => {
+    // Üst üste binen çalışmalar aynı e-postayı iki kez göndermesin: önce sahiplen (10 dk içinde bitmezse yeniden denenir)
+    const v = await db.runTransaction(async (tx) => {
+      const s = await tx.get(doc.ref); if (!s.exists) return null;
+      const x = s.data(); if (x.kilit && simdi() - x.kilit < 10 * 60000) return null;
+      tx.update(doc.ref, { kilit: simdi() }); return x;
+    });
+    if (!v) return;
+    await mail(v.to, v.subject, v.html, v.o || {});
+    await doc.ref.delete(); gonderilen++;
+  }));
+  return { gonderilen, kalan: q.size - gonderilen };
 }
