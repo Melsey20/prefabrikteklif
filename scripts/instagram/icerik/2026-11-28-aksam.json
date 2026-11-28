@@ -11,8 +11,8 @@
         {
           "sablon": "kapak",
           "etiket": "Firmalar için",
-          "h": "Prefabrik ev mi üretiyorsunuz? <em>İlk ay bizden.</em>",
-          "boy": 80,
+          "h": "Prefabrik ev mi<br>üretiyorsunuz?<br><em>İlk ay bizden.</em>",
+          "boy": 78,
           "p": "İlk 50 firmaya 1 ay ücretsiz üyelik; talepler hizmet verdiğiniz illerden gelir.",
           "img": "prefabrik-960.webp",
           "alt_sol": "prefabrikteklif.com.tr/firmalar-icin",
