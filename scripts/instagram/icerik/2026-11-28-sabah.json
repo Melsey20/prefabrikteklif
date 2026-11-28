@@ -79,7 +79,7 @@
   "reels": [],
   "yayin": {
     "hesap": "17841474767654199",
-    "durum": "yayın bekliyor",
+    "durum": "yayında (Meta Graph API): 1/2 öğe yayınlandı",
     "medya": {
       "tasarim": [
         "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/2a537bde-983a-4605-acf7-1891f4bcb417.jpg",
@@ -89,6 +89,12 @@
       ],
       "story": "https://d2ol7oe51mr4n9.cloudfront.net/user_30UbJTlDaBCR9kubjuKxPtTAw67/d01c56a9-b106-42e5-95de-e6b8bf1010cd.jpg",
       "reels": []
+    },
+    "yayinlanan": {
+      "tasarim": {
+        "id": "17919676368500691",
+        "zaman": "2026-11-28 10:00"
+      }
     }
   }
 }
