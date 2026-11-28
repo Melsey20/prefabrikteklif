@@ -920,3 +920,15 @@ body:has(.app) .by-dis { display: none; }
 .surec-k-m li::before { content: '✓ '; }
 .surec-k .btn { flex: 0 0 auto; }
 @media (max-width: 560px) { .surec-k .btn { width: 100%; justify-content: center; } }
+
+/* Firma paneli: müşteri mesajları kutusu */
+.mk-kon > summary { list-style: none; cursor: pointer; display: grid; gap: 4px; }
+.mk-kon > summary::-webkit-details-marker { display: none; }
+.mk-kon.yeni { border-left: 4px solid var(--green); background: #f3faf6; }
+.mk-ust { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.mk-yeni { background: var(--green); color: #fff; font-size: .7rem; font-weight: 800; border-radius: 999px; padding: 2px 8px; margin-left: 6px; }
+.mk-son { color: var(--ink-2); }
+.mk-kon[open] .mk-son { display: none; }
+.mk-kon .mj-kutu > summary { display: none; }
+.mk-kon .mj-kutu { border: 0; padding: 0; margin-top: 4px; }
+.mk-uyari { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; background: #eaf5ee; border: 1.5px solid #b9dcc7; border-radius: 14px; padding: 12px 16px; margin-bottom: 14px; }

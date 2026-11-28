@@ -844,12 +844,12 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       if (kimden === 'musteri' && !mjVar) hata(409, 'Mesajlaşma, firma fiyat verdikten ya da size soru sorduktan sonra açılır.');
     }
     if (!(await rateLimit(req, `mesaj:${u.uid}`, 40))) hata(429, 'Çok fazla mesaj gönderildi, biraz sonra tekrar deneyin.');
-    await ref.collection('mesajlar').doc(firma).set({ firma, mesajlar: FieldValue.arrayUnion({ kim: kimden, metin, zaman: now() }), son: FieldValue.serverTimestamp(), [`okunmadi_${kimden === 'musteri' ? 'firma' : 'musteri'}`]: true }, { merge: true });
+    await ref.collection('mesajlar').doc(firma).set({ firma, mesajlar: FieldValue.arrayUnion({ kim: kimden, metin, zaman: now() }), son: FieldValue.serverTimestamp(), [`okunmadi_${kimden === 'musteri' ? 'firma' : 'musteri'}`]: true, [`okunmadi_${kimden}`]: false }, { merge: true });
     const a = ayar(); const fa = firmAd(firma);
     if (kimden === 'musteri') {
       const f = (await db.collection('firmalar').doc(firma).get()).data() || {};
       const to = f.eposta || f.panelEpostalari?.[0];
-      if (to) await mail(to, `Müşteriden mesaj: ${TIP_AD[t.tip]}, ${t.il}`, sablon('Müşteriniz size yazdı', `<p><b>${teklifVar ? esc(t.ad) : 'Müşteri'}</b> ${teklifVar ? 'fiyat verdiğiniz' : 'sorduğunuz'} talep için mesaj gönderdi:</p><blockquote style="margin:14px 0;padding:12px 16px;border-left:4px solid #17663f;background:#f8faf7;border-radius:8px">${esc(metin)}</blockquote>${buton(`${a.site}/firma-paneli/#talepler`, 'Panelden yanıtla')}`, { ust: 'Yeni mesaj' }));
+      if (to) await mail(to, `Müşteriden mesaj: ${TIP_AD[t.tip]}, ${t.il}`, sablon('Müşteriniz size yazdı', `<p><b>${teklifVar ? esc(t.ad) : 'Müşteri'}</b> ${teklifVar ? 'fiyat verdiğiniz' : 'sorduğunuz'} talep için mesaj gönderdi:</p><blockquote style="margin:14px 0;padding:12px 16px;border-left:4px solid #17663f;background:#f8faf7;border-radius:8px">${esc(metin)}</blockquote>${buton(`${a.site}/firma-paneli/?mesaj=${encodeURIComponent(ref.id)}#mesajlar`, 'Panelden yanıtla')}`, { ust: 'Yeni mesaj' }));
     } else if (t.eposta) {
       await mail(t.eposta, `${fa} size yazdı`, sablon(`${fa} size yazdı`, `<p>Merhaba ${esc(t.ad)},</p><p><b>${esc(fa)}</b> talebinizle ilgili ${teklifVar ? 'mesaj gönderdi' : 'fiyat vermeden önce bir soru sordu (adınız ve iletişim bilgileriniz firmaya gizli)'}:</p><blockquote style="margin:14px 0;padding:12px 16px;border-left:4px solid #17663f;background:#f8faf7;border-radius:8px">${esc(metin)}</blockquote>${buton(`${a.site}/hesabim/${t.sahipKod ? `?bagla=${ref.id}.${t.sahipKod}` : ''}#teklifler`, 'Yanıtla')}`, { ust: 'Yeni mesaj' }));
     }
@@ -876,6 +876,15 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     return { ok: true, iletildi: !!to, id: ref.id };
   }
   const musteriMesaj = (req) => mesajYaz(req, 'musteri');
+  // ---- POST /api/firma/mesaj-okundu: firma konuşmayı açınca okunmadı işareti kalkar (yönetici firma gibi bakarken dokunulmaz) ----
+  async function firmaMesajOkundu(req) {
+    const u = await firmaKim(req);
+    if (!u.firma || (u.rol === 'admin' && str(req.query?.firma, 80))) return { ok: true, atlandi: true };
+    const ref = db.collection('talepler').doc(str(req.body?.talep, 60)).collection('mesajlar').doc(u.firma);
+    const s = await ref.get();
+    if (s.exists && s.data().okunmadi_firma) await ref.set({ okunmadi_firma: false }, { merge: true });
+    return { ok: true };
+  }
   // ---- POST /api/teklif-karar: müşteri bir teklifi kabul eder, "ilgilenmiyorum" der ya da kararını geri alır ----
   // Kabul bağlayıcı değildir: firmaya "bu teklifle ilerlemek istiyorum" bilgisi gider, firma müşteriyi arar.
   const RED_NEDEN = { fiyat: 'Fiyat bütçesinin üzerinde', sure: 'Teslim süresi uzun', kapsam: 'Fiyata dahil olanlar yetersiz', baska: 'Başka bir firmayla ilerliyor', vazgecti: 'Projeyi şimdilik erteledi', diger: 'Diğer' };
@@ -953,7 +962,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
     for (const [n, d] of tq.docs.entries()) {
       const t = d.data();
       const [dv, tk, mj] = ekler[n];
-      talepler.push({ id: d.id, test: !!t.test, mesajlar: mj.exists ? (mj.data().mesajlar || []).slice(-100) : [], ...anonim(t), davetTur: dv.exists ? dv.data().tur || '' : '', olusturma: t.olusturma?.toMillis?.() || 0, sonTarihMs: t.sonTarih?.toMillis?.() || 0, davet: dv.exists ? dv.data().durum : 'yok', teklif: tk.exists ? (({ fiyat, kdvDahil, dahil, teslimGun, garantiYil, not, zaman, musteriKarar, kararNeden, kararNot }) => ({ fiyat, kdvDahil: !!kdvDahil, dahil: (dahil || []).map((k) => DAHIL_AD[k] || k), teslimGun: teslimGun || null, garantiYil: garantiYil || null, not: not || '', zaman: zaman?.toMillis?.() || 0, karar: musteriKarar || (t.secilenFirma && t.secilenFirma !== slug ? 'baska' : ''), kararNeden: RED_NEDEN[kararNeden] || '', kararNot: kararNot || '' }))(tk.data()) : null, ...(tk.exists ? { musteri: musteri(t) } : {}) });
+      talepler.push({ id: d.id, test: !!t.test, mesajlar: mj.exists ? (mj.data().mesajlar || []).slice(-100) : [], okunmadi: mj.exists && mj.data().okunmadi_firma === true, ...anonim(t), davetTur: dv.exists ? dv.data().tur || '' : '', olusturma: t.olusturma?.toMillis?.() || 0, sonTarihMs: t.sonTarih?.toMillis?.() || 0, davet: dv.exists ? dv.data().durum : 'yok', teklif: tk.exists ? (({ fiyat, kdvDahil, dahil, teslimGun, garantiYil, not, zaman, musteriKarar, kararNeden, kararNot }) => ({ fiyat, kdvDahil: !!kdvDahil, dahil: (dahil || []).map((k) => DAHIL_AD[k] || k), teslimGun: teslimGun || null, garantiYil: garantiYil || null, not: not || '', zaman: zaman?.toMillis?.() || 0, karar: musteriKarar || (t.secilenFirma && t.secilenFirma !== slug ? 'baska' : ''), kararNeden: RED_NEDEN[kararNeden] || '', kararNot: kararNot || '' }))(tk.data()) : null, ...(tk.exists ? { musteri: musteri(t) } : {}) });
     }
     talepler.sort((a, b) => b.olusturma - a.olusturma);
     const gq = await db.collection('geriBildirimler').where('firma', '==', slug).limit(50).get();
@@ -1772,7 +1781,7 @@ export function createApp({ db, auth, mail, ayar, FieldValue, Timestamp, FIRMS, 
       'POST /api/firma-basvuru': firmaBasvuru, 'POST /api/yonetim/iletisim-yanit': yonetimIletisimYanit, 'POST /api/yonetim/firma-eposta': yonetimFirmaEposta, 'POST /api/firma/sifre-baglanti': firmaSifreBaglanti, 'POST /api/sifre-kod': sifreKod, 'POST /api/belge': belge, 'GET /api/yonetim/belge': yonetimBelge, 'POST /api/bildirim-iptal': bildirimIptal, 'POST /api/firma/gorsel': firmaGorsel, 'POST /api/iletisim': iletisim, 'GET /api/google-puan': googlePuan, 'GET /api/yorumlar': yorumlar, 'POST /api/yorum': yorum,
       'GET /api/katalog': katalog, 'GET /api/bannerlar': bannerlar,
       'POST /api/firma/abonelik-baslat': firmaAbonelikBaslat, 'POST /api/firma/kart-guncelle': firmaKartGuncelle, 'POST /api/firma/abonelik-iptal': firmaAbonelikIptal, 'POST /api/iyzico/donus': iyzicoDonus, 'POST /api/iyzico/kart-donus': iyzicoKartDonus, 'POST /api/iyzico/bildirim': iyzicoBildirim, 'POST /api/yonetim/iyzico-plan': yonetimIyzicoPlan,
-      'POST /api/sms/kod': smsKod, 'POST /api/sms/dogrula': smsDogrula, 'GET /api/ben': ben, 'POST /api/onay': onay, 'POST /api/mesaj': musteriMesaj, 'POST /api/teklif-karar': teklifKarar, 'POST /api/firma-soru': firmaSoru, 'POST /api/firma/mesaj': firmaMesaj, 'POST /api/yonetim/firma-durum': yonetimFirmaDurum, 'POST /api/yonetim/istatistik': yonetimIstatistik, 'POST /api/yonetim/tanitim': yonetimTanitim, 'POST /api/yonetim/duyuru': yonetimDuyuru,
+      'POST /api/sms/kod': smsKod, 'POST /api/sms/dogrula': smsDogrula, 'GET /api/ben': ben, 'POST /api/onay': onay, 'POST /api/mesaj': musteriMesaj, 'POST /api/firma/mesaj-okundu': firmaMesajOkundu, 'POST /api/teklif-karar': teklifKarar, 'POST /api/firma-soru': firmaSoru, 'POST /api/firma/mesaj': firmaMesaj, 'POST /api/yonetim/firma-durum': yonetimFirmaDurum, 'POST /api/yonetim/istatistik': yonetimIstatistik, 'POST /api/yonetim/tanitim': yonetimTanitim, 'POST /api/yonetim/duyuru': yonetimDuyuru,
       'GET /api/hesap': hesap, 'POST /api/talebim': talebim, 'POST /api/hesap/bagla': hesapBagla, 'POST /api/yonetim/talep-bagla': yonetimTalepBagla, 'POST /api/favoriler': favoriler, 'POST /api/siparis-mesaj': siparisMesaj,
       'GET /api/firma/ozet': firmaOzet, 'POST /api/firma/urun': firmaUrun, 'POST /api/firma/teklif': firmaTeklif, 'POST /api/firma/red': firmaRed,
       'POST /api/firma/geri-bildirim': firmaGeriBildirim, 'POST /api/firma/geri-bildirim-yanit': firmaGeriBildirimYanit, 'POST /api/firma/profil': firmaProfil, 'POST /api/firma/reklam': firmaReklam,

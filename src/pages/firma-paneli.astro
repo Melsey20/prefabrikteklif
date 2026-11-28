@@ -19,6 +19,7 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       <div class="side-x" style="color:#fff;font-weight:800;padding:4px 12px 16px" id="fp-ad">Firma paneli</div>
       <button type="button" data-sekme="urunler"><Fragment set:html={ik('urun')} /><span class="pt">Ürünlerim</span><span class="rz" data-rz="bekleyen"></span></button>
       <button type="button" data-sekme="talepler"><Fragment set:html={ik('talep')} /><span class="pt">Teklif bekleyenler</span><span class="rz" data-rz="talep"></span></button>
+      <button type="button" data-sekme="mesajlar"><Fragment set:html={ik('mesaj')} /><span class="pt">Müşteri mesajları</span><span class="rz" data-rz="mesaj"></span></button>
       <button type="button" data-sekme="geri-bildirim"><Fragment set:html={ik('mesaj')} /><span class="pt">Geri bildirim</span><span class="rz" data-rz="gb"></span></button>
       <button type="button" data-sekme="reklam"><Fragment set:html={ik('uyelik')} /><span class="pt">Üyelik ve reklam</span><span class="rz" data-rz="uyelik"></span></button>
       <button type="button" data-sekme="profil"><Fragment set:html={ik('profil')} /><span class="pt">Profil</span></button>
@@ -37,6 +38,10 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
         <div id="teklif-ist"></div>
         <div id="teklif-uyelik"></div>
         <div id="p-talepler" class="list"></div>
+      </section>
+      <section data-panel="mesajlar" hidden>
+        <div class="ph-h"><div><h1>Müşteri mesajları</h1><p class="small muted" style="margin:4px 0 0">Müşterilerin size yazdığı tüm mesajlar burada. Yanıtınız müşterinin e-postasına da gider.</p></div></div>
+        <div id="p-mesajlar" class="list"></div>
       </section>
       <section data-panel="geri-bildirim" hidden>
         <div class="ph-h"><div><h1>Geri bildirim</h1><p class="small muted" style="margin:4px 0 0">İstek, öneri, hata ya da sorunlarınızı doğrudan ekibimize iletin. Yanıtlarımız burada ve e-postanızda görünür.</p></div></div>
@@ -214,11 +219,47 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       });
       return f;
     }
+    // ---- Müşteri mesajları kutusu ----
+    const okunmamis = () => V.talepler.filter((t: any) => t.okunmadi).length;
+    const acikKonusma = new Set<string>(); // yenilemeden sonra açık konuşma açık kalsın
+    function mesajRozet() {
+      const n = okunmamis();
+      document.querySelector('[data-rz=mesaj]')!.textContent = n ? String(n) : '';
+      document.title = (n ? `(${n}) ` : '') + document.title.replace(/^\(\d+\) /, '');
+    }
+    async function okundu(t: any) {
+      if (!t.okunmadi) return;
+      t.okunmadi = false; mesajRozet(); yapilacakCiz();
+      document.querySelectorAll(`[data-konusma="${t.id}"]`).forEach((el) => el.classList.remove('yeni'));
+      try { await api('/api/firma/mesaj-okundu' + fq, { talep: t.id }); } catch { /* sessiz: bir sonraki yüklemede yine okunmadı görünür */ }
+    }
+    function mesajKutusuCiz() {
+      const box = $('p-mesajlar');
+      const son = (t: any) => (t.mesajlar.at(-1)?.zaman || 0);
+      const kon = V.talepler.filter((t: any) => (t.mesajlar || []).length).sort((a: any, b: any) => Number(b.okunmadi) - Number(a.okunmadi) || son(b) - son(a));
+      if (!kon.length) { box.replaceChildren(h('div', { class: 'empty' }, 'Henüz müşteri mesajı yok. Fiyat verdiğiniz ya da soru sorduğunuz müşteriler size yazdığında burada görünür.')); return; }
+      box.replaceChildren(...kon.map((t: any) => {
+        const m = t.mesajlar.at(-1);
+        const kim = m.kim === 'firma' ? 'Siz' : (t.musteri?.ad || 'Müşteri');
+        const baslik = [t.tipAd, t.m2 ? `${t.m2} m²` : '', [t.il, t.ilce].filter(Boolean).join(' / ')].filter(Boolean).join(' · ');
+        const d = h('details', { class: 'item mk-kon' + (t.okunmadi ? ' yeni' : ''), 'data-konusma': t.id, open: acikKonusma.has(t.id), ontoggle: (e: Event) => { if ((e.currentTarget as HTMLDetailsElement).open) acikKonusma.add(t.id); else acikKonusma.delete(t.id); } },
+          h('summary', { onclick: () => okundu(t) },
+            h('div', { class: 'mk-ust' }, h('b', {}, t.musteri?.ad || 'Müşteri'), t.okunmadi ? h('span', { class: 'mk-yeni' }, 'Yeni mesaj') : null, h('span', { class: 'xs muted', style: { marginLeft: 'auto' } }, tarih(m.zaman))),
+            h('span', { class: 'small muted' }, baslik + (t.teklif ? ` · Fiyatınız: ${tl(t.teklif.fiyat)}` : ' · Henüz fiyat vermediniz')),
+            h('span', { class: 'small mk-son' }, h('b', {}, kim + ': '), m.metin.length > 140 ? m.metin.slice(0, 140) + '…' : m.metin)),
+          t.musteri ? h('div', { class: 'small', style: { padding: '0 0 6px' } }, h('a', { href: 'tel:' + t.musteri.telefon }, '📞 ' + t.musteri.telefon), ' · ', h('a', { href: 'mailto:' + t.musteri.eposta }, t.musteri.eposta)) : null,
+          mesajlar(t));
+        return d;
+      }));
+      const hedef = q.get('mesaj');
+      if (hedef && !(window as any).__mesajAcildi) { (window as any).__mesajAcildi = true; const el = box.querySelector<HTMLDetailsElement>(`[data-konusma="${CSS.escape(hedef)}"]`); if (el) { document.querySelector<HTMLButtonElement>('#sekmeler [data-sekme=mesajlar]')?.click(); el.open = true; const tt = V.talepler.find((x: any) => x.id === hedef); if (tt) okundu(tt); requestAnimationFrame(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' })); } }
+    }
     function mesajlar(t: any) {
       const soru = !t.teklif;
       const liste = h('div', { class: 'mj-liste' }, ...(t.mesajlar || []).map((m: any) => h('div', { class: 'mj ' + (m.kim === 'firma' ? 'ben' : '') }, h('span', { class: 'xs muted' }, (m.kim === 'firma' ? 'Siz' : t.musteri?.ad || 'Müşteri') + ' · ' + tarih(m.zaman)), h('p', {}, m.metin))));
       const metin = h('textarea', { rows: 2, maxlength: 2000, placeholder: soru ? 'Fiyat vermeden önce müşteriye sorunuz (ör. arsa eğimli mi? kaç kişi yaşayacak?)' : 'Müşteriye mesaj yazın (e-postasına da gider)' }) as HTMLTextAreaElement;
-      return h('details', { class: 'mj-kutu', open: (t.mesajlar || []).length > 0 }, h('summary', {}, `${soru ? 'Müşteriye soru sor' : 'Mesajlar'}${(t.mesajlar || []).length ? ` (${t.mesajlar.length})` : ''}`), soru ? h('span', { class: 'xs muted' }, 'Müşterinin adı ve iletişim bilgileri fiyat verene kadar gizli kalır; sorunuz ona e-postayla iletilir, yanıtı burada görünür.') : null, liste,
+      // Okundu yalnızca firma kutuya tıklayınca ya da yanıt yazınca sayılır (sayfa açılırken varsayılan açık olması okundu sayılmaz)
+      return h('details', { class: 'mj-kutu', open: (t.mesajlar || []).length > 0, onclick: () => okundu(t), onfocusin: () => okundu(t) }, h('summary', {}, `${soru ? 'Müşteriye soru sor' : 'Mesajlar'}${(t.mesajlar || []).length ? ` (${t.mesajlar.length})` : ''}`, t.okunmadi ? h('span', { class: 'mk-yeni' }, 'Yeni') : null), soru ? h('span', { class: 'xs muted' }, 'Müşterinin adı ve iletişim bilgileri fiyat verene kadar gizli kalır; sorunuz ona e-postayla iletilir, yanıtı burada görünür.') : null, liste,
         h('form', { class: 'mj-form', onsubmit: async (e: Event) => { e.preventDefault(); if (metin.value.trim().length < 2) return; try { await api('/api/firma/mesaj' + fq, { talep: t.id, metin: metin.value }); toast('Mesaj gönderildi'); yukle(); } catch (err: any) { toast(err.message); } } }, metin, h('button', { class: 'btn btn-p btn-s', type: 'submit' }, 'Gönder')));
     }
     function taleplerCiz() {
@@ -356,13 +397,16 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       (f.elements.namedItem('tum') as HTMLInputElement).checked = tum;
       [...(f.elements.namedItem('iller') as HTMLSelectElement).options].forEach((o) => (o.selected = !tum && p.iller.includes(o.value)));
     }
+    let sonYukleme = 0;
+    // Panel açık kalırsa: sekmeye dönüldüğünde (en çok dakikada bir) yeni mesajlar için yenile
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && V && Date.now() - sonYukleme > 60000) yukle().catch(() => {}); });
     async function yukle() {
       V = await api('/api/firma/ozet' + fq);
       $('fp-ad').textContent = V.firma.ad;
       document.querySelector('[data-rz=bekleyen]')!.textContent = V.bekleyen.length || '';
       document.querySelector('[data-rz=talep]')!.textContent = V.talepler.filter((t: any) => !t.kapali && !t.teklif && t.davet !== 'red').length || '';
       document.querySelector('[data-rz=gb]')!.textContent = V.geriBildirimler.filter((g: any) => g.durum === 'cevaplandi').length || '';
-      urunlerCiz(); taleplerCiz(); gbCiz(); uyelikCiz(); profilDoldur(); yapilacakCiz(); rozetCiz();
+      urunlerCiz(); taleplerCiz(); mesajKutusuCiz(); gbCiz(); uyelikCiz(); profilDoldur(); yapilacakCiz(); rozetCiz(); mesajRozet(); sonYukleme = Date.now();
       const od = q.get('odeme');
       if (od && !(window as any).__odemeBildirildi) { (window as any).__odemeBildirildi = true; toast(od === 'basarili' ? 'Ödemeniz alındı, üyeliğiniz aktif.' : od === 'kart' ? 'Kartınız güncellendi.' : 'Ödeme tamamlanamadı. Bilgileri kontrol edip tekrar deneyin.'); document.querySelector<HTMLButtonElement>('#sekmeler [data-sekme=reklam]')?.click(); }
       // E-postadaki bağlantıyla gelindiyse ilgili talebin fiyat formunu aç
@@ -381,8 +425,10 @@ const tipler = TIP_SIRA.map((k) => ({ k, ad: TIPLER[k].ad }));
       ];
       const eksik = adim.filter((a) => !a[0]);
       const kutu = $('yapilacak');
-      if (!eksik.length) { kutu.replaceChildren(); return; }
-      kutu.replaceChildren(h('div', { class: 'box yp-kutu' },
+      const n = okunmamis();
+      const mesajUyari = n ? h('div', { class: 'mk-uyari' }, h('span', {}, h('b', {}, `${n} okunmamış müşteri mesajınız var. `), 'Hızlı yanıt veren firmalar daha çok seçiliyor.'), h('button', { class: 'btn btn-p btn-s', type: 'button', onclick: git('mesajlar') }, 'Mesajlara git')) : null;
+      if (!eksik.length) { kutu.replaceChildren(...(mesajUyari ? [mesajUyari] : [])); return; }
+      kutu.replaceChildren(...(mesajUyari ? [mesajUyari] : []), h('div', { class: 'box yp-kutu' },
         h('div', { class: 'row', style: { display: 'flex', justifyContent: 'space-between', gap: '10px', flexWrap: 'wrap' } }, h('b', {}, 'Profilinizi tamamlayın'), h('span', { class: 'small muted' }, `${adim.length - eksik.length} / ${adim.length} adım tamam`)),
         h('div', { class: 'kf-bar', style: { margin: '8px 0 10px' } }, h('span', { style: { width: `${Math.round(((adim.length - eksik.length) / adim.length) * 100)}%` } })),
         h('ul', { class: 'yp-liste' }, ...adim.map(([tamam, baslik, aciklama, fn]) => h('li', { class: tamam ? 'yp-tamam' : '' },

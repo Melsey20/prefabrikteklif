@@ -233,6 +233,29 @@ test('sessizce yeniden açılan talep: yeni teklif yoksa ikinci özet gitmez, ye
   assert.equal(await teklifOzetleri(o), 1); assert.equal(musteri(), 2);
 });
 
+test('firma paneli: müşteri mesajı okunmadı görünür, açınca okunur, yönetici bakınca değişmez', async () => {
+  const { db, call, mails } = kur();
+  await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik'], iller: ['Malatya'], abonelik: { durum: 'aktif' } });
+  await call('POST', '/api/teklif', { body: TALEP });
+  const [tid, td] = db.dump('talepler/').filter(([k]) => k.split('/').length === 2)[0]; const id = tid.split('/')[1]; const k = `${id}.${td.sahipKod}`;
+  assert.equal((await call('POST', '/api/firma/teklif', { tok: 'tok-firma', body: { talep: id, fiyat: '650.000', kdvDahil: true } })).statusCode, 200);
+  const once = mails.length;
+  assert.equal((await call('POST', '/api/mesaj', { body: { k, talep: id, firma: 'kardesler', metin: 'Nakliye dahil mi?' } })).statusCode, 200);
+  const fm = mails.slice(once).find((m) => m.to === 'satis@kardesler.com'); assert.ok(fm && fm.html.includes(`firma-paneli/?mesaj=${id}#mesajlar`), 'e-posta doğrudan konuşmayı açar');
+  const oz = async (q) => (await call('GET', '/api/firma/ozet', q)).body.talepler.find((x) => x.id === id);
+  assert.equal((await oz({ tok: 'tok-firma' })).okunmadi, true);
+  // Yönetici firma gibi bakarsa okundu sayılmaz
+  assert.equal((await call('POST', '/api/firma/mesaj-okundu', { tok: 'tok-admin', query: { firma: 'kardesler' }, body: { talep: id } })).body.atlandi, true);
+  assert.equal((await oz({ tok: 'tok-firma' })).okunmadi, true);
+  assert.equal((await call('POST', '/api/firma/mesaj-okundu', { tok: 'tok-firma', body: { talep: id } })).statusCode, 200);
+  assert.equal((await oz({ tok: 'tok-firma' })).okunmadi, false);
+  // Yeni müşteri mesajı tekrar okunmadı yapar; firma yanıtlayınca okunmuş sayılır
+  await call('POST', '/api/mesaj', { body: { k, talep: id, firma: 'kardesler', metin: 'Bir de ödeme planı?' } });
+  assert.equal((await oz({ tok: 'tok-firma' })).okunmadi, true);
+  assert.equal((await call('POST', '/api/firma/mesaj', { tok: 'tok-firma', body: { talep: id, metin: 'Evet, nakliye dahil; 3 taksit yapabiliriz.' } })).statusCode, 200);
+  assert.equal((await oz({ tok: 'tok-firma' })).okunmadi, false);
+});
+
 test('firma sayaçları: ilgilenmiyorum iki kez basılsa da bir kez sayılır, liste davetinde yanıt verirse talep de sayılır', async () => {
   const { db, call } = kur();
   await db.collection('firmalar').doc('kardesler').set({ aktif: true, eposta: 'satis@kardesler.com', panelEpostalari: ['satis@kardesler.com'], tipler: ['prefabrik'], iller: ['Malatya'], abonelik: { durum: 'aktif' } });
