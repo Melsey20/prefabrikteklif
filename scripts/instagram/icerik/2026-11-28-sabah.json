@@ -1,0 +1,80 @@
+{
+  "tarih": "2026-11-28",
+  "slot": "sabah",
+  "saat": "10:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Bungalov ev mi, tiny house mu? Tiny house'un m² fiyatı bungalovun neredeyse 2 katı. Farkı ve fiyatları tek yerde topladık 👇\n\nBungalov genellikle zemine sabitlenen küçük bir evdir (çoğu 15–60 m²); tiny house ise çoğunlukla şasi üzerinde, taşınabilir bir evdir (çoğu 15–35 m²). 23 Kasım 2026 itibarıyla listemizde bungalov 162.000 TL'den, tiny house 330.000 TL'den başlıyor; m² ortancası bungalovda 19.333 TL, tiny house'ta 38.750 TL.\n\nPrefabrikTeklif bungalov ev ve tiny house sorularınızı yanıtlar, fiyatları karşılaştırır ve teklifleri 48 saatte size getirir.\n\n👇 Yoruma yazın: Siz hangisini seçerdiniz?\n📌 Kaydedin, karar verirken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#bungalovev #tinyhouse #bungalovevfiyatları #tinyhousefiyat",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Karşılaştırma",
+          "h": "Bungalov mu,<br><em>tiny house mu?</em>",
+          "boy": 88,
+          "p": "m² fiyatında neredeyse 2 kat fark var. Kaydırın.",
+          "img": "bungalov-960.webp"
+        },
+        {
+          "sablon": "liste",
+          "etiket": "2 / 4",
+          "h": "Temel fark: <em>sabit mi, tekerlekli mi?</em>",
+          "boy": 80,
+          "maddeler": [
+            [
+              "Bungalov",
+              "Genellikle zemine sabitlenir; çoğu 15–60 m²."
+            ],
+            [
+              "Tiny house",
+              "Çoğunlukla şasi üzerinde, taşınabilir; çoğu 15–35 m²."
+            ],
+            [
+              "Ruhsat",
+              "Sabitlenen ev yapı sayılır; O2 belgeli tekerlekli tiny house çekme karavandır."
+            ]
+          ]
+        },
+        {
+          "sablon": "liste",
+          "koyu": true,
+          "etiket": "3 / 4",
+          "h": "Fiyatlar <em>nereden başlıyor?</em>",
+          "boy": 84,
+          "p": "23 Kasım 2026 itibarıyla listemizde.",
+          "maddeler": [
+            [
+              "Bungalov",
+              "162.000 TL'den"
+            ],
+            [
+              "Tiny house",
+              "330.000 TL'den"
+            ],
+            [
+              "Bungalov, m²",
+              "Ortanca 19.333 TL"
+            ],
+            [
+              "Tiny house, m²",
+              "Ortanca 38.750 TL"
+            ]
+          ]
+        },
+        {
+          "sablon": "cta",
+          "etiket": "4 / 4",
+          "h": "Siz hangisini<br><em>seçerdiniz?</em>",
+          "p": "İhtiyacınızı yazın; teklifler 48 saatte gelsin.",
+          "img": "tiny-house-960.webp",
+          "cipler": [
+            "Ücretsiz",
+            "{firmaSayisi} firma",
+            "{modelSayisi} model"
+          ]
+        }
+      ]
+    }
+  ],
+  "reels": []
+}

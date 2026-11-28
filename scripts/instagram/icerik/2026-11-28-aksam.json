@@ -1,0 +1,74 @@
+{
+  "tarih": "2026-11-28",
+  "slot": "aksam",
+  "saat": "19:00",
+  "tasarimlar": [
+    {
+      "ad": "A",
+      "aciklama": "Prefabrik ev satan firmalar: ilk 50 firmaya 1 ay ücretsiz üyelik, ilk ay bizden 📣\n\nGoogle'da her ay 150 binden fazla \"prefabrik ev\" ve \"prefabrik ev fiyatları\" araması yapılıyor (Semrush, Kasım 2026). PrefabrikTeklif'te talep; il, ev tipi, m², oda sayısı, bütçe ve arsa durumuyla firma panelinize gelir; yalnızca hizmet verdiğiniz illerden ve ürettiğiniz yapı tiplerinden. Kayıt için vergi levhası yeter, kart bilgisi istenmez, komisyon yok.\n\nPrefabrikTeklif ev arayanların sorularını yanıtlar, fiyatları karşılaştırır ve talepleri doğru firmalara getirir.\n\n👇 Yoruma yazın: Hangi illere hizmet veriyorsunuz?\n📌 Kaydedin, başvururken lazım olacak.\n👉 Ücretsiz başvuru: prefabrikteklif.com.tr/firmalar-icin\n\n#prefabrikevfirmaları #prefabrikev #çelikev #konteynerev",
+      "alt_text": "Başlık: Prefabrik ev mi üretiyorsunuz? İlk ay bizden. Altında: İlk 50 firmaya 1 ay ücretsiz üyelik; talepler hizmet verdiğiniz illerden gelir. Mavi gökyüzü altında modern bir prefabrik evin temsilî fotoğrafı; altta PrefabrikTeklif logosu ve prefabrikteklif.com.tr/firmalar-icin adresi.",
+      "kartlar": [
+        {
+          "sablon": "kapak",
+          "etiket": "Firmalar için",
+          "h": "Prefabrik ev mi üretiyorsunuz? <em>İlk ay bizden.</em>",
+          "boy": 80,
+          "p": "İlk 50 firmaya 1 ay ücretsiz üyelik; talepler hizmet verdiğiniz illerden gelir.",
+          "img": "prefabrik-960.webp",
+          "alt_sol": "prefabrikteklif.com.tr/firmalar-icin",
+          "alt_sag": "Başvuru →"
+        }
+      ]
+    }
+  ],
+  "reels": [
+    {
+      "seslendirme": "Prefabrik ev fiyatına temel dahil mi? Çoğunda hayır. Listemizde bilgi veren iki yüz yirmi iki modelin iki yüz yirmisinde zemin betonu hariç. Teklifte temeli ayrı satır isteyin. Sizin teklifte temel var mıydı? Yoruma yazın, bağlantı profilde.",
+      "aciklama": "Prefabrik ev fiyatına temel dahil mi? Prefabrik ev fiyatlarını karşılaştırırken bu kalemi atlamayın 👇\n\n21 Kasım 2026 itibarıyla listemizde zemin betonu konusunda bilgi veren 222 fiyatlı modelin 220'sinde zemin betonu fiyata dahil değil. \"Anahtar teslim\" yazan ilanda bile dahil olduğunu varsaymayın; temel, kazı ve pompa bedelini teklifte ayrı satır olarak isteyin.\n\nPrefabrikTeklif prefabrik ev sorularınızı yanıtlar, fiyatları karşılaştırır ve aynı kapsamla teklifleri 48 saatte size getirir. (Temsilî görüntü)\n\n👇 Yoruma yazın: Sizin teklifinizde temel dahil miydi?\n📌 Kaydedin, teklif alırken lazım olacak.\n🔗 Bağlantı profilde: prefabrikteklif.com.tr\n\n#prefabrikevfiyatları #prefabrikev #zeminbetonu #prefabrikevtemeli",
+      "sahneler": [
+        {
+          "t": 0,
+          "tur": "video",
+          "h": "Prefabrik ev fiyatına<br><em>temel dahil mi?</em>"
+        },
+        {
+          "t": 3.0,
+          "tur": "sayi",
+          "h": "Çoğunda <em>hayır.</em>",
+          "n": 220,
+          "birim": "/ 222 modelde temel hariç",
+          "cipler": [
+            "21 Kasım 2026 · listemizde"
+          ]
+        },
+        {
+          "t": 9.0,
+          "tur": "video",
+          "h": "Temeli <em>ayrı satır</em> isteyin."
+        },
+        {
+          "t": 12.0,
+          "tur": "son",
+          "h": "Teklifinizde<br><em>temel var mıydı?</em>"
+        }
+      ],
+      "sure": 16.0,
+      "video": {
+        "klipler": [
+          {
+            "kaynak": "https://videos.pexels.com/video-files/34348608/14555291_1440_2560_60fps.mp4",
+            "bas": 0,
+            "bit": 8
+          },
+          {
+            "kaynak": "https://videos.pexels.com/video-files/17506637/17506637-hd_1080_1920_24fps.mp4",
+            "bas": 0,
+            "bit": 10
+          }
+        ],
+        "ses": "seslendirme"
+      },
+      "altyazi": "otomatik"
+    }
+  ]
+}
